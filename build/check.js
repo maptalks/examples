@@ -1,7 +1,12 @@
 var fs = require('fs');
 var webpage = require('webpage');
+var args = require('system').args;
 
-var demoRootPath = 'demos';
+if (args.length != 2) {
+  phantom.exit(2);
+}
+
+var demoRootPath = args[1];
 
 if (!String.prototype.endsWith) {
   String.prototype.endsWith = function(searchString, position) {

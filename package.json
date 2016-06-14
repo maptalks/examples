@@ -4,11 +4,18 @@
   "description": "",
   "dependencies": {},
   "devDependencies": {
+    "browser-sync": "^2.13.0",
+    "gulp": "^3.9.1",
+    "gulp-metalsmith": "^1.0.0",
+    "handlebars": "^4.0.5",
+    "metalsmith": "^2.1.0",
+    "metalsmith-drafts": "0.0.1",
+    "metalsmith-layouts": "^1.6.5",
     "phantomjs-prebuilt": "^2.1.7"
   },
   "scripts": {
-    "check": "phantomjs check.js",
-    "test": "npm run check"
+    "check": "phantomjs build/check.js dist/examples",
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
