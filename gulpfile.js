@@ -1,12 +1,14 @@
 var path = require('path');
 var gulp = require('gulp');
+var rename = require('gulp-rename');
 var metalsmith = require('gulp-metalsmith');
 var layouts = require('metalsmith-layouts');
 var drafts = require('metalsmith-drafts');
 
-function addOrder (files, metalsmith, done) {
+function processRaw (files, metalsmith, done) {
   setImmediate(done);
   var order = 1;
+  // TODO: get order from examples.json
   for (var filename in files) {
     var file = files[filename];
     file.order = order;
@@ -14,30 +16,43 @@ function addOrder (files, metalsmith, done) {
   }
 }
 
-function getGlobs () {
-  var exampleMeta = require('./examples/examples.json');
-  var examples = exampleMeta.examples;
-  var globs = [];
-  var i, j;
-  for (i = 0; i < examples.length; i++) {
-    var dir = examples[i][0];
-    var subdirs = examples[i][2];
-    for (j = 0; j < subdirs.length; j++) {
-      var subdir = subdirs[j];
-      globs.push(['examples', dir, subdir, '**/*.html'].join('/'));
-    }
+function processDemo (files, metalsmith, done) {
+  setImmediate(done);
+  var order = 1;
+  for (var filename in files) {
+    var file = files[filename];
+    file.basename = path.basename(filename);
   }
-  return globs;
 }
 
-gulp.task('examples', function () {
-  return gulp.src(getGlobs(), {base: 'examples/'})
+gulp.task('examples-raw', function () {
+  return gulp.src('examples/**/*.{html,js,css}')
     .pipe(metalsmith({
       use: [
         drafts(),
-        addOrder,
-        layouts({engine: 'handlebars'})
+        processRaw,
+        layouts({engine: 'handlebars', directory: 'layouts/raw'})
       ]
     }))
-    .pipe(gulp.dest('dist'));
+    .pipe(rename(function (path) {
+      path.dirname += '/raw';
+      return path;
+    }))
+    .pipe(gulp.dest('dist/examples'));
 });
+
+gulp.task('examples-demo', function () {
+  return gulp.src('examples/**/*.{html,js,css}')
+    .pipe(metalsmith({
+      use: [
+        drafts(),
+        processDemo,
+        layouts({engine: 'handlebars', directory: 'layouts'})
+      ]
+    }))
+    .pipe(gulp.dest('dist/examples'));
+});
+
+gulp.task('examples', ['examples-raw', 'examples-demo']);
+
+gulp.task('default', ['examples']);

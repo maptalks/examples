@@ -7,10 +7,21 @@
         <title>{{ title }}</title>
     </head>
     <body>
-        <div id="map"></div>
-        <script>
-         {{ js.source }}
-        </script>
-        order: {{ order }}
+        <div>
+            <div>
+                <iframe frameborder="0" src="raw/{{ basename }}"></iframe>
+            </div>
+            <div>
+                <div>
+                    <textarea>{{ content }}</textarea>
+                </div>
+                <div>
+                    <textarea>{{ js.source }}</textarea>
+                </div>
+                <div>
+                    <textarea>{{ css.source }}</textarea>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
