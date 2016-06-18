@@ -15,6 +15,31 @@
       "control", {"zh" : "地图控件", "en" : "map controls"},
       [
 
+      ],
+
+      "ui", {"zh" : "UI组件", "en" : "ui components"},
+      [
+
+      ],
+
+      "layer", {"zh" : "图层", "en" : "layers"},
+      [
+          
+      ],
+
+      "geometry", {"zh" : "图形", "en" : "geometries"},
+      [
+
+      ],
+
+      "style", {"zh" : "样式渲染", "en" : "styles"},
+      [
+
+      ],
+
+      "animation", {"zh" : "动画", "en" : "map controls"},
+      [
+
       ]
     ]
   ]
