@@ -7,15 +7,28 @@ var drafts = require('metalsmith-drafts');
 
 var markupRegex = /([^\/^\.]*)\.html$/;
 
-var exampleInfo = require('./examples/examples.json');
-var orderedKeys = [];
-for (var i = 0; i < exampleInfo.examples.length; i++) {
-  var dir = exampleInfo.examples[i][0];
-  var subdirs = exampleInfo.examples[i][2];
-  for (var j = 0; j < subdirs.length; j++) {
-    var subdir = subdirs[j];
-    orderedKeys.push(path.join(dir, subdir));
+function readExamplesInfo () {
+  var json = require('./examples/examples.json');
+  var items = json.examples[0];
+  var count = Math.floor(items.length/3);
+  var info = {};
+  var i, j, order = 0;
+  for (i = 0; i < count; i++) {
+    var ibase = i*3;
+    var subItems = items[ibase+2];
+    var subCount = Math.floor(subItems.length/2);
+    for (j = 0; j < subCount; j++) {
+      order++;
+      var jbase = j*2;
+      var key = path.join(items[ibase], subItems[jbase]);
+      info[key] = {
+        'category': items[ibase+1],
+        'title': subItems[jbase+1],
+        'order': order
+      };
+    }
   }
+  return info;
 }
 
 function processSingleFile (file, filepath, files) {
@@ -25,6 +38,9 @@ function processSingleFile (file, filepath, files) {
 
   var id = match[1];
   var dirname = path.dirname(filepath);
+
+  var info = readExamplesInfo();
+  file.meta = info[dirname];
 
   var js = path.join(dirname, id + '.js');
   if (js in files) {
@@ -39,8 +55,6 @@ function processSingleFile (file, filepath, files) {
       source: files[css].contents.toString()
     };
   }
-
-  file.order = orderedKeys.indexOf(dirname);
 }
 
 function processRaw (files, metalsmith, done) {
