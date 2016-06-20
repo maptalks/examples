@@ -6,6 +6,7 @@ var layouts = require('metalsmith-layouts');
 var drafts = require('metalsmith-drafts');
 
 var markupRegex = /([^\/^\.]*)\.html$/;
+var locale = process.env.locale || 'en';
 
 function readExamplesInfo () {
   var json = require('./examples/examples.json');
@@ -40,7 +41,10 @@ function processSingleFile (file, filepath, files) {
   var dirname = path.dirname(filepath);
 
   var info = readExamplesInfo();
-  file.meta = info[dirname];
+  file.meta = info[dirname] || {};
+  file.category = file.meta.category[locale];
+  file.title = file.meta.title[locale];
+  file.order = file.meta.order;
 
   var js = path.join(dirname, id + '.js');
   if (js in files) {
@@ -88,7 +92,7 @@ gulp.task('examples-raw', function () {
       path.dirname += '/raw';
       return path;
     }))
-    .pipe(gulp.dest('dist/examples'));
+    .pipe(gulp.dest(path.join('dist/examples', locale)));
 });
 
 gulp.task('examples-demo', function () {
@@ -100,9 +104,12 @@ gulp.task('examples-demo', function () {
         layouts({engine: 'handlebars', directory: 'layouts'})
       ]
     }))
-    .pipe(gulp.dest('dist/examples'));
+    .pipe(gulp.dest(path.join('dist/examples', locale)));
 });
 
-gulp.task('examples', ['examples-raw', 'examples-demo']);
+gulp.task('examples', ['examples-raw', 'examples-demo'], function () {
+  return gulp.src('assets/**/*')
+    .pipe(gulp.dest('dist'));
+});
 
 gulp.task('default', ['examples']);

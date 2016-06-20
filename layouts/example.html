@@ -4,22 +4,31 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-        <title>{{ title }}</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <title>{{ category }} - {{ title }}</title>
     </head>
     <body>
         <div>
             <div>
-                <iframe frameborder="0" src="raw/{{ basename }}"></iframe>
+                <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" style="width:800px;height:500px;" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
             </div>
             <div>
                 <div>
-                    <textarea>{{ content }}</textarea>
+                    <pre>
+                        <code class="lang-html">{{ contents }}</code>
+                    </pre>
                 </div>
                 <div>
-                    <textarea>{{ js.source }}</textarea>
+                    <pre>
+                        <code class="lang-js">{{ js.source }}</code>
+                    </pre>
                 </div>
                 <div>
-                    <textarea>{{ css.source }}</textarea>
+                    <pre>
+                        <code class="lang-css">{{ css.source }}</code>
+                    </pre>
                 </div>
             </div>
         </div>
