@@ -51,6 +51,7 @@ function processSingleFile (file, filepath, files) {
     file.js = {
       source: files[js].contents.toString()
     };
+    delete files[js];
   }
 
   var css = path.join(dirname, id + '.css');
@@ -58,6 +59,7 @@ function processSingleFile (file, filepath, files) {
     file.css = {
       source: files[css].contents.toString()
     };
+    delete files[css];
   }
 }
 
