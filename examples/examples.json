@@ -54,11 +54,15 @@
         "custom", {"zh" : "创建自定义图形类型", "en" : "Create your own geometry type"}
       ],
 
-      "geojson", {"zh" : "GeoJSON", "en" : "GeoJSON"},
+      "json", {"zh" : "JSON序列化", "en" : "JSON Serialization"},
       [
-        "to-geometry", {"zh" : "GeoJSON转化为Geometry", "en" : "Convert GeoJSON objects to geometries"},
-        "to-geojson", {"zh" : "获取图形的GeoJSON", "en" : "Convert geometries to GeoJSON objects"},
-        "load-geojson", {"zh" : "用GeoJSON图层载入GeoJSON数据", "en" : "Load GeoJSON objects with GeoJSONLayer"}
+        "geojson-to-geometry", {"zh" : "GeoJSON转化为Geometry", "en" : "GeoJSON to geometries"},
+        "geometry-to-geojson", {"zh" : "Geometry转化为GeoJSON", "en" : "Geometries to GeoJSON"},
+        "load-geojson", {"zh" : "用GeoJSON图层载入GeoJSON数据", "en" : "Load GeoJSON with GeoJSONLayer"},
+        "map-to-profile", {"zh" : "地图转化为Profile JSON", "en" : "Map to profile JSON"},
+        "profile-to-map", {"zh" : "用Profile JSON载入地图", "en" : "Load a map from profile JSON"},
+        "layer-profile", {"zh" : "用Profile JSON复制Layer", "en" : "Copy a layer by profile JSON"},
+        "geometry-profile", {"zh" : "用Profile JSON复制Geometry", "en" : "Copy geometries by profile JSON"}
       ],
 
       "style", {"zh" : "样式渲染", "en" : "Styles"},
