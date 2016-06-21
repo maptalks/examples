@@ -51,7 +51,7 @@
         "drag", {"zh" : "拖拽", "en" : "Drag geometries"},        
         "events", {"zh" : "事件响应", "en" : "Listening geometry events"},
         "animation", {"zh" : "图形动画", "en" : "Geometry animations"},
-        "custom", {"zh" : "创建自定义图形类型", "en" : "Create your own geometry type"}
+        "copy", {"zh" : "克隆图形", "en" : "Copy geometries"}
       ],
 
       "json", {"zh" : "JSON序列化", "en" : "JSON Serialization"},
