@@ -4,9 +4,23 @@ var rename = require('gulp-rename');
 var metalsmith = require('gulp-metalsmith');
 var layouts = require('metalsmith-layouts');
 var drafts = require('metalsmith-drafts');
+var define = require('metalsmith-define');
 
 var markupRegex = /([^\/^\.]*)\.html$/;
 var locale = process.env.locale || 'en';
+
+var defines = define({
+  'urls': {
+    'zh': {
+      'urlTemplate': 'http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}',
+      'subdomains': '[1, 2, 3, 4]'
+    },
+    'en': {
+      'urlTemplate': 'http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}',
+      'subdomains': '[1, 2, 3, 4]'
+    }
+  }
+});
 
 function readExamplesInfo () {
   var json = require('./examples/examples.json');
@@ -32,7 +46,7 @@ function readExamplesInfo () {
   return info;
 }
 
-function processSingleFile (file, filepath, files) {
+function processSingleFile (file, filepath, files, metadata) {
   var basename = path.basename(filepath);
   var match = basename.match(markupRegex);
   if (!match) return;
@@ -48,8 +62,11 @@ function processSingleFile (file, filepath, files) {
 
   var js = path.join(dirname, id + '.js');
   if (js in files) {
+    var url = metadata['urls'][locale];
     file.js = {
       source: files[js].contents.toString()
+        .replace(/\$\(urlTemplate\)/g, url.urlTemplate)
+        .replace(/\$\(subdomains\)/g, url.subdomains)
     };
     delete files[js];
   }
@@ -67,7 +84,7 @@ function processRaw (files, metalsmith, done) {
   setImmediate(done);
   for (var filepath in files) {
     var file = files[filepath];
-    processSingleFile(file, filepath, files);
+    processSingleFile(file, filepath, files, metalsmith.metadata());
   }
 }
 
@@ -76,7 +93,7 @@ function processDemo (files, metalsmith, done) {
   for (var filepath in files) {
     var file = files[filepath];
     var basename = path.basename(filepath);
-    processSingleFile(file, filepath, files);
+    processSingleFile(file, filepath, files, metalsmith.metadata());
     file.basename = basename;
   }
 }
@@ -86,6 +103,7 @@ gulp.task('examples-raw', function () {
     .pipe(metalsmith({
       use: [
         drafts(),
+        defines,
         processRaw,
         layouts({engine: 'handlebars', directory: 'layouts/raw'})
       ]
@@ -102,6 +120,7 @@ gulp.task('examples-demo', function () {
     .pipe(metalsmith({
       use: [
         drafts(),
+        defines,
         processDemo,
         layouts({engine: 'handlebars', directory: 'layouts'})
       ]

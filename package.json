@@ -10,6 +10,7 @@
     "gulp-rename": "^1.2.2",
     "handlebars": "^4.0.5",
     "metalsmith": "^2.1.0",
+    "metalsmith-define": "^2.0.1",
     "metalsmith-drafts": "0.0.1",
     "metalsmith-layouts": "^1.6.5",
     "phantomjs-prebuilt": "^2.1.7"
