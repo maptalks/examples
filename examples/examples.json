@@ -88,7 +88,7 @@
         "identify", {"zh" : "查询指定坐标上的图形", "en" : "Identify geometries on the coordinate"}
       ],
 
-      "control", {"zh" : "地图控件", "en" : "map controls"},
+      "control", {"zh" : "地图控件", "en" : "Map controls"},
       [
         "zoom", {"zh" : "Zoom控件", "en" : "Add zooming control to the map"},
         "scale", {"zh" : "Scale控件", "en" : "Add scale control to the map"},
@@ -97,7 +97,7 @@
         "panel", {"zh" : "panel控件", "en" : "Add one or more panel controls to the map"}
       ],
 
-      "ui", {"zh" : "UI组件", "en" : "ui components"},
+      "ui", {"zh" : "UI组件", "en" : "UI components"},
       [
         "uimarker", {"zh" : "在地图上添加UI Marker", "en" : "Add ui markers to a map"},
         "map-menu", {"zh" : "地图右键菜单", "en" : "Add context menu to a map"},
@@ -109,9 +109,16 @@
         "custom-ui", {"zh" : "创建新的UI组件", "en" : "Create your own UI Component"}
       ],
 
-      "advance", {"zh" : "进阶技巧", "en" : "Magics"},
+      "advance", {"zh" : "进阶技巧", "en" : "Tricks"},
       [
         "animation", {"zh" : "动画", "en" : "Animations"}
+      ],
+
+      "mapresty", {"zh" : "MapResty调用示例", "en" : "MapResty examples"},
+      [
+        "relation", {"zh" : "空间关系", "en" : "Spatial relations"},
+        "analysis", {"zh" : "空间分析", "en" : "Spatial Analysis"},
+        "query", {"zh" : "空间数据查询", "en" : "Spatial Query"}
       ]
     ]
   ]
