@@ -1,36 +1,67 @@
-<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
-        <title>{{ category }} - {{ title }}</title>
-    </head>
-    <body>
-        <div>
-            <div>
-                <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" style="width:800px;height:500px;" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
-            </div>
-            <div>
-                <div>
-                    <pre>
-                        <code class="lang-html">{{ contents }}</code>
-                    </pre>
-                </div>
-                <div>
-                    <pre>
-                        <code class="lang-js">{{ js.source }}</code>
-                    </pre>
-                </div>
-                <div>
-                    <pre>
-                        <code class="lang-css">{{ css.source }}</code>
-                    </pre>
-                </div>
-            </div>
-        </div>
-    </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1000">
+<title>{{ title }}</title>
+<style>
+
+@import url("../../../../style.css");
+
+</style>
+</head>
+<body>
+<header>
+  <div class="column">
+    
+  </div>
+</header>
+
+<div class="column">
+  <h1>{{ title }}</h1>
+  <div class="index">
+    <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" style="height:500px;" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
+  </div>
+  <div class="index-pop">
+    <a target="_blank" title="Open in a new window." href="raw/index.html">Open<svg height="16" width="12"><path d="M11 10h1v3c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V3c0-0.55 0.45-1 1-1h3v1H1v10h10V10zM6 2l2.25 2.25-3.25 3.25 1.5 1.5 3.25-3.25 2.25 2.25V2H6z"></path></svg></a> 
+    <a target="_blank" title="Edit in a new window." href="raw/index.html">Edit<svg height="16" width="12"><path d="M11 10h1v3c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V3c0-0.55 0.45-1 1-1h3v1H1v10h10V10zM6 2l2.25 2.25-3.25 3.25 1.5 1.5 3.25-3.25 2.25 2.25V2H6z"></path></svg></a>
+  </div>
+  <div class="gist-readme" data-key="README.md"></div>
+  <div class="gist-sources">
+    <div class="gist-source" data-key="index.html">
+      <h2>index.html<a name="index.html" class="anchor" href="#index.html">#</a></h2>
+      <pre>
+          <code class="html xml">{{ contents }}</code>
+      </pre>
+    </div>
+  </div>
+  <div class="gist-sources">
+    <div class="gist-source" data-key="index.js">
+      <h2>index.js<a name="index.js" class="anchor" href="#index.html">#</a></h2>
+      <pre>
+          <code class="lang-js">{{ js.source }}</code>
+      </pre>
+    </div>
+  </div>
+  <div class="gist-sources">
+    <div class="gist-source" data-key="index.css">
+      <h2>index.css<a name="index.css" class="anchor" href="#index.html">#</a></h2>
+      <pre>
+          <code class="lang-css">{{ css.source }}</code>
+      </pre>
+    </div>
+  </div>
+  <div class="gist-license">
+    <h2>LICENSE<a name="license" class="anchor" href="#license">#</a></h2>
+    Based on <a target="_blank" href="http://bl.ocks.org">bl.ocks.org</a>.<br>
+    Released under the <a target="_blank" href="https://opensource.org/licenses/GPL-3.0">GNU General Public License, version 3</a>.
+  </div>
+</div>
+<script type="text/javascript" src="../../../../highlight.min.js"></script>
+<script>
+  var codes = document.getElementsByTagName("code");
+  for (var i = 0; i < codes.length; i++) {
+    hljs.highlightBlock(codes[i]);
+  }  
+</script>
+</body>
 </html>
