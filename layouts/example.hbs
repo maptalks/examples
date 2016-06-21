@@ -12,7 +12,6 @@
 <body>
 <header>
   <div class="column">
-    
   </div>
 </header>
 
@@ -36,20 +35,22 @@
   </div>
   <div class="gist-sources">
     <div class="gist-source" data-key="index.js">
-      <h2>index.js<a name="index.js" class="anchor" href="#index.html">#</a></h2>
+      <h2>index.js<a name="index.js" class="anchor" href="#index.js">#</a></h2>
       <pre>
           <code class="lang-js">{{ js.source }}</code>
       </pre>
     </div>
   </div>
+  {{#if css.source}}
   <div class="gist-sources">
     <div class="gist-source" data-key="index.css">
-      <h2>index.css<a name="index.css" class="anchor" href="#index.html">#</a></h2>
+      <h2>index.css<a name="index.css" class="anchor" href="#index.css">#</a></h2>
       <pre>
           <code class="lang-css">{{ css.source }}</code>
       </pre>
     </div>
   </div>
+  {{/if}}
   <div class="gist-license">
     <h2>LICENSE<a name="license" class="anchor" href="#license">#</a></h2>
     Based on <a target="_blank" href="http://bl.ocks.org">bl.ocks.org</a>.<br>
@@ -61,7 +62,7 @@
   var codes = document.getElementsByTagName("code");
   for (var i = 0; i < codes.length; i++) {
     hljs.highlightBlock(codes[i]);
-  }  
+  }
 </script>
 </body>
 </html>
