@@ -99,7 +99,8 @@
         "scale", {"zh" : "Scale控件", "en" : "Add scale control to the map"},
         "attribution", {"zh" : "Attribution控件", "en" : "Add attribution control to the map"},
         "toolbar", {"zh" : "toolbar控件", "en" : "Add toolbar control to the map"},
-        "panel", {"zh" : "panel控件", "en" : "Add one or more panel controls to the map"}
+        "panel", {"zh" : "panel控件", "en" : "Add one or more panel controls to the map"},
+        "custom-control", {"zh" : "创建新的Control", "en" : "Create your own map control"}
       ],
 
       "ui", {"zh" : "UI组件", "en" : "UI components"},
