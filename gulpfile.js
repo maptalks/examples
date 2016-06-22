@@ -64,6 +64,7 @@ function processSingleFile (file, filepath, files, metadata) {
   if (js in files) {
     var url = metadata['urls'][locale];
     file.js = {
+      basename: id + '.js',
       source: files[js].contents.toString()
         .replace(/\$\(urlTemplate\)/g, url.urlTemplate)
         .replace(/\$\(subdomains\)/g, url.subdomains)
@@ -74,6 +75,7 @@ function processSingleFile (file, filepath, files, metadata) {
   var css = path.join(dirname, id + '.css');
   if (css in files) {
     file.css = {
+      basename: id + '.css',
       source: files[css].contents.toString()
     };
     delete files[css];

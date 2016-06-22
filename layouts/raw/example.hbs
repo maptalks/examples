@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-        <link rel="stylesheet" href="../../../../../css/maptalks.css">
-        <script type="text/javascript" src="../../../../../maptalks.js"></script>
-        {{#if css.source}}
-        <style>
-            {{{ css.source }}}
-        </style>
-        {{/if}}
-        <title>{{ category }} - {{ title }}</title>
-    </head>
-    <body>
-        {{{ contents }}}
-        <script>
-         {{{ js.source }}}
-        </script>
-    </body>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <link rel="stylesheet" href="../../../../../css/maptalks.css">
+    <script type="text/javascript" src="../../../../../maptalks.js"></script>
+    {{#if css.source}}
+      <style>
+        {{{ css.source }}}
+      </style>
+    {{/if}}
+    <title>{{ category }} - {{ title }}</title>
+  </head>
+  <body>
+    {{{ contents }}}
+    <script>
+      {{{ js.source }}}
+    </script>
+  </body>
 </html>
