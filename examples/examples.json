@@ -9,7 +9,8 @@
         "limit", {"zh" : "限制地图区域", "en" : "Limit map's view"},
         "on-off", {"zh" : "功能开关", "en" : "Turn on/off map capabilities"},
         "animation", {"zh" : "地图动画", "en" : "Animations"},        
-        "projection", {"zh" : "地图投影", "en" : "Geodesic projections"}
+        "projection", {"zh" : "地图投影", "en" : "Geodesic projections"},
+        "coordinate", {"zh" : "坐标转化", "en" : "Coodinate conversion"}
       ],
 
       "map-tool", {"zh" : "地图工具", "en":"Map tools"},
