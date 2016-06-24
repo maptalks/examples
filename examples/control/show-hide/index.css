@@ -1,0 +1,25 @@
+
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    float:left;
+    width: 80%;
+    height: 100%;
+}
+
+#switches {
+    float:right;
+    padding : 20px;
+    height: 100%;
+}
+
+#switches button {
+    width : 60px;
+    height : 20px;
+}
+
