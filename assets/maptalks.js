@@ -1,6 +1,6 @@
 (function () {
 'use strict';
-'0.4.3';
+'0.5.0';
 // Z is the root namespace used internally, and will be exported later as maptalks.
 /**
  * @namespace
@@ -1355,6 +1355,15 @@ Z.DomUtil = {
         return this;
     },
 
+    preventSelection: function (dom) {
+        dom.onselectstart = function () {
+            return false;
+        };
+        dom.ondragstart = function () { return false; };
+        dom.setAttribute('unselectable', 'on');
+        return this;
+    },
+
     /**
      * Get the dom element's current position or offset its position by offset
      * @param  {HTMLElement} dom - HTMLElement
@@ -2565,6 +2574,10 @@ Z.Util.extend(Z.Size.prototype, /** @lends maptalks.Size.prototype */{
     },
     toPoint:function () {
         return new Z.Point(this['width'], this['height']);
+    },
+
+    toArray: function () {
+        return [this['width'], this['height']];
     },
 
     /**
@@ -14397,7 +14410,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * @property {Boolean} [options.layerTransforming=true] - update points when transforming (e.g. zoom animation), this may bring drastic low performance when rendering a large number of points.
      * @property {Boolean} [options.panAnimation=true]              - continue to animate panning when draging or touching ended.
      * @property {Boolean} [options.panAnimationDuration=600]       - duration of pan animation.
-     * @property {Boolean} [options.enableZoom=true]                - whether to enable map zooming.
+     * @property {Boolean} [options.zoomable=true]                - whether to enable map zooming.
      * @property {Boolean} [options.enableInfoWindow=true]          - whether to enable infowindow opening on this map.
      * @property {Boolean} [options.maxZoom=null]                   - the maximum zoom the map can be zooming to.
      * @property {Boolean} [options.minZoom=null]                   - the minimum zoom the map can be zooming to.
@@ -14436,7 +14449,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
         //default pan animation duration
         'panAnimationDuration' : 600,
 
-        'enableZoom':true,
+        'zoomable':true,
         'enableInfoWindow':true,
 
         'hitDetect' : (function () { return !Z.Browser.mobile; })(),
@@ -15490,7 +15503,11 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
          */
         this._fireEvent('moveend');
         if (!this._verifyExtent(this.getCenter())) {
-            this.panTo(this._originCenter);
+            var moveTo = this._originCenter;
+            if (!this._verifyExtent(moveTo)) {
+                moveTo = this.getMaxExtent().getCenter();
+            }
+            this.panTo(moveTo);
         }
     },
 
@@ -15845,7 +15862,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
         var map = this;
         coordinate = new Z.Coordinate(coordinate);
         var dest = this.coordinateToViewPoint(coordinate),
-            current = this.offsetPlatform();
+            current = this.coordinateToViewPoint(this.getCenter());
         return this._panBy(dest.substract(current), options, function () {
             var c = map.getProjection().project(coordinate);
             map._setPrjCenterAndMove(c);
@@ -15895,6 +15912,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
 
 Z.Map.include(/** @lends maptalks.Map.prototype */{
     _zoom:function (nextZoomLevel, origin, startScale) {
+        if (!this.options['zoomable']) { return; }
         this._originZoomLevel = this.getZoom();
         nextZoomLevel = this._checkZoomLevel(nextZoomLevel);
         this._onZoomStart(nextZoomLevel);
@@ -15907,7 +15925,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
     },
 
     _zoomAnimation:function (nextZoomLevel, origin, startScale) {
-        if (!this.options['enableZoom']) { return; }
+        if (!this.options['zoomable']) { return; }
         if (Z.Util.isNil(startScale)) {
             startScale = 1;
         }
@@ -16486,9 +16504,6 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
         var baseLayer = this.getBaseLayer();
         if ((Z.Util.isNil(options['baseLayer']) || options['baseLayer']) && baseLayer) {
             profile['baseLayer'] = baseLayer.toJSON(options['baseLayer']);
-            // if (!Z.Util.isNil(options['baseLayer']) && !options['baseLayer']) {
-            //     profile['baseLayer']['options']['visible'] = false;
-            // }
         }
         var extraLayerOptions = {};
         if (options['clipExtent']) {
@@ -16505,6 +16520,9 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
         if (Z.Util.isNil(options['layers']) || (options['layers'] && !Z.Util.isArray(options['layers']))) {
             layers = this.getLayers();
             for (i = 0, len = layers.length; i < len; i++) {
+                if (!layers[i].toJSON) {
+                    continue;
+                }
                 opts = Z.Util.extend({}, Z.Util.isObject(options['layers']) ? options['layers'] : {}, extraLayerOptions);
                 layersJSON.push(layers[i].toJSON(opts));
             }
@@ -16512,6 +16530,9 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
         } else if (Z.Util.isArrayHasData(options['layers'])) {
             layers = options['layers'];
             for (i = 0; i < layers.length; i++) {
+                if (!layers[i].toJSON) {
+                    continue;
+                }
                 var exportOption = layers[i];
                 var layer = this.getLayer(exportOption['id']);
                 opts = Z.Util.extend({}, exportOption['options'], extraLayerOptions);
@@ -17879,11 +17900,7 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
             }
             panels[name] = c;
             if (!enableSelect) {
-                c['onselectstart'] = function () {
-                    return false;
-                };
-                c['ondragstart'] = function () { return false; };
-                c.setAttribute('unselectable', 'on');
+                Z.DomUtil.preventSelection(c);
             }
             return c;
         }

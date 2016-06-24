@@ -1,0 +1,22 @@
+
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    float:left;
+    width: 60%;
+    height: 100%;
+}
+
+#status {
+    float:right;
+    height: 100%;
+}
+
+#status pre {
+    margin-left : 5px;
+}
