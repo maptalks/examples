@@ -9,10 +9,9 @@ var map = new maptalks.Map("map", {
 });
 
 var options = {
-    'items'  : [
-        {item: 'item1', click: function(){alert('Click item1')}},
-        '-',
-        {item: 'item2', click: function(){alert('Click item2')}}
-    ]
+      'title'     : 'Title',
+      'content'   : 'Content'
 };
-map.setMenu(options).openMenu();
+var infoWnd = new maptalks.ui.InfoWindow(options);
+infoWnd.addTo(map).show(map.getCenter());
+
