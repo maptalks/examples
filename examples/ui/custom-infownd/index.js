@@ -12,7 +12,7 @@ var options = {
     'custom': true,
     'content'   : '<div class="custom_window">'
                 +'<div class="close_btn" onclick="closeWindow();">x</div>'
-                +'<div>My custom InfoWindow.</div>'
+                +'<div>My customized InfoWindow.</div>'
                 +'</div>'
 };
 var infoWindow = new maptalks.ui.InfoWindow(options);
