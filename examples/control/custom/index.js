@@ -1,3 +1,4 @@
+
 var MyControl = maptalks.Control.extend({
 
     options :{
