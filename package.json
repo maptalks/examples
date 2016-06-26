@@ -13,7 +13,8 @@
     "metalsmith-define": "^2.0.1",
     "metalsmith-drafts": "0.0.1",
     "metalsmith-layouts": "^1.6.5",
-    "phantomjs-prebuilt": "^2.1.7"
+    "phantomjs-prebuilt": "^2.1.7",
+    "gulp-connect": "^4.1.0"
   },
   "scripts": {
     "check": "phantomjs build/check.js dist/examples",
