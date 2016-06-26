@@ -117,7 +117,8 @@
 
       "advance", {"zh" : "进阶技巧", "en" : "Tricks"},
       [
-        "animation", {"zh" : "动画", "en" : "Animations"}
+        "animation", {"zh" : "动画", "en" : "Animations"},
+        "in-out", {"zh" : "飞入/飞出图形", "en" : "Set the geometry to fly in and out of the animation"}
       ],
 
       "mapresty", {"zh" : "MapResty调用示例", "en" : "MapResty examples"},

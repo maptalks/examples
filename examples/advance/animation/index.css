@@ -1,0 +1,22 @@
+
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font: 16px/1.4 "Helvetica Neue", Arial, sans-serif;
+}
+
+.text_marker {
+    font-size: 30px;
+    color: #0099FF;
+    width: 160px;
+}
