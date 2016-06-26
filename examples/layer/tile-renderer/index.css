@@ -1,0 +1,24 @@
+
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map-on-dom {
+  width: 400px;
+  height: 320px;
+  float: left;
+}
+
+#map-on-canvas-container {
+  width: 410px;
+  height: 320px;
+  float: right;
+}
+
+#map-on-canvas {
+  width: 400px;
+  height: 320px;
+}

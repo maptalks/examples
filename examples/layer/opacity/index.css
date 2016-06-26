@@ -1,0 +1,22 @@
+
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  width: 92%;
+  height: 100%;
+  float: left;
+}
+
+#action {
+  height: 100%;
+  float: right;
+}
+
+#slider {
+  margin: 20px 10px 15px 20px;
+}
