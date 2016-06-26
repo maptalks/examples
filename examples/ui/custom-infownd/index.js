@@ -9,9 +9,16 @@ var map = new maptalks.Map("map", {
 });
 
 var options = {
-      'title'     : 'Title',
-      'content'   : 'Content'
+    'custom': true,
+    'content'   : '<div class="custom_window">'
+                +'<div class="close_btn" onclick="closeWindow();">x</div>'
+                +'<div>My custom InfoWindow.</div>'
+                +'</div>'
 };
 var infoWindow = new maptalks.ui.InfoWindow(options);
 infoWindow.addTo(map).show(map.getCenter());
+
+function closeWindow() {
+    infoWindow.hide();
+}
 

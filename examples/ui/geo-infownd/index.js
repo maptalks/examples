@@ -17,5 +17,5 @@ var options = {
       'title'     : 'Title',
       'content'   : 'Content'
 };
-var infoWnd = new maptalks.ui.InfoWindow(options);
-infoWnd.addTo(geometry).show(geometry.getCenter());
+var infoWindow = new maptalks.ui.InfoWindow(options);
+infoWindow.addTo(geometry).show(geometry.getCenter());
