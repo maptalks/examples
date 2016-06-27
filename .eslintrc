@@ -1,0 +1,11 @@
+{
+  "extends": "maptalks",
+  "globals": {
+      "$" : true,
+      "subdomains" : true
+  },
+  "rules": {
+    "strict" : 0,
+    "no-unused-vars" : 0
+  }
+}
