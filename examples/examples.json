@@ -9,7 +9,9 @@
         "limit", {"zh" : "限制地图区域", "en" : "Limit map's view"},
         "on-off", {"zh" : "功能开关", "en" : "Turn on/off map capabilities"},
         "animation", {"zh" : "地图动画", "en" : "Animations"},        
-        "projection", {"zh" : "地图投影", "en" : "Geodesic projections"},
+        "projection", {"zh" : "预定义地图投影", "en" : "Predefined Geodesic projections"},
+        "projection-identity", {"zh" : "平面坐标", "en" : "Identity projection"},
+        "projection-custom", {"zh" : "自定义地图投影", "en" : "Customized geodesic projections"},
         "coordinate", {"zh" : "坐标转化", "en" : "Coodinate conversion"}
       ],
 
@@ -99,7 +101,8 @@
         "scale", {"zh" : "Scale控件", "en" : "Add scale control to the map"},
         "attribution", {"zh" : "Attribution控件", "en" : "Add attribution control to the map"},
         "toolbar", {"zh" : "toolbar控件", "en" : "Add toolbar control to the map"},
-        "panel", {"zh" : "panel控件", "en" : "Add one or more panel controls to the map"}
+        "panel", {"zh" : "panel控件", "en" : "Add one or more panel controls to the map"},
+        "custom-control", {"zh" : "创建新的Control", "en" : "Create your own map control"}
       ],
 
       "ui", {"zh" : "UI组件", "en" : "UI components"},

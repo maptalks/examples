@@ -28,4 +28,6 @@ var mapStatus = [
     'Projection : ' + map.getProjection().code
 ];
 
-document.getElementById('status').innerHTML = '<pre>' + mapStatus.join('\n') + '</pre>';
+
+var content = '<pre>' + mapStatus.join('\n') + '</pre>';
+document.getElementById('status').innerHTML = content;
