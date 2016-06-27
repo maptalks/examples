@@ -14,10 +14,10 @@ var layer = new maptalks.VectorLayer('vector')
 ['#0000ff', '#ff0000', '#00ff00'].forEach(function (color, idx) {
   var id = idx + 1;
   new maptalks.Polygon([
-    [121.455542+0.02*idx, 31.238812],
-    [121.468542+0.02*idx, 31.238812],
-    [121.468542+0.02*idx, 31.223812],
-    [121.455542+0.02*idx, 31.223812]
+    [121.455542 + 0.02 * idx, 31.238812],
+    [121.468542 + 0.02 * idx, 31.238812],
+    [121.468542 + 0.02 * idx, 31.223812],
+    [121.455542 + 0.02 * idx, 31.223812]
   ], {
     'properties': {
       'id': id,
@@ -25,7 +25,7 @@ var layer = new maptalks.VectorLayer('vector')
     },
     'symbol': {
       'lineColor': color,
-      'lineWidth': (idx+1)*2
+      'lineWidth': (idx + 1) * 2
     }
   }).addTo(layer);
 });
