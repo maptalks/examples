@@ -2,10 +2,13 @@
   "extends": "maptalks",
   "globals": {
       "$" : true,
+      "d3" : true,
+      "topojson" : true,
       "subdomains" : true
   },
   "rules": {
     "strict" : 0,
-    "no-unused-vars" : 0
+    "no-unused-vars" : 0,
+    "indent" : ["error", 2]
   }
 }

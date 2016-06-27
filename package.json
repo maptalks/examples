@@ -20,7 +20,7 @@
   },
   "scripts": {
     "check": "phantomjs build/check.js dist/examples",
-    "test": "gulp test",
+    "test": "gulp examples",
     "lint" : "eslint examples/**/*.js",
     "pretest" : "npm run lint"
   },

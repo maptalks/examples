@@ -12,7 +12,7 @@ var layer = new maptalks.VectorLayer('layer').addTo(map);
 
 var CustomTool = maptalks.MapTool.extend({
 
-  initialize: function(options) {
+  initialize: function (options) {
     maptalks.Util.setOptions(this, options);
   },
 
