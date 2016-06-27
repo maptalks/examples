@@ -10,8 +10,8 @@ var map1 = new maptalks.Map('map-on-dom', {
 });
 
 $('#map-on-canvas')
-  .width($('#map-on-dom').width())
-  .height($('#map-on-dom').height());
+  .attr('width', $('#map-on-dom').width())
+  .attr('height', $('#map-on-dom').height());
 
 var map2 = new maptalks.Map('map-on-canvas', {
   center: [121.48542888885189, 31.228541533313702],
