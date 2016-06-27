@@ -9,25 +9,25 @@ var map = new maptalks.Map('map', {
 });
 
 var extent = map.getExtent(),
-    info = [
-      '{',
-      '  xmin:' + extent.xmin,
-      '  ymin:' + extent.ymin,
-      '  xmax:' + extent.xmax,
-      '  ymax:' + extent.xmax,
-      '}'
-    ].join('\n');
+  ex = [
+    '{',
+    '  xmin:' + extent.xmin,
+    '  ymin:' + extent.ymin,
+    '  xmax:' + extent.xmax,
+    '  ymax:' + extent.xmax,
+    '}'
+  ].join('\n');
 
 var mapStatus = [
-    'Center : ' + '\n[' + map.getCenter().toArray().join() + ']',
-    'Extent : ' + '\n' + info,
-    'Size :' + map.getSize().toArray().join(),
-    'Zoom : '   + map.getZoom(),
-    'MinZoom : ' + map.getMinZoom(),
-    'MaxZoom : ' + map.getMaxZoom(),
-    'Projection : ' + map.getProjection().code
+  'Center : \n[' + map.getCenter().toArray().join() + ']',
+  'Extent : \n' + ex,
+  'Size :' + map.getSize().toArray().join(),
+  'Zoom : '   + map.getZoom(),
+  'MinZoom : ' + map.getMinZoom(),
+  'MaxZoom : ' + map.getMaxZoom(),
+  'Projection : ' + map.getProjection().code
 ];
 
-var content = '<pre>' + mapStatus.join('\n') + '</pre>';
 
+var content = '<pre>' + mapStatus.join('\n') + '</pre>';
 document.getElementById('status').innerHTML = content;

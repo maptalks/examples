@@ -14,11 +14,15 @@
     "metalsmith-drafts": "0.0.1",
     "metalsmith-layouts": "^1.6.5",
     "phantomjs-prebuilt": "^2.1.7",
+    "eslint": "^2.13.1",
+    "eslint-config-maptalks": "^0.2.1",
     "gulp-connect": "^4.1.0"
   },
   "scripts": {
     "check": "phantomjs build/check.js dist/examples",
-    "test": "gulp test"
+    "test": "gulp examples",
+    "lint" : "eslint examples/**/*.js",
+    "pretest" : "npm run lint"
   },
   "repository": {
     "type": "git",
