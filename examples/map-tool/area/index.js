@@ -7,3 +7,13 @@ var map = new maptalks.Map('map', {
     subdomains: $(subdomains)
   })
 });
+
+var areaTool = new maptalks.AreaTool({
+  symbol: {
+    lineColor: 'blue',
+    lineWidth: 2,
+    polygonFill: 'white',
+    polygonOpacity: 0.5
+  },
+  language: ''
+}).addTo(map);
