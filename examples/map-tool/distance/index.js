@@ -7,3 +7,11 @@ var map = new maptalks.Map('map', {
     subdomains: $(subdomains)
   })
 });
+
+var distanceTool = new maptalks.DistanceTool({
+  symbol: {
+    lineColor: 'yellow',
+    lineWidth: 2
+  },
+  language: ''
+}).addTo(map);
