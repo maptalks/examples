@@ -45,6 +45,6 @@ var layer2 = new maptalks.VectorLayer('vector-2')
     .addGeometry(polygon2)
     .addTo(map);
 
-$('#sort').on('click', function () {
+document.querySelector('#sort').addEventListener('click', function () {
   map.sortLayers(['vector-2', 'vector-1']);
 });

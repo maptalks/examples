@@ -18,7 +18,8 @@ var polygon = new maptalks.Polygon([
   'symbol': {
     'lineColor': '#00ff00',
     'lineWidth': 3,
-    'polygonFill': '#ff0000'
+    'polygonFill': '#ff0000',
+    'polygonOpacity': 0.6
   }
 });
 
@@ -26,15 +27,11 @@ var layer = new maptalks.VectorLayer('vector')
   .addGeometry(polygon)
   .addTo(map);
 
-$('#slider').slider({
-  orientation: 'vertical',
-  min: 0.0,
-  max: 1.0,
-  step: 0.01,
-  value: 1.0,
-  change: function (event, ui) {
+var buttons = Array.prototype.slice.call(document.querySelectorAll('#action button'));
+buttons.forEach(function (el) {
+  el.addEventListener('click', function (event) {
     layer.config({
-      opacity: ui.value
+      opacity: +event.target.value
     });
-  }
+  });
 });

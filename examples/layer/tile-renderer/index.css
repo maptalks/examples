@@ -7,13 +7,13 @@ body {
 }
 
 #map-on-dom {
-  width: 49.8%;
-  height: 99.6%;
+  width: 49.2%;
+  height: 99.3%;
   float: left;
 }
 
 #map-on-canvas-container {
   width: 50%;
-  height: 99.6%;
+  height: 99.3%;
   float: right;
 }

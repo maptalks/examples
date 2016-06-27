@@ -45,10 +45,10 @@ var layer2 = new maptalks.VectorLayer('vector-2')
     .addGeometry(polygon2)
     .addTo(map);
 
-$('#front').on('click', function () {
+document.querySelector('#front').addEventListener('click', function () {
   layer1.bringToFront();
 });
 
-$('#back').on('click', function () {
+document.querySelector('#back').addEventListener('click', function () {
   layer1.bringToBack();
 });

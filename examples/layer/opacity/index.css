@@ -7,16 +7,11 @@ body {
 }
 
 #map {
-  width: 92%;
-  height: 100%;
-  float: left;
+  width: 100%;
+  height: 96%;
 }
 
-#action {
-  height: 100%;
-  float: right;
-}
-
-#slider {
-  margin: 20px 10px 15px 20px;
+#action div {
+  width: 33.33%;
+  height: 22px;
 }
