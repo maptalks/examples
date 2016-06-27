@@ -8,30 +8,40 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var polygon = new maptalks.Polygon([
+var polygon1 = new maptalks.Polygon([
   [
-    [121.487542, 31.239812],
-    [121.487437, 31.226512],
-    [121.473322, 31.221053]
+    [121.478542, 31.239812],
+    [121.478437, 31.226512],
+    [121.464322, 31.221053]
   ]
 ], {
   'symbol': {
-    'lineColor': '#00ff00',
+    'lineColor': 'orange',
     'lineWidth': 3,
-    'polygonFill': '#ff0000',
-    'polygonOpacity': 0.6
+    'polygonFill': '#ccc',
+    'polygonOpacity': 1.0
   }
 });
 
-var layer = new maptalks.VectorLayer('vector')
-  .addGeometry(polygon)
-  .addTo(map);
+var layer1 = new maptalks.VectorLayer('vector1', {
+  opacity: 0.5
+}).addGeometry(polygon1).addTo(map);
 
-var buttons = Array.prototype.slice.call(document.querySelectorAll('#action button'));
-buttons.forEach(function (el) {
-  el.addEventListener('click', function (event) {
-    layer.config({
-      opacity: +event.target.value
-    });
-  });
+var polygon2 = new maptalks.Polygon([
+  [
+    [121.489542, 31.239812],
+    [121.489437, 31.226512],
+    [121.502322, 31.221053]
+  ]
+], {
+  'symbol': {
+    'lineColor': 'orange',
+    'lineWidth': 3,
+    'polygonFill': '#ccc',
+    'polygonOpacity': 1.0
+  }
 });
+
+var layer2 = new maptalks.VectorLayer('vector2', {
+  opacity: 0.8
+}).addGeometry(polygon2).addTo(map);
