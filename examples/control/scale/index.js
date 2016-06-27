@@ -8,7 +8,7 @@ var map = new maptalks.Map("map", {
     'metric': true,
     'imperial': true
   },
-  baseLayer: new maptalks.TileLayer("tile", {
+  baseLayer: new maptalks.TileLayer("base", {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains)
   })

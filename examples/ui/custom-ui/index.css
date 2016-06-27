@@ -11,10 +11,6 @@ body {
     height: 100%;
 }
 
-body {
-    font: 16px/1.4 "Helvetica Neue", Arial, sans-serif;
-}
-
 .my-ui {
     background: #fff;
     border: 1px solid #b4b3b3;

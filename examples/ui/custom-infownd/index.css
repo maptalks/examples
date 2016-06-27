@@ -11,10 +11,6 @@ body {
     height: 100%;
 }
 
-body {
-    font: 16px/1.4 "Helvetica Neue", Arial, sans-serif;
-}
-
 .custom_window {
     background: #ffffff;
     color: #000000;

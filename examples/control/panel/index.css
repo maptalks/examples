@@ -11,10 +11,6 @@ body {
     height: 100%;
 }
 
-body {
-    font: 16px/1.4 "Helvetica Neue", Arial, sans-serif;
-}
-
 .content {
     background: #cccccc;
     color: #0000ff;

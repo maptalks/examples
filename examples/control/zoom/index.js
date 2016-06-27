@@ -7,7 +7,7 @@ var map = new maptalks.Map("map", {
     'slider'    : true,
     'zoomLevel' : true
   },
-  baseLayer: new maptalks.TileLayer("tile", {
+  baseLayer: new maptalks.TileLayer("base", {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains)
   })
