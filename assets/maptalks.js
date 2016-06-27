@@ -4295,8 +4295,8 @@ Z.Canvas = {
         ctx.lineWidth = 1;
         ctx.lineCap = 'butt';
         ctx.lineJoin = 'miter';
-        ctx.strokeStyle = 'rgba(0,0,0,1)';//'rgba(71,76,248,1)';//this.getRgba('#474cf8',1);
-        ctx.fillStyle = 'rgba(255,255,255,0)';//this.getRgba('#ffffff',0);
+        ctx.strokeStyle = 'rgba(0,0,0,1)';
+        ctx.fillStyle = 'rgba(255,255,255,0)';
         ctx.textAlign = 'start';
         ctx.textBaseline = 'top';
         var fontSize = 11;
@@ -4335,11 +4335,8 @@ Z.Canvas = {
             } else {
                 ctx.strokeStyle = 'rgba(0,0,0,1)';
             }
-        } else {
-            var color = Z.Canvas.getRgba(strokeColor, 1);
-            if (ctx.strokeStyle !== color) {
-                ctx.strokeStyle = color;
-            }
+        } else if (ctx.strokeStyle !== strokeColor) {
+            ctx.strokeStyle = strokeColor;
         }
         if (style['lineJoin'] && ctx.lineJoin !== style['lineJoin']) {
             ctx.lineJoin = style['lineJoin'];
@@ -4380,11 +4377,8 @@ Z.Canvas = {
             } else {
                 ctx.fillStyle = 'rgba(255,255,255,0)';
             }
-        } else {
-            var fillColor = this.getRgba(fill, 1);
-            if (ctx.fillStyle !== fillColor) {
-                ctx.fillStyle = fillColor;
-            }
+        } else if (ctx.fillStyle !== fill) {
+            ctx.fillStyle = fill;
         }
     },
 
@@ -4554,7 +4548,7 @@ Z.Canvas = {
             ctx.lineCap = 'round';
             var lineWidth = (textHaloRadius * 2 - 1);
             ctx.lineWidth = Z.Util.round(lineWidth);
-            ctx.strokeStyle = Z.Canvas.getRgba(textHaloFill, 1);
+            ctx.strokeStyle = textHaloFill;
             ctx.strokeText(text, pt.x, pt.y);
             ctx.lineWidth = 1;
             ctx.miterLimit = 10; //default
@@ -10488,8 +10482,8 @@ Z.Vector = Z.Geometry.extend(/** @lends maptalks.Vector.prototype */{
             'lineWidth' : 1,
             'lineOpacity' : 1,
 
-            'polygonFill' : '#ffffff',
-            'polygonOpacity' : 0,
+            'polygonFill' : '#808080', //default color in cartoCSS
+            'polygonOpacity' : 1,
             'opacity' : 1
         }
     },
@@ -14294,7 +14288,7 @@ Z.Util.extend(Z.View.prototype, {
             throw new Error('must provide a valid projection in map\'s view.');
         }
         projection = Z.Util.extend({}, Z.projection.Common, projection);
-        if (!projection.measureLength){
+        if (!projection.measureLength) {
             Z.Util.extend(projection, Z.MeasurerUtil.DEFAULT);
         }
         this._projection = projection;
@@ -18144,7 +18138,7 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
 
 
         if (this._isCanvasContainer) {
-            map.on('_moving', function () {
+            map.on('_moving _moveend', function () {
                 this.render();
             }, this);
         } else {
@@ -19652,7 +19646,7 @@ Z.symbolizer.VectorMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
         this.geometry = geometry;
         var style = this.translate();
         this.style = this._defineStyle(style);
-        this.strokeAndFill = this._defineStyle(this.translateLineAndFill(style));
+        this.strokeAndFill = this._defineStyle(Z.symbolizer.VectorMarkerSymbolizer.translateLineAndFill(style));
     },
 
     symbolize:function (ctx, resources) {
@@ -19759,7 +19753,7 @@ Z.symbolizer.VectorMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
         return result;
     },
 
-    translate:function () {
+    translate: function () {
         var s = this.symbol;
         var d = this.defaultSymbol;
         var result = Z.Util.extend({}, d, s);
@@ -19769,26 +19763,26 @@ Z.symbolizer.VectorMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
             result['markerLineOpacity'] *= s['markerOpacity'];
         }
         return result;
-    },
-
-    translateLineAndFill: function (s) {
-        var result = {
-            'lineColor' : s['markerLineColor'] || s['markerLinePatternFile'],
-            'lineWidth' : s['markerLineWidth'],
-            'lineOpacity' : s['markerLineOpacity'],
-            'lineDasharray': null,
-            'lineCap' : 'butt',
-            'lineJoin' : 'round',
-            'polygonFill' : s['markerFill'] || s['markerFillPatternFile'],
-            'polygonOpacity' : s['markerFillOpacity']
-        };
-        if (result['lineWidth'] === 0) {
-            result['lineOpacity'] = 0;
-        }
-        return result;
     }
 });
 
+
+Z.symbolizer.VectorMarkerSymbolizer.translateLineAndFill = function (s) {
+    var result = {
+        'lineColor' : s['markerLineColor'] || s['markerLinePatternFile'],
+        'lineWidth' : s['markerLineWidth'],
+        'lineOpacity' : s['markerLineOpacity'],
+        'lineDasharray': null,
+        'lineCap' : 'butt',
+        'lineJoin' : 'round',
+        'polygonFill' : s['markerFill'] || s['markerFillPatternFile'],
+        'polygonOpacity' : s['markerFillOpacity']
+    };
+    if (result['lineWidth'] === 0) {
+        result['lineOpacity'] = 0;
+    }
+    return result;
+};
 
 Z.symbolizer.VectorMarkerSymbolizer.test = function (symbol) {
     if (!symbol) {
