@@ -38,3 +38,7 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+.idea/workspace.xml
+examples/style/file-marker/marker.png
+.idea/
+maptalks-demo.iml
