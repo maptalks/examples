@@ -24,6 +24,8 @@ var layer = new maptalks.VectorLayer('vector')
       'name': 'polygon' + id
     },
     'symbol': {
+      'polygonFill': '#def',
+      'polygonOpacity': 0.5,
       'lineColor': color,
       'lineWidth': (idx + 1) * 2
     }
@@ -37,5 +39,12 @@ document.getElementById('filter').onclick = function () {
     ['==', 'name', 'polygon3']
   ]);
 
-  console.log(features);
+  features.forEach(function (feature) {
+    feature.setSymbol({
+      'lineColor': 'yellow',
+      'lineWidth': 2,
+      'polygonFill': '#def',
+      'polygonOpacity': 0.2
+    });
+  });
 };

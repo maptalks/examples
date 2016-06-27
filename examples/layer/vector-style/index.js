@@ -14,7 +14,7 @@ var layer = new maptalks.VectorLayer('vector')
 
 var colors = ['#ff0000', '#00ff00', '#0000ff'];
 
-colors.forEach(function (color, idx) {
+for (var idx = 0; idx < 3; idx++) {
   var id = idx + 1;
   new maptalks.Polygon([
     [121.455542 + 0.02 * idx, 31.238812],
@@ -27,7 +27,7 @@ colors.forEach(function (color, idx) {
       'name': 'polygon' + id
     }
   }).addTo(layer);
-});
+}
 
 document.getElementById('style').onclick = function () {
   layer.setStyle([
