@@ -10,5 +10,12 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector');
 map.addLayer(layer);
-var geometry = new maptalks.Marker([121.485428, 31.228541]);
+var symbol = {
+    'markerFile'   : '../../../../../images/style/marker.png',
+    'markerWidth'  : 32,
+    'markerHeight' : 32,
+};
+var geometry = new maptalks.Marker([121.485428, 31.228541], {
+    'symbol' : symbol
+});
 layer.addGeometry(geometry);
