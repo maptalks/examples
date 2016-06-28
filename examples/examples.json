@@ -102,7 +102,8 @@
         "attribution", {"zh" : "Attribution控件", "en" : "Add attribution control to the map"},
         "toolbar", {"zh" : "toolbar控件", "en" : "Add toolbar control to the map"},
         "panel", {"zh" : "panel控件", "en" : "Add one or more panel controls to the map"},
-        "custom-control", {"zh" : "创建新的Control", "en" : "Create your own map control"}
+        "show-hide", {"zh" : "控件显示与隐藏", "en" : "Control display and hide"},
+        "custom", {"zh" : "创建新的控件", "en" : "Create your own Control"}
       ],
 
       "ui", {"zh" : "UI组件", "en" : "UI components"},
@@ -119,7 +120,8 @@
 
       "advance", {"zh" : "进阶技巧", "en" : "Tricks"},
       [
-        "animation", {"zh" : "动画", "en" : "Animations"}
+        "animation", {"zh" : "动画", "en" : "Animations"},
+        "in-out", {"zh" : "飞入/飞出图形", "en" : "Set the geometry to fly in and out of the animation"}
       ],
 
       "mapresty", {"zh" : "MapResty调用示例", "en" : "MapResty examples"},
