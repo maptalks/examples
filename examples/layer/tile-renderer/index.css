@@ -1,0 +1,19 @@
+
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map-on-dom {
+  width: 49.9%;
+  height: 100%;
+  float: left;
+}
+
+#map-on-canvas {
+  width: 49.9%;
+  height: 100%;
+  float: right;
+}
