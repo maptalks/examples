@@ -2,7 +2,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1000">
-<title>{{ title }}</title>
+<title>{{ category }} - {{ title }}</title>
 <style>
 
 @import url("../../../../style.css");
@@ -25,7 +25,6 @@
   </div>
   <div class="gist-readme" data-key="README.md"></div>
   <div class="gist-sources">
-
     <div class="gist-source" data-key="{{ basename }}">
       <h2>{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h2>
 
@@ -33,25 +32,21 @@
           <code class="html xml">{{ contents }}</code>
       </pre>
     </div>
-  </div>
-  <div class="gist-sources">
     <div class="gist-source" data-key="{{ js.basename }}">
       <h2>{{ js.basename }}<a name="{{ js.basename }}" class="anchor" href="#{{ js.basename }}">#</a></h2>
       <pre>
           <code class="lang-js">{{ js.source }}</code>
       </pre>
     </div>
-  </div>
-  {{#if css.source}}
-  <div class="gist-sources">
+    {{#if css.source}}
     <div class="gist-source" data-key="{{ css.basename }}">
       <h2>{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h2>
       <pre>
           <code class="lang-css">{{ css.source }}</code>
       </pre>
     </div>
+    {{/if}}
   </div>
-  {{/if}}
   <div class="gist-license">
     <h2>LICENSE<a name="license" class="anchor" href="#license">#</a></h2>
     Based on <a target="_blank" href="http://bl.ocks.org">bl.ocks.org</a>.<br>
