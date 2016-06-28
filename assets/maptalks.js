@@ -1,6 +1,6 @@
 (function () {
 'use strict';
-'0.4.3';
+'0.5.0';
 // Z is the root namespace used internally, and will be exported later as maptalks.
 /**
  * @namespace
@@ -1355,6 +1355,15 @@ Z.DomUtil = {
         return this;
     },
 
+    preventSelection: function (dom) {
+        dom.onselectstart = function () {
+            return false;
+        };
+        dom.ondragstart = function () { return false; };
+        dom.setAttribute('unselectable', 'on');
+        return this;
+    },
+
     /**
      * Get the dom element's current position or offset its position by offset
      * @param  {HTMLElement} dom - HTMLElement
@@ -2565,6 +2574,10 @@ Z.Util.extend(Z.Size.prototype, /** @lends maptalks.Size.prototype */{
     },
     toPoint:function () {
         return new Z.Point(this['width'], this['height']);
+    },
+
+    toArray: function () {
+        return [this['width'], this['height']];
     },
 
     /**
@@ -4282,8 +4295,8 @@ Z.Canvas = {
         ctx.lineWidth = 1;
         ctx.lineCap = 'butt';
         ctx.lineJoin = 'miter';
-        ctx.strokeStyle = 'rgba(0,0,0,1)';//'rgba(71,76,248,1)';//this.getRgba('#474cf8',1);
-        ctx.fillStyle = 'rgba(255,255,255,0)';//this.getRgba('#ffffff',0);
+        ctx.strokeStyle = 'rgba(0,0,0,1)';
+        ctx.fillStyle = 'rgba(255,255,255,0)';
         ctx.textAlign = 'start';
         ctx.textBaseline = 'top';
         var fontSize = 11;
@@ -4322,11 +4335,8 @@ Z.Canvas = {
             } else {
                 ctx.strokeStyle = 'rgba(0,0,0,1)';
             }
-        } else {
-            var color = Z.Canvas.getRgba(strokeColor, 1);
-            if (ctx.strokeStyle !== color) {
-                ctx.strokeStyle = color;
-            }
+        } else if (ctx.strokeStyle !== strokeColor) {
+            ctx.strokeStyle = strokeColor;
         }
         if (style['lineJoin'] && ctx.lineJoin !== style['lineJoin']) {
             ctx.lineJoin = style['lineJoin'];
@@ -4367,11 +4377,8 @@ Z.Canvas = {
             } else {
                 ctx.fillStyle = 'rgba(255,255,255,0)';
             }
-        } else {
-            var fillColor = this.getRgba(fill, 1);
-            if (ctx.fillStyle !== fillColor) {
-                ctx.fillStyle = fillColor;
-            }
+        } else if (ctx.fillStyle !== fill) {
+            ctx.fillStyle = fill;
         }
     },
 
@@ -4413,15 +4420,6 @@ Z.Canvas = {
             gradient.addColorStop.apply(gradient, stop);
         });
         return gradient;
-        /*{
-           type : 'linear/radial',
-           places : [],
-           colorStops : [
-              [0, 'red'],
-              [0.5, 'blue'],
-              [1, 'green']
-           ]
-        }*/
     },
 
     _setStrokePattern: function (ctx, strokePattern, strokeWidth, resources) {
@@ -4550,7 +4548,7 @@ Z.Canvas = {
             ctx.lineCap = 'round';
             var lineWidth = (textHaloRadius * 2 - 1);
             ctx.lineWidth = Z.Util.round(lineWidth);
-            ctx.strokeStyle = Z.Canvas.getRgba(textHaloFill, 1);
+            ctx.strokeStyle = textHaloFill;
             ctx.strokeText(text, pt.x, pt.y);
             ctx.lineWidth = 1;
             ctx.miterLimit = 10; //default
@@ -4705,6 +4703,8 @@ Z.Canvas = {
                 fillPolygon(points, i, op);
                 if (i > 0) {
                     ctx.globalCompositeOperation = 'source-over';
+                } else {
+                    ctx.fillStyle = '#fff';
                 }
                 Z.Canvas._stroke(ctx, 0);
             }
@@ -4724,6 +4724,8 @@ Z.Canvas = {
                 if (i > 0) {
                     //return to default compositeOperation to display strokes.
                     ctx.globalCompositeOperation = 'source-over';
+                } else {
+                    ctx.fillStyle = '#fff';
                 }
             }
             Z.Canvas._stroke(ctx, lineOpacity);
@@ -5025,6 +5027,8 @@ Z.Canvas = {
     };
 
     Z.Util.getJSON = Ajax.getJSON;
+
+    Z.Ajax = Ajax;
 })();
 
 /*!
@@ -6046,8 +6050,12 @@ Z.Handler.Drag = Z.Handler.extend(/** @lends maptalks.Handler.Drag.prototype */{
         var actual = event.touches ? event.touches[0] : event;
         this.startPos = new Z.Point(actual.clientX, actual.clientY);
         //2015-10-26 fuzhen 改为document, 解决鼠标移出地图容器后的不可控现象
-        Z.DomUtil.on(document, this.MOVE[event.type], this.onMouseMove, this);
-        Z.DomUtil.on(document, this.END[event.type], this.onMouseUp, this);
+        Z.DomUtil.on(document, this.MOVE[event.type], this.onMouseMove, this)
+            .on(document, this.END[event.type], this.onMouseUp, this);
+        this.fire('mousedown', {
+            'domEvent' : event,
+            'mousePos': new Z.Point(actual.clientX, actual.clientY)
+        });
     },
 
     onMouseMove:function (event) {
@@ -9974,7 +9982,7 @@ Z.Geometry.Drag = Z.Handler.extend(/** @lends maptalks.Geometry.Drag.prototype *
             return;
         }
         this.target.on('click', this._endDrag, this);
-        this._preCoordDragged = param['coordinate'];
+        this._lastPos = param['coordinate'];
         this._prepareMap();
         this._prepareDragHandler();
         this._dragHandler.onMouseDown(param['domEvent']);
@@ -10093,17 +10101,17 @@ Z.Geometry.Drag = Z.Handler.extend(/** @lends maptalks.Geometry.Drag.prototype *
             return;
         }
         var axis = this._shadow.options['draggableAxis'];
-        var currentCoord = eventParam['coordinate'];
-        if (!this._preCoordDragged) {
-            this._preCoordDragged = currentCoord;
+        var currentPos = eventParam['coordinate'];
+        if (!this._lastPos) {
+            this._lastPos = currentPos;
         }
-        var dragOffset = currentCoord.substract(this._preCoordDragged);
+        var dragOffset = currentPos.substract(this._lastPos);
         if (axis === 'x') {
             dragOffset.y = 0;
         } else if (axis === 'y') {
             dragOffset.x = 0;
         }
-        this._preCoordDragged = currentCoord;
+        this._lastPos = currentPos;
         this._shadow.translate(dragOffset);
         if (!target.options['dragShadow']) {
             target.translate(dragOffset);
@@ -10159,7 +10167,7 @@ Z.Geometry.Drag = Z.Handler.extend(/** @lends maptalks.Geometry.Drag.prototype *
             map.getLayer(this.dragStageLayerId).removeGeometry(this._shadowConnectors);
             delete this._shadowConnectors;
         }
-        delete this._preCoordDragged;
+        delete this._lastPos;
 
         //restore map status
         map._trySetCursor('default');
@@ -10474,8 +10482,8 @@ Z.Vector = Z.Geometry.extend(/** @lends maptalks.Vector.prototype */{
             'lineWidth' : 1,
             'lineOpacity' : 1,
 
-            'polygonFill' : '#ffffff',
-            'polygonOpacity' : 0,
+            'polygonFill' : '#808080', //default color in cartoCSS
+            'polygonOpacity' : 1,
             'opacity' : 1
         }
     },
@@ -10590,7 +10598,7 @@ Z.Geometry.Poly = {
      * @returns {maptalks.Point[]}
      * @private
      */
-    _prjToViewPoint:function (prjCoords) {
+    _getPathViewPoints:function (prjCoords) {
         var result = [];
         if (!Z.Util.isArrayHasData(prjCoords)) {
             return result;
@@ -10598,82 +10606,72 @@ Z.Geometry.Poly = {
         var map = this.getMap(),
             fullExtent = map.getFullExtent(),
             projection = this._getProjection();
-
-        var isAntiMeridian = this.options['antiMeridian'];
-
-        var isClipping = map.options['clipFullExtent'],
+        var anti = this.options['antiMeridian'],
+            isClip = map.options['clipFullExtent'],
             isSimplify = this.getLayer() && this.getLayer().options['enableSimplify'],
-            tolerance,
-            is2dArray = Z.Util.isArray(prjCoords[0]);
-
-        if (isSimplify) {
-            var pxTolerance = 2;
-            tolerance = map._getResolution() * pxTolerance;
-        }
-        if (!is2dArray && isSimplify) {
+            tolerance = 2 * map._getResolution(),
+            isMulti = Z.Util.isArray(prjCoords[0]);
+        if (isSimplify && !isMulti) {
             prjCoords = Z.Simplify.simplify(prjCoords, tolerance, false);
         }
-        var p, vpoints, pp;
-        for (var i = 0, len = prjCoords.length; i < len; i++) {
+        var i, len, p, pre, current, dx, dy, my,
+            part1 = [], part2 = [], part = part1;
+        for (i = 0, len = prjCoords.length; i < len; i++) {
             p = prjCoords[i];
-            if (Z.Util.isNil(p) || (isClipping && !fullExtent.contains(p))) {
+            if (isMulti) {
+                part.push(this._getPathViewPoints(p));
                 continue;
             }
-            if (is2dArray) {
-                if (!Z.Util.isArrayHasData(p)) {
-                    result.push([]);
-                    continue;
-                }
-                if (isSimplify) {
-                    p = Z.Simplify.simplify(p, tolerance, false);
-                }
-                vpoints = [];
-                for (var j = 0, jlen = p.length; j < jlen; j++) {
-                    pp = p[j];
-                    if (Z.Util.isNil(p[j])) {
-                        continue;
-                    }
-                    if (j > 0 && (isAntiMeridian && isAntiMeridian !== 'default')) {
-                        pp = this._antiMeridian(pp, p[j - 1], projection, isAntiMeridian);
-                    }
-                    vpoints.push(map._prjToViewPoint(pp));
-                }
-                delete this._preAntiMeridianCoord;
-                result.push(vpoints);
-            } else {
-                if (i > 0 && (isAntiMeridian && isAntiMeridian !== 'default')) {
-                    p = this._antiMeridian(p, prjCoords[i - 1], projection, isAntiMeridian);
-                }
-                pp = map._prjToViewPoint(p);
-                result.push(pp);
+            if (Z.Util.isNil(p) || (isClip && !fullExtent.contains(p))) {
+                continue;
             }
+            if (i > 0 && (anti === 'continuous' || anti === 'split')) {
+                current = projection.unproject(p);
+                if (anti === 'split' || !pre) {
+                    pre = projection.unproject(prjCoords[i - 1]);
+                }
+                if (pre && current) {
+                    dx = current.x - pre.x;
+                    dy = current.y - pre.y;
+                    if (Math.abs(dx) > 180) {
+                        if (anti === 'continuous') {
+                            current = this._anti(current, dx);
+                            pre = current;
+                            p = projection.project(current);
+                        } else if (anti === 'split') {
+                            if (dx > 0) {
+                                my = pre.y + dy * (pre.x - (-180)) / (360 - dx) * (pre.y > current.y ? -1 : 1);
+                                part.push(map.coordinateToViewPoint(new Z.Coordinate(-180, my)));
+                                part = part === part1 ? part2 : part1;
+                                part.push(map.coordinateToViewPoint(new Z.Coordinate(180, my)));
+
+                            } else {
+                                my = pre.y + dy * (180 - pre.x) / (360 + dx) * (pre.y > current.y ? 1 : -1);
+                                part.push(map.coordinateToViewPoint(new Z.Coordinate(180, my)));
+                                part = part === part1 ? part2 : part1;
+                                part.push(map.coordinateToViewPoint(new Z.Coordinate(-180, my)));
+
+                            }
+                        }
+                    }
+                }
+            }
+            part.push(map._prjToViewPoint(p));
         }
-        delete this._preAntiMeridianCoord;
+        if (part2.length > 0) {
+            result = [part1, part2];
+        } else {
+            result = part;
+        }
         return result;
     },
 
-    _antiMeridian:function (p, preCoord, projection, isAntiMeridian) {
-        var pre;
-        //cache last projected coordinate, to improve some perf.
-        if (this._preAntiMeridianCoord) {
-            pre = this._preAntiMeridianCoord;
+    _anti: function (c, dx) {
+        if (dx > 0) {
+            return c.substract(180 * 2, 0);
         } else {
-            pre = projection ? projection.unproject(preCoord) : preCoord;
+            return c.add(180 * 2, 0);
         }
-        var current = projection ? projection.unproject(p) : p;
-        var d = current.x - pre.x;
-        if (isAntiMeridian === 'continuous') {
-            if (Math.abs(d) > 180) {
-                if (d > 0) {
-                    current._substract(180 * 2, 0);
-                } else {
-                    current._add(180 * 2, 0);
-                }
-                p = projection ? projection.unproject(current) : current;
-            }
-        }
-        this._preAntiMeridianCoord = current;
-        return p;
     },
 
     _setPrjCoordinates:function (prjPoints) {
@@ -10752,7 +10750,7 @@ Z.Geometry.Poly = {
         if (!Z.Util.isArrayHasData(ring)) {
             return null;
         }
-        var rings = ring;
+        var rings = [ring];
         if (this.hasHoles && this.hasHoles()) {
             rings = rings.concat(this.getHoles());
         }
@@ -10766,28 +10764,26 @@ Z.Geometry.Poly = {
       * @private
       */
     _computeCoordsExtent: function (coords) {
-        var result = null;
-        var ext,
-            isAntiMeridian = this.options['antiMeridian'];
+        var result = null,
+            anti = this.options['antiMeridian'];
+        var ext, p, dx, pre;
         for (var i = 0, len = coords.length; i < len; i++) {
-            var p;
-            if (Z.Util.isArray(coords[i])) {
-                for (var j = 0, jlen = coords[i].length; j < jlen; j++) {
-                    p = coords[i][j];
-                    if (j > 0 && (isAntiMeridian && isAntiMeridian !== 'default')) {
-                        p = this._antiMeridian(p, coords[i][j - 1], null, isAntiMeridian);
+            for (var j = 0, jlen = coords[i].length; j < jlen; j++) {
+                p = coords[i][j];
+                if (j > 0 && anti) {
+                    if (!pre) {
+                        pre = coords[i][j - 1];
                     }
-                    ext = new Z.Extent(p, p);
-                    result = ext.combine(result);
-                }
-            } else {
-                p = coords[i];
-                if (i > 0 && (isAntiMeridian && isAntiMeridian !== 'default')) {
-                    p = this._antiMeridian(p, coords[i - 1], null, isAntiMeridian);
+                    dx = p.x - pre.x;
+                    if (Math.abs(dx) > 180) {
+                        p = this._anti(p, dx);
+                        pre = p;
+                    }
                 }
                 ext = new Z.Extent(p, p);
                 result = ext.combine(result);
             }
+
         }
         return result;
     }
@@ -11322,32 +11318,45 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
     _containsPoint: function (point, tolerance) {
         var t = Z.Util.isNil(tolerance) ? this._hitTestTolerance() : tolerance,
             pxExtent = this._getPainter().getViewExtent().expand(t);
+        function isContains(points) {
+            var c = Z.GeoUtils.pointInsidePolygon(point, points);
+            if (c) {
+                return c;
+            }
+
+            var i, j, p1, p2,
+                len = points.length;
+
+            for (i = 0, j = len - 1; i < len; j = i++) {
+                p1 = points[i];
+                p2 = points[j];
+
+                if (Z.GeoUtils.distanceToSegment(point, p1, p2) <= t) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         point = new Z.Point(point.x, point.y);
 
         if (!pxExtent.contains(point)) { return false; }
 
         // screen points
-        var points = this._prjToViewPoint(this._getPrjCoordinates());
-
-        var c = Z.GeoUtils.pointInsidePolygon(point, points);
-        if (c) {
-            return c;
-        }
-
-        var i, j, p1, p2,
-            len = points.length;
-
-        for (i = 0, j = len - 1; i < len; j = i++) {
-            p1 = points[i];
-            p2 = points[j];
-
-            if (Z.GeoUtils.distanceToSegment(point, p1, p2) <= t) {
-                return true;
+        var points = this._getPathViewPoints(this._getPrjCoordinates()),
+            isSplitted = Z.Util.isArray(points[0]);
+        if (isSplitted) {
+            for (var i = 0; i < points.length; i++) {
+                if (isContains(points[i])) {
+                    return true;
+                }
             }
+            return false;
+        } else {
+            return isContains(points);
         }
 
-        return false;
     }
 });
 
@@ -11426,8 +11435,22 @@ Z.LineString = Z.Polyline = Z.Vector.extend(/** @lends maptalks.LineString.proto
     },
 
     _containsPoint: function (point, tolerance) {
+        var t = Z.Util.isNil(tolerance) ? this._hitTestTolerance() : tolerance;
+        function isContains(points) {
+            var i, p1, p2,
+                len = points.length;
+
+            for (i = 0, len = points.length; i < len - 1; i++) {
+                p1 = points[i];
+                p2 = points[i + 1];
+
+                if (Z.GeoUtils.distanceToSegment(point, p1, p2) <= t) {
+                    return true;
+                }
+            }
+            return false;
+        }
         var map = this.getMap(),
-            t = Z.Util.isNil(tolerance) ? this._hitTestTolerance() : tolerance,
             extent = this._getPrjExtent(),
             nw = new Z.Coordinate(extent.xmin, extent.ymax),
             se = new Z.Coordinate(extent.xmax, extent.ymin),
@@ -11443,21 +11466,19 @@ Z.LineString = Z.Polyline = Z.Vector.extend(/** @lends maptalks.LineString.proto
         if (!pxExtent.contains(point)) { return false; }
 
         // screen points
-        var points = this._prjToViewPoint(this._getPrjCoordinates());
-
-        var i, p1, p2,
-            len = points.length;
-
-        for (i = 0, len = points.length; i < len - 1; i++) {
-            p1 = points[i];
-            p2 = points[i + 1];
-
-            if (Z.GeoUtils.distanceToSegment(point, p1, p2) <= t) {
-                return true;
+        var points = this._getPathViewPoints(this._getPrjCoordinates()),
+            isSplitted = points.length > 0 && Z.Util.isArray(points[0]);
+        if (isSplitted) {
+            for (var i = 0; i < points.length; i++) {
+                if (isContains(points[i])) {
+                    return true;
+                }
             }
+            return false;
+        } else {
+            return isContains(points);
         }
 
-        return false;
     }
 
 });
@@ -11488,7 +11509,7 @@ Z.CurveLine = Z.LineString.extend({
     _getRenderCanvasResources:function () {
         //draw a triangle arrow
         var prjVertexes = this._getPrjCoordinates();
-        var points = this._prjToViewPoint(prjVertexes);
+        var points = this._getPathViewPoints(prjVertexes);
         var arcDegree = this.options['arcDegree'],
             curveType = this.options['curveType'];
         var me = this;
@@ -14266,12 +14287,19 @@ Z.Util.extend(Z.View.prototype, {
         if (!projection || Z.Util.isString(projection)) {
             throw new Error('must provide a valid projection in map\'s view.');
         }
+        projection = Z.Util.extend({}, Z.projection.Common, projection);
+        if (!projection.measureLength) {
+            Z.Util.extend(projection, Z.MeasurerUtil.DEFAULT);
+        }
         this._projection = projection;
-        var resolutions = this.options['resolutions'];
+        var defaultView,
+            resolutions = this.options['resolutions'];
         if (!resolutions) {
-            var defaultView = this.defaultView[projection['code']];
-            if (defaultView) {
-                resolutions = defaultView['resolutions'];
+            if (projection['code']) {
+                defaultView = this.defaultView[projection['code']];
+                if (defaultView) {
+                    resolutions = defaultView['resolutions'];
+                }
             }
             if (!resolutions) {
                 throw new Error('must provide valid resolutions in map\'s view.');
@@ -14280,8 +14308,13 @@ Z.Util.extend(Z.View.prototype, {
         this._resolutions = resolutions;
         var fullExtent = this.options['fullExtent'];
         if (!fullExtent) {
-            fullExtent = this.defaultView[projection['code']]['fullExtent'];
-            if (!resolutions) {
+            if (projection['code']) {
+                defaultView = this.defaultView[projection['code']];
+                if (defaultView) {
+                    fullExtent = defaultView['fullExtent'];
+                }
+            }
+            if (!fullExtent) {
                 throw new Error('must provide a valid fullExtent in map\'s view.');
             }
         }
@@ -14290,8 +14323,8 @@ Z.Util.extend(Z.View.prototype, {
         //set left, right, top, bottom value
         Z.Util.extend(this._fullExtent, fullExtent);
 
-        var a = fullExtent['right'] > fullExtent['left'] ? 1 : -1,
-            b = fullExtent['top'] > fullExtent['bottom'] ? -1 : 1;
+        var a = fullExtent['right'] >= fullExtent['left'] ? 1 : -1,
+            b = fullExtent['top'] >= fullExtent['bottom'] ? -1 : 1;
         this._transformation = new Z.Transformation([a, b, 0, 0]);
     },
 
@@ -14397,7 +14430,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * @property {Boolean} [options.layerTransforming=true] - update points when transforming (e.g. zoom animation), this may bring drastic low performance when rendering a large number of points.
      * @property {Boolean} [options.panAnimation=true]              - continue to animate panning when draging or touching ended.
      * @property {Boolean} [options.panAnimationDuration=600]       - duration of pan animation.
-     * @property {Boolean} [options.enableZoom=true]                - whether to enable map zooming.
+     * @property {Boolean} [options.zoomable=true]                - whether to enable map zooming.
      * @property {Boolean} [options.enableInfoWindow=true]          - whether to enable infowindow opening on this map.
      * @property {Boolean} [options.maxZoom=null]                   - the maximum zoom the map can be zooming to.
      * @property {Boolean} [options.minZoom=null]                   - the minimum zoom the map can be zooming to.
@@ -14436,7 +14469,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
         //default pan animation duration
         'panAnimationDuration' : 600,
 
-        'enableZoom':true,
+        'zoomable':true,
         'enableInfoWindow':true,
 
         'hitDetect' : (function () { return !Z.Browser.mobile; })(),
@@ -15490,7 +15523,11 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
          */
         this._fireEvent('moveend');
         if (!this._verifyExtent(this.getCenter())) {
-            this.panTo(this._originCenter);
+            var moveTo = this._originCenter;
+            if (!this._verifyExtent(moveTo)) {
+                moveTo = this.getMaxExtent().getCenter();
+            }
+            this.panTo(moveTo);
         }
     },
 
@@ -15845,7 +15882,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
         var map = this;
         coordinate = new Z.Coordinate(coordinate);
         var dest = this.coordinateToViewPoint(coordinate),
-            current = this.offsetPlatform();
+            current = this.coordinateToViewPoint(this.getCenter());
         return this._panBy(dest.substract(current), options, function () {
             var c = map.getProjection().project(coordinate);
             map._setPrjCenterAndMove(c);
@@ -15895,6 +15932,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
 
 Z.Map.include(/** @lends maptalks.Map.prototype */{
     _zoom:function (nextZoomLevel, origin, startScale) {
+        if (!this.options['zoomable']) { return; }
         this._originZoomLevel = this.getZoom();
         nextZoomLevel = this._checkZoomLevel(nextZoomLevel);
         this._onZoomStart(nextZoomLevel);
@@ -15907,7 +15945,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
     },
 
     _zoomAnimation:function (nextZoomLevel, origin, startScale) {
-        if (!this.options['enableZoom']) { return; }
+        if (!this.options['zoomable']) { return; }
         if (Z.Util.isNil(startScale)) {
             startScale = 1;
         }
@@ -15974,6 +16012,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
           * @property {Number} to                      - zoom level zooming to
           */
         this._fireEvent('zoomend', {'from' : _originZoomLevel, 'to': nextZoomLevel});
+        this.checkSize();
     },
 
 
@@ -16486,9 +16525,6 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
         var baseLayer = this.getBaseLayer();
         if ((Z.Util.isNil(options['baseLayer']) || options['baseLayer']) && baseLayer) {
             profile['baseLayer'] = baseLayer.toJSON(options['baseLayer']);
-            // if (!Z.Util.isNil(options['baseLayer']) && !options['baseLayer']) {
-            //     profile['baseLayer']['options']['visible'] = false;
-            // }
         }
         var extraLayerOptions = {};
         if (options['clipExtent']) {
@@ -16505,6 +16541,9 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
         if (Z.Util.isNil(options['layers']) || (options['layers'] && !Z.Util.isArray(options['layers']))) {
             layers = this.getLayers();
             for (i = 0, len = layers.length; i < len; i++) {
+                if (!layers[i].toJSON) {
+                    continue;
+                }
                 opts = Z.Util.extend({}, Z.Util.isObject(options['layers']) ? options['layers'] : {}, extraLayerOptions);
                 layersJSON.push(layers[i].toJSON(opts));
             }
@@ -16514,6 +16553,9 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
             for (i = 0; i < layers.length; i++) {
                 var exportOption = layers[i];
                 var layer = this.getLayer(exportOption['id']);
+                if (!layer.toJSON) {
+                    continue;
+                }
                 opts = Z.Util.extend({}, exportOption['options'], extraLayerOptions);
                 layersJSON.push(layer.toJSON(opts));
             }
@@ -16578,19 +16620,19 @@ Z.Map.Drag = Z.Handler.extend({
         if (!map) { return; }
         this.dom = map._panels.mapWrapper || map._containerDOM;
         this._dragHandler = new Z.Handler.Drag(this.dom);
-        map.on(this._dragHandler.START.join(' '), this._onMouseDown, this);
-
-        this._dragHandler.on('dragstart', this._onDragStart, this);
-        this._dragHandler.on('dragging', this._onDragging, this);
-        this._dragHandler.on('dragend', this._onDragEnd, this);
-
-        this._dragHandler.enable();
+        this._dragHandler.on('mousedown', this._onMouseDown, this)
+            .on('dragstart', this._onDragStart, this)
+            .on('dragging', this._onDragging, this)
+            .on('dragend', this._onDragEnd, this)
+            .enable();
     },
 
     removeHooks: function () {
-        var map = this.target;
-        map.off(this._dragHandler.START.join(' '), this._onMouseDown, this);
-        this._dragHandler.disable();
+        this._dragHandler.off('mousedown', this._onMouseDown, this)
+                .off('dragstart', this._onDragStart, this)
+                .off('dragging', this._onDragging, this)
+                .off('dragend', this._onDragEnd, this)
+                .disable();
         delete this._dragHandler;
     },
 
@@ -17852,15 +17894,15 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
 
     _getCountOfGeosToDraw: function () {
         var layers = this._getAllLayerToTransform(),
-            geos,
+            geos, renderer,
             total = 0;
         for (var i = layers.length - 1; i >= 0; i--) {
+            renderer = layers[i]._getRenderer();
             if ((layers[i] instanceof Z.VectorLayer) &&
-                layers[i].isVisible() &&
-                !layers[i].isEmpty()) {
-                geos = layers[i]._getRenderer()._geosToDraw;
+                layers[i].isVisible() && !layers[i].isEmpty() && renderer._hasPointSymbolizer) {
+                geos = renderer._geosToDraw;
                 if (geos) {
-                    total += layers[i]._getRenderer()._geosToDraw.length;
+                    total += renderer._geosToDraw.length;
                 }
             }
         }
@@ -17879,11 +17921,7 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
             }
             panels[name] = c;
             if (!enableSelect) {
-                c['onselectstart'] = function () {
-                    return false;
-                };
-                c['ondragstart'] = function () { return false; };
-                c.setAttribute('unselectable', 'on');
+                Z.DomUtil.preventSelection(c);
             }
             return c;
         }
@@ -18100,7 +18138,7 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
 
 
         if (this._isCanvasContainer) {
-            map.on('_moving', function () {
+            map.on('_moving _moveend', function () {
                 this.render();
             }, this);
         } else {
@@ -19333,9 +19371,22 @@ Z.symbolizer.StrokeAndFillSymbolizer = Z.symbolizer.CanvasSymbolizer.extend({
         if (Z.Util.isGradient(style['polygonFill'])) {
             style['polygonGradientExtent'] = this.geometry._getPainter().getContainerExtent()._round();
         }
-        Z.Canvas.prepareCanvas(ctx, style, resources);
-        canvasResources['fn'].apply(this, [ctx].concat(canvasResources['context']).concat([
-            style['lineOpacity'], style['polygonOpacity'], style['lineDasharray']]));
+
+        var points = canvasResources['context'][0],
+            isSplitted = (this.geometry instanceof Z.Polygon && points.length === 2 && Z.Util.isArray(points[0][0])) ||
+                        (this.geometry instanceof Z.LineString  && points.length === 2 && Z.Util.isArray(points[0]));
+        if (isSplitted) {
+            for (var i = 0; i < points.length; i++) {
+                Z.Canvas.prepareCanvas(ctx, style, resources);
+                canvasResources['fn'].apply(this, [ctx].concat([points[i]]).concat([
+                    style['lineOpacity'], style['polygonOpacity'], style['lineDasharray']]));
+            }
+        } else {
+            Z.Canvas.prepareCanvas(ctx, style, resources);
+            canvasResources['fn'].apply(this, [ctx].concat(canvasResources['context']).concat([
+                style['lineOpacity'], style['polygonOpacity'], style['lineDasharray']]));
+        }
+
         if (ctx.setLineDash && Z.Util.isArrayHasData(style['lineDasharray'])) {
             ctx.setLineDash([]);
         }
@@ -19595,7 +19646,7 @@ Z.symbolizer.VectorMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
         this.geometry = geometry;
         var style = this.translate();
         this.style = this._defineStyle(style);
-        this.strokeAndFill = this._defineStyle(this.translateLineAndFill(style));
+        this.strokeAndFill = this._defineStyle(Z.symbolizer.VectorMarkerSymbolizer.translateLineAndFill(style));
     },
 
     symbolize:function (ctx, resources) {
@@ -19702,7 +19753,7 @@ Z.symbolizer.VectorMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
         return result;
     },
 
-    translate:function () {
+    translate: function () {
         var s = this.symbol;
         var d = this.defaultSymbol;
         var result = Z.Util.extend({}, d, s);
@@ -19712,26 +19763,26 @@ Z.symbolizer.VectorMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
             result['markerLineOpacity'] *= s['markerOpacity'];
         }
         return result;
-    },
-
-    translateLineAndFill: function (s) {
-        var result = {
-            'lineColor' : s['markerLineColor'] || s['markerLinePatternFile'],
-            'lineWidth' : s['markerLineWidth'],
-            'lineOpacity' : s['markerLineOpacity'],
-            'lineDasharray': null,
-            'lineCap' : 'butt',
-            'lineJoin' : 'round',
-            'polygonFill' : s['markerFill'] || s['markerFillPatternFile'],
-            'polygonOpacity' : s['markerFillOpacity']
-        };
-        if (result['lineWidth'] === 0) {
-            result['lineOpacity'] = 0;
-        }
-        return result;
     }
 });
 
+
+Z.symbolizer.VectorMarkerSymbolizer.translateLineAndFill = function (s) {
+    var result = {
+        'lineColor' : s['markerLineColor'] || s['markerLinePatternFile'],
+        'lineWidth' : s['markerLineWidth'],
+        'lineOpacity' : s['markerLineOpacity'],
+        'lineDasharray': null,
+        'lineCap' : 'butt',
+        'lineJoin' : 'round',
+        'polygonFill' : s['markerFill'] || s['markerFillPatternFile'],
+        'polygonOpacity' : s['markerFillOpacity']
+    };
+    if (result['lineWidth'] === 0) {
+        result['lineOpacity'] = 0;
+    }
+    return result;
+};
 
 Z.symbolizer.VectorMarkerSymbolizer.test = function (symbol) {
     if (!symbol) {
@@ -20146,18 +20197,40 @@ Symboling.Poly = {
         var map = this.getMap();
         var points, rotations = null;
         if (placement === 'point') {
-            points = this._prjToViewPoint(this._getPrjCoordinates());
+            points = this._getPathViewPoints(this._getPrjCoordinates());
+            if (points && points.length > 0 && Z.Util.isArray(points[0])) {
+                //anti-meridian
+                points = points[0].concat(points[1]);
+            }
         } else if (placement === 'line') {
             points = [];
             rotations = [];
-            var vertice = this._prjToViewPoint(this._getPrjCoordinates());
-            if (this instanceof Z.Polygon && vertice.length > 0 && !vertice[0].equals(vertice[vertice.length - 1])) {
-                vertice.push(vertice[0]);
+            var vertice = this._getPathViewPoints(this._getPrjCoordinates()),
+                isSplitted =  vertice.length > 0 && Z.Util.isArray(vertice[0]);
+            var i, len;
+            if (isSplitted) {
+                //anti-meridian splitted
+                var ring, ii, ilen;
+                for (i = 1, len = vertice.length; i < len; i++) {
+                    ring = vertice[i];
+                    if (this instanceof Z.Polygon && ring.length > 0 && !ring[0].equals(ring[ring.length - 1])) {
+                        ring.push(ring[0]);
+                    }
+                    for (ii = 1, ilen = ring.length; ii < ilen; ii++) {
+                        points.push(ring[ii].add(ring[ii - 1])._multi(0.5));
+                        rotations.push(Z.Util.computeDegree(ring[ii - 1], ring[ii]));
+                    }
+                }
+            } else {
+                if (this instanceof Z.Polygon && vertice.length > 0 && !vertice[0].equals(vertice[vertice.length - 1])) {
+                    vertice.push(vertice[0]);
+                }
+                for (i = 1, len = vertice.length; i < len; i++) {
+                    points.push(vertice[i].add(vertice[i - 1])._multi(0.5));
+                    rotations.push(Z.Util.computeDegree(vertice[i - 1], vertice[i]));
+                }
             }
-            for (var i = 1, len = vertice.length; i < len; i++) {
-                points.push(vertice[i].add(vertice[i - 1])._multi(0.5));
-                rotations.push(Z.Util.computeDegree(vertice[i - 1], vertice[i]));
-            }
+
         } else {
             var center = this.getCenter();
             var pcenter = this._getProjection().project(center);
@@ -20248,7 +20321,7 @@ if (Z.Browser.canvas) {
             //draw a triangle arrow
 
             var prjVertexes = this._getPrjCoordinates();
-            var points = this._prjToViewPoint(prjVertexes);
+            var points = this._getPathViewPoints(prjVertexes);
 
             var me = this;
             var fn = function (_ctx, _points, _lineOpacity, _fillOpacity, _dasharray) {
@@ -20282,18 +20355,34 @@ if (Z.Browser.canvas) {
     Z.Polygon.include({
         _getRenderCanvasResources:function () {
             var prjVertexes = this._getPrjCoordinates(),
-                points = this._prjToViewPoint(prjVertexes);
+                points = this._getPathViewPoints(prjVertexes),
+                //splitted by anti-meridian
+                isSplitted = points.length > 0 && Z.Util.isArray(points[0]);
+            if (isSplitted) {
+                points = [[points[0]], [points[1]]];
+            }
             var prjHoles = this._getPrjHoles();
             var holePoints = [];
             if (Z.Util.isArrayHasData(prjHoles)) {
+                var hole;
                 for (var i = 0; i < prjHoles.length; i++) {
-                    var holPoints = this._prjToViewPoint(prjHoles[i]);
-                    holePoints.push(holPoints);
+                    hole = this._getPathViewPoints(prjHoles[i]);
+                    if (isSplitted) {
+                        if (Z.Util.isArray(hole)) {
+                            points[0].push(hole[0]);
+                            points[1].push(hole[1]);
+                        } else {
+                            points[0].push(hole);
+                        }
+                    } else {
+                        holePoints.push(hole);
+                    }
+
                 }
             }
             var resource =  {
                 'fn' : Z.Canvas.polygon,
-                'context' : [[points].concat(holePoints)]
+                'context' : [isSplitted ? points : [points].concat(holePoints)]
             };
             return resource;
         }
@@ -21283,7 +21372,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
                   * @property {maptalks.Point} viewPoint       - view point of the event
                   * @property {Event} domEvent                 - dom event
                   */
-                 'touchend ',
+                 'touchend',
 
     _registerDOMEvents: function (dom) {
         Z.DomUtil.on(dom, this._domEvents, this._onDomEvents, this);
@@ -21329,8 +21418,8 @@ Z.ui.UIMarker.Drag = Z.Handler.extend(/** @lends maptalks.ui.UIMarker.Drag.proto
             return;
         }
         this.target.on('click', this._endDrag, this);
-        this._preCoordDragged = param['coordinate'];
-        this._prepareMap();
+        this._lastPos = param['coordinate'];
+
         this._prepareDragHandler();
         this._dragHandler.onMouseDown(param['domEvent']);
         /**
@@ -21347,46 +21436,37 @@ Z.ui.UIMarker.Drag = Z.Handler.extend(/** @lends maptalks.ui.UIMarker.Drag.proto
         this.target.fire('dragstart', param);
     },
 
-    _prepareMap:function () {
-        var map = this.target.getMap();
-        this._mapDraggable = map.options['draggable'];
-        map.config({
-            'draggable' : false
-        });
-    },
-
     _prepareDragHandler:function () {
-        var map = this.target.getMap();
-        this._dragHandler = new Z.Handler.Drag(map._panels.mapWrapper || map._containerDOM);
+        this._dragHandler = new Z.Handler.Drag(this.target._getDOM());
+        this._dragHandler.on('mousedown', this._onMouseDown, this);
         this._dragHandler.on('dragging', this._dragging, this);
         this._dragHandler.on('mouseup', this._endDrag, this);
         this._dragHandler.enable();
     },
 
+    _onMouseDown: function (param) {
+        Z.DomUtil.stopPropagation(param['domEvent']);
+    },
+
     _dragging: function (param) {
-        var target = this.target;
-        var map = target.getMap(),
-            eventParam = map._parseEvent(param['domEvent']);
-        var domEvent = eventParam['domEvent'];
+        var target = this.target,
+            map = target.getMap(),
+            eventParam = map._parseEvent(param['domEvent']),
+            domEvent = eventParam['domEvent'];
         if (domEvent.touches && domEvent.touches.length > 1) {
             return;
         }
-
-        if (!this._moved) {
-            this._moved = true;
+        if (!this._isDragging) {
             this._isDragging = true;
             return;
         }
-
-        var currentCoord = eventParam['coordinate'];
-        if (!this._preCoordDragged) {
-            this._preCoordDragged = currentCoord;
+        var currentPos = eventParam['coordinate'];
+        if (!this._lastPos) {
+            this._lastPos = currentPos;
         }
-        var dragOffset = currentCoord.substract(this._preCoordDragged);
-        this._preCoordDragged = currentCoord;
-
+        var dragOffset = currentPos.substract(this._lastPos);
+        this._lastPos = currentPos;
         this.target.setCoordinates(this.target.getCoordinates().add(dragOffset));
-
         eventParam['dragOffset'] = dragOffset;
 
         /**
@@ -21412,25 +21492,12 @@ Z.ui.UIMarker.Drag = Z.Handler.extend(/** @lends maptalks.ui.UIMarker.Drag.proto
             this._dragHandler.disable();
             delete this._dragHandler;
         }
+        delete this._lastPos;
+        this._isDragging = false;
         if (!map) {
             return;
         }
-        var eventParam;
-        if (map) {
-            eventParam = map._parseEvent(param['domEvent']);
-        }
-
-        delete this._preCoordDragged;
-
-        if (Z.Util.isNil(this._mapDraggable)) {
-            this._mapDraggable = true;
-        }
-        map.config({
-            'draggable': this._mapDraggable
-        });
-
-        delete this._mapDraggable;
-        this._isDragging = false;
+        var eventParam = map._parseEvent(param['domEvent']);
         /**
          * dragend event
          * @event maptalks.ui.UIMarker#dragend
@@ -22354,6 +22421,10 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
     },
 
     initialize: function (options) {
+        if (options && options['position']) {
+            var p = Z.Util.extend({}, options['position']);
+            options['position'] = p;
+        }
         Z.Util.setOptions(this, options);
     },
 
@@ -22699,17 +22770,11 @@ Z.control.Attribution = Z.Control.extend(/** @lends maptalks.control.Attribution
             'bottom': '0',
             'right': '0'
         },
-        'defaultContent' : '<a href="http://www.maptalks.org" target="_blank" style="text-decoration:none;cursor: pointer;color: #6490C4; ">Powered By Maptalks</a>'
+        'content' : '<a href="http://www.maptalks.org" target="_blank">Powered By MapTalks</a>'
     },
-
-    statics: {
-        'maptalks-control-attribution-bg' : 'display: inline-block; background-color: #FAF7F5; opacity: 0.8;'
-    },
-
 
     buildOn: function () {
-        this._attributionContainer = Z.DomUtil.createEl('div');
-        Z.DomUtil.setStyle(this._attributionContainer, Z.control.Attribution['maptalks-control-attribution-bg']);
+        this._attributionContainer = Z.DomUtil.createEl('div', 'maptalks-attribution');
         this._update();
         return this._attributionContainer;
     },
@@ -22964,15 +23029,20 @@ Z.control.Panel = Z.Control.extend(/** @lends maptalks.control.Panel.prototype *
 
         this.draggable = new Z.Handler.Drag(dom);
 
-        this.draggable.on('dragstart', this._onDragStart, this);
-        this.draggable.on('dragging', this._onDragging, this);
-        this.draggable.on('dragend', this._onDragEnd, this);
+        this.draggable.on('mousedown', this._onMouseDown, this)
+            .on('dragstart', this._onDragStart, this)
+            .on('dragging', this._onDragging, this)
+            .on('dragend', this._onDragEnd, this);
 
         if (this.options['draggable']) {
             this.draggable.enable();
         }
 
         return dom;
+    },
+
+    _onMouseDown: function (param) {
+        Z.DomUtil.stopPropagation(param['domEvent']);
     },
 
     _onDragStart:function (param) {
