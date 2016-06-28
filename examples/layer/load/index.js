@@ -7,3 +7,9 @@ var map = new maptalks.Map('map', {
     subdomains: $(subdomains)
   })
 });
+
+var marker = new maptalks.Marker([121.487542, 31.239812]);
+
+var layer = new maptalks.VectorLayer('vector')
+    .addGeometry(marker)
+    .addTo(map);

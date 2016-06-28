@@ -1,3 +1,5 @@
+'use strict';
+
 var path = require('path');
 var gulp = require('gulp');
 var rename = require('gulp-rename');
@@ -5,6 +7,7 @@ var metalsmith = require('gulp-metalsmith');
 var layouts = require('metalsmith-layouts');
 var drafts = require('metalsmith-drafts');
 var define = require('metalsmith-define');
+var connect = require('gulp-connect');
 
 var markupRegex = /([^\/^\.]*)\.html$/;
 var locale = process.env.locale || 'en';
@@ -100,8 +103,8 @@ function processDemo (files, metalsmith, done) {
   }
 }
 
-gulp.task('examples-raw', function () {
-  return gulp.src('examples/**/*.{html,js,css}')
+gulp.task('examples-raw', ['resource-copy'], function () {
+  return gulp.src('examples/**/index.{html,js,css}')
     .pipe(metalsmith({
       use: [
         drafts(),
@@ -110,6 +113,15 @@ gulp.task('examples-raw', function () {
         layouts({engine: 'handlebars', directory: 'layouts/raw'})
       ]
     }))
+    .pipe(rename(function (path) {
+      path.dirname += '/raw';
+      return path;
+    }))
+    .pipe(gulp.dest(path.join('dist/examples', locale)));
+});
+
+gulp.task('resource-copy', function () {
+  return gulp.src('examples/**/!(index).{js,json}')
     .pipe(rename(function (path) {
       path.dirname += '/raw';
       return path;
@@ -135,4 +147,16 @@ gulp.task('examples', ['examples-raw', 'examples-demo'], function () {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', ['examples']);
+gulp.task('watch', ['examples'], function () {
+  var scriptWatcher = gulp.watch(['./examples/**/*', './assets/**/*', './layouts/**/*'], ['examples']); // watch the same files in our scripts task
+});
+
+gulp.task('connect',['watch'], function() {
+  connect.server({
+        root: 'dist',
+        livereload: true,
+        port: 20001
+    });
+});
+
+gulp.task('default', ['connect']);

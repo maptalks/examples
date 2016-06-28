@@ -7,3 +7,10 @@ var map = new maptalks.Map('map', {
     subdomains: $(subdomains)
   })
 });
+
+var zoom = map.getZoom(),
+  extent = map.getExtent();
+
+map.setMinZoom(zoom - 2);
+map.setMaxZoom(zoom + 1);
+map.setMaxExtent(extent);
