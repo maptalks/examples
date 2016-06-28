@@ -1,8 +1,8 @@
 
-var map = new maptalks.Map("map", {
+var map = new maptalks.Map('map', {
   center: [121.48542888885189, 31.228541533313702],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer("base", {
+  baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains)
   })
@@ -16,25 +16,25 @@ map.addLayer(layer);
 layer.addGeometry(marker);
 
 function fly(type) {
-    var offset = getFlyOffset(type);
-    marker.animate({
-            translate:[offset['x'], offset['y']]
-        },
-        {
-            speed: 2000
-        });
+  var offset = getFlyOffset(type);
+  marker.animate({
+    translate:[offset['x'], offset['y']]
+  },
+    {
+      speed: 2000
+    });
 }
 
 function getFlyOffset(type) {
-    var winHeight = document.body.clientHeight;
-    var offsetPoint = new maptalks.Point(0, -winHeight);
-    var sourcePoint = map.coordinateToViewPoint(coordinate);
-    var point = sourcePoint.add(offsetPoint);
-    var startOrStopPoint = map.viewPointToCoordinate(point);
-    var offset = startOrStopPoint.substract(coordinate);
-    if(type === 'flyIn') {
-        marker.setCoordinates(startOrStopPoint);
-        offset = coordinate.substract(startOrStopPoint);
-    }
-    return offset
+  var winHeight = document.body.clientHeight;
+  var offsetPoint = new maptalks.Point(0, -winHeight);
+  var sourcePoint = map.coordinateToViewPoint(coordinate);
+  var point = sourcePoint.add(offsetPoint);
+  var startOrStopPoint = map.viewPointToCoordinate(point);
+  var offset = startOrStopPoint.substract(coordinate);
+  if (type === 'flyIn') {
+    marker.setCoordinates(startOrStopPoint);
+    offset = coordinate.substract(startOrStopPoint);
+  }
+  return offset;
 }
