@@ -1,8 +1,11 @@
+/* eslint-env phantomjs */
+/* eslint no-extend-native: 0, space-before-function-paren: 0 */
+
 var fs = require('fs');
 var webpage = require('webpage');
 var args = require('system').args;
 
-if (args.length != 2) {
+if (args.length !== 2) {
   phantom.exit(2);
 }
 
@@ -41,20 +44,34 @@ function list(dir) {
   return files;
 }
 
+function asyncEach(iterableList, callback, done) {
+  var i = -1, length = iterableList.length;
+
+  function loop() {
+    i++;
+    if (i === length) {
+      done();
+      return;
+    }
+    callback(iterableList[i], loop);
+  }
+  loop();
+}
+
 function report(file, errorString) {
   if (errorString) {
-    console.log('\tFAILED: ' + file);
-    console.log('\t' + errorString);
+    console.log('  FAILED: ' + file);
+    console.log('  ' + errorString);
   } else {
-    console.log('\tSUCCESS: ' + file);
+    console.log('  SUCCESS: ' + file);
   }
 }
 
-function atexit() {
+function exit() {
   phantom.exit();
 }
 
-function check(file, idx, total) {
+function check(file, next) {
   var page = webpage.create();
 
   page.onError = function(msg, trace) {
@@ -63,11 +80,13 @@ function check(file, idx, total) {
     if (trace && trace.length) {
       msgStack.push('TRACE:');
       trace.forEach(function(t) {
-        msgStack.push(' -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function +'")' : ''));
+        msgStack.push(' -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function + '")' : ''));
       });
     }
 
     report(file, msgStack.join('\n'));
+
+    next();
   };
 
   page.open(file, function(status) {
@@ -76,20 +95,20 @@ function check(file, idx, total) {
     } else {
       report(file);
     }
-    if (idx === total - 1) {
-      atexit();
-    }
+
+    next();
   });
+
 }
 
 if (!fs.exists(demoRootPath)) {
   var path = fs.absolute(demoRootPath);
   console.log('demoRootPath: "' + path + '" not exists.');
-  atexit();
+  exit();
 }
 
-var files = list(demoRootPath);
-files.forEach(function(file, idx) {
-  if (!file.endsWith('.html')) return;
-  check(file, idx, files.length - 1);
+var files = list(demoRootPath).filter(function(file) {
+  return file.endsWith('.html');
 });
+
+asyncEach(files, check, exit);
