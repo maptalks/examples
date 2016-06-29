@@ -46,11 +46,15 @@ function list(dir) {
 
 function asyncEach(iterableList, callback, done) {
   var i = -1, length = iterableList.length;
+  var status = true;
 
-  function loop() {
+  function loop(pass) {
+    if (pass === false && status) {
+      status = false;
+    }
     i++;
     if (i === length) {
-      done();
+      done(status);
       return;
     }
     callback(iterableList[i], loop);
@@ -67,8 +71,9 @@ function report(file, errorString) {
   }
 }
 
-function exit() {
-  phantom.exit();
+function exit(status) {
+  var code = status === false ? 1 : 0;
+  phantom.exit(code);
 }
 
 function check(file, next) {
@@ -86,17 +91,17 @@ function check(file, next) {
 
     report(file, msgStack.join('\n'));
 
-    next();
+    next(false);
   };
 
   page.open(file, function(status) {
     if (status !== 'success') {
       report(file, status);
+      next(false);
     } else {
       report(file);
+      next();
     }
-
-    next();
   });
 
 }
