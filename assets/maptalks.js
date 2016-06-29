@@ -19765,7 +19765,8 @@ Z.symbolizer.VectorMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
 
 Z.symbolizer.VectorMarkerSymbolizer.translateLineAndFill = function (s) {
     var result = {
-        'lineColor' : s['markerLineColor'] || s['markerLinePatternFile'],
+        'lineColor' : s['markerLineColor'],
+        'linePatternFile' : s['markerLinePatternFile'],
         'lineWidth' : s['markerLineWidth'],
         'lineOpacity' : s['markerLineOpacity'],
         'lineDasharray': null,
