@@ -1,3 +1,4 @@
+/* eslint global-require: 0 */
 var path = require('path');
 var gulp = require('gulp');
 var rename = require('gulp-rename');
@@ -13,34 +14,33 @@ var locale = process.env.locale || 'en';
 var defines = define({
   'urls': {
     'zh': {
-      'urlTemplate': 'http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}',
+      'urlTemplate' : 'http://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
       'subdomains': '[1, 2, 3, 4]'
     },
     'en': {
-      'urlTemplate' : 'http://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
       'urlTemplate': 'http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}',
       'subdomains': '[1, 2, 3, 4]'
     }
   }
 });
 
-function readExamplesInfo () {
+function readExamplesInfo() {
   var json = require('./examples/examples.json');
   var items = json.examples[0];
-  var count = Math.floor(items.length/3);
+  var count = Math.floor(items.length / 3);
   var info = {};
   var i, j, order = 0;
   for (i = 0; i < count; i++) {
-    var ibase = i*3;
-    var subItems = items[ibase+2];
-    var subCount = Math.floor(subItems.length/2);
+    var ibase = i * 3;
+    var subItems = items[ibase + 2];
+    var subCount = Math.floor(subItems.length / 2);
     for (j = 0; j < subCount; j++) {
       order++;
-      var jbase = j*2;
+      var jbase = j * 2;
       var key = path.join(items[ibase], subItems[jbase]);
       info[key] = {
-        'category': items[ibase+1],
-        'title': subItems[jbase+1],
+        'category': items[ibase + 1],
+        'title': subItems[jbase + 1],
         'order': order
       };
     }
@@ -48,7 +48,7 @@ function readExamplesInfo () {
   return info;
 }
 
-function processSingleFile (file, filepath, files, metadata) {
+function processSingleFile(file, filepath, files, metadata) {
   var basename = path.basename(filepath);
   var match = basename.match(markupRegex);
   if (!match) return;
@@ -84,7 +84,7 @@ function processSingleFile (file, filepath, files, metadata) {
   }
 }
 
-function processRaw (files, metalsmith, done) {
+function processRaw(files, metalsmith, done) {
   setImmediate(done);
   for (var filepath in files) {
     var file = files[filepath];
@@ -92,7 +92,7 @@ function processRaw (files, metalsmith, done) {
   }
 }
 
-function processDemo (files, metalsmith, done) {
+function processDemo(files, metalsmith, done) {
   setImmediate(done);
   for (var filepath in files) {
     var file = files[filepath];
@@ -150,12 +150,12 @@ gulp.task('watch', ['examples'], function () {
   var scriptWatcher = gulp.watch(['./examples/**/*', './assets/**/*', './layouts/**/*'], ['examples']); // watch the same files in our scripts task
 });
 
-gulp.task('connect',['watch'], function() {
+gulp.task('connect', ['watch'], function () {
   connect.server({
-        root: 'dist',
-        livereload: true,
-        port: 20001
-    });
+    root: 'dist',
+    livereload: true,
+    port: 20001
+  });
 });
 
 gulp.task('default', ['connect']);
