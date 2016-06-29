@@ -102,6 +102,17 @@ function processDemo(files, metalsmith, done) {
   }
 }
 
+function indentHelper(text, options) {
+  if (!text) {
+    return text;
+  }
+  var count = options.hash.spaces || 2;
+  var spaces = new Array(count + 1).join(' ');
+  return text.split('\n').map(function (line) {
+    return line ? spaces + line : '';
+  }).join('\n');
+}
+
 gulp.task('examples-raw', ['resource-copy'], function () {
   return gulp.src('examples/**/index.{html,js,css}')
     .pipe(metalsmith({
@@ -109,7 +120,12 @@ gulp.task('examples-raw', ['resource-copy'], function () {
         drafts(),
         defines,
         processRaw,
-        layouts({engine: 'handlebars', directory: 'layouts/raw'})
+        layouts({
+          engine: 'handlebars',
+          directory: 'layouts/raw',
+          helpers: {
+            indent: indentHelper
+          }})
       ]
     }))
     .pipe(rename(function (path) {
