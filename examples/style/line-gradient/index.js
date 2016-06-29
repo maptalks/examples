@@ -24,8 +24,7 @@ var line = new maptalks.LineString([[121.485428, 31.228541],[121.496428, 31.2285
             ]
         },
         'lineWidth' : 10,
-        'lineOpacity' : 1,
-        'polygonOpacity' : 0
+        'lineOpacity' : 1
     }
 });
 layer.addGeometry(line);
@@ -42,8 +41,7 @@ var line1 = new maptalks.LineString([[121.485428, 31.218541],[121.506428, 31.218
             ]
         },
         'lineWidth' : 10,
-        'lineOpacity' : 1,
-        'polygonOpacity' : 0
+        'lineOpacity' : 1
     }
 });
 layer.addGeometry(line1);
