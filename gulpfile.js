@@ -119,7 +119,7 @@ gulp.task('examples-raw', ['resource-copy'], function () {
 });
 
 gulp.task('resource-copy', function () {
-  return gulp.src('examples/**/!(index).{js,json}')
+  return gulp.src('examples/**/!(index.js|index.css|index.html)')
     .pipe(rename(function (path) {
       path.dirname += '/raw';
       return path;
