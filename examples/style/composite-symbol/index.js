@@ -11,15 +11,15 @@ var map = new maptalks.Map('map', {
 var layer = new maptalks.VectorLayer('vector');
 map.addLayer(layer);
 
-var line = new maptalks.LineString([[121.485428, 31.228541],[121.496428, 31.228541]], {
-    symbol:[{
-        'lineColor' : '#ffffff',
-        'lineWidth' : 3,
-        'lineOpacity' : 1
-    },{
-        'lineColor' : '#6fa8dc',
-        'lineWidth' : 10,
-        'lineOpacity' : 1
-    }]
+var line = new maptalks.LineString([[121.485428, 31.228541], [121.496428, 31.228541]], {
+  symbol:[{
+    'lineColor' : '#ffffff',
+    'lineWidth' : 3,
+    'lineOpacity' : 1
+  }, {
+    'lineColor' : '#6fa8dc',
+    'lineWidth' : 10,
+    'lineOpacity' : 1
+  }]
 });
 layer.addGeometry(line);

@@ -11,11 +11,11 @@ var map = new maptalks.Map('map', {
 var layer = new maptalks.VectorLayer('vector');
 map.addLayer(layer);
 
-var line = new maptalks.LineString([[121.485428, 31.228541],[121.496428, 31.228541]], {
-      symbol:{
-          'linePatternFile' : 'http://icons.iconarchive.com/icons/icons-land/vista-map-markers/32/Map-Marker-Marker-Outside-Azure-icon.png',
-          'lineOpacity' : 1,
-          'lineWidth' : 20
-      }
+var line = new maptalks.LineString([[121.485428, 31.228541], [121.496428, 31.228541]], {
+  symbol:{
+    'linePatternFile' : 'http://icons.iconarchive.com/icons/icons-land/vista-map-markers/32/Map-Marker-Marker-Outside-Azure-icon.png',
+    'lineOpacity' : 1,
+    'lineWidth' : 20
+  }
 });
 layer.addGeometry(line);

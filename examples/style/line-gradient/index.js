@@ -11,37 +11,37 @@ var map = new maptalks.Map('map', {
 var layer = new maptalks.VectorLayer('vector');
 map.addLayer(layer);
 
-var line = new maptalks.LineString([[121.485428, 31.228541],[121.496428, 31.228541]], {
-    symbol:{
-        'lineColor' : {
-            type : 'linear',
-            colorStops : [
+var line = new maptalks.LineString([[121.485428, 31.228541], [121.496428, 31.228541]], {
+  symbol:{
+    'lineColor' : {
+      type : 'linear',
+      colorStops : [
                 [0.00, 'red'],
                 [1 / 4, 'orange'],
                 [2 / 4, 'green'],
                 [3 / 4, 'aqua'],
-                [1.00, 'white'],
-            ]
-        },
-        'lineWidth' : 10,
-        'lineOpacity' : 1
-    }
+                [1.00, 'white']
+      ]
+    },
+    'lineWidth' : 10,
+    'lineOpacity' : 1
+  }
 });
 layer.addGeometry(line);
 
-var line1 = new maptalks.LineString([[121.485428, 31.218541],[121.506428, 31.218541]], {
-    symbol:{
-        'lineColor' : {
-            type : 'radial',
-            colorStops : [
+var line1 = new maptalks.LineString([[121.485428, 31.218541], [121.506428, 31.218541]], {
+  symbol:{
+    'lineColor' : {
+      type : 'radial',
+      colorStops : [
                 [0.00, 'red'],
                 [1 / 3, 'orange'],
                 [2 / 3, 'green'],
-                [1.00, 'white'],
-            ]
-        },
-        'lineWidth' : 10,
-        'lineOpacity' : 1
-    }
+                [1.00, 'white']
+      ]
+    },
+    'lineWidth' : 10,
+    'lineOpacity' : 1
+  }
 });
 layer.addGeometry(line1);

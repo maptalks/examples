@@ -11,10 +11,10 @@ var map = new maptalks.Map('map', {
 var layer = new maptalks.VectorLayer('vector');
 map.addLayer(layer);
 var symbol = {
-    'textName'          : 'TEXT MARKER',
-    'textFaceName'      : 'monospace',
-    'textSize'          : 12,
-    'textFill'          : '#6fa8dc'
+  'textName'          : 'TEXT MARKER',
+  'textFaceName'      : 'monospace',
+  'textSize'          : 12,
+  'textFill'          : '#6fa8dc'
 };
 var geometry = new maptalks.Marker([121.485428, 31.228541], {'symbol' : symbol});
 layer.addGeometry(geometry);

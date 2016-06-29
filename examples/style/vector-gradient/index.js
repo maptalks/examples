@@ -12,23 +12,23 @@ var layer = new maptalks.VectorLayer('vector');
 map.addLayer(layer);
 
 var vector = new maptalks.Marker([121.485428, 31.228541], {
-    symbol:{
-          'markerType' : 'ellipse',
-          'markerFillColor' : {
-              type : 'linear',
-              colorStops : [
+  symbol:{
+    'markerType' : 'ellipse',
+    'markerFillColor' : {
+      type : 'linear',
+      colorStops : [
                   [0.00, 'red'],
                   [1 / 6, 'orange'],
                   [2 / 6, 'yellow'],
                   [3 / 6, 'green'],
                   [4 / 6, 'aqua'],
                   [5 / 6, 'blue'],
-                  [1.00, 'white'],
-              ]
-          },
-          'markerFillOpacity' : 1,
-          'markerWidth' : 100,
-          'markerHeight' : 100
-      }
+                  [1.00, 'white']
+      ]
+    },
+    'markerFillOpacity' : 1,
+    'markerWidth' : 100,
+    'markerHeight' : 100
+  }
 });
 layer.addGeometry(vector);

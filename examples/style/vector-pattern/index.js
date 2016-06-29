@@ -12,12 +12,12 @@ var layer = new maptalks.VectorLayer('vector');
 map.addLayer(layer);
 
 var vector = new maptalks.Marker([121.485428, 31.228541], {
-    symbol:{
-        'markerType' : 'ellipse',
-        'markerFillPatternFile' : 'http://icons.iconarchive.com/icons/icons-land/vista-map-markers/32/Map-Marker-Marker-Outside-Azure-icon.png',
-        'markerFillOpacity': 1,
-        'markerWidth' : 100,
-        'markerHeight' : 100
-    }
+  symbol:{
+    'markerType' : 'ellipse',
+    'markerFillPatternFile' : 'http://icons.iconarchive.com/icons/icons-land/vista-map-markers/32/Map-Marker-Marker-Outside-Azure-icon.png',
+    'markerFillOpacity': 1,
+    'markerWidth' : 100,
+    'markerHeight' : 100
+  }
 });
 layer.addGeometry(vector);
