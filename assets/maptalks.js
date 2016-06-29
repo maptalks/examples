@@ -7106,10 +7106,6 @@ Z.TileSystem.getDefault = function (projection) {
  */
 Z.TileConfig = Z.Class.extend(/** @lends maptalks.TileConfig.prototype */{
 
-    statics : {
-
-    },
-
         //根据不同的语言定义不同的错误信息
     exceptionDefs:{
         'en-US':{
@@ -11375,7 +11371,7 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
 Z.LineString = Z.Polyline = Z.Vector.extend(/** @lends maptalks.LineString.prototype */{
     includes:[Z.Geometry.Poly],
 
-    type:Z.Geometry['TYPE_LINESTRING'],
+    type: "LineString",
 
     /**
     * @property {Object} [options=null] - specific construct options for LineString, also support options defined in [Vector]{@link maptalks.Vector#options} and [Geometry]{@link maptalks.Geometry#options}
@@ -19775,7 +19771,8 @@ Z.symbolizer.VectorMarkerSymbolizer.translateLineAndFill = function (s) {
         'lineDasharray': null,
         'lineCap' : 'butt',
         'lineJoin' : 'round',
-        'polygonFill' : s['markerFill'] || s['markerFillPatternFile'],
+        'polygonFill' : s['markerFill'],
+        'polygonPatternFile' : s['markerFillPatternFile'],
         'polygonOpacity' : s['markerFillOpacity']
     };
     if (result['lineWidth'] === 0) {
@@ -20825,13 +20822,13 @@ Z.ui = {};
  * Some instance methods subclasses needs to implement:
  *
  * 1. Optional, UI Dom's pixel offset from UI's coordinate
- * function _getDomOffset : maptalks.Point
+ * function getOffset : maptalks.Point
  *
  * 2. Method to create UI's Dom element
- * function _createDOM : HTMLElement
+ * function buildOn : HTMLElement
  *
  * 3 Optional, to provide an event map to register event listeners.
- * function _getEvents : void
+ * function getEvents : void
  *
  * @class
  * @category ui
@@ -20894,18 +20891,18 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
             throw new Error('UI\'s show coordinate is invalid');
         }
         this.fire('showstart');
+        var map = this.getMap(),
+            container = this._getUIContainer();
         if (!this.__uiDOM) {
             this._switchEvents('on');
         }
         this._coordinate = coordinate;
         this._removePrevDOM();
-        var dom = this.__uiDOM = this._createDOM();
+        var dom = this.__uiDOM = this.buildOn(map);
         if (!dom) {
             this.fire('showend');
             return this;
         }
-        var map = this.getMap(),
-            container = this._getUIContainer();
 
         this._measureSize(dom);
 
@@ -20990,8 +20987,8 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
     _getPosition : function () {
         var p = this.getMap().coordinateToViewPoint(this._coordinate)
                     ._add(this.options['dx'], this.options['dy']);
-        if (this._getDomOffset) {
-            var o = this._getDomOffset();
+        if (this.getOffset) {
+            var o = this.getOffset();
             if (o) { p._add(o); }
         }
         return p;
@@ -21102,8 +21099,8 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
 
     _switchEvents: function (to) {
         var events = this._getDefaultEvents();
-        if (this._getEvents) {
-            Z.Util.extend(events, this._getEvents());
+        if (this.getEvents) {
+            Z.Util.extend(events, this.getEvents());
         }
         if (events) {
             var map = this.getMap();
@@ -21130,8 +21127,8 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
             point = this.getMap().coordinateToViewPoint(this._coordinate),
             matrix = param['matrix']['view'];
         var p = matrix.applyToPointInstance(point)._add(this.options['dx'], this.options['dy']);
-        if (this._getDomOffset) {
-            var o = this._getDomOffset();
+        if (this.getOffset) {
+            var o = this.getOffset();
             if (o) { p._add(o); }
         }
         dom.style.left = p.x + 'px';
@@ -21207,12 +21204,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
         return Z.ui.UIComponent.prototype.show.call(this, coordinates || this._markerCoord);
     },
 
-    _getDomOffset: function () {
-        var size = this.getSize();
-        return new Z.Point(-size['width'] / 2, -size['height'] / 2);
-    },
-
-    _createDOM: function () {
+    buildOn: function () {
         var dom;
         if (Z.Util.isString(this.options['content'])) {
             dom = Z.DomUtil.createEl('div');
@@ -21222,6 +21214,11 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
         }
         this._registerDOMEvents(dom);
         return dom;
+    },
+
+    getOffset: function () {
+        var size = this.getSize();
+        return new Z.Point(-size['width'] / 2, -size['height'] / 2);
     },
 
     _onDOMRemove: function () {
@@ -21614,7 +21611,7 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
         return this.options['title'];
     },
 
-    _createDOM: function () {
+    buildOn: function () {
         var dom;
         if (this.options['custom']) {
             if (Z.Util.isString(this.options['content'])) {
@@ -21639,7 +21636,7 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
         }
     },
 
-    _getDomOffset:function () {
+    getOffset:function () {
         var size = this.getSize();
         var o = new Z.Point(-size['width'] / 2, -size['height'])._add(-4, -12);
         if (this.getOwner() instanceof Z.Marker) {
@@ -21718,7 +21715,7 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
             return this.options['items'];
         },
 
-        _createDOM:function () {
+        buildOn:function () {
             if (this.options['custom']) {
                 if (Z.Util.isString(this.options['items'])) {
                     var container = Z.DomUtil.createEl('div');
@@ -21745,8 +21742,14 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
          * @return {maptalks.Point} offset
          * @private
          */
-        _getDomOffset:function () {
+        getOffset:function () {
             return new Z.Point(-17, 10);
+        },
+
+        getEvents: function () {
+            return {
+                '_zoomstart _zoomend _movestart _dblclick _click' : this.hide
+            };
         },
 
         _createMenuItemDom: function () {
@@ -21787,12 +21790,6 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
                 width = defaultWidth;
             }
             return width;
-        },
-
-        _getEvents: function () {
-            return {
-                '_zoomstart _zoomend _movestart _dblclick _click' : this.hide
-            };
         }
     });
 
@@ -22456,7 +22453,7 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
          * @property {String} type - add
          * @property {maptalks.Control} target - the control instance
          */
-        this.fire('add');
+        this.fire('add', {'dom' : controlContainer});
         return this;
     },
 
@@ -22871,12 +22868,6 @@ Z.control.Scale = Z.Control.extend(/** @lends maptalks.control.Scale.prototype *
         'imperial': false
     },
 
-    statics: {
-        'maptalks-control-scale' : 'border: 2px solid #000000;border-top: none;line-height: 1.1;padding: 2px 5px 1px;' +
-                          'color: #000000;font-size: 11px;text-align:center;white-space: nowrap;overflow: hidden' +
-                          ';-moz-box-sizing: content-box;box-sizing: content-box;background: #fff; background: rgba(255, 255, 255, 0);'
-    },
-
     buildOn: function (map) {
         this._map = map;
         this._scaleContainer = Z.DomUtil.createEl('div');
@@ -22894,11 +22885,14 @@ Z.control.Scale = Z.Control.extend(/** @lends maptalks.control.Scale.prototype *
     },
 
     _addScales: function () {
+        var css = 'border: 2px solid #000000;border-top: none;line-height: 1.1;padding: 2px 5px 1px;' +
+                          'color: #000000;font-size: 11px;text-align:center;white-space: nowrap;overflow: hidden' +
+                          ';-moz-box-sizing: content-box;box-sizing: content-box;background: #fff; background: rgba(255, 255, 255, 0);';
         if (this.options['metric']) {
-            this._mScale = Z.DomUtil.createElOn('div', Z.control.Scale['maptalks-control-scale'], this._scaleContainer);
+            this._mScale = Z.DomUtil.createElOn('div', css, this._scaleContainer);
         }
         if (this.options['imperial']) {
-            this._iScale = Z.DomUtil.createElOn('div', Z.control.Scale['maptalks-control-scale'], this._scaleContainer);
+            this._iScale = Z.DomUtil.createElOn('div', css, this._scaleContainer);
         }
     },
 
