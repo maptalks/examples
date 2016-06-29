@@ -14,7 +14,7 @@ map.addLayer(layer);
 var vector = new maptalks.Marker([121.485428, 31.228541], {
   symbol:{
     'markerType' : 'ellipse',
-    'markerFillColor' : {
+    'markerFill' : {
       type : 'linear',
       colorStops : [
                   [0.00, 'red'],

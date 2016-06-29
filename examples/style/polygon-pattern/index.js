@@ -14,7 +14,7 @@ map.addLayer(layer);
 var rect = new maptalks.Rectangle([121.485428, 31.228541], 1000, 800, {
   symbol:{
     'lineColor' : '#6fa8dc',
-    'polygonPatternFile' : 'http://icons.iconarchive.com/icons/icons-land/vista-map-markers/32/Map-Marker-Marker-Outside-Azure-icon.png',
+    'polygonPatternFile' : 'marker.png',
     'polygonOpacity' : 1
   }
 });
