@@ -9,13 +9,13 @@ var map = new maptalks.Map('map', {
 });
 
 var json = {
-  "type": "Feature",
-  "geometry": {
-    "type": "Point",
-    "coordinates": [121.485428, 31.228541],
+  'type': 'Feature',
+  'geometry': {
+    'type': 'Point',
+    'coordinates': [121.485428, 31.228541]
   },
-  "properties": {
-    "name": "point marker"
+  'properties': {
+    'name': 'point marker'
   }
 };
 var marker = maptalks.GeoJSON.toGeometry(json);

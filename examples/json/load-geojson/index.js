@@ -10,16 +10,16 @@ var map = new maptalks.Map('map', {
 
 var geoJSONs = [
 
-        { "type": "Point", "coordinates": [121.485428, 31.228541] },
-        {
-            "type": "LineString",
-            "coordinates": [[121.485428, 31.238541], [121.475428, 31.238541] ]
-        },
-        {
-            "type": "Polygon",
-            "coordinates": [
+        {'type': 'Point', 'coordinates': [121.485428, 31.228541]},
+  {
+    'type': 'LineString',
+    'coordinates': [[121.485428, 31.238541], [121.475428, 31.238541]]
+  },
+  {
+    'type': 'Polygon',
+    'coordinates': [
                 [121.485428, 31.221541], [121.475428, 31.218541],  [121.475428, 31.211541], [121.485428, 31.221541]
-            ]
-        }
-    ];
+    ]
+  }
+];
 var layer = new maptalks.GeoJSONLayer('vector', geoJSONs).addTo(map);

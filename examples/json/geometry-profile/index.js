@@ -21,4 +21,4 @@ var map1 = new maptalks.Map('map1', {
   })
 });
 var newLayer = new maptalks.VectorLayer('vector').addTo(map1);
-var marker = maptalks.Geometry.fromJSON(rect.toJSON()).addTo(newLayer);
+maptalks.Geometry.fromJSON(rect.toJSON()).addTo(newLayer);
