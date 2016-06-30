@@ -8,12 +8,12 @@ body {
 
 #map {
     float:left;
-    width: 60%;
+    width: 50%;
     height: 100%;
 }
 
-#info {
-    float:right;
-    padding : 20px;
+#map1 {
+    float:left;
+    width: 50%;
     height: 100%;
 }
