@@ -8,12 +8,18 @@ var map = new maptalks.Map('map', {
   })
 });
 
+var geoJSONs = [
 
-var layer = new maptalks.VectorLayer('vector').addTo(map);
-var marker = new maptalks.Marker([121.485428, 31.228541],{
-  "properties": {
-    "name": "point marker"
-  }
-});
-layer.addGeometry(marker);
-document.getElementById('jsonStr').innerHTML = JSON.stringify(marker.toGeoJSON());
+        { "type": "Point", "coordinates": [121.485428, 31.228541] },
+        {
+            "type": "LineString",
+            "coordinates": [[121.485428, 31.238541], [121.475428, 31.238541] ]
+        },
+        {
+            "type": "Polygon",
+            "coordinates": [
+                [121.485428, 31.221541], [121.475428, 31.218541],  [121.475428, 31.211541], [121.485428, 31.221541]
+            ]
+        }
+    ];
+var layer = new maptalks.GeoJSONLayer('vector', geoJSONs).addTo(map);
