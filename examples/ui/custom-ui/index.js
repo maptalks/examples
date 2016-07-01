@@ -5,7 +5,7 @@ var myUI = maptalks.ui.UIComponent.extend({
     'content'  : 'UI Component'
   },
 
-  _createDOM: function (map) {
+  buildOn: function (map) {
     var dom = maptalks.DomUtil.createEl('div', 'my-ui');
     dom.innerText = this.options['content'];
     this._dom = dom;
