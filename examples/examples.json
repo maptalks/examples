@@ -121,6 +121,7 @@
       "advance", {"zh" : "进阶技巧", "en" : "Tricks"},
       [
         "animation", {"zh" : "动画", "en" : "Animations"},
+        "geo-animation", {"zh" : "为Geometry设置动画", "en" : "Set animation for geometry."},
         "in-out", {"zh" : "飞入/飞出图形", "en" : "Set the geometry to fly in and out of the animation"}
       ],
 
