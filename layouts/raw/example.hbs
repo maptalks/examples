@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="../../../../../css/maptalks.css">
     <script type="text/javascript" src="../../../../../maptalks.js"></script>
     {{#if css.source}}
-      <style>
-        {{{ css.source }}}
-      </style>
+    <style>
+      {{{ indent css.source spaces=6 }}}
+    </style>
     {{/if}}
     <title>{{ category }} - {{ title }}</title>
   </head>
   <body>
-    {{{ contents }}}
+    {{{ indent contents spaces=4 }}}
     <script>
-      {{{ js.source }}}
+      {{{ indent js.source spaces=6 }}}
     </script>
   </body>
 </html>
