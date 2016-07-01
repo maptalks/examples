@@ -9,7 +9,7 @@ var map = new maptalks.Map('map', {
 });
 
 var marker = new maptalks.Marker([121.487542, 31.225812]);
-var polyline = new maptalks.Polyline([
+var polyline = new maptalks.LineString([
   [121.471234, 31.211879], [121.493355, 31.221321]
 ], {
   symbol: {
