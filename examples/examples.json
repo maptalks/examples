@@ -74,8 +74,12 @@
         "text-marker", {"zh" : "文字标注", "en" : "Text Marker"},
         "vector-marker", {"zh" : "矢量标注", "en" : "Vector Marker"},
         "svg-path-marker", {"zh" : "SVG矢量标注", "en" : "Vector marker by SVG path"},
-        "pattern", {"zh" : "模式填充", "en" : "Pattern fill"},
-        "gradient", {"zh" : "渐变填充", "en" : "Gradient fill"},
+        "line-pattern", {"zh" : "模式填充线", "en" : "Pattern fill line"},
+        "polygon-pattern", {"zh" : "模式填充面", "en" : "Pattern fill polygon"},
+        "vector-pattern", {"zh" : "模式填充矢量图", "en" : "Pattern fill vector"},
+        "line-gradient", {"zh" : "渐变填充线", "en" : "Gradient fill line"},
+        "polygon-gradient", {"zh" : "渐变填充面", "en" : "Gradient fill polygon"},
+        "vector-gradient", {"zh" : "渐变填充矢量图", "en" : "Gradient fill vector"},
         "function-type", {"zh" : "函数类型动态样式", "en" : "Dynamic symbol with function type"},
         "composite-symbol", {"zh" : "多样式渲染", "en" : "Composite symbol"}
       ],
@@ -124,6 +128,7 @@
       "advance", {"zh" : "进阶技巧", "en" : "Tricks"},
       [
         "animation", {"zh" : "动画", "en" : "Animations"},
+        "geo-animation", {"zh" : "为Geometry设置动画", "en" : "Set animation for geometry."},
         "in-out", {"zh" : "飞入/飞出图形", "en" : "Set the geometry to fly in and out of the animation"}
       ],
 
