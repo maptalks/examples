@@ -27,25 +27,10 @@
   <div class="gist-sources">
     <div class="gist-source" data-key="{{ basename }}">
       <h2>{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h2>
-
       <pre>
-          <code class="html xml">{{ contents }}</code>
+        <code class="html xml">{{#embed}}{{> example}}{{/embed}}</code>
       </pre>
     </div>
-    <div class="gist-source" data-key="{{ js.basename }}">
-      <h2>{{ js.basename }}<a name="{{ js.basename }}" class="anchor" href="#{{ js.basename }}">#</a></h2>
-      <pre>
-          <code class="lang-js">{{ js.source }}</code>
-      </pre>
-    </div>
-    {{#if css.source}}
-    <div class="gist-source" data-key="{{ css.basename }}">
-      <h2>{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h2>
-      <pre>
-          <code class="lang-css">{{ css.source }}</code>
-      </pre>
-    </div>
-    {{/if}}
   </div>
   <div class="gist-license">
     <h2>LICENSE<a name="license" class="anchor" href="#license">#</a></h2>

@@ -8,6 +8,8 @@ var drafts = require('metalsmith-drafts');
 var define = require('metalsmith-define');
 var connect = require('gulp-connect');
 
+var handlebars = require('handlebars');
+
 var markupRegex = /([^\/^\.]*)\.html$/;
 var locale = process.env.locale || 'en';
 
@@ -113,6 +115,10 @@ function indentHelper(text, options) {
   }).join('\n');
 }
 
+function embedHelper(options) {
+  return handlebars.Utils.escapeExpression(options.fn(this));
+}
+
 gulp.task('examples-raw', ['resource-copy'], function () {
   return gulp.src('examples/**/index.{html,js,css}')
     .pipe(metalsmith({
@@ -125,7 +131,8 @@ gulp.task('examples-raw', ['resource-copy'], function () {
           directory: 'layouts/raw',
           helpers: {
             indent: indentHelper
-          }})
+          }
+        })
       ]
     }))
     .pipe(rename(function (path) {
@@ -151,7 +158,15 @@ gulp.task('examples-demo', function () {
         drafts(),
         defines,
         processDemo,
-        layouts({engine: 'handlebars', directory: 'layouts'})
+        layouts({
+          engine: 'handlebars',
+          directory: 'layouts',
+          partials: 'layouts/raw',
+          helpers: {
+            indent: indentHelper,
+            embed: embedHelper
+          }
+        })
       ]
     }))
     .pipe(gulp.dest(path.join('dist/examples', locale)));
