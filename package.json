@@ -21,7 +21,7 @@
   "scripts": {
     "check": "phantomjs build/check.js dist/examples",
     "test": "gulp examples && npm run check",
-    "lint" : "eslint examples/**/*.js",
+    "lint" : "eslint examples/**/*.js --fix",
     "pretest" : "npm run lint"
   },
   "repository": {
