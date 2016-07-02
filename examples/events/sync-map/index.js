@@ -22,6 +22,10 @@ var map1 = new maptalks.Map('map1', {
 var layer1 = new maptalks.VectorLayer('vector').addTo(map1);
 var marker1 = new maptalks.Marker([121.485428, 31.228541]).addTo(layer1);
 
-map.on('moving', function () {
-  map1.setCenter(map.getCenter());
+map.on('moving', function (param) {
+  map1.setCenter(param.target.getCenter());
+});
+
+map.on('zoomend', function (param) {
+  map1.setZoom(param.target.getZoom());
 });
