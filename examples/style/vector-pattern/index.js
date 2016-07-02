@@ -8,8 +8,7 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var layer = new maptalks.VectorLayer('vector');
-map.addLayer(layer);
+var layer = new maptalks.VectorLayer('vector').addTo(map);
 
 var vector = new maptalks.Marker([121.485428, 31.228541], {
   symbol:{
@@ -19,5 +18,4 @@ var vector = new maptalks.Marker([121.485428, 31.228541], {
     'markerWidth' : 100,
     'markerHeight' : 100
   }
-});
-layer.addGeometry(vector);
+}).addTo(layer);

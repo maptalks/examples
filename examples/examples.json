@@ -76,10 +76,10 @@
         "svg-path-marker", {"zh" : "SVG矢量标注", "en" : "Vector marker by SVG path"},
         "line-pattern", {"zh" : "模式填充线", "en" : "Pattern fill line"},
         "polygon-pattern", {"zh" : "模式填充面", "en" : "Pattern fill polygon"},
-        "vector-pattern", {"zh" : "模式填充矢量图", "en" : "Pattern fill vector"},
+        "vector-pattern", {"zh" : "矢量标注模式填充", "en" : "Pattern fill vector"},
         "line-gradient", {"zh" : "渐变填充线", "en" : "Gradient fill line"},
         "polygon-gradient", {"zh" : "渐变填充面", "en" : "Gradient fill polygon"},
-        "vector-gradient", {"zh" : "渐变填充矢量图", "en" : "Gradient fill vector"},
+        "vector-gradient", {"zh" : "矢量标注渐变填充", "en" : "Gradient fill vector"},
         "function-type", {"zh" : "函数类型动态样式", "en" : "Dynamic symbol with function type"},
         "composite-symbol", {"zh" : "多样式渲染", "en" : "Composite symbol"}
       ],
