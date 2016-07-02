@@ -1,0 +1,36 @@
+
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    float:left;
+    width: 60%;
+    height: 100%;
+}
+
+
+#region {
+    float:right;
+    width: 40%;
+    height: 100%;
+    color: blue;
+}
+
+#switches {
+    padding : 20px;
+    height: 10%;
+}
+
+#switches button {
+    width : 300px;
+    height : 20px;
+}
+
+#info {
+    height: 100%;
+    color: blue;
+}
