@@ -8,7 +8,7 @@
         "status", {"zh" : "获取地图状态", "en" : "Get map's status"},
         "limit", {"zh" : "限制地图区域", "en" : "Limit map's view"},
         "on-off", {"zh" : "功能开关", "en" : "Turn on/off map capabilities"},
-        "animation", {"zh" : "地图动画", "en" : "Animations"},        
+        "animation", {"zh" : "地图动画", "en" : "Animations"},
         "projection", {"zh" : "预定义地图投影", "en" : "Predefined Geodesic projections"},
         "projection-identity", {"zh" : "平面坐标", "en" : "Identity projection"},
         "projection-custom", {"zh" : "自定义地图投影", "en" : "Customized geodesic projections"},
@@ -26,14 +26,14 @@
       "layer", {"zh" : "常用图层", "en" : "Common layers"},
       [
         "load", {"zh" : "载入图层", "en" : "Load Layers"},
-        "add-remove", {"zh" : "添加图层和移除图层", "en" : "Add and remove layers"},        
+        "add-remove", {"zh" : "添加图层和移除图层", "en" : "Add and remove layers"},
         "show-hide", {"zh" : "隐藏显示图层", "en" : "Show and hide layers"},
         "opacity", {"zh" : "设置图层透明度", "en" : "Set layer's opacity"},
         "bring-front-back", {"zh" : "图层置顶或置底", "en" : "Bring layers to front or back"},
         "sort", {"zh" : "改变图层叠加顺序", "en" : "Sort layers"},
         "mask", {"zh" : "设置图层遮罩", "en" : "Set a layer mask"},
         "tile-vendor", {"zh" : "加载互联网瓦片服务", "en" : "Internet tile services"},
-        "tile-renderer", {"zh" : "瓦片图层不同的渲染方式", "en" : "Different renderers for TileLayer"},      
+        "tile-renderer", {"zh" : "瓦片图层不同的渲染方式", "en" : "Different renderers for TileLayer"},
         "vector-feature-filter", {"zh" : "在矢量图层中选择符合条件的geometries", "en" : "Filter geometries with conditions in VectorLayer"},
         "vector-style", {"zh" : "矢量图层样式", "en" : "Set style for VectorLayers"},
         "custom", {"zh" : "创建自定义图层类型", "en" : "Create your own layer type"}
@@ -44,14 +44,14 @@
         "add-remove", {"zh" : "添加删除", "en" : "Add and remove geometries"},
         "batch", {"zh" : "一次添加多个图形", "en" : "Add a bunch of geometries"},
         "collection", {"zh" : "集合类型图形", "en" : "Geometry collections"},
-        "ext-polygon", {"zh" : "矩形/圆形/椭圆/扇面", "en" : "Rectangle/circle/ellipse/sector"},        
+        "ext-polygon", {"zh" : "矩形/圆形/椭圆/扇面", "en" : "Rectangle/circle/ellipse/sector"},
         "label", {"zh" : "文字标签", "en" : "Add a text label"},
         "curve", {"zh" : "添加弧线", "en" : "Add curve lines"},
         "connector-line", {"zh" : "图形连接线", "en" : "Connector lines of geometries"},
         "change-symbol", {"zh" : "改变样式", "en" : "Change geometry's symbol"},
         "show-hide", {"zh" : "显示/隐藏", "en" : "Show and hide geometries"},
         "flash", {"zh" : "闪烁", "en" : "Flash geometries"},
-        "drag", {"zh" : "拖拽", "en" : "Drag geometries"},        
+        "drag", {"zh" : "拖拽", "en" : "Drag geometries"},
         "events", {"zh" : "事件响应", "en" : "Listening geometry events"},
         "animation", {"zh" : "图形动画", "en" : "Geometry animations"},
         "copy", {"zh" : "克隆图形", "en" : "Copy geometries"}
@@ -115,7 +115,8 @@
         "geo-infownd", {"zh" : "图形信息框", "en" : "Add InfoWindow to a geometry"},
         "custom-menu", {"zh" : "自定义右键菜单", "en" : "Customize context menu"},
         "custom-infownd", {"zh" : "自定义信息框", "en" : "Customize InfoWindow"},
-        "custom-ui", {"zh" : "创建新的UI组件", "en" : "Create your own UI Component"}
+        "custom-ui", {"zh" : "创建新的UI组件", "en" : "Create your own UI Component"},
+        "echarts-ui", {"zh" : "在地图上添加echarts图例", "en" : "Add ECharts to a map"}
       ],
 
       "advance", {"zh" : "进阶技巧", "en" : "Tricks"},
