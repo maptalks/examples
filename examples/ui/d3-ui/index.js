@@ -1,28 +1,4 @@
-
-var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
-  zoom: 14,
-  baseLayer: new maptalks.TileLayer('base', {
-    urlTemplate: '$(urlTemplate)',
-    subdomains: $(subdomains)
-  })
-});
-
-
-var d3Layer = new maptalks.D3Layer('d3', {'hideWhenZooming' : false});
-d3Layer.draw = draw;
-map.addLayer(d3Layer);
-
-var echartsUI = new maptalks.ui.UIMarker([121.485428, 31.228541], {
-  'draggable'     : false,
-  'single'        : false,
-  'content'       : document.getElementById('d3')
-});
-echartsUI.addTo(map).show();
-
-function draw(context, projection) {
-
-  var width = 960,
+var width = 960,
     height = 500;
 
   var data = d3.range(5000).map(function () {
@@ -94,5 +70,22 @@ function draw(context, projection) {
     });
   }
 
-}
+
+var map = new maptalks.Map('map', {
+  center: [121.48542888885189, 31.228541533313702],
+  zoom: 14,
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: '$(urlTemplate)',
+    subdomains: $(subdomains)
+  })
+});
+
+
+var echartsUI = new maptalks.ui.UIMarker([121.485428, 31.228541], {
+  'draggable'     : false,
+  'single'        : false,
+  'content'       : document.getElementById('d3')
+});
+echartsUI.addTo(map).show();
+
 
