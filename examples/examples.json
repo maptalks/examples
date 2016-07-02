@@ -116,7 +116,8 @@
         "custom-menu", {"zh" : "自定义右键菜单", "en" : "Customize context menu"},
         "custom-infownd", {"zh" : "自定义信息框", "en" : "Customize InfoWindow"},
         "custom-ui", {"zh" : "创建新的UI组件", "en" : "Create your own UI Component"},
-        "echarts-ui", {"zh" : "在地图上添加echarts图例", "en" : "Add ECharts to a map"}
+        "echarts-ui", {"zh" : "在地图上添加ECharts图例", "en" : "Add ECharts to a map"},
+        "highcharts-ui", {"zh" : "在地图上添加Highcharts图例", "en" : "Add Highcharts to a map"}
       ],
 
       "advance", {"zh" : "进阶技巧", "en" : "Tricks"},

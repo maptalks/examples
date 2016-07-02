@@ -1,13 +1,4 @@
 
-var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
-  zoom: 14,
-  baseLayer: new maptalks.TileLayer('base', {
-    urlTemplate: '$(urlTemplate)',
-    subdomains: $(subdomains)
-  })
-});
-
 var option = {
     title : {
         text: '南丁格尔玫瑰图',
@@ -93,6 +84,15 @@ var option = {
 
 var myChart = echarts.init(document.getElementById('echarts'));
 myChart.setOption(option);
+
+var map = new maptalks.Map('map', {
+  center: [121.48542888885189, 31.228541533313702],
+  zoom: 14,
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: '$(urlTemplate)',
+    subdomains: $(subdomains)
+  })
+});
 
 var echartsUI = new maptalks.ui.UIMarker([121.485428, 31.228541], {
   'draggable'     : true,
