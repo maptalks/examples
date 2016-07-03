@@ -15,4 +15,4 @@ var marker = new maptalks.Marker([121.485428, 31.228541], {
     'name': 'point marker'
   }
 }).addTo(layer);
-document.getElementById('jsonStr').innerHTML = JSON.stringify(marker.toGeoJSON());
+document.getElementById('info').innerHTML = JSON.stringify(marker.toGeoJSON());

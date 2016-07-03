@@ -6220,6 +6220,13 @@ Z.MapTool = Z.Class.extend(/** @lends maptalks.MapTool.prototype */{
                 }
             }
         }
+    },
+
+    _fireEvent:function (eventName, param) {
+        if (!param) {
+            param = {};
+        }
+        this.fire(eventName, param);
     }
 });
 
@@ -6702,7 +6709,7 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
         if (!param['geometry'] && this._geometry) {
             param['geometry'] = this._geometry;
         }
-        this.fire(eventName, param);
+        Z.MapTool.prototype._fireEvent.call(this, eventName, param);
     }
 
 });

@@ -11,7 +11,6 @@
         {"name" : "on-off", "title" : {"zh" : "功能开关", "en" : "Turn on/off map capabilities"}},
         {"name" : "animation", "title" : {"zh" : "地图动画", "en" : "Animations"}},
         {"name" : "projection", "title" : {"zh" : "预定义地图投影", "en" : "Predefined Geodesic projections"}},
-        {"name" : "projection-identity", "title" : {"zh" : "平面坐标", "en" : "Identity projection"}},
         {"name" : "projection-custom", "title" : {"zh" : "自定义地图投影", "en" : "Customized geodesic projections"}},
         {"name" : "coordinate", "title" : {"zh" : "坐标转化", "en" : "Coodinate conversion"}}
       ]

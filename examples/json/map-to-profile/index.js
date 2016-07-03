@@ -14,4 +14,4 @@ var marker = new maptalks.Marker([121.485428, 31.238541]).addTo(layer);
 var line = new maptalks.LineString([[121.485428, 31.228541], [121.496428, 31.228541]]).addTo(layer);
 var rect = new maptalks.Rectangle([121.485428, 31.218541], 1000, 800).addTo(layer);
 var profile = map.toJSON();
-document.getElementById('jsonStr').innerHTML = JSON.stringify(profile);
+document.getElementById('info').innerHTML = JSON.stringify(profile);
