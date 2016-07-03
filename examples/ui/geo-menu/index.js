@@ -8,10 +8,8 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var layer = new maptalks.VectorLayer('vector');
-map.addLayer(layer);
-var geometry = new maptalks.Marker([121.485428, 31.228541]);
-layer.addGeometry(geometry);
+var layer = new maptalks.VectorLayer('vector').addTo(map);
+var geometry = new maptalks.Marker([121.485428, 31.228541]).addTo(layer);
 var options = {
   'items'  : [
         {item: 'item1', click: function () { alert('Click item1'); }},

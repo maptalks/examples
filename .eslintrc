@@ -4,7 +4,8 @@
       "$" : true,
       "d3" : true,
       "topojson" : true,
-      "subdomains" : true
+      "subdomains" : true,
+      "echarts" : true
   },
   "rules": {
     "strict" : 0,

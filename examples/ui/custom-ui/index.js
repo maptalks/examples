@@ -8,7 +8,6 @@ var myUI = maptalks.ui.UIComponent.extend({
   buildOn: function (map) {
     var dom = maptalks.DomUtil.createEl('div', 'my-ui');
     dom.innerText = this.options['content'];
-    this._dom = dom;
     return dom;
   }
 });
