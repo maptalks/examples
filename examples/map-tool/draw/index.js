@@ -10,14 +10,8 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-var enabled = false;
-
 var drawTool = new maptalks.DrawTool({
-  mode: 'polygon',
-  symbol: {
-    lineColor: 'orange',
-    lineWidth: 3
-  }
+  mode: 'Point'
 }).addTo(map).disable();
 
 drawTool.on('drawend', function (param) {
@@ -27,20 +21,12 @@ drawTool.on('drawend', function (param) {
 var modeButtonList = Array.prototype.slice.call(document.querySelectorAll('#middle button'));
 modeButtonList.forEach(function (el) {
   el.addEventListener('click', function () {
-    drawTool.setMode(el.id);
+    drawTool.setMode(el.id).enable();
   });
 });
 
-document.querySelector('#enable').addEventListener('click', function (event) {
-  if (!enabled) {
-    drawTool.enable();
-    event.target.innerHTML = 'disable';
-    enabled = true;
-  } else {
-    drawTool.disable();
-    event.target.innerHTML = 'enable';
-    enabled = false;
-  }
+document.querySelector('#disable').addEventListener('click', function (event) {
+  drawTool.disable();
 });
 
 document.querySelector('#clear').addEventListener('click', function () {
