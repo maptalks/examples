@@ -10,11 +10,11 @@ var map = new maptalks.Map('map', {
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 var marker = new maptalks.Marker([121.485428, 31.228541]).addTo(layer);
 
-function bind() {
+function addListener() {
   marker.on('click', this.printEvents);
 }
 
-function unbind() {
+function removeListener() {
   marker.off('click', this.printEvents);
 }
 
