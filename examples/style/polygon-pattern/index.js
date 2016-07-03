@@ -8,8 +8,7 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var layer = new maptalks.VectorLayer('vector');
-map.addLayer(layer);
+var layer = new maptalks.VectorLayer('vector').addTo(map);
 
 var rect = new maptalks.Rectangle([121.485428, 31.228541], 1000, 800, {
   symbol:{
@@ -17,5 +16,4 @@ var rect = new maptalks.Rectangle([121.485428, 31.228541], 1000, 800, {
     'polygonPatternFile' : 'marker.png',
     'polygonOpacity' : 1
   }
-});
-layer.addGeometry(rect);
+}).addTo(layer);

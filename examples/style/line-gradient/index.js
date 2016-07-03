@@ -8,8 +8,7 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var layer = new maptalks.VectorLayer('vector');
-map.addLayer(layer);
+var layer = new maptalks.VectorLayer('vector').addTo(map);
 
 var line = new maptalks.LineString([[121.485428, 31.228541], [121.496428, 31.228541]], {
   symbol:{
@@ -26,8 +25,7 @@ var line = new maptalks.LineString([[121.485428, 31.228541], [121.496428, 31.228
     'lineWidth' : 10,
     'lineOpacity' : 1
   }
-});
-layer.addGeometry(line);
+}).addTo(layer);
 
 var line1 = new maptalks.LineString([[121.485428, 31.218541], [121.506428, 31.218541]], {
   symbol:{
@@ -43,5 +41,4 @@ var line1 = new maptalks.LineString([[121.485428, 31.218541], [121.506428, 31.21
     'lineWidth' : 10,
     'lineOpacity' : 1
   }
-});
-layer.addGeometry(line1);
+}).addTo(layer);

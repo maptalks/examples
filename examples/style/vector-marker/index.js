@@ -8,8 +8,8 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var layer = new maptalks.VectorLayer('vector');
-map.addLayer(layer);
+var layer = new maptalks.VectorLayer('vector').addTo(map);
+
 var symbol = {
   'markerType': 'ellipse',
   'markerFill': '#6fa8dc',
@@ -22,5 +22,4 @@ var symbol = {
   'markerDx': 0,
   'markerDy': 0
 };
-var geometry = new maptalks.Marker([121.485428, 31.228541], {'symbol' : symbol});
-layer.addGeometry(geometry);
+var geometry = new maptalks.Marker([121.485428, 31.228541], {'symbol' : symbol}).addTo(layer);
