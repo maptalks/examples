@@ -18,8 +18,9 @@ var defines = define({
       'subdomains': '[1, 2, 3, 4]'
     },
     'en': {
-      'urlTemplate': 'http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}',
-      'subdomains': '[1, 2, 3, 4]'
+      'urlTemplate': 'http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png',//http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}',
+      'subdomains': "['a','b','c']"
+      // 'subdomains': '[1, 2, 3, 4]'
     }
   }
 });

@@ -9,65 +9,117 @@ var map = new maptalks.Map('map', {
 });
 
 var barDom = document.createElement('div');
-barDom.style.cssText = 'min-width: 310px; height: 400px; margin: 0 auto;';
+barDom.style.cssText = 'min-width: 300px; height: 300px; margin: 0 auto;';
 createBar(barDom);
 
 function createBar(dom) {
-  new Highcharts.Chart({
-    chart: {
-      renderTo : dom,
-      type: 'column',
-      backgroundColor: 'rgba(0,0,0,0)'
-    },
-    title: {
-      text: 'Highcharts'
-    },
-    xAxis: {
-      categories: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec'
-      ],
-      crosshair: true
-    },
-    yAxis: {
-      min: 0,
+ new Highcharts.Chart({
+     chart: {
+          renderTo: dom,
+          backgroundColor: 'rgba(255, 255, 255, 1)',
+          type: 'area',
+          spacingBottom: 30
+      },
       title: {
-        text: 'Rainfall (mm)'
-      }
+          text: 'Fruit consumption *'
+      },
+      subtitle: {
+          text: '* Jane\'s banana consumption is unknown',
+          floating: true,
+          align: 'right',
+          verticalAlign: 'bottom',
+          y: 15
+      },
+      legend: {
+          layout: 'vertical',
+          align: 'left',
+          verticalAlign: 'top',
+          x: 150,
+          y: 100,
+          floating: true,
+          borderWidth: 1,
+          backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+      },
+      xAxis: {
+          categories: ['Apples', 'Pears', 'Oranges', 'Bananas', 'Grapes', 'Plums', 'Strawberries', 'Raspberries']
+      },
+      yAxis: {
+          title: {
+              text: 'Y-Axis'
+          },
+          labels: {
+              formatter: function () {
+                  return this.value;
+              }
+          }
+      },
+      tooltip: {
+          formatter: function () {
+              return '<b>' + this.series.name + '</b><br/>' +
+                  this.x + ': ' + this.y;
+          }
+      },
+      plotOptions: {
+          area: {
+              fillOpacity: 0.5
+          }
+      },
+      credits: {
+          enabled: false
+      },
+      series: [{
+          name: 'John',
+          data: [0, 1, 4, 4, 5, 2, 3, 7]
+      }, {
+          name: 'Jane',
+          data: [1, 0, 3, null, 3, 1, 2, 1]
+      }]
+    /*chart: {
+        renderTo: dom,
+        backgroundColor: 'rgba(255, 255, 255, 0)',
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
     },
     plotOptions: {
-      column: {
-        pointPadding: 0.2,
-        borderWidth: 0
-      }
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: false
+            },
+            showInLegend: true
+        }
     },
     series: [{
-      name: 'District 01',
-      data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-
-    }, {
-      name: 'District 02',
-      data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-
-    }, {
-      name: 'District 03',
-      data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
-    }, {
-      name: 'District 04',
-      data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-
-    }]
+        name: 'Brands',
+        colorByPoint: true,
+        data: [{
+            name: 'Microsoft Internet Explorer',
+            y: 56.33
+        }, {
+            name: 'Chrome',
+            y: 24.03,
+            sliced: true,
+            selected: true
+        }, {
+            name: 'Firefox',
+            y: 10.38
+        }, {
+            name: 'Safari',
+            y: 4.77
+        }, {
+            name: 'Opera',
+            y: 0.91
+        }, {
+            name: 'Proprietary or Undetectable',
+            y: 0.2
+        }]
+    }]*/
   });
 }
 
