@@ -7,6 +7,7 @@ var layouts = require('metalsmith-layouts');
 var drafts = require('metalsmith-drafts');
 var define = require('metalsmith-define');
 var connect = require('gulp-connect');
+var builder = require('./build/build');
 
 var markupRegex = /([^\/^\.]*)\.html$/;
 var locale = process.env.locale || 'en';
@@ -27,21 +28,19 @@ var defines = define({
 
 function readExamplesInfo() {
   var json = require('./examples/examples.json');
-  var items = json.examples[0];
-  var count = Math.floor(items.length / 3);
+  var items = json.examples;
+  var count = Math.floor(items.length);
   var info = {};
   var i, j, order = 0;
   for (i = 0; i < count; i++) {
-    var ibase = i * 3;
-    var subItems = items[ibase + 2];
-    var subCount = Math.floor(subItems.length / 2);
+    var subItems = items[i].examples;
+    var subCount = subItems.length;
     for (j = 0; j < subCount; j++) {
       order++;
-      var jbase = j * 2;
-      var key = path.join(items[ibase], subItems[jbase]);
+      var key = path.join(items[i].name, subItems[j].name);
       info[key] = {
-        'category': items[ibase + 1],
-        'title': subItems[jbase + 1],
+        'category': items[i].title,
+        'title': subItems[j].title,
         'order': order
       };
     }
@@ -51,7 +50,7 @@ function readExamplesInfo() {
 
 function processSingleFile(file, filepath, files, metadata) {
   var basename = path.basename(filepath);
-  var match = basename.match(markupRegex);
+  var match = (basename !== 'list.html' && basename.match(markupRegex));
   if (!match) return;
 
   var id = match[1];
@@ -100,6 +99,15 @@ function processDemo(files, metalsmith, done) {
     var basename = path.basename(filepath);
     processSingleFile(file, filepath, files, metalsmith.metadata());
     file.basename = basename;
+  }
+}
+
+function processList(files, metalsmith, done) {
+  setImmediate(done);
+  var examples = require('./examples/examples.json');
+  examples.layout = 'list.hbs';
+  if (!files) {
+    files = [examples];
   }
 }
 
@@ -152,7 +160,14 @@ gulp.task('examples-demo', function () {
         drafts(),
         defines,
         processDemo,
-        layouts({engine: 'handlebars', directory: 'layouts'})
+
+        layouts({
+          engine: 'handlebars',
+          directory: 'layouts',
+          helpers: {
+            list: builder.listHelper
+          }
+        })
       ]
     }))
     .pipe(gulp.dest(path.join('dist/examples', locale)));
@@ -173,6 +188,10 @@ gulp.task('connect', ['watch'], function () {
     livereload: true,
     port: 20001
   });
+});
+
+gulp.task('check', function () {
+  builder.check();
 });
 
 gulp.task('default', ['connect']);
