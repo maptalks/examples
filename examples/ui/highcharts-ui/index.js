@@ -13,8 +13,9 @@ barDom.style.cssText = 'min-width: 310px; height: 400px; margin: 0 auto;';
 createBar(barDom);
 
 function createBar(dom) {
-  $(dom).highcharts({
+  new Highcharts.Chart({
     chart: {
+      renderTo : dom,
       type: 'column',
       backgroundColor: 'rgba(0,0,0,0)'
     },
