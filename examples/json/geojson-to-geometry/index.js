@@ -18,6 +18,5 @@ var json = {
     'name': 'point marker'
   }
 };
-var marker = maptalks.GeoJSON.toGeometry(json);
 var layer = new maptalks.VectorLayer('vector').addTo(map);
-layer.addGeometry(marker);
+var marker = maptalks.GeoJSON.toGeometry(json).addTo(layer);
