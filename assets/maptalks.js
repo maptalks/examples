@@ -610,15 +610,6 @@ Z.Util = {
     isObject: function (obj) {
         return typeof obj === 'object' && !!obj;
     },
-    /*
-     * Get the value or default if the value is null or undefined.
-     * @param {*} value        - value
-     * @param {*} defaultValue - default value
-     * @returns {*}
-     */
-    getValueOrDefault: function (value, defaultValue) {
-        return (Z.Util.isNil(value)) ? defaultValue : value;
-    },
 
     /*
      * åˆ¤æ–­æ•°ç»„ä¸­æ˜¯å¦åŒ…å«obj
@@ -1078,29 +1069,30 @@ Z.StringUtil = {
      * @return {Object[]} the object's structure: {rowNum: rowNum, textSize: textSize, rows: textRows}
      */
     splitTextToRow: function (text, style) {
-        var font = Z.symbolizer.TextMarkerSymbolizer.getFont(style);
-        var lineSpacing = Z.Util.getValueOrDefault(style['textLineSpacing'], 0);
-        var rawTextSize = Z.StringUtil.stringLength(text, font);
-        var textWidth = rawTextSize['width'];
-        var textHeight = rawTextSize['height'];
-        var wrapChar = Z.Util.getValueOrDefault(style['textWrapCharacter'], null);
-        var wrapWidth = style['textWrapWidth'];
+        var font = Z.symbolizer.TextMarkerSymbolizer.getFont(style),
+            lineSpacing = style['textLineSpacing'] || 0,
+            rawTextSize = Z.StringUtil.stringLength(text, font),
+            textWidth = rawTextSize['width'],
+            textHeight = rawTextSize['height'],
+            wrapChar = style['textWrapCharacter'],
+            wrapWidth = style['textWrapWidth'],
+            textRows = [];
         if (!wrapWidth || wrapWidth > textWidth) { wrapWidth = textWidth; }
-        var textRows = [];
         if (!Z.Util.isString(text)) {
             text += '';
         }
         var actualWidth = 0, size, i, len;
         if (wrapChar && text.indexOf(wrapChar) >= 0) {
-            var texts = text.split(wrapChar);
+            var texts = text.split(wrapChar),
+                t, tSize, tWidth, contents, ii;
             for (i = 0, len = texts.length; i < len; i++) {
-                var t = texts[i];
+                t = texts[i];
                 //TODO stringLength is expensive, should be reduced here.
-                var tSize = Z.StringUtil.stringLength(t, font);
-                var tWidth = tSize['width'];
+                tSize = Z.StringUtil.stringLength(t, font);
+                tWidth = tSize['width'];
                 if (tWidth > wrapWidth) {
-                    var contents = Z.StringUtil.splitContent(t, tWidth, wrapWidth);
-                    for (var ii = 0; ii < contents.length; ii++) {
+                    contents = Z.StringUtil.splitContent(t, tWidth, wrapWidth);
+                    for (ii = 0; ii < contents.length; ii++) {
                         size = Z.StringUtil.stringLength(contents[ii], font);
                         if (size['width'] > actualWidth) { actualWidth = size['width']; }
                         textRows.push({'text':contents[ii], 'size':size});
@@ -6196,13 +6188,23 @@ Z.MapTool = Z.Class.extend(/** @lends maptalks.MapTool.prototype */{
             return this;
         }
         this._enabled = false;
-        if (!this._map) { return this; }
         this._switchEvents('off');
         if (this._onDisable) {
             this._onDisable();
         }
         this._fireEvent('disable');
         return this;
+    },
+
+    /**
+     * Returns whether the tool is enabled
+     * @return {Boolean} true | false
+     */
+    isEnabled: function () {
+        if (!this._enabled) {
+            return false;
+        }
+        return true;
     },
 
     _registerEvents: function () {
@@ -6234,12 +6236,11 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
 
     options:{
         'symbol' : {
-            'lineColor':'#000000',
+            'lineColor':'#000',
             'lineWidth':2,
             'lineOpacity':1,
-            'lineDasharray': '',
-            'polygonFill' : '#ffffff',
-            'polygonOpacity' : 0
+            'polygonFill' : '#fff',
+            'polygonOpacity' : 0.3
         },
         'mode' : null,
         'once' : false
@@ -6263,7 +6264,9 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
         this._switchEvents('off');
         this.options['mode'] = mode;
         this._checkMode();
-        this._switchEvents('on');
+        if (this.isEnabled()) {
+            this._switchEvents('on');
+        }
         return this;
     },
 
@@ -6297,6 +6300,17 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
         return this;
     },
 
+    /**
+     * Get current mode of draw tool
+     * @return {String} mode
+     */
+    getMode: function () {
+        if (this.options['mode']) {
+            return this.options['mode'].toLowerCase();
+        }
+        return null;
+    },
+
     _onAdd: function () {
         this._checkMode();
     },
@@ -6317,13 +6331,13 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
     },
 
     _checkMode: function () {
-        if (!this.options['mode']) {
+        var mode = this.getMode();
+        if (!mode) {
             throw new Error('drawtool\'s mode is null.');
         }
         var modes = ['circle', 'ellipse', 'rectangle', 'point', 'linestring', 'polygon'];
-        this.options['mode'] = this.options['mode'].toLowerCase();
         for (var i = 0; i < modes.length; i++) {
-            if (this.options['mode'] === modes[i]) {
+            if (mode === modes[i]) {
                 return true;
             }
         }
@@ -6362,7 +6376,7 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
     },
 
     _getEvents: function () {
-        var mode = this.options['mode'];
+        var mode = this.getMode();
         if (mode === 'polygon' || mode === 'linestring') {
             return {
                 'click' : this._clickForPath,
@@ -6415,7 +6429,7 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
         } else {
             var path = this._getLonlats();
             path.push(coordinate);
-            if (this.options['mode'] === 'polygon' && path.length === 3) {
+            if (this.getMode() === 'polygon' && path.length === 3) {
                 var polygon = new Z.Polygon([path]);
                 if (symbol) {
                     var pSymbol = Z.Util.extendSymbol(symbol, {'lineOpacity':0});
@@ -6468,7 +6482,8 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
         path.push(coordinate);
         if (path.length < 2) { return; }
         //åŽ»é™¤é‡å¤çš„ç«¯ç‚¹
-        var nIndexes = [];
+        var nIndexes = [],
+            mode = this.getMode();
         var i, len;
         for (i = 1, len = path.length; i < len; i++) {
             if (path[i].x === path[i - 1].x && path[i].y === path[i - 1].y) {
@@ -6479,7 +6494,7 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
             path.splice(nIndexes[i], 1);
         }
 
-        if (path.length < 2 || (this.options['mode'] === 'polygon' && path.length < 3)) {
+        if (path.length < 2 || (mode === 'polygon' && path.length < 3)) {
             return;
         }
         this._geometry.remove();
@@ -6490,7 +6505,7 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
         if (this._polygon) {
             this._polygon.remove();
         }
-        if (this.options['mode'] === 'polygon') {
+        if (mode === 'polygon') {
             this._geometry = new Z.Polygon([path]);
             var symbol = this.getSymbol();
             if (symbol) {
@@ -6510,7 +6525,7 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
             var geometry = me._geometry;
             var _map = me._map;
             var center;
-            switch (me.options['mode']) {
+            switch (me.getMode()) {
             case 'circle':
                 if (!geometry) {
                     geometry = new Z.Circle(coordinate, 0);
@@ -8812,9 +8827,9 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
             'NOT_ADD_TO_LAYER':'This operation needs geometry to be on a layer.'
         },
         'zh-CN':{
-            'DUPLICATE_LAYER':'Geometry²»ÄÜ±»ÖØ¸´Ìí¼Óµ½¶à¸öÍ¼²ãÉÏ.',
-            'INVALID_GEOMETRY_IN_COLLECTION':'Ìí¼Óµ½¼¯ºÏÖÐµÄGeometryÊÇ²»ºÏ·¨µÄ, index:',
-            'NOT_ADD_TO_LAYER':'Geometry±ØÐëÌí¼Óµ½Ä³¸öÍ¼²ãÉÏ²ÅÄÜ×÷´Ë²Ù×÷.'
+            'DUPLICATE_LAYER':'Geometryä¸èƒ½è¢«é‡å¤æ·»åŠ åˆ°å¤šä¸ªå›¾å±‚ä¸Š.',
+            'INVALID_GEOMETRY_IN_COLLECTION':'æ·»åŠ åˆ°é›†åˆä¸­çš„Geometryæ˜¯ä¸åˆæ³•çš„, index:',
+            'NOT_ADD_TO_LAYER':'Geometryå¿…é¡»æ·»åŠ åˆ°æŸä¸ªå›¾å±‚ä¸Šæ‰èƒ½ä½œæ­¤æ“ä½œ.'
         }
     },
     /** @lends maptalks.Geometry */
@@ -8910,7 +8925,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
 
     /**
      * Gets geometry's id. Id is set by setId or constructor options.
-     * @returns {String|Number} geometryµÄid
+     * @returns {String|Number} geometryçš„id
      */
     getId:function () {
         return this._id;
@@ -8925,7 +8940,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
     setId:function (id) {
         var oldId = this.getId();
         this._id = id;
-        //FIXME _idchangedÃ»ÓÐ±»Í¼²ã¼àÌý, layer.getGeometryById»á³öÏÖbug
+        //FIXME _idchangedæ²¡æœ‰è¢«å›¾å±‚ç›‘å¬, layer.getGeometryByIdä¼šå‡ºçŽ°bug
         /**
          * idchange event.
          *
@@ -9268,7 +9283,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
      */
     copy:function () {
         var json = this.toJSON();
-        //FIXME symbolÐÅÏ¢Ã»ÓÐ±»¿½±´¹ýÀ´
+        //FIXME symbolä¿¡æ¯æ²¡æœ‰è¢«æ‹·è´è¿‡æ¥
         var ret = Z.Geometry.fromJSON(json);
         //restore visibility
         ret.options['visible'] = true;
@@ -9392,9 +9407,9 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
      * @return {Object} profile json object
      */
     toJSON:function (options) {
-        //Ò»¸öGraphicµÄprofile
+        //ä¸€ä¸ªGraphicçš„profile
         /*
-            //ÒòÎªÏìÓ¦º¯ÊýÎÞ·¨±»ÐòÁÐ»¯, ËùÒÔmenu, ÊÂ¼þlistenerµÈÎÞ·¨±»°üº¬ÔÚgraphicÖÐ
+            //å› ä¸ºå“åº”å‡½æ•°æ— æ³•è¢«åºåˆ—åŒ–, æ‰€ä»¥menu, äº‹ä»¶listenerç­‰æ— æ³•è¢«åŒ…å«åœ¨graphicä¸­
         }*/
         if (!options) {
             options = {};
@@ -9454,14 +9469,14 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
         }
     },
 
-    //µ÷ÓÃprepareÊ±,layerÒÑ¾­×¢²áµ½mapÉÏ
+    //è°ƒç”¨prepareæ—¶,layerå·²ç»æ³¨å†Œåˆ°mapä¸Š
     _bindLayer:function (layer) {
-         //Geometry²»ÔÊÐí±»ÖØ¸´Ìí¼Óµ½¶à¸öÍ¼²ãÉÏ
+         //Geometryä¸å…è®¸è¢«é‡å¤æ·»åŠ åˆ°å¤šä¸ªå›¾å±‚ä¸Š
         if (this.getLayer()) {
             throw new Error(this.exceptions['DUPLICATE_LAYER']);
         }
         this._layer = layer;
-        //Èç¹ûÍ¶Ó°·¢Éú¸Ä±ä,ÔòÇå³ýµôËùÓÐµÄÍ¶Ó°×ø±êÊôÐÔ
+        //å¦‚æžœæŠ•å½±å‘ç”Ÿæ”¹å˜,åˆ™æ¸…é™¤æŽ‰æ‰€æœ‰çš„æŠ•å½±åæ ‡å±žæ€§
         this._clearProjection();
         this.callInitHooks();
     },
@@ -9558,7 +9573,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
         return this._internalId;
     },
 
-    //Ö»ÄÜ±»Í¼²ãµ÷ÓÃ
+    //åªèƒ½è¢«å›¾å±‚è°ƒç”¨
     _setInternalId:function (id) {
         this._internalId = id;
     },
@@ -9578,7 +9593,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
         return null;
     },
 
-    //»ñÈ¡geometryÑùÊ½ÖÐÒÀÀµµÄÍâ²¿Í¼Æ¬×ÊÔ´
+    //èŽ·å–geometryæ ·å¼ä¸­ä¾èµ–çš„å¤–éƒ¨å›¾ç‰‡èµ„æº
     _getExternalResources:function () {
         var geometry = this;
         var symbol = geometry._getInternalSymbol();
@@ -10474,11 +10489,11 @@ Z.Vector = Z.Geometry.extend(/** @lends maptalks.Vector.prototype */{
      */
     options:{
         'symbol':{
-            'lineColor' : '#000000',
+            'lineColor' : '#000',
             'lineWidth' : 1,
             'lineOpacity' : 1,
 
-            'polygonFill' : '#808080', //default color in cartoCSS
+            'polygonFill' : '#fff', //default color in cartoCSS
             'polygonOpacity' : 1,
             'opacity' : 1
         }
@@ -11052,8 +11067,10 @@ Z.Label = Z.Marker.extend(/** @lends maptalks.Label.prototype */{
             }
             var align = this.options['boxTextAlign'];
             if (align) {
-                var textAlignPoint = Z.StringUtil.getAlignPoint(size, symbol['textHorizontalAlignment'], symbol['textVerticalAlignment']);
-                textAlignPoint = textAlignPoint._add(Z.Util.getValueOrDefault(symbol['textDx'], 0), Z.Util.getValueOrDefault(symbol['textDy'], 0));
+                var textAlignPoint = Z.StringUtil.getAlignPoint(size, symbol['textHorizontalAlignment'], symbol['textVerticalAlignment']),
+                    dx = symbol['textDx'] || 0,
+                    dy = symbol['textDy'] || 0;
+                textAlignPoint = textAlignPoint._add(dx, dy);
                 symbol['markerDx'] = textAlignPoint.x;
                 symbol['markerDy'] = textAlignPoint.y + size['height'] / 2;
                 if (align === 'left') {
@@ -11371,7 +11388,7 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
 Z.LineString = Z.Polyline = Z.Vector.extend(/** @lends maptalks.LineString.prototype */{
     includes:[Z.Geometry.Poly],
 
-    type: "LineString",
+    type:Z.Geometry['TYPE_LINESTRING'],
 
     /**
     * @property {Object} [options=null] - specific construct options for LineString, also support options defined in [Vector]{@link maptalks.Vector#options} and [Geometry]{@link maptalks.Geometry#options}
@@ -14115,23 +14132,32 @@ Z.Label.include(/** @lends maptalks.Label.prototype */{
      * @return {maptalks.Label} this
      */
     startEditText: function () {
+        if (!this.getMap()) {
+            return this;
+        }
         this.hide();
+        this.endEditText();
         this._prepareEditor();
+        this.fire('edittextstart', this);
         return this;
     },
 
     /**
      * End label text edit.
-     * @member maptalks.Label
      * @return {maptalks.Label} this
      */
     endEditText: function () {
-        var content = this._textEditor.value;
-        this.setContent(content);
-        this.show();
-        Z.DomUtil.removeDomNode(this._container);
-        delete this._container;
-        delete this._textEditor;
+        if (this._textEditor) {
+            var content = this._textEditor.innerText;
+            this.setContent(content);
+            this.show();
+            Z.DomUtil.off(this._textEditor, 'mousedown dblclick', Z.DomUtil.stopPropagation)
+                .off(this._textEditor, 'blur', this.endEditText, this);
+            Z.DomUtil.removeDomNode(this._container);
+            delete this._container;
+            delete this._textEditor;
+            this.fire('edittextend', this);
+        }
         return this;
     },
 
@@ -14146,55 +14172,68 @@ Z.Label.include(/** @lends maptalks.Label.prototype */{
         return false;
     },
 
+    getEditor: function () {
+        return this._textEditor;
+    },
+
     _prepareEditor:function () {
-        var map = this.getMap();
-        var zIndex = map._panels.control.style.zIndex + 1;
-        var viewPoint = this._computeViewPoint();
+        var map = this.getMap(),
+            zIndex = map._panels.control.style.zIndex + 1,
+            viewPoint = this._computeViewPoint();
         this._container = Z.DomUtil.createEl('div');
-        this._container.style.cssText = 'position:absolute;top:' + viewPoint['y']
-                                    + 'px;left:' + viewPoint['x'] + 'px;z-index:' + zIndex + ';';
+        this._container.style.cssText = 'position:absolute;top:' + viewPoint['y'] +
+                                    'px;left:' + viewPoint['x'] + 'px;z-index:' + zIndex + ';';
         map._panels.ui.appendChild(this._container);
-        this._textEditor = this._createInputDom();
+        this._textEditor = this._createEditor();
         this._container.appendChild(this._textEditor);
     },
 
+
     _computeViewPoint: function () {
-        var map = this.getMap();
-        var symbol = this._getInternalSymbol();
-        var labelSize = this.getSize();
-        var dx = Z.Util.getValueOrDefault(symbol['textDx'], 0),
-            dy = Z.Util.getValueOrDefault(symbol['textDy'], 0);
-        var align = Z.StringUtil.getAlignPoint(labelSize, symbol['textHorizontalAlignment'], symbol['textVerticalAlignment'])
-                    .add(new Z.Point(dx, dy));
-        var viewPoint = map.coordinateToViewPoint(this.getCenter()).add(align);
+        var map = this.getMap(),
+            symbol = this._getInternalSymbol(),
+            labelSize = this.getSize(),
+            dx = symbol['textDx'] || 0,
+            dy = symbol['textDy'] || 0,
+            align = Z.StringUtil.getAlignPoint(labelSize, symbol['textHorizontalAlignment'], symbol['textVerticalAlignment'])
+                    .add(dx, dy),
+            viewPoint = map.coordinateToViewPoint(this.getCenter()).add(align);
         return viewPoint;
     },
 
-    _createInputDom: function () {
-        var labelSize = this.getSize();
-        var symbol = this._getInternalSymbol();
-        var width = labelSize['width'];
-        var height = labelSize['height'];
-        var textColor = symbol['textFill'];
-        var textSize = symbol['textSize'];
-        var fill = symbol['markerFill'];
-        var lineColor = symbol['markerLineColor'];
-        var spacing = Z.Util.getValueOrDefault(symbol['textLineSpacing'], 0);
-        var inputDom = Z.DomUtil.createEl('textarea');
-        inputDom.style.cssText = 'background:' + fill + ';' +
-            'border:1px solid ' + lineColor + ';' +
-            'color:' + textColor + ';' +
-            'font-size:' + textSize + 'px;' +
-            'width:' + (width - spacing) + 'px;' +
-            'height:' + (height - spacing) + 'px;';
+    _createEditor: function () {
+        var labelSize = this.getSize(),
+            symbol = this._getInternalSymbol() || {},
+            width = labelSize['width'] || 100,
+            // height = labelSize['height'] || 100,
+            textColor = symbol['textFill'] || '#000000',
+            textSize = symbol['textSize'] || 12,
+            fill = symbol['markerFill'] || '#3398CC',
+            lineColor = symbol['markerLineColor'] || '#ffffff',
+            spacing = symbol['textLineSpacing'] || 0,
+            editor = Z.DomUtil.createEl('div');
+        editor.contentEditable = true;
+        editor.style.cssText = 'background: ' + fill + ';' +
+            'border: 1px solid ' + lineColor + ';' +
+            'color: ' + textColor + ';' +
+            'font-size: ' + textSize + 'px;' +
+            'width: ' + (width + 10) + 'px;' +
+            // 'height: '+(height - spacing) +'px;'+
+            // 'min-height: '+(height - spacing)+'px;'+
+            // 'max-height: 300px;'+
+            'margin-left: auto;' +
+            'margin-right: auto;' +
+            'line-height: ' + (textSize + spacing) + 'px;' +
+            'outline: 0;' +
+            'word-wrap: break-word;' +
+            'overflow-x: hidden;' +
+            'overflow-y: auto;' +
+            '-webkit-user-modify: read-write-plaintext-only;';
         var content = this.getContent();
-        inputDom.value = content;
-        var me = this;
-        Z.DomUtil.on(inputDom, 'blur', function (param) {
-            me.endEditText();
-        });
-        return inputDom;
-
+        editor.innerText = content;
+        Z.DomUtil.on(editor, 'mousedown dblclick', Z.DomUtil.stopPropagation)
+            .on(editor, 'blur', this.endEditText, this);
+        return editor;
     }
 
 });
@@ -14314,8 +14353,18 @@ Z.Util.extend(Z.View.prototype, {
                 throw new Error('must provide a valid fullExtent in map\'s view.');
             }
         }
-        this._fullExtent = new Z.Extent(new Z.Coordinate(fullExtent['left'], fullExtent['top']),
+        if (!Z.Util.isNil(fullExtent['left'])) {
+            this._fullExtent = new Z.Extent(new Z.Coordinate(fullExtent['left'], fullExtent['top']),
                             new Z.Coordinate(fullExtent['right'], fullExtent['bottom']));
+        } else {
+            //xmin, ymin, xmax, ymax
+            this._fullExtent = new Z.Extent(fullExtent);
+            fullExtent['left'] = fullExtent['xmin'];
+            fullExtent['right'] = fullExtent['xmax'];
+            fullExtent['top'] = fullExtent['ymax'];
+            fullExtent['bottom'] = fullExtent['ymin'];
+        }
+
         //set left, right, top, bottom value
         Z.Util.extend(this._fullExtent, fullExtent);
 
@@ -14364,6 +14413,65 @@ Z.Util.extend(Z.View.prototype, {
 
 });
 
+
+(function () {
+    function parse(arcConf) {
+        var tileInfo = arcConf['tileInfo'],
+            tileSize = {'width' : tileInfo['cols'], 'height' : tileInfo['rows']},
+            resolutions = [],
+            lods = tileInfo['lods'];
+        for (var i = 0, len = lods.length; i < len; i++) {
+            resolutions.push(lods[i]['resolution']);
+        }
+        var fullExtent = arcConf['fullExtent'],
+
+            origin = tileInfo['origin'],
+            tileSystem = [1, -1, origin['x'], origin['y']];
+        delete fullExtent['spatialReference'];
+        return {
+            'view' : {
+                'resolutions' : resolutions,
+                'fullExtent' : fullExtent
+            },
+            'tileSystem' : tileSystem,
+            'tileSize' : tileSize
+        };
+    }
+
+    Z.View.loadArcgis = function (url, cb, context) {
+        if (Z.Util.isString(url) && url.substring(0, 1) !== '{') {
+            maptalks.Ajax.getJSON(url, function (err, json) {
+                if (err) {
+                    if (context) {
+                        cb.call(context, err);
+                    } else {
+                        cb(err);
+                    }
+                    return;
+                }
+                var view = parse(json);
+                if (context) {
+                    cb.call(context, null, view);
+                } else {
+                    cb(null, view);
+                }
+            });
+        } else {
+            if (Z.Util.isString(url)) {
+                url = Z.Util.parseJSON(url);
+            }
+            var view = parse(url);
+            if (context) {
+                cb.call(context, null, view);
+            } else {
+                cb(null, view);
+            }
+
+        }
+        return this;
+    };
+
+})();
 
 /**
  *
@@ -17848,6 +17956,9 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
     },
 
     toDataURL:function (mimeType) {
+        if (!this._canvas) {
+            return null;
+        }
         return this._canvas.toDataURL(mimeType);
     },
 
@@ -19351,10 +19462,16 @@ Z.symbolizer.StrokeAndFillSymbolizer = Z.symbolizer.CanvasSymbolizer.extend({
     initialize:function (symbol, geometry) {
         this.symbol = symbol;
         this.geometry = geometry;
+        if (geometry instanceof Z.Marker) {
+            return;
+        }
         this.style = this._defineStyle(this.translate());
     },
 
     symbolize:function (ctx, resources) {
+        if (this.geometry instanceof Z.Marker) {
+            return;
+        }
         var style = this.style;
         if (style['polygonOpacity'] === 0 && style['lineOpacity'] === 0) {
             return;
@@ -19389,6 +19506,9 @@ Z.symbolizer.StrokeAndFillSymbolizer = Z.symbolizer.CanvasSymbolizer.extend({
     },
 
     getViewExtent:function () {
+        if (this.geometry instanceof Z.Marker) {
+            return null;
+        }
         var map = this.getMap();
         var extent = this.geometry._getPrjExtent();
         if (!extent) {
@@ -19599,11 +19719,11 @@ Z.symbolizer.ImageMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
         var s = this.symbol;
         return {
             'markerFile' : s['markerFile'],
-            'markerWidth' : Z.Util.getValueOrDefault(s['markerWidth'], null),
-            'markerHeight' : Z.Util.getValueOrDefault(s['markerHeight'], null),
-            'markerOpacity' : Z.Util.getValueOrDefault(s['markerOpacity'], 1),
-            'markerDx' : Z.Util.getValueOrDefault(s['markerDx'], 0),
-            'markerDy' : Z.Util.getValueOrDefault(s['markerDy'], 0)
+            'markerWidth' : s['markerWidth'] || null,
+            'markerHeight' : s['markerHeight'] || null,
+            'markerOpacity' : s['markerOpacity'] || 1,
+            'markerDx' : s['markerDx'] || 0,
+            'markerDy' : s['markerDy'] || 0
         };
     }
 });
@@ -21925,350 +22045,6 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
         }
     };
 })();
-
-/**
- * @classdesc
- * Represents a toolbox ui component for geometries.
- * @class
- * @category ui
- * @extends Z.ui.UIComponent
- * @memberOf maptalks.ui
- * @name Toolbox
- */
-Z.ui.Toolbox = Z.ui.UIComponent.extend(/** @lends maptalks.ui.Toolbox.prototype */{
-
-    /**
-     * @cfg {Object} options toolbox attribute
-     */
-    options:{
-        'autoPan': false,
-        'style': 'maptalks-toolbox',
-        'vertical' : false,
-        'items': []
-    },
-
-    initialize: function (options) {
-        Z.Util.setOptions(this, options);
-    },
-
-    /**
-     * set items
-     * @param {Array} items
-     * @return {maptalks.ui.Toolbox}
-     * @expose
-     */
-    setItems: function (items) {
-        this.options['items'] = items;
-        return this;
-    },
-
-    /**
-     * get item from Toolbox
-     * @return {Array} items
-     */
-    getItems:function () {
-        return this.options['items'];
-    },
-
-    /**
-     * get pixel size of menu
-     * @return {Size} size
-     */
-    getSize:function () {
-        if (this._size) {
-            return this._size.copy();
-        } else {
-            return null;
-        }
-    },
-
-    _prepareDOM:function () {
-        var container = this._map._panels.toolboxContainer;
-        container.innerHTML = '';
-        var dom = this._dom = this._createDOM();
-        Z.DomUtil.on(dom, 'mousedown dblclick', Z.DomUtil.stopPropagation);
-        dom.style.position = 'absolute';
-        dom.style.left = -99999 + 'px';
-        dom.style.top = -99999 + 'px';
-        container.appendChild(dom);
-        this._size = new Z.Size(dom.clientWidth + 6, dom.clientHeight);
-        dom.style.display = 'none';
-        this._map._toolbox =  {
-            'target' : this
-        };
-        return dom;
-    },
-
-    _createDOM:function () {
-        var dom = Z.DomUtil.createEl('div');
-        if (this.options['style']) {
-            Z.DomUtil.addClass(dom, this.options['style']);
-        }
-        var items = this.options['items'];
-        if (items && items.length > 0) {
-            var maxWidth = 0, maxHeight = 0;
-            for (var i = 0, len = items.length; i < len; i++) {
-                var item = items[i];
-                if (!item['hidden']) {
-                    item['vertical'] = Z.Util.getValueOrDefault(item['vertical'], this.options['vertical']);
-                    var buttonDom = new Z.ui.Toolbox.Button(item).getDom();
-                    dom.appendChild(buttonDom);
-                    maxWidth += Z.Util.getValueOrDefault(item['width'], 0) + 2;
-                    maxHeight += Z.Util.getValueOrDefault(item['height'], 0) + 2;
-                }
-            }
-            if (this.options['vertical']) {
-                dom.style.height = maxHeight + 'px';
-            } else {
-                dom.style.width = maxWidth + 'px';
-            }
-        }
-        return dom;
-    },
-
-    _createMenuItemDom: function () {
-        var me = this;
-        var ul = Z.DomUtil.createEl('ul');
-        Z.DomUtil.addClass(ul, 'maptalks-menu-items');
-        var items = this.getItems();
-        function onMenuClick(index) {
-            return function (e) {
-                var result = this._callback({'target':me, 'index':index});
-                if (result === false) {
-                    return;
-                }
-                me.hide();
-            };
-        }
-        for (var i = 0, len = items.length; i < len; i++) {
-            var item = items[i];
-            var itemDOM;
-            if ('-' === item || '_' === item) {
-                itemDOM = Z.DomUtil.createEl('li');
-                Z.DomUtil.addClass(itemDOM, 'maptalks-menu-splitter');
-            } else {
-                itemDOM = Z.DomUtil.createEl('li');
-                itemDOM.innerHTML = item['item'];
-                itemDOM._callback = item['click'];
-                Z.DomUtil.on(itemDOM, 'click', (onMenuClick)(i));
-            }
-            ul.appendChild(itemDOM);
-        }
-        return ul;
-    },
-
-    _getDOM:function () {
-        return this._dom;
-    },
-
-    _getWidth:function () {
-        var defaultWidth = 160;
-        var width = this.options['width'];
-        if (!width) {
-            width = defaultWidth;
-        }
-        return width;
-    },
-
-    //èœå•ç›‘å¬åœ°å›¾çš„äº‹ä»¶
-    _registerEvents: function () {
-        this._map.on('_zoomstart _zoomend _movestart', this.hide, this);
-
-    },
-
-    //èœå•ç›‘å¬åœ°å›¾çš„äº‹ä»¶
-    _removeEvents: function () {
-        this._map.off('_zoomstart _zoomend _movestart', this.hide, this);
-    },
-
-    //èŽ·å–èœå•æ˜¾ç¤ºä½ç½®
-    _getAnchor: function (coordinate) {
-        if (!coordinate) {
-            coordinate = this._target.getCenter();
-        }
-        var anchor = this._map.coordinateToViewPoint(coordinate);
-        //offset menu on the top of the arrow
-        return anchor.add(new Z.Point(-17, 10));
-    }
-
-});
-
-/**
- * æŒ‰é’®æŽ§ä»¶
- * @class maptalks.Button
- * @extends maptalks.Class
- * @author Maptalks Team
- */
-Z.ui.Toolbox.Button = Z.Class.extend({
-
-    /**
-     * @cfg {Object} options æŒ‰é’®å±žæ€§
-     */
-    options:{
-        'hidden': false,
-        'icon' : '',
-        'text' : 'å·¦',
-        'click' : null,
-        'mouseover' : null,
-        'mouseout' : null,
-        'children' : []
-    },
-
-    /**
-     * åˆå§‹åŒ–æŒ‰é’®
-     * @constructor
-     * @param {Object} options
-     * @returns {maptalks.Button}
-     */
-    initialize: function (options) {
-        if (options) {
-            this._dom = this._createDom(options);
-        }
-    },
-
-    _createDom : function (options) {
-        return this._createMenuDom(options);
-    },
-
-    _createMenuDom : function (options, tag) {
-        var _menuDom = Z.DomUtil.createEl('span');
-        if (tag) {
-            _menuDom = Z.DomUtil.createEl(tag);
-        }
-        var width = Z.Util.getValueOrDefault(options['width'], 16);
-        var height = Z.Util.getValueOrDefault(options['height'], 16);
-        var vertical = Z.Util.getValueOrDefault(options['vertical'], false);
-        var block = 'inline-block';
-        if (vertical) {
-            block = 'block';
-        }
-        _menuDom.style.cssText = 'text-align:center;display:-moz-inline-box;display:' + block + ';width:' + width + 'px;height:' + height + 'px;';
-        Z.DomUtil.on(_menuDom, 'click dblclick contextmenu', Z.DomUtil.stopPropagation);
-        Z.DomUtil.addClass(_menuDom, 'maptalks-toolbox-button');
-        _menuDom.appendChild(this._createIconDom(options));
-        if (options['click']) {
-            Z.DomUtil.on(_menuDom, 'click', options['click'], this);
-        }
-        if (options['mouseover']) {
-            Z.DomUtil.on(_menuDom, 'mouseover', options['mouseover'], this);
-        }
-        if (options['mouseout']) {
-            Z.DomUtil.on(_menuDom, 'mouseout', options['mouseout'], this);
-        }
-        _menuDom = this._createDropMenu(_menuDom, options, tag);
-        return _menuDom;
-    },
-
-    _createDropMenu: function (_parentDom, options, tag) {
-        var vertical = Z.Util.getValueOrDefault(options['vertical'], false);
-        var block = 'block';
-        function addMenuDropEvent(dropdownMenu, trigger, tag) {
-            if (trigger === 'click') {
-                Z.DomUtil.on(_parentDom, 'click', function () {
-                    Z.DomUtil.setStyle(dropdownMenu, 'display: ' + block);
-                }, this);
-                Z.DomUtil.on(dropdownMenu, 'mouseover', function () {
-                    Z.DomUtil.setStyle(dropdownMenu, 'display: ' + block);
-                }, this);
-            } else {
-                Z.DomUtil.on(_parentDom, 'mouseover', function () {
-                    Z.DomUtil.setStyle(dropdownMenu, 'display: ' + block);
-                }, this);
-            }
-
-            Z.DomUtil.on(dropdownMenu, 'mouseout', function () {
-                Z.DomUtil.setStyle(dropdownMenu, 'display: none');
-            }, this);
-
-            Z.DomUtil.on(_parentDom, 'mouseout', function () {
-                Z.DomUtil.setStyle(dropdownMenu, 'display: none');
-            }, this);
-        }
-        if (options['children'] && options['children'].length > 0) {
-            var style = 'display: none; position: absolute;';
-            var width = Z.Util.getValueOrDefault(options['width'], 20);
-            var height = Z.Util.getValueOrDefault(options['height'], 20);
-            if (vertical) {
-                style += 'left:' + width + 'px';
-            } else {
-                style += 'top:' + height + 'px';
-            }
-            var dropdownMenu = Z.DomUtil.createElOn('ul', style);
-
-            // var menuClass = this._getMenuClass(options, tag);
-            // Z.DomUtil.addClass(dropdownMenu, menuClass);
-
-            var trigger = options['trigger'];
-
-            addMenuDropEvent(dropdownMenu, trigger, tag);
-
-            //æž„é€ ä¸‹æ‹‰èœå•
-            var items = options['children'];
-            if (items && items.length > 0) {
-                for (var i = 0, len = items.length; i < len; i++) {
-                    var item = items[i];
-                    item['vertical'] = !Z.Util.getValueOrDefault(item['vertical'], options['vertical']);
-                    dropdownMenu.appendChild(this._createMenuDom(item, 'li'));
-                }
-            }
-            _parentDom.appendChild(dropdownMenu);
-        }
-        return _parentDom;
-    },
-
-    _createIconDom : function (options) {
-        var _spanDom = Z.DomUtil.createEl('span');
-        var icon = options['icon'];
-        var content = options['item'];
-        var title = options['title'];
-        var html = options['html'];
-        if (icon) {
-            var width = Z.Util.getValueOrDefault(options['iconWidth'], options['width']);
-            var height = Z.Util.getValueOrDefault(options['iconHeight'], options['height']);
-            var _imgDom = Z.DomUtil.createEl('img');
-            _imgDom.src = icon;
-            _imgDom.border = 0;
-            _imgDom.width = width;
-            _imgDom.height = height;
-            if (title) {
-                _imgDom.title = title;
-            }
-            _spanDom.appendChild(_imgDom);
-            if (content) {
-                if (html) {
-                    if (typeof content === 'string') {
-                        _spanDom.innerText = content;
-                    } else {
-                        _spanDom.appendChild(content);
-                    }
-                } else {
-                    _spanDom.innerText = content;
-                }
-            }
-            return _spanDom;
-        } else {
-            var _contentSpanDom = Z.DomUtil.createEl('span');
-            if (content) {
-                if (typeof content === 'string') {
-                    _spanDom.innerText = content;
-                } else {
-                    _spanDom.appendChild(content);
-                }
-            }
-            if (html) {
-                _spanDom.appendChild(content);
-            }
-            return _spanDom;
-        }
-    },
-
-    /**
-     * èŽ·å–button dom
-     */
-    getDom: function () {
-        return this._dom;
-    }
-});
 
 Z.Map.include(Z.ui.Menu.Mixin);
 
