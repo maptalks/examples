@@ -8,26 +8,27 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var coordinate = new maptalks.Coordinate(121.48542, 31.22854);
-var marker = new maptalks.Marker(coordinate, {
-  symbol:[
-    {
-      'markerType' : 'ellipse',
-      'markerWidth' : 10,
-      'markerHeight' : 10
-    }
-  ]
-});
+var layer = new maptalks.VectorLayer('vector').addTo(map);
+var marker = new maptalks.Marker([121.485428, 31.228541], {
+  'symbol' :{
+    'markerType' : 'square',
+    'markerWidth' : 50,
+    'markerHeight' : 50
+  }
+}).addTo(layer);
 
-var layer = new maptalks.VectorLayer('vector');
-map.addLayer(layer);
-layer.addGeometry(marker);
-
-marker.animate({
-  symbol : [
-    {
-      'markerWidth' : 100,
-      'markerHeight' : 100
-    }
-  ]
-});
+var animtaionStyles = {
+  symbol: {
+    'markerWidth' : 200,
+    'markerHeight' : 200
+  }
+};
+var options = {speed: 1000, easing: 'inAndOut'};
+var index = 0;
+function step(frame) {
+  if (frame.state.playState === 'running') {
+    var symbol = marker.getSymbol();
+    marker.setSymbol(maptalks.Util.extendSymbol(symbol, frame.styles.symbol));
+  }
+}
+var animation = maptalks.Animation.animate(animtaionStyles, options, step).play();

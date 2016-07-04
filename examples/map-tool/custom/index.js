@@ -16,8 +16,30 @@ var CustomTool = maptalks.MapTool.extend({
     maptalks.Util.setOptions(this, options);
   },
 
-  _onAdd: function () {
-    console.log('_onAdd()');
+  _onEnable: function () {
+    this._saveMapState();
+  },
+
+  _onDisable: function () {
+    this._restoreMapState();
+  },
+
+
+  _getEvents: function () {
+    return {
+      'click': this._onClick,
+      'dblclick': this._onDoubleClick
+    };
+  },
+
+  _onClick: function (param) {
+    console.log('_onClick()');
+    console.log('param: ', param);
+    layer.addGeometry(new maptalks.Marker(param.coordinate));
+  },
+
+  _onDoubleClick: function (param) {
+    layer.clear();
   },
 
   _saveMapState: function () {
@@ -33,47 +55,8 @@ var CustomTool = maptalks.MapTool.extend({
     map.config({
       'doubleClickZoom': this.origDoubleClickZoom
     });
-  },
-
-  _onEnable: function () {
-    console.log('_onEnable()');
-    this._saveMapState();
-  },
-
-  _onDisable: function () {
-    console.log('_onDisable()');
-    this._restoreMapState();
-  },
-
-  _loadResources: function (done) {
-    console.log('_loadResources()');
-    // 'done.call(this)' is necessary, if override '_loadResources'
-    done.call(this);
-  },
-
-  _getEvents: function () {
-    return {
-      'click': this._onClick,
-      'dblclick': this._onDoubleClick
-    };
-  },
-
-  _fireEvent: function (eventName, param) {
-    param = param || {};
-    param.prop1 = param;
-    this.fire(eventName, param);
-  },
-
-  _onClick: function (param) {
-    console.log('_onClick()');
-    console.log('param: ', param);
-    layer.addGeometry(new maptalks.Marker(param.coordinate));
-  },
-
-  _onDoubleClick: function (param) {
-    layer.clear();
   }
 
 });
 
-var customTool = new CustomTool().addTo(map).disable().enable();
+var customTool = new CustomTool().addTo(map);

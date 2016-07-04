@@ -13,7 +13,7 @@ var map3857 = new maptalks.Map('map-3857', {
   }
 });
 
-var mapBd09 = new maptalks.Map('map-bd09', {
+var mapBD = new maptalks.Map('map-bd09', {
   center: center,
   zoom: 4,
   minZoom:1,
@@ -56,7 +56,3 @@ var map4326 = new maptalks.Map('map-4326', {
     content : 'Data by <a target="_blank" href="http://www.tianditu.cn">Tianditu</a>'
   }
 });
-
-// var mapIdentity = new maptalks.Map('map-identity', {
-
-// });

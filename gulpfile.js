@@ -7,6 +7,7 @@ var layouts = require('metalsmith-layouts');
 var drafts = require('metalsmith-drafts');
 var define = require('metalsmith-define');
 var connect = require('gulp-connect');
+var builder = require('./build/build');
 
 var handlebars = require('handlebars');
 
@@ -20,29 +21,27 @@ var defines = define({
       'subdomains': '[1, 2, 3, 4]'
     },
     'en': {
-      'urlTemplate': 'http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}',
-      'subdomains': '[1, 2, 3, 4]'
+      'urlTemplate': 'http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png',
+      'subdomains': '["a","b","c"]'
     }
   }
 });
 
 function readExamplesInfo() {
   var json = require('./examples/examples.json');
-  var items = json.examples[0];
-  var count = Math.floor(items.length / 3);
+  var items = json.examples;
+  var count = Math.floor(items.length);
   var info = {};
   var i, j, order = 0;
   for (i = 0; i < count; i++) {
-    var ibase = i * 3;
-    var subItems = items[ibase + 2];
-    var subCount = Math.floor(subItems.length / 2);
+    var subItems = items[i].examples;
+    var subCount = subItems.length;
     for (j = 0; j < subCount; j++) {
       order++;
-      var jbase = j * 2;
-      var key = path.join(items[ibase], subItems[jbase]);
+      var key = path.join(items[i].name, subItems[j].name);
       info[key] = {
-        'category': items[ibase + 1],
-        'title': subItems[jbase + 1],
+        'category': items[i].title,
+        'title': subItems[j].title,
         'order': order
       };
     }
@@ -52,7 +51,7 @@ function readExamplesInfo() {
 
 function processSingleFile(file, filepath, files, metadata) {
   var basename = path.basename(filepath);
-  var match = basename.match(markupRegex);
+  var match = (basename !== 'list.html' && basename.match(markupRegex));
   if (!match) return;
 
   var id = match[1];
@@ -101,6 +100,15 @@ function processDemo(files, metalsmith, done) {
     var basename = path.basename(filepath);
     processSingleFile(file, filepath, files, metalsmith.metadata());
     file.basename = basename;
+  }
+}
+
+function processList(files, metalsmith, done) {
+  setImmediate(done);
+  var examples = require('./examples/examples.json');
+  examples.layout = 'list.hbs';
+  if (!files) {
+    files = [examples];
   }
 }
 
@@ -164,7 +172,8 @@ gulp.task('examples-demo', function () {
           partials: 'layouts/raw',
           helpers: {
             indent: indentHelper,
-            embed: embedHelper
+            embed: embedHelper,
+            list: builder.listHelper
           }
         })
       ]
@@ -187,6 +196,10 @@ gulp.task('connect', ['watch'], function () {
     livereload: true,
     port: 20001
   });
+});
+
+gulp.task('check', function () {
+  builder.check();
 });
 
 gulp.task('default', ['connect']);
