@@ -1,19 +1,19 @@
 
 html,
 body {
-    margin: 0px;
-    height: 100%;
-    width: 100%;
+  margin: 0px;
+  height: 100%;
+  width: 100%;
 }
 
 #map {
-    float:left;
-    width: 50%;
-    height: 100%;
+  float: left;
+  width: 50%;
+  height: 100%;
 }
 
 #map1 {
-    float:right;
-    width: 50%;
-    height: 100%;
+  float: right;
+  width: 50%;
+  height: 100%;
 }

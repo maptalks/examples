@@ -28,3 +28,38 @@ function toCoordinate() {
   var coordinate = map.getCenter().add(0.1, 0.1);
   map.panTo(coordinate);
 }
+
+var toolbar = new maptalks.control.Toolbar({
+  items: [
+    {
+      item: 'Pan (By)',
+      children: [
+        {
+          item: 'up',
+          click: up
+        },
+        {
+          item: 'down',
+          click: down
+        },
+        {
+          item: 'left',
+          click: left
+        },
+        {
+          item: 'right',
+          click: right
+        }
+      ]
+    },
+    {
+      item: 'Pan (To)',
+      children: [
+        {
+          item: 'a coordinate',
+          click: toCoordinate
+        }
+      ]
+    }
+  ]
+}).addTo(map);

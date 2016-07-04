@@ -8,11 +8,5 @@ body {
 
 #map {
     width: 100%;
-    height: 95%;
-}
-
-#action div {
-  width: 33.3333%;
-  height: 22px;
-  float: left;
+    height: 100%;
 }

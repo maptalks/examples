@@ -8,9 +8,5 @@ body {
 
 #map {
   width: 100%;
-  height: 95%;
-}
-
-button {
-  float: right;
+  height: 100%;
 }

@@ -13,10 +13,19 @@ var layer = new maptalks.VectorLayer('vector')
     .addGeometry(marker)
     .addTo(map);
 
-document.getElementById('show').onclick = function () {
-  layer.show();
-};
-
-document.getElementById('hide').onclick = function () {
-  layer.hide();
-};
+var toolbar = new maptalks.control.Toolbar({
+  items: [
+    {
+      item: 'Show',
+      click: function () {
+        layer.show();
+      }
+    },
+    {
+      item: 'Hide',
+      click: function () {
+        layer.hide();
+      }
+    }
+  ]
+}).addTo(map);

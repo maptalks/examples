@@ -12,8 +12,7 @@ var zoomControl = new maptalks.control.Zoom({
   'position'  : maptalks.Control['top_right'],
   'slider'    : true,
   'zoomLevel' : true
-});
-map.addControl(zoomControl);
+}).addTo(map);
 
 function hideControl() {
   if (zoomControl.isVisible()) zoomControl.hide();
@@ -30,3 +29,21 @@ function showControl() {
 function removeControl() {
   zoomControl.remove();
 }
+
+var toolbar = new maptalks.control.Toolbar({
+  position: maptalks.Control.bottom_right,
+  items: [
+    {
+      item: 'SHOW',
+      click: showControl
+    },
+    {
+      item: 'HIDE',
+      click: hideControl
+    },
+    {
+      item: 'REMOVE',
+      click: removeControl
+    }
+  ]
+}).addTo(map);

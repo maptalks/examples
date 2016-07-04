@@ -29,7 +29,7 @@ for (var idx = 0; idx < 3; idx++) {
   }).addTo(layer);
 }
 
-document.getElementById('style').onclick = function () {
+function setStyle() {
   layer.setStyle([
     {
       'filter': [
@@ -60,4 +60,13 @@ document.getElementById('style').onclick = function () {
       }
     }
   ]);
-};
+}
+
+var toolbar = new maptalks.control.Toolbar({
+  items: [
+    {
+      item: 'Set Style',
+      click: setStyle
+    }
+  ]
+}).addTo(map);
