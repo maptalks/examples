@@ -5,7 +5,8 @@
       "d3" : true,
       "topojson" : true,
       "subdomains" : true,
-      "echarts" : true
+      "echarts" : true,
+      "Highcharts" : true
   },
   "rules": {
     "strict" : 0,
