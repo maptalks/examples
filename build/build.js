@@ -27,11 +27,11 @@ module.exports = exports = {
     var out = '';
     for (var i = 0; i < items.length; i++) {
       var cat = items[i];
-      out += '<h3>' + cat.title.zh + '</h3>';
+      out += '<h3>' + (i + 1 ) + ' ' + cat.title.zh + '</h3>';
       out += "<ul>";
       var examples = cat.examples;
       for(var ii=0, ll=examples.length; ii<ll; ii++) {
-        out += '<li><a target="_blank" href = "' + cat.name + '/' + examples[ii].name + '/index.html">' + examples[ii].title.zh + '</a></li>';
+        out += '<li><a target="_blank" href = "' + cat.name + '/' + examples[ii].name + '/index.html">' + (i + 1 ) + '.' + (ii + 1 ) + ' '  + examples[ii].title.zh + '</a></li>';
       }
       out += '</ul>'
 
