@@ -17,7 +17,7 @@ var polyline = new maptalks.LineString([
 ], {
   draggable: true,
   dragShadow: true,
-  draggableAxis: 'x',
+  dragOnAxis: 'x',
   symbol: {
     lineColor: 'orange',
     lineWidth: 2
