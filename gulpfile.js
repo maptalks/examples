@@ -9,6 +9,8 @@ var define = require('metalsmith-define');
 var connect = require('gulp-connect');
 var builder = require('./build/build');
 
+var handlebars = require('handlebars');
+
 var markupRegex = /([^\/^\.]*)\.html$/;
 var locale = process.env.locale || 'en';
 
@@ -19,9 +21,8 @@ var defines = define({
       'subdomains': '[1, 2, 3, 4]'
     },
     'en': {
-      'urlTemplate': 'http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png',//http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}',
-      'subdomains': "['a','b','c']"
-      // 'subdomains': '[1, 2, 3, 4]'
+      'urlTemplate': 'http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png',
+      'subdomains': '["a","b","c"]'
     }
   }
 });
@@ -122,6 +123,10 @@ function indentHelper(text, options) {
   }).join('\n');
 }
 
+function embedHelper(options) {
+  return handlebars.Utils.escapeExpression(options.fn(this));
+}
+
 gulp.task('examples-raw', ['resource-copy'], function () {
   return gulp.src('examples/**/index.{html,js,css}')
     .pipe(metalsmith({
@@ -134,7 +139,8 @@ gulp.task('examples-raw', ['resource-copy'], function () {
           directory: 'layouts/raw',
           helpers: {
             indent: indentHelper
-          }})
+          }
+        })
       ]
     }))
     .pipe(rename(function (path) {
@@ -160,11 +166,13 @@ gulp.task('examples-demo', function () {
         drafts(),
         defines,
         processDemo,
-
         layouts({
           engine: 'handlebars',
           directory: 'layouts',
+          partials: 'layouts/raw',
           helpers: {
+            indent: indentHelper,
+            embed: embedHelper,
             list: builder.listHelper
           }
         })
