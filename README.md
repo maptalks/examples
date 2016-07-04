@@ -30,4 +30,4 @@ Demos of [maptalks.js](https://github.com/MapTalks/maptalks.js)
   * 编译./examples/下的demo源代码, 在./dist/exmaples中生成编译好的demo页面
   * 在20001端口上启动connect服务, 并监听文件修改, 随时重复自动构建
   
-3. 用浏览器打开 [http://localhost:20001/examples/en/](http://localhost:20001/examples/en/)
+3. 用浏览器打开 [http://localhost:20001/examples/en/list.html](http://localhost:20001/examples/en/list.html)
