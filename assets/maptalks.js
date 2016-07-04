@@ -14187,8 +14187,8 @@ Z.Label.include(/** @lends maptalks.Label.prototype */{
             this.show();
             Z.DomUtil.off(this._textEditor, 'mousedown dblclick', Z.DomUtil.stopPropagation)
                 .off(this._textEditor, 'blur', this.endEditText, this);
-            Z.DomUtil.removeDomNode(this._container);
-            delete this._container;
+            this._editUIMarker.remove();
+            delete this._editUIMarker;
             delete this._textEditor;
             this.fire('edittextend', this);
         }
@@ -14200,39 +14200,23 @@ Z.Label.include(/** @lends maptalks.Label.prototype */{
      * @return {Boolean}
      */
     isEditingText: function () {
-        if (this._container) {
+        if (this._textEditor) {
             return true;
         }
         return false;
     },
 
-    getEditor: function () {
-        return this._textEditor;
+    getTextEditor: function () {
+        return this._editUIMarker;
     },
 
     _prepareEditor:function () {
-        var map = this.getMap(),
-            zIndex = map._panels.control.style.zIndex + 1,
-            viewPoint = this._computeViewPoint();
-        this._container = Z.DomUtil.createEl('div');
-        this._container.style.cssText = 'position:absolute;top:' + viewPoint['y'] +
-                                    'px;left:' + viewPoint['x'] + 'px;z-index:' + zIndex + ';';
-        map._panels.ui.appendChild(this._container);
-        this._textEditor = this._createEditor();
-        this._container.appendChild(this._textEditor);
-    },
-
-
-    _computeViewPoint: function () {
-        var map = this.getMap(),
-            symbol = this._getInternalSymbol(),
-            labelSize = this.getSize(),
-            dx = symbol['textDx'] || 0,
-            dy = symbol['textDy'] || 0,
-            align = Z.StringUtil.getAlignPoint(labelSize, symbol['textHorizontalAlignment'], symbol['textVerticalAlignment'])
-                    .add(dx, dy),
-            viewPoint = map.coordinateToViewPoint(this.getCenter()).add(align);
-        return viewPoint;
+        var map = this.getMap();
+        var editContainer = this._createEditor();
+        this._textEditor = editContainer;
+        this._editUIMarker = new maptalks.ui.UIMarker(this.getCoordinates(), {
+            'content' : editContainer
+        }).addTo(map).show();
     },
 
     _createEditor: function () {
@@ -15434,10 +15418,15 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * @return {maptalks.Map} this
      */
     checkSize:function () {
+        if (!this._loaded) {
+            return this;
+        }
         if (this._resizeTimeout) {
             clearTimeout(this._resizeTimeout);
         }
-        var me = this;
+        var me = this,
+            justStart = (Z.Util.now() - this._initTime) < 1500,
+            center = me.getCenter();
         function resize() {
             var watched = me._getContainerDomSize();
             var oldHeight = me.height;
@@ -15448,7 +15437,9 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
             me._updateMapSize(watched);
             var resizeOffset = new Z.Point((oldWidth - watched.width) / 2, (oldHeight - watched.height) / 2);
             me._offsetCenterByPixel(resizeOffset);
-
+            if (justStart) {
+                me.setCenter(center);
+            }
             /**
              * resize event when map container's size changes
              * @event maptalks.Map#resize
@@ -15461,10 +15452,11 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
 
         this._resizeTimeout = setTimeout(function () {
             resize();
-            setTimeout(function () {
-                resize();
-            }, 1);
-
+            if (!justStart) {
+                setTimeout(function () {
+                    resize();
+                }, 1);
+            }
         }, 100);
 
         return this;
@@ -15695,6 +15687,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
         this._loadAllLayers();
         this._loaded = true;
         this._callOnLoadHooks();
+        this._initTime = Z.Util.now();
         this._fireEvent('load');
     },
 
@@ -21091,10 +21084,10 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
      * @return {maptalks.ui.UIComponent} this
      */
     hide:function () {
-        if (!this._getDOM()) {
+        if (!this.getDOM()) {
             return this;
         }
-        this._getDOM().style.display = 'none';
+        this.getDOM().style.display = 'none';
         this.fire('hide');
         return this;
     },
@@ -21104,7 +21097,7 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
      * @returns {Boolean} true|false
      */
     isVisible:function () {
-        return this._getDOM() && this._getDOM().style.display !== 'none';
+        return this.getDOM() && this.getDOM().style.display !== 'none';
     },
 
     /**
@@ -21139,6 +21132,10 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
         return this._owner;
     },
 
+    getDOM : function () {
+        return this.__uiDOM;
+    },
+
     _getPosition : function () {
         var p = this.getMap().coordinateToViewPoint(this._coordinate)
                     ._add(this.options['dx'], this.options['dy']);
@@ -21149,13 +21146,9 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
         return p;
     },
 
-    _getDOM : function () {
-        return this.__uiDOM;
-    },
-
     _autoPan : function () {
         var map = this.getMap(),
-            dom = this._getDOM();
+            dom = this.getDOM();
         var point = new Z.Point(parseInt(dom.style.left), parseInt(dom.style.top));
         var mapSize = map.getSize(),
             mapWidth = mapSize['width'],
@@ -21275,10 +21268,10 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
     },
 
     _onZooming : function (param) {
-        if (!this.isVisible() || !this._getDOM()) {
+        if (!this.isVisible() || !this.getDOM()) {
             return;
         }
-        var dom = this._getDOM(),
+        var dom = this.getDOM(),
             point = this.getMap().coordinateToViewPoint(this._coordinate),
             matrix = param['matrix']['view'];
         var p = matrix.applyToPointInstance(point)._add(this.options['dx'], this.options['dy']);
@@ -21291,10 +21284,10 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
     },
 
     _onZoomEnd : function () {
-        if (!this.isVisible() || !this._getDOM()) {
+        if (!this.isVisible() || !this.getDOM()) {
             return;
         }
-        var dom = this._getDOM(),
+        var dom = this.getDOM(),
             p = this._getPosition();
         dom.style.left = p.x + 'px';
         dom.style.top  = p.y + 'px';
@@ -21377,7 +21370,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
     },
 
     _onDOMRemove: function () {
-        var dom = this._getDOM();
+        var dom = this.getDOM();
         this._removeDOMEvents(dom);
     },
 
@@ -21589,7 +21582,7 @@ Z.ui.UIMarker.Drag = Z.Handler.extend(/** @lends maptalks.ui.UIMarker.Drag.proto
     },
 
     _prepareDragHandler:function () {
-        this._dragHandler = new Z.Handler.Drag(this.target._getDOM());
+        this._dragHandler = new Z.Handler.Drag(this.target.getDOM());
         this._dragHandler.on('mousedown', this._onMouseDown, this);
         this._dragHandler.on('dragging', this._dragging, this);
         this._dragHandler.on('mouseup', this._endDrag, this);

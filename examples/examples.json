@@ -54,6 +54,7 @@
         {"name" : "collection", "title" : {"zh" : "集合类型图形", "en" : "Geometry collections"}},
         {"name" : "ext-polygon", "title" : {"zh" : "矩形/圆形/椭圆/扇面", "en" : "Rectangle/circle/ellipse/sector"}},
         {"name" : "label", "title" : {"zh" : "文字标签", "en" : "Add a text label"}},
+        {"name" : "label-edit", "title" : {"zh" : "编辑文字标签", "en" : "Edit the text of a text label"}},
         {"name" : "curve", "title" : {"zh" : "添加弧线", "en" : "Add curve lines"}},
         {"name" : "connector-line", "title" : {"zh" : "图形连接线", "en" : "Connector lines of geometries"}},
         {"name" : "change-symbol", "title" : {"zh" : "改变样式", "en" : "Change geometry's symbol"}},
