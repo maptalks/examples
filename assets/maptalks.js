@@ -8889,7 +8889,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
      * @property {String} [options.measure=EPSG:4326]       - the measure code for the geometry, defines {@tutorial measureGeometry how it can be measured}.
      * @property {Boolean} [options.draggable=false]    - whether the geometry can be dragged.
      * @property {Boolean} [options.dragShadow=false]   - if true, during geometry dragging, a shadow will be dragged before geometry was moved.
-     * @property {Boolean} [options.draggableAxis=null] - if set, geometry can only be dragged along the specified axis, possible values: x, y
+     * @property {Boolean} [options.dragOnAxis=null] - if set, geometry can only be dragged along the specified axis, possible values: x, y
      */
     options:{
         'id'        : null,
@@ -9959,7 +9959,7 @@ Z.Geometry.mergeOptions({
 
     'dragShadow' : true,
 
-    'draggableAxis' : null
+    'dragOnAxis' : null
 });
 
 /**
@@ -10118,7 +10118,7 @@ Z.Geometry.Drag = Z.Handler.extend(/** @lends maptalks.Geometry.Drag.prototype *
         if (!this._shadow) {
             return;
         }
-        var axis = this._shadow.options['draggableAxis'];
+        var axis = this._shadow.options['dragOnAxis'];
         var currentPos = eventParam['coordinate'];
         if (!this._lastPos) {
             this._lastPos = currentPos;
@@ -12969,15 +12969,25 @@ Z.GeometryCollection = Z.Geometry.extend(/** @lends maptalks.GeometryCollection.
         if (this.isEmpty()) {
             return null;
         }
+        var i, l, ii, ll;
         var geometries = this.getGeometries(),
-            resources = [], symbol, res;
-        for (var i = 0, len = geometries.length; i < len; i++) {
+            resources = [], symbol, res, cache = {}, key;
+        for (i = 0, l = geometries.length; i < l; i++) {
             if (!geometries[i]) {
                 continue;
             }
             symbol = geometries[i]._getInternalSymbol();
             res = Z.Util.getExternalResources(this._interpolateSymbol(symbol));
-            resources = resources.concat(res);
+            if (!res) {
+                continue;
+            }
+            for (ii = 0, ll = res.length; ii < ll; ii++) {
+                key = res[ii].join();
+                if (!cache[key]) {
+                    resources.push(res[ii]);
+                    cache[key] = 1;
+                }
+            }
         }
         return resources;
     },
@@ -13584,7 +13594,7 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
         var handle = new Z.Marker(coordinate, {
             'draggable' : true,
             'dragShadow' : false,
-            'draggableAxis' : opts['axis'],
+            'dragOnAxis' : opts['axis'],
             'cursor'    : opts['cursor'],
             'symbol'    : symbol
         });
@@ -13638,7 +13648,7 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
             'w-resize',            'e-resize',
             'sw-resize', 's-resize', 'se-resize'
         ];
-        //defines draggableAxis of resize handle
+        //defines dragOnAxis of resize handle
         var axis = [
             null, 'y', null,
             'x',       'x',
