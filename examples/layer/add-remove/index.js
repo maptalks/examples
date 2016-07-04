@@ -12,10 +12,19 @@ var marker = new maptalks.Marker([121.487542, 31.239812]);
 var layer = new maptalks.VectorLayer('vector')
     .addGeometry(marker);
 
-document.getElementById('add').onclick = function () {
-  map.addLayer(layer);
-};
-
-document.getElementById('remove').onclick = function () {
-  map.removeLayer(layer);
-};
+var toolbar = new maptalks.control.Toolbar({
+  items: [
+    {
+      item: 'Add Layer',
+      click: function () {
+        map.addLayer(layer);
+      }
+    },
+    {
+      item: 'Remove Layer',
+      click: function () {
+        map.removeLayer(layer);
+      }
+    }
+  ]
+}).addTo(map);

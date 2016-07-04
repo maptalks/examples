@@ -32,7 +32,7 @@ var layer = new maptalks.VectorLayer('vector')
   }).addTo(layer);
 });
 
-document.getElementById('filter').onclick = function () {
+function doFilter() {
   var features = layer.filter([
     'any',
     ['==', 'id', 1],
@@ -47,4 +47,13 @@ document.getElementById('filter').onclick = function () {
       'polygonOpacity': 0.2
     });
   });
-};
+}
+
+var toolbar = new maptalks.control.Toolbar({
+  items: [
+    {
+      item: 'Filter',
+      click: doFilter
+    }
+  ]
+}).addTo(map);

@@ -18,17 +18,26 @@ drawTool.on('drawend', function (param) {
   layer.addGeometry(param.geometry);
 });
 
-var modeButtonList = Array.prototype.slice.call(document.querySelectorAll('#middle button'));
-modeButtonList.forEach(function (el) {
-  el.addEventListener('click', function () {
-    drawTool.setMode(el.id).enable();
-  });
+var items = ['Point', 'LineString', 'Polygon', 'Circle', 'Ellipse', 'Rectangle'].map(function (value) {
+  return {
+    item: value,
+    click: function () {
+      drawTool.setMode(value).enable();
+    }
+  };
 });
 
-document.querySelector('#disable').addEventListener('click', function (event) {
-  drawTool.disable();
-});
-
-document.querySelector('#clear').addEventListener('click', function () {
-  layer.clear();
-});
+var toolbar = new maptalks.control.Toolbar({
+  items: [
+    {
+      item: 'Shape',
+      children: items
+    },
+    {
+      item: 'Clear',
+      click: function () {
+        layer.clear();
+      }
+    }
+  ]
+}).addTo(map);

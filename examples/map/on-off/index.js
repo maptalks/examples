@@ -44,3 +44,31 @@ function borderPanOn() {
 function borderPanOff() {
   map.config('autoBorderPanning', false);
 }
+
+var items = [
+  ['Drag', dragOn, dragOff],
+  ['Zoom', zoomOn, zoomOff],
+  ['ScrollWheel', scrollOn, scrollOff],
+  ['TouchZoom', touchZoomOn, touchZoomOff],
+  ['DblClick', dblClickOn, dblClickOff],
+  ['BorderPan', borderPanOn, borderPanOff]
+].map(function (value) {
+  return {
+    item: value[0],
+    children: [
+      {
+        item: 'ON',
+        click: value[1]
+      },
+      {
+        item: 'OFF',
+        click: value[2]
+      }
+    ]
+  };
+});
+
+var toolbar = new maptalks.control.Toolbar({
+  position: maptalks.Control.top_left,
+  items: items
+}).addTo(map);

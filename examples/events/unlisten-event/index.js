@@ -22,3 +22,16 @@ function printEvents() {
   var infoDom = document.getElementById('info');
   infoDom.innerHTML = infoDom.innerHTML + '<div>' + new Date().getTime() + ': Your click marker!</div>';
 }
+
+var toolbar = new maptalks.control.Toolbar({
+  items: [
+    {
+      item: 'Bind',
+      click: addListener
+    },
+    {
+      item: 'Unbind',
+      click: removeListener
+    }
+  ]
+}).addTo(map);
