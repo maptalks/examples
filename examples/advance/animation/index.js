@@ -26,8 +26,7 @@ var animtaionStyles = {
 var options = {speed: 1000, easing: 'inAndOut'};
 function step(frame) {
   if (frame.state.playState === 'running') {
-    var symbol = marker.getSymbol();
-    marker.setSymbol(maptalks.Util.extendSymbol(symbol, frame.styles.symbol));
+    marker.updateSymbol(frame.styles.symbol);
   }
 }
 var animation = maptalks.Animation.animate(animtaionStyles, options, step).play();

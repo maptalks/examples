@@ -8067,10 +8067,10 @@ Z.Layer = Z.Class.extend(/** @lends maptalks.Layer.prototype */{
         }
 
         if (mask instanceof Z.Marker) {
-            mask.setSymbol(Z.Util.extendSymbol(mask.getSymbol(), {
+            mask.updateSymbol({
                 'markerLineWidth': 0,
                 'markerFillOpacity': 1
-            }));
+            });
         } else {
             mask.setSymbol({
                 'lineWidth':0,
@@ -9220,6 +9220,22 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
         this._symbol = this._prepareSymbol(symbol);
         this._onSymbolChanged();
         return this;
+    },
+
+    /**
+     * update geometry's symbol with the given symbol and geometry's current symbol.
+     * @param  {Object} symbol - symbol to update
+     * @return {maptalks.Geometry} this
+     * @fires maptalks.Geometry#symbolchange
+     */
+    updateSymbol: function (symbol) {
+        var s = this.getSymbol();
+        if (s) {
+            s = Z.Util.extendSymbol(s, symbol);
+        } else {
+            s = symbol;
+        }
+        return this.setSymbol(s);
     },
 
     /**
@@ -16974,6 +16990,7 @@ Z.Map.Drag = Z.Handler.extend({
         if (this.target._panAnimating) {
             this.target._enablePanAnimation = false;
         }
+        Z.DomUtil.preventDefault(param['domEvent']);
     },
 
     _onDragStart:function (param) {
@@ -16996,7 +17013,7 @@ Z.Map.Drag = Z.Handler.extend({
         if (this._ignore(param)) {
             return;
         }
-        Z.DomUtil.preventDefault(param['domEvent']);
+        //Z.DomUtil.preventDefault(param['domEvent']);
         if (this.startLeft === undefined) {
             return;
         }
@@ -17016,7 +17033,7 @@ Z.Map.Drag = Z.Handler.extend({
         if (this._ignore(param)) {
             return;
         }
-        Z.DomUtil.preventDefault(param['domEvent']);
+        //Z.DomUtil.preventDefault(param['domEvent']);
         if (this.startLeft === undefined) {
             return;
         }
@@ -17290,7 +17307,7 @@ Z.Map.TouchZoom = Z.Handler.extend({
         var matrix = renderer.getZoomMatrix(scale, origin, Z.Browser.retina);
         renderer.transform(matrix);
 
-        Z.DomUtil.preventDefault(event);
+        // Z.DomUtil.preventDefault(event);
     },
 
     _onTouchEnd:function () {
@@ -19174,6 +19191,7 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
     _getEvents:function () {
         var events = {
             '_zoomstart'    : this._onZoomStart,
+            '_touchzoomstart' : this._onTouchZoomStart,
             '_zoomend'      : this._onZoomEnd,
             '_moveend _resize' : this.render,
             '_movestart'    : this._onMoveStart
@@ -19204,6 +19222,10 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
 
     _onMoveStart: function () {
         // this._fadeAnimated = false;
+    },
+
+    _onTouchZoomStart: function () {
+        this._pruneTiles(true);
     },
 
     _onZoomStart: function () {
