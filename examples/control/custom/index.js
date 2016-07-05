@@ -2,7 +2,7 @@
 var myControl = maptalks.Control.extend({
 
   options :{
-    'position' : maptalks.Control['top_right'],
+    'position' : 'top-right',
     'content'  : 'My Control'
   },
 

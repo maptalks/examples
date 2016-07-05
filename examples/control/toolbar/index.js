@@ -10,7 +10,7 @@ var map = new maptalks.Map('map', {
 
 var horizontal = new maptalks.control.Toolbar({
   'vertical' : false,
-  'position' : maptalks.Control['top_left'],
+  'position' : 'top-left',
   'items'     : [{
     item: '<span style="color:#fff;font-size:12px;">one</span>',
     click : function () { alert('click one!'); },
@@ -33,7 +33,7 @@ map.addControl(horizontal);
 
 var vertical = new maptalks.control.Toolbar({
   'vertical' : true,
-  'position' : maptalks.Control['top_right'],
+  'position' : 'top-right',
   'items'     : [{
     item: 'one',
     click : function () { alert('click one!'); },
