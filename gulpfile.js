@@ -28,7 +28,7 @@ var defines = define({
 });
 
 function readExamplesInfo() {
-  var json = require('./examples/examples.json');
+  var json = require('./build/examples.json');
   var items = json.examples;
   var count = Math.floor(items.length);
   var info = {};
@@ -103,15 +103,6 @@ function processDemo(files, metalsmith, done) {
   }
 }
 
-function processList(files, metalsmith, done) {
-  setImmediate(done);
-  var examples = require('./examples/examples.json');
-  examples.layout = 'list.hbs';
-  if (!files) {
-    files = [examples];
-  }
-}
-
 function indentHelper(text, options) {
   if (!text) {
     return text;
@@ -123,12 +114,12 @@ function indentHelper(text, options) {
   }).join('\n');
 }
 
-function embedHelper(options) {
+function escapeHelper(options) {
   return handlebars.Utils.escapeExpression(options.fn(this));
 }
 
-gulp.task('examples-raw', ['resource-copy'], function () {
-  return gulp.src('examples/**/index.{html,js,css}')
+gulp.task('examples-raw', function () {
+  return gulp.src('examples/**/!(list.html)')
     .pipe(metalsmith({
       use: [
         drafts(),
@@ -150,15 +141,6 @@ gulp.task('examples-raw', ['resource-copy'], function () {
     .pipe(gulp.dest(path.join('dist/examples', locale)));
 });
 
-gulp.task('resource-copy', function () {
-  return gulp.src('examples/**/!(index.js|index.css|index.html)')
-    .pipe(rename(function (path) {
-      path.dirname += '/raw';
-      return path;
-    }))
-    .pipe(gulp.dest(path.join('dist/examples', locale)));
-});
-
 gulp.task('examples-demo', function () {
   return gulp.src('examples/**/*.{html,js,css}')
     .pipe(metalsmith({
@@ -172,7 +154,7 @@ gulp.task('examples-demo', function () {
           partials: 'layouts/raw',
           helpers: {
             indent: indentHelper,
-            embed: embedHelper,
+            escape: escapeHelper,
             list: builder.listHelper
           }
         })

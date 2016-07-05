@@ -1,6 +1,6 @@
 var path = require('path');
 var fs = require('fs');
-var all = require('../examples/examples.json');
+var all = require('./examples.json');
 var chalk = require('chalk');
 
 module.exports = exports = {
