@@ -24,7 +24,6 @@ var animtaionStyles = {
   }
 };
 var options = {speed: 1000, easing: 'inAndOut'};
-var index = 0;
 function step(frame) {
   if (frame.state.playState === 'running') {
     var symbol = marker.getSymbol();

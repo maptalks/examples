@@ -1,6 +1,6 @@
 (function () {
 'use strict';
-'0.5.0';
+'0.6.0';
 // Z is the root namespace used internally, and will be exported later as maptalks.
 /**
  * @namespace
@@ -2182,900 +2182,6 @@ Z.Class.addInitHook = function (fn) { // (Function) || (String, args...)
     this.prototype._initHooks = this.prototype._initHooks || [];
     this.prototype._initHooks.push(init);
 };
-
-/**
- * Represents a coordinate point <br>
- * e.g. <br>
- * a geographical point with a certain latitude and longitude <br>
- * a point in a indoor room
- * @class
- * @category basic types
- * @param {Number} x - x value
- * @param {Number} y - y value
- */
-Z.Coordinate = function (x, y) {
-    if (!Z.Util.isNil(x) && !Z.Util.isNil(y)) {
-        /**
-         * @property {Number} x - value on X-Axis or longitude in degrees
-         */
-        this.x = +(x);
-        /**
-         * @property {Number} y - value on Y-Axis or Latitude in degrees
-         */
-        this.y = +(y);
-    } else if (Z.Util.isArray(x)) {
-        //数组
-        this.x = +(x[0]);
-        this.y = +(x[1]);
-    } else if (!Z.Util.isNil(x['x']) && !Z.Util.isNil(x['y'])) {
-        //对象
-        this.x = +(x['x']);
-        this.y = +(x['y']);
-    }
-    if (this.isNaN()) {
-        throw new Error('coordinate is NaN');
-    }
-};
-
-Z.Util.extend(Z.Coordinate.prototype, /** @lends maptalks.Coordinate.prototype */{
-    /**
-     * Returns a copy of the coordinate
-     * @return {maptalks.Coordinate} copy
-     */
-    copy:function () {
-        return new Z.Coordinate(this.x, this.y);
-    },
-
-    //destructive add, to improve performance in some circumstances.
-    _add: function (x, y) {
-        if (x instanceof Z.Coordinate) {
-            this.x += x.x;
-            this.y += x.y;
-        } else {
-            this.x += x;
-            this.y += y;
-        }
-        return this;
-    },
-    /**
-     * Returns the result of addition of another coordinate.
-     * @param {maptalks.Coordinate} coordinate - coordinate to add
-     * @return {maptalks.Coordinate} result
-     */
-    add:function (x, y) {
-        var nx, ny;
-        if (x instanceof Z.Coordinate) {
-            nx = this.x + x.x;
-            ny = this.y + x.y;
-        } else {
-            nx = this.x + x;
-            ny = this.y + y;
-        }
-        return new Z.Coordinate(nx, ny);
-    },
-
-    //destructive substract
-    _substract: function (x, y) {
-        if (x instanceof Z.Coordinate) {
-            this.x -= x.x;
-            this.y -= x.y;
-        } else {
-            this.x -= x;
-            this.y -= y;
-        }
-        return this;
-    },
-
-    /**
-     * Returns the result of subtraction of another coordinate.
-     * @param {maptalks.Coordinate} coordinate - coordinate to substract
-     * @return {maptalks.Coordinate} result
-     */
-    substract:function (x, y) {
-        var nx, ny;
-        if (x instanceof Z.Coordinate) {
-            nx = this.x - x.x;
-            ny = this.y - x.y;
-        } else {
-            nx = this.x - x;
-            ny = this.y - y;
-        }
-        return new Z.Coordinate(nx, ny);
-    },
-
-    /**
-     * Returns the result of multiplication of the current coordinate by the given number.
-     * @param {Number} ratio - ratio to multi
-     * @return {maptalks.Coordinate} result
-     */
-    multi: function (ratio) {
-        return new Z.Coordinate(this.x * ratio, this.y * ratio);
-    },
-
-    _multi: function (ratio) {
-        this.x *= ratio;
-        this.y *= ratio;
-        return this;
-    },
-
-    /**
-     * Compare with another coordinate to see whether they are equal.
-     * @param {maptalks.Coordinate} c2 - coordinate to compare
-     * @return {Boolean}
-     */
-    equals:function (c2) {
-        if (!Z.Util.isCoordinate(c2)) {
-            return false;
-        }
-        return this.x === c2.x && this.y === c2.y;
-    },
-
-    isNaN:function () {
-        return isNaN(this.x) || isNaN(this.y);
-    },
-
-    /**
-     * Convert the coordinate to a number array [x, y]
-     * @return {Number[]} number array
-     */
-    toArray:function () {
-        return [this.x, this.y];
-    },
-
-    /**
-     * toJSON
-     * @return {Object} json
-     */
-    toJSON: function () {
-        return {
-            x : this.x,
-            y : this.y
-        };
-    }
-});
-
-/**
- * Represents a 2d point.<br>
- * Can be created in serveral ways:
- * @example
- * var point = new maptalks.Point(1000, 1000);
- * @example
- * var point = new maptalks.Point([1000,1000]);
- * @example
- * var point = new maptalks.Point({x:1000, y:1000});
- * @class
- * @category basic types
- * @param {Number} x - x value
- * @param {Number} y - y value
- */
-Z.Point = function (x, y) {
-    if (!Z.Util.isNil(x) && !Z.Util.isNil(y)) {
-        /**
-         * @property x {Number} - x value
-         */
-        this.x = x;
-        /**
-         * @property y {Number} - y value
-         */
-        this.y = y;
-    } else if (!Z.Util.isNil(x.x) && !Z.Util.isNil(x.y)) {
-        //对象
-        this.x = x.x;
-        this.y = x.y;
-    } else if (Z.Util.isArrayHasData(x)) {
-        this.x = x[0];
-        this.y = x[1];
-    }
-    if (this.isNaN()) {
-        throw new Error('point is NaN');
-    }
-};
-
-Z.Util.extend(Z.Point.prototype, /** @lends maptalks.Point.prototype */{
-    _abs:function () {
-        this.x = Math.abs(this.x);
-        this.y = Math.abs(this.y);
-        return this;
-    },
-    /**
-     * Returns a copy of the point
-     * @return {maptalks.Point} copy
-     */
-    copy:function () {
-        return new Z.Point(this.x, this.y);
-    },
-
-    _round:function () {
-        this.x = Z.Util.round(this.x);
-        this.y = Z.Util.round(this.y);
-        return this;
-    },
-
-    round:function () {
-        return new Z.Point(Z.Util.round(this.x), Z.Util.round(this.y));
-    },
-
-    /**
-     * Compare with another point to see whether they are equal.
-     * @param {maptalks.Point} c2 - point to compare
-     * @return {Boolean}
-     */
-    equals:function (p) {
-        return this.x === p.x && this.y === p.y;
-    },
-
-    /**
-     * Returns the distance between the current and the given point.
-     * @param  {maptalks.Point} point - another point
-     * @return {Number} distance
-     */
-    distanceTo: function (point) {
-        var x = point.x - this.x,
-            y = point.y - this.y;
-        return Math.sqrt(x * x + y * y);
-    },
-
-    //Destructive add
-    _add: function (x, y) {
-        if (x instanceof Z.Point) {
-            this.x += x.x;
-            this.y += x.y;
-        } else {
-            this.x += x;
-            this.y += y;
-        }
-        return this;
-    },
-
-    /**
-     * Returns the result of addition of another point.
-     * @param {maptalks.Point} point - point to add
-     * @return {maptalks.Point} result
-     */
-    add: function (x, y) {
-        var nx, ny;
-        if (x instanceof Z.Point) {
-            nx = this.x + x.x;
-            ny = this.y + x.y;
-        } else {
-            nx = this.x + x;
-            ny = this.y + y;
-        }
-        return new Z.Point(nx, ny);
-    },
-
-    _substract: function (x, y) {
-        if (x instanceof Z.Point) {
-            this.x -= x.x;
-            this.y -= x.y;
-        } else {
-            this.x -= x;
-            this.y -= y;
-        }
-        return this;
-    },
-
-    /**
-     * Returns the result of subtraction of another point.
-     * @param {maptalks.Point} point - point to substract
-     * @return {maptalks.Point} result
-     */
-    substract: function (x, y) {
-        var nx, ny;
-        if (x instanceof Z.Point) {
-            nx = this.x - x.x;
-            ny = this.y - x.y;
-        } else {
-            nx = this.x - x;
-            ny = this.y - y;
-        }
-        return new Z.Point(nx, ny);
-    },
-
-    //破坏性方法
-    _multi: function (ratio) {
-        this.x *= ratio;
-        this.y *= ratio;
-        return this;
-    },
-
-    /**
-     * Returns the result of multiplication of the current point by the given number.
-     * @param {Number} ratio - ratio to multi
-     * @return {maptalks.Point} result
-     */
-    multi: function (ratio) {
-        return new Z.Point(this.x * ratio, this.y * ratio);
-    },
-
-    isNaN:function () {
-        return isNaN(this.x) || isNaN(this.y);
-    },
-
-    /**
-     * toJSON
-     * @return {Object} json
-     */
-    toJSON: function () {
-        return {
-            x : this.x,
-            y : this.y
-        };
-    }
-});
-
-/**
- * Represents a size.
- * @class
- * @category basic types
- * @param {Number} width - width value
- * @param {Number} height - height value
- */
-Z.Size = function (width, height) {
-    /**
-     * @property {Number} width - width
-     */
-    this.width = width;
-    /**
-     * @property {Number} height - height
-     */
-    this.height = height;
-};
-
-Z.Util.extend(Z.Size.prototype, /** @lends maptalks.Size.prototype */{
-    /**
-     * Returns a copy of the size
-     * @return {maptalks.Size} copy
-     */
-    copy:function () {
-        return new Z.Size(this['width'], this['height']);
-    },
-    /**
-     * Returns the result of addition of another size.
-     * @param {maptalks.Size} size - size to add
-     * @return {maptalks.Size} result
-     */
-    add:function (size) {
-        return new Z.Size(this['width'] + size['width'], this['height'] + size['height']);
-    },
-    /**
-     * Compare with another size to see whether they are equal.
-     * @param {maptalks.Size} size - size to compare
-     * @return {Boolean}
-     */
-    equals:function (size) {
-        return this['width'] === size['width'] && this['height'] === size['height'];
-    },
-    /**
-     * Returns the result of multiplication of the current size by the given number.
-     * @param {Number} ratio - ratio to multi
-     * @return {maptalks.Size} result
-     */
-    multi:function (ratio) {
-        return new Z.Size(this['width'] * ratio, this['height'] * ratio);
-    },
-    _multi:function (ratio) {
-        this['width'] *= ratio;
-        this['height'] *= ratio;
-        return this;
-    },
-    _round:function () {
-        this['width'] = Z.Util.round(this['width']);
-        this['height'] = Z.Util.round(this['height']);
-        return this;
-    },
-    toPoint:function () {
-        return new Z.Point(this['width'], this['height']);
-    },
-
-    toArray: function () {
-        return [this['width'], this['height']];
-    },
-
-    /**
-     * toJSON
-     * @return {Object} json
-     */
-    toJSON: function () {
-        return {
-            'width' : this['width'],
-            'height': this['height']
-        };
-    }
-});
-
-
-/**
- * Represent CRS defined by [GeoJSON]{@link http://geojson.org/geojson-spec.html#coordinate-reference-system-objects}
- *
- * @class
- * @category geo
- * @param {String} type          - type of the CRS
- * @param {Object} properties    - CRS's properties
- */
-Z.CRS = function (type, properties) {
-    this.type = type;
-    this.properties = properties;
-};
-
-/**
- * Create a [proj4]{@link https://github.com/OSGeo/proj.4} style CRS used by maptalks <br>
- * @example
- * {
- *     "type"       : "proj4",
- *     "properties" : {
- *         "proj"   : "+proj=longlat +datum=WGS84 +no_defs"
- *     }
- * }
- * var crs_wgs84 = maptalks.CRS.createProj4("+proj=longlat +datum=WGS84 +no_defs");
- * @static
- * @param  {String} proj - a proj4 projection string.
- * @return {maptalks.CRS}
- */
-Z.CRS.createProj4 = function (proj) {
-    return new Z.CRS('proj4', {
-        'proj': proj
-    });
-};
-
-//some common CRS definitions
-/**
- * Predefined CRS of well-known WGS84 (aka EPSG:4326)
- * @type {maptalks.CRS}
- * @static
- * @constant
- */
-Z.CRS.WGS84 = Z.CRS.createProj4('+proj=longlat +datum=WGS84 +no_defs');
-/**
- * Alias for maptalks.CRS.WGS84
- * @type {maptalks.CRS}
- * @static
- * @constant
- */
-Z.CRS.EPSG4326 = Z.CRS.WGS84;
-/**
- * Projected Coordinate System used by google maps that has the following alias: 'EPSG:3785', 'GOOGLE', 'EPSG:900913'
- * @type {maptalks.CRS}
- * @static
- * @constant
- */
-Z.CRS.EPSG3857 = Z.CRS.createProj4('+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs');
-/**
- * A CRS represents a simple Cartesian coordinate system. <br>
- * Maps x, y directly, is useful for maps of flat surfaces (e.g. indoor maps, game maps).
- * @type {maptalks.CRS}
- * @static
- * @constant
- */
-Z.CRS.IDENTITY = Z.CRS.createProj4('+proj=identity +no_defs');
-/**
- * Official coordinate system in China (aka EPSG:4490), in most cases, it can be considered the same with WGS84.
- * @type {maptalks.CRS}
- * @see  {@link http://spatialreference.org/ref/sr-org/7408/}
- * @static
- * @constant
- */
-Z.CRS.CGCS2000 = Z.CRS.createProj4('+proj=longlat +datum=CGCS2000');
-/**
- * Alias for maptalks.CRS.CGCS2000
- * @type {maptalks.CRS}
- * @static
- * @constant
- */
-Z.CRS.EPSG4490 = Z.CRS.CGCS2000;
-/**
- * Projection used by [Baidu Map]{@link http://map.baidu.com}, a popular web map service in China.
- * @type {maptalks.CRS}
- * @static
- * @constant
- */
-Z.CRS.BD09LL = Z.CRS.createProj4('+proj=longlat +datum=BD09');
-/**
- * A encrypted CRS usded in the most online map services in China..
- * @type {maptalks.CRS}
- * @see {@link https://en.wikipedia.org/wiki/Restrictions_on_geographic_data_in_China}
- * @static
- * @constant
- */
-Z.CRS.GCJ02 = Z.CRS.createProj4('+proj=longlat +datum=GCJ02');
-
-/**
- * Represent a bounding box on the map, a rectangular geographical area with minimum and maximum coordinates. <br>
- * There are serveral ways to create a extent:
- * @class
- * @category basic types
- * @param {Number} x1   - x of coordinate 1
- * @param {Number} y1   - y of coordinate 1
- * @param {Number} x2   - x of coordinate 2
- * @param {Number} y2   - y of coordinate 2
- * @example
- * //with 4 numbers
- * var extent = new maptalks.Extent(100, 10, 120, 20);
- * @example
- * //with 2 coordinates
- * var extent = new maptalks.Extent(new maptalks.Coordinate(100, 10), new maptalks.Coordinate(120, 20));
- * @example
- * //with a json object containing xmin, ymin, xmax and ymax
- * var extent = new maptalks.Extent({xmin : 100, ymin: 10, xmax: 120, ymax:20});
- * @example
- * var extent1 = new maptalks.Extent(100, 10, 120, 20);
- * //with another extent
- * var extent2 = new maptalks.Extent(extent1);
- */
-Z.Extent = function (p1, p2, p3, p4) {
-    this._clazz = Z.Coordinate;
-    this._initialize(p1, p2, p3, p4);
-};
-
-Z.Util.extend(Z.Extent.prototype, /** @lends maptalks.Extent.prototype */{
-    _initialize:function (p1, p2, p3, p4) {
-        /**
-         * @property {Number} xmin - minimum x
-         */
-        this.xmin = null;
-        /**
-         * @property {Number} xmax - maximum x
-         */
-        this.xmax = null;
-        /**
-         * @property {Number} ymin - minimum y
-         */
-        this.ymin = null;
-        /**
-         * @property {Number} ymax - maximum y
-         */
-        this.ymax = null;
-        if (Z.Util.isNil(p1)) {
-            return;
-        }
-        //Constructor 1: all numbers
-        if (Z.Util.isNumber(p1) &&
-            Z.Util.isNumber(p2) &&
-            Z.Util.isNumber(p3) &&
-            Z.Util.isNumber(p4)) {
-            this['xmin'] = Math.min(p1, p3);
-            this['ymin'] = Math.min(p2, p4);
-            this['xmax'] = Math.max(p1, p3);
-            this['ymax'] = Math.max(p2, p4);
-            return;
-        } else if (Z.Util.isNumber(p1.x) &&
-            Z.Util.isNumber(p2.x) &&
-            Z.Util.isNumber(p1.y) &&
-            Z.Util.isNumber(p2.y)) {
-            //Constructor 2: two coordinates
-            if (p1.x > p2.x) {
-                this['xmin'] = p2.x;
-                this['xmax'] = p1.x;
-            } else {
-                this['xmin'] = p1.x;
-                this['xmax'] = p2.x;
-            }
-            if (p1.y > p2.y) {
-                this['ymin'] = p2.y;
-                this['ymax'] = p1.y;
-            } else {
-                this['ymin'] = p1.y;
-                this['ymax'] = p2.y;
-            }
-            //constructor 3: another extent or a object containing xmin, ymin, xmax and ymax
-        } else if (Z.Util.isNumber(p1['xmin']) &&
-                Z.Util.isNumber(p1['xmax']) &&
-                Z.Util.isNumber(p1['ymin']) &&
-                Z.Util.isNumber(p1['ymax'])) {
-            this['xmin'] = p1['xmin'];
-            this['ymin'] = p1['ymin'];
-            this['xmax'] = p1['xmax'];
-            this['ymax'] = p1['ymax'];
-        }
-    },
-
-    _add: function (p) {
-        this['xmin'] += p.x;
-        this['ymin'] += p.y;
-        this['xmax'] += p.x;
-        this['ymax'] += p.y;
-        return this;
-    },
-
-    add: function (p) {
-        return new this.constructor(this['xmin'] + p.x, this['ymin'] + p.y, this['xmax'] + p.x, this['ymax'] + p.y);
-    },
-
-    round:function () {
-        return new this.constructor(Z.Util.round(this['xmin']), Z.Util.round(this['ymin']),
-            Z.Util.round(this['xmax']), Z.Util.round(this['ymax']));
-    },
-
-    _round:function () {
-        this['xmin'] = Z.Util.round(this['xmin']);
-        this['ymin'] = Z.Util.round(this['ymin']);
-        this['xmax'] = Z.Util.round(this['xmax']);
-        this['ymax'] = Z.Util.round(this['ymax']);
-        return this;
-    },
-
-    /**
-     * Get the minimum point
-     * @return {maptalks.Coordinate}
-     */
-    getMin:function () {
-        return new this._clazz(this['xmin'], this['ymin']);
-    },
-
-    /**
-     * Get the maximum point
-     * @return {maptalks.Coordinate}
-     */
-    getMax:function () {
-        return new this._clazz(this['xmax'], this['ymax']);
-    },
-
-
-    /**
-     * Get center of the extent.
-     * @return {maptalks.Coordinate}
-     */
-    getCenter:function () {
-        return new this._clazz((this['xmin'] + this['xmax']) / 2, (this['ymin'] + this['ymax']) / 2);
-    },
-
-    /**
-     * Whether the extent is valid
-     * @protected
-     * @return {Boolean}
-     */
-    isValid:function () {
-        return Z.Util.isNumber(this['xmin']) &&
-                Z.Util.isNumber(this['ymin']) &&
-                Z.Util.isNumber(this['xmax']) &&
-                Z.Util.isNumber(this['ymax']);
-    },
-
-
-    /**
-     * Compare with another extent to see whether they are equal.
-     * @param  {maptalks.Extent}  ext2 - extent to compare
-     * @return {Boolean}
-     */
-    equals:function (ext2) {
-        return (this['xmin'] === ext2['xmin'] &&
-            this['xmax'] === ext2['xmax'] &&
-            this['ymin'] === ext2['ymin'] &&
-            this['ymax'] === ext2['ymax']);
-    },
-
-    /**
-     * Whether it intersects with another extent
-     * @param  {maptalks.Extent}  ext2 - another extent
-     * @return {Boolean}
-     */
-    intersects:function (ext2) {
-        var rxmin = Math.max(this['xmin'], ext2['xmin']);
-        var rymin = Math.max(this['ymin'], ext2['ymin']);
-        var rxmax = Math.min(this['xmax'], ext2['xmax']);
-        var rymax = Math.min(this['ymax'], ext2['ymax']);
-        var intersects = !((rxmin > rxmax) || (rymin > rymax));
-        return intersects;
-    },
-
-    /**
-     * Whether the extent contains the input point.
-     * @param  {maptalks.Coordinate|Number[]} coordinate - input point
-     * @returns {Boolean}
-     */
-    contains: function (coordinate) {
-        var x, y;
-        var c = new this._clazz(coordinate);
-        x = c.x;
-        y = c.y;
-        return (x >= this.xmin) &&
-            (x <= this.xmax) &&
-            (y >= this.ymin) &&
-            (y <= this.ymax);
-    },
-
-    /**
-     * Get the width of the Extent
-     * @return {Number}
-     */
-    getWidth:function () {
-        return this['xmax'] - this['xmin'];
-    },
-
-    /**
-     * Get the height of the Extent
-     * @return {Number}
-     */
-    getHeight:function () {
-        return this['ymax'] - this['ymin'];
-    },
-
-
-    __combine:function (extent) {
-        var xmin = this['xmin'];
-        if (!Z.Util.isNumber(xmin)) {
-            xmin = extent['xmin'];
-        } else if (Z.Util.isNumber(extent['xmin'])) {
-            if (xmin > extent['xmin']) {
-                xmin = extent['xmin'];
-            }
-        }
-
-        var xmax = this['xmax'];
-        if (!Z.Util.isNumber(xmax)) {
-            xmax = extent['xmax'];
-        } else if (Z.Util.isNumber(extent['xmax'])) {
-            if (xmax < extent['xmax']) {
-                xmax = extent['xmax'];
-            }
-        }
-
-        var ymin = this['ymin'];
-        if (!Z.Util.isNumber(ymin)) {
-            ymin = extent['ymin'];
-        } else if (Z.Util.isNumber(extent['ymin'])) {
-            if (ymin > extent['ymin']) {
-                ymin = extent['ymin'];
-            }
-        }
-
-        var ymax = this['ymax'];
-        if (!Z.Util.isNumber(ymax)) {
-            ymax = extent['ymax'];
-        } else if (Z.Util.isNumber(extent['ymax'])) {
-            if (ymax < extent['ymax']) {
-                ymax = extent['ymax'];
-            }
-        }
-        return [xmin, ymin, xmax, ymax];
-    },
-
-    _combine:function (extent) {
-        if (!extent) {
-            return this;
-        }
-        var ext = this.__combine(extent);
-        this['xmin'] = ext[0];
-        this['ymin'] = ext[1];
-        this['xmax'] = ext[2];
-        this['ymax'] = ext[3];
-        return this;
-    },
-
-    /**
-     * Combine it with another extent to a larger extent.
-     * @param  {maptalks.Extent} extent - another extent
-     * @returns {maptalks.Extent} extent combined
-     */
-    combine:function (extent) {
-        if (!extent) {
-            return this;
-        }
-        var ext = this.__combine(extent);
-        return new this.constructor(ext[0], ext[1], ext[2], ext[3]);
-    },
-
-    /**
-     * Gets the intersection extent of this and another extent.
-     * @param  {maptalks.Extent} extent - another extent
-     * @return {maptalks.Extent} intersection extent
-     */
-    intersection:function (extent) {
-        if (!this.intersects(extent)) {
-            return null;
-        }
-        return new this.constructor(Math.max(this['xmin'], extent['xmin']), Math.max(this['ymin'], extent['ymin']),
-            Math.min(this['xmax'], extent['xmax']), Math.min(this['ymax'], extent['ymax'])
-            );
-    },
-
-    /**
-     * Expand the extent by distance
-     * @param  {maptalks.Size|Number} distance  - distance to expand
-     * @returns {maptalks.Extent} a new extent expanded from
-     */
-    expand:function (distance) {
-        if (distance instanceof Z.Size) {
-            return new this.constructor(this['xmin'] - distance['width'], this['ymin'] - distance['height'], this['xmax'] + distance['width'], this['ymax'] + distance['height']);
-        } else {
-            return new this.constructor(this['xmin'] - distance, this['ymin'] - distance, this['xmax'] + distance, this['ymax'] + distance);
-        }
-    },
-
-    _expand:function (distance) {
-        if (distance instanceof Z.Size) {
-            this['xmin'] -= distance['width'];
-            this['ymin'] -= distance['height'];
-            this['xmax'] += distance['width'];
-            this['ymax'] += distance['height'];
-        } else {
-            this['xmin'] -= distance;
-            this['ymin'] -= distance;
-            this['xmax'] += distance;
-            this['ymax'] += distance;
-        }
-        return this;
-    },
-
-    /**
-     * Get extent's JSON object.
-     * @return {Object} jsonObject
-     * @example
-     * // {xmin : 100, ymin: 10, xmax: 120, ymax:20}
-     * var json = extent.toJSON();
-     */
-    toJSON:function () {
-        return {
-            'xmin':this['xmin'],
-            'ymin':this['ymin'],
-            'xmax':this['xmax'],
-            'ymax':this['ymax']
-        };
-    },
-
-    /**
-     * Get a coordinate array of extent's rectangle area, containing 5 coordinates in which the first equals with the last.
-     * @return {maptalks.Coordinate[]} coordinates array
-     */
-    toArray:function () {
-        var xmin = this['xmin'],
-            ymin = this['ymin'],
-            xmax = this['xmax'],
-            ymax = this['ymax'];
-        return [
-            new this._clazz([xmin, ymax]), new this._clazz([xmax, ymax]),
-            new this._clazz([xmax, ymin]), new this._clazz([xmin, ymin]),
-            new this._clazz([xmin, ymax])
-        ];
-    },
-
-    /**
-     * Get a copy of the extent.
-     * @return {maptalks.Extent} copy
-     */
-    copy:function () {
-        return new this.constructor(this['xmin'], this['ymin'], this['xmax'], this['ymax']);
-    }
-});
-
-/**
- * Represent a bounding box on 2d surface , a rectangular area with minimum and maximum points. <br>
- * There are serveral ways to create a PointExtent:
- * @class
- * @category basic types
- * @param {Number} x1   - x of point 1
- * @param {Number} y1   - y of point 1
- * @param {Number} x2   - x of point 2
- * @param {Number} y2   - y of point 2
- * @extends {maptalks.Extent}
- * @example
- * //with 4 numbers
- * var extent = new maptalks.PointExtent(100, 10, 120, 20);
- * @example
- * //with 2 points
- * var extent = new maptalks.PointExtent(new maptalks.Point(100, 10), new maptalks.Point(120, 20));
- * @example
- * //with a json object containing xmin, ymin, xmax and ymax
- * var extent = new maptalks.PointExtent({xmin : 100, ymin: 10, xmax: 120, ymax:20});
- * @example
- * var extent1 = new maptalks.PointExtent(100, 10, 120, 20);
- * //with another extent
- * var extent2 = new maptalks.PointExtent(extent1);
- */
-Z.PointExtent = function (p1, p2, p3, p4) {
-    this._clazz = Z.Point;
-    this._initialize(p1, p2, p3, p4);
-};
-
-Z.Util.extend(Z.PointExtent.prototype, Z.Extent.prototype, /** @lends maptalks.PointExtent.prototype */{
-    /**
-     * Get size of the PointExtent
-     * @return {maptalks.Size}
-     */
-    getSize:function () {
-        return new Z.Size(this.getWidth(), this.getHeight());
-    }
-});
 
 /*!
 	2D Transformation Matrix v2.0
@@ -5325,6 +4431,1199 @@ Z.Canvas = {
 
 })();
 
+if (typeof Promise !== 'undefined') {
+    //built in Promise
+    Z.Promise = Promise;
+} else {
+// zousan - A Lightning Fast, Yet Very Small Promise A+ Compliant Implementation
+// https://github.com/bluejava/zousan
+// Version 2.2.2
+
+/* jshint asi: true, browser: true */
+/* global setImmediate, console */
+(function(_global){
+
+        "use strict";
+
+        var
+            STATE_PENDING,                  // These are the three possible states (PENDING remains undefined - as intended)
+            STATE_FULFILLED = "fulfilled",      // a promise can be in.  The state is stored
+            STATE_REJECTED = "rejected",        // in this.state as read-only
+
+            _undefined,                     // let the obfiscator compress these down
+            _undefinedString = "undefined";     // by assigning them to variables (debatable "optimization")
+
+        // See http://www.bluejava.com/4NS/Speed-up-your-Websites-with-a-Faster-setTimeout-using-soon
+        // This is a very fast "asynchronous" flow control - i.e. it yields the thread and executes later,
+        // but not much later. It is far faster and lighter than using setTimeout(fn,0) for yielding threads.
+        // Its also faster than other setImmediate shims, as it uses Mutation Observer and "mainlines" successive
+        // calls internally.
+        // WARNING: This does not yield to the browser UI loop, so by using this repeatedly
+        //      you can starve the UI and be unresponsive to the user.
+        // This is an even FASTER version of https://gist.github.com/bluejava/9b9542d1da2a164d0456 that gives up
+        // passing context and arguments, in exchange for a 25x speed increase. (Use anon function to pass context/args)
+        var soon = (function() {
+
+                var fq = [], // function queue;
+                    fqStart = 0, // avoid using shift() by maintaining a start pointer - and remove items in chunks of 1024 (bufferSize)
+                    bufferSize = 1024
+
+                function callQueue()
+                {
+                    while(fq.length - fqStart) // this approach allows new yields to pile on during the execution of these
+                    {
+                        fq[fqStart](); // no context or args..
+                        fq[fqStart++] = _undefined  // increase start pointer and dereference function just called
+                        if(fqStart == bufferSize)
+                        {
+                            fq.splice(0,bufferSize);
+                            fqStart = 0;
+                        }
+                    }
+                }
+
+                // run the callQueue function asyncrhonously, as fast as possible
+                var cqYield = (function() {
+
+                        // This is the fastest way browsers have to yield processing
+                        if(typeof MutationObserver !== _undefinedString)
+                        {
+                            // first, create a div not attached to DOM to "observe"
+                            var dd = document.createElement("div");
+                            var mo = new MutationObserver(callQueue);
+                            mo.observe(dd, { attributes: true });
+
+                            return function() { dd.setAttribute("a",0); } // trigger callback to
+                        }
+
+                        // if No MutationObserver - this is the next best thing - handles Node and MSIE
+                        if(typeof setImmediate !== _undefinedString)
+                            return function() { setImmediate(callQueue) }
+
+                        // final fallback - shouldn't be used for much except very old browsers
+                        return function() { setTimeout(callQueue,0) }
+                    })();
+
+                // this is the function that will be assigned to soon
+                // it takes the function to call and examines all arguments
+                return function(fn) {
+
+                        // push the function and any remaining arguments along with context
+                        fq.push(fn);
+
+                        if((fq.length - fqStart) == 1) // upon adding our first entry, kick off the callback
+                            cqYield();
+                    };
+
+            })();
+
+        // -------- BEGIN our main "class" definition here -------------
+
+        function Zousan(func)
+        {
+            //  this.state = STATE_PENDING; // Inital state (PENDING is undefined, so no need to actually have this assignment)
+            //this.c = [];          // clients added while pending.   <Since 1.0.2 this is lazy instantiation>
+
+            // If a function was specified, call it back with the resolve/reject functions bound to this context
+            if(func)
+            {
+                var me = this;
+                func(
+                    function(arg) { me.resolve(arg) },  // the resolve function bound to this context.
+                    function(arg) { me.reject(arg) })   // the reject function bound to this context
+            }
+        }
+
+        Zousan.prototype = {    // Add 6 functions to our prototype: "resolve", "reject", "then", "catch", "finally" and "timeout"
+
+                resolve: function(value)
+                {
+                    if(this.state !== STATE_PENDING)
+                        return;
+
+                    if(value === this)
+                        return this.reject(new TypeError("Attempt to resolve promise with self"));
+
+                    var me = this; // preserve this
+
+                    if(value && (typeof value === "function" || typeof value === "object"))
+                    {
+                        try
+                        {
+                            var first = true; // first time through?
+                            var then = value.then;
+                            if(typeof then === "function")
+                            {
+                                // and call the value.then (which is now in "then") with value as the context and the resolve/reject functions per thenable spec
+                                then.call(value,
+                                    function(ra) { if(first) { first=false; me.resolve(ra);}  },
+                                    function(rr) { if(first) { first=false; me.reject(rr); } });
+                                return;
+                            }
+                        }
+                        catch(e)
+                        {
+                            if(first)
+                                this.reject(e);
+                            return;
+                        }
+                    }
+
+                    this.state = STATE_FULFILLED;
+                    this.v = value;
+
+                    if(me.c)
+                        soon(function() {
+                                for(var n=0, l=me.c.length;n<l;n++)
+                                    resolveClient(me.c[n],value);
+                            });
+                },
+
+                reject: function(reason)
+                {
+                    if(this.state !== STATE_PENDING)
+                        return;
+
+                    this.state = STATE_REJECTED;
+                    this.v = reason;
+
+                    var clients = this.c;
+                    if(clients)
+                        soon(function() {
+                                for(var n=0, l=clients.length;n<l;n++)
+                                    rejectClient(clients[n],reason);
+                            });
+                    else
+                        if(!Zousan.suppressUncaughtRejectionError)
+                            console.log("You upset Zousan. Please catch rejections: ",reason,reason.stack);
+                },
+
+                then: function(onF,onR)
+                {
+                    var p = new Zousan();
+                    var client = {y:onF,n:onR,p:p};
+
+                    if(this.state === STATE_PENDING)
+                    {
+                         // we are pending, so client must wait - so push client to end of this.c array (create if necessary for efficiency)
+                        if(this.c)
+                            this.c.push(client);
+                        else
+                            this.c = [client];
+                    }
+                    else // if state was NOT pending, then we can just immediately (soon) call the resolve/reject handler
+                    {
+                        var s = this.state, a = this.v;
+                        soon(function() { // we are not pending, so yield script and resolve/reject as needed
+                                if(s === STATE_FULFILLED)
+                                    resolveClient(client,a);
+                                else
+                                    rejectClient(client,a);
+                            });
+                    }
+
+                    return p;
+                },
+
+                "catch": function(cfn) { return this.then(null,cfn); }, // convenience method
+                "finally": function(cfn) { return this.then(cfn,cfn); }, // convenience method
+
+                // new for 1.2  - this returns a new promise that times out if original promise does not resolve/reject before the time specified.
+                // Note: this has no effect on the original promise - which may still resolve/reject at a later time.
+                "timeout" : function(ms,timeoutMsg)
+                {
+                    timeoutMsg = timeoutMsg || "Timeout"
+                    var me = this;
+                    return new Zousan(function(resolve,reject) {
+
+                            setTimeout(function() {
+                                    reject(Error(timeoutMsg));  // This will fail silently if promise already resolved or rejected
+                                }, ms);
+
+                            me.then(function(v) { resolve(v) },     // This will fail silently if promise already timed out
+                                    function(er) { reject(er) });       // This will fail silently if promise already timed out
+
+                        })
+                }
+
+            }; // END of prototype function list
+
+        function resolveClient(c,arg)
+        {
+            if(typeof c.y === "function")
+            {
+                try {
+                        var yret = c.y.call(_undefined,arg);
+                        c.p.resolve(yret);
+                    }
+                catch(err) { c.p.reject(err) }
+            }
+            else
+                c.p.resolve(arg); // pass this along...
+        }
+
+        function rejectClient(c,reason)
+        {
+            if(typeof c.n === "function")
+            {
+                try
+                {
+                    var yret = c.n.call(_undefined,reason);
+                    c.p.resolve(yret);
+                }
+                catch(err) { c.p.reject(err) }
+            }
+            else
+                c.p.reject(reason); // pass this along...
+        }
+
+        // "Class" functions follow (utility functions that live on the Zousan function object itself)
+
+        Zousan.resolve = function(val) { var z = new Zousan(); z.resolve(val); return z; }
+
+        Zousan.reject = function(err) { var z = new Zousan(); z.reject(err); return z; }
+
+        Zousan.all = function(pa)
+        {
+            var results = [ ], rc = 0, retP = new Zousan(); // results and resolved count
+
+            function rp(p,i)
+            {
+                if(typeof p.then !== "function")
+                    p = Zousan.resolve(p);
+                p.then(
+                        function(yv) { results[i] = yv; rc++; if(rc == pa.length) retP.resolve(results); },
+                        function(nv) { retP.reject(nv); }
+                    );
+            }
+
+            for(var x=0;x<pa.length;x++)
+                rp(pa[x],x);
+
+            // For zero length arrays, resolve immediately
+            if(!pa.length)
+                retP.resolve(results);
+
+            return retP;
+        }
+
+        // If this appears to be a commonJS environment, assign Zousan as the module export
+        // if(typeof module != _undefinedString && module.exports)     // jshint ignore:line
+        //     module.exports = Zousan;    // jshint ignore:line
+
+        // If this appears to be an AMD environment, define Zousan as the module export (commented out until confirmed works with r.js)
+        //if(global.define && global.define.amd)
+        //  global.define([], function() { return Zousan });
+
+        // Make Zousan a global variable in all environments
+        // global.Zousan = Zousan;
+
+        // make soon accessable from Zousan
+        // Zousan.soon = soon;
+
+        //by maptalks
+        _global.Promise = Zousan;
+
+        // make soon accessable from Zousan
+        // Zousan.soon = soon;
+
+    })(/*typeof global != "undefined" ? global : this*//* by maptalks*/Z);   // jshint ignore:line
+}
+
+/**
+ * Represents a coordinate point <br>
+ * e.g. <br>
+ * a geographical point with a certain latitude and longitude <br>
+ * a point in a indoor room
+ * @class
+ * @category basic types
+ * @param {Number} x - x value
+ * @param {Number} y - y value
+ */
+Z.Coordinate = function (x, y) {
+    if (!Z.Util.isNil(x) && !Z.Util.isNil(y)) {
+        /**
+         * @property {Number} x - value on X-Axis or longitude in degrees
+         */
+        this.x = +(x);
+        /**
+         * @property {Number} y - value on Y-Axis or Latitude in degrees
+         */
+        this.y = +(y);
+    } else if (Z.Util.isArray(x)) {
+        //数组
+        this.x = +(x[0]);
+        this.y = +(x[1]);
+    } else if (!Z.Util.isNil(x['x']) && !Z.Util.isNil(x['y'])) {
+        //对象
+        this.x = +(x['x']);
+        this.y = +(x['y']);
+    }
+    if (this.isNaN()) {
+        throw new Error('coordinate is NaN');
+    }
+};
+
+Z.Util.extend(Z.Coordinate.prototype, /** @lends maptalks.Coordinate.prototype */{
+    /**
+     * Returns a copy of the coordinate
+     * @return {maptalks.Coordinate} copy
+     */
+    copy:function () {
+        return new Z.Coordinate(this.x, this.y);
+    },
+
+    //destructive add, to improve performance in some circumstances.
+    _add: function (x, y) {
+        if (x instanceof Z.Coordinate) {
+            this.x += x.x;
+            this.y += x.y;
+        } else {
+            this.x += x;
+            this.y += y;
+        }
+        return this;
+    },
+    /**
+     * Returns the result of addition of another coordinate.
+     * @param {maptalks.Coordinate} coordinate - coordinate to add
+     * @return {maptalks.Coordinate} result
+     */
+    add:function (x, y) {
+        var nx, ny;
+        if (x instanceof Z.Coordinate) {
+            nx = this.x + x.x;
+            ny = this.y + x.y;
+        } else {
+            nx = this.x + x;
+            ny = this.y + y;
+        }
+        return new Z.Coordinate(nx, ny);
+    },
+
+    //destructive substract
+    _substract: function (x, y) {
+        if (x instanceof Z.Coordinate) {
+            this.x -= x.x;
+            this.y -= x.y;
+        } else {
+            this.x -= x;
+            this.y -= y;
+        }
+        return this;
+    },
+
+    /**
+     * Returns the result of subtraction of another coordinate.
+     * @param {maptalks.Coordinate} coordinate - coordinate to substract
+     * @return {maptalks.Coordinate} result
+     */
+    substract:function (x, y) {
+        var nx, ny;
+        if (x instanceof Z.Coordinate) {
+            nx = this.x - x.x;
+            ny = this.y - x.y;
+        } else {
+            nx = this.x - x;
+            ny = this.y - y;
+        }
+        return new Z.Coordinate(nx, ny);
+    },
+
+    /**
+     * Returns the result of multiplication of the current coordinate by the given number.
+     * @param {Number} ratio - ratio to multi
+     * @return {maptalks.Coordinate} result
+     */
+    multi: function (ratio) {
+        return new Z.Coordinate(this.x * ratio, this.y * ratio);
+    },
+
+    _multi: function (ratio) {
+        this.x *= ratio;
+        this.y *= ratio;
+        return this;
+    },
+
+    /**
+     * Compare with another coordinate to see whether they are equal.
+     * @param {maptalks.Coordinate} c2 - coordinate to compare
+     * @return {Boolean}
+     */
+    equals:function (c2) {
+        if (!Z.Util.isCoordinate(c2)) {
+            return false;
+        }
+        return this.x === c2.x && this.y === c2.y;
+    },
+
+    isNaN:function () {
+        return isNaN(this.x) || isNaN(this.y);
+    },
+
+    /**
+     * Convert the coordinate to a number array [x, y]
+     * @return {Number[]} number array
+     */
+    toArray:function () {
+        return [this.x, this.y];
+    },
+
+    /**
+     * toJSON
+     * @return {Object} json
+     */
+    toJSON: function () {
+        return {
+            x : this.x,
+            y : this.y
+        };
+    }
+});
+
+/**
+ * Represents a 2d point.<br>
+ * Can be created in serveral ways:
+ * @example
+ * var point = new maptalks.Point(1000, 1000);
+ * @example
+ * var point = new maptalks.Point([1000,1000]);
+ * @example
+ * var point = new maptalks.Point({x:1000, y:1000});
+ * @class
+ * @category basic types
+ * @param {Number} x - x value
+ * @param {Number} y - y value
+ */
+Z.Point = function (x, y) {
+    if (!Z.Util.isNil(x) && !Z.Util.isNil(y)) {
+        /**
+         * @property x {Number} - x value
+         */
+        this.x = x;
+        /**
+         * @property y {Number} - y value
+         */
+        this.y = y;
+    } else if (!Z.Util.isNil(x.x) && !Z.Util.isNil(x.y)) {
+        //对象
+        this.x = x.x;
+        this.y = x.y;
+    } else if (Z.Util.isArrayHasData(x)) {
+        this.x = x[0];
+        this.y = x[1];
+    }
+    if (this.isNaN()) {
+        throw new Error('point is NaN');
+    }
+};
+
+Z.Util.extend(Z.Point.prototype, /** @lends maptalks.Point.prototype */{
+    _abs:function () {
+        this.x = Math.abs(this.x);
+        this.y = Math.abs(this.y);
+        return this;
+    },
+    /**
+     * Returns a copy of the point
+     * @return {maptalks.Point} copy
+     */
+    copy:function () {
+        return new Z.Point(this.x, this.y);
+    },
+
+    _round:function () {
+        this.x = Z.Util.round(this.x);
+        this.y = Z.Util.round(this.y);
+        return this;
+    },
+
+    round:function () {
+        return new Z.Point(Z.Util.round(this.x), Z.Util.round(this.y));
+    },
+
+    /**
+     * Compare with another point to see whether they are equal.
+     * @param {maptalks.Point} c2 - point to compare
+     * @return {Boolean}
+     */
+    equals:function (p) {
+        return this.x === p.x && this.y === p.y;
+    },
+
+    /**
+     * Returns the distance between the current and the given point.
+     * @param  {maptalks.Point} point - another point
+     * @return {Number} distance
+     */
+    distanceTo: function (point) {
+        var x = point.x - this.x,
+            y = point.y - this.y;
+        return Math.sqrt(x * x + y * y);
+    },
+
+    //Destructive add
+    _add: function (x, y) {
+        if (x instanceof Z.Point) {
+            this.x += x.x;
+            this.y += x.y;
+        } else {
+            this.x += x;
+            this.y += y;
+        }
+        return this;
+    },
+
+    /**
+     * Returns the result of addition of another point.
+     * @param {maptalks.Point} point - point to add
+     * @return {maptalks.Point} result
+     */
+    add: function (x, y) {
+        var nx, ny;
+        if (x instanceof Z.Point) {
+            nx = this.x + x.x;
+            ny = this.y + x.y;
+        } else {
+            nx = this.x + x;
+            ny = this.y + y;
+        }
+        return new Z.Point(nx, ny);
+    },
+
+    _substract: function (x, y) {
+        if (x instanceof Z.Point) {
+            this.x -= x.x;
+            this.y -= x.y;
+        } else {
+            this.x -= x;
+            this.y -= y;
+        }
+        return this;
+    },
+
+    /**
+     * Returns the result of subtraction of another point.
+     * @param {maptalks.Point} point - point to substract
+     * @return {maptalks.Point} result
+     */
+    substract: function (x, y) {
+        var nx, ny;
+        if (x instanceof Z.Point) {
+            nx = this.x - x.x;
+            ny = this.y - x.y;
+        } else {
+            nx = this.x - x;
+            ny = this.y - y;
+        }
+        return new Z.Point(nx, ny);
+    },
+
+    //破坏性方法
+    _multi: function (ratio) {
+        this.x *= ratio;
+        this.y *= ratio;
+        return this;
+    },
+
+    /**
+     * Returns the result of multiplication of the current point by the given number.
+     * @param {Number} ratio - ratio to multi
+     * @return {maptalks.Point} result
+     */
+    multi: function (ratio) {
+        return new Z.Point(this.x * ratio, this.y * ratio);
+    },
+
+    isNaN:function () {
+        return isNaN(this.x) || isNaN(this.y);
+    },
+
+    /**
+     * toJSON
+     * @return {Object} json
+     */
+    toJSON: function () {
+        return {
+            x : this.x,
+            y : this.y
+        };
+    }
+});
+
+/**
+ * Represents a size.
+ * @class
+ * @category basic types
+ * @param {Number} width - width value
+ * @param {Number} height - height value
+ */
+Z.Size = function (width, height) {
+    /**
+     * @property {Number} width - width
+     */
+    this.width = width;
+    /**
+     * @property {Number} height - height
+     */
+    this.height = height;
+};
+
+Z.Util.extend(Z.Size.prototype, /** @lends maptalks.Size.prototype */{
+    /**
+     * Returns a copy of the size
+     * @return {maptalks.Size} copy
+     */
+    copy:function () {
+        return new Z.Size(this['width'], this['height']);
+    },
+    /**
+     * Returns the result of addition of another size.
+     * @param {maptalks.Size} size - size to add
+     * @return {maptalks.Size} result
+     */
+    add:function (size) {
+        return new Z.Size(this['width'] + size['width'], this['height'] + size['height']);
+    },
+    /**
+     * Compare with another size to see whether they are equal.
+     * @param {maptalks.Size} size - size to compare
+     * @return {Boolean}
+     */
+    equals:function (size) {
+        return this['width'] === size['width'] && this['height'] === size['height'];
+    },
+    /**
+     * Returns the result of multiplication of the current size by the given number.
+     * @param {Number} ratio - ratio to multi
+     * @return {maptalks.Size} result
+     */
+    multi:function (ratio) {
+        return new Z.Size(this['width'] * ratio, this['height'] * ratio);
+    },
+    _multi:function (ratio) {
+        this['width'] *= ratio;
+        this['height'] *= ratio;
+        return this;
+    },
+    _round:function () {
+        this['width'] = Z.Util.round(this['width']);
+        this['height'] = Z.Util.round(this['height']);
+        return this;
+    },
+    toPoint:function () {
+        return new Z.Point(this['width'], this['height']);
+    },
+
+    toArray: function () {
+        return [this['width'], this['height']];
+    },
+
+    /**
+     * toJSON
+     * @return {Object} json
+     */
+    toJSON: function () {
+        return {
+            'width' : this['width'],
+            'height': this['height']
+        };
+    }
+});
+
+
+/**
+ * Represent CRS defined by [GeoJSON]{@link http://geojson.org/geojson-spec.html#coordinate-reference-system-objects}
+ *
+ * @class
+ * @category geo
+ * @param {String} type          - type of the CRS
+ * @param {Object} properties    - CRS's properties
+ */
+Z.CRS = function (type, properties) {
+    this.type = type;
+    this.properties = properties;
+};
+
+/**
+ * Create a [proj4]{@link https://github.com/OSGeo/proj.4} style CRS used by maptalks <br>
+ * @example
+ * {
+ *     "type"       : "proj4",
+ *     "properties" : {
+ *         "proj"   : "+proj=longlat +datum=WGS84 +no_defs"
+ *     }
+ * }
+ * var crs_wgs84 = maptalks.CRS.createProj4("+proj=longlat +datum=WGS84 +no_defs");
+ * @static
+ * @param  {String} proj - a proj4 projection string.
+ * @return {maptalks.CRS}
+ */
+Z.CRS.createProj4 = function (proj) {
+    return new Z.CRS('proj4', {
+        'proj': proj
+    });
+};
+
+//some common CRS definitions
+/**
+ * Predefined CRS of well-known WGS84 (aka EPSG:4326)
+ * @type {maptalks.CRS}
+ * @static
+ * @constant
+ */
+Z.CRS.WGS84 = Z.CRS.createProj4('+proj=longlat +datum=WGS84 +no_defs');
+/**
+ * Alias for maptalks.CRS.WGS84
+ * @type {maptalks.CRS}
+ * @static
+ * @constant
+ */
+Z.CRS.EPSG4326 = Z.CRS.WGS84;
+/**
+ * Projected Coordinate System used by google maps that has the following alias: 'EPSG:3785', 'GOOGLE', 'EPSG:900913'
+ * @type {maptalks.CRS}
+ * @static
+ * @constant
+ */
+Z.CRS.EPSG3857 = Z.CRS.createProj4('+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs');
+/**
+ * A CRS represents a simple Cartesian coordinate system. <br>
+ * Maps x, y directly, is useful for maps of flat surfaces (e.g. indoor maps, game maps).
+ * @type {maptalks.CRS}
+ * @static
+ * @constant
+ */
+Z.CRS.IDENTITY = Z.CRS.createProj4('+proj=identity +no_defs');
+/**
+ * Official coordinate system in China (aka EPSG:4490), in most cases, it can be considered the same with WGS84.
+ * @type {maptalks.CRS}
+ * @see  {@link http://spatialreference.org/ref/sr-org/7408/}
+ * @static
+ * @constant
+ */
+Z.CRS.CGCS2000 = Z.CRS.createProj4('+proj=longlat +datum=CGCS2000');
+/**
+ * Alias for maptalks.CRS.CGCS2000
+ * @type {maptalks.CRS}
+ * @static
+ * @constant
+ */
+Z.CRS.EPSG4490 = Z.CRS.CGCS2000;
+/**
+ * Projection used by [Baidu Map]{@link http://map.baidu.com}, a popular web map service in China.
+ * @type {maptalks.CRS}
+ * @static
+ * @constant
+ */
+Z.CRS.BD09LL = Z.CRS.createProj4('+proj=longlat +datum=BD09');
+/**
+ * A encrypted CRS usded in the most online map services in China..
+ * @type {maptalks.CRS}
+ * @see {@link https://en.wikipedia.org/wiki/Restrictions_on_geographic_data_in_China}
+ * @static
+ * @constant
+ */
+Z.CRS.GCJ02 = Z.CRS.createProj4('+proj=longlat +datum=GCJ02');
+
+/**
+ * Represent a bounding box on the map, a rectangular geographical area with minimum and maximum coordinates. <br>
+ * There are serveral ways to create a extent:
+ * @class
+ * @category basic types
+ * @param {Number} x1   - x of coordinate 1
+ * @param {Number} y1   - y of coordinate 1
+ * @param {Number} x2   - x of coordinate 2
+ * @param {Number} y2   - y of coordinate 2
+ * @example
+ * //with 4 numbers
+ * var extent = new maptalks.Extent(100, 10, 120, 20);
+ * @example
+ * //with 2 coordinates
+ * var extent = new maptalks.Extent(new maptalks.Coordinate(100, 10), new maptalks.Coordinate(120, 20));
+ * @example
+ * //with a json object containing xmin, ymin, xmax and ymax
+ * var extent = new maptalks.Extent({xmin : 100, ymin: 10, xmax: 120, ymax:20});
+ * @example
+ * var extent1 = new maptalks.Extent(100, 10, 120, 20);
+ * //with another extent
+ * var extent2 = new maptalks.Extent(extent1);
+ */
+Z.Extent = function (p1, p2, p3, p4) {
+    this._clazz = Z.Coordinate;
+    this._initialize(p1, p2, p3, p4);
+};
+
+Z.Util.extend(Z.Extent.prototype, /** @lends maptalks.Extent.prototype */{
+    _initialize:function (p1, p2, p3, p4) {
+        /**
+         * @property {Number} xmin - minimum x
+         */
+        this.xmin = null;
+        /**
+         * @property {Number} xmax - maximum x
+         */
+        this.xmax = null;
+        /**
+         * @property {Number} ymin - minimum y
+         */
+        this.ymin = null;
+        /**
+         * @property {Number} ymax - maximum y
+         */
+        this.ymax = null;
+        if (Z.Util.isNil(p1)) {
+            return;
+        }
+        //Constructor 1: all numbers
+        if (Z.Util.isNumber(p1) &&
+            Z.Util.isNumber(p2) &&
+            Z.Util.isNumber(p3) &&
+            Z.Util.isNumber(p4)) {
+            this['xmin'] = Math.min(p1, p3);
+            this['ymin'] = Math.min(p2, p4);
+            this['xmax'] = Math.max(p1, p3);
+            this['ymax'] = Math.max(p2, p4);
+            return;
+        } else if (Z.Util.isNumber(p1.x) &&
+            Z.Util.isNumber(p2.x) &&
+            Z.Util.isNumber(p1.y) &&
+            Z.Util.isNumber(p2.y)) {
+            //Constructor 2: two coordinates
+            if (p1.x > p2.x) {
+                this['xmin'] = p2.x;
+                this['xmax'] = p1.x;
+            } else {
+                this['xmin'] = p1.x;
+                this['xmax'] = p2.x;
+            }
+            if (p1.y > p2.y) {
+                this['ymin'] = p2.y;
+                this['ymax'] = p1.y;
+            } else {
+                this['ymin'] = p1.y;
+                this['ymax'] = p2.y;
+            }
+            //constructor 3: another extent or a object containing xmin, ymin, xmax and ymax
+        } else if (Z.Util.isNumber(p1['xmin']) &&
+                Z.Util.isNumber(p1['xmax']) &&
+                Z.Util.isNumber(p1['ymin']) &&
+                Z.Util.isNumber(p1['ymax'])) {
+            this['xmin'] = p1['xmin'];
+            this['ymin'] = p1['ymin'];
+            this['xmax'] = p1['xmax'];
+            this['ymax'] = p1['ymax'];
+        }
+    },
+
+    _add: function (p) {
+        this['xmin'] += p.x;
+        this['ymin'] += p.y;
+        this['xmax'] += p.x;
+        this['ymax'] += p.y;
+        return this;
+    },
+
+    add: function (p) {
+        return new this.constructor(this['xmin'] + p.x, this['ymin'] + p.y, this['xmax'] + p.x, this['ymax'] + p.y);
+    },
+
+    round:function () {
+        return new this.constructor(Z.Util.round(this['xmin']), Z.Util.round(this['ymin']),
+            Z.Util.round(this['xmax']), Z.Util.round(this['ymax']));
+    },
+
+    _round:function () {
+        this['xmin'] = Z.Util.round(this['xmin']);
+        this['ymin'] = Z.Util.round(this['ymin']);
+        this['xmax'] = Z.Util.round(this['xmax']);
+        this['ymax'] = Z.Util.round(this['ymax']);
+        return this;
+    },
+
+    /**
+     * Get the minimum point
+     * @return {maptalks.Coordinate}
+     */
+    getMin:function () {
+        return new this._clazz(this['xmin'], this['ymin']);
+    },
+
+    /**
+     * Get the maximum point
+     * @return {maptalks.Coordinate}
+     */
+    getMax:function () {
+        return new this._clazz(this['xmax'], this['ymax']);
+    },
+
+
+    /**
+     * Get center of the extent.
+     * @return {maptalks.Coordinate}
+     */
+    getCenter:function () {
+        return new this._clazz((this['xmin'] + this['xmax']) / 2, (this['ymin'] + this['ymax']) / 2);
+    },
+
+    /**
+     * Whether the extent is valid
+     * @protected
+     * @return {Boolean}
+     */
+    isValid:function () {
+        return Z.Util.isNumber(this['xmin']) &&
+                Z.Util.isNumber(this['ymin']) &&
+                Z.Util.isNumber(this['xmax']) &&
+                Z.Util.isNumber(this['ymax']);
+    },
+
+
+    /**
+     * Compare with another extent to see whether they are equal.
+     * @param  {maptalks.Extent}  ext2 - extent to compare
+     * @return {Boolean}
+     */
+    equals:function (ext2) {
+        return (this['xmin'] === ext2['xmin'] &&
+            this['xmax'] === ext2['xmax'] &&
+            this['ymin'] === ext2['ymin'] &&
+            this['ymax'] === ext2['ymax']);
+    },
+
+    /**
+     * Whether it intersects with another extent
+     * @param  {maptalks.Extent}  ext2 - another extent
+     * @return {Boolean}
+     */
+    intersects:function (ext2) {
+        var rxmin = Math.max(this['xmin'], ext2['xmin']);
+        var rymin = Math.max(this['ymin'], ext2['ymin']);
+        var rxmax = Math.min(this['xmax'], ext2['xmax']);
+        var rymax = Math.min(this['ymax'], ext2['ymax']);
+        var intersects = !((rxmin > rxmax) || (rymin > rymax));
+        return intersects;
+    },
+
+    /**
+     * Whether the extent contains the input point.
+     * @param  {maptalks.Coordinate|Number[]} coordinate - input point
+     * @returns {Boolean}
+     */
+    contains: function (coordinate) {
+        var x, y;
+        var c = new this._clazz(coordinate);
+        x = c.x;
+        y = c.y;
+        return (x >= this.xmin) &&
+            (x <= this.xmax) &&
+            (y >= this.ymin) &&
+            (y <= this.ymax);
+    },
+
+    /**
+     * Get the width of the Extent
+     * @return {Number}
+     */
+    getWidth:function () {
+        return this['xmax'] - this['xmin'];
+    },
+
+    /**
+     * Get the height of the Extent
+     * @return {Number}
+     */
+    getHeight:function () {
+        return this['ymax'] - this['ymin'];
+    },
+
+
+    __combine:function (extent) {
+        var xmin = this['xmin'];
+        if (!Z.Util.isNumber(xmin)) {
+            xmin = extent['xmin'];
+        } else if (Z.Util.isNumber(extent['xmin'])) {
+            if (xmin > extent['xmin']) {
+                xmin = extent['xmin'];
+            }
+        }
+
+        var xmax = this['xmax'];
+        if (!Z.Util.isNumber(xmax)) {
+            xmax = extent['xmax'];
+        } else if (Z.Util.isNumber(extent['xmax'])) {
+            if (xmax < extent['xmax']) {
+                xmax = extent['xmax'];
+            }
+        }
+
+        var ymin = this['ymin'];
+        if (!Z.Util.isNumber(ymin)) {
+            ymin = extent['ymin'];
+        } else if (Z.Util.isNumber(extent['ymin'])) {
+            if (ymin > extent['ymin']) {
+                ymin = extent['ymin'];
+            }
+        }
+
+        var ymax = this['ymax'];
+        if (!Z.Util.isNumber(ymax)) {
+            ymax = extent['ymax'];
+        } else if (Z.Util.isNumber(extent['ymax'])) {
+            if (ymax < extent['ymax']) {
+                ymax = extent['ymax'];
+            }
+        }
+        return [xmin, ymin, xmax, ymax];
+    },
+
+    _combine:function (extent) {
+        if (!extent) {
+            return this;
+        }
+        var ext = this.__combine(extent);
+        this['xmin'] = ext[0];
+        this['ymin'] = ext[1];
+        this['xmax'] = ext[2];
+        this['ymax'] = ext[3];
+        return this;
+    },
+
+    /**
+     * Combine it with another extent to a larger extent.
+     * @param  {maptalks.Extent} extent - another extent
+     * @returns {maptalks.Extent} extent combined
+     */
+    combine:function (extent) {
+        if (!extent) {
+            return this;
+        }
+        var ext = this.__combine(extent);
+        return new this.constructor(ext[0], ext[1], ext[2], ext[3]);
+    },
+
+    /**
+     * Gets the intersection extent of this and another extent.
+     * @param  {maptalks.Extent} extent - another extent
+     * @return {maptalks.Extent} intersection extent
+     */
+    intersection:function (extent) {
+        if (!this.intersects(extent)) {
+            return null;
+        }
+        return new this.constructor(Math.max(this['xmin'], extent['xmin']), Math.max(this['ymin'], extent['ymin']),
+            Math.min(this['xmax'], extent['xmax']), Math.min(this['ymax'], extent['ymax'])
+            );
+    },
+
+    /**
+     * Expand the extent by distance
+     * @param  {maptalks.Size|Number} distance  - distance to expand
+     * @returns {maptalks.Extent} a new extent expanded from
+     */
+    expand:function (distance) {
+        if (distance instanceof Z.Size) {
+            return new this.constructor(this['xmin'] - distance['width'], this['ymin'] - distance['height'], this['xmax'] + distance['width'], this['ymax'] + distance['height']);
+        } else {
+            return new this.constructor(this['xmin'] - distance, this['ymin'] - distance, this['xmax'] + distance, this['ymax'] + distance);
+        }
+    },
+
+    _expand:function (distance) {
+        if (distance instanceof Z.Size) {
+            this['xmin'] -= distance['width'];
+            this['ymin'] -= distance['height'];
+            this['xmax'] += distance['width'];
+            this['ymax'] += distance['height'];
+        } else {
+            this['xmin'] -= distance;
+            this['ymin'] -= distance;
+            this['xmax'] += distance;
+            this['ymax'] += distance;
+        }
+        return this;
+    },
+
+    /**
+     * Get extent's JSON object.
+     * @return {Object} jsonObject
+     * @example
+     * // {xmin : 100, ymin: 10, xmax: 120, ymax:20}
+     * var json = extent.toJSON();
+     */
+    toJSON:function () {
+        return {
+            'xmin':this['xmin'],
+            'ymin':this['ymin'],
+            'xmax':this['xmax'],
+            'ymax':this['ymax']
+        };
+    },
+
+    /**
+     * Get a coordinate array of extent's rectangle area, containing 5 coordinates in which the first equals with the last.
+     * @return {maptalks.Coordinate[]} coordinates array
+     */
+    toArray:function () {
+        var xmin = this['xmin'],
+            ymin = this['ymin'],
+            xmax = this['xmax'],
+            ymax = this['ymax'];
+        return [
+            new this._clazz([xmin, ymax]), new this._clazz([xmax, ymax]),
+            new this._clazz([xmax, ymin]), new this._clazz([xmin, ymin]),
+            new this._clazz([xmin, ymax])
+        ];
+    },
+
+    /**
+     * Get a copy of the extent.
+     * @return {maptalks.Extent} copy
+     */
+    copy:function () {
+        return new this.constructor(this['xmin'], this['ymin'], this['xmax'], this['ymax']);
+    }
+});
+
+/**
+ * Represent a bounding box on 2d surface , a rectangular area with minimum and maximum points. <br>
+ * There are serveral ways to create a PointExtent:
+ * @class
+ * @category basic types
+ * @param {Number} x1   - x of point 1
+ * @param {Number} y1   - y of point 1
+ * @param {Number} x2   - x of point 2
+ * @param {Number} y2   - y of point 2
+ * @extends {maptalks.Extent}
+ * @example
+ * //with 4 numbers
+ * var extent = new maptalks.PointExtent(100, 10, 120, 20);
+ * @example
+ * //with 2 points
+ * var extent = new maptalks.PointExtent(new maptalks.Point(100, 10), new maptalks.Point(120, 20));
+ * @example
+ * //with a json object containing xmin, ymin, xmax and ymax
+ * var extent = new maptalks.PointExtent({xmin : 100, ymin: 10, xmax: 120, ymax:20});
+ * @example
+ * var extent1 = new maptalks.PointExtent(100, 10, 120, 20);
+ * //with another extent
+ * var extent2 = new maptalks.PointExtent(extent1);
+ */
+Z.PointExtent = function (p1, p2, p3, p4) {
+    this._clazz = Z.Point;
+    this._initialize(p1, p2, p3, p4);
+};
+
+Z.Util.extend(Z.PointExtent.prototype, Z.Extent.prototype, /** @lends maptalks.PointExtent.prototype */{
+    /**
+     * Get size of the PointExtent
+     * @return {maptalks.Size}
+     */
+    getSize:function () {
+        return new Z.Size(this.getWidth(), this.getHeight());
+    }
+});
+
 /**
  * Transformation between projected coordinates and base 2d point system.
  * @class
@@ -5880,6 +6179,190 @@ Z.projection.IDENTITY = Z.Util.extend({}, Z.projection.Common, /** @lends maptal
         return p.copy();
     }
 }, Z.measurer.Identity);
+
+/**
+ * Utilities for geo
+ * @class
+ * @protected
+ */
+Z.GeoUtils = {
+    /**
+     * caculate the distance from a point to a segment.
+     * @param {maptalks.Point} p
+     * @param {maptalks.Point} p1
+     * @param {maptalks.Point} p2
+     */
+    distanceToSegment: function (p, p1, p2) {
+        var x = p.x,
+            y = p.y,
+            x1 = p1.x,
+            y1 = p1.y,
+            x2 = p2.x,
+            y2 = p2.y;
+
+        var cross = (x2 - x1) * (x - x1) + (y2 - y1) * (y - y1);
+        if (cross <= 0) {
+            // P->P1
+            return Math.sqrt((x - x1) * (x - x1) + (y - y1) * (y - y1));
+        }
+        var d2 = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
+        if (cross >= d2) {
+            // P->P2
+            return Math.sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2));
+        }
+        var r = cross / d2;
+        var px = x1 + (x2 - x1) * r;
+        var py = y1 + (y2 - y1) * r;
+        // P->P(px,py)
+        return Math.sqrt((x - px) * (x - px) + (y - py) * (y - py));
+    },
+
+    /**
+     * 判断点坐标是否在面中
+     * @param {maptalks.Polygon} 面对象
+     * @param {maptalks.Coordinate} 点对象
+     * @return {Boolean} true：点在面中
+     */
+    pointInsidePolygon: function (p, points) {
+        var i, j, p1, p2,
+            len = points.length;
+        var c = false;
+
+        for (i = 0, j = len - 1; i < len; j = i++) {
+            p1 = points[i];
+            p2 = points[j];
+            if (((p1.y > p.y) !== (p2.y > p.y)) &&
+                (p.x < (p2.x - p1.x) * (p.y - p1.y) / (p2.y - p1.y) + p1.x)) {
+                c = !c;
+            }
+        }
+
+        return c;
+    },
+
+    computeLength:function (coordinates, measurer) {
+        var result = 0;
+        for (var i = 0, len = coordinates.length; i < len - 1; i++) {
+            result += measurer.measureLength(coordinates[i], coordinates[i + 1]);
+        }
+        return result;
+    },
+
+    computeArea:function (coordinates, measurer) {
+        return measurer.measureArea(coordinates);
+    }
+};
+
+/**
+ * A high-performance JavaScript polyline simplification library by Vladimir Agafonkin
+ * @class
+ * @protected
+ * @author mourner
+ * @link https://github.com/mourner/simplify-js
+ */
+Z.Simplify = {
+	// square distance between 2 points
+    getSqDist:function (p1, p2) {
+
+        var dx = p1.x - p2.x,
+            dy = p1.y - p2.y;
+
+        return dx * dx + dy * dy;
+    },
+
+    // square distance from a point to a segment
+    getSqSegDist:function (p, p1, p2) {
+
+        var x = p1.x,
+            y = p1.y,
+            dx = p2.x - x,
+            dy = p2.y - y;
+
+        if (dx !== 0 || dy !== 0) {
+
+            var t = ((p.x - x) * dx + (p.y - y) * dy) / (dx * dx + dy * dy);
+
+            if (t > 1) {
+                x = p2.x;
+                y = p2.y;
+
+            } else if (t > 0) {
+                x += dx * t;
+                y += dy * t;
+            }
+        }
+        dx = p.x - x;
+        dy = p.y - y;
+
+        return dx * dx + dy * dy;
+    },
+    // rest of the code doesn't care about point format
+
+    // basic distance-based simplification
+    simplifyRadialDist:function (points, sqTolerance) {
+
+        var prevPoint = points[0],
+            newPoints = [prevPoint],
+            point;
+
+        for (var i = 1, len = points.length; i < len; i++) {
+            point = points[i];
+
+            if (this.getSqDist(point, prevPoint) > sqTolerance) {
+                newPoints.push(point);
+                prevPoint = point;
+            }
+        }
+
+        if (prevPoint !== point) newPoints.push(point);
+
+        return newPoints;
+    },
+
+    simplifyDPStep:function (points, first, last, sqTolerance, simplified) {
+        var maxSqDist = sqTolerance,
+            index;
+
+        for (var i = first + 1; i < last; i++) {
+            var sqDist = this.getSqSegDist(points[i], points[first], points[last]);
+
+            if (sqDist > maxSqDist) {
+                index = i;
+                maxSqDist = sqDist;
+            }
+        }
+
+        if (maxSqDist > sqTolerance) {
+            if (index - first > 1) this.simplifyDPStep(points, first, index, sqTolerance, simplified);
+            simplified.push(points[index]);
+            if (last - index > 1) this.simplifyDPStep(points, index, last, sqTolerance, simplified);
+        }
+    },
+
+    // simplification using Ramer-Douglas-Peucker algorithm
+    simplifyDouglasPeucker:function (points, sqTolerance) {
+        var last = points.length - 1;
+
+        var simplified = [points[0]];
+        this.simplifyDPStep(points, 0, last, sqTolerance, simplified);
+        simplified.push(points[last]);
+
+        return simplified;
+    },
+
+    // both algorithms combined for awesome performance
+    simplify:function (points, tolerance, highestQuality) {
+
+        if (points.length <= 2) return points;
+
+        var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
+
+        points = highestQuality ? points : this.simplifyRadialDist(points, sqTolerance);
+        points = this.simplifyDouglasPeucker(points, sqTolerance);
+
+        return points;
+    }
+};
 
 /**
  * Base class for all the interaction handlers
@@ -7273,305 +7756,6 @@ Z.TileConfig = Z.Class.extend(/** @lends maptalks.TileConfig.prototype */{
 
 
 });
-
-if (typeof Promise !== 'undefined') {
-    //built in Promise
-    Z.Promise = Promise;
-} else {
-// zousan - A Lightning Fast, Yet Very Small Promise A+ Compliant Implementation
-// https://github.com/bluejava/zousan
-// Version 2.2.2
-
-/* jshint asi: true, browser: true */
-/* global setImmediate, console */
-(function(_global){
-
-        "use strict";
-
-        var
-            STATE_PENDING,                  // These are the three possible states (PENDING remains undefined - as intended)
-            STATE_FULFILLED = "fulfilled",      // a promise can be in.  The state is stored
-            STATE_REJECTED = "rejected",        // in this.state as read-only
-
-            _undefined,                     // let the obfiscator compress these down
-            _undefinedString = "undefined";     // by assigning them to variables (debatable "optimization")
-
-        // See http://www.bluejava.com/4NS/Speed-up-your-Websites-with-a-Faster-setTimeout-using-soon
-        // This is a very fast "asynchronous" flow control - i.e. it yields the thread and executes later,
-        // but not much later. It is far faster and lighter than using setTimeout(fn,0) for yielding threads.
-        // Its also faster than other setImmediate shims, as it uses Mutation Observer and "mainlines" successive
-        // calls internally.
-        // WARNING: This does not yield to the browser UI loop, so by using this repeatedly
-        //      you can starve the UI and be unresponsive to the user.
-        // This is an even FASTER version of https://gist.github.com/bluejava/9b9542d1da2a164d0456 that gives up
-        // passing context and arguments, in exchange for a 25x speed increase. (Use anon function to pass context/args)
-        var soon = (function() {
-
-                var fq = [], // function queue;
-                    fqStart = 0, // avoid using shift() by maintaining a start pointer - and remove items in chunks of 1024 (bufferSize)
-                    bufferSize = 1024
-
-                function callQueue()
-                {
-                    while(fq.length - fqStart) // this approach allows new yields to pile on during the execution of these
-                    {
-                        fq[fqStart](); // no context or args..
-                        fq[fqStart++] = _undefined  // increase start pointer and dereference function just called
-                        if(fqStart == bufferSize)
-                        {
-                            fq.splice(0,bufferSize);
-                            fqStart = 0;
-                        }
-                    }
-                }
-
-                // run the callQueue function asyncrhonously, as fast as possible
-                var cqYield = (function() {
-
-                        // This is the fastest way browsers have to yield processing
-                        if(typeof MutationObserver !== _undefinedString)
-                        {
-                            // first, create a div not attached to DOM to "observe"
-                            var dd = document.createElement("div");
-                            var mo = new MutationObserver(callQueue);
-                            mo.observe(dd, { attributes: true });
-
-                            return function() { dd.setAttribute("a",0); } // trigger callback to
-                        }
-
-                        // if No MutationObserver - this is the next best thing - handles Node and MSIE
-                        if(typeof setImmediate !== _undefinedString)
-                            return function() { setImmediate(callQueue) }
-
-                        // final fallback - shouldn't be used for much except very old browsers
-                        return function() { setTimeout(callQueue,0) }
-                    })();
-
-                // this is the function that will be assigned to soon
-                // it takes the function to call and examines all arguments
-                return function(fn) {
-
-                        // push the function and any remaining arguments along with context
-                        fq.push(fn);
-
-                        if((fq.length - fqStart) == 1) // upon adding our first entry, kick off the callback
-                            cqYield();
-                    };
-
-            })();
-
-        // -------- BEGIN our main "class" definition here -------------
-
-        function Zousan(func)
-        {
-            //  this.state = STATE_PENDING; // Inital state (PENDING is undefined, so no need to actually have this assignment)
-            //this.c = [];          // clients added while pending.   <Since 1.0.2 this is lazy instantiation>
-
-            // If a function was specified, call it back with the resolve/reject functions bound to this context
-            if(func)
-            {
-                var me = this;
-                func(
-                    function(arg) { me.resolve(arg) },  // the resolve function bound to this context.
-                    function(arg) { me.reject(arg) })   // the reject function bound to this context
-            }
-        }
-
-        Zousan.prototype = {    // Add 6 functions to our prototype: "resolve", "reject", "then", "catch", "finally" and "timeout"
-
-                resolve: function(value)
-                {
-                    if(this.state !== STATE_PENDING)
-                        return;
-
-                    if(value === this)
-                        return this.reject(new TypeError("Attempt to resolve promise with self"));
-
-                    var me = this; // preserve this
-
-                    if(value && (typeof value === "function" || typeof value === "object"))
-                    {
-                        try
-                        {
-                            var first = true; // first time through?
-                            var then = value.then;
-                            if(typeof then === "function")
-                            {
-                                // and call the value.then (which is now in "then") with value as the context and the resolve/reject functions per thenable spec
-                                then.call(value,
-                                    function(ra) { if(first) { first=false; me.resolve(ra);}  },
-                                    function(rr) { if(first) { first=false; me.reject(rr); } });
-                                return;
-                            }
-                        }
-                        catch(e)
-                        {
-                            if(first)
-                                this.reject(e);
-                            return;
-                        }
-                    }
-
-                    this.state = STATE_FULFILLED;
-                    this.v = value;
-
-                    if(me.c)
-                        soon(function() {
-                                for(var n=0, l=me.c.length;n<l;n++)
-                                    resolveClient(me.c[n],value);
-                            });
-                },
-
-                reject: function(reason)
-                {
-                    if(this.state !== STATE_PENDING)
-                        return;
-
-                    this.state = STATE_REJECTED;
-                    this.v = reason;
-
-                    var clients = this.c;
-                    if(clients)
-                        soon(function() {
-                                for(var n=0, l=clients.length;n<l;n++)
-                                    rejectClient(clients[n],reason);
-                            });
-                    else
-                        if(!Zousan.suppressUncaughtRejectionError)
-                            console.log("You upset Zousan. Please catch rejections: ",reason,reason.stack);
-                },
-
-                then: function(onF,onR)
-                {
-                    var p = new Zousan();
-                    var client = {y:onF,n:onR,p:p};
-
-                    if(this.state === STATE_PENDING)
-                    {
-                         // we are pending, so client must wait - so push client to end of this.c array (create if necessary for efficiency)
-                        if(this.c)
-                            this.c.push(client);
-                        else
-                            this.c = [client];
-                    }
-                    else // if state was NOT pending, then we can just immediately (soon) call the resolve/reject handler
-                    {
-                        var s = this.state, a = this.v;
-                        soon(function() { // we are not pending, so yield script and resolve/reject as needed
-                                if(s === STATE_FULFILLED)
-                                    resolveClient(client,a);
-                                else
-                                    rejectClient(client,a);
-                            });
-                    }
-
-                    return p;
-                },
-
-                "catch": function(cfn) { return this.then(null,cfn); }, // convenience method
-                "finally": function(cfn) { return this.then(cfn,cfn); }, // convenience method
-
-                // new for 1.2  - this returns a new promise that times out if original promise does not resolve/reject before the time specified.
-                // Note: this has no effect on the original promise - which may still resolve/reject at a later time.
-                "timeout" : function(ms,timeoutMsg)
-                {
-                    timeoutMsg = timeoutMsg || "Timeout"
-                    var me = this;
-                    return new Zousan(function(resolve,reject) {
-
-                            setTimeout(function() {
-                                    reject(Error(timeoutMsg));  // This will fail silently if promise already resolved or rejected
-                                }, ms);
-
-                            me.then(function(v) { resolve(v) },     // This will fail silently if promise already timed out
-                                    function(er) { reject(er) });       // This will fail silently if promise already timed out
-
-                        })
-                }
-
-            }; // END of prototype function list
-
-        function resolveClient(c,arg)
-        {
-            if(typeof c.y === "function")
-            {
-                try {
-                        var yret = c.y.call(_undefined,arg);
-                        c.p.resolve(yret);
-                    }
-                catch(err) { c.p.reject(err) }
-            }
-            else
-                c.p.resolve(arg); // pass this along...
-        }
-
-        function rejectClient(c,reason)
-        {
-            if(typeof c.n === "function")
-            {
-                try
-                {
-                    var yret = c.n.call(_undefined,reason);
-                    c.p.resolve(yret);
-                }
-                catch(err) { c.p.reject(err) }
-            }
-            else
-                c.p.reject(reason); // pass this along...
-        }
-
-        // "Class" functions follow (utility functions that live on the Zousan function object itself)
-
-        Zousan.resolve = function(val) { var z = new Zousan(); z.resolve(val); return z; }
-
-        Zousan.reject = function(err) { var z = new Zousan(); z.reject(err); return z; }
-
-        Zousan.all = function(pa)
-        {
-            var results = [ ], rc = 0, retP = new Zousan(); // results and resolved count
-
-            function rp(p,i)
-            {
-                if(typeof p.then !== "function")
-                    p = Zousan.resolve(p);
-                p.then(
-                        function(yv) { results[i] = yv; rc++; if(rc == pa.length) retP.resolve(results); },
-                        function(nv) { retP.reject(nv); }
-                    );
-            }
-
-            for(var x=0;x<pa.length;x++)
-                rp(pa[x],x);
-
-            // For zero length arrays, resolve immediately
-            if(!pa.length)
-                retP.resolve(results);
-
-            return retP;
-        }
-
-        // If this appears to be a commonJS environment, assign Zousan as the module export
-        // if(typeof module != _undefinedString && module.exports)     // jshint ignore:line
-        //     module.exports = Zousan;    // jshint ignore:line
-
-        // If this appears to be an AMD environment, define Zousan as the module export (commented out until confirmed works with r.js)
-        //if(global.define && global.define.amd)
-        //  global.define([], function() { return Zousan });
-
-        // Make Zousan a global variable in all environments
-        // global.Zousan = Zousan;
-
-        // make soon accessable from Zousan
-        // Zousan.soon = soon;
-
-        //by maptalks
-        _global.Promise = Zousan;
-
-        // make soon accessable from Zousan
-        // Zousan.soon = soon;
-
-    })(/*typeof global != "undefined" ? global : this*//* by maptalks*/Z);   // jshint ignore:line
-}
 
 /**
  * Common methods for classes can be rendered, e.g. Map, Layers
@@ -14600,6 +14784,8 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
         'minZoom' : null,
         'maxExtent' : null,
 
+        'checkSize' : true,
+
         'renderer' : 'canvas'
     },
 
@@ -15083,6 +15269,12 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
             this._fireEvent('baselayerchangestart');
             this._baseLayer.remove();
         }
+        if (!baseLayer) {
+            delete this._baseLayer;
+            this._fireEvent('baselayerchangeend');
+            this._fireEvent('setbaselayer');
+            return this;
+        }
         if (baseLayer instanceof Z.TileLayer) {
             baseLayer.config({
                 'renderWhenPanning':true
@@ -15104,6 +15296,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
         if (this._loaded) {
             this._baseLayer.load();
         }
+        this._fireEvent('setbaselayer');
         return this;
     },
 
@@ -15181,6 +15374,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
                 layer.load();
             }
         }
+        this._fireEvent('addlayer', {'layers' : layers});
         return this;
     },
 
@@ -15218,6 +15412,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
             }
             layer.fire('remove');
         }
+        this._fireEvent('removelayer', {'layers' : layers});
         return this;
     },
 
@@ -15418,14 +15613,11 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * @return {maptalks.Map} this
      */
     checkSize:function () {
-        if (!this._loaded) {
-            return this;
-        }
         if (this._resizeTimeout) {
             clearTimeout(this._resizeTimeout);
         }
         var me = this,
-            justStart = (Z.Util.now() - this._initTime) < 1500,
+            justStart = ((Z.Util.now() - this._initTime) < 1500) && this.width === 0 && this.height === 0,
             center = me.getCenter();
         function resize() {
             var watched = me._getContainerDomSize();
@@ -18233,7 +18425,7 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
             delete this._canvasBg;
             this._clearCanvas();
         }, this);
-        if (typeof window !== 'undefined') {
+        if (map.options['checkSize'] && (typeof window !== 'undefined')) {
             Z.DomUtil.on(window, 'resize', this._onResize, this);
         }
         if (!Z.Browser.mobile && Z.Browser.canvas) {
@@ -22190,41 +22382,18 @@ Z.control = {};
 Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
     includes: [Z.Eventable],
 
-    statics: /** @lends maptalks.Control */{
-        /**
-         * Predefined position constant: {'top': '20','left': '20'}
-         * @constant
-         * @type {Object}
-         */
-        'top_left' : {'top': '20', 'left': '20'},
-        /**
-         * Predefined position constant: {'top': '40','right': '60'}
-         * @constant
-         * @type {Object}
-         */
-        'top_right' : {'top': '40', 'right': '60'},
-        /**
-         * Predefined position constant: {'bottom': '20','left': '60'}
-         * @constant
-         * @type {Object}
-         */
-        'bottom_left' : {'bottom': '20', 'left': '60'},
-        /**
-         * Predefined position constant: {'bottom': '20','right': '60'}
-         * @constant
-         * @type {Object}
-         */
-        'bottom_right' : {'bottom': '20', 'right': '60'}
-    },
-
-    options:{
-
+    statics : {
+        'positions' : {
+            'top-left' : {'top': '20', 'left': '20'},
+            'top-right' : {'top': '40', 'right': '60'},
+            'bottom-left' : {'bottom': '20', 'left': '60'},
+            'bottom-right' : {'bottom': '20', 'right': '60'}
+        }
     },
 
     initialize: function (options) {
-        if (options && options['position']) {
-            var p = Z.Util.extend({}, options['position']);
-            options['position'] = p;
+        if (options && options['position'] && !Z.Util.isString(options['position'])) {
+            options['position'] = Z.Util.extend({}, options['position']);
         }
         Z.Util.setOptions(this, options);
     },
@@ -22243,10 +22412,10 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
         Z.DomUtil.setStyle(this.__ctrlContainer, 'position:absolute');
         Z.DomUtil.addStyle(this.__ctrlContainer, 'z-index', controlContainer.style.zIndex);
         // Z.DomUtil.on(this.__ctrlContainer, 'mousedown mousemove click dblclick contextmenu', Z.DomUtil.stopPropagation)
-        var controlDom = this.buildOn(map);
-        if (controlDom) {
+        this._controlDom = this.buildOn(map);
+        if (this._controlDom) {
             this._updatePosition();
-            this.__ctrlContainer.appendChild(controlDom);
+            this.__ctrlContainer.appendChild(this._controlDom);
             controlContainer.appendChild(this.__ctrlContainer);
         }
         /**
@@ -22274,7 +22443,7 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
      * @return {Object}
      */
     getPosition: function () {
-        return Z.Util.extend({}, this.options['position']);
+        return Z.Util.extend({}, this._parse(this.options['position']));
     },
 
     /**
@@ -22284,7 +22453,11 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
      * @fires maptalks.Control#positionupdate
      */
     setPosition: function (position) {
-        this.options['position'] = Z.Util.extend({}, position);
+        if (Z.Util.isString(position)) {
+            this.options['position'] = position;
+        } else {
+            this.options['position'] = Z.Util.extend({}, position);
+        }
         this._updatePosition();
         return this;
     },
@@ -22294,7 +22467,7 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
      * @return {maptalks.Point}
      */
     getContainerPoint:function () {
-        var position = this.options['position'];
+        var position = this.getPosition();
 
         var size = this._map.getSize();
         var x, y;
@@ -22317,6 +22490,14 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
      */
     getContainer: function () {
         return this.__ctrlContainer;
+    },
+
+    /**
+     * Get DOM element of the control
+     * @return {HTMLElement}
+     */
+    getDOM: function () {
+        return this._controlDom;
     },
 
     /**
@@ -22372,8 +22553,20 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
         return this;
     },
 
+    _parse: function (position) {
+        var p = position;
+        if (Z.Util.isString(position)) {
+            p = Z.Control['positions'][p];
+        }
+        return p;
+    },
+
     _updatePosition: function () {
-        var position = this.options['position'];
+        var position = this.getPosition();
+        if (!position) {
+            //default one
+            position = {'top': '20', 'left': '20'};
+        }
         for (var p in position) {
             if (position.hasOwnProperty(p)) {
                 position[p] = parseInt(position[p]);
@@ -22390,12 +22583,16 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
          * @property {Object} position - Position of the control, eg:{"top" : 100, "left" : 50}
          */
         this.fire('positionupdate', {
-            'position' : Z.Util.extend({}, this.options['position'])
+            'position' : Z.Util.extend({}, position)
         });
     }
 
 });
 
+Z.Map.mergeOptions({
+
+    'control' : true
+});
 
 Z.Map.include(/** @lends maptalks.Map.prototype */{
     /**
@@ -22405,7 +22602,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
      */
     addControl: function (control) {
         //map container is a canvas, can't add control on it.
-        if (this._containerDOM.getContext) {
+        if (!this.options['control'] || this._containerDOM.getContext) {
             return this;
         }
         control.addTo(this);
@@ -22433,7 +22630,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
  * @memberOf maptalks.control
  * @name Zoom
  * @param {Object}   options - construct options
- * @param {Object}   [options.position=maptalks.Control.top_left]  - position of the zoom control.
+ * @param {String|Object}   [options.position="top-left"]  - position of the zoom control.
  * @param {Boolean}  [options.slider=true]                         - Whether to display the slider
  * @param {Boolean}  [options.zoomLevel=true]                      - Whether to display the text box of zoom level
  */
@@ -22441,12 +22638,12 @@ Z.control.Zoom = Z.Control.extend(/** @lends maptalks.control.Zoom.prototype */{
 
     /**
      * @property {Object}   options - options
-     * @property {Object}   [options.position=maptalks.Control.top_left]  - position of the zoom control.
+     * @property {String|Object}   [options.position="top-left"]  - position of the zoom control.
      * @property {Boolean}  [options.slider=true]                         - Whether to display the slider
      * @property {Boolean}  [options.zoomLevel=true]                      - Whether to display the text box of zoom level
      */
     options:{
-        'position'  : Z.Control['top_left'],
+        'position'  : 'top-left',
         'slider'    : true,
         'zoomLevel' : true
     },
@@ -22550,7 +22747,7 @@ Z.Map.addOnLoadHook(function () {
 
 /**
  * @classdesc
- * A control to allows to display attribution data in a small text box on the map.
+ * A control to allows to display attribution content in a small text box on the map.
  * @class
  * @category control
  * @extends maptalks.Control
@@ -22569,7 +22766,7 @@ Z.control.Attribution = Z.Control.extend(/** @lends maptalks.control.Attribution
     options:{
         'position' : {
             'bottom': '0',
-            'right': '0'
+            'left': '0'
         },
         'content' : '<a href="http://www.maptalks.org" target="_blank">Powered By MapTalks</a>'
     },
@@ -22592,7 +22789,7 @@ Z.control.Attribution = Z.Control.extend(/** @lends maptalks.control.Attribution
     },
 
     _update: function () {
-        if (!this._map) { return; }
+        if (!this.getMap()) { return; }
         this._attributionContainer.innerHTML = this.options['content'];
     }
 });
@@ -22621,7 +22818,7 @@ Z.Map.addOnLoadHook(function () {
 Z.control.Nav = Z.Control.extend(/** @lends maptalks.control.Nav.prototype */{
 
     options:{
-        'position' : Z.Control['top_left']
+        'position' : 'top-left'
     },
 
     buildOn: function () {
@@ -22651,7 +22848,7 @@ Z.Map.addOnLoadHook(function () {
  * @memberOf maptalks.control
  * @name Scale
  * @param {Object} [options=null] - construct options
- * @param {Object} [options.position=maptalks.Control.bottom_left]  - position of the scale control.
+ * @param {String|Object}   [options.position="bottom-left"]  - position of the scale control.
  * @param {Number} [options.maxWidth=100]               - max width of the scale control.
  * @param {Boolean} [options.metric=true]               - Whether to show the metric scale line (m/km).
  * @param {Boolean} [options.imperial=false]            - Whether to show the imperial scale line (mi/ft).
@@ -22660,13 +22857,13 @@ Z.control.Scale = Z.Control.extend(/** @lends maptalks.control.Scale.prototype *
 
     /**
      * @property {Object} [options=null] - options
-     * @property {Object} [options.position=maptalks.Control.bottom_left]  - position of the scale control.
+     * @property {String|Object}   [options.position="bottom-left"]  - position of the scale control.
      * @property {Number} [options.maxWidth=100]               - max width of the scale control.
      * @property {Boolean} [options.metric=true]               - Whether to show the metric scale line (m/km).
      * @property {Boolean} [options.imperial=false]            - Whether to show the imperial scale line (mi/ft).
      */
     options:{
-        'position' : Z.Control['bottom_left'],
+        'position' : 'bottom-left',
         'maxWidth': 100,
         'metric': true,
         'imperial': false
@@ -22845,7 +23042,7 @@ Z.control.Panel = Z.Control.extend(/** @lends maptalks.control.Panel.prototype *
 
     _onDragStart:function (param) {
         this._startPos = param['mousePos'];
-        this._startPosition = Z.Util.extend({}, this.options['position']);
+        this._startPosition = Z.Util.extend({}, this.getPosition());
     },
 
     _onDragging:function (param) {
@@ -22853,21 +23050,20 @@ Z.control.Panel = Z.Control.extend(/** @lends maptalks.control.Panel.prototype *
         var offset = pos.substract(this._startPos);
 
         var startPosition = this._startPosition;
-        var position = this.options['position'];
+        var position = this.getPosition();
         if (!Z.Util.isNil(position['top'])) {
-            position['top'] = startPosition['top'] + offset.y;
+            position['top'] = +startPosition['top'] + offset.y;
         }
         if (!Z.Util.isNil(position['bottom'])) {
-            position['bottom'] = startPosition['bottom'] - offset.y;
+            position['bottom'] = +startPosition['bottom'] - offset.y;
         }
         if (!Z.Util.isNil(position['left'])) {
-            position['left'] = startPosition['left'] + offset.x;
+            position['left'] = +startPosition['left'] + offset.x;
         }
         if (!Z.Util.isNil(position['right'])) {
-            position['right'] = startPosition['right'] - offset.x;
+            position['right'] = +startPosition['right'] - offset.x;
         }
-
-        this._updatePosition();
+        this.setPosition(position);
     },
 
     _onDragEnd:function () {
@@ -22918,7 +23114,7 @@ Z.control.Panel = Z.Control.extend(/** @lends maptalks.control.Panel.prototype *
  * @memberOf maptalks.control
  * @name Toolbar
  * @param {Object}   options - construct options
- * @param {Object}   [options.position=maptalks.Control.top_right]  - position of the toolbar control.
+ * @param {String|Object}   [options.position="top-right"]  - position of the toolbar control.
  * @param {Boolean}  [options.vertical=true]                        - Whether the toolbar is a vertical one.
  * @param {Object[]} options.items                                  - items on the toolbar
  */
@@ -22926,13 +23122,13 @@ Z.control.Toolbar = Z.Control.extend(/** @lends maptalks.control.Toolbar.prototy
 
     /**
      * @property {Object}   options - options
-     * @property {Object}   [options.position=maptalks.Control.top_right]  - position of the toolbar control.
+     * @property {String|Object}   [options.position="top-right"]  - position of the toolbar control.
      * @property {Boolean}  [options.vertical=true]                        - Whether the toolbar is a vertical one.
      * @property {Object[]} options.items                                  - items on the toolbar
      */
     options:{
         'vertical' : false,
-        'position' : Z.Control['top_right'],
+        'position' : 'top-right',
         'items'     : {
             //default buttons
         }
@@ -23025,188 +23221,160 @@ Z.control.Toolbar = Z.Control.extend(/** @lends maptalks.control.Toolbar.prototy
 });
 
 /**
- * Utilities for geo
+ * @classdesc
+ * A control to allows to display attribution data in a small text box on the map.
  * @class
- * @protected
+ * @category control
+ * @extends maptalks.Control
+ * @memberOf maptalks.control
+ * @name Attribution
+ * @param {Object} options - construct options
  */
-Z.GeoUtils = {
-    /**
-     * caculate the distance from a point to a segment.
-     * @param {maptalks.Point} p
-     * @param {maptalks.Point} p1
-     * @param {maptalks.Point} p2
-     */
-    distanceToSegment: function (p, p1, p2) {
-        var x = p.x,
-            y = p.y,
-            x1 = p1.x,
-            y1 = p1.y,
-            x2 = p2.x,
-            y2 = p2.y;
+Z.control.Overview = Z.Control.extend(/** @lends maptalks.control.Attribution.prototype */{
 
-        var cross = (x2 - x1) * (x - x1) + (y2 - y1) * (y - y1);
-        if (cross <= 0) {
-            // P->P1
-            return Math.sqrt((x - x1) * (x - x1) + (y - y1) * (y - y1));
-        }
-        var d2 = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
-        if (cross >= d2) {
-            // P->P2
-            return Math.sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2));
-        }
-        var r = cross / d2;
-        var px = x1 + (x2 - x1) * r;
-        var py = y1 + (y2 - y1) * r;
-        // P->P(px,py)
-        return Math.sqrt((x - px) * (x - px) + (y - py) * (y - py));
-    },
+    loadDelay : 1600,
 
     /**
-     * 判断点坐标是否在面中
-     * @param {maptalks.Polygon} 面对象
-     * @param {maptalks.Coordinate} 点对象
-     * @return {Boolean} true：点在面中
+     * @param {Object} options - options
+     * @param {Object} [options.position={"bottom":0,"right":0}] - position of the control
+     * @param {Number} [options.level=4]  - the zoom level of the overview
+     * @param {Object} [options.size={"width":300, "height":200}  - size of the Control
+     * @param {Object} [options.style={"color":"#1bbc9b"}] - style of the control, color is the overview rectangle's color
      */
-    pointInsidePolygon: function (p, points) {
-        var i, j, p1, p2,
-            len = points.length;
-        var c = false;
+    options:{
+        'level' : 4,
+        'position' : {
+            'bottom': '0',
+            'right': '0'
+        },
+        'size' : {
+            'width' : 300,
+            'height' : 200
+        },
+        'style' : {
+            'color' : '#1bbc9b'
+        }
+    },
 
-        for (i = 0, j = len - 1; i < len; j = i++) {
-            p1 = points[i];
-            p2 = points[j];
-            if (((p1.y > p.y) !== (p2.y > p.y)) &&
-                (p.x < (p2.x - p1.x) * (p.y - p1.y) / (p2.y - p1.y) + p1.x)) {
-                c = !c;
+    buildOn: function (map) {
+        var container = Z.DomUtil.createEl('div');
+        container.style.cssText = 'border:1px solid #000;width:' + this.options['size']['width'] + 'px;height:' + this.options['size']['height'] + 'px;';
+        if (map.isLoaded()) {
+            this._initOverview();
+        } else {
+            map.on('load', this._initOverview, this);
+        }
+        return container;
+    },
+
+    _initOverview : function () {
+        var me = this;
+        setTimeout(function () {
+            me._createOverview();
+        }, this.loadDelay);
+    },
+
+    _createOverview : function (container) {
+        var map = this.getMap(),
+            dom = container || this.getDOM(),
+            extent = map.getExtent();
+        var options = map.config();
+        Z.Util.extend(options, {
+            'center' : map.getCenter(),
+            'zoom'   : this._getOverviewZoom(),
+            'scrollWheelZoom' : false,
+            'checkSize' : false,
+            'doubleClickZoom' : false,
+            'touchZoom' : false,
+            'control' : false
+        });
+        this._overview = new Z.Map(dom, options);
+        this._updateBaseLayer();
+        this._perspective = new Z.Polygon(extent.toArray(), {
+            'draggable' : true,
+            'cursor' : 'move',
+            'symbol' : {
+                'lineWidth' : 3,
+                'lineColor' : this.options['style']['color'],
+                'polygonFill' : this.options['style']['color'],
+                'polygonOpacity' : 0.4,
+            }
+        })
+        .on('dragstart', this._onDragStart, this)
+        .on('dragend', this._onDragEnd, this);
+        map.on('resize moveend zoomend', this._update, this)
+            .on('setbaselayer', this._updateBaseLayer, this);
+        new Z.VectorLayer('v').addGeometry(this._perspective).addTo(this._overview);
+        this.fire('load');
+    },
+
+    _onRemove : function (map) {
+        map.off('load', this._initOverview, this)
+            .off('resize moveend zoomend', this._update, this)
+            .off('setbaselayer', this._updateBaseLayer, this);
+    },
+
+    _getOverviewZoom : function () {
+        var map = this.getMap(),
+            zoom = map.getZoom(),
+            minZoom = map.getMinZoom(),
+            level = this.options['level'];
+        var i;
+        if (level > 0) {
+            for (i = level; i > 0; i--) {
+                if (zoom - i >= minZoom) {
+                    return zoom - i;
+                }
+            }
+        } else {
+            for (i = level; i < 0; i++) {
+                if (zoom - i >= minZoom) {
+                    return zoom - i;
+                }
             }
         }
 
-        return c;
+        return zoom;
     },
 
-    computeLength:function (coordinates, measurer) {
-        var result = 0;
-        for (var i = 0, len = coordinates.length; i < len - 1; i++) {
-            result += measurer.measureLength(coordinates[i], coordinates[i + 1]);
+    _onDragStart: function () {
+        this._origDraggable = this.getMap().options['draggable'];
+        this.getMap().config('draggable', false);
+    },
+
+    _onDragEnd : function () {
+        var center = this._perspective.getCenter();
+        this._overview.setCenter(center);
+        this.getMap().panTo(center);
+        this.getMap().config('draggable', this._origDraggable);
+    },
+
+    _update : function () {
+        this._perspective.setCoordinates(this.getMap().getExtent().toArray());
+        this._overview.setCenterAndZoom(this.getMap().getCenter(), this._getOverviewZoom());
+    },
+
+    _updateBaseLayer: function () {
+        var map = this.getMap();
+        if (map.getBaseLayer()) {
+            this._overview.setBaseLayer(Z.Layer.fromJSON(map.getBaseLayer().toJSON()));
+        } else {
+            this._overview.setBaseLayer(null);
         }
-        return result;
-    },
-
-    computeArea:function (coordinates, measurer) {
-        return measurer.measureArea(coordinates);
     }
-};
 
-/**
- * A high-performance JavaScript polyline simplification library by Vladimir Agafonkin
- * @class
- * @protected
- * @author mourner
- * @link https://github.com/mourner/simplify-js
- */
-Z.Simplify = {
-	// square distance between 2 points
-    getSqDist:function (p1, p2) {
+});
 
-        var dx = p1.x - p2.x,
-            dy = p1.y - p2.y;
+Z.Map.mergeOptions({
+    'overviewControl' : false
+});
 
-        return dx * dx + dy * dy;
-    },
-
-    // square distance from a point to a segment
-    getSqSegDist:function (p, p1, p2) {
-
-        var x = p1.x,
-            y = p1.y,
-            dx = p2.x - x,
-            dy = p2.y - y;
-
-        if (dx !== 0 || dy !== 0) {
-
-            var t = ((p.x - x) * dx + (p.y - y) * dy) / (dx * dx + dy * dy);
-
-            if (t > 1) {
-                x = p2.x;
-                y = p2.y;
-
-            } else if (t > 0) {
-                x += dx * t;
-                y += dy * t;
-            }
-        }
-        dx = p.x - x;
-        dy = p.y - y;
-
-        return dx * dx + dy * dy;
-    },
-    // rest of the code doesn't care about point format
-
-    // basic distance-based simplification
-    simplifyRadialDist:function (points, sqTolerance) {
-
-        var prevPoint = points[0],
-            newPoints = [prevPoint],
-            point;
-
-        for (var i = 1, len = points.length; i < len; i++) {
-            point = points[i];
-
-            if (this.getSqDist(point, prevPoint) > sqTolerance) {
-                newPoints.push(point);
-                prevPoint = point;
-            }
-        }
-
-        if (prevPoint !== point) newPoints.push(point);
-
-        return newPoints;
-    },
-
-    simplifyDPStep:function (points, first, last, sqTolerance, simplified) {
-        var maxSqDist = sqTolerance,
-            index;
-
-        for (var i = first + 1; i < last; i++) {
-            var sqDist = this.getSqSegDist(points[i], points[first], points[last]);
-
-            if (sqDist > maxSqDist) {
-                index = i;
-                maxSqDist = sqDist;
-            }
-        }
-
-        if (maxSqDist > sqTolerance) {
-            if (index - first > 1) this.simplifyDPStep(points, first, index, sqTolerance, simplified);
-            simplified.push(points[index]);
-            if (last - index > 1) this.simplifyDPStep(points, index, last, sqTolerance, simplified);
-        }
-    },
-
-    // simplification using Ramer-Douglas-Peucker algorithm
-    simplifyDouglasPeucker:function (points, sqTolerance) {
-        var last = points.length - 1;
-
-        var simplified = [points[0]];
-        this.simplifyDPStep(points, 0, last, sqTolerance, simplified);
-        simplified.push(points[last]);
-
-        return simplified;
-    },
-
-    // both algorithms combined for awesome performance
-    simplify:function (points, tolerance, highestQuality) {
-
-        if (points.length <= 2) return points;
-
-        var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
-
-        points = highestQuality ? points : this.simplifyRadialDist(points, sqTolerance);
-        points = this.simplifyDouglasPeucker(points, sqTolerance);
-
-        return points;
+Z.Map.addOnLoadHook(function () {
+    if (this.options['overviewControl']) {
+        this.overviewControl = new Z.control.Overview(this.options['overviewControl']);
+        this.addControl(this.overviewControl);
     }
-};
+});
 
 
 function exportMaptalks() {
