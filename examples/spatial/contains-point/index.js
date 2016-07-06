@@ -8,18 +8,18 @@ var map = new maptalks.Map('map', {
   })
 });
 var layer = new maptalks.VectorLayer('v').addTo(map),
-    markerLayer = new maptalks.VectorLayer('markers').addTo(map);
+  markerLayer = new maptalks.VectorLayer('markers').addTo(map);
 var polygon = new maptalks.Polygon([
     [121.475542, 31.238812],
     [121.488542, 31.238812],
     [121.488542, 31.223812],
     [121.475542, 31.223812]
-  ], {
-    symbol : {
-      'lineWidth' : 3,
-      'lineColor' : '#223548'
-    }
-  }).addTo(layer);
+], {
+  symbol : {
+    'lineWidth' : 3,
+    'lineColor' : '#223548'
+  }
+}).addTo(layer);
 
 map.on('click', function (param) {
   var symbol = {
