@@ -8,8 +8,7 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var coordinate = new maptalks.Coordinate(121.48542, 31.22854);
-var marker = new maptalks.ui.UIMarker(coordinate, {
+var marker = new maptalks.ui.UIMarker([121.48542, 31.22854], {
   'draggable'     : true,
   'single'        : false,
   'content'       : '<div class="text_marker">UI Marker</div>'

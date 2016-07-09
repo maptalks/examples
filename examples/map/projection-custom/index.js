@@ -52,8 +52,8 @@ d3.json('world-50m.json', function (error, world) {
   var symbol = {
     'lineColor' : '#fff',
     'lineWidth' : 0.5,
-    'polygonOpacity' : 0.4,
-    'polygonFill'    : '#000'
+    'polygonOpacity' : 1,
+    'polygonFill'    : '#747474'
   };
   var vectors = new maptalks.VectorLayer('v', {'geometryEvents':false, 'enableSimplify':false})
       .addGeometry(geometries)
@@ -61,9 +61,5 @@ d3.json('world-50m.json', function (error, world) {
         g.config('antiMeridian', 'split')
          .setSymbol(symbol);
       })
-      .addTo(map);
-  //center marker
-  new maptalks.VectorLayer('c')
-      .addGeometry(new maptalks.Marker(map.getCenter()))
       .addTo(map);
 });
