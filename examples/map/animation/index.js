@@ -5,7 +5,10 @@ var map = new maptalks.Map('map', {
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains)
-  })
+  }),
+  layers : [
+    new maptalks.VectorLayer('v')
+  ]
 });
 
 function up() {
@@ -25,41 +28,32 @@ function right() {
 }
 
 function toCoordinate() {
-  var coordinate = map.getCenter().add(0.1, 0.1);
+  var coordinate = map.getCenter().add(0.008, 0.008);
+  map.getLayer('v').clear().addGeometry(new maptalks.Marker(coordinate));
   map.panTo(coordinate);
 }
 
 var toolbar = new maptalks.control.Toolbar({
   items: [
     {
-      item: 'Pan (By)',
-      children: [
-        {
-          item: 'up',
-          click: up
-        },
-        {
-          item: 'down',
-          click: down
-        },
-        {
-          item: 'left',
-          click: left
-        },
-        {
-          item: 'right',
-          click: right
-        }
-      ]
+      item: '↑',
+      click: up
     },
     {
-      item: 'Pan (To)',
-      children: [
-        {
-          item: 'a coordinate',
-          click: toCoordinate
-        }
-      ]
+      item: '↓',
+      click: down
+    },
+    {
+      item: '←',
+      click: left
+    },
+    {
+      item: '→',
+      click: right
+    },
+    {
+      item: 'pan to',
+      click: toCoordinate
     }
   ]
 }).addTo(map);

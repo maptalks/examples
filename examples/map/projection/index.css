@@ -1,6 +1,7 @@
 
 html,
 body {
+    font: 13px "microsoft yahei",Arial,Helvetica;
     margin: 0px;
     height: 100%;
     width: 100%;
@@ -17,9 +18,11 @@ body {
 }
 
 .title {
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    color : #fff;
+    background-color:  #34495e;
     text-align: center;
-    height : 5%;
+    height : 15px;
+    line-height : 15px;
 }
 
 #map-3857 {
