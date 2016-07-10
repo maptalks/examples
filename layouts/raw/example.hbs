@@ -5,12 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <link rel="stylesheet" href="../../../../../css/maptalks.css">
+    {{#if css.source}}<link rel="stylesheet" href="{{ css.basename }}">{{/if}}
     <script type="text/javascript" src="../../../../../maptalks.js"></script>
-    {{#if css.source}}
-    <style>
-      @import url("{{ css.basename }}");
-    </style>
-    {{/if}}
     <title>{{ category }} - {{ title }}</title>
   </head>
   <body>

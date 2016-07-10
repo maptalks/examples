@@ -7,16 +7,21 @@ body {
 }
 
 #map {
-    float:left;
-    width: 60%;
-    height: 100%;
+    width: 100%;
+    height: 70%;
 }
 
 #status {
-    float:right;
-    height: 100%;
+    background-color: #34495e;
+    width : 100%;
+    height: 30%;
+    overflow : hidden;
 }
 
 #status pre {
-    margin-left : 5px;
+    width : 100%;
+    height : 100%;
+    padding : 0px 0px 0px 13px;
+    color : #fff;
+    font: 13px "microsoft yahei",Arial,Helvetica;
 }
