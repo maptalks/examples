@@ -49,7 +49,7 @@ function readExamplesInfo() {
   return info;
 }
 
-function processSingleFile(file, filepath, files, metadata) {
+function processSingleFile(file, filepath, files, metadata, isRaw) {
   var basename = path.basename(filepath);
   var match = (basename !== 'list.html' && basename.match(markupRegex));
   if (!match) return;
@@ -61,7 +61,8 @@ function processSingleFile(file, filepath, files, metadata) {
   file.meta = info[dirname] || {};
   file.category = file.meta.category[locale];
   file.title = file.meta.title[locale];
-  file.order = file.meta.order;
+
+  file.basename = basename;
 
   var js = path.join(dirname, id + '.js');
   if (js in files) {
@@ -81,7 +82,9 @@ function processSingleFile(file, filepath, files, metadata) {
       basename: id + '.css',
       source: files[css].contents.toString()
     };
-    delete files[css];
+    if (!isRaw) {
+      delete files[css];
+    }
   }
 }
 
@@ -89,7 +92,7 @@ function processRaw(files, metalsmith, done) {
   setImmediate(done);
   for (var filepath in files) {
     var file = files[filepath];
-    processSingleFile(file, filepath, files, metalsmith.metadata());
+    processSingleFile(file, filepath, files, metalsmith.metadata(), true);
   }
 }
 
@@ -97,9 +100,7 @@ function processDemo(files, metalsmith, done) {
   setImmediate(done);
   for (var filepath in files) {
     var file = files[filepath];
-    var basename = path.basename(filepath);
-    processSingleFile(file, filepath, files, metalsmith.metadata());
-    file.basename = basename;
+    processSingleFile(file, filepath, files, metalsmith.metadata(), false);
   }
 }
 
