@@ -32,6 +32,14 @@
         <code class="html xml">{{#escape}}{{> example}}{{/escape}}</code>
       </pre>
     </div>
+    {{#if css.source}}
+    <div class="gist-source" data-key="{{ css.basename }}">
+      <h2>{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h2>
+      <pre>
+        <code class="lang-css">{{ css.source }}</code>
+      </pre>
+    </div>
+    {{/if}}
   </div>
   <div class="gist-license">
     <h2>LICENSE<a name="license" class="anchor" href="#license">#</a></h2>
