@@ -123,7 +123,8 @@
         {"name" : "zoom", "title" : {"zh" : "Zoom控件", "en" : "Add zooming control to the map"}},
         {"name" : "scale", "title" : {"zh" : "Scale控件", "en" : "Add scale control to the map"}},
         {"name" : "attribution", "title" : {"zh" : "Attribution控件", "en" : "Add attribution control to the map"}},
-        {"name" : "toolbar", "title" : {"zh" : "toolbar控件", "en" : "Add toolbar control to the map"}},
+        {"name" : "toolbar", "title" : {"zh" : "Toolbar控件", "en" : "Add a toolbar control to the map"}},
+        {"name" : "overview", "title" : {"zh" : "鹰眼控件", "en" : "Add an overview control to the map"}},
         {"name" : "panel", "title" : {"zh" : "panel控件", "en" : "Add one or more panel controls to the map"}},
         {"name" : "show-hide", "title" : {"zh" : "控件显示与隐藏", "en" : "Control display and hide"}},
         {"name" : "custom", "title" : {"zh" : "创建新的控件", "en" : "Create your own Control"}}

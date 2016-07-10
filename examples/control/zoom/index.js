@@ -3,7 +3,7 @@ var map = new maptalks.Map('map', {
   center: [121.48542888885189, 31.228541533313702],
   zoom: 14,
   zoomControl: {
-    'position'  : maptalks.Control['top_left'],
+    'position'  : 'top-left',
     'slider'    : true,
     'zoomLevel' : true
   },
@@ -14,14 +14,14 @@ var map = new maptalks.Map('map', {
 });
 
 var noZoomLevel = new maptalks.control.Zoom({
-  'position'  : maptalks.Control['top_right'],
+  'position'  : 'top-right',
   'slider'    : true,
   'zoomLevel' : false
 });
 map.addControl(noZoomLevel);
 
 var noSlider = new maptalks.control.Zoom({
-  'position'  : maptalks.Control['bottom_right'],
+  'position'  : 'bottom-right',
   'slider'    : false,
   'zoomLevel' : true
 });

@@ -9,7 +9,7 @@ var map = new maptalks.Map('map', {
 });
 
 var zoomControl = new maptalks.control.Zoom({
-  'position'  : maptalks.Control['top_right'],
+  'position'  : 'top-right',
   'slider'    : true,
   'zoomLevel' : true
 }).addTo(map);
