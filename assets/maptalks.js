@@ -3228,6 +3228,10 @@ Z.Util.extend(Z.animation.Player.prototype, /** @lends maptalks.animation.Player
             this.startTime = options['startTime'] ? options['startTime'] : now;
         }
         this._playStartTime = Math.max(now, this.startTime);
+        if (this.playState === 'paused') {
+            this._playStartTime -= this.currentTime;
+        }
+        this.playState = 'running';
         this._run();
         return this;
     },
@@ -3237,7 +3241,7 @@ Z.Util.extend(Z.animation.Player.prototype, /** @lends maptalks.animation.Player
      */
     pause:function () {
         this.playState = 'paused';
-        this.duration = this.duration - this.currentTime;
+        //this.duration = this.duration - this.currentTime;
         return this;
     },
     /**
@@ -3275,6 +3279,9 @@ Z.Util.extend(Z.animation.Player.prototype, /** @lends maptalks.animation.Player
             setTimeout(Z.Util.bind(this._run, this), this.startTime - now);
         } else if (this.playState === 'running') {
             this._animeFrameId = Z.Animation._requestAnimFrame(function () {
+                if (me.playState !== 'running') {
+                    return;
+                }
                 me.currentTime = now - me._playStartTime;
                 if (step) {
                     step(frame);
@@ -3408,6 +3415,7 @@ Z.Canvas = {
     },
 
     prepareCanvasFont:function (ctx, style) {
+        ctx.textBaseline = 'top';
         ctx.font = Z.symbolizer.TextMarkerSymbolizer.getFont(style);
         var fill = style['textFill'];
         if (!fill) { fill = Z.Symbolizer.DEFAULT_TEXT_COLOR; }
@@ -3502,7 +3510,7 @@ Z.Canvas = {
         } else if (g['type'] === 'radial') {
             if (!places) {
                 var c = extent.getCenter()._round();
-                places = [c.x, c.y, c.x - min.x, c.x, c.y, 0];
+                places = [c.x, c.y, Math.abs(c.x - min.x), c.x, c.y, 0];
             } else {
                 if (places.length !== 6) {
                     throw new Error('A radial gradient\'s places should have 6 numbers.');
@@ -9229,11 +9237,14 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
      * @fires maptalks.Geometry#symbolchange
      */
     updateSymbol: function (symbol) {
+        if (!symbol) {
+            return this;
+        }
         var s = this.getSymbol();
         if (s) {
             s = Z.Util.extendSymbol(s, symbol);
         } else {
-            s = symbol;
+            s = Z.Util.extendSymbol(this._getInternalSymbol(), symbol);
         }
         return this.setSymbol(s);
     },
@@ -14596,6 +14607,11 @@ Z.Util.extend(Z.View.prototype, {
     },
 
     getResolution:function (z) {
+        if (z < 0) {
+            z = 0;
+        } else if (z > this._resolutions.length - 1) {
+            z = this._resolutions.length - 1;
+        }
         return this._resolutions[z];
     },
 
@@ -14774,6 +14790,8 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * @property {String} [options.renderer=canvas]                 - renderer type. Don't change it if you are not sure about it. About renderer, see [TODO]{@link tutorial.renderer}.
      */
     options:{
+        'centerCross' : false,
+
         'clipFullExtent' : false,
 
         'zoomAnimation' : true,
@@ -15893,6 +15911,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
         this._resetMapStatus();
         this._registerDomEvents();
         this._loadAllLayers();
+        this._getRenderer().onLoad();
         this._loaded = true;
         this._callOnLoadHooks();
         this._initTime = Z.Util.now();
@@ -17344,7 +17363,7 @@ Z.Map.GeometryEvents = Z.Handler.extend({
 
     addHooks: function () {
         var map = this.target;
-        var dom = map._panels.canvasContainer;
+        var dom = map._panels.mapWrapper || map._containerDOM;
         if (dom) {
             Z.DomUtil.on(dom, this.EVENTS, this._identifyGeometryEvents, this);
         }
@@ -17353,7 +17372,7 @@ Z.Map.GeometryEvents = Z.Handler.extend({
 
     removeHooks: function () {
         var map = this.target;
-        var dom = map._panels.canvasContainer;
+        var dom = map._panels.mapWrapper || map._containerDOM;
         if (dom) {
             Z.DomUtil.off(dom, this.EVENTS, this._identifyGeometryEvents, this);
         }
@@ -17988,35 +18007,29 @@ Z.renderer.map.Renderer = Z.Class.extend(/** @lends Z.renderer.map.Renderer.prot
         if (!this.map._panels.mapPlatform) {
             return this;
         }
-        var mapPlatform = this.map._panels.mapPlatform;
-        Z.DomUtil.offsetDom(mapPlatform, this.map.offsetPlatform().add(offset)._round());
+        var mapPlatform = this.map._panels.mapPlatform,
+            layer = this.map._panels.layer,
+            pos = this.map.offsetPlatform().add(offset)._round();
+        Z.DomUtil.offsetDom(mapPlatform, pos);
+        Z.DomUtil.offsetDom(layer, pos);
         return this;
     },
 
     resetContainer:function () {
         this.map._resetMapViewPoint();
         if (this.map._panels.mapPlatform) {
-            Z.DomUtil.offsetDom(this.map._panels.mapPlatform, new Z.Point(0, 0));
-            this._resetCanvasContainer();
+            var pos = new Z.Point(0, 0);
+            Z.DomUtil.offsetDom(this.map._panels.mapPlatform, pos);
+            Z.DomUtil.offsetDom(this.map._panels.layer, pos);
         }
-    },
-
-    _resetCanvasContainer: function () {
-        var mapPos = this.map.offsetPlatform();
-        var pos = mapPos.multi(-1)._round();
-        this.map._panels.canvasContainer._pos = pos;
-        Z.DomUtil.offsetDom(this.map._panels.canvasContainer, pos);
-    },
-
-    _getCanvasContainerPos: function () {
-        if (this.map._panels && this.map._panels.canvasContainer) {
-            return this.map._panels.canvasContainer._pos;
-        }
-        return null;
     },
 
     onZoomEnd:function () {
         this.resetContainer();
+    },
+
+    onLoad: function () {
+        this.render();
     }
 });
 
@@ -18074,6 +18087,7 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
             }
         }
 
+        this._drawCenterCross();
         this.map._fireEvent('renderend', {'context' : this._context});
     },
 
@@ -18113,6 +18127,7 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
                 if (player.playState === 'finished') {
                     this._afterTransform(matrix);
                     if (this._context) { this._context.restore(); }
+                    this._drawCenterCross();
                     fn.call(this);
                 } else if (player.playState === 'running') {
                     this.transform(matrix, layersToTransform);
@@ -18128,6 +18143,8 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
      * @param  {maptalks.Layer[]} layersToTransform 参与变换和绘制的图层
      */
     transform:function (matrix, layersToTransform) {
+        this.map._fireEvent('renderstart', {'context' : this._context});
+
         var mwidth = this._canvas.width,
             mheight = this._canvas.height;
         var layers = layersToTransform || this._getAllLayerToTransform();
@@ -18166,6 +18183,9 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
         if (!transformLayers) {
             this._context.restore();
         }
+
+        this._drawCenterCross();
+        this.map._fireEvent('renderend', {'context' : this._context});
     },
 
     updateMapSize:function (mSize) {
@@ -18285,17 +18305,20 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
         var canvasContainer = createContainer('canvasContainer', 'maptalks-layer-canvas', 'position:absolute;top:0px;left:0px;border:none;');
 
         mapPlatform.style.zIndex = 300;
-        canvasContainer.style.zIndex = 100;
+        canvasContainer.style.zIndex = 280;
+        layer.style.zIndex = 100;
         ui.style.zIndex = 300;
         control.style.zIndex = 400;
 
         containerDOM.appendChild(mapWrapper);
 
         mapPlatform.appendChild(ui);
-        mapPlatform.appendChild(canvasContainer);
-        mapPlatform.appendChild(layer);
         mapWrapper.appendChild(mapPlatform);
+        mapWrapper.appendChild(canvasContainer);
+        mapWrapper.appendChild(layer);
         mapWrapper.appendChild(control);
+
+        this._createCanvas();
 
         this.resetContainer();
         var mapSize = this.map._getContainerDomSize();
@@ -18311,13 +18334,7 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
         if (point.x + canvasImage.width <= 0 || point.y + canvasImage.height <= 0) {
             return;
         }
-        var containerPos = this._getCanvasContainerPos();
-        if (containerPos) {
-            var offset = this.map.offsetPlatform().multi(-1)._substract(containerPos);
-            if (Z.Browser.retina) { offset._multi(2); }
-            point = point.add(offset);
 
-        }
         //opacity of the layer image
         var op = layer.options['opacity'];
         if (!Z.Util.isNumber(op)) {
@@ -18374,6 +18391,20 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
             var scale = this._canvasBgRes / map._getResolution();
             var p = map.coordinateToContainerPoint(this._canvasBgCoord)._multi(Z.Browser.retina ? 2 : 1);
             Z.Canvas.image(this._context, this._canvasBg, p.x, p.y, this._canvasBg.width * scale, this._canvasBg.height * scale);
+        }
+    },
+
+    _drawCenterCross: function () {
+        if (this.map.options['centerCross']) {
+            var p = new Z.Point(this._canvas.width / 2, this._canvas.height / 2)._round();
+            this._context.strokeStyle = '#ff0000';
+            this._context.lineWidth = 2;
+            this._context.beginPath();
+            this._context.moveTo(p.x - 5, p.y);
+            this._context.lineTo(p.x + 5, p.y);
+            this._context.moveTo(p.x, p.y - 5);
+            this._context.lineTo(p.x, p.y + 5);
+            this._context.stroke();
         }
     },
 
@@ -18483,18 +18514,9 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
             };
             map.on('_mousemove', this._onMapMouseMove, this);
         }
-
-
-        if (this._isCanvasContainer) {
-            map.on('_moving _moveend', function () {
-                this.render();
-            }, this);
-        } else {
-            map.on('_moveend', function () {
-                this._resetCanvasContainer();
-                this.render();
-            }, this);
-        }
+        map.on('_moving _moveend', function () {
+            this.render();
+        }, this);
     }
 });
 
@@ -19336,7 +19358,7 @@ Z.renderer.vectorlayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.v
     //redraw all the geometries with transform matrix
     //this may bring low performance if number of geometries is large.
     transform: function (matrix) {
-        if (Z.Browser.mobile || !this.getMap().options['layerTransforming'] || this._layer.options['drawOnce'] || this._layer.getMask()) {
+        if (this._layer.options['drawOnce'] || this._layer.getMask()) {
             return false;
         }
         //determin whether this layer should be transformed.
@@ -20433,8 +20455,8 @@ Z.symbolizer.TextMarkerSymbolizer.getFont = function (style) {
     if (style['textFont']) {
         return style['textFont'];
     } else {
-        return (style['textStyle'] ? style['textStyle'] + ' ': '') +
-            (style['textWeight'] ? style['textWeight'] + ' ': '') +
+        return (style['textStyle'] ? style['textStyle'] + ' ' : '') +
+            (style['textWeight'] ? style['textWeight'] + ' ' : '') +
             style['textSize'] + 'px ' +
             (style['textFaceName'][0] === '"' ? style['textFaceName'] : '"' + style['textFaceName'] + '"');
     }
