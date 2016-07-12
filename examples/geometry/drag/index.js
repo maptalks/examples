@@ -8,35 +8,41 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var marker = new maptalks.Marker([121.487542, 31.225812], {
-  draggable: true,
-  dragShadow: false
-});
+var marker = new maptalks.Marker(
+  [121.467906,31.2351467],
+  {
+    'draggable' : true,
+    'symbol' : {
+      'textFaceName' : '"microsoft yahei",arial,sans-serif',
+      'textName' : 'Try to Drag Us',
+      'textFill' : '#34495e',
+      'textHorizontalAlignment' : 'right',
+      'textSize' : 40
+    }
+  }
+);
 var polyline = new maptalks.LineString([
-  [121.471234, 31.211879], [121.493355, 31.221321]
+  [121.467906, 31.233055], [121.4993941, 31.233055]
 ], {
-  draggable: true,
-  dragShadow: true,
-  dragOnAxis: 'x',
-  symbol: {
-    lineColor: 'orange',
-    lineWidth: 2
+  'draggable' : true,
+  'symbol': {
+    'lineColor': '#1bbc9b',
+    'lineWidth': 5
   }
 });
 var polygon = new maptalks.Polygon([
-  [121.468765, 31.243709],
-  [121.483355, 31.242659],
-  [121.483355, 31.223344],
-  [121.478332, 31.220102],
-  [121.468321, 31.234567]
+  [121.467906, 31.23217],
+  [121.499394, 31.23217],
+  [121.499394, 31.227255],
+  [121.467906, 31.227255],
+  [121.467906, 31.23217]
 ], {
-  draggable: true,
-  dragShadow: true,
-  symbol: {
-    lineColor: 'ForestGreen',
-    lineWidth: 2,
-    polygonFill: '#abc',
-    polygonOpacity: 0.7
+  'draggable' : true,
+  'symbol': {
+    'lineColor': '#34495e',
+    'lineWidth': 2,
+    'polygonFill': 'rgb(135,196,240)',
+    'polygonOpacity': 0.6
   }
 });
 
@@ -45,11 +51,3 @@ var geometries = [marker, polyline, polygon];
 var layer = new maptalks.VectorLayer('vector')
     .addGeometry(geometries)
     .addTo(map);
-
-var actionBar = new maptalks.control.Toolbar({
-  items: [
-    {
-      item: 'Try drag them'
-    }
-  ]
-}).addTo(map);

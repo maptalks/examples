@@ -8,52 +8,61 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var polygon1 = new maptalks.Polygon([
-  [
-    [121.475542, 31.238812],
-    [121.488542, 31.238812],
-    [121.488542, 31.223812],
-    [121.475542, 31.223812]
-  ]
-], {
-  'symbol': {
-    'lineColor': '#00ff00',
-    'lineWidth': 8,
-    'polygonFill': '#ff0000'
+var rect3 = new maptalks.Rectangle(
+  [121.46281250243517, 31.23050448425938],
+  1600,
+  1000,
+  {
+    'symbol': [
+      {
+        'textName' : 'Layer 3',
+        'textWeight' : 'bold',
+        'textSize' : 30,
+        'textFill' : '#fff'
+      },
+      {
+        'lineColor': '#34495e',
+        'lineWidth': 3,
+        'polygonFill': '#1bbc9b',
+        'polygonOpacity' : 1
+      }
+    ]
   }
-});
+);
 
-var layer1 = new maptalks.VectorLayer('vector-1')
-    .addGeometry(polygon1)
-    .addTo(map);
+var layer3 = new maptalks.VectorLayer('3')
+  .addGeometry(rect3)
+  .addTo(map);
 
-var polygon2 = new maptalks.Polygon([
-  [
-    [121.487542, 31.239812],
-    [121.487437, 31.226512],
-    [121.473322, 31.221053]
-  ]
-], {
-  'symbol': {
-    'lineColor': '#ff0000',
-    'lineWidth': 8,
-    'polygonFill': '#0000ff'
-  }
-});
+var rect2 = rect3.copy()
+  .translate([0.006, 0.006])
+  .updateSymbol([{'textName' : 'Layer 2'}, {'polygonFill' : 'rgb(216,115,149)'}]);
 
-var layer2 = new maptalks.VectorLayer('vector-2')
-    .addGeometry(polygon2)
-    .addTo(map);
+var layer2 = new maptalks.VectorLayer('2')
+  .addGeometry(rect2)
+  .addTo(map);
 
-function sort() {
-  map.sortLayers(['vector-2', 'vector-1']);
-}
+var rect1 = rect2.copy()
+  .translate([0.006, 0.006])
+  .updateSymbol([{'textName' : 'Layer 1'}, {'polygonFill' : 'rgb(135,196,240)'}]);
+
+var layer1 = new maptalks.VectorLayer('1')
+  .addGeometry(rect1)
+  .addTo(map);
 
 var toolbar = new maptalks.control.Toolbar({
   items: [
     {
-      item: 'Sort',
-      click: sort
+      item: 'Sort to 3, 2, 1',
+      click: function () {
+        map.sortLayers(['1', '2', '3']);
+      }
+    },
+    {
+      item: 'Sort to 1, 2, 3',
+      click: function () {
+        map.sortLayers(['3', '2', '1']);
+      }
     }
   ]
 }).addTo(map);

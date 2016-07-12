@@ -10,21 +10,21 @@ var map = new maptalks.Map('map', {
 });
 
 var layer = new maptalks.VectorLayer('vector')
+    .setStyle({
+      'filter' : ['count', '>=', 0],
+      'symbol' : getSymbol('#747474')
+    })
     .addTo(map);
 
-var colors = ['#ff0000', '#00ff00', '#0000ff'];
-
-for (var idx = 0; idx < 3; idx++) {
-  var id = idx + 1;
+for (var i = 0; i < 3; i++) {
   new maptalks.Polygon([
-    [121.455542 + 0.02 * idx, 31.238812],
-    [121.468542 + 0.02 * idx, 31.238812],
-    [121.468542 + 0.02 * idx, 31.223812],
-    [121.455542 + 0.02 * idx, 31.223812]
+    [121.455542 + 0.02 * i, 31.233812],
+    [121.468542 + 0.02 * i, 31.233812],
+    [121.468542 + 0.02 * i, 31.222812],
+    [121.455542 + 0.02 * i, 31.222812]
   ], {
     'properties': {
-      'id': id,
-      'name': 'polygon' + id
+      'count': (i + 1) * 100
     }
   }).addTo(layer);
 }
@@ -32,40 +32,40 @@ for (var idx = 0; idx < 3; idx++) {
 function setStyle() {
   layer.setStyle([
     {
-      'filter': [
-        'all',
-        ['>', 'id', 1],
-        ['<', 'id', 3]
-      ],
-      'symbol': {
-        'polygonOpacity': 0.9,
-        'lineColor': colors[2],
-        'polygonFill': colors[1]
-      }
+      'filter': ['==', 'count', 100],
+      'symbol': getSymbol('#1bbc9b')
     },
     {
-      'filter': ['==', 'id', 1],
-      'symbol': {
-        'polygonOpacity': 0.9,
-        'lineColor': colors[1],
-        'polygonFill': colors[0]
-      }
+      'filter': ['==', 'count', 200],
+      'symbol': getSymbol('rgb(216,115,149)')
     },
     {
-      'filter': ['==', 'name', 'polygon3'],
-      'symbol': {
-        'polygonOpacity': 0.9,
-        'lineColor': colors[0],
-        'polygonFill': colors[2]
-      }
+      'filter': ['==', 'count', 300],
+      'symbol': getSymbol('rgb(135,196,240)')
     }
   ]);
+}
+
+function getSymbol(color) {
+  return [
+    {
+      'textName' : '{count}',
+      'textSize' : 40,
+      'textFill' : '#fff'
+    },
+    {
+      'polygonFill': color,
+      'polygonOpacity': 0.5,
+      'lineColor': '#000',
+      'lineWidth': 2
+    }
+  ];
 }
 
 var toolbar = new maptalks.control.Toolbar({
   items: [
     {
-      item: 'Set Style',
+      item: 'Set style to layer',
       click: setStyle
     }
   ]

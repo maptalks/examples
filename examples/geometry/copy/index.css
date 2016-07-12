@@ -6,16 +6,9 @@ body {
   width: 100%;
 }
 
-#map1 {
-  width: 49.6%;
+#map {
+  width: 100%;
   height: 100%;
-  float: left;
-}
-
-#map2 {
-  width: 49.6%;
-  height: 100%;
-  float: right;
 }
 
 .maptalks-toolbar-horizonal li {

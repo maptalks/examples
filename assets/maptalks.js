@@ -792,16 +792,18 @@ Z.Util = {
             sources = [{}];
         }
         if (Z.Util.isArray(symbol)) {
-            var s, dest, i, ii, len, ilen;
+            var s, dest, i, ii, l, ll;
             var result = [];
-            for (i = 0, len = symbol.length; i < len; i++) {
+            for (i = 0, l = symbol.length; i < l; i++) {
                 s = symbol[i];
                 dest = {};
-                for (ii = 0, ilen = sources.length; ii < ilen; ii++) {
+                for (ii = 0, ll = sources.length; ii < ll; ii++) {
                     if (!Z.Util.isArray(sources[ii])) {
                         Z.Util.extend(dest, s, sources[ii]);
                     } else if (!Z.Util.isNil(sources[ii][i])) {
                         Z.Util.extend(dest, s, sources[ii][i]);
+                    } else {
+                        Z.Util.extend(dest, s);
                     }
                 }
                 result.push(dest);
@@ -8074,7 +8076,7 @@ Z.Layer = Z.Class.extend(/** @lends maptalks.Layer.prototype */{
             throw new Error('mask has to be a Marker with vector symbol, a Polygon or a MultiPolygon');
         }
 
-        if (mask instanceof Z.Marker) {
+        /*if (mask instanceof Z.Marker) {
             mask.updateSymbol({
                 'markerLineWidth': 0,
                 'markerFillOpacity': 1
@@ -8084,7 +8086,7 @@ Z.Layer = Z.Class.extend(/** @lends maptalks.Layer.prototype */{
                 'lineWidth':0,
                 'polygonOpacity':1
             });
-        }
+        }*/
         mask._bindLayer(this);
         this._mask = mask;
         if (!this.getMap() || this.getMap()._isBusy()) {
@@ -11157,7 +11159,7 @@ Z.Label = Z.Marker.extend(/** @lends maptalks.Label.prototype */{
         'boxAutoSize'  :   true,
         'boxMinWidth'  :   0,
         'boxMinHeight' :   0,
-        'boxPadding'   :   new Z.Size(12, 8),
+        'boxPadding'   :   {'width' : 12, 'height' : 8},
         'boxTextAlign' :   'middle'
     },
 
@@ -14396,8 +14398,8 @@ Z.Label.include(/** @lends maptalks.Label.prototype */{
             var content = this._textEditor.innerText;
             this.setContent(content);
             this.show();
-            Z.DomUtil.off(this._textEditor, 'mousedown dblclick', Z.DomUtil.stopPropagation)
-                .off(this._textEditor, 'blur', this.endEditText, this);
+            Z.DomUtil.off(this._textEditor, 'mousedown dblclick', Z.DomUtil.stopPropagation);
+            this.getMap().off('mousedown', this.endEditText, this);
             this._editUIMarker.remove();
             delete this._editUIMarker;
             delete this._textEditor;
@@ -14425,6 +14427,7 @@ Z.Label.include(/** @lends maptalks.Label.prototype */{
         var map = this.getMap();
         var editContainer = this._createEditor();
         this._textEditor = editContainer;
+        map.on('mousedown',  this.endEditText, this);
         this._editUIMarker = new maptalks.ui.UIMarker(this.getCoordinates(), {
             'content' : editContainer
         }).addTo(map).show();
@@ -14460,8 +14463,7 @@ Z.Label.include(/** @lends maptalks.Label.prototype */{
             '-webkit-user-modify: read-write-plaintext-only;';
         var content = this.getContent();
         editor.innerText = content;
-        Z.DomUtil.on(editor, 'mousedown dblclick', Z.DomUtil.stopPropagation)
-            .on(editor, 'blur', this.endEditText, this);
+        Z.DomUtil.on(editor, 'mousedown dblclick', Z.DomUtil.stopPropagation);
         return editor;
     }
 
@@ -15642,48 +15644,33 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     },
 
     /**
-     * Checks if the map container size changed and updates the map if so.<br>
-     * It is called in a setTimeout call.
+     * Checks if the map container size changed and updates the map if so.
      * @return {maptalks.Map} this
      */
     checkSize:function () {
-        if (this._resizeTimeout) {
-            clearTimeout(this._resizeTimeout);
-        }
-        var me = this,
-            justStart = ((Z.Util.now() - this._initTime) < 1500) && this.width === 0 && this.height === 0,
-            center = me.getCenter();
-        function resize() {
-            var watched = me._getContainerDomSize();
-            var oldHeight = me.height;
-            var oldWidth = me.width;
-            if (watched['width'] === oldWidth && watched['height'] === oldHeight) {
-                return;
-            }
-            me._updateMapSize(watched);
-            var resizeOffset = new Z.Point((oldWidth - watched.width) / 2, (oldHeight - watched.height) / 2);
-            me._offsetCenterByPixel(resizeOffset);
-            if (justStart) {
-                me.setCenter(center);
-            }
-            /**
-             * resize event when map container's size changes
-             * @event maptalks.Map#resize
-             * @type {Object}
-             * @property {String} type - resize
-             * @property {maptalks.Map} target - map fires the event
-             */
-            me._fireEvent('resize');
-        }
+        var justStart = ((Z.Util.now() - this._initTime) < 1500) && this.width === 0 && this.height === 0;
 
-        this._resizeTimeout = setTimeout(function () {
-            resize();
-            if (!justStart) {
-                setTimeout(function () {
-                    resize();
-                }, 1);
-            }
-        }, 100);
+        var watched = this._getContainerDomSize(),
+            oldHeight = this.height,
+            oldWidth = this.width;
+        if (watched['width'] === oldWidth && watched['height'] === oldHeight) {
+            return this;
+        }
+        var center = this.getCenter();
+        this._updateMapSize(watched);
+        var resizeOffset = new Z.Point((oldWidth - watched.width) / 2, (oldHeight - watched.height) / 2);
+        this._offsetCenterByPixel(resizeOffset);
+        if (justStart) {
+            this.setCenter(center);
+        }
+        /**
+         * resize event when map container's size changes
+         * @event maptalks.Map#resize
+         * @type {Object}
+         * @property {String} type - resize
+         * @property {maptalks.Map} target - map fires the event
+         */
+        this._fireEvent('resize');
 
         return this;
     },
@@ -17363,7 +17350,7 @@ Z.Map.GeometryEvents = Z.Handler.extend({
 
     addHooks: function () {
         var map = this.target;
-        var dom = map._panels.mapWrapper || map._containerDOM;
+        var dom = map._panels.canvasContainer || map._containerDOM;
         if (dom) {
             Z.DomUtil.on(dom, this.EVENTS, this._identifyGeometryEvents, this);
         }
@@ -17372,7 +17359,7 @@ Z.Map.GeometryEvents = Z.Handler.extend({
 
     removeHooks: function () {
         var map = this.target;
-        var dom = map._panels.mapWrapper || map._containerDOM;
+        var dom = map._panels.canvasContainer || map._containerDOM;
         if (dom) {
             Z.DomUtil.off(dom, this.EVENTS, this._identifyGeometryEvents, this);
         }
@@ -18195,12 +18182,12 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
         var panels = this.map._panels;
         panels.mapWrapper.style.width = width + 'px';
         panels.mapWrapper.style.height = height + 'px';
-        panels.mapPlatform.style.width = width + 'px';
-        panels.mapPlatform.style.height = height + 'px';
+        // panels.mapPlatform.style.width = width + 'px';
+        // panels.mapPlatform.style.height = height + 'px';
         panels.canvasContainer.style.width = width + 'px';
         panels.canvasContainer.style.height = height + 'px';
-        panels.control.style.width = width + 'px';
-        panels.control.style.height = height + 'px';
+        // panels.control.style.width = width + 'px';
+        // panels.control.style.height = height + 'px';
         this._updateCanvasSize();
     },
 
@@ -18458,8 +18445,13 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
      * @ignore
      */
     _onResize:function () {
-        delete this._canvasBg;
-        this.map.checkSize();
+        Z.Util.cancelAnimFrame(this._resizeRequest);
+        this._resizeRequest = Z.Util.requestAnimFrame(
+            Z.Util.bind(function () {
+                delete this._canvasBg;
+                this.map.checkSize();
+            }, this)
+        );
     },
 
     _registerEvents:function () {
@@ -18479,7 +18471,15 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
             this._clearCanvas();
         }, this);
         if (map.options['checkSize'] && (typeof window !== 'undefined')) {
-            Z.DomUtil.on(window, 'resize', this._onResize, this);
+            // Z.DomUtil.on(window, 'resize', this._onResize, this);
+            this._resizeInterval = setInterval(Z.Util.bind(function () {
+                if (!map._containerDOM.parentNode) {
+                    //is deleted
+                    clearInterval(this._resizeInterval);
+                } else {
+                    this._onResize();
+                }
+            }, this), 1000);
         }
         if (!Z.Browser.mobile && Z.Browser.canvas) {
             this._onMapMouseMove = function (param) {
@@ -20570,8 +20570,8 @@ Z.Rectangle.include({
             }
             return [points, null];
         } else {
-            var domNw = this.getMap()._prjToViewPoint(this._getPrjCoordinates());
-            return [[domNw], null];
+            var c = this.getMap().coordinateToViewPoint(this.getCenter());
+            return [[c], null];
         }
     },
 
@@ -21057,8 +21057,8 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
         if (!this.getMap()) {
             return;
         }
-        if (this.geometry.isVisible()) {
-            var layer = this.geometry.getLayer();
+        var layer = this.geometry.getLayer();
+        if (this.geometry.isVisible() && (layer instanceof Z.VectorLayer)) {
             if (layer.isCanvasRender()) {
                 this._requestToRender();
             } else {
@@ -23262,7 +23262,7 @@ Z.control.Toolbar = Z.Control.extend(/** @lends maptalks.control.Toolbar.prototy
             var li = Z.DomUtil.createEl('li');
             li.innerHTML = '<a href="javascript:;">' + child['item'] + '</a>';
             li.style.cursor = 'pointer';
-            li.style.width = (liWidth + 30) + 'px';// 30 for li padding
+            li.style.width = liWidth + 'px';// 16 for li padding
             Z.DomUtil.on(li.childNodes[0], 'click', (onButtonClick)(child['click'], index, i));
             menuUL.appendChild(li);
         }

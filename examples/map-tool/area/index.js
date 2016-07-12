@@ -8,11 +8,19 @@ var map = new maptalks.Map('map', {
 });
 
 var areaTool = new maptalks.AreaTool({
-  symbol: {
-    lineColor: 'blue',
-    lineWidth: 2,
-    polygonFill: 'white',
-    polygonOpacity: 0.5
+  'symbol': {
+    'lineColor' : '#1bbc9b',
+    'lineWidth' : 2,
+    'polygonFill' : '#fff',
+    'polygonOpacity' : 0.3
+  },
+  'vertexSymbol' : {
+      'markerType'        : 'ellipse',
+      'markerFill'        : '#34495e',
+      'markerLineColor'   : '#1bbc9b',
+      'markerLineWidth'   : 3,
+      'markerWidth'       : 10,
+      'markerHeight'      : 10
   },
   language: ''
 }).addTo(map);

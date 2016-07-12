@@ -10,24 +10,70 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-var circle = new maptalks.Circle([121.481355, 31.228344], 600, {
-  symbol: {
-    polygonFill: '#ffe4e1',
-    polygonOpacity: 0.4,
-    lineColor: '#228b22',
-    lineWidth: 8
+var bar1 = new maptalks.Marker(
+  [121.47388, 31.2265965],
+  {
+    'symbol': {
+      'markerType': 'bar',
+      'markerWidth': 48,
+      'markerHeight': 33,
+      'markerFill': 'rgb(135,196,240)',
+      'markerLineWidth': 0
+    }
   }
-}).addTo(layer);
+).addTo(layer);
+
+var bar2 = new maptalks.Marker(
+  [ 121.48100, 31.2265965],
+  {
+    'symbol': {
+      'markerType': 'bar',
+      'markerWidth': 48,
+      'markerHeight': 47,
+      'markerFill': 'rgb(216,115,149)',
+      'markerLineWidth': 0
+    }
+  }
+).addTo(layer);
+
+var bar3 = new maptalks.Marker(
+  [ 121.48900, 31.2265965],
+  {
+    'symbol': {
+      'markerType': 'bar',
+      'markerWidth': 48,
+      'markerHeight': 79,
+      'markerFill': '#1bbc9b',
+      'markerLineWidth': 0
+    }
+  }
+).addTo(layer);
 
 function animation() {
-  circle.animate({
-    // translate: [0.1, 0.0],
-    radius: 900,
-    symbol: {
-      lineWidth: 2
+  var speed = 1000;
+
+  bar1.animate({
+    'symbol': {
+      'markerHeight': 82
     }
   }, {
-    speed: 500
+    'speed': speed
+  });
+
+  bar2.animate({
+    'symbol': {
+      'markerHeight': 197
+    }
+  }, {
+    'speed': speed
+  });
+
+  bar3.animate({
+    'symbol': {
+      'markerHeight': 154
+    }
+  }, {
+    'speed': speed
   });
 }
 

@@ -11,48 +11,57 @@ var map = new maptalks.Map('map', {
 var layer = new maptalks.VectorLayer('vector')
     .addTo(map);
 
-['#0000ff', '#ff0000', '#00ff00'].forEach(function (color, idx) {
-  var id = idx + 1;
+for (var i = 0; i < 3; i++) {
   new maptalks.Polygon([
-    [121.455542 + 0.02 * idx, 31.238812],
-    [121.468542 + 0.02 * idx, 31.238812],
-    [121.468542 + 0.02 * idx, 31.223812],
-    [121.455542 + 0.02 * idx, 31.223812]
+    [121.455542 + 0.02 * i, 31.233812],
+    [121.468542 + 0.02 * i, 31.233812],
+    [121.468542 + 0.02 * i, 31.222812],
+    [121.455542 + 0.02 * i, 31.222812]
   ], {
     'properties': {
-      'id': id,
-      'name': 'polygon' + id
+      'count': (i + 1) * 100
     },
-    'symbol': {
-      'polygonFill': '#def',
-      'polygonOpacity': 0.5,
-      'lineColor': color,
-      'lineWidth': (idx + 1) * 2
-    }
+    'symbol': [
+      {
+        'textName' : '{count}',
+        'textSize' : 40,
+        'textFill' : '#fff'
+      },
+      {
+        'polygonFill': '#747474',
+        'polygonOpacity': 0.5,
+        'lineColor': '#000',
+        'lineWidth': 2
+      }
+    ]
   }).addTo(layer);
-});
+}
+
 
 function doFilter() {
-  var features = layer.filter([
-    'any',
-    ['==', 'id', 1],
-    ['==', 'name', 'polygon3']
-  ]);
-
-  features.forEach(function (feature) {
-    feature.setSymbol({
-      'lineColor': 'yellow',
-      'lineWidth': 2,
-      'polygonFill': '#def',
-      'polygonOpacity': 0.2
+  var features = layer
+    .filter(['>=', 'count', 200])
+    .forEach(function (feature) {
+      feature.setSymbol([
+        {
+          'textName' : '{count}',
+          'textSize' : 40,
+          'textFill' : '#fff'
+        },
+        {
+          'polygonFill': 'rgb(216,115,149)',
+          'polygonOpacity': 0.5,
+          'lineColor': '#000',
+          'lineWidth': 2
+        }
+      ]);
     });
-  });
 }
 
 var toolbar = new maptalks.control.Toolbar({
   items: [
     {
-      item: 'Filter',
+      item: 'Filter those >= 200',
       click: doFilter
     }
   ]

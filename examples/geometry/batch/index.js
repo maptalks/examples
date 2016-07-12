@@ -8,27 +8,38 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var marker = new maptalks.Marker([121.487542, 31.225812]);
+var marker = new maptalks.Marker(
+  [121.467906,31.2351467],
+  {
+    symbol : {
+      'textFaceName' : '"microsoft yahei",arial,sans-serif',
+      'textName' : 'MapTalks',
+      'textFill' : '#34495e',
+      'textHorizontalAlignment' : 'right',
+      'textSize' : 40
+    }
+  }
+);
 var polyline = new maptalks.LineString([
-  [121.471234, 31.211879], [121.493355, 31.221321]
+  [121.467906, 31.233055], [121.4913941, 31.233055]
 ], {
   symbol: {
-    lineColor: 'orange',
-    lineWidth: 2
+    lineColor: '#1bbc9b',
+    lineWidth: 3
   }
 });
 var polygon = new maptalks.Polygon([
-  [121.468765, 31.243709],
-  [121.483355, 31.242659],
-  [121.483355, 31.223344],
-  [121.478332, 31.220102],
-  [121.468321, 31.234567]
+  [121.467906, 31.23217],
+  [121.491394, 31.23217],
+  [121.491394, 31.227255],
+  [121.467906, 31.227255],
+  [121.467906, 31.23217]
 ], {
   symbol: {
-    lineColor: 'ForestGreen',
+    lineColor: '#34495e',
     lineWidth: 2,
-    polygonFill: '#abc',
-    polygonOpacity: 0.7
+    polygonFill: 'rgb(135,196,240)',
+    polygonOpacity: 0.6
   }
 });
 

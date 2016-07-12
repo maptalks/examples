@@ -8,40 +8,27 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var marker = new maptalks.Marker([121.487542, 31.225812]);
-var polyline = new maptalks.LineString([
-  [121.471234, 31.211879], [121.493355, 31.221321]
-], {
-  symbol: {
-    lineColor: 'orange',
-    lineWidth: 2
+var marker = new maptalks.Marker(
+  map.getCenter(),
+  {
+    symbol : {
+      'textFaceName' : '"microsoft yahei",arial,sans-serif',
+      'textName' : 'FLASH\nME',
+      'textFill' : '#34495e',
+      'textSize' : 40,
+      'textWrapCharacter' : '\n',
+      'textHaloColor' : 'white',
+      'textHaloRadius' : 8
+    }
   }
-});
-var polygon = new maptalks.Polygon([
-  [121.468765, 31.243709],
-  [121.483355, 31.242659],
-  [121.483355, 31.223344],
-  [121.478332, 31.220102],
-  [121.468321, 31.234567]
-], {
-  symbol: {
-    lineColor: 'ForestGreen',
-    lineWidth: 2,
-    polygonFill: '#abc',
-    polygonOpacity: 0.7
-  }
-});
-
-var geometries = [marker, polyline, polygon];
+);
 
 var layer = new maptalks.VectorLayer('vector')
-    .addGeometry(geometries)
+    .addGeometry(marker)
     .addTo(map);
 
 function flash() {
-  geometries.forEach(function (geometry) {
-    geometry.flash(200, 2);
-  });
+  marker.flash(200, 5);
 }
 
 var actionBar = new maptalks.control.Toolbar({

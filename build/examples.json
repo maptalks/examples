@@ -58,7 +58,6 @@
         {"name" : "label-edit", "title" : {"zh" : "编辑文字标签", "en" : "Edit the text of a text label"}},
         {"name" : "curve", "title" : {"zh" : "添加弧线", "en" : "Add curve lines"}},
         {"name" : "connector-line", "title" : {"zh" : "图形连接线", "en" : "Connector lines of geometries"}},
-        {"name" : "change-symbol", "title" : {"zh" : "改变样式", "en" : "Change geometry's symbol"}},
         {"name" : "show-hide", "title" : {"zh" : "显示/隐藏", "en" : "Show and hide geometries"}},
         {"name" : "flash", "title" : {"zh" : "闪烁", "en" : "Flash geometries"}},
         {"name" : "drag", "title" : {"zh" : "拖拽", "en" : "Drag geometries"}},

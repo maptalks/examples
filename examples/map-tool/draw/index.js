@@ -34,6 +34,12 @@ var toolbar = new maptalks.control.Toolbar({
       children: items
     },
     {
+      item: 'Disable',
+      click: function () {
+        drawTool.disable();
+      }
+    },
+    {
       item: 'Clear',
       click: function () {
         layer.clear();

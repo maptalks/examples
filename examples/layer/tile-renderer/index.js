@@ -9,6 +9,15 @@ var map1 = new maptalks.Map('map-on-dom', {
   })
 });
 
+new maptalks.control.Toolbar({
+  items: [
+    {
+      item: 'Tilelayer rendered on div'
+    }
+  ]
+}).addTo(map1);
+
+
 var map2 = new maptalks.Map('map-on-canvas', {
   center: [121.48542888885189, 31.228541533313702],
   zoom: 14,
@@ -19,3 +28,11 @@ var map2 = new maptalks.Map('map-on-canvas', {
     subdomains: $(subdomains)
   })
 });
+
+new maptalks.control.Toolbar({
+  items: [
+    {
+      item: 'Tilelayer rendered on canvas'
+    }
+  ]
+}).addTo(map2);

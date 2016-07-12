@@ -10,8 +10,13 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('v').addTo(map);
 
-//identify
-map.on('contextmenu', function (param) {
+map.on('click', function (param) {
+  //reset colors
+  layer.forEach(function (g) {
+    g.updateSymbol({
+      'markerFill' : '#0e595e'
+    });
+  });
   map.identify(
     {
       'coordinate' : param.coordinate,
@@ -19,17 +24,13 @@ map.on('contextmenu', function (param) {
     },
     function (geos) {
       if (geos.length === 0) {
-        map.closeMenu();
         return;
       }
-      var items = [];
       geos.forEach(function (g) {
-        items.push({
-          'item' : g.getProperties().value,
-          'click' : function () {}
+        g.updateSymbol({
+            'markerFill' : '#f00'
         });
       });
-      map.setMenu({'items' : items, 'width' : 80}).openMenu(param.coordinate);
     }
   );
 });
@@ -59,10 +60,11 @@ for (var i = 65; i <= 90; i++) {
   }));
 }
 layer.addGeometry(markers);
+
 var toolbar = new maptalks.control.Toolbar({
   items: [
     {
-      item: 'Right click on the map to identify',
+      item: 'Click to identify',
       click: function () {}
     }
   ]

@@ -8,9 +8,22 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var marker = new maptalks.Marker([121.487542, 31.239812]);
+var marker = new maptalks.Marker(
+  map.getCenter(),
+  {
+    symbol : {
+      'textName' : 'Layer is added.',
+      'textWeight' : 'bold',
+      'textSize' : 50,
+      'textFill' : '#1bbc9b',
+      'textHaloFill' : '#fff',
+      'textHaloRadius' : 5
+    }
+  }
+);
 var layer = new maptalks.VectorLayer('vector')
-    .addGeometry(marker);
+    .addGeometry(marker)
+    .addTo(map);
 
 var toolbar = new maptalks.control.Toolbar({
   items: [

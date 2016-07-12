@@ -8,53 +8,50 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var polygon1 = new maptalks.Polygon([
-  [
-    [121.475542, 31.238812],
-    [121.488542, 31.238812],
-    [121.488542, 31.223812],
-    [121.475542, 31.223812]
-  ]
-], {
-  'symbol': {
-    'lineColor': '#00ff00',
-    'lineWidth': 8,
-    'polygonFill': '#ff0000'
+var rect2 = new maptalks.Rectangle(
+  [121.46281250243517, 31.23050448425938],
+  1600,
+  1000,
+  {
+    'symbol': [
+      {
+        'textName' : 'Layer 2',
+        'textWeight' : 'bold',
+        'textSize' : 30,
+        'textFill' : '#fff'
+      },
+      {
+        'lineColor': '#34495e',
+        'lineWidth': 3,
+        'polygonFill': '#1bbc9b',
+        'polygonOpacity' : 1
+      }
+    ]
   }
-});
+);
 
-var layer1 = new maptalks.VectorLayer('vector-1')
-    .addGeometry(polygon1)
-    .addTo(map);
+var layer2 = new maptalks.VectorLayer('2')
+  .addGeometry(rect2)
+  .addTo(map);
 
-var polygon2 = new maptalks.Polygon([
-  [
-    [121.487542, 31.239812],
-    [121.487437, 31.226512],
-    [121.473322, 31.221053]
-  ]
-], {
-  'symbol': {
-    'lineColor': '#ff0000',
-    'lineWidth': 8,
-    'polygonFill': '#0000ff'
-  }
-});
+var rect1 = rect2.copy()
+  .translate([0.006, 0.006])
+  .updateSymbol([{'textName' : 'Layer 1'}, {'polygonFill' : 'rgb(216,115,149)'}]);
 
-var layer2 = new maptalks.VectorLayer('vector-2')
-    .addGeometry(polygon2)
-    .addTo(map);
+var layer1 = new maptalks.VectorLayer('1')
+  .addGeometry(rect1)
+  .addTo(map);
 
 var toolbar = new maptalks.control.Toolbar({
   items: [
     {
-      item: 'Bring to front',
+      item: 'Bring layer 1 to front',
       click: function () {
         layer1.bringToFront();
       }
     },
     {
-      item: 'Bring to back',
+      item: 'Bring layer 1 to back',
       click: function () {
         layer1.bringToBack();
       }

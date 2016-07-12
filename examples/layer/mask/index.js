@@ -8,31 +8,35 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var mask = new maptalks.Marker([121.481542, 31.230812], {
-  'symbol': {
-    'markerType': 'ellipse',
-    'markerWidth': 180,
-    'markerHeight': 200,
-    'markerFill': '#ecb',
-    'markerFillOpacity': 1
-  }
-});
 
-var polygon = new maptalks.Polygon([
-  [
-    [121.487542, 31.239812],
-    [121.487437, 31.226512],
-    [121.473322, 31.221053]
-  ]
-], {
-  'symbol': {
-    'lineColor': '#ff0000',
-    'lineWidth': 8,
-    'polygonFill': '#0000ff'
-  }
-});
+
+var extent = map.getExtent(),
+    min = extent.getMin(),
+    w = extent.getWidth(),
+    h = extent.getHeight(),
+    markers = [];
+for (var i = 0; i < 100; i++) {
+  markers.push(new maptalks.Marker([min.x + Math.random() * w, min.y + Math.random() * h]));
+}
 
 var layer = new maptalks.VectorLayer('vector')
-    .addGeometry(polygon)
-    .setMask(mask)
+    .addGeometry(markers)
     .addTo(map);
+
+map.on('mousemove', function (param) {
+  if (!layer.getMask()) {
+    layer.setMask(new maptalks.Marker(param.coordinate, {
+      'symbol': {
+        'markerType': 'square',
+        'markerWidth': 200,
+        'markerHeight': 200,
+        'markerLineWidth' : 3,
+        'markerLineColor' : '#34495e',
+        'markerLineOpacity' : 0.8,
+        'markerFillOpacity' : 0
+      }
+    }));
+  } else {
+    layer.getMask().setCoordinates(param.coordinate);
+  }
+})

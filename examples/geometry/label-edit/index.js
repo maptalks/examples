@@ -11,14 +11,21 @@ var map = new maptalks.Map('map', {
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
 var labelWithBox = new maptalks.Label('label with box', [121.489545, 31.226732], {
-  box: true,
-  draggable : true,
-  symbol: {
-    markerLineColor: 'Gold',
-    textFill: 'green',
-    textSize: 24
+  'box'          :   true,
+  'boxAutoSize'  :   true,
+  'boxMinWidth'  :   0,
+  'boxMinHeight' :   0,
+  'boxPadding'   :   {'width' : 26, 'height' : 8},
+  'boxTextAlign' :   'middle', //left, middle, right
+  'symbol': {
+    'markerLineColor': '#34495e',
+    'markerFill' : '#34495e',
+    'textFaceName' : '"microsoft yahei",arial,sans-serif',
+    'textFill' : '#fff',
+    'textSize' : 18
   }
 }).addTo(layer);
+
 
 var actionBar = new maptalks.control.Toolbar({
   items: [

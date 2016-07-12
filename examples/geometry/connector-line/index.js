@@ -10,32 +10,52 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-var src = new maptalks.Polygon([
-  [121.465345, 31.236732],
-  [121.459953, 31.225678],
-  [121.463234, 31.218754]
-], {
-  symbol: {
-    lineColor: '#ace',
-    lineWidth: 2
+var src = new maptalks.Marker(
+  [121.459953, 31.227678],
+  {
+    symbol: {
+      'markerType' : 'ellipse',
+      'markerFill' : 'rgb(135,196,240)',
+      'markerFillOpacity' : 0.8,
+      'markerLineColor' : '#fff',
+      'markerLineWidth' : 3,
+      'markerWidth' : 120,
+      'markerHeight' : 120
+    }
   }
-}).addTo(layer);
+).addTo(layer);
 
-var dst = new maptalks.Polygon([
-  [121.495345, 31.236832],
-  [121.489933, 31.225578],
-  [121.493234, 31.218854]
-], {
-  symbol: {
-    lineColor: '#fed',
-    lineWidth: 2
+var dst = new maptalks.Marker(
+  [121.495345, 31.227678],
+  {
+    'draggable' : true,
+    'symbol': [
+      {
+        'textName' : 'Drag\nMe',
+        'textSize' : 18,
+        'textFill' : '#fff',
+        'textWrapCharacter' : '\n'
+      },
+      {
+        'markerType' : 'ellipse',
+        'markerFill' : 'rgb(216,115,149)',
+        'markerFillOpacity' : 0.8,
+        'markerLineColor' : '#fff',
+        'markerLineWidth' : 3,
+        'markerWidth' : 70,
+        'markerHeight' : 70
+      }
+    ]
   }
-}).addTo(layer);
+).addTo(layer);
 
 var line = new maptalks.ConnectorLine(src, dst, {
+  curveType : 0, //0, 1, 2, 3
+  showOn : 'always', //'moving', 'click', 'mouseover', 'always'
+  arrowStyle : 'classic',
+  arrowPlacement : 'vertex-last', //vertex-first, vertex-last, vertex-firstlast, point
   symbol: {
-    curveType: 1,
-    lineColor: 'SlateBlue',
+    lineColor: '#34495e',
     lineWidth: 2
   }
 }).addTo(layer);

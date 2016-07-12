@@ -34,6 +34,6 @@ function getStatus() {
     'Projection : ' + map.getProjection().code
   ];
 
-  document.getElementById('status').innerHTML = '<pre>' + mapStatus.join('\n') + '</pre>';
+  document.getElementById('status').innerHTML = '<div>' + mapStatus.join('<br>') + '</div>';
 }
 

@@ -8,15 +8,20 @@ body {
 
 #map {
   width: 100%;
-  height: 100%;
+  height: 70%;
   float: left;
 }
 
-.maptalks-toolbar-horizonal li {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+#events {
+    background-color: #34495e;
+    width : 100%;
+    height: 30%;
+    overflow : hidden;
+}
+
+#events div {
+    width : 100%;
+    height : 100%;
+    padding : 13px 0px 0px 13px;
+    color : #fff;
 }

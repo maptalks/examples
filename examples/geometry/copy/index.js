@@ -1,5 +1,5 @@
 
-var map1 = new maptalks.Map('map1', {
+var map = new maptalks.Map('map', {
   center: [121.48542888885189, 31.228541533313702],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
@@ -8,47 +8,40 @@ var map1 = new maptalks.Map('map1', {
   })
 });
 
-var map2 = new maptalks.Map('map2', {
-  center: [121.48542888885189, 31.228541533313702],
-  zoom: 14,
-  baseLayer: new maptalks.TileLayer('base', {
-    urlTemplate: '$(urlTemplate)',
-    subdomains: $(subdomains)
-  })
-});
 
-var layer1 = new maptalks.VectorLayer('vector').addTo(map1);
-var layer2 = new maptalks.VectorLayer('vector').addTo(map2);
+var layer = new maptalks.VectorLayer('vector').addTo(map);
+var copyLayer = new maptalks.VectorLayer('copy').addTo(map);
 
-var polygon = new maptalks.Polygon([
-  [121.478765, 31.243709],
-  [121.493355, 31.242659],
-  [121.493355, 31.223344],
-  [121.488332, 31.220102],
-  [121.478321, 31.234567]
-], {
-  symbol: {
-    lineColor: 'ForestGreen',
-    lineWidth: 2,
-    polygonFill: '#abc',
-    polygonOpacity: 0.7
-  }
-}).addTo(layer1);
+var counter = 1;
+
+var rect = new maptalks.Rectangle(
+  [121.458765, 31.243709],
+  800, 600,
+  {
+    'symbol': {
+      'lineColor': '#fff',
+      'lineWidth': 2,
+      'polygonFill': 'rgb(216,115,149)',
+      'polygonOpacity': 0.7
+    }
+}).addTo(layer);
 
 var actionBar = new maptalks.control.Toolbar({
   items: [
     {
       item: 'Copy',
       click: function () {
-        var copy = polygon.copy();
-        copy.setSymbol({
-          lineColor: 'ForestGreen',
-          lineWidth: 2,
-          polygonFill: 'Burlywood',
-          polygonOpacity: 0.7
-        });
-        copy.addTo(layer2);
+        var copy = rect.copy();
+        copy.translate([0.003 * counter, -0.003 * (counter++)]);
+        copy.addTo(copyLayer);
+      }
+    },
+    {
+      item: 'Clear',
+      click: function () {
+        counter = 1;
+        copyLayer.clear();
       }
     }
   ]
-}).addTo(map1);
+}).addTo(map);

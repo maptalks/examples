@@ -8,7 +8,7 @@ var map = new maptalks.Map('map', {
   })
 });
 
-map.on('click', function () {
+map.on('click', function (param) {
   var infoDom = document.getElementById('info');
-  infoDom.innerHTML = infoDom.innerHTML + '<div>' + new Date().toLocaleTimeString() + ': Your click map!</div>';
+  infoDom.innerHTML = infoDom.innerHTML + '<div>' + new Date().toLocaleTimeString() + ': Your click map on ' + param.coordinate.toArray().join() + '!</div>';
 });

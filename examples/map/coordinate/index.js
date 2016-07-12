@@ -9,7 +9,7 @@ var map = new maptalks.Map('map', {
   })
 });
 
-map.on('moveend zoomend', refresh);
+map.on('moving moveend zoomend', refresh);
 
 refresh();
 
@@ -19,10 +19,10 @@ function refresh() {
     containerPoint = map.coordinateToContainerPoint(center).round(),
     viewPoint = map.coordinateToViewPoint(center).round();
 
-  document.getElementById('coordinate').innerHTML = '<pre>' + [
+  document.getElementById('coordinate').innerHTML = '<div>' + [
     'Center : ',
-    'Coordinate : ' + center.x + ',' + center.y,
+    'Coordinate : ' + center.x.toFixed(5) + ',' + center.y.toFixed(5),
     'ContainerPoint :' + containerPoint.x + ',' + containerPoint.y,
     'ViewPoint :' + viewPoint.x + ',' + viewPoint.y
-  ].join('\n') + '</pre>';
+  ].join('<br>') + '</div>';
 }
