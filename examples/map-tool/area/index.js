@@ -15,12 +15,12 @@ var areaTool = new maptalks.AreaTool({
     'polygonOpacity' : 0.3
   },
   'vertexSymbol' : {
-      'markerType'        : 'ellipse',
-      'markerFill'        : '#34495e',
-      'markerLineColor'   : '#1bbc9b',
-      'markerLineWidth'   : 3,
-      'markerWidth'       : 10,
-      'markerHeight'      : 10
+    'markerType'        : 'ellipse',
+    'markerFill'        : '#34495e',
+    'markerLineColor'   : '#1bbc9b',
+    'markerLineWidth'   : 3,
+    'markerWidth'       : 10,
+    'markerHeight'      : 10
   },
   language: ''
 }).addTo(map);

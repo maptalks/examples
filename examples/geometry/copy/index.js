@@ -24,7 +24,7 @@ var rect = new maptalks.Rectangle(
       'polygonFill': 'rgb(216,115,149)',
       'polygonOpacity': 0.7
     }
-}).addTo(layer);
+  }).addTo(layer);
 
 var actionBar = new maptalks.control.Toolbar({
   items: [

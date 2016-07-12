@@ -28,7 +28,7 @@ map.on('click', function (param) {
       }
       geos.forEach(function (g) {
         g.updateSymbol({
-            'markerFill' : '#f00'
+          'markerFill' : '#f00'
         });
       });
     }

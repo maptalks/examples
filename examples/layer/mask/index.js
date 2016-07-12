@@ -11,10 +11,10 @@ var map = new maptalks.Map('map', {
 
 
 var extent = map.getExtent(),
-    min = extent.getMin(),
-    w = extent.getWidth(),
-    h = extent.getHeight(),
-    markers = [];
+  min = extent.getMin(),
+  w = extent.getWidth(),
+  h = extent.getHeight(),
+  markers = [];
 for (var i = 0; i < 100; i++) {
   markers.push(new maptalks.Marker([min.x + Math.random() * w, min.y + Math.random() * h]));
 }
@@ -39,4 +39,4 @@ map.on('mousemove', function (param) {
   } else {
     layer.getMask().setCoordinates(param.coordinate);
   }
-})
+});

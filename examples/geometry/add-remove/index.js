@@ -24,8 +24,8 @@ var polyline = new maptalks.LineString([
   [121.467906, 31.233055], [121.4913941, 31.233055]
 ], {
   symbol: {
-    lineColor: '#1bbc9b',
-    lineWidth: 3
+    'lineColor' : '#1bbc9b',
+    'lineWidth' : 3
   }
 });
 var polygon = new maptalks.Polygon([
@@ -36,10 +36,10 @@ var polygon = new maptalks.Polygon([
   [121.467906, 31.23217]
 ], {
   symbol: {
-    lineColor: '#34495e',
-    lineWidth: 2,
-    polygonFill: 'rgb(135,196,240)',
-    polygonOpacity: 0.6
+    'lineColor' : '#34495e',
+    'lineWidth' : 2,
+    'polygonFill' : 'rgb(135,196,240)',
+    'polygonOpacity' : 0.6
   }
 });
 

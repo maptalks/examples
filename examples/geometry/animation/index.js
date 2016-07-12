@@ -24,7 +24,7 @@ var bar1 = new maptalks.Marker(
 ).addTo(layer);
 
 var bar2 = new maptalks.Marker(
-  [ 121.48100, 31.2265965],
+  [121.48100, 31.2265965],
   {
     'symbol': {
       'markerType': 'bar',
@@ -37,7 +37,7 @@ var bar2 = new maptalks.Marker(
 ).addTo(layer);
 
 var bar3 = new maptalks.Marker(
-  [ 121.48900, 31.2265965],
+  [121.48900, 31.2265965],
   {
     'symbol': {
       'markerType': 'bar',

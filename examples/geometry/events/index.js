@@ -42,7 +42,7 @@ function onEvent(param) {
   events.push(param);
   var content = '';
   for (var i = events.length - 1; i >= 0; i--) {
-    content += events[i].type + ' on ' + events[i].coordinate.toArray().map(function (c) {return c.toFixed(5);}).join() + '<br>';
+    content += events[i].type + ' on ' + events[i].coordinate.toArray().map(function (c) { return c.toFixed(5); }).join() + '<br>';
   }
   document.getElementById('events').innerHTML = '<div>' + content + '</div>';
   //return false to stop event propagation

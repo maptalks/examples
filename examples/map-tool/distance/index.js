@@ -14,12 +14,12 @@ var distanceTool = new maptalks.DistanceTool({
     'lineWidth' : 2
   },
   'vertexSymbol' : {
-      'markerType'        : 'ellipse',
-      'markerFill'        : '#1bbc9b',
-      'markerLineColor'   : '#000',
-      'markerLineWidth'   : 3,
-      'markerWidth'       : 10,
-      'markerHeight'      : 10
+    'markerType'        : 'ellipse',
+    'markerFill'        : '#1bbc9b',
+    'markerLineColor'   : '#000',
+    'markerLineWidth'   : 3,
+    'markerWidth'       : 10,
+    'markerHeight'      : 10
   },
   language: ''
 }).addTo(map);

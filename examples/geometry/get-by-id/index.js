@@ -8,12 +8,12 @@ var map = new maptalks.Map('map', {
   })
 });
 
+var layer = new maptalks.VectorLayer('vector')
+    .addTo(map);
+
 function getById(id) {
   layer.getGeometryById(id).updateSymbol([null, {'polygonFill': '#f00'}]);
 }
-
-var layer = new maptalks.VectorLayer('vector')
-    .addTo(map);
 
 for (var i = 0; i < 3; i++) {
   new maptalks.Polygon(
