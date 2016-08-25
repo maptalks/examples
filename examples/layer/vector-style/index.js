@@ -49,15 +49,15 @@ function setStyle() {
 function getSymbol(color) {
   return [
     {
-      'textName' : '{count}',
-      'textSize' : 40,
-      'textFill' : '#fff'
-    },
-    {
       'polygonFill': color,
       'polygonOpacity': 0.5,
       'lineColor': '#000',
       'lineWidth': 2
+    },
+    {
+      'textName' : '{count}',
+      'textSize' : 40,
+      'textFill' : '#fff'
     }
   ];
 }

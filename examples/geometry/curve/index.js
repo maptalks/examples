@@ -61,6 +61,10 @@ var curve3 = new maptalks.CurveLine([
 function getCurveSymbol(title) {
   return [
     {
+      lineColor: '#34495e',
+      lineWidth: 3
+    },
+    {
       textName : title,
       textFill : '#f00',
       textWeight : 'bold',
@@ -68,10 +72,6 @@ function getCurveSymbol(title) {
       textHaloRadius : 3,
       textSize : 20,
       textWrapCharacter : '\n'
-    },
-    {
-      lineColor: '#34495e',
-      lineWidth: 3
     }
   ];
 }

@@ -1,5 +1,5 @@
 
-var myControl = maptalks.Control.extend({
+var myControl = maptalks.control.Control.extend({
 
   options :{
     'position' : 'top-right',
@@ -25,6 +25,6 @@ var map = new maptalks.Map('map', {
 
 var control = new myControl({
   'position'  : {'top': '10', 'right': '10'},
-  'content'   : 'My custom Control!'
+  'content'   : 'Hello, Custom Control!'
 });
 map.addControl(control);

@@ -7,26 +7,34 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var layer = new maptalks.VectorLayer('layer').addTo(map);
-
 var CustomTool = maptalks.MapTool.extend({
-  initialize: function (options) {
-    maptalks.Util.setOptions(this, options);
+  initialize: function () {
   },
 
-  _getEvents: function () {
+  onEnable: function () {
+    this._markerLayer = new maptalks.VectorLayer(maptalks.internalLayerPrefix + '_marker_map_tool')
+      .addTo(this.getMap());
+  },
+
+  getEvents: function () {
     return {
       'click': this._onClick,
       'contextmenu': this._onRighClick
     };
   },
 
+  onDisable: function () {
+    if (this._markerLayer) {
+      this.getMap().removeLayer(this._markerLayer);
+    }
+  },
+
   _onClick: function (param) {
-    layer.addGeometry(new maptalks.Marker(param.coordinate));
+    this._markerLayer.addGeometry(new maptalks.Marker(param.coordinate));
   },
 
   _onRighClick: function (param) {
-    layer.clear();
+    this._markerLayer.clear();
   }
 });
 

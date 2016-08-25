@@ -69,6 +69,6 @@ var items = [
 });
 
 var toolbar = new maptalks.control.Toolbar({
-  position: maptalks.Control.top_left,
+  position: 'top_left',
   items: items
 }).addTo(map);

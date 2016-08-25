@@ -10,40 +10,75 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-var rect1 = new maptalks.Rectangle([121.485428, 31.238541], 600, 600, {
-  symbol:{
-    'polygonFill' : {
-      type : 'linear',
-      places : [0.5, 0.5, 1, 0.5],
-      colorStops : [
-                [0.00, 'red'],
-                [1 / 6, 'orange'],
-                [2 / 6, 'yellow'],
-                [3 / 6, 'green'],
-                [4 / 6, 'aqua'],
-                [5 / 6, 'blue'],
-                [1.00, 'white']
-      ]
-    },
-    'polygonOpacity' : 1
+var rect1 = new maptalks.Rectangle(
+  map.getCenter().substract(0.03, 0), 600, 600,
+  {
+    symbol:{
+      'polygonFill' : {
+        type : 'linear',
+        colorStops : [
+          [0.00, '#fff'],
+          [0.50, '#fff27e'],
+          [1, '#f87e4b']
+        ]
+      },
+      'polygonOpacity' : 1,
+      'lineColor' : '#fff'
+    }
   }
-}).addTo(layer);
+).addTo(layer);
 
-var rect = new maptalks.Rectangle([121.485428, 31.228541], 600, 600, {
+var rect2 = new maptalks.Rectangle(
+  map.getCenter().substract(0.02, 0), 600, 600,
+  {
+    symbol:{
+      'polygonFill' : {
+        type : 'linear',
+        places : [0, 0, 1, 1],
+        colorStops : [
+          [0.00, '#fff'],
+          [0.50, '#fff27e'],
+          [1, '#f87e4b']
+        ]
+      },
+      'polygonOpacity' : 1,
+      'lineColor' : '#fff'
+    }
+  }
+).addTo(layer);
+
+var rect3 = new maptalks.Rectangle(
+  map.getCenter(), 600, 600,
+  {
+    symbol:{
+      'polygonFill' : {
+        type : 'radial',
+        colorStops : [
+          [0.00, 'rgba(216,115,149,0)'],
+          [0.50, 'rgba(216,115,149,1)'],
+          [1.00, 'rgba(216,115,149,1)']
+        ]
+      },
+      'polygonOpacity' : 1,
+      'lineWidth' : 0
+    }
+  }
+).addTo(layer);
+
+var rect4 = new maptalks.Rectangle(
+  map.getCenter().add(0.01, 0), 600, 600,
+{
   symbol:{
     'polygonFill' : {
       type : 'radial',
-      places : [0.5, 0.5, 1, 0.5, 0.5, 0],
+      places : [0.5, 0.5, 1, 1, 1, 0.1],
       colorStops : [
-                [0.00, 'red'],
-                [1 / 6, 'orange'],
-                [2 / 6, 'yellow'],
-                [3 / 6, 'green'],
-                [4 / 6, 'aqua'],
-                [5 / 6, 'blue'],
-                [1.00, 'white']
+                [0.00, '#1bbc9b'],
+                [0.55, 'rgb(135,196,240)'],
+                [1.00, '#34495e']
       ]
     },
-    'polygonOpacity' : 1
+    'polygonOpacity' : 1,
+    'lineColor' : '#fff'
   }
 }).addTo(layer);

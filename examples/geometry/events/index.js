@@ -14,13 +14,6 @@ var layer = new maptalks.VectorLayer('vector').addTo(map);
 var marker = new maptalks.Marker([121.481355, 31.228344], {
   symbol: [
     {
-      'textName' : 'Click\non Me',
-      'textFaceName' : '"microsoft yahei",arial,sans-serif',
-      'textSize' : 18,
-      'textFill' : '#fff',
-      'textWrapCharacter' : '\n'
-    },
-    {
       'markerType' : 'square',
       'markerFill' : 'rgb(216,115,149)',
       'markerFillOpacity' : 0.8,
@@ -28,6 +21,13 @@ var marker = new maptalks.Marker([121.481355, 31.228344], {
       'markerLineWidth' : 3,
       'markerWidth' : 120,
       'markerHeight' : 120
+    },
+    {
+      'textName' : 'Click\non Me',
+      'textFaceName' : '"microsoft yahei",arial,sans-serif',
+      'textSize' : 18,
+      'textFill' : '#fff',
+      'textWrapCharacter' : '\n'
     }
   ]
 })

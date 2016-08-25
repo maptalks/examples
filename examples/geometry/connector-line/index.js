@@ -31,12 +31,6 @@ var dst = new maptalks.Marker(
     'draggable' : true,
     'symbol': [
       {
-        'textName' : 'Drag\nMe',
-        'textSize' : 18,
-        'textFill' : '#fff',
-        'textWrapCharacter' : '\n'
-      },
-      {
         'markerType' : 'ellipse',
         'markerFill' : 'rgb(216,115,149)',
         'markerFillOpacity' : 0.8,
@@ -44,6 +38,12 @@ var dst = new maptalks.Marker(
         'markerLineWidth' : 3,
         'markerWidth' : 70,
         'markerHeight' : 70
+      },
+      {
+        'textName' : 'Drag\nMe',
+        'textSize' : 18,
+        'textFill' : '#fff',
+        'textWrapCharacter' : '\n'
       }
     ]
   }

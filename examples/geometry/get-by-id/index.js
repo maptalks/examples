@@ -12,7 +12,7 @@ var layer = new maptalks.VectorLayer('vector')
     .addTo(map);
 
 function getById(id) {
-  layer.getGeometryById(id).updateSymbol([null, {'polygonFill': '#f00'}]);
+  layer.getGeometryById(id).updateSymbol([{'polygonFill': '#f00'}]);
 }
 
 for (var i = 0; i < 3; i++) {
@@ -30,15 +30,15 @@ for (var i = 0; i < 3; i++) {
       },
       'symbol': [
         {
-          'textName' : '{count}',
-          'textSize' : 40,
-          'textFill' : '#fff'
-        },
-        {
           'polygonFill': '#747474',
           'polygonOpacity': 0.5,
           'lineColor': '#000',
           'lineWidth': 2
+        },
+        {
+          'textName' : '{count}',
+          'textSize' : 40,
+          'textFill' : '#fff'
         }
       ]
     }

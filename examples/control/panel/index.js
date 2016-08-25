@@ -21,7 +21,7 @@ var htmlPanel = new maptalks.control.Panel({
   'position'  : {'bottom': '10', 'right': '10'},
   'draggable'     : true,
   'custom'        : true,
-  'content'       : '<div class="content"><div class="closeButton" onclick="closeHtmlPanel()">x</div>This is a html panel.</div>'
+  'content'       : '<div class="content"><input type="text" height=10/><div class="closeButton" onclick="closeHtmlPanel()">x</div>This is a html panel.</div>'
 });
 map.addControl(htmlPanel);
 

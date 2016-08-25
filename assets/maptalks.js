@@ -1,21 +1,24 @@
 (function () {
 'use strict';
-'0.6.0';
-// Z is the root namespace used internally, and will be exported later as maptalks.
+'0.9.8';
+
 /**
  * @namespace
  * @alias maptalks
  */
 var Z = {};
+// Z is the root namespace used internally, and will be exported as maptalks.
 
 /**
+ * From https://github.com/abhirathore2006/detect-is-node/
+ *
  * @property {boolean} node - whether running in nodejs.
  * @global
  * @name node
  * @static
  */
 Z.node = (function () {
-    return (typeof module !== 'undefined' && module.exports);
+    return new Function('try { return this === global; } catch(e) { return false; }')();
 })();
 
 if (!Z.node) {
@@ -169,11 +172,36 @@ Z.internalLayerPrefix = '_maptalks__internal_layer_';
  * @protected
  */
 Z.Util = {
+    log: function () {
+        return Z.Util._print.apply(Z.Util, ['log'].concat(Array.prototype.slice.call(arguments)));
+    },
+
+    warn: function () {
+        return Z.Util._print.apply(Z.Util, ['warn'].concat(Array.prototype.slice.call(arguments)));
+    },
+
+    error: function () {
+        return Z.Util._print.apply(Z.Util, ['error'].concat(Array.prototype.slice.call(arguments)));
+    },
+
+    _print: function (level) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        if (typeof console !== 'undefined' && console[level] !== undefined) {
+            try {
+                console[level].apply(console, args);
+            } catch (e) {
+                var log = Function.prototype.bind.call(console[level], console);
+                log.apply(console, args);
+            }
+        }
+        return this;
+    },
+
     /**
-     * @property {Number} guid
+     * @property {Number} uid
      * @static
      */
-    guid: 0,
+    uid: 0,
 
     now:function () {
         if (!Date.now) {
@@ -328,18 +356,10 @@ Z.Util = {
 
     /**
      * Generate a global UID, not a real UUID, just a auto increment key with a prefix.
-     * @return {String}
+     * @return {Number}
      */
-    GUID: function () {
-        return '___MAPTALKS_GLOBAL_' + (Z.Util.guid++);
-    },
-
-    // return unique ID of an object
-    stamp: function (obj) {
-        /*eslint-disable camelcase*/
-        obj._maptalks_id = obj._maptalks_id || Z.Util.GUID();
-        return obj._maptalks_id;
-        /*eslint-enable camelcase*/
+    UID: function () {
+        return Z.Util.uid++;
     },
 
     /**
@@ -420,6 +440,19 @@ Z.Util = {
         };
 
         return wrapperFn;
+    },
+
+    executeWhen: function (fn, when) {
+        var exe = function () {
+            if (when()) {
+                fn();
+            } else {
+                Z.Util.requestAnimFrame(exe);
+            }
+        };
+
+        exe();
+        return this;
     },
 
     removeFromArray:function (obj, array) {
@@ -590,7 +623,7 @@ Z.Util = {
      * @return {Boolean}
      */
     isNil:function (obj) {
-        return (typeof (obj) === 'undefined' || obj === null);
+        return obj == null;
     },
 
     /*
@@ -682,7 +715,7 @@ Z.Util = {
         if (!Z.Util.isString(str)) {
             return 0;
         }
-        if (str.substring(0, 4) === 'http') {
+        if (str.indexOf('http://') === 0 || str.indexOf('https://') === 0) {
             return 3;
         }
         if (Z.Util.cssUrlRe.test(str)) {
@@ -799,11 +832,11 @@ Z.Util = {
                 dest = {};
                 for (ii = 0, ll = sources.length; ii < ll; ii++) {
                     if (!Z.Util.isArray(sources[ii])) {
-                        Z.Util.extend(dest, s, sources[ii]);
+                        Z.Util.extend(dest, s, sources[ii] ? sources[ii] : {});
                     } else if (!Z.Util.isNil(sources[ii][i])) {
                         Z.Util.extend(dest, s, sources[ii][i]);
                     } else {
-                        Z.Util.extend(dest, s);
+                        Z.Util.extend(dest, s ? s : {});
                     }
                 }
                 result.push(dest);
@@ -821,7 +854,22 @@ Z.Util = {
     },
 
     isGradient: function (g) {
-        return g && Z.Util.isArrayHasData(g['colorStops']);
+        return g && g['colorStops'];
+    },
+
+    getGradientStamp: function (g) {
+        var keys = [g['type']];
+        if (g['places']) {
+            keys.push(g['places'].join());
+        }
+        if (g['colorStops']) {
+            var stops = [];
+            for (var i = g['colorStops'].length - 1; i >= 0; i--) {
+                stops.push(g['colorStops'][i].join());
+            }
+            keys.push(stops.join(';'));
+        }
+        return keys.join('-');
     },
 
     /**
@@ -857,7 +905,7 @@ Z.Util = {
                 resources.push([res, symbol[resSizeProp[0]], symbol[resSizeProp[1]]]);
             }
             if (symbol['markerType'] === 'path' && symbol['markerPath']) {
-                resources.push([Z.Geometry._getMarkerPathURL(symbol), symbol['markerWidth'], symbol['markerHeight']]);
+                resources.push([Z.Geometry.getMarkerPathBase64(symbol), symbol['markerWidth'], symbol['markerHeight']]);
             }
         }
         return resources;
@@ -897,27 +945,29 @@ Z.Util = {
         if (Z.node) {
             return s;
         }
-        var props = Z.Symbolizer.resourceProperties;
-        var res, isCssStyle = false;
+        var props = Z.Symbolizer.resourceProperties,
+            embed = 'data:';
+        var res;
         for (var ii = 0, len = props.length; ii < len; ii++) {
             res = s[props[ii]];
             if (!res) {
                 continue;
             }
-            isCssStyle = false;
             if (res.indexOf('url(') >= 0) {
                 res = Z.Util.extractCssUrl(res);
-                isCssStyle = true;
             }
-            if (!Z.Util.isURL(res)) {
+            if (!Z.Util.isURL(res) &&
+                (res.length <= embed.length || res.substring(0, embed.length) !== embed)) {
                 res = absolute(location.href, res);
-                s[props[ii]] = isCssStyle ? 'url("' + res + '")' : res;
+                s[props[ii]] = res;
             }
         }
         return s;
     }
 
 };
+
+Z.Util.GUID = Z.Util.UID;
 
 
     //RequestAnimationFrame, inspired by Leaflet
@@ -1000,7 +1050,7 @@ Z.StringUtil = {
      * @return {maptalks.Size}
      */
     stringLength:function (text, font) {
-        var ruler = Z.StringUtil._getStrRuler();
+        var ruler = Z.DomUtil._getDomRuler('span');
         ruler.style.font = font;
         ruler.innerHTML = text;
         var result = new Z.Size(ruler.clientWidth, ruler.clientHeight);
@@ -1009,13 +1059,6 @@ Z.StringUtil = {
         Z.DomUtil.removeDomNode(ruler);
         return result;
 
-    },
-
-    _getStrRuler:function () {
-        var span = document.createElement('span');
-        span.style.cssText = 'position:absolute;left:-10000px;top:-10000px;';
-        document.body.appendChild(span);
-        return span;
     },
 
     /**
@@ -1083,18 +1126,18 @@ Z.StringUtil = {
         if (!Z.Util.isString(text)) {
             text += '';
         }
-        var actualWidth = 0, size, i, len;
+        var actualWidth = 0, size, i, l;
         if (wrapChar && text.indexOf(wrapChar) >= 0) {
             var texts = text.split(wrapChar),
-                t, tSize, tWidth, contents, ii;
-            for (i = 0, len = texts.length; i < len; i++) {
+                t, tSize, tWidth, contents, ii, ll;
+            for (i = 0, l = texts.length; i < l; i++) {
                 t = texts[i];
                 //TODO stringLength is expensive, should be reduced here.
                 tSize = Z.StringUtil.stringLength(t, font);
                 tWidth = tSize['width'];
                 if (tWidth > wrapWidth) {
                     contents = Z.StringUtil.splitContent(t, tWidth, wrapWidth);
-                    for (ii = 0; ii < contents.length; ii++) {
+                    for (ii = 0, ll = contents.length; ii < ll; ii++) {
                         size = Z.StringUtil.stringLength(contents[ii], font);
                         if (size['width'] > actualWidth) { actualWidth = size['width']; }
                         textRows.push({'text':contents[ii], 'size':size});
@@ -1382,54 +1425,11 @@ Z.DomUtil = {
      * @return {Object}     屏幕坐标
      */
     getPagePosition:function (obj) {
-        if (obj.getBoundingClientRect) {
-            var docEl = document.documentElement;
-            var rect = obj.getBoundingClientRect();
-            return new Z.Point(rect['left'] + docEl['scrollLeft'], rect['top'] + docEl['scrollTop']);
-        }
-        var topValue = 0, leftValue = 0;
-        if (!obj) {
-            console.error('obj is null');
-        }
-        leftValue += parseInt(obj.offsetLeft, 0);
-        topValue += parseInt(obj.offsetTop, 0);
-        obj = obj.offsetParent;
-        while (obj) {
-            leftValue += parseInt(obj.offsetLeft, 0);
-            topValue += parseInt(obj.offsetTop, 0);
-            obj = obj.offsetParent;
-        }
-        return new Z.Point(leftValue, topValue);
+        var docEl = document.documentElement;
+        var rect = obj.getBoundingClientRect();
+        return new Z.Point(rect['left'] + docEl['scrollLeft'], rect['top'] + docEl['scrollTop']);
     },
 
-    /**
-     * 获取事件触发页面的屏幕坐标
-     * @param  {Event} ev 事件
-     * @return {Object} 屏幕坐标
-     */
-    getEventPagePosition:function (ev) {
-        ev = ev || window.event;
-        if (ev.touches && ev.touches.length > 0) {
-            return new Z.Point(ev.touches[0].pageX, ev.touches[0].pageY);
-        } else if (ev.changedTouches && ev.changedTouches.length > 0) {
-            //touchend
-            return new Z.Point(ev.changedTouches[0].pageX, ev.changedTouches[0].pageY);
-        } else if (ev.pageX || ev.pageY) {
-            return new Z.Point(ev.pageX, ev.pageY);
-        } else {
-            //解决是否定义DOCTYPE W3C DTD标准取值滚动条参数
-            var dBody = document.body;//无标准这有效
-            var dElement = document.documentElement;//有标准这有效
-            var scrollLeft = dElement.scrollLeft ? dElement.scrollLeft : dBody.scrollLeft;
-            var clientLeft = dElement.clientLeft ? dElement.clientLeft : dBody.clientLeft;
-            var scrollTop = dElement.scrollTop ? dElement.scrollTop : dBody.scrollTop;
-            var clientTop = dElement.clientTop ? dElement.clientTop : dBody.clientTop;
-            return new Z.Point(
-                ev.clientX + scrollLeft - clientLeft,
-                ev.clientY + scrollTop  - clientTop
-            );
-        }
-    },
 
     /**
      * 获取鼠标在容器上相对容器左上角的坐标值
@@ -1440,9 +1440,11 @@ Z.DomUtil = {
         if (!ev) {
             ev = window.event;
         }
-        var domScreenPos = Z.DomUtil.getPagePosition(dom);
-        var mousePagePos = Z.DomUtil.getEventPagePosition(ev);
-        return mousePagePos._substract(domScreenPos);
+        var rect = dom.getBoundingClientRect();
+
+        return new Z.Point(
+            ev.clientX - rect.left - dom.clientLeft,
+            ev.clientY - rect.top - dom.clientTop);
     },
 
     /**
@@ -1702,6 +1704,34 @@ Z.DomUtil = {
             (scale ? ' scale(' + scale + ')' : '');
 
         return this;
+    },
+
+    removeTransform: function (el) {
+        el.style[Z.DomUtil.TRANSFORM] =  null;
+        return this;
+    },
+
+    isHTML: function (str) {
+        return /<[a-z\][\s\S]*>/i.test(str);
+    },
+
+    measureDom: function (parentTag, dom) {
+        var ruler = Z.DomUtil._getDomRuler(parentTag);
+        if (Z.Util.isString(dom)) {
+            ruler.innerHTML = dom;
+        } else {
+            ruler.appendChild(dom);
+        }
+        var result = new Z.Size(ruler.clientWidth, ruler.clientHeight);
+        Z.DomUtil.removeDomNode(ruler);
+        return result;
+    },
+
+    _getDomRuler:function (tag) {
+        var span = document.createElement(tag);
+        span.style.cssText = 'position:absolute;left:-10000px;top:-10000px;';
+        document.body.appendChild(span);
+        return span;
     }
 
 };
@@ -1754,34 +1784,40 @@ Z.DomUtil.off = Z.DomUtil.removeDomEvent;
 /**
  * This provides methods used for event handling. It's a mixin and not meant to be used directly.
  * @mixin
+ * @memberOf maptalks
+ * @name Eventable
  */
 Z.Eventable = {
     /**
      * Register a handler function to be called whenever this event is fired.
      *
-     * @param {String} eventTypeArr     - event types to register, seperated by space if more than one.
+     * @param {String} eventsOn                  - event types to register, seperated by space if more than one.
      * @param {Function} handler                 - handler function to be called
      * @param {Object} [context=null]            - the context of the handler
      * @return {*} this
-     * @instance
+     * @example
+     * foo.on('mousedown mousemove mouseup', onMouseEvent, foo);
      */
-    on: function (eventTypeArr, handler, context) {
-        if (!eventTypeArr || !handler) { return this; }
+    on: function (eventsOn, handler, context) {
+        if (!eventsOn || !handler) { return this; }
+        if (!Z.Util.isString(eventsOn)) {
+            return this._switch('on', eventsOn, handler);
+        }
         if (!this._eventMap) {
             this._eventMap = {};
         }
-        var eventTypes = eventTypeArr.split(' ');
-        var eventType;
+        var eventTypes = eventsOn.split(' ');
+        var evtType;
         if (!context) { context = this; }
-        var handlerChain, i, len;
-        for (var j = 0, jl = eventTypes.length; j < jl; j++) {
-            eventType = eventTypes[j].toLowerCase();
-            handlerChain = this._eventMap[eventType];
+        var handlerChain, i, l;
+        for (var ii = 0, ll = eventTypes.length; ii < ll; ii++) {
+            evtType = eventTypes[ii].toLowerCase();
+            handlerChain = this._eventMap[evtType];
             if (!handlerChain) {
                 handlerChain = [];
-                this._eventMap[eventType] = handlerChain;
+                this._eventMap[evtType] = handlerChain;
             }
-            for (i = 0, len = handlerChain.length; i < len; i++) {
+            for (i = 0, l = handlerChain.length; i < l; i++) {
                 if (handler === handlerChain[i].handler && handlerChain[i].context === context) {
                     return this;
                 }
@@ -1797,38 +1833,63 @@ Z.Eventable = {
     /**
      * Same as on, except the listener will only get fired once and then removed.
      *
-     * @param {String} eventTypeArr     - event types to register, seperated by space if more than one.
+     * @param {String} eventTypes                - event types to register, seperated by space if more than one.
      * @param {Function} handler                 - listener handler
      * @param {Object} [context=null]            - the context of the handler
      * @return {*} this
-     * @instance
+     * @example
+     * foo.once('mousedown mousemove mouseup', onMouseEvent, foo);
      */
-    once: function (eventTypeArr, handler, context) {
+    once: function (eventTypes, handler, context) {
+        if (!Z.Util.isString(eventTypes)) {
+            var once = {};
+            for (var p in eventTypes) {
+                if (eventTypes.hasOwnProperty(p)) {
+                    once[p] = this._wrapOnceHandler(p, eventTypes[p], context);
+                }
+            }
+            return this._switch('on', once);
+        }
+        var evetTypes = eventTypes.split(' ');
+        for (var i = 0, l = evetTypes.length; i < l; i++) {
+            this.on(evetTypes[i], this._wrapOnceHandler(evetTypes[i], handler, context));
+        }
+        return this;
+    },
+
+    _wrapOnceHandler: function (evtType, handler, context) {
         var me = this;
         var called = false;
-        function onceHandler() {
+        return function onceHandler() {
             if (called) {
                 return;
             }
             called = true;
-            handler.apply(this, arguments);
-            me.off(eventTypeArr, onceHandler, this);
-        }
-        return this.on(eventTypeArr, onceHandler, context);
+            if (context) {
+                handler.apply(context, arguments);
+            } else {
+                handler.apply(this, arguments);
+            }
+            me.off(evtType, onceHandler, this);
+        };
     },
 
     /**
      * Unregister the event handler for the specified event types.
      *
-     * @param {String} eventTypeArr    - event types to unregister, seperated by space if more than one.
+     * @param {String} eventsOff                - event types to unregister, seperated by space if more than one.
      * @param {Function} handler                - listener handler
      * @param {Object} [context=null]           - the context of the handler
      * @return {*} this
-     * @instance
+     * @example
+     * foo.off('mousedown mousemove mouseup', onMouseEvent, foo);
      */
-    off:function (eventTypeArr, handler, context) {
-        if (!eventTypeArr || !this._eventMap || !handler) { return this; }
-        var eventTypes = eventTypeArr.split(' ');
+    off:function (eventsOff, handler, context) {
+        if (!eventsOff || !this._eventMap || !handler) { return this; }
+        if (!Z.Util.isString(eventsOff)) {
+            return this._switch('off', eventsOff, handler);
+        }
+        var eventTypes = eventsOff.split(' ');
         var eventType, handlerChain;
         if (!context) { context = this; }
         var i;
@@ -1840,6 +1901,15 @@ Z.Eventable = {
                 if (handler === handlerChain[i].handler && handlerChain[i].context === context) {
                     handlerChain.splice(i, 1);
                 }
+            }
+        }
+        return this;
+    },
+
+    _switch: function (to, eventKeys, context) {
+        for (var p in eventKeys) {
+            if (eventKeys.hasOwnProperty(p)) {
+                this[to](p, eventKeys[p], context);
             }
         }
         return this;
@@ -1857,11 +1927,12 @@ Z.Eventable = {
     },
 
     /**
-     * Returns true if any listener registered for the event type.
+     * Returns listener's count registered for the event type.
      *
-     * @param {String} eventType - event type
-     * @return {Boolean}
-     * @instance
+     * @param {String} eventType        - an event type
+     * @param {Function} [hanlder=null] - listener function
+     * @param {Object} [context=null]   - the context of the handler
+     * @return {Number}
      */
     listens:function (eventType, handler, context) {
         if (!this._eventMap || !Z.Util.isString(eventType)) { return 0; }
@@ -1885,7 +1956,6 @@ Z.Eventable = {
     * Copy all the event listener to the target object
     * @param {Object} target - target object to copy to.
     * @return {*} this
-    * @instance
     */
     copyEventListeners: function (target) {
         var eventMap = target._eventMap;
@@ -1906,7 +1976,6 @@ Z.Eventable = {
      * @param  {String} eventType - an event type to fire
      * @param  {Object} param     - parameters for the listener function.
      * @return {*} this
-     * @instance
      */
     fire:function () {
         if (this._eventParent) {
@@ -1919,8 +1988,9 @@ Z.Eventable = {
      * Set a event parent to handle all the events
      * @param {Any} parent - event parent
      * @return {Any} this
+     * @private
      */
-    setEventParent:function (parent) {
+    _setEventParent:function (parent) {
         this._eventParent = parent;
         return this;
     },
@@ -1962,12 +2032,11 @@ Z.Eventable = {
 /**
 * Alias for [on]{@link maptalks.Eventable.on}
 *
-* @param {String} eventTypeArr     - event types to register, seperated by space if more than one.
+* @param {String} eventTypes     - event types to register, seperated by space if more than one.
 * @param {Function} handler                 - handler function to be called
 * @param {Object} [context=null]            - the context of the handler
 * @return {*} this
 * @function
-* @instance
 * @memberOf maptalks.Eventable
 * @name addEventListener
 */
@@ -1975,12 +2044,11 @@ Z.Eventable.addEventListener = Z.Eventable.on;
 /**
  * Alias for [off]{@link maptalks.Eventable.off}
  *
- * @param {String} eventTypeArr    - event types to unregister, seperated by space if more than one.
+ * @param {String} eventTypes    - event types to unregister, seperated by space if more than one.
  * @param {Function} handler                - listener handler
  * @param {Object} [context=null]           - the context of the handler
  * @return {*} this
  * @function
- * @instance
  * @memberOf maptalks.Eventable
  * @name removeEventListener
  */
@@ -2048,7 +2116,7 @@ Z.Class.extend = function (props) {
 
     // inherit parent's statics
     for (var i in this) {
-        if (i[0] !== '_' && this.hasOwnProperty(i) && i !== 'prototype') {
+        if (i[0] !== '_' && this.hasOwnProperty(i) && i !== 'prototype' && !(this[i] instanceof Z.Class)) {
             NewClass[i] = this[i];
         }
     }
@@ -2854,6 +2922,9 @@ Z.Matrix.prototype = {
 	 * @returns {boolean}
 	 */
 	isEqual: function(m) {
+        if (!m) {
+            return false;
+        }
 
 		var me = this,
 			q = me._q;
@@ -2957,6 +3028,8 @@ Z.Animation = {
         'fast'   : 500
     },
 
+
+
     /**
      * resolve styles for animation, get a style group of start style, styles to animate and end styles.
      * @param  {Object} styles - styles to resolve
@@ -2999,7 +3072,7 @@ Z.Animation = {
                     clazz = val.constructor;
                     values = [new clazz(0, 0), val];
                 } else {
-                    throw new Error(val + ' is not supported in animation styles.');
+                    values = [val, val];
                 }
             }
             //val is a array and val[0] is the start value and val[1] is the destination value.
@@ -3026,7 +3099,7 @@ Z.Animation = {
                 }
                 return [v1, v2.substract(v1), v2];
             } else {
-                throw new Error(values + ' is not supported in animation styles.');
+                return [v1, 0, v2];
             }
         }
 
@@ -3086,6 +3159,10 @@ Z.Animation = {
             var result = {};
             for (var p in _dStyles) {
                 if (_dStyles.hasOwnProperty(p)) {
+                    if (_startStyles[p] === destStyles[p]) {
+                        result[p] = _startStyles[p];
+                        continue;
+                    }
                     var s = _startStyles[p], d = _dStyles[p];
                     if (Z.Util.isNumber(d)) {
                         //e.g. radius, width, height
@@ -3310,6 +3387,7 @@ Z.Util.extend(Z.animation.Player.prototype, /** @lends maptalks.animation.Player
  * @category animation
  * @memberOf maptalks.animation
  * @name Easing
+ * @protected
  */
 Z.animation.Easing = {
         /**
@@ -3375,6 +3453,7 @@ Z.animation.Easing = {
  * @category animation
  * @memberOf maptalks.animation
  * @name Frame
+ * @protected
  * @param {Object} state  - animation state
  * @param {Object} styles - styles to animate
  */
@@ -3443,13 +3522,13 @@ Z.Canvas = {
             } else {
                 ctx.strokeStyle = 'rgba(0,0,0,1)';
             }
-        } else if (ctx.strokeStyle !== strokeColor) {
+        } else /*if (ctx.strokeStyle !== strokeColor)*/ {
             ctx.strokeStyle = strokeColor;
         }
-        if (style['lineJoin'] && ctx.lineJoin !== style['lineJoin']) {
+        if (style['lineJoin']) {
             ctx.lineJoin = style['lineJoin'];
         }
-        if (style['lineCap'] && ctx.lineCap !== style['lineCap']) {
+        if (style['lineCap']) {
             ctx.lineCap = style['lineCap'];
         }
         if (ctx.setLineDash && Z.Util.isArrayHasData(style['lineDasharray'])) {
@@ -3473,7 +3552,7 @@ Z.Canvas = {
             }
             if (!fillTexture) {
                 if (!Z.Browser.phantomjs) {
-                    console.warn('img not found for', fillImgUrl);
+                    Z.Util.warn('img not found for', fillImgUrl);
                 }
             } else {
                 ctx.fillStyle = ctx.createPattern(fillTexture, 'repeat');
@@ -3485,7 +3564,7 @@ Z.Canvas = {
             } else {
                 ctx.fillStyle = 'rgba(255,255,255,0)';
             }
-        } else if (ctx.fillStyle !== fill) {
+        } else /*if (ctx.fillStyle !== fill)*/ {
             ctx.fillStyle = fill;
         }
     },
@@ -3536,9 +3615,10 @@ Z.Canvas = {
         if (Z.node) {
             imageTexture = resources.getImage([imgUrl, null, strokeWidth]);
         } else {
-            imageTexture = resources.getImage([imgUrl + '-texture', null, strokeWidth]);
+            var key = imgUrl + '-texture-' + strokeWidth;
+            imageTexture = resources.getImage(key);
             if (!imageTexture) {
-                var imageRes = resources.getImage([imgUrl, null, strokeWidth]);
+                var imageRes = resources.getImage([imgUrl, null, null]);
                 if (imageRes) {
                     var w;
                     if (!imageRes.width || !imageRes.height) {
@@ -3548,7 +3628,7 @@ Z.Canvas = {
                     }
                     var patternCanvas = this.createCanvas(w, strokeWidth, ctx.canvas.constructor);
                     Z.Canvas.image(patternCanvas.getContext('2d'), imageRes, 0, 0, w, strokeWidth);
-                    resources.addResource([imgUrl + '-texture', null, strokeWidth], patternCanvas);
+                    resources.addResource([key, null, strokeWidth], patternCanvas);
                     imageTexture = patternCanvas;
                 }
             }
@@ -3556,7 +3636,7 @@ Z.Canvas = {
         if (imageTexture) {
             ctx.strokeStyle = ctx.createPattern(imageTexture, 'repeat');
         } else if (!Z.Browser.phantomjs) {
-            console.warn('img not found for', imgUrl);
+            Z.Util.warn('img not found for', imgUrl);
         }
     },
 
@@ -3565,6 +3645,9 @@ Z.Canvas = {
     },
 
     fillCanvas:function (ctx, fillOpacity, x, y) {
+        if (fillOpacity === 0) {
+            return;
+        }
         var isPattern = Z.Canvas._isPattern(ctx.fillStyle);
         if (Z.Util.isNil(fillOpacity)) {
             fillOpacity = 1;
@@ -3575,8 +3658,8 @@ Z.Canvas = {
             ctx.globalAlpha *= fillOpacity;
         }
         if (isPattern) {
-            x = Z.Util.round(x);
-            y = Z.Util.round(y);
+            // x = Z.Util.round(x);
+            // y = Z.Util.round(y);
             ctx.translate(x, y);
         }
         ctx.fill();
@@ -3613,17 +3696,17 @@ Z.Canvas = {
     },
 
     image:function (ctx, img, x, y, width, height) {
-        x = Z.Util.round(x);
-        y = Z.Util.round(y);
+        // x = Z.Util.round(x);
+        // y = Z.Util.round(y);
         try {
             if (Z.Util.isNumber(width) && Z.Util.isNumber(height)) {
-                ctx.drawImage(img, x, y, Z.Util.round(width), Z.Util.round(height));
+                ctx.drawImage(img, x, y, width, height);
             } else {
                 ctx.drawImage(img, x, y);
             }
         } catch (error) {
-            console.warn('error when drawing image on canvas:', error);
-            console.warn(img);
+            Z.Util.warn('error when drawing image on canvas:', error);
+            Z.Util.warn(img);
         }
 
     },
@@ -3641,27 +3724,37 @@ Z.Canvas = {
         for (var i = 0, len = texts.length; i < len; i++) {
             text = texts[i]['text'];
             rowAlign = Z.StringUtil.getAlignPoint(texts[i]['size'], style['textHorizontalAlignment'], style['textVerticalAlignment']);
-            Z.Canvas._textOnLine(ctx, text, basePoint.add(rowAlign.x, i * lineHeight), style['textHaloRadius'], style['textHaloFill']);
+            Z.Canvas._textOnLine(ctx, text, basePoint.add(rowAlign.x, i * lineHeight), style['textHaloRadius'], style['textHaloFill'], style['textHaloOpacity']);
         }
     },
 
-    _textOnLine: function (ctx, text, pt, textHaloRadius, textHaloFill) {
-        //http://stackoverflow.com/questions/14126298/create-text-outline-on-canvas-in-javascript
-        //根据text-horizontal-alignment和text-vertical-alignment计算绘制起始点偏移量
-        pt = pt._round();
+    _textOnLine: function (ctx, text, pt, textHaloRadius, textHaloFill, textHaloOp) {
+        // pt = pt._round();
         ctx.textBaseline = 'top';
-        if (textHaloRadius) {
-            ctx.miterLimit = 2;
-            ctx.lineJoin = 'round';
-            ctx.lineCap = 'round';
-            var lineWidth = (textHaloRadius * 2 - 1);
-            ctx.lineWidth = Z.Util.round(lineWidth);
-            ctx.strokeStyle = textHaloFill;
-            ctx.strokeText(text, pt.x, pt.y);
-            ctx.lineWidth = 1;
-            ctx.miterLimit = 10; //default
-        }
+        if (textHaloOp !== 0 && textHaloRadius !== 0) {
+            //http://stackoverflow.com/questions/14126298/create-text-outline-on-canvas-in-javascript
+            //根据text-horizontal-alignment和text-vertical-alignment计算绘制起始点偏移量
+            if (textHaloOp) {
+                var alpha = ctx.globalAlpha;
+                ctx.globalAlpha *= textHaloOp;
+            }
 
+
+            if (textHaloRadius) {
+                ctx.miterLimit = 2;
+                ctx.lineJoin = 'round';
+                ctx.lineCap = 'round';
+                ctx.lineWidth = (textHaloRadius * 2 - 1);
+                ctx.strokeStyle = textHaloFill;
+                ctx.strokeText(text, pt.x, pt.y);
+                ctx.lineWidth = 1;
+                ctx.miterLimit = 10; //default
+            }
+
+            if (textHaloOp) {
+                ctx.globalAlpha = alpha;
+            }
+        }
         ctx.fillText(text, pt.x, pt.y);
     },
 
@@ -3681,8 +3774,8 @@ Z.Canvas = {
             ctx.globalAlpha *= strokeOpacity;
         }
         if (isPattern) {
-            x = Z.Util.round(x);
-            y = Z.Util.round(y);
+            // x = Z.Util.round(x);
+            // y = Z.Util.round(y);
             ctx.translate(x, y);
         }
         ctx.stroke();
@@ -3759,7 +3852,7 @@ Z.Canvas = {
         var isPatternLine = (ignoreStrokePattern === true ? false : Z.Canvas._isPattern(ctx.strokeStyle));
         var point, prePoint, nextPoint;
         for (var i = 0, len = points.length; i < len; i++) {
-            point = points[i]._round();
+            point = points[i]/*._round()*/;
             if (!isDashed || ctx.setLineDash) { //IE9+
                 if (i === 0) {
                     ctx.moveTo(point.x, point.y);
@@ -3767,7 +3860,7 @@ Z.Canvas = {
                     ctx.lineTo(point.x, point.y);
                 }
                 if (isPatternLine && i > 0) {
-                    prePoint = points[i - 1]._round();
+                    prePoint = points[i - 1]/*._round()*/;
                     fillWithPattern(prePoint, point);
                     ctx.beginPath();
                     ctx.moveTo(point.x, point.y);
@@ -3776,7 +3869,7 @@ Z.Canvas = {
                 if (i === len - 1) {
                     break;
                 }
-                nextPoint = points[i + 1]._round();
+                nextPoint = points[i + 1]/*._round()*/;
                 drawDashLine(point, nextPoint, lineDashArray, isPatternLine);
             }
         }
@@ -3886,7 +3979,8 @@ Z.Canvas = {
         var endAngle = startAngle + a;
 
         ctx.beginPath();
-        ctx.arc(Z.Util.round(cx), Z.Util.round(cy), Z.Util.round(r), startAngle, endAngle);
+        // ctx.arc(Z.Util.round(cx), Z.Util.round(cy), Z.Util.round(r), startAngle, endAngle);
+        ctx.arc(cx, cy, r, startAngle, endAngle);
     },
 
     _lineTo:function (ctx, p) {
@@ -3895,7 +3989,7 @@ Z.Canvas = {
 
     bezierCurveAndFill:function (ctx, points, lineOpacity, fillOpacity) {
         ctx.beginPath();
-        var start = points[0]._round();
+        var start = points[0]/*._round()*/;
         ctx.moveTo(start.x, start.y);
         Z.Canvas._bezierCurveTo.apply(Z.Canvas, [ctx].concat(points.splice(1)));
         Z.Canvas.fillCanvas(ctx, fillOpacity);
@@ -3903,15 +3997,15 @@ Z.Canvas = {
     },
 
     _bezierCurveTo:function (ctx, p1, p2, p3) {
-        p1 = p1._round();
-        p2 = p2._round();
-        p3 = p3._round();
+        // p1 = p1._round();
+        // p2 = p2._round();
+        // p3 = p3._round();
         ctx.bezierCurveTo(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y);
     },
 
     _quadraticCurveTo:function (ctx, p1, p2) {
-        p1 = p1._round();
-        p2 = p2._round();
+        // p1 = p1._round();
+        // p2 = p2._round();
         ctx.quadraticCurveTo(p1.x, p1.y, p2.x, p2.y);
     },
 
@@ -3932,11 +4026,11 @@ Z.Canvas = {
             Z.Canvas.fillCanvas(ctx, fillOpacity, pt.x - width, pt.y - height);
             Z.Canvas._stroke(ctx, lineOpacity, pt.x - width, pt.y - height);
         }
-        pt = pt._round();
+        // pt = pt._round();
         if (width === height) {
             //如果高宽相同,则直接绘制圆形, 提高效率
             ctx.beginPath();
-            ctx.arc(pt.x, pt.y, Z.Util.round(width), 0, 2 * Math.PI);
+            ctx.arc(pt.x, pt.y, width, 0, 2 * Math.PI);
             Z.Canvas.fillCanvas(ctx, fillOpacity, pt.x - width, pt.y - height);
             Z.Canvas._stroke(ctx, lineOpacity, pt.x - width, pt.y - height);
         } else {
@@ -3946,10 +4040,9 @@ Z.Canvas = {
     },
 
     rectangle:function (ctx, pt, size, lineOpacity, fillOpacity) {
-        pt = pt._round();
+        // pt = pt._round();
         ctx.beginPath();
-        ctx.rect(pt.x, pt.y,
-            Z.Util.round(size['width']), Z.Util.round(size['height']));
+        ctx.rect(pt.x, pt.y, size['width'], size['height']);
         Z.Canvas.fillCanvas(ctx, fillOpacity, pt.x, pt.y);
         Z.Canvas._stroke(ctx, lineOpacity, pt.x, pt.y);
     },
@@ -3968,7 +4061,7 @@ Z.Canvas = {
             Z.Canvas.fillCanvas(ctx, fillOpacity, x - radius, y - radius);
             Z.Canvas._stroke(ctx, lineOpacity, x - radius, y - radius);
         }
-        pt = pt._round();
+        // pt = pt._round();
         sector(ctx, pt.x, pt.y, size, startAngle, endAngle);
     },
 
@@ -3996,9 +4089,14 @@ Z.Canvas = {
             post: function (options, postData, cb) {
                 var reqOpts = urlParser.parse(options.url);
                 reqOpts.method = 'POST';
-                if (options.headers) {
-                    reqOpts.headers = options.headers;
+                if (!options.headers) {
+                    options.headers = {};
                 }
+                if (!options.headers['Content-Type']) {
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                }
+                reqOpts.headers = options.headers;
+
                 var req = this._getClient(reqOpts.protocol).request(reqOpts, this._wrapCallback(cb));
 
                 req.on('error', cb);
@@ -4048,7 +4146,13 @@ Z.Canvas = {
             post: function (options, postData, cb) {
                 var client = this._getClient(cb);
                 client.open('POST', options.url, true);
-                if (options.headers && 'setRequestHeader' in client) {
+                if (!options.headers) {
+                    options.headers = {};
+                }
+                if (!options.headers['Content-Type']) {
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                }
+                if ('setRequestHeader' in client) {
                     for (var p in options.headers) {
                         if (options.headers.hasOwnProperty(p)) {
                             client.setRequestHeader(p, options.headers[p]);
@@ -4745,6 +4849,12 @@ if (typeof Promise !== 'undefined') {
  * e.g. <br>
  * a geographical point with a certain latitude and longitude <br>
  * a point in a indoor room
+ * @example
+ * var coord = new maptalks.Coordinate(0, 0);
+ * @example
+ * var coord = new maptalks.Coordinate([0,0]);
+ * @example
+ * var coord = new maptalks.Coordinate({x:0, y:0});
  * @class
  * @category basic types
  * @param {Number} x - x value
@@ -4867,6 +4977,10 @@ Z.Util.extend(Z.Coordinate.prototype, /** @lends maptalks.Coordinate.prototype *
         return this.x === c2.x && this.y === c2.y;
     },
 
+    /**
+     * Whether the coordinate is NaN
+     * @return {Boolean}
+     */
     isNaN:function () {
         return isNaN(this.x) || isNaN(this.y);
     },
@@ -4880,7 +4994,7 @@ Z.Util.extend(Z.Coordinate.prototype, /** @lends maptalks.Coordinate.prototype *
     },
 
     /**
-     * toJSON
+     * Convert the coordinate to a json object {x : .., y : ..}
      * @return {Object} json
      */
     toJSON: function () {
@@ -4948,6 +5062,10 @@ Z.Util.extend(Z.Point.prototype, /** @lends maptalks.Point.prototype */{
         return this;
     },
 
+    /**
+     * Like math.round, rounding the point's xy.
+     * @return {maptalks.Point} rounded point
+     */
     round:function () {
         return new Z.Point(Z.Util.round(this.x), Z.Util.round(this.y));
     },
@@ -5045,12 +5163,16 @@ Z.Util.extend(Z.Point.prototype, /** @lends maptalks.Point.prototype */{
         return new Z.Point(this.x * ratio, this.y * ratio);
     },
 
+    /**
+     * Whether the point is NaN
+     * @return {Boolean}
+     */
     isNaN:function () {
         return isNaN(this.x) || isNaN(this.y);
     },
 
     /**
-     * toJSON
+     * Convert the point to a json object {x : .., y : ..}
      * @return {Object} json
      */
     toJSON: function () {
@@ -5121,16 +5243,25 @@ Z.Util.extend(Z.Size.prototype, /** @lends maptalks.Size.prototype */{
         this['height'] = Z.Util.round(this['height']);
         return this;
     },
+
+    /**
+     * Converts the size object to a [maptalks.Point]{maptalks.Point}
+     * @return {maptalks.Point} point
+     */
     toPoint:function () {
         return new Z.Point(this['width'], this['height']);
     },
 
+    /**
+     * Converts the size object to a array [width, height]
+     * @return {Number[]}
+     */
     toArray: function () {
         return [this['width'], this['height']];
     },
 
     /**
-     * toJSON
+     * Convert the size object to a json object {width : .., height : ..}
      * @return {Object} json
      */
     toJSON: function () {
@@ -5334,10 +5465,36 @@ Z.Util.extend(Z.Extent.prototype, /** @lends maptalks.Extent.prototype */{
         return this;
     },
 
+    /**
+     * Add the extent with a coordinate or a point.
+     * @param {maptalks.Coordinate|maptalks.Point} p - point or coordinate to add
+     * @returns {maptalks.Extent} a new extent
+     */
     add: function (p) {
         return new this.constructor(this['xmin'] + p.x, this['ymin'] + p.y, this['xmax'] + p.x, this['ymax'] + p.y);
     },
 
+    _substract: function (p) {
+        this['xmin'] -= p.x;
+        this['ymin'] -= p.y;
+        this['xmax'] -= p.x;
+        this['ymax'] -= p.y;
+        return this;
+    },
+
+    /**
+     * Substract the extent with a coordinate or a point.
+     * @param {maptalks.Coordinate|maptalks.Point} p - point or coordinate to substract
+     * @returns {maptalks.Extent} a new extent
+     */
+    substract: function (p) {
+        return new this.constructor(this['xmin'] - p.x, this['ymin'] - p.y, this['xmax'] - p.x, this['ymax'] - p.y);
+    },
+
+    /**
+     * Round the extent
+     * @return {maptalks.Extent} rounded extent
+     */
     round:function () {
         return new this.constructor(Z.Util.round(this['xmin']), Z.Util.round(this['ymin']),
             Z.Util.round(this['xmax']), Z.Util.round(this['ymax']));
@@ -5449,6 +5606,14 @@ Z.Util.extend(Z.Extent.prototype, /** @lends maptalks.Extent.prototype */{
 
 
     __combine:function (extent) {
+        if (extent instanceof Z.Point) {
+            extent = {
+                'xmin' : extent.x,
+                'xmax' : extent.x,
+                'ymin' : extent.y,
+                'ymax' : extent.y
+            };
+        }
         var xmin = this['xmin'];
         if (!Z.Util.isNumber(xmin)) {
             xmin = extent['xmin'];
@@ -5689,6 +5854,7 @@ Z.Util.extend(Z.Transformation.prototype,  /** @lends maptalks.Transformation.pr
 
 /**
  * @namespace
+ * @protected
  */
 Z.measurer = {};
 
@@ -5741,7 +5907,7 @@ Z.Util.extend(Z.measurer.Sphere.prototype, {
         if (!c1 || !c2) { return 0; }
         var b = this.rad(c1.y), d = this.rad(c2.y), e = b - d, f = this.rad(c1.x) - this.rad(c2.x);
         b = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(e / 2), 2) + Math.cos(b) * Math.cos(d) * Math.pow(Math.sin(f / 2), 2))); b *= this.radius;
-        return Math.round(b * 1E4) / 1E4;
+        return Math.round(b * 1E5) / 1E5;
     },
     measureArea:function (coordinates) {
         var a = this.radius * Math.PI / 180,
@@ -6049,10 +6215,10 @@ Z.projection.EPSG4326 = Z.Util.extend({}, Z.projection.Common, /** @lends maptal
      */
     code : 'EPSG:4326',
     project:function (p) {
-        return new Z.Coordinate(p.x, p.y);
+        return new Z.Coordinate(p);
     },
     unproject:function (p) {
-        return new Z.Coordinate(p.x, p.y);
+        return new Z.Coordinate(p);
     }
 }, Z.measurer.WGS84Sphere);
 
@@ -6195,7 +6361,7 @@ Z.projection.IDENTITY = Z.Util.extend({}, Z.projection.Common, /** @lends maptal
  * @class
  * @protected
  */
-Z.GeoUtils = {
+Z.GeoUtil = {
     /**
      * caculate the distance from a point to a segment.
      * @param {maptalks.Point} p
@@ -6250,7 +6416,7 @@ Z.GeoUtils = {
         return c;
     },
 
-    computeLength:function (coordinates, measurer) {
+    _computeLength:function (coordinates, measurer) {
         var result = 0;
         for (var i = 0, len = coordinates.length; i < len - 1; i++) {
             result += measurer.measureLength(coordinates[i], coordinates[i + 1]);
@@ -6258,7 +6424,7 @@ Z.GeoUtils = {
         return result;
     },
 
-    computeArea:function (coordinates, measurer) {
+    _computeArea:function (coordinates, measurer) {
         return measurer.measureArea(coordinates);
     }
 };
@@ -6418,6 +6584,12 @@ Z.Handler = Z.Class.extend(/** @lends maptalks.Handler.prototype */{
      */
     enabled: function () {
         return !!this._enabled;
+    },
+
+    remove: function () {
+        this.disable();
+        delete this.target;
+        delete this.dom;
     }
 });
 
@@ -6432,6 +6604,7 @@ Z.Handlerable = {
      * @param {String} name       - name of the handler
      * @param {maptalks.Handler}  - handler class
      * @return {*} this
+     * @protected
      */
     addHandler: function (name, handlerClass) {
         if (!handlerClass) { return this; }
@@ -6458,6 +6631,7 @@ Z.Handlerable = {
      * Removes a handler
      * @param {String} name       - name of the handler
      * @return {*} this
+     * @protected
      */
     removeHandler: function (name) {
         if (!name) { return this; }
@@ -6468,7 +6642,7 @@ Z.Handlerable = {
             if (hit >= 0) {
                 this._handlers.splice(hit, 1);
             }
-            this[name].disable();
+            this[name].remove();
             delete this[name];
         }
         return this;
@@ -6476,8 +6650,9 @@ Z.Handlerable = {
 
     _clearHandlers: function () {
         for (var i = 0, len = this._handlers.length; i < len; i++) {
-            this._handlers[i].disable();
+            this._handlers[i].remove();
         }
+        this._handlers = [];
     }
 };
 
@@ -6504,8 +6679,9 @@ Z.Handler.Drag = Z.Handler.extend(/** @lends maptalks.Handler.Drag.prototype */{
         MSPointerDown: 'touchmove'
     },
 
-    initialize:function (dom) {
+    initialize:function (dom, options) {
         this.dom = dom;
+        this.options = options;
     },
 
     enable:function () {
@@ -6522,6 +6698,9 @@ Z.Handler.Drag = Z.Handler.extend(/** @lends maptalks.Handler.Drag.prototype */{
     onMouseDown:function (event) {
         if (Z.Util.isNumber(event.button) && event.button === 2) {
             //不响应右键事件
+            return;
+        }
+        if (this.options && this.options['cancelOn'] && this.options['cancelOn'](event) === true) {
             return;
         }
         var dom = this.dom;
@@ -6591,41 +6770,50 @@ Z.Handler.Drag = Z.Handler.extend(/** @lends maptalks.Handler.Drag.prototype */{
         } else if (window.captureEvents) {
             window.captureEvents(window['Event'].MOUSEMOVE | window['Event'].MOUSEUP);
         }
+        var param = {
+            'domEvent' : event
+        };
+        if (Z.Util.isNumber(actual.clientX)) {
+            param['mousePos'] = new Z.Point(parseInt(actual.clientX, 0), parseInt(actual.clientY, 0));
+        }
         if (this.moved/* && this.moving*/) {
             /**
              * 触发dragend事件
              * @event dragend
              * @return {Object} mousePos: {'left': 0px, 'top': 0px}
              */
-            this.fire('dragend', {
-                'domEvent' : event,
-                'mousePos': new Z.Point(parseInt(actual.clientX, 0), parseInt(actual.clientY, 0))
-            });
+            this.fire('dragend', param);
         }
-        this.fire('mouseup', {
-            'domEvent' : event,
-            'mousePos': new Z.Point(parseInt(actual.clientX, 0), parseInt(actual.clientY, 0))
-        });
+
+        this.fire('mouseup', param);
     }
 });
 
 /**
  * @classdesc
- * The parent class for all the map tools
+ * <pre>
+ * The parent class for all the map tools.
+ * It is abstract and not intended to be instantiated.
+ * Some interface methods to implement:
+ * 1. onAdd: optional, a callback method to do some prepares before enabled when the map tool is added to a map
+ * 2. onEnable: optional, called when the map tool is enabled, used to setup the context such as adding more event listeners other than the map, disabling map's default handlers (draggable, scrollWheelZoom, etc) and creating temporary layers.
+ * 3. getEvents: required, provide an event map to register event listeners on the map.
+ * 4. onDisable: optional, called when the map tool is disabled, used to cleanup such as unregistering event listeners, enable map's original handlers and remove temporary layers.
+ * </pre>
  * @class
  * @abstract
  * @category maptool
  * @extends maptalks.Class
  * @mixins maptalks.Eventable
- * @param {options} [options=null] - construct options
  */
 Z.MapTool = Z.Class.extend(/** @lends maptalks.MapTool.prototype */{
     includes: [Z.Eventable],
 
     /**
-     * Adds the map tool to a map instance.
+     * Adds the map tool to a map.
      * @param {maptalks.Map} map
      * @return {maptalks.MapTool} this
+     * @fires maptalks.MapTool#add
      */
     addTo: function (map) {
         if (!map) {
@@ -6636,16 +6824,28 @@ Z.MapTool = Z.Class.extend(/** @lends maptalks.MapTool.prototype */{
         if (map[key]) {
             map[key].disable();
         }
-        if (this._onAdd) {
-            this._onAdd();
+        if (this.onAdd) {
+            this.onAdd();
         }
         this.enable();
         map[key] = this;
 
+        /**
+         * add event.
+         *
+         * @event maptalks.MapTool#add
+         * @type {Object}
+         * @property {String} type - add
+         * @property {maptalks.MapTool} target - map tool
+         */
         this._fireEvent('add');
         return this;
     },
 
+    /**
+     * Gets the map it added to.
+     * @return {maptalks.Map} map
+     */
     getMap:function () {
         return this._map;
     },
@@ -6653,21 +6853,26 @@ Z.MapTool = Z.Class.extend(/** @lends maptalks.MapTool.prototype */{
     /**
      * Enable the map tool.
      * @return {maptalks.MapTool} this
+     * @fires maptalks.MapTool#enable
      */
     enable:function () {
         var map = this._map;
         if (!map || this._enabled) { return this; }
         this._enabled = true;
         this._switchEvents('off');
-        if (this._loadResources) {
-            this._loadResources(this._registerEvents);
-        } else {
-            this._registerEvents();
-        }
 
-        if (this._onEnable) {
-            this._onEnable();
+        this._registerEvents();
+        if (this.onEnable) {
+            this.onEnable();
         }
+        /**
+         * enable event.
+         *
+         * @event maptalks.MapTool#enable
+         * @type {Object}
+         * @property {String} type - enable
+         * @property {maptalks.MapTool} target - map tool
+         */
         this._fireEvent('enable');
         return this;
     },
@@ -6675,6 +6880,7 @@ Z.MapTool = Z.Class.extend(/** @lends maptalks.MapTool.prototype */{
     /**
      * Disable the map tool
      * @return {maptalks.MapTool} this
+     * @fires maptalks.MapTool#disable
      */
     disable:function () {
         if (!this._enabled || !this._map) {
@@ -6682,9 +6888,17 @@ Z.MapTool = Z.Class.extend(/** @lends maptalks.MapTool.prototype */{
         }
         this._enabled = false;
         this._switchEvents('off');
-        if (this._onDisable) {
-            this._onDisable();
+        if (this.onDisable) {
+            this.onDisable();
         }
+        /**
+         * disable event.
+         *
+         * @event maptalks.MapTool#disable
+         * @type {Object}
+         * @property {String} type - disable
+         * @property {maptalks.MapTool} target - map tool
+         */
         this._fireEvent('disable');
         return this;
     },
@@ -6705,13 +6919,9 @@ Z.MapTool = Z.Class.extend(/** @lends maptalks.MapTool.prototype */{
     },
 
     _switchEvents: function (to) {
-        var events = this._getEvents();
+        var events = this.getEvents();
         if (events) {
-            for (var p in events) {
-                if (events.hasOwnProperty(p)) {
-                    this._map[to](p, events[p], this);
-                }
-            }
+            this._map[to](events, this);
         }
     },
 
@@ -6725,15 +6935,33 @@ Z.MapTool = Z.Class.extend(/** @lends maptalks.MapTool.prototype */{
 
 /**
  * @classdesc
- * A map tool to help draw geometries on the map
+ * A map tool to help draw geometries
  * @class
  * @category maptool
- * @extends maptalks.Class
+ * @extends maptalks.MapTool
  * @mixins maptalks.Eventable
- * @param {options} [options=null] - construct options
+ * @param {Object} [options=null] - construct options
+ * @param {String} [options.mode=null]   - mode of the draw tool: Point, LineString, Polygon, Circle, Ellipse, Rectangle
+ * @param {Object} [options.symbol=null] - symbol of the geometries drawn
+ * @param {Boolean} [options.once=null]  - whether disable immediately once drawn a geometry.
+ * @example
+ * var drawTool = new maptalks.DrawTool({
+ *     mode : 'Polygon',
+ *     symbol : {
+ *         'lineColor' : '#000',
+ *         'lineWidth' : 5
+ *     },
+ *     once : true
+ * }).addTo(map);
  */
 Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
 
+    /**
+     * @property {Object} [options=null] - construct options
+     * @property {String} [options.mode=null]   - mode of the draw tool: Point, LineString, Polygon, Circle, Ellipse, Rectangle
+     * @property {Object} [options.symbol=null] - symbol of the geometries drawn
+     * @property {Boolean} [options.once=null]  - whether disable immediately once drawn a geometry.
+     */
     options:{
         'symbol' : {
             'lineColor':'#000',
@@ -6752,8 +6980,19 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
     },
 
     /**
-     * 设置绘图模式
-     * @param {Number} mode 绘图模式
+     * Get current mode of draw tool
+     * @return {String} mode
+     */
+    getMode: function () {
+        if (this.options['mode']) {
+            return this.options['mode'].toLowerCase();
+        }
+        return null;
+    },
+
+    /**
+     * Set mode of the draw tool
+     * @param {String} mode - mode of the draw tool: Point, LineString, Polygon, Circle, Ellipse, Rectangle
      * @expose
      */
     setMode:function (mode) {
@@ -6771,9 +7010,8 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
     },
 
     /**
-     * 获得drawtool的绘制样式
-     * @return {Object} 绘制样式
-     * @expose
+     * Get symbol of the draw tool
+     * @return {Object} symbol
      */
     getSymbol:function () {
         var symbol = this.options['symbol'];
@@ -6785,9 +7023,9 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
     },
 
     /**
-     * 设置drawtool的绘制样式
-     * @param {Object} symbol 绘制样式
-     * @expose
+     * Set draw tool's symbol
+     * @param {Object} symbol - symbol set
+     * @returns {maptalks.DrawTool} this
      */
     setSymbol:function (symbol) {
         if (!symbol) {
@@ -6800,23 +7038,11 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
         return this;
     },
 
-    /**
-     * Get current mode of draw tool
-     * @return {String} mode
-     */
-    getMode: function () {
-        if (this.options['mode']) {
-            return this.options['mode'].toLowerCase();
-        }
-        return null;
-    },
-
-    _onAdd: function () {
+    onAdd: function () {
         this._checkMode();
     },
 
-    _onEnable:function () {
-
+    onEnable:function () {
         var map = this.getMap();
         this._mapDraggable = map.options['draggable'];
         this._mapDoubleClickZoom = map.options['doubleClickZoom'];
@@ -6827,6 +7053,7 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
             'doubleClickZoom':false
         });
         this._drawToolLayer = this._getDrawLayer();
+        this._loadResources();
         return this;
     },
 
@@ -6844,7 +7071,7 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
         throw new Error('invalid mode for drawtool : ' + this.options['mode']);
     },
 
-    _onDisable:function () {
+    onDisable:function () {
         var map = this.getMap();
         map.config({
             'autoBorderPanning' : this._autoBorderPanning,
@@ -6859,23 +7086,21 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
         return this;
     },
 
-    _loadResources:function (onComplete) {
+
+    _loadResources:function () {
         var symbol = this.getSymbol();
         var resources = Z.Util.getExternalResources(symbol);
         if (Z.Util.isArrayHasData(resources)) {
             //load external resources at first
-            this._drawToolLayer._getRenderer()._loadResources(resources, onComplete, this);
-        } else {
-            onComplete.call(this);
+            this._drawToolLayer._getRenderer().loadResources(resources);
         }
-
     },
 
     _getProjection:function () {
         return this._map.getProjection();
     },
 
-    _getEvents: function () {
+    getEvents: function () {
         var mode = this.getMode();
         if (mode === 'polygon' || mode === 'linestring') {
             return {
@@ -6921,9 +7146,16 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
             }
             this._addGeometryToStage(this._geometry);
             /**
-             * drawstart event
+             * drawstart event.
+             *
              * @event maptalks.DrawTool#drawstart
              * @type {Object}
+             * @property {String} type - drawstart
+             * @property {maptalks.DrawTool} target - draw tool
+             * @property {maptalks.Coordinate} coordinate - coordinate of the event
+             * @property {maptalks.Point} containerPoint  - container point of the event
+             * @property {maptalks.Point} viewPoint       - view point of the event
+             * @property {Event} domEvent                 - dom event
              */
             this._fireEvent('drawstart', param);
         } else {
@@ -6941,11 +7173,19 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
             }
                 //这一行代码取消注释后, 会造成dblclick无法响应, 可能是存在循环调用,造成浏览器无法正常响应事件
             this._setLonlats(path);
-
+            param['geometry'] = this.getMode() === 'polygon' ? path.length >= 3 ? new Z.Polygon(path) : new Z.LineString(path) : new Z.LineString(path);
             /**
-             * 触发drawvertex事件：端点绘制事件，当为多边形或者多折线绘制了一个新的端点后会触发此事件
+             * drawvertex event.
+             *
              * @event maptalks.DrawTool#drawvertex
              * @type {Object}
+             * @property {String} type - drawvertex
+             * @property {maptalks.DrawTool} target - draw tool
+             * @property {maptalks.Geometry} geometry - geometry drawn
+             * @property {maptalks.Coordinate} coordinate - coordinate of the event
+             * @property {maptalks.Point} containerPoint  - container point of the event
+             * @property {maptalks.Point} viewPoint       - view point of the event
+             * @property {Event} domEvent                 - dom event
              */
             this._fireEvent('drawvertex', param);
 
@@ -6969,7 +7209,21 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
         } else {
             this._movingTail.setCoordinates(tailPath);
         }
-        param['geometry'] = this._geometry;
+        path = path.concat([coordinate]);
+        param['geometry'] = this.getMode() === 'polygon' ? path.length >= 3 ? new Z.Polygon(path) : new Z.LineString(path) : new Z.LineString(path);
+        /**
+         * mousemove event.
+         *
+         * @event maptalks.DrawTool#mousemove
+         * @type {Object}
+         * @property {String} type - mousemove
+         * @property {maptalks.DrawTool} target - draw tool
+         * @property {maptalks.Geometry} geometry - geometry drawn
+         * @property {maptalks.Coordinate} coordinate - coordinate of the event
+         * @property {maptalks.Point} containerPoint  - container point of the event
+         * @property {maptalks.Point} viewPoint       - view point of the event
+         * @property {Event} domEvent                 - dom event
+         */
         this._fireEvent('mousemove', param);
     },
 
@@ -7019,12 +7273,17 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
     },
 
     _mousedownToDraw : function (param) {
-        var me = this;
+        var me = this,
+            firstPoint = this._getMouseContainerPoint(param);
+        if (!this._isValidContainerPoint(firstPoint)) { return false; }
+        var firstCoord = this._containerPointToLonlat(firstPoint);
+
         function genGeometry(coordinate) {
-            var symbol = me.getSymbol();
-            var geometry = me._geometry;
-            var _map = me._map;
-            var center;
+            var symbol = me.getSymbol(),
+                geometry = me._geometry,
+                map = me._map,
+                center;
+
             switch (me.getMode()) {
             case 'circle':
                 if (!geometry) {
@@ -7034,7 +7293,7 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
                     break;
                 }
                 center = geometry.getCenter();
-                var radius = _map.computeLength(center, coordinate);
+                var radius = map.computeLength(center, coordinate);
                 geometry.setRadius(radius);
                 break;
             case 'ellipse':
@@ -7045,21 +7304,26 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
                     break;
                 }
                 center = geometry.getCenter();
-                var rx = _map.computeLength(center, new Z.Coordinate({x:coordinate.x, y:center.y}));
-                var ry = _map.computeLength(center, new Z.Coordinate({x:center.x, y:coordinate.y}));
+                var rx = map.computeLength(center, new Z.Coordinate({x:coordinate.x, y:center.y}));
+                var ry = map.computeLength(center, new Z.Coordinate({x:center.x, y:coordinate.y}));
                 geometry.setWidth(rx * 2);
                 geometry.setHeight(ry * 2);
                 break;
             case 'rectangle':
                 if (!geometry) {
                     geometry = new Z.Rectangle(coordinate, 0, 0);
+
                     geometry.setSymbol(symbol);
                     me._addGeometryToStage(geometry);
                     break;
                 }
-                var nw = geometry.getCoordinates();
-                var width = _map.computeLength(nw, new Z.Coordinate({x:coordinate.x, y:nw.y}));
-                var height = _map.computeLength(nw, new Z.Coordinate({x:nw.x, y:coordinate.y}));
+                var width = map.computeLength(firstCoord, new Z.Coordinate(coordinate.x, firstCoord.y)),
+                    height = map.computeLength(firstCoord, new Z.Coordinate(firstCoord.x, coordinate.y));
+                var cnw = map.coordinateToContainerPoint(firstCoord),
+                    cc = map.coordinateToContainerPoint(coordinate);
+                var x = Math.min(cnw.x, cc.x),
+                    y = Math.min(cnw.y, cc.y);
+                geometry.setCoordinates(map.containerPointToCoordinate(new Z.Point(x, y)));
                 geometry.setWidth(width);
                 geometry.setHeight(height);
                 break;
@@ -7071,19 +7335,21 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
             if (!this._geometry) {
                 return false;
             }
-            var containerPoint = this._getMouseContainerPoint(_event);
-            if (!this._isValidContainerPoint(containerPoint)) { return false; }
-            var coordinate = this._containerPointToLonlat(containerPoint);
+            var current = this._getMouseContainerPoint(_event);
+            if (!this._isValidContainerPoint(current)) { return false; }
+            var coordinate = this._containerPointToLonlat(current);
             genGeometry(coordinate);
+            param['geometry'] = this._geometry;
+            this._fireEvent('mousemove', param);
             return false;
         }
         var onMouseUp = function (_event) {
             if (!this._geometry) {
                 return false;
             }
-            var containerPoint = this._getMouseContainerPoint(_event);
-            if (this._isValidContainerPoint(containerPoint)) {
-                var coordinate = this._containerPointToLonlat(containerPoint);
+            var current = this._getMouseContainerPoint(_event);
+            if (this._isValidContainerPoint(current)) {
+                var coordinate = this._containerPointToLonlat(current);
                 genGeometry(coordinate);
             }
             this._map.off('mousemove', onMouseMove, this);
@@ -7091,11 +7357,9 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
             this._endDraw(param);
             return false;
         };
-        var containerPoint = this._getMouseContainerPoint(param);
-        if (!this._isValidContainerPoint(containerPoint)) { return false; }
-        var coordinate = this._containerPointToLonlat(containerPoint);
+
         this._fireEvent('drawstart', param);
-        genGeometry(coordinate);
+        genGeometry(firstCoord);
         this._map.on('mousemove', onMouseMove, this);
         this._map.on('mouseup', onMouseUp, this);
         return false;
@@ -7112,11 +7376,19 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
             param = {};
         }
         param['geometry'] = target;
-          /**
-           * 绘制结束事件
-           * @event maptalks.DrawTool#drawend
-           * @type {Object}
-           */
+        /**
+         * drawend event.
+         *
+         * @event maptalks.DrawTool#drawend
+         * @type {Object}
+         * @property {String} type - drawend
+         * @property {maptalks.DrawTool} target - draw tool
+         * @property {maptalks.Geometry} geometry - geometry drawn
+         * @property {maptalks.Coordinate} coordinate - coordinate of the event
+         * @property {maptalks.Point} containerPoint  - container point of the event
+         * @property {maptalks.Point} viewPoint       - view point of the event
+         * @property {Event} domEvent                 - dom event
+         */
         this._fireEvent('drawend', param);
         if (this.options['once']) {
             this.disable();
@@ -7215,9 +7487,42 @@ Z.DrawTool = Z.MapTool.extend(/** @lends maptalks.DrawTool.prototype */{
  * @extends maptalks.DrawTool
  * @mixins maptalks.Eventable
  * @param {options} [options=null] - construct options
+ * @param {String} [options.language=zh-CN]         - language of the distance tool, zh-CN or en-US
+ * @param {Boolean} [options.metric=true]           - display result in metric system
+ * @param {Boolean} [options.imperial=false]        - display result in imperial system.
+ * @param {Object}  [options.symbol=null]           - symbol of the line
+ * @param {Object}  [options.vertexSymbol=null]     - symbol of the vertice
+ * @param {Object}  [options.labelOptions=null]     - construct options of the vertice labels.
+ * @example
+ * var distanceTool = new maptalks.DistanceTool({
+ *     'once' : true,
+ *     'symbol': {
+ *       'lineColor' : '#34495e',
+ *       'lineWidth' : 2
+ *     },
+ *     'vertexSymbol' : {
+ *       'markerType'        : 'ellipse',
+ *       'markerFill'        : '#1bbc9b',
+ *       'markerLineColor'   : '#000',
+ *       'markerLineWidth'   : 3,
+ *       'markerWidth'       : 10,
+ *      'markerHeight'      : 10
+ *    },
+ *    'language' : 'en-US'
+ *  }).addTo(map);
+ *
  */
 Z.DistanceTool = Z.DrawTool.extend(/** @lends maptalks.DistanceTool.prototype */{
 
+    /**
+     * @property {options} options
+     * @property {String}  options.language         - language of the distance tool, zh-CN or en-US
+     * @property {Boolean} options.metric           - display result in metric system
+     * @property {Boolean} options.imperial         - display result in imperial system.
+     * @property {Object}  options.symbol           - symbol of the line
+     * @property {Object}  options.vertexSymbol     - symbol of the vertice
+     * @property {Object}  options.labelOptions     - construct options of the vertice labels.
+     */
     options:{
         'mode' : 'LineString',
         'language' : 'zh-CN', //'en-US'
@@ -7245,7 +7550,7 @@ Z.DistanceTool = Z.DrawTool.extend(/** @lends maptalks.DistanceTool.prototype */
                 'markerLineColor' : '#b4b3b3',
                 'textDx' : 15
             },
-            'boxPadding'   :   new Z.Size(6, 4)
+            'boxPadding'   :   {'width' : 6, 'height' : 4}
         }
     },
 
@@ -7297,7 +7602,7 @@ Z.DistanceTool = Z.DrawTool.extend(/** @lends maptalks.DistanceTool.prototype */
         if (toMeasure instanceof Z.Geometry) {
             length = map.computeGeometryLength(toMeasure);
         } else if (Z.Util.isArray(toMeasure)) {
-            length = Z.GeoUtils.computeLength(toMeasure, map.getProjection());
+            length = Z.GeoUtil._computeLength(toMeasure, map.getProjection());
         }
         this._lastMeasure = length;
         var units;
@@ -7340,9 +7645,9 @@ Z.DistanceTool = Z.DrawTool.extend(/** @lends maptalks.DistanceTool.prototype */
 
     _msOnDrawStart:function (param) {
         var map = this.getMap();
-        var guid = Z.Util.GUID();
-        var layerId = 'distancetool_' + guid;
-        var markerLayerId = 'distancetool_markers_' + guid;
+        var uid = Z.Util.UID();
+        var layerId = 'distancetool_' + uid;
+        var markerLayerId = 'distancetool_markers_' + uid;
         if (!map.getLayer(layerId)) {
             this._measureLineLayer = new maptalks.VectorLayer(layerId, {'drawImmediate' : true}).addTo(map);
             this._measureMarkerLayer = new maptalks.VectorLayer(markerLayerId, {'drawImmediate' : true}).addTo(map);
@@ -7407,18 +7712,18 @@ Z.DistanceTool = Z.DrawTool.extend(/** @lends maptalks.DistanceTool.prototype */
         var endMarker = new maptalks.Marker(coordinates, {
             'symbol' : [
                 {
-                    'markerType' : 'x',
-                    'markerWidth' : 10,
-                    'markerHeight' : 10,
-                    'markerDx' : 20 + dx
-                },
-                {
                     'markerType' : 'square',
                     'markerFill' : '#ffffff',
                     'markerLineColor' : '#b4b3b3',
                     'markerLineWidth' : 2,
                     'markerWidth' : 15,
                     'markerHeight' : 15,
+                    'markerDx' : 20 + dx
+                },
+                {
+                    'markerType' : 'x',
+                    'markerWidth' : 10,
+                    'markerHeight' : 10,
                     'markerDx' : 20 + dx
                 }
             ]
@@ -7454,11 +7759,41 @@ Z.DistanceTool = Z.DrawTool.extend(/** @lends maptalks.DistanceTool.prototype */
  * @class
  * @category maptool
  * @extends maptalks.DistanceTool
- * @param {options} [options=null]          - construct options, including options defined in [DistanceTool]{@link maptalks.DistanceTool}
- * @param {options} [options.symbol=null]   - symbol of lines drawn during measuring
+ * @param {options} [options=null] - construct options
+ * @param {String} [options.language=zh-CN]         - language of the distance tool, zh-CN or en-US
+ * @param {Boolean} [options.metric=true]           - display result in metric system
+ * @param {Boolean} [options.imperial=false]        - display result in imperial system.
+ * @param {Object}  [options.symbol=null]           - symbol of the line
+ * @param {Object}  [options.vertexSymbol=null]     - symbol of the vertice
+ * @param {Object}  [options.labelOptions=null]     - construct options of the vertice labels.
+ * @example
+ * var areaTool = new maptalks.AreaTool({
+ *     'once' : true,
+ *     'symbol': {
+ *       'lineColor' : '#34495e',
+ *       'lineWidth' : 2
+ *     },
+ *     'vertexSymbol' : {
+ *       'markerType'        : 'ellipse',
+ *       'markerFill'        : '#1bbc9b',
+ *       'markerLineColor'   : '#000',
+ *       'markerLineWidth'   : 3,
+ *       'markerWidth'       : 10,
+ *      'markerHeight'      : 10
+ *    },
+ *    'language' : 'en-US'
+ *  }).addTo(map);
  */
 Z.AreaTool = Z.DistanceTool.extend(/** @lends maptalks.AreaTool.prototype */{
-
+    /**
+     * @property {options} options
+     * @property {String}  options.language         - language of the distance tool, zh-CN or en-US
+     * @property {Boolean} options.metric           - display result in metric system
+     * @property {Boolean} options.imperial         - display result in imperial system.
+     * @property {Object}  options.symbol           - symbol of the line
+     * @property {Object}  options.vertexSymbol     - symbol of the vertice
+     * @property {Object}  options.labelOptions     - construct options of the vertice labels.
+     */
     options:{
         'mode' : 'Polygon',
         'symbol' : {
@@ -7484,7 +7819,7 @@ Z.AreaTool = Z.DistanceTool.extend(/** @lends maptalks.AreaTool.prototype */{
         if (toMeasure instanceof Z.Geometry) {
             area = map.computeGeometryArea(toMeasure);
         } else if (Z.Util.isArray(toMeasure)) {
-            area = Z.GeoUtils.computeArea(toMeasure, map.getProjection());
+            area = Z.GeoUtil._computeArea(toMeasure, map.getProjection());
         }
         this._lastMeasure = area;
         var units;
@@ -7543,8 +7878,9 @@ Z.AreaTool = Z.DistanceTool.extend(/** @lends maptalks.AreaTool.prototype */{
  * oy : y of the origin point of the world's projected coordinate system <br>
  * @see {@link http://wiki.osgeo.org/wiki/Tile_Map_Service_Specification}
  * @class
- * @category layer
- * @protected
+ * @category geo
+ * @example
+ * var ts = new maptalks.TileSystem([1, -1, -20037508.34, 20037508.34]);
  */
 Z.TileSystem = function (sx, sy, ox, oy) {
     if (Z.Util.isArray(sx)) {
@@ -7686,8 +8022,8 @@ Z.TileConfig = Z.Class.extend(/** @lends maptalks.TileConfig.prototype */{
         var tileLeft = tileIndex['x'] * tileSize['width'];
         var tileTop = tileIndex['y'] * tileSize['height'];
 
-        var offsetLeft = Math.round(point.x / res - tileSystem['scale']['x'] * tileLeft);
-        var offsetTop = Math.round(point.y / res + tileSystem['scale']['y'] * tileTop);
+        var offsetLeft = point.x / res - tileSystem['scale']['x'] * tileLeft;
+        var offsetTop = point.y / res + tileSystem['scale']['y'] * tileTop;
 
             //如果x方向为左大右小
         if (tileSystem['scale']['x'] < 0) {
@@ -7804,17 +8140,29 @@ Z.Renderable = {
 
 /**
  * @classdesc
- * Base class for all the layers, defines common methods that all the layer classes share.
+ * Base class for all the layers, defines common methods that all the layer classes share. <br>
+ * It is abstract and not intended to be instantiated.
+ *
  * @class
  * @category layer
  * @abstract
  * @extends maptalks.Class
  * @mixes maptalks.Eventable
- * @mixes maptalks.Renderable
  */
 Z.Layer = Z.Class.extend(/** @lends maptalks.Layer.prototype */{
 
     includes: Z.Eventable,
+
+    exceptionDefs:{
+        'en-US':{
+            'INVALID_RENDERER':'Invalid renderer for Layer:',
+            'INVALID_MASK' : 'mask has to be a Marker with vector symbol, a Polygon or a MultiPolygon.'
+        },
+        'zh-CN':{
+            'INVALID_RENDERER':'不合法的renderer:',
+            'INVALID_MASK' : '不合法的图层mask, mask 只能为Vector Marker, Polygon或者MultiPolygon.'
+        }
+    },
 
     /**
      * @property {Object}  [options=null] - base options of layer.
@@ -7831,6 +8179,7 @@ Z.Layer = Z.Class.extend(/** @lends maptalks.Layer.prototype */{
         //图层是否可见
         'visible':true,
         'opacity': 1,
+        'drawImmediate' : false,
         'renderer' : 'canvas'
     },
 
@@ -7847,20 +8196,18 @@ Z.Layer = Z.Class.extend(/** @lends maptalks.Layer.prototype */{
         if (!this.getMap()) { return this; }
         this._initRenderer();
         var zIndex = this.getZIndex();
-        if (this._prepareLoad()) {
-            if (this._renderer) {
-                if (!Z.Util.isNil(zIndex)) {
-                    this._renderer.setZIndex(zIndex);
-                }
-                this._renderer.render();
+        if (this.onAdd()) {
+            if (!Z.Util.isNil(zIndex)) {
+                this._renderer.setZIndex(zIndex);
             }
+            this._renderer.render(true);
         }
         return this;
     },
 
     /**
      * Get the layer id
-     * @returns {String|Number} id
+     * @returns {String} id
      */
     getId:function () {
         return this._id;
@@ -7868,13 +8215,16 @@ Z.Layer = Z.Class.extend(/** @lends maptalks.Layer.prototype */{
 
     /**
      * Set a new id to the layer
-     * @param {String|Number} id - new layer id
+     * @param {String} id - new layer id
      * @return {maptalks.Layer} this
      * @fires maptalks.Layer#idchange
      */
     setId:function (id) {
         //TODO 设置id可能造成map无法找到layer
         var old = this._id;
+        if (!Z.Util.isNil(id)) {
+            id = id + '';
+        }
         this._id = id;
         /**
          * idchange event.
@@ -7883,8 +8233,8 @@ Z.Layer = Z.Class.extend(/** @lends maptalks.Layer.prototype */{
          * @type {Object}
          * @property {String} type - idchange
          * @property {maptalks.Layer} target    - the layer fires the event
-         * @property {String|Number} old        - value of the old id
-         * @property {String|Number} new        - value of the new id
+         * @property {String} old        - value of the old id
+         * @property {String} new        - value of the new id
          */
         this.fire('idchange', {'old':old, 'new':id});
         return this;
@@ -8073,7 +8423,7 @@ Z.Layer = Z.Class.extend(/** @lends maptalks.Layer.prototype */{
     setMask:function (mask) {
         if (!((mask instanceof Z.Marker && Z.symbolizer.VectorMarkerSymbolizer.test(mask.getSymbol())) ||
                 mask instanceof Z.Polygon || mask instanceof Z.MultiPolygon)) {
-            throw new Error('mask has to be a Marker with vector symbol, a Polygon or a MultiPolygon');
+            throw new Error(this.exceptions['INVALID_MASK']);
         }
 
         /*if (mask instanceof Z.Marker) {
@@ -8113,30 +8463,19 @@ Z.Layer = Z.Class.extend(/** @lends maptalks.Layer.prototype */{
         return this;
     },
 
-    _refreshMask: function () {
-        if (this._mask) {
-            this._mask._onZoomEnd();
-        }
-    },
-
     /**
      * Prepare Layer's loading, this is a method intended to be overrided by subclasses.
-     * @return {Boolean} true to continue, false to cease.
+     * @return {Boolean} true to continue loading, false to cease.
      * @protected
      */
-    _prepareLoad:function () {
+    onAdd:function () {
         return true;
     },
 
-    _onRemove:function () {
-        this._switchEvents('off', this);
-        this._removeEvents();
-        if (this._renderer) {
-            this._switchEvents('off', this._renderer);
-            this._renderer.remove();
-            delete this._renderer;
+    _refreshMask: function () {
+        if (this._mask) {
+            this._mask.onZoomEnd();
         }
-        delete this.map;
     },
 
     _bindMap:function (map, zIndex) {
@@ -8144,9 +8483,8 @@ Z.Layer = Z.Class.extend(/** @lends maptalks.Layer.prototype */{
         this.map = map;
         this.setZIndex(zIndex);
         this._registerEvents();
-        if (this._getEvents && this._getEvents()) {
-            this._switchEvents('on', this);
-        }
+        this._switchEvents('on', this);
+
         this.fire('add');
     },
 
@@ -8157,24 +8495,31 @@ Z.Layer = Z.Class.extend(/** @lends maptalks.Layer.prototype */{
         }
         var clazz = this.constructor.getRendererClass(renderer);
         if (!clazz) {
-            return;
+            throw new Error(this.exceptions['INVALID_RENDERER'] + renderer);
         }
         this._renderer = new clazz(this);
         this._renderer.setZIndex(this.getZIndex());
         this._switchEvents('on', this._renderer);
     },
 
+    _doRemove:function () {
+        if (this.onRemove) {
+            this.onRemove();
+        }
+        this._switchEvents('off', this);
+        this._removeEvents();
+        if (this._renderer) {
+            this._switchEvents('off', this._renderer);
+            this._renderer.remove();
+            delete this._renderer;
+        }
+        delete this._mask;
+        delete this.map;
+    },
+
     _switchEvents: function (to, emitter) {
-        if (emitter && emitter._getEvents) {
-            var events = emitter._getEvents();
-            if (events) {
-                var map = this.getMap();
-                for (var p in events) {
-                    if (events.hasOwnProperty(p)) {
-                        map[to](p, events[p], emitter);
-                    }
-                }
-            }
+        if (emitter && emitter.getEvents) {
+            this.getMap()[to](emitter.getEvents(), emitter);
         }
     },
 
@@ -8198,7 +8543,13 @@ Z.Layer = Z.Class.extend(/** @lends maptalks.Layer.prototype */{
 
 Z.Util.extend(Z.Layer, Z.Renderable);
 
-
+Z.Layer.extend = function (props) {
+    var NewLayer = Z.Class.extend.call(this, props);
+    if (this._regRenderers) {
+        NewLayer._regRenderers = Z.Util.extend({}, this._regRenderers);
+    }
+    return NewLayer;
+};
 
 /**
  * @classdesc
@@ -8207,12 +8558,44 @@ Z.Util.extend(Z.Layer, Z.Renderable);
  * @category layer
  * @extends maptalks.Layer
  * @param {String|Number} id - tile layer's id
- * @param {Object} [options=null] - construct options
- * @param {Boolean} [options.debug=false] - if set to true, tile's border will be drawn and tile's xyz coordinate will be drawn on the left top corner.
+ * @param {Object}              [options=null] - construct options
+ * @param {String}              [options.errorTileUrl=null] - tile's url when error
+ * @param {String}              options.urlTemplate         - url templates
+ * @param {String[]|Number[]}   [options.subdomains=null]   - subdomains to replace '{s}' in urlTemplate
+ * @param {Boolean}             [options.repeatWorld=true]  - tiles will be loaded repeatedly outside the world.
+ * @param {String}              [options.crossOrigin=null]  - tile Image's corssOrigin
+ * @param {Object}              [options.tileSize={'width':256, 'height':256}] - size of the tile image
+ * @param {maptalks.TileSystem} [options.tileSystem=null]   - tile system
+ * @param {Boolean}             [options.debug=false]       - if set to true, tiles will have borders and a title of its coordinates.
+ * @param {String}              [options.baseLayerRenderer='dom']        - renderer when it is used as base layer.
+ * @param {String}              [options.renderer='canvas']              - renderer, 'dom' or 'canvas'
  * @param {*} options.* - any other option defined in [maptalks.Layer]{@link maptalks.Layer#options}
+ * @example
+ * new maptalks.TileLayer("tile",{
+        urlTemplate : 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        subdomains:['a','b','c']
+    })
  */
 Z.TileLayer = Z.Layer.extend(/** @lends maptalks.TileLayer.prototype */{
 
+    /**
+     * @property {Object}              options                     - TileLayer's options
+     * @property {String}              [options.errorTileUrl=null] - tile's url when error
+     * @property {String}              options.urlTemplate         - url templates
+     * @property {String[]|Number[]}   [options.subdomains=null]   - subdomains to replace '{s}' in urlTemplate
+     * @property {Boolean}             [options.repeatWorld=true]  - tiles will be loaded repeatedly outside the world.
+     * @property {String}              [options.crossOrigin=null]  - tile Image's corssOrigin
+     * @property {Object}              [options.tileSize={'width':256, 'height':256}] - size of the tile image
+     * @property {maptalks.TileSystem} [options.tileSystem=null]   - tile system
+     * @property {Boolean}             [options.debug=false]       - if set to true, tiles will have borders and a title of its coordinates.
+     * @property {*} options.* - any other option defined in [maptalks.Layer]{@link maptalks.Layer#options}
+     * @example
+     * tileLayer.config('debug', true);
+     * tileLayer.config({
+     *     'urlTemplate' : 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+     *     'subdomains'  : ['a', 'b', 'c']
+     * });
+     */
     options: {
         'errorTileUrl'  : null,
         'urlTemplate'   : null,
@@ -8235,6 +8618,8 @@ Z.TileLayer = Z.Layer.extend(/** @lends maptalks.TileLayer.prototype */{
 
         'tileSystem' : null,
         'debug'      : false,
+
+        'cacheTiles' : true,
 
         'baseLayerRenderer' : (function () { return Z.node ? 'canvas' : 'dom'; })(),
 
@@ -8259,6 +8644,14 @@ Z.TileLayer = Z.Layer.extend(/** @lends maptalks.TileLayer.prototype */{
         if (this._renderer) {
             this._renderer.clear();
         }
+        /**
+         * clear event, fired when tile layer is cleared.
+         *
+         * @event maptalks.TileLayer#clear
+         * @type {Object}
+         * @property {String} type - clear
+         * @property {maptalks.TileLayer} target - tile layer
+         */
         this.fire('clear');
         return this;
     },
@@ -8309,7 +8702,7 @@ Z.TileLayer = Z.Layer.extend(/** @lends maptalks.TileLayer.prototype */{
         return this._defaultTileConfig;
     },
 
-    _getTiles:function (containerSize) {
+    _getTiles:function () {
         // rendWhenReady = false;
         var map = this.getMap();
         if (!map) {
@@ -8328,57 +8721,65 @@ Z.TileLayer = Z.Layer.extend(/** @lends maptalks.TileLayer.prototype */{
             mapViewPoint = map.offsetPlatform();
 
         var mapW = map.width,
-            mapH = map.height;
-            //中心瓦片信息,包括瓦片编号,和中心点在瓦片上相对左上角的位置
-        var centerTile =  tileConfig.getCenterTile(map._getPrjCenter(), res);
-        //计算中心瓦片的top和left偏移值
-        var centerPoint = new Z.Point(+(mapW / 2 - centerTile['offsetLeft']),
-                                                +(mapH / 2 - centerTile['offsetTop']))._round();
-        if (!containerSize || !(containerSize instanceof Z.Size)) {
-            containerSize = new Z.Size(mapW, mapH);
-        }
+            mapH = map.height,
+            containerCenter = new Z.Point(mapW / 2, mapH / 2),
+            containerExtent = map.getContainerExtent();
+
+        //中心瓦片信息,包括瓦片编号,和中心点在瓦片上相对左上角的位置
+        var centerTile =  tileConfig.getCenterTile(map._getPrjCenter(), res),
+         //计算中心瓦片的top和left偏移值
+            centerPoint = new Z.Point(mapW / 2 - centerTile['offsetLeft'],
+                                                mapH / 2 - centerTile['offsetTop']);
+
         //中心瓦片上下左右的瓦片数
-        var top = Math.ceil(Math.abs((containerSize['height'] - mapH) / 2 + centerPoint.y) / tileSize['height']),
-            left = Math.ceil(Math.abs((containerSize['width'] - mapW) / 2 + centerPoint.x) / tileSize['width']),
-            bottom = Math.ceil(Math.abs((containerSize['height'] - mapH) / 2 + mapH - centerPoint.y) / tileSize['height']),
-            right = Math.ceil(Math.abs((containerSize['width'] - mapW) / 2 + mapW - centerPoint.x) / tileSize['width']);
+        var top = Math.ceil(Math.abs(containerCenter.y - containerExtent['ymin'] - centerTile['offsetTop']) / tileSize['height']),
+            left = Math.ceil(Math.abs(containerCenter.x - containerExtent['xmin'] - centerTile['offsetLeft']) / tileSize['width']),
+            bottom = Math.ceil(Math.abs(containerExtent['ymax'] - containerCenter.y + centerTile['offsetTop']) / tileSize['height']),
+            right = Math.ceil(Math.abs(containerExtent['xmax'] - containerCenter.x + centerTile['offsetLeft']) / tileSize['width']);
 
-    //  只加中心的瓦片，用做调试
-    //  var centerTileImg = this._createTileImage(centerPoint.x,centerPoint.y,this.config._getTileUrl(centerTile['topIndex'],centerTile['leftIndex'],zoom),tileSize['height'],tileSize['width']);
-    //  tileContainer.appendChild(centerTileImg);
+        centerPoint._substract(mapViewPoint)._round();
 
-        var tiles = [];
-        var fullExtent = new Z.PointExtent();
-        //TODO 瓦片从中心开始加起
+        var tiles = [],
+            viewExtent = new Z.PointExtent(),
+            fullExtent = new Z.PointExtent();
+
         for (var i = -(left); i < right; i++) {
-            for (var j = -(top); j <= bottom; j++) {
-                var tileIndex = tileConfig.getNeighorTileIndex(centerTile['y'], centerTile['x'], j, i, res, this.options['repeatWorld']);
-                var tileLeft = centerPoint.x + tileSize['width'] * i - mapViewPoint.x;
-                var tileTop = centerPoint.y + tileSize['height'] * j - mapViewPoint.y;
-                var tileUrl = this._getTileUrl(tileIndex['x'], tileIndex['y'], zoom);
-                var tileId = [tileIndex['y'], tileIndex['x'], zoom, tileLeft, tileTop].join('__');
-                var tileDesc = {
-                    'url' : tileUrl,
-                    'viewPoint': new Z.Point(tileLeft, tileTop),
-                    'id'  : tileId,
-                    'zoom' : zoom
-                };
+            for (var j = -(top); j < bottom; j++) {
+                var tileIndex = tileConfig.getNeighorTileIndex(centerTile['y'], centerTile['x'], j, i, res, this.options['repeatWorld']),
+                    tileUrl = this._getTileUrl(tileIndex['x'], tileIndex['y'], zoom),
+                    tileLeft = centerPoint.x + tileSize['width'] * i,
+                    tileTop = centerPoint.y + tileSize['height'] * j,
+                    tileId = [tileIndex['y'], tileIndex['x'], zoom, tileLeft, tileTop].join('__'),
+                    tileViewPoint = new Z.Point(tileLeft, tileTop),
+                    tileDesc = {
+                        'url' : tileUrl,
+                        'viewPoint': tileViewPoint,
+                        '2dPoint' : map._viewPointToPoint(tileViewPoint),
+                        'id'  : tileId,
+                        'zoom' : zoom
+                    };
                 tiles.push(tileDesc);
-                fullExtent = fullExtent.combine(new Z.PointExtent(
+                viewExtent = viewExtent.combine(new Z.PointExtent(
                         tileDesc['viewPoint'],
                         tileDesc['viewPoint'].add(tileSize['width'], tileSize['height'])
+                        )
+                    );
+                fullExtent = fullExtent.combine(new Z.PointExtent(
+                        tileDesc['2dPoint'],
+                        tileDesc['2dPoint'].add(tileSize['width'], tileSize['height'])
                         )
                     );
             }
         }
 
-        //瓦片排序, 地图中心的瓦片排在末尾, 末尾的瓦片先载入
+        //sort tiles according to tile's distance to center
         tiles.sort(function (a, b) {
             return (b['viewPoint'].distanceTo(centerPoint) - a['viewPoint'].distanceTo(centerPoint));
         });
         return {
             'tiles' : tiles,
-            'fullExtent' : fullExtent
+            'fullExtent' : fullExtent,
+            'viewExtent' : viewExtent
         };
     },
 
@@ -8445,7 +8846,7 @@ Z.TileLayer.prototype.toJSON = function () {
  * @private
  * @function
  */
-Z.TileLayer._fromJSON = function (layerJSON) {
+Z.TileLayer.fromJSON = function (layerJSON) {
     if (!layerJSON || layerJSON['type'] !== 'TileLayer') { return null; }
     return new Z.TileLayer(layerJSON['id'], layerJSON['options']);
 };
@@ -8476,14 +8877,15 @@ Z.CanvasTileLayer.prototype.toJSON = function () {
  * @private
  * @function
  */
-Z.CanvasTileLayer._fromJSON = function (layerJSON) {
+Z.CanvasTileLayer.fromJSON = function (layerJSON) {
     if (!layerJSON || layerJSON['type'] !== 'CanvasTileLayer') { return null; }
     return new Z.CanvasTileLayer(layerJSON['id'], layerJSON['options']);
 };
 
 /**
  * @classdesc
- * Base class of all the layers that can add/remove geometries.
+ * Base class of all the layers that can add/remove geometries. <br>
+ * It is abstract and not intended to be instantiated.
  * @class
  * @category layer
  * @abstract
@@ -8508,17 +8910,62 @@ Z.OverlayLayer = Z.Layer.extend(/** @lends maptalks.OverlayLayer.prototype */{
      * @return {maptalks.Geometry}
      */
     getGeometryById:function (id) {
-        return this._getGeometryById(id);
+        if (Z.Util.isNil(id) || id === '') {
+            return null;
+        }
+        if (!this._geoMap[id]) {
+            return null;
+        }
+        return this._geoMap[id];
     },
 
     /**
-     * Get all the geometries on the layer or the ones filtered.
-     * @param {Function} filter  - a function to filter the layer
-     * @param {Object} context   - context of the filter context
+     * Get all the geometries or the ones filtered if a filter function is provided.
+     * @param {Function} [filter=undefined]  - a function to filter the geometries
+     * @param {Object} [context=undefined]   - context of the filter function, value to use as this when executing filter.
      * @return {maptalks.Geometry[]}
      */
     getGeometries:function (filter, context) {
-        return this._getGeometries(filter, context);
+        if (!filter) {
+            return this._geoList.slice(0);
+        }
+        var result = [],
+            geometry, filtered;
+        for (var i = 0, l = this._geoList.length; i < l; i++) {
+            geometry = this._geoList[i];
+            if (context) {
+                filtered = filter.call(context, geometry);
+            } else {
+                filtered = filter(geometry);
+            }
+            if (filtered) {
+                result.push(geometry);
+            }
+        }
+        return result;
+    },
+
+    /**
+     * Get the first geometry, the geometry at the bottom.
+     * @return {maptalks.Geometry} first geometry
+     */
+    getFirstGeometry: function () {
+        if (this._geoList.length === 0) {
+            return null;
+        }
+        return this._geoList[0];
+    },
+
+    /**
+     * Get the last geometry, the geometry on the top
+     * @return {maptalks.Geometry} last geometry
+     */
+    getLastGeometry: function () {
+        var len = this._geoList.length;
+        if (len === 0) {
+            return null;
+        }
+        return this._geoList[len - 1];
     },
 
     /**
@@ -8526,38 +8973,32 @@ Z.OverlayLayer = Z.Layer.extend(/** @lends maptalks.OverlayLayer.prototype */{
      * @return {Number} count
      */
     getCount: function () {
-        if (!this._counter) {
-            return 0;
-        }
-        return this._counter;
+        return this._geoList.length;
     },
 
     /**
-     * Travels among the geometries the layer has.
+     * Executes the provided callback once for each geometry present in the layer in order.
      * @param  {Function} fn - a callback function
-     * @param  {*} context   - callback's context
+     * @param  {*} [context=undefined]   - callback's context, value to use as this when executing callback.
      * @return {maptalks.OverlayLayer} this
      */
     forEach:function (fn, context) {
-        var cache = this._geoCache;
-        var counter = 0;
-        for (var g in cache) {
-            if (cache.hasOwnProperty(g)) {
-                if (!context) {
-                    fn(cache[g], counter++);
-                } else {
-                    fn.call(context, cache[g], counter++);
-                }
+        var copyOnWrite = this._geoList.slice(0);
+        for (var i = 0, l = copyOnWrite.length; i < l; i++) {
+            if (!context) {
+                fn(copyOnWrite[i], i);
+            } else {
+                fn.call(context, copyOnWrite[i], i);
             }
         }
         return this;
     },
 
     /**
-     * creates a GeometryCollection with all elements that pass the test implemented by the provided function.
+     * Creates a GeometryCollection with all the geometries that pass the test implemented by the provided function.
      * @param  {Function} fn      - Function to test each geometry
-     * @param  {*} context        - Function's context
-     * @return {maptalks.GeometryCollection} A GeometryCollection with all elements that pass the test
+     * @param  {*} [context=undefined]  - Function's context, value to use as this when executing function.
+     * @return {maptalks.GeometryCollection} A GeometryCollection with all the geometries that pass the test
      */
     filter: function (fn, context) {
         var selected = [];
@@ -8586,83 +9027,19 @@ Z.OverlayLayer = Z.Layer.extend(/** @lends maptalks.OverlayLayer.prototype */{
      * @return {Boolean}
      */
     isEmpty:function () {
-        return this._counter === 0;
+        return this._geoList.length === 0;
     },
 
     /**
      * Adds one or more geometries to the layer
      * @param {maptalks.Geometry|maptalks.Geometry[]} geometries - one or more geometries
-     * @param {Boolean} fitView                                  - automatically set the map to a fit center and zoom for the geometries
+     * @param {Boolean} [fitView=false]  - automatically set the map to a fit center and zoom for the geometries
      * @return {maptalks.OverlayLayer} this
      */
     addGeometry:function (geometries, fitView) {
-        return this._addGeometry(geometries, fitView);
-    },
-
-    /**
-     * Removes one or more geometries from the layer
-     * @param  {String|String[]|maptalks.Geometry|maptalks.Geometry[]} geometries - geometry ids or geometries to remove
-     * @returns {maptalks.OverlayLayer} this
-     */
-    removeGeometry:function (geometries) {
-        return this._removeGeometry(geometries);
-    },
-
-    /**
-     * Clear all geometries in this layer
-     * @returns {maptalks.OverlayLayer} this
-     */
-    clear:function () {
-        return this._clear();
-    },
-
-    _initCache: function () {
-        if (!this._geoCache) {
-            this._geoCache = {};
-            this._geoMap = {};
-            this._counter = 0;
-        }
-    },
-
-    _getGeometryById:function (id) {
-        if (Z.Util.isNil(id) || id === '') {
-            return null;
-        }
-        if (!this._geoMap[id]) {
-            return null;
-        }
-        return this._geoMap[id];
-    },
-
-    _getGeometries:function (filter, context) {
-        var cache = this._geoCache;
-        var result = [],
-            geometry;
-        for (var p in cache) {
-            if (cache.hasOwnProperty(p)) {
-                geometry = cache[p];
-                if (filter) {
-                    var filtered;
-                    if (context) {
-                        filtered = filter.call(context, geometry);
-                    } else {
-                        filtered = filter(geometry);
-                    }
-                    if (!filtered) {
-                        continue;
-                    }
-                }
-                result.push(geometry);
-            }
-        }
-        return result;
-    },
-
-
-    _addGeometry:function (geometries, fitView) {
         if (!geometries) { return this; }
         if (!Z.Util.isArray(geometries)) {
-            return this._addGeometry([geometries], fitView);
+            return this.addGeometry([geometries], fitView);
         } else if (!Z.Util.isArrayHasData(geometries)) {
             return this;
         }
@@ -8670,8 +9047,7 @@ Z.OverlayLayer = Z.Layer.extend(/** @lends maptalks.OverlayLayer.prototype */{
         var fitCounter = 0;
         var centerSum = new Z.Coordinate(0, 0);
         var extent = null,
-            geo, geoId, internalId, geoCenter, geoExtent,
-            style = this.getStyle ? this.getStyle() : null;
+            geo, geoId, internalId, geoCenter, geoExtent;
         for (var i = 0, len = geometries.length; i < len; i++) {
             geo = geometries[i];
             if (!(geo instanceof Z.Geometry)) {
@@ -8687,11 +9063,14 @@ Z.OverlayLayer = Z.Layer.extend(/** @lends maptalks.OverlayLayer.prototype */{
                 }
                 this._geoMap[geoId] = geo;
             }
-            internalId = Z.Util.GUID();
+            internalId = Z.Util.UID();
             //内部全局唯一的id
             geo._setInternalId(internalId);
-            this._geoCache[internalId] = geo;
-            this._counter++;
+            geo.on('idchange', this._onGeometryIdChange, this);
+            geo.on('zindexchange', this._onGeometryZIndexChange, this);
+            // this._geoList[internalId] = geo;
+            this._geoList.push(geo);
+
             geo._bindLayer(this);
             if (fitView) {
                 geoCenter = geo.getCenter();
@@ -8706,11 +9085,21 @@ Z.OverlayLayer = Z.Layer.extend(/** @lends maptalks.OverlayLayer.prototype */{
                     fitCounter++;
                 }
             }
-            if (style) {
-                this._styleGeometry(geo);
+            if (this.onAddGeometry) {
+                this.onAddGeometry(geo);
             }
-            geo._fireEvent('addend', {'geometry':geo});
+            /**
+             * add event.
+             *
+             * @event maptalks.Geometry#add
+             * @type {Object}
+             * @property {String} type - add
+             * @property {maptalks.Geometry} target - geometry
+             * @property {maptalks.Layer} layer - the layer added to.
+             */
+            geo._fireEvent('add', {'layer':this});
         }
+        this._sortGeometries();
         var map = this.getMap();
         if (map) {
             this._getRenderer().render(geometries);
@@ -8720,13 +9109,27 @@ Z.OverlayLayer = Z.Layer.extend(/** @lends maptalks.OverlayLayer.prototype */{
                 map.setCenterAndZoom(center, z);
             }
         }
+        /**
+         * addgeo event.
+         *
+         * @event maptalks.OverlayLayer#addgeo
+         * @type {Object}
+         * @property {String} type - addgeo
+         * @property {maptalks.OverlayLayer} target - layer
+         * @property {maptalks.Geometry[]} geometries - the geometries to add
+         */
         this.fire('addgeo', {'geometries':geometries});
         return this;
     },
 
-    _removeGeometry:function (geometries) {
+    /**
+     * Removes one or more geometries from the layer
+     * @param  {String|String[]|maptalks.Geometry|maptalks.Geometry[]} geometries - geometry ids or geometries to remove
+     * @returns {maptalks.OverlayLayer} this
+     */
+    removeGeometry:function (geometries) {
         if (!Z.Util.isArray(geometries)) {
-            return this._removeGeometry([geometries]);
+            return this.removeGeometry([geometries]);
         }
         for (var i = geometries.length - 1; i >= 0; i--) {
             if (!(geometries[i] instanceof Z.Geometry)) {
@@ -8735,16 +9138,39 @@ Z.OverlayLayer = Z.Layer.extend(/** @lends maptalks.OverlayLayer.prototype */{
             if (!geometries[i] || this !== geometries[i].getLayer()) continue;
             geometries[i].remove();
         }
+        /**
+         * removegeo event.
+         *
+         * @event maptalks.OverlayLayer#removegeo
+         * @type {Object}
+         * @property {String} type - removegeo
+         * @property {maptalks.OverlayLayer} target - layer
+         * @property {maptalks.Geometry[]} geometries - the geometries to remove
+         */
         this.fire('removegeo', {'geometries':geometries});
         return this;
     },
 
-    _clear:function () {
+    /**
+     * Clear all geometries in this layer
+     * @returns {maptalks.OverlayLayer} this
+     */
+    clear:function () {
+        this._clearing = true;
         this.forEach(function (geo) {
             geo.remove();
         });
         this._geoMap = {};
-        this._geoCache = {};
+        this._geoList = [];
+        this._clearing = false;
+        /**
+         * clear event.
+         *
+         * @event maptalks.OverlayLayer#clear
+         * @type {Object}
+         * @property {String} type - clear
+         * @property {maptalks.OverlayLayer} target - layer
+         */
         this.fire('clear');
         return this;
     },
@@ -8752,14 +9178,16 @@ Z.OverlayLayer = Z.Layer.extend(/** @lends maptalks.OverlayLayer.prototype */{
     /**
      * Called when geometry is being removed to clear the context concerned.
      * @param  {maptalks.Geometry} geometry - the geometry instance to remove
-     * @private
+     * @protected
      */
-    _onGeometryRemove:function (geometry) {
+    onRemoveGeometry:function (geometry) {
         if (!geometry) { return; }
         //考察geometry是否属于该图层
         if (this !== geometry.getLayer()) {
             return;
         }
+        geometry.off('idchange', this._onGeometryIdChange, this);
+        geometry.off('zindexchange', this._onGeometryZIndexChange, this);
         var internalId = geometry._getInternalId();
         if (Z.Util.isNil(internalId)) {
             return;
@@ -8768,10 +9196,96 @@ Z.OverlayLayer = Z.Layer.extend(/** @lends maptalks.OverlayLayer.prototype */{
         if (!Z.Util.isNil(geoId)) {
             delete this._geoMap[geoId];
         }
-        delete this._geoCache[internalId];
-        this._counter--;
+        if (!this._clearing) {
+            var idx = this._findInList(geometry);
+            if (idx >= 0) {
+                this._geoList.splice(idx, 1);
+            }
+        }
+
         if (this._getRenderer()) {
             this._getRenderer().render();
+        }
+    },
+
+    _initCache: function () {
+        if (!this._geoList) {
+            this._geoList = [];
+            this._geoMap = {};
+        }
+    },
+
+    _sortGeometries: function () {
+        var me = this;
+        this._geoList.sort(function (a, b) {
+            return me._compare(a, b);
+        });
+    },
+
+    _compare: function (a, b) {
+        if (a._zIndex === b._zIndex) {
+            return a._getInternalId() - b._getInternalId();
+        }
+        return a._zIndex - b._zIndex;
+    },
+
+    //binarySearch
+    _findInList: function (geo) {
+        var len = this._geoList.length;
+        if (len === 0) {
+            return -1;
+        }
+        var low = 0, high = len - 1, middle;
+        while (low <= high) {
+            middle = Math.floor((low + high) / 2);
+            if (this._geoList[middle] === geo) {
+                return middle;
+            } else if (this._compare(this._geoList[middle], geo) > 0) {
+                high = middle - 1;
+            } else {
+                low = middle + 1;
+            }
+        }
+        return -1;
+    },
+
+    _onGeometryIdChange: function (param) {
+        if (!param['target']) {
+            return;
+        }
+        if (param['target'].getLayer() !== this) {
+            param['target'].off('idchange', this._onGeometryIdChange, this);
+            return;
+        }
+        if (param['new'] === param['old']) {
+            if (this._geoMap[param['old']] && this._geoMap[param['old']] === param['target']) {
+                return;
+            }
+        }
+        if (!Z.Util.isNil(param['new'])) {
+            if (this._geoMap[param['new']]) {
+                throw new Error(this.exceptions['DUPLICATE_GEOMETRY_ID'] + ':' + param['new']);
+            }
+            this._geoMap[param['new']] = param['target'];
+        }
+        if (!Z.Util.isNil(param['old']) && param['new'] !== param['old']) {
+            delete this._geoMap[param['old']];
+        }
+    },
+
+    _onGeometryZIndexChange: function (param) {
+        if (!param['target']) {
+            return;
+        }
+        if (param['target'].getLayer() !== this) {
+            param['target'].off('zindexchange', this._onGeometryIdChange, this);
+            return;
+        }
+        if (param['old'] !== param['new']) {
+            this._sortGeometries();
+            if (this._getRenderer()) {
+                this._getRenderer().render();
+            }
         }
     }
 });
@@ -8787,28 +9301,44 @@ Z.OverlayLayer.addInitHook(function () {
  * @category layer
  * @extends {maptalks.OverlayLayer}
  * @param {String|Number} id - layer's id
- * @param {Object} [options=null] - construct options
- * @param {Boolean} [options.debug=false] - whether the geometries on the layer is in debug mode.
- * @param {Boolean} [options.enableSimplify=false] - whether to simplify geometries before rendering.
- * @param {String} [options.cursor=default] - the cursor style of the layer
- * @param {Boolean} [options.geometryEvents=true] - enable/disable firing geometry events
- * @param {Number} [options.thresholdOfTransforming=50] - threshold of points number to update points while transforming.
- * @param {*} options.* - any other option defined in [maptalks.Layer]{@link maptalks.Layer#options}
+ * @param {Object}  [options=null] - construct options
+ * @param {Boolean} [options.debug=false]           - whether the geometries on the layer is in debug mode.
+ * @param {Boolean} [options.enableSimplify=false]  - whether to simplify geometries before rendering.
+ * @param {String}  [options.cursor=default]        - the cursor style of the layer
+ * @param {Boolean} [options.geometryEvents=true]   - enable/disable firing geometry events
+ * @param {Number}  [options.thresholdOfTransforming=50] - threshold of geometry count to update while transforming.
+ * @param {Boolean} [options.defaultIconSize=[20, 20]] - default size of a marker's icon
+ * @param {Boolean} [options.cacheVectorOnCanvas=true] - whether to cache vector markers on a canvas, this will improve performance.
+ * @param {Boolean} [options.cacheSvgOnCanvas=true]   - whether to cache svg icons on a canvas, this will fix svg's opacity problem on IE and MS Edge browser.
+ * @param {*} options.* - any other option defined in [maptalks.OverlayLayer]{@link maptalks.OverlayLayer#options}
  */
 Z.VectorLayer = Z.OverlayLayer.extend(/** @lends maptalks.VectorLayer.prototype */{
-
+    /**
+     * @property {Object}  options - VectorLayer's options
+     * @property {Boolean} options.debug=false           - whether the geometries on the layer is in debug mode.
+     * @property {Boolean} options.enableSimplify=false  - whether to simplify geometries before rendering.
+     * @property {String}  options.cursor=default        - the cursor style of the layer
+     * @property {Boolean} options.geometryEvents=true   - enable/disable firing geometry events
+     * @property {Number}  options.thresholdOfTransforming=50 - threshold of geometry count to update while transforming.
+     * @property {Boolean} options.defaultIconSize=[20, 20] - default size of a marker's icon
+     * @property {Boolean} [options.cacheVectorOnCanvas=true] - whether to cache vector markers on a canvas, this will improve performance.
+     * @property {*} options.* - any other option defined in [maptalks.OverlayLayer]{@link maptalks.OverlayLayer#options}
+     */
     options:{
         'debug'                     : false,
         'enableSimplify'            : true,
         'cursor'                    : 'pointer',
         'geometryEvents'            : true,
         'thresholdOfTransforming'    : 150,
-        'drawImmediate'             : false,
-        'drawOnce'                  : false,
         'defaultIconSize'           : [20, 20],
-        'cacheSvgOnCanvas'          : true
+        'cacheVectorOnCanvas'       : true,
+        'cacheSvgOnCanvas'          : false
     },
 
+    /**
+     * Gets layer's style.
+     * @return {Object|Object[]} layer's style
+     */
     getStyle: function () {
         if (!this._style) {
             return null;
@@ -8816,15 +9346,48 @@ Z.VectorLayer = Z.OverlayLayer.extend(/** @lends maptalks.VectorLayer.prototype 
         return this._style;
     },
 
+    /**
+     * Sets style to the layer, styling the geometries satisfying the condition with style's symbol
+     *
+     * @param {Object|Object[]} style - layer's style
+     * @returns {maptalks.VectorLayer} this
+     * @fires maptalks.VectorLayer#setstyle
+     * @example
+     * layer.setStyle([
+        {
+          'filter': ['==', 'count', 100],
+          'symbol': {'markerFile' : 'foo1.png'}
+        },
+        {
+          'filter': ['==', 'count', 200],
+          'symbol': {'markerFile' : 'foo2.png'}
+        }
+      ]);
+     */
     setStyle: function (style) {
         this._style = style;
         this._cookedStyles = this._compileStyle(style);
         this.forEach(function (geometry) {
             this._styleGeometry(geometry);
         }, this);
+        /**
+         * setstyle event.
+         *
+         * @event maptalks.VectorLayer#setstyle
+         * @type {Object}
+         * @property {String} type - setstyle
+         * @property {maptalks.VectorLayer} target - layer
+         * @property {Object|Object[]}       style - style to set
+         */
+        this.fire('setstyle', {'style' : style});
         return this;
     },
 
+    /**
+     * Removes layers' style
+     * @returns {maptalks.VectorLayer} this
+     * @fires maptalks.VectorLayer#removestyle
+     */
     removeStyle: function () {
         if (!this._style) {
             return this;
@@ -8834,7 +9397,23 @@ Z.VectorLayer = Z.OverlayLayer.extend(/** @lends maptalks.VectorLayer.prototype 
         this.forEach(function (geometry) {
             geometry._setExternSymbol(null);
         }, this);
+        /**
+         * removestyle event.
+         *
+         * @event maptalks.VectorLayer#removestyle
+         * @type {Object}
+         * @property {String} type - removestyle
+         * @property {maptalks.VectorLayer} target - layer
+         */
+        this.fire('removestyle');
         return this;
+    },
+
+    onAddGeometry: function (geo) {
+        var style = this.getStyle();
+        if (style) {
+            this._styleGeometry(geo);
+        }
     },
 
     _styleGeometry: function (geometry) {
@@ -8854,59 +9433,68 @@ Z.VectorLayer = Z.OverlayLayer.extend(/** @lends maptalks.VectorLayer.prototype 
         }
         var cooked = [];
         for (var i = 0; i < styles.length; i++) {
-            cooked.push({
-                'filter' : Z.Util.createFilter(styles[i]['filter']),
-                'symbol' : styles[i].symbol
-            });
+            if (styles[i]['filter'] === true) {
+                cooked.push({
+                    'filter' : function () { return true; },
+                    'symbol' : styles[i].symbol
+                });
+            } else {
+                cooked.push({
+                    'filter' : Z.Util.createFilter(styles[i]['filter']),
+                    'symbol' : styles[i].symbol
+                });
+            }
         }
         return cooked;
+    },
+
+    /**
+     * Export the vector layer's profile json. <br>
+     * @param  {Object} [options=null] - export options
+     * @param  {Object} [options.geometries=null] - If not null and the layer is a [OverlayerLayer]{@link maptalks.OverlayLayer},
+     *                                            the layer's geometries will be exported with the given "options.geometries" as a parameter of geometry's toJSON.
+     * @param  {maptalks.Extent} [options.clipExtent=null] - if set, only the geometries intersectes with the extent will be exported.
+     * @return {Object} layer's profile JSON
+     */
+    toJSON: function (options) {
+        if (!options) {
+            options = {};
+        }
+        var profile = {
+            'type'    : 'VectorLayer',
+            'id'      : this.getId(),
+            'options' : this.config()
+        };
+        if ((Z.Util.isNil(options['style']) || options['style']) && this.getStyle()) {
+            profile['style'] = this.getStyle();
+        }
+        if (Z.Util.isNil(options['geometries']) || options['geometries']) {
+            var clipExtent;
+            if (options['clipExtent']) {
+                clipExtent = new Z.Extent(options['clipExtent']);
+            }
+            var geoJSONs = [];
+            var geometries = this.getGeometries(),
+                geoExt,
+                json;
+            for (var i = 0, len = geometries.length; i < len; i++) {
+                geoExt = geometries[i].getExtent();
+                if (!geoExt || (clipExtent && !clipExtent.intersects(geoExt))) {
+                    continue;
+                }
+                json = geometries[i].toJSON(options['geometries']);
+                if (json['symbol'] && this.getStyle()) {
+                    json['symbol'] = geometries[i]._symbolBeforeStyle ? Z.Util.extend({}, geometries[i]._symbolBeforeStyle) : null;
+                }
+                geoJSONs.push(json);
+            }
+            profile['geometries'] = geoJSONs;
+        }
+        return profile;
     }
 });
 
-/**
- * Export the vector layer's profile json. <br>
- * @param  {Object} [options=null] - export options
- * @param  {Object} [options.geometries=null] - If not null and the layer is a [OverlayerLayer]{@link maptalks.OverlayLayer},
- *                                            the layer's geometries will be exported with the given "options.geometries" as a parameter of geometry's toJSON.
- * @param  {maptalks.Extent} [options.clipExtent=null] - if set, only the geometries intersectes with the extent will be exported.
- * @return {Object} layer's profile JSON
- */
-Z.VectorLayer.prototype.toJSON = function (options) {
-    if (!options) {
-        options = {};
-    }
-    var profile = {
-        'type'    : 'VectorLayer',
-        'id'      : this.getId(),
-        'options' : this.config()
-    };
-    if ((Z.Util.isNil(options['style']) || options['style']) && this.getStyle()) {
-        profile['style'] = this.getStyle();
-    }
-    if (Z.Util.isNil(options['geometries']) || options['geometries']) {
-        var clipExtent;
-        if (options['clipExtent']) {
-            clipExtent = new Z.Extent(options['clipExtent']);
-        }
-        var geoJSONs = [];
-        var geometries = this.getGeometries(),
-            geoExt,
-            json;
-        for (var i = 0, len = geometries.length; i < len; i++) {
-            geoExt = geometries[i].getExtent();
-            if (!geoExt || (clipExtent && !clipExtent.intersects(geoExt))) {
-                continue;
-            }
-            json = geometries[i].toJSON(options['geometries']);
-            if (json['symbol'] && this.getStyle()) {
-                json['symbol'] = geometries[i]._symbolBeforeStyle ? Z.Util.extend({}, geometries[i]._symbolBeforeStyle) : null;
-            }
-            geoJSONs.push(json);
-        }
-        profile['geometries'] = geoJSONs;
-    }
-    return profile;
-};
+
 
 /**
  * Reproduce a VectorLayer from layer's profile JSON.
@@ -8916,7 +9504,7 @@ Z.VectorLayer.prototype.toJSON = function (options) {
  * @private
  * @function
  */
-Z.VectorLayer._fromJSON = function (profile) {
+Z.VectorLayer.fromJSON = function (profile) {
     if (!profile || profile['type'] !== 'VectorLayer') { return null; }
     var layer = new Z.VectorLayer(profile['id'], profile['options']);
     var geoJSONs = profile['geometries'];
@@ -8937,86 +9525,17 @@ Z.VectorLayer._fromJSON = function (profile) {
 
 /**
  * @classdesc
- * A sub class of maptalks.VectorLayer supports GeoJSON.
- * @class
- * @category layer
- * @extends {maptalks.VectorLayer}
- * @param {String|Number} id - layer's id
- * @param {Object}        json - GeoJSON objects
- * @param {Object} [options=null] - construct options
- * @param {*} options.* - any other option defined in [maptalks.VectorLayer]{@link maptalks.VectorLayer#options}
- */
-Z.GeoJSONLayer = Z.VectorLayer.extend(/** @lends maptalks.GeoJSONLayer.prototype */{
-
-    initialize: function (id, json, options) {
-        this.setId(id);
-        Z.Util.setOptions(this, options);
-        var geometries = this._parse(json);
-        this.addGeometry(geometries);
-    },
-
-    _parse: function (json) {
-        json = Z.Util.parseJSON(json);
-        return Z.Geometry.fromJSON(json);
-    },
-
-    /**
-     * Export the GeoJSONLayer's profile json. <br>
-     * @param  {Object} [options=null] - export options
-     * @param  {Object} [options.geometries=null] - If not null and the layer is a [OverlayerLayer]{@link maptalks.OverlayLayer},
-     *                                            the layer's geometries will be exported with the given "options.geometries" as a parameter of geometry's toJSON.
-     * @param  {maptalks.Extent} [options.clipExtent=null] - if set, only the geometries intersectes with the extent will be exported.
-     * @return {Object} layer's profile JSON
-     */
-    toJSON: function (options) {
-        var profile = Z.VectorLayer.prototype.toJSON.call(this, options);
-        profile['type'] = 'GeoJSONLayer';
-        var json = [];
-        if (profile['geometries']) {
-            var g;
-            for (var i = 0, len = profile['geometries'].length; i < len; i++) {
-                g = profile['geometries'][i]['feature'];
-                if (!g['id'] && !g['properties']) {
-                    g = g['geometry'];
-                }
-                json.push(g);
-            }
-            delete profile['geometries'];
-        }
-        profile['geojson'] = json;
-        return profile;
-    }
-});
-
-/**
- * Reproduce a GeoJSONLayer from layer's profile JSON.
- * @param  {Object} layerJSON - layer's profile JSON
- * @return {maptalks.GeoJSONLayer}
- * @static
- * @private
- * @function
- */
-Z.GeoJSONLayer._fromJSON = function (profile) {
-    if (!profile || profile['type'] !== 'GeoJSONLayer') { return null; }
-    var layer = new Z.GeoJSONLayer(profile['id'], profile['geojson'], profile['options']);
-    if (profile['style']) {
-        layer.setStyle(profile['style']);
-    }
-    return layer;
-};
-
-/**
- * @classdesc
  * Base class for all the geometries, it is not intended to be instantiated but extended. <br/>
- * It defines common methods that all the geometry classes share.
+ * It defines common methods that all the geometry classes share. <br>
+ * It is abstract and not intended to be instantiated.
  *
  * @class
  * @category geometry
  * @abstract
  * @extends maptalks.Class
- * @mixins maptalks.Eventable
- * @mixins maptalks.Handlerable
- * @mixins maptalks.ui.Menu.Mixin
+ * @mixes maptalks.Eventable
+ * @mixes maptalks.Handlerable
+ * @mixes maptalks.ui.Menu.Mixin
  */
 Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
     includes: [Z.Eventable, Z.Handlerable],
@@ -9074,16 +9593,16 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
 
     /**
      * @property {Object} options                       - geometry options
-     * @property {Boolean} [options.id=null]           - id of the geometry
+     * @property {Boolean} [options.id=null]            - id of the geometry
      * @property {Boolean} [options.visible=true]       - whether the geometry is visible.
-     * @property {Boolean} [options.editable=true]       - whether the geometry can be edited.
-     * @property {String} [options.cursor=null]       - cursor style when mouseover the geometry, same as the definition in CSS.
-     * @property {Number} [options.shadowBlue=0]       - level of the shadow around the geometry, see [MDN's explanation]{@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/shadowBlur}
-     * @property {String} [options.shadowColor=black]       - color of the shadow around the geometry, a CSS style color
-     * @property {String} [options.measure=EPSG:4326]       - the measure code for the geometry, defines {@tutorial measureGeometry how it can be measured}.
+     * @property {Boolean} [options.editable=true]      - whether the geometry can be edited.
+     * @property {String} [options.cursor=null]         - cursor style when mouseover the geometry, same as the definition in CSS.
+     * @property {Number} [options.shadowBlue=0]        - level of the shadow around the geometry, see [MDN's explanation]{@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/shadowBlur}
+     * @property {String} [options.shadowColor=black]   - color of the shadow around the geometry, a CSS style color
+     * @property {String} [options.measure=EPSG:4326]   - the measure code for the geometry, defines {@tutorial measureGeometry how it can be measured}.
      * @property {Boolean} [options.draggable=false]    - whether the geometry can be dragged.
      * @property {Boolean} [options.dragShadow=false]   - if true, during geometry dragging, a shadow will be dragged before geometry was moved.
-     * @property {Boolean} [options.dragOnAxis=null] - if set, geometry can only be dragged along the specified axis, possible values: x, y
+     * @property {Boolean} [options.dragOnAxis=null]    - if set, geometry can only be dragged along the specified axis, possible values: x, y
      */
     options:{
         'id'        : null,
@@ -9096,10 +9615,59 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
     },
 
     /**
+     * Returns the first coordinate of the geometry.
+     *
+     * @return {maptalks.Coordinate} First Coordinate
+     */
+    getFirstCoordinate:function () {
+        if (this instanceof Z.GeometryCollection) {
+            var geometries = this.getGeometries();
+            if (!geometries || !Z.Util.isArrayHasData(geometries)) {
+                return null;
+            }
+            return geometries[0].getFirstCoordinate();
+        }
+        var coordinates = this.getCoordinates();
+        if (!Z.Util.isArray(coordinates)) {
+            return coordinates;
+        }
+        var first = coordinates;
+        do {
+            first = first[0];
+        } while (Z.Util.isArray(first));
+        return first;
+    },
+
+    /**
+     * Returns the last coordinate of the geometry.
+     *
+     * @return {maptalks.Coordinate} Last Coordinate
+     */
+    getLastCoordinate:function () {
+        if (this instanceof Z.GeometryCollection) {
+            var geometries = this.getGeometries();
+            if (!geometries || !Z.Util.isArrayHasData(geometries)) {
+                return null;
+            }
+            return geometries[geometries.length - 1].getLastCoordinate();
+        }
+        var coordinates = this.getCoordinates();
+        if (!Z.Util.isArray(coordinates)) {
+            return coordinates;
+        }
+        var last = coordinates;
+        do {
+            last = last[last.length - 1];
+        } while (Z.Util.isArray(last));
+        return last;
+    },
+
+    /**
      * Adds the geometry to a layer
      * @param {maptalks.Layer} layer    - layer add to
-     * @param {Boolean} fitview         - automatically set the map to a fit center and zoom for the geometry
+     * @param {Boolean} [fitview=false] - automatically set the map to a fit center and zoom for the geometry
      * @return {maptalks.Geometry} this
+     * @fires maptalks.Geometry#add
      */
     addTo:function (layer, fitview) {
         layer.addGeometry(this, fitview);
@@ -9141,7 +9709,6 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
     setId:function (id) {
         var oldId = this.getId();
         this._id = id;
-        //FIXME _idchanged没有被图层监听, layer.getGeometryById会出现bug
         /**
          * idchange event.
          *
@@ -9228,78 +9795,55 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
      */
     setSymbol:function (symbol) {
         this._symbol = this._prepareSymbol(symbol);
-        this._onSymbolChanged();
+        this.onSymbolChanged();
         return this;
     },
 
     /**
-     * update geometry's symbol with the given symbol and geometry's current symbol.
-     * @param  {Object} symbol - symbol to update
+     * Update geometry's current symbol.
+     *
+     * @param  {Object} props - symbol properties to update
      * @return {maptalks.Geometry} this
      * @fires maptalks.Geometry#symbolchange
+     * @example
+     * var marker = new maptalks.Marker([0, 0], {
+     *    symbol : {
+     *       markerType : 'ellipse',
+     *       markerWidth : 20,
+     *       markerHeight : 30
+     *    }
+     * });
+     * // update symbol's markerWidth to 40
+     * marker.updateSymbol({
+     *     markerWidth : 40
+     * });
      */
-    updateSymbol: function (symbol) {
-        if (!symbol) {
+    updateSymbol: function (props) {
+        if (!props) {
             return this;
         }
         var s = this.getSymbol();
         if (s) {
-            s = Z.Util.extendSymbol(s, symbol);
+            s = Z.Util.extendSymbol(s, props);
         } else {
-            s = Z.Util.extendSymbol(this._getInternalSymbol(), symbol);
+            s = Z.Util.extendSymbol(this._getInternalSymbol(), props);
         }
         return this.setSymbol(s);
     },
 
     /**
-     * Returns the first coordinate of the geometry.
-     * @return {maptalks.Coordinate} First Coordinate
+     * Get the geographical center of the geometry.
+     *
+     * @returns {maptalks.Coordinate}
      */
-    getFirstCoordinate:function () {
-        if (this instanceof Z.GeometryCollection) {
-            var geometries = this.getGeometries();
-            if (!geometries || !Z.Util.isArrayHasData(geometries)) {
-                return null;
-            }
-            return geometries[0].getFirstCoordinate();
-        }
-        var coordinates = this.getCoordinates();
-        if (!Z.Util.isArray(coordinates)) {
-            return coordinates;
-        }
-        var first = coordinates;
-        do {
-            first = first[0];
-        } while (Z.Util.isArray(first));
-        return first;
+    getCenter:function () {
+        return this._computeCenter(this._getMeasurer()).copy();
     },
 
     /**
-     * Returns the last coordinate of the geometry.
-     * @return {maptalks.Coordinate} Last Coordinate
-     */
-    getLastCoordinate:function () {
-        if (this instanceof Z.GeometryCollection) {
-            var geometries = this.getGeometries();
-            if (!geometries || !Z.Util.isArrayHasData(geometries)) {
-                return null;
-            }
-            return geometries[geometries.length - 1].getLastCoordinate();
-        }
-        var coordinates = this.getCoordinates();
-        if (!Z.Util.isArray(coordinates)) {
-            return coordinates;
-        }
-        var last = coordinates;
-        do {
-            last = last[last.length - 1];
-        } while (Z.Util.isArray(last));
-        return last;
-    },
-
-    /**
-     * Get the geometry's extent
-     * @returns {maptalksExtent} geometry's extent
+     * Get the geometry's geographical extent
+     *
+     * @returns {maptalks.Extent} geometry's extent
      */
     getExtent:function () {
         var prjExt = this._getPrjExtent();
@@ -9309,24 +9853,11 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
         } else {
             return this._computeExtent(this._getMeasurer());
         }
-
     },
 
     /**
-     * Whehter the geometry contains the input container point.
-     * @param  {maptalks.Point} point - input container point
-     * @param  {Number} t - tolerance in pixel
-     * @return {Boolean}
-     */
-    containsPoint: function (containerPoint, t) {
-        if (!this.getMap()) {
-            throw new Error('The geometry is required to be on a map to perform "containsPoint".');
-        }
-        return this._containsPoint(this.getMap().containerPointToViewPoint(containerPoint), t);
-    },
-
-    /**
-     * Get size in pixel of the geometry, size may vary in different zoom levels.
+     * Get pixel size of the geometry, which may vary in different zoom levels.
+     *
      * @returns {maptalks.Size}
      */
     getSize: function () {
@@ -9334,21 +9865,34 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
         if (!map) {
             return null;
         }
-        var pxExtent = this._getPainter().getViewExtent();
-        return new Z.Size(Math.round(Math.abs(pxExtent['xmax'] - pxExtent['xmin'])),
-            Math.round(Math.abs(pxExtent['ymax'] - pxExtent['ymin'])));
+        var pxExtent = this._getPainter().get2DExtent();
+        return pxExtent.getSize();
     },
 
     /**
-     * Get the geographical center of the geometry.
-     * @returns {maptalks.Coordinate}
+     * Whehter the geometry contains the input container point.
+     *
+     * @param  {maptalks.Point|maptalks.Coordinate} point - input container point or coordinate
+     * @param  {Number} [t=undefined] - tolerance in pixel
+     * @return {Boolean}
+     * @example
+     * var circle = new maptalks.Circle([0, 0], 1000)
+     *     .addTo(layer);
+     * var contains = circle.containsPoint([400, 300]);
      */
-    getCenter:function () {
-        return this._computeCenter(this._getMeasurer()).copy();
+    containsPoint: function (containerPoint, t) {
+        if (!this.getMap()) {
+            throw new Error('The geometry is required to be added on a map to perform "containsPoint".');
+        }
+        if (containerPoint instanceof Z.Coordinate) {
+            containerPoint = this.getMap().coordinateToContainerPoint(containerPoint);
+        }
+        return this._containsPoint(this.getMap()._containerPointToPoint(new maptalks.Point(containerPoint)), t);
     },
 
     /**
      * Show the geometry.
+     *
      * @return {maptalks.Geometry} this
      * @fires maptalks.Geometry#show
      */
@@ -9374,6 +9918,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
 
     /**
      * Hide the geometry
+     *
      * @return {maptalks.Geometry} this
      * @fires maptalks.Geometry#hide
      */
@@ -9399,6 +9944,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
 
     /**
      * Whether the geometry is visible
+     *
      * @returns {Boolean}
      */
     isVisible:function () {
@@ -9425,9 +9971,85 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
     },
 
     /**
+     * Get zIndex of the geometry, default is 0
+     * @return {Number} zIndex
+     */
+    getZIndex: function () {
+        return this._zIndex;
+    },
+
+    /**
+     * Set a new zIndex to Geometry and fire zindexchange event (will cause layer to sort geometries and render)
+     * @param {Number} zIndex - new zIndex
+     * @return {maptalks.Geometry} this
+     * @fires maptalks.Geometry#zindexchange
+     */
+    setZIndex: function (zIndex) {
+        var old = this._zIndex;
+        this._zIndex = zIndex;
+        /**
+         * zindexchange event, fired when geometry's zIndex is changed.
+         *
+         * @event maptalks.Geometry#zindexchange
+         * @type {Object}
+         * @property {String} type - zindexchange
+         * @property {maptalks.Geometry} target - the geometry fires the event
+         * @property {Number} old        - old zIndex
+         * @property {Number} new        - new zIndex
+         */
+        this._fireEvent('zindexchange', {'old':old, 'new':zIndex});
+        return this;
+    },
+
+    /**
+     * Only set a new zIndex to Geometry without firing zindexchange event. <br>
+     * Can be useful to improve perf when a lot of geometries' zIndex need to be updated. <br>
+     * When updated N geometries, You can use setZIndexSilently with (N-1) geometries and use setZIndex with the last geometry for layer to sort and render.
+     * @param {Number} zIndex - new zIndex
+     * @return {maptalks.Geometry} this
+     */
+    setZIndexSilently: function (zIndex) {
+        this._zIndex = zIndex;
+        return this;
+    },
+
+    /**
+     * Bring the geometry on the top
+     * @return {maptalks.Geometry} this
+     * @fires maptalks.Geometry#zindexchange
+     */
+    bringToFront: function () {
+        var layer = this.getLayer();
+        if (!layer || !(layer instanceof Z.OverlayLayer)) {
+            return this;
+        }
+        var topZ = layer.getLastGeometry().getZIndex();
+        this.setZIndex(topZ + 1);
+        return this;
+    },
+
+    /**
+     * Bring the geometry to the back
+     * @return {maptalks.Geometry} this
+     * @fires maptalks.Geometry#zindexchange
+     */
+    bringToBack: function () {
+        var layer = this.getLayer();
+        if (!layer || !(layer instanceof Z.OverlayLayer)) {
+            return this;
+        }
+        var bottomZ = layer.getFirstGeometry().getZIndex();
+        this.setZIndex(bottomZ - 1);
+        return this;
+    },
+
+    /**
      * Translate or move the geometry by the given offset.
+     *
      * @param  {maptalks.Coordinate} offset - translate offset
      * @return {maptalks.Geometry} this
+     * @fires maptalks.Geometry#positionchange
+     * @fires maptalks.Geometry#shapechange
      */
     translate:function (offset) {
         if (!offset) {
@@ -9452,7 +10074,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
     },
 
     /**
-     * flash the geometry, show and hide by certain internal for times of count.
+     * Flash the geometry, show and hide by certain internal for times of count.
      *
      * @param {Number} [interval=100]     - interval of flash, in millisecond (ms)
      * @param {Number} [count=4]          - flash times
@@ -9503,7 +10125,6 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
      */
     copy:function () {
         var json = this.toJSON();
-        //FIXME symbol信息没有被拷贝过来
         var ret = Z.Geometry.fromJSON(json);
         //restore visibility
         ret.options['visible'] = true;
@@ -9534,6 +10155,15 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
 
         this._unbind();
         /**
+         * removeend event.
+         *
+         * @event maptalks.Geometry#removeend
+         * @type {Object}
+         * @property {String} type - removeend
+         * @property {maptalks.Geometry} target - the geometry fires the event
+         */
+        this._fireEvent('removeend');
+        /**
          * remove event.
          *
          * @event maptalks.Geometry#remove
@@ -9546,7 +10176,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
     },
 
     /**
-     * Exports a GeoJSON [geometry]{@link http://geojson.org/geojson-spec.html#feature-objects} (part of a feature) out of the geometry.
+     * Exports [geometry]{@link http://geojson.org/geojson-spec.html#feature-objects} out of a GeoJSON feature.
      * @return {Object} GeoJSON Geometry
      */
     toGeoJSONGeometry:function () {
@@ -9555,7 +10185,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
     },
 
     /**
-     * Exports a GeoJSON feature out of the geometry.
+     * Exports a GeoJSON feature.
      * @param {Object} [opts=null]              - export options
      * @param {Boolean} [opts.geometry=true]    - whether export geometry
      * @param {Boolean} [opts.properties=true]  - whether export properties
@@ -9642,7 +10272,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
 
     /**
      * Get the geographic length of the geometry.
-     * @returns {Number} geographic length
+     * @returns {Number} geographic length, unit is meter
      */
     getLength:function () {
         return this._computeGeodesicLength(this._getMeasurer());
@@ -9650,8 +10280,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
 
     /**
      * Get the geographic area of the geometry.
-     * @returns {Number} geographic area
-     * @expose
+     * @returns {Number} geographic area, unit is sq.meter
      */
     getArea:function () {
         return this._computeGeodesicArea(this._getMeasurer());
@@ -9687,16 +10316,16 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
         if (!Z.Util.isNil(id)) {
             this.setId(id);
         }
+        this._zIndex = 0;
     },
 
-    //调用prepare时,layer已经注册到map上
+    //bind the geometry to a layer
     _bindLayer:function (layer) {
-         //Geometry不允许被重复添加到多个图层上
+        //check dupliaction
         if (this.getLayer()) {
             throw new Error(this.exceptions['DUPLICATE_LAYER']);
         }
         this._layer = layer;
-        //如果投影发生改变,则清除掉所有的投影坐标属性
         this._clearProjection();
         this.callInitHooks();
     },
@@ -9720,7 +10349,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
      */
     _setExternSymbol: function (symbol) {
         this._externSymbol = this._prepareSymbol(symbol);
-        this._onSymbolChanged();
+        this.onSymbolChanged();
         return this;
     },
 
@@ -9780,10 +10409,10 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
             this.endEdit();
         }
         this._removePainter();
-        if (this._onRemove) {
-            this._onRemove();
+        if (this.onRemove) {
+            this.onRemove();
         }
-        layer._onGeometryRemove(this);
+        layer.onRemoveGeometry(this);
         delete this._layer;
         delete this._internalId;
         delete this._extent;
@@ -9865,17 +10494,13 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
         delete this._painter;
     },
 
-    _onZoomEnd:function () {
+    onZoomEnd:function () {
         if (this._painter) {
             this._painter.onZoomEnd();
         }
     },
 
-    _isEditingOrDragging:function () {
-        return ((this.isEditing && this.isEditing()) || (this.isDragging && this.isDragging()));
-    },
-
-    _onShapeChanged:function () {
+    onShapeChanged:function () {
         this._extent = null;
         var painter = this._getPainter();
         if (painter) {
@@ -9892,7 +10517,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
         this._fireEvent('shapechange');
     },
 
-    _onPositionChanged:function () {
+    onPositionChanged:function () {
         this._extent = null;
         var painter = this._getPainter();
         if (painter) {
@@ -9909,7 +10534,7 @@ Z.Geometry = Z.Class.extend(/** @lends maptalks.Geometry.prototype */{
         this._fireEvent('positionchange');
     },
 
-    _onSymbolChanged:function () {
+    onSymbolChanged:function () {
         var painter = this._getPainter();
         if (painter) {
             painter.refreshSymbol();
@@ -10034,7 +10659,7 @@ Z.Geometry.fromJSON = function (json) {
     }
     var geometry;
     if (json['subType']) {
-        geometry = Z[json['subType']]._fromJSON(json);
+        geometry = Z[json['subType']].fromJSON(json);
         if (!Z.Util.isNil(json['feature']['id'])) {
             geometry.setId(json['feature']['id']);
         }
@@ -10055,11 +10680,11 @@ Z.Geometry.fromJSON = function (json) {
 };
 
 
-Z.Geometry._getMarkerPathURL = function (symbol) {
+Z.Geometry.getMarkerPathBase64 = function (symbol) {
     if (!symbol['markerPath']) {
         return null;
     }
-    var op, styles =  Z.symbolizer.VectorMarkerSymbolizer.translateToSVGStyles(symbol);
+    var op = 1, styles =  Z.symbolizer.VectorMarkerSymbolizer.translateToSVGStyles(symbol);
     //context.globalAlpha doesn't take effect with drawing SVG in IE9/10/11 and EGDE, so set opacity in SVG element.
     if (Z.Util.isNumber(symbol['markerOpacity'])) {
         op = symbol['markerOpacity'];
@@ -10098,9 +10723,9 @@ Z.Geometry._getMarkerPathURL = function (symbol) {
     if (op < 1) {
         svg.push('opacity="' + op + '"');
     }
-    if (symbol['markerWidth'] && symbol['markerHeight']) {
-        svg.push('height="' + symbol['markerHeight'] + '" width="' + symbol['markerWidth'] + '"');
-    }
+    // if (symbol['markerWidth'] && symbol['markerHeight']) {
+    //     svg.push('height="' + symbol['markerHeight'] + '" width="' + symbol['markerWidth'] + '"');
+    // }
     if (symbol['markerPathWidth'] && symbol['markerPathHeight']) {
         svg.push('viewBox="0 0 ' + symbol['markerPathWidth'] + ' ' + symbol['markerPathHeight'] + '"');
     }
@@ -10134,7 +10759,7 @@ Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
             return this;
         }
         this.endEdit();
-        this._editor = new Z.GeometryEditor(this, opts);
+        this._editor = new Z.Geometry.Editor(this, opts);
         this._editor.start();
         this.fire('editstart');
         return this;
@@ -10154,7 +10779,7 @@ Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
     },
 
     /**
-     * Whether the geometry collection is being edited.
+     * Whether the geometry is being edited.
      * @return {Boolean}
      */
     isEditing: function () {
@@ -10223,7 +10848,7 @@ Z.Geometry.Drag = Z.Handler.extend(/** @lends maptalks.Geometry.Drag.prototype *
          * @event maptalks.Geometry#dragstart
          * @type {Object}
          * @property {String} type                    - dragstart
-         * @property {String} target                  - the geometry fires event
+         * @property {maptalks.Geometry} target       - the geometry fires event
          * @property {maptalks.Coordinate} coordinate - coordinate of the event
          * @property {maptalks.Point} containerPoint  - container point of the event
          * @property {maptalks.Point} viewPoint       - view point of the event
@@ -10259,6 +10884,7 @@ Z.Geometry.Drag = Z.Handler.extend(/** @lends maptalks.Geometry.Drag.prototype *
         }
 
         this._shadow = target.copy();
+        this._shadow.setSymbol(target._getInternalSymbol());
         var shadow = this._shadow;
         if (target.options['dragShadow']) {
             var symbol = Z.Util.decreaseSymbolOpacity(shadow._getInternalSymbol(), 0.5);
@@ -10355,7 +10981,7 @@ Z.Geometry.Drag = Z.Handler.extend(/** @lends maptalks.Geometry.Drag.prototype *
          * @event maptalks.Geometry#dragging
          * @type {Object}
          * @property {String} type                    - dragging
-         * @property {String} target                  - the geometry fires event
+         * @property {maptalks.Geometry} target       - the geometry fires event
          * @property {maptalks.Coordinate} coordinate - coordinate of the event
          * @property {maptalks.Point} containerPoint  - container point of the event
          * @property {maptalks.Point} viewPoint       - view point of the event
@@ -10418,7 +11044,7 @@ Z.Geometry.Drag = Z.Handler.extend(/** @lends maptalks.Geometry.Drag.prototype *
          * @event maptalks.Geometry#dragend
          * @type {Object}
          * @property {String} type                    - dragend
-         * @property {String} target                  - the geometry fires event
+         * @property {maptalks.Geometry} target       - the geometry fires event
          * @property {maptalks.Coordinate} coordinate - coordinate of the event
          * @property {maptalks.Point} containerPoint  - container point of the event
          * @property {maptalks.Point} viewPoint       - view point of the event
@@ -10503,6 +11129,7 @@ Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
             eventParam['coordinate'] = map.containerPointToCoordinate(containerPoint);
             eventParam['containerPoint'] = containerPoint;
             eventParam['viewPoint'] = map.containerPointToViewPoint(containerPoint);
+            eventParam['pont2d'] = map._containerPointToPoint(containerPoint);
         }
         return eventParam;
     },
@@ -10523,7 +11150,7 @@ Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
          * @event maptalks.Geometry#mouseover
          * @type {Object}
          * @property {String} type                    - mouseover
-         * @property {String} target                  - the geometry fires mouseover
+         * @property {maptalks.Geometry} target       - the geometry fires mouseover
          * @property {maptalks.Coordinate} coordinate - coordinate of the event
          * @property {maptalks.Point} containerPoint  - container point of the event
          * @property {maptalks.Point} viewPoint       - view point of the event
@@ -10548,7 +11175,7 @@ Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
          * @event maptalks.Geometry#mouseout
          * @type {Object}
          * @property {String} type                    - mouseout
-         * @property {String} target                  - the geometry fires mouseout
+         * @property {maptalks.Geometry} target       - the geometry fires mouseout
          * @property {maptalks.Coordinate} coordinate - coordinate of the event
          * @property {maptalks.Point} containerPoint  - container point of the event
          * @property {maptalks.Point} viewPoint       - view point of the event
@@ -10560,15 +11187,28 @@ Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
 
 Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
     /**
-     * Animate the geometry according to the given options.
-     * @param  {Object}   styles   - styles to animate
-     * @param  {Object}   options  - animation options
-     * @param  {Function} callback - step function when animating
+     * Animate the geometry
+     *
+     * @param  {Object}   styles          - styles to animate
+     * @param  {Object}   [options=null]  - animation options
+     * @param  {Object}   [options.speed=1000]      - duration
+     * @param  {Object}   [options.startTime=null]  - time to start animation in ms
+     * @param  {Object}   [options.easing=linear]   - animation easing: in, out, inAndOut, linear, upAndDown
+     * @param  {Function} [step=null]               - step function when animating
      * @return {maptalks.animation.Player} animation player
+     * @example
+     * var player = marker.animate({
+     *     'symbol': {
+     *         'markerHeight': 82
+     *      }
+     * }, {
+     *     'speed': 2000
+     * });
+     * player.pause();
      */
-    animate:function (styles, options, callback) {
+    animate:function (styles, options, step) {
         if (Z.Util.isFunction(options)) {
-            callback = options;
+            step = options;
             options = null;
         }
         var map = this.getMap(),
@@ -10582,7 +11222,7 @@ Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
 
         var player = Z.Animation.animate(stylesToAnimate, options, Z.Util.bind(function (frame) {
             if (!this._animationStarted && isFocusing) {
-                map._onMoveStart();
+                map.onMoveStart();
             }
             var styles = frame.styles;
             for (var p in styles) {
@@ -10608,22 +11248,22 @@ Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
                 var pcenter = projection.project(this.getCenter());
                 map._setPrjCenterAndMove(pcenter);
                 if (player.playState !== 'running') {
-                    map._onMoveEnd();
+                    map.onMoveEnd();
                 } else {
-                    map._onMoving();
+                    map.onMoving();
                 }
             }
             this._fireAnimateEvent(player.playState);
-            if (callback) {
-                callback(frame);
+            if (step) {
+                step(frame);
             }
         }, this));
 
         return player.play();
     },
     /**
-     * prepare styles for animation
-     * @return {Object} symbol to animate
+     * Prepare styles for animation
+     * @return {Object} styles
      * @private
      */
     _prepareAnimationStyles:function (styles) {
@@ -10696,7 +11336,9 @@ Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
 });
 
 /**
- * @classdesc Base class for all the geometry classes besides [maptalks.Marker]{@link maptalks.Marker}. <br/>
+ * @classdesc
+ * Base class for all the geometry classes besides [maptalks.Marker]{@link maptalks.Marker}. <br/>
+ * It is abstract and not intended to be instantiated.
  * @class
  * @category geometry
  * @abstract
@@ -10764,7 +11406,7 @@ Z.Geometry.Center = {
         }
         this._coordinates = center;
         if (!this.getMap()) {
-            this._onPositionChanged();
+            this.onPositionChanged();
             return this;
         }
         var projection = this._getProjection();
@@ -10773,14 +11415,14 @@ Z.Geometry.Center = {
     },
 
     //Gets view point of the geometry's center
-    _getCenterViewPoint:function () {
+    _getCenter2DPoint:function () {
         var pcenter = this._getPrjCoordinates();
         if (!pcenter) { return null; }
         var map = this.getMap();
         if (!map) {
             return null;
         }
-        return map._prjToViewPoint(pcenter);
+        return map._prjToPoint(pcenter);
     },
 
     _getPrjCoordinates:function () {
@@ -10797,7 +11439,7 @@ Z.Geometry.Center = {
     //Set center by projected coordinates
     _setPrjCoordinates:function (pcenter) {
         this._pcenter = pcenter;
-        this._onPositionChanged();
+        this.onPositionChanged();
     },
 
     //update cached variables if geometry is updated.
@@ -10829,7 +11471,7 @@ Z.Geometry.Poly = {
      * @returns {maptalks.Point[]}
      * @private
      */
-    _getPathViewPoints:function (prjCoords) {
+    _getPath2DPoints:function (prjCoords) {
         var result = [];
         if (!Z.Util.isArrayHasData(prjCoords)) {
             return result;
@@ -10850,7 +11492,7 @@ Z.Geometry.Poly = {
         for (i = 0, len = prjCoords.length; i < len; i++) {
             p = prjCoords[i];
             if (isMulti) {
-                part.push(this._getPathViewPoints(p));
+                part.push(this._getPath2DPoints(p));
                 continue;
             }
             if (Z.Util.isNil(p) || (isClip && !fullExtent.contains(p))) {
@@ -10872,22 +11514,22 @@ Z.Geometry.Poly = {
                         } else if (anti === 'split') {
                             if (dx > 0) {
                                 my = pre.y + dy * (pre.x - (-180)) / (360 - dx) * (pre.y > current.y ? -1 : 1);
-                                part.push(map.coordinateToViewPoint(new Z.Coordinate(-180, my)));
+                                part.push(map.coordinateToPoint(new Z.Coordinate(-180, my)));
                                 part = part === part1 ? part2 : part1;
-                                part.push(map.coordinateToViewPoint(new Z.Coordinate(180, my)));
+                                part.push(map.coordinateToPoint(new Z.Coordinate(180, my)));
 
                             } else {
                                 my = pre.y + dy * (180 - pre.x) / (360 + dx) * (pre.y > current.y ? 1 : -1);
-                                part.push(map.coordinateToViewPoint(new Z.Coordinate(180, my)));
+                                part.push(map.coordinateToPoint(new Z.Coordinate(180, my)));
                                 part = part === part1 ? part2 : part1;
-                                part.push(map.coordinateToViewPoint(new Z.Coordinate(-180, my)));
+                                part.push(map.coordinateToPoint(new Z.Coordinate(-180, my)));
 
                             }
                         }
                     }
                 }
             }
-            part.push(map._prjToViewPoint(p));
+            part.push(map._prjToPoint(p));
         }
         if (part2.length > 0) {
             result = [part1, part2];
@@ -10907,7 +11549,7 @@ Z.Geometry.Poly = {
 
     _setPrjCoordinates:function (prjPoints) {
         this._prjCoords = prjPoints;
-        this._onShapeChanged();
+        this.onShapeChanged();
     },
 
     _getPrjCoordinates:function () {
@@ -11029,20 +11671,28 @@ Z.Geometry.Poly = {
  * @mixes maptalks.Geometry.Center
  * @param {maptalks.Coordinate} center      - center of the marker
  * @param {Object} [options=null]           - specific construct options for marker, also support options defined in [Geometry]{@link maptalks.Geometry#options}
- * @param {Object} [options.symbol=object]  - default symbol of the marker.
+ * @param {Object} [options.id=null]        - id of the marker.
+ * @param {Object} [options.symbol=null]    - symbol of the marker.
+ * @param {Object} [options.property=null]  - properties
+ * @param {*} options.* - any other option defined in [maptalks.Geometry]{@link maptalks.Geometry#options}
  * @example
  * var marker = new maptalks.Marker([100, 0], {
- *     id : 'marker-id'
+ *     'id' : 'marker0',
+ *     'symbol' : {
+ *         'markerFile'  : 'foo.png',
+ *         'markerWidth' : 20,
+ *         'markerHeight': 20,
+ *     },
+ *     'properties' : {
+ *         'foo' : 'value'
+ *     }
  * });
  */
 Z.Marker = Z.Geometry.extend(/** @lends maptalks.Marker.prototype */{
     includes:[Z.Geometry.Center],
 
     type: Z.Geometry['TYPE_POINT'],
-    /**
-     * @property {Object} [options=null]           - options for marker, also support options defined in [Geometry]{@link maptalks.Geometry#options}
-     * @property {Object} [options.symbol=object]  - default symbol of the marker.
-     */
+
     options:{
         'symbol': {
             'markerType'    : 'path',
@@ -11079,7 +11729,7 @@ Z.Marker = Z.Geometry.extend(/** @lends maptalks.Marker.prototype */{
     },
 
     _containsPoint: function (point) {
-        var pxExtent = this._getPainter().getViewExtent();
+        var pxExtent = this._getPainter().get2DExtent();
         return pxExtent.contains(point);
     },
 
@@ -11100,29 +11750,17 @@ Z.Marker = Z.Geometry.extend(/** @lends maptalks.Marker.prototype */{
 
 /**
  * @classdesc
- * Represents point type geometry for text labels.<br>
- * A label is used to draw text (with a box background if specified) on a particular coordinate.
+ * Base class for  the Text marker classes, a marker which has text and background box. <br>
+ * It is abstract and not intended to be instantiated.
+ *
  * @class
  * @category geometry
+ * @abstract
  * @extends maptalks.Marker
- * @param {String} content                          - Label's text content
- * @param {maptalks.Coordinate} coordinates         - center
- * @param {Object} [options=null]                   - construct options, includes options defined in [Marker]{@link maptalks.Marker#options}
- * @param {Boolean} [options.box=true]              - whether to display a background box wrapping the label text.
- * @param {Boolean} [options.boxAutoSize=true]      - whether to set the size of the background box automatically to fit for the label text.
- * @param {Boolean} [options.boxMinWidth=0]         - the minimum width of the background box.
- * @param {Boolean} [options.boxMinHeight=0]        - the minimum height of the background box.
- * @param {Boolean} [options.boxPadding=maptalks.Size(12,8)] - padding of the label text to the border of the background box.
- * @param {Boolean} [options.boxTextAlign=middle]   - text align in the box, possible values:left, middle, right
- * @example
- * var label = new maptalks.Label('This is a label',[100,0]);
- * label.addTo(vectorLayer);
+ * @name TextMarker
  */
-Z.Label = Z.Marker.extend(/** @lends maptalks.Label.prototype */{
-    /**
-     * @property {Object} defaultSymbol Default symbol of the label text
-     * @static
-     */
+Z.TextMarker = Z.Marker.extend(/** @lends maptalks.TextMarker.prototype */{
+
     defaultSymbol : {
         'textFaceName'  : 'monospace',
         'textSize': 12,
@@ -11130,38 +11768,21 @@ Z.Label = Z.Marker.extend(/** @lends maptalks.Label.prototype */{
         'textWrapCharacter': '\n',
         'textLineSpacing': 8,
         'textHorizontalAlignment': 'middle', //left middle right
-        'textVerticalAlignment': 'middle' //top middle bottom
+        'textVerticalAlignment': 'middle', //top middle bottom
+        'textOpacity' : 1,
+        'textDx' : 0,
+        'textDy' : 0
     },
 
-    /**
-     * @property {Object} defaultSymbol Default symbol of the background box
-     * @static
-     */
     defaultBoxSymbol:{
         'markerType':'square',
         'markerLineColor': '#ff0000',
         'markerLineWidth': 2,
         'markerLineOpacity': 1,
-        'markerFill': '#ffffff'
+        'markerFill': '#ffffff',
+        'markerOpacity' : 1
     },
 
-    /**
-     * @property {Object} [options=null]                   - label's options, also including options of [Marker]{@link maptalks.Marker#options}
-     * @property {Boolean} [options.box=true]              - whether to display a background box wrapping the label text.
-     * @property {Boolean} [options.boxAutoSize=true]      - whether to set the size of the background box automatically to fit for the label text.
-     * @property {Boolean} [options.boxMinWidth=0]         - the minimum width of the background box.
-     * @property {Boolean} [options.boxMinHeight=0]        - the minimum height of the background box.
-     * @property {Boolean} [options.boxPadding=maptalks.Size(12,8)] - padding of the label text to the border of the background box.
-     * @property {Boolean} [options.boxTextAlign=middle]   - text align in the box, possible values:left, middle, right
-     */
-    options: {
-        'box'          :   true,
-        'boxAutoSize'  :   true,
-        'boxMinWidth'  :   0,
-        'boxMinHeight' :   0,
-        'boxPadding'   :   {'width' : 12, 'height' : 8},
-        'boxTextAlign' :   'middle'
-    },
 
     initialize: function (content, coordinates, options) {
         this._content = content;
@@ -11202,7 +11823,7 @@ Z.Label = Z.Marker.extend(/** @lends maptalks.Label.prototype */{
     },
 
     getSymbol: function () {
-        if (this._labelSymbolChanged) {
+        if (this._textSymbolChanged) {
             return Z.Geometry.prototype.getSymbol.call(this);
         }
         return null;
@@ -11210,13 +11831,13 @@ Z.Label = Z.Marker.extend(/** @lends maptalks.Label.prototype */{
 
     setSymbol:function (symbol) {
         if (!symbol || symbol === this.options['symbol']) {
-            this._labelSymbolChanged = false;
+            this._textSymbolChanged = false;
             symbol = {};
         } else {
-            this._labelSymbolChanged = true;
+            this._textSymbolChanged = true;
         }
         var cooked = this._prepareSymbol(symbol);
-        var s = this._getDefaultLabelSymbol();
+        var s = this._getDefaultTextSymbol();
         Z.Util.extend(s, cooked);
         this._symbol = s;
         this._refresh();
@@ -11238,17 +11859,92 @@ Z.Label = Z.Marker.extend(/** @lends maptalks.Label.prototype */{
         }
     },
 
+    _getBoxSize: function (symbol) {
+        if (!symbol['markerType']) {
+            symbol['markerType'] = 'square';
+        }
+        var size = Z.StringUtil.splitTextToRow(this._content, symbol)['size'],
+            width, height;
+        if (this.options['boxAutoSize']) {
+            var padding = this.options['boxPadding'];
+            width = size['width'] + padding['width'] * 2;
+            height = size['height'] + padding['height'] * 2;
+        }
+        if (this.options['boxMinWidth']) {
+            if (!width || width < this.options['boxMinWidth']) {
+                width = this.options['boxMinWidth'];
+            }
+        }
+        if (this.options['boxMinHeight']) {
+            if (!height || height < this.options['boxMinHeight']) {
+                height = this.options['boxMinHeight'];
+            }
+        }
+        return [width && height ? new Z.Size(width, height) : null, size];
+    },
+
     _getInternalSymbol:function () {
         return this._symbol;
     },
 
-    _getDefaultLabelSymbol: function () {
+    _getDefaultTextSymbol: function () {
         var s = {};
         Z.Util.extend(s, this.defaultSymbol);
         if (this.options['box']) {
             Z.Util.extend(s, this.defaultBoxSymbol);
         }
         return s;
+    },
+
+    _registerEvents: function () {
+        this.on('shapechange', this._refresh, this);
+    },
+
+    onRemove:function () {
+        this.off('shapechange', this._refresh, this);
+    }
+});
+
+/**
+ * @classdesc
+ * Represents point type geometry for text labels.<br>
+ * A label is used to draw text (with a box background if specified) on a particular coordinate.
+ * @class
+ * @category geometry
+ * @extends maptalks.TextMarker
+ * @param {String} content                          - Label's text content
+ * @param {maptalks.Coordinate} coordinates         - center
+ * @param {Object} [options=null]                   - construct options, includes options defined in [Marker]{@link maptalks.Marker#options}
+ * @param {Boolean} [options.box=true]              - whether to display a background box wrapping the label text.
+ * @param {Boolean} [options.boxAutoSize=true]      - whether to set the size of the background box automatically to fit for the label text.
+ * @param {Boolean} [options.boxMinWidth=0]         - the minimum width of the background box.
+ * @param {Boolean} [options.boxMinHeight=0]        - the minimum height of the background box.
+ * @param {Boolean} [options.boxPadding=maptalks.Size(12,8)] - padding of the label text to the border of the background box.
+ * @param {Boolean} [options.boxTextAlign=middle]   - text align in the box, possible values:left, middle, right
+ * @param {*} options.* - any other option defined in [maptalks.Marker]{@link maptalks.Marker#options}
+ * @example
+ * var label = new maptalks.Label('This is a label',[100,0])
+ *     .addTo(layer);
+ */
+Z.Label = Z.TextMarker.extend(/** @lends maptalks.Label.prototype */{
+
+    /**
+     * @property {Object} [options=null]                   - label's options, also including options of [Marker]{@link maptalks.Marker#options}
+     * @property {Boolean} [options.box=true]              - whether to display a background box wrapping the label text.
+     * @property {Boolean} [options.boxAutoSize=true]      - whether to set the size of the background box automatically to fit for the label text.
+     * @property {Boolean} [options.boxMinWidth=0]         - the minimum width of the background box.
+     * @property {Boolean} [options.boxMinHeight=0]        - the minimum height of the background box.
+     * @property {Boolean} [options.boxPadding={'width' : 12, 'height' : 8}] - padding of the label text to the border of the background box.
+     * @property {Boolean} [options.boxTextAlign=middle]   - text align in the box, possible values:left, middle, right
+     * @property {*} options.* - any other option defined in [maptalks.Marker]{@link maptalks.Marker#options}
+     */
+    options: {
+        'box'          :   true,
+        'boxAutoSize'  :   true,
+        'boxMinWidth'  :   0,
+        'boxMinHeight' :   0,
+        'boxPadding'   :   {'width' : 12, 'height' : 8},
+        'boxTextAlign' :   'middle'
     },
 
     _toJSON:function (options) {
@@ -11260,69 +11956,170 @@ Z.Label = Z.Marker.extend(/** @lends maptalks.Label.prototype */{
     },
 
     _refresh:function () {
-        var symbol = this.getSymbol() || this._getDefaultLabelSymbol();
+        var symbol = this.getSymbol() || this._getDefaultTextSymbol();
         symbol['textName'] = this._content;
         if (this.options['box']) {
-            if (!symbol['markerType']) {
-                symbol['markerType'] = 'square';
+            var sizes = this._getBoxSize(symbol),
+                boxSize = sizes[0],
+                textSize = sizes[1],
+                padding = this.options['boxPadding'];
+
+            //if no boxSize then use text's size in default
+            if (!boxSize && !symbol['markerWidth'] && !symbol['markerHeight']) {
+                var width = textSize['width'] + padding['width'] * 2,
+                    height = textSize['height'] + padding['height'] * 2;
+                boxSize = new Z.Size(width, height);
+                symbol['markerWidth'] = boxSize['width'];
+                symbol['markerHeight'] = boxSize['height'];
+            } else if (boxSize) {
+                symbol['markerWidth'] = boxSize['width'];
+                symbol['markerHeight'] = boxSize['height'];
             }
-            var size;
-            var padding = this.options['boxPadding'];
-            if (this.options['boxAutoSize'] || this.options['boxTextAlign']) {
-                size = Z.StringUtil.splitTextToRow(this._content, symbol)['size'];
-            }
-            if (this.options['boxAutoSize']) {
-                symbol['markerWidth'] = size['width'] + padding['width'] * 2;
-                symbol['markerHeight'] = size['height'] + padding['height'] * 2;
-            }
-            if (this.options['boxMinWidth']) {
-                if (!symbol['markerWidth'] || symbol['markerWidth'] < this.options['boxMinWidth']) {
-                    symbol['markerWidth'] = this.options['boxMinWidth'];
-                }
-            }
-            if (this.options['boxMinHeight']) {
-                if (!symbol['markerHeight'] || symbol['markerHeight'] < this.options['boxMinHeight']) {
-                    symbol['markerHeight'] = this.options['boxMinHeight'];
-                }
-            }
+
             var align = this.options['boxTextAlign'];
             if (align) {
-                var textAlignPoint = Z.StringUtil.getAlignPoint(size, symbol['textHorizontalAlignment'], symbol['textVerticalAlignment']),
+                var textAlignPoint = Z.StringUtil.getAlignPoint(textSize, symbol['textHorizontalAlignment'], symbol['textVerticalAlignment']),
                     dx = symbol['textDx'] || 0,
                     dy = symbol['textDy'] || 0;
                 textAlignPoint = textAlignPoint._add(dx, dy);
                 symbol['markerDx'] = textAlignPoint.x;
-                symbol['markerDy'] = textAlignPoint.y + size['height'] / 2;
+                symbol['markerDy'] = textAlignPoint.y + textSize['height'] / 2;
                 if (align === 'left') {
                     symbol['markerDx'] += symbol['markerWidth'] / 2 - padding['width'];
                 } else if (align === 'right') {
-                    symbol['markerDx'] -= symbol['markerWidth'] / 2 - size['width'] - padding['width'];
+                    symbol['markerDx'] -= symbol['markerWidth'] / 2 - textSize['width'] - padding['width'];
                 } else {
-                    symbol['markerDx'] += size['width'] / 2;
+                    symbol['markerDx'] += textSize['width'] / 2;
                 }
             }
         }
         this._symbol = symbol;
-        this._onSymbolChanged();
-    },
-
-    _registerEvents: function () {
-        this.on('shapechange', this._refresh, this);
-        this.on('remove', this._onLabelRemove, this);
-        return this;
-    },
-
-    _onLabelRemove:function () {
-        this.off('shapechange', this._refresh, this);
-        this.off('remove', this._onLabelRemove, this);
+        this.onSymbolChanged();
     }
 });
 
-Z.Label._fromJSON = function (json) {
+Z.Label.fromJSON = function (json) {
     var feature = json['feature'];
     var label = new Z.Label(json['content'], feature['geometry']['coordinates'], json['options']);
     label.setProperties(feature['properties']);
+    label.setId(feature['id']);
     return label;
+};
+
+/**
+ * @classdesc
+ * Represents point type geometry for text labels.<br>
+ * A label is used to draw text (with a box background if specified) on a particular coordinate.
+ * @class
+ * @category geometry
+ * @extends maptalks.TextMarker
+ * @param {String} content                          - TextBox's text content
+ * @param {maptalks.Coordinate} coordinates         - center
+ * @param {Object} [options=null]                   - construct options, includes options defined in [Marker]{@link maptalks.Marker#options}
+ * @param {Boolean} [options.box=true]              - whether to display a background box wrapping the label text.
+ * @param {Boolean} [options.boxAutoSize=true]      - whether to set the size of the background box automatically to fit for the label text.
+ * @param {Boolean} [options.boxMinWidth=0]         - the minimum width of the background box.
+ * @param {Boolean} [options.boxMinHeight=0]        - the minimum height of the background box.
+ * @param {Boolean} [options.boxPadding=maptalks.Size(12,8)] - padding of the textBox text to the border of the background box.
+ * @param {*} options.* - any other option defined in [maptalks.Marker]{@link maptalks.Marker#options}
+ * @example
+ * var textBox = new maptalks.TextBox('This is a textBox',[100,0])
+ *     .addTo(layer);
+ */
+Z.TextBox = Z.TextMarker.extend(/** @lends maptalks.TextBox.prototype */{
+
+    /**
+     * @property {Object} [options=null]                   - label's options, also including options of [Marker]{@link maptalks.Marker#options}
+     * @property {Boolean} [options.boxAutoSize=false]     - whether to set the size of the background box automatically to fit for the label text.
+     * @property {Boolean} [options.boxMinWidth=0]         - the minimum width of the background box.
+     * @property {Boolean} [options.boxMinHeight=0]        - the minimum height of the background box.
+     * @property {Boolean} [options.boxPadding={'width' : 12, 'height' : 8}] - padding of the label text to the border of the background box.
+     * @property {*} options.* - any other option defined in [maptalks.Marker]{@link maptalks.Marker#options}
+     */
+    options: {
+        'boxAutoSize'  :   false,
+        'boxMinWidth'  :   0,
+        'boxMinHeight' :   0,
+        'boxPadding'   :   {'width' : 12, 'height' : 8}
+    },
+
+    _toJSON:function (options) {
+        return {
+            'feature' : this.toGeoJSON(options),
+            'subType' : 'TextBox',
+            'content' : this._content
+        };
+    },
+
+    _refresh:function () {
+        var symbol = this.getSymbol() || this._getDefaultTextSymbol();
+        symbol['textName'] = this._content;
+
+        var sizes = this._getBoxSize(symbol),
+            boxSize = sizes[0],
+            textSize = sizes[1];
+
+        //if no boxSize then use text's size in default
+        if (!boxSize && !symbol['markerWidth'] && !symbol['markerHeight']) {
+            var padding = this.options['boxPadding'];
+            var width = textSize['width'] + padding['width'] * 2,
+                height = textSize['height'] + padding['height'] * 2;
+            boxSize = new Z.Size(width, height);
+            symbol['markerWidth'] = boxSize['width'];
+            symbol['markerHeight'] = boxSize['height'];
+        }  else if (boxSize) {
+            symbol['markerWidth'] = boxSize['width'];
+            symbol['markerHeight'] = boxSize['height'];
+        }
+
+
+        var textAlign = symbol['textHorizontalAlignment'];
+        if (textAlign) {
+            symbol['textDx'] = symbol['markerDx'] || 0;
+            if (textAlign === 'left') {
+                symbol['textDx'] -= symbol['markerWidth'] / 2;
+            } else if (textAlign === 'right') {
+                symbol['textDx'] += symbol['markerWidth'] / 2;
+            }
+        }
+
+        var vAlign = symbol['textVerticalAlignment'];
+        if (vAlign) {
+            symbol['textDy'] = symbol['markerDy'] || 0;
+            if (vAlign === 'top') {
+                symbol['textDy'] -= symbol['markerHeight'] / 2;
+            } else if (vAlign === 'bottom') {
+                symbol['textDy'] += symbol['markerHeight'] / 2;
+            }
+        }
+
+        this._symbol = symbol;
+        this.onSymbolChanged();
+    },
+
+    _getInternalSymbol: function () {
+        //In TextBox, textHorizontalAlignment's meaning is textAlign in the box which is reversed from original textHorizontalAlignment.
+        var textSymbol = Z.Util.extend({}, this._symbol);
+        if (textSymbol['textHorizontalAlignment'] === 'left') {
+            textSymbol['textHorizontalAlignment'] = 'right';
+        } else if (textSymbol['textHorizontalAlignment'] === 'right') {
+            textSymbol['textHorizontalAlignment'] = 'left';
+        }
+        if (textSymbol['textVerticalAlignment'] === 'top') {
+            textSymbol['textVerticalAlignment'] = 'bottom';
+        } else if (textSymbol['textVerticalAlignment'] === 'bottom') {
+            textSymbol['textVerticalAlignment'] = 'top';
+        }
+        return textSymbol;
+    }
+});
+
+Z.TextBox.fromJSON = function (json) {
+    var feature = json['feature'];
+    var textBox = new Z.TextBox(json['content'], feature['geometry']['coordinates'], json['options']);
+    textBox.setProperties(feature['properties']);
+    textBox.setId(feature['id']);
+    return textBox;
 };
 
  /**
@@ -11334,6 +12131,21 @@ Z.Label._fromJSON = function (json) {
  * @mixins maptalks.Geometry.Poly
  * @param {Number[][]|Number[][][]|maptalks.Coordinate[]|maptalks.Coordinate[][]} coordinates - coordinates, shell coordinates or all the rings.
  * @param {Object} [options=null] - specific construct options for Polygon, also support options defined in [Vector]{@link maptalks.Vector#options} and [Geometry]{@link maptalks.Geometry#options}
+ * @param {String} [options.antiMeridian=continuous] - how to deal with the anti-meridian problem, split or continue the polygon when it cross the 180 or -180 longtitude line.
+ * @param {*} options.* - any other option defined in [maptalks.Geometry]{@link maptalks.Geometry#options}
+ * @example
+ * var polygon = new maptalks.Polygon(
+ *      [
+ *          [
+ *              [121.48053653961283, 31.24244899384889],
+ *              [121.48049362426856, 31.238559229494186],
+ *              [121.49032123809872, 31.236210614999653],
+ *              [121.49366863494917, 31.242926029397037],
+ *              [121.48577221160967, 31.243880093267567],
+ *              [121.48053653961283, 31.24244899384889]
+ *          ]
+ *      ]
+ *  ).addTo(layer);
  */
 Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
 
@@ -11351,10 +12163,11 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
     },
 
     /**
-     * @property {String} [options.antiMeridian=default] - antiMeridian
+     * @property {String} [options.antiMeridian=continuous] - how to deal with the anti-meridian problem, split or continue the polygon when it cross the 180 or -180 longtitude line.
+     * @property {*} options.* - any other option defined in [maptalks.Geometry]{@link maptalks.Geometry#options}
      */
     options:{
-        'antiMeridian' : 'default'
+        'antiMeridian' : 'continuous'
     },
 
     initialize:function (coordinates, opts) {
@@ -11364,8 +12177,10 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
 
     /**
      * Set coordinates to the polygon
+     *
      * @param {Number[][]|Number[][][]|maptalks.Coordinate[]|maptalks.Coordinate[][]} coordinates - new coordinates
      * @return {maptalks.Polygon} this
+     * @fires maptalks.Polygon#shapechange
      */
     setCoordinates:function (coordinates) {
         if (!coordinates) {
@@ -11398,6 +12213,7 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
 
     /**
      * Gets polygons's coordinates
+     *
      * @returns {maptalks.Coordinate[][]}
      */
     getCoordinates:function () {
@@ -11415,7 +12231,8 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
     },
 
     /**
-     * Gets shell coordinates of the polygon
+     * Gets shell's coordinates of the polygon
+     *
      * @returns {maptalks.Coordinate[]}
      */
     getShell:function () {
@@ -11436,6 +12253,7 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
 
     /**
      * Whether the polygon has any holes inside.
+     *
      * @returns {Boolean}
      */
     hasHoles:function () {
@@ -11449,12 +12267,12 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
 
     _projectRings:function () {
         if (!this.getMap()) {
-            this._onShapeChanged();
+            this.onShapeChanged();
             return;
         }
         this._prjCoords = this._projectCoords(this._coordinates);
         this._prjHoles = this._projectCoords(this._holes);
-        this._onShapeChanged();
+        this.onShapeChanged();
     },
 
     _cleanRing:function (ring) {
@@ -11529,7 +12347,7 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
         }
         var result = 0;
         for (var i = 0, len = rings.length; i < len; i++) {
-            result += Z.GeoUtils.computeLength(rings[i], measurer);
+            result += Z.GeoUtil._computeLength(rings[i], measurer);
         }
         return result;
     },
@@ -11550,9 +12368,9 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
 
     _containsPoint: function (point, tolerance) {
         var t = Z.Util.isNil(tolerance) ? this._hitTestTolerance() : tolerance,
-            pxExtent = this._getPainter().getViewExtent().expand(t);
+            pxExtent = this._getPainter().get2DExtent().expand(t);
         function isContains(points) {
-            var c = Z.GeoUtils.pointInsidePolygon(point, points);
+            var c = Z.GeoUtil.pointInsidePolygon(point, points);
             if (c) {
                 return c;
             }
@@ -11564,7 +12382,7 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
                 p1 = points[i];
                 p2 = points[j];
 
-                if (Z.GeoUtils.distanceToSegment(point, p1, p2) <= t) {
+                if (Z.GeoUtil.distanceToSegment(point, p1, p2) <= t) {
                     return true;
                 }
             }
@@ -11577,7 +12395,7 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
         if (!pxExtent.contains(point)) { return false; }
 
         // screen points
-        var points = this._getPathViewPoints(this._getPrjCoordinates()),
+        var points = this._getPath2DPoints(this._getPrjCoordinates()),
             isSplitted = Z.Util.isArray(points[0]);
         if (isSplitted) {
             for (var i = 0; i < points.length; i++) {
@@ -11601,9 +12419,19 @@ Z.Polygon = Z.Vector.extend(/** @lends maptalks.Polygon.prototype */{
  * @mixes   {maptalks.Geometry.Poly}
  * @param {maptalks.Coordinate[]|Number[][]} coordinates - coordinates of the line string
  * @param {Object} [options=null] - specific construct options for LineString, also support options defined in [Vector]{@link maptalks.Vector#options} and [Geometry]{@link maptalks.Geometry#options}
- * @param {Number} [options.antiMeridian=default]            - antimeridian
- * @param {Number} [options.arrowStyle=null]                 - style of arrow, if not null, arrows will be drawn, possible values: classic
- * @param {Number} [options.arrowPlacement=vertex-last]      - arrow's placement: vertex-first, vertex-last, vertex-firstlast, point
+ * @param {String} [options.antiMeridian=continuous] - how to deal with the anti-meridian problem, split or continue the linestring when it cross the 180 or -180 longtitude line.
+ * @param {String} [options.arrowStyle=null]                 - style of arrow, if not null, arrows will be drawn, possible values: classic
+ * @param {String} [options.arrowPlacement=vertex-last]      - arrow's placement: vertex-first, vertex-last, vertex-firstlast, point
+ * @param {*} options.* - any other option defined in [maptalks.Geometry]{@link maptalks.Geometry#options}
+ * @example
+ * var line = new maptalks.LineString(
+ *     [
+ *         [121.4594221902467, 31.241237891628657],
+ *         [121.46371372467041, 31.242265291152066],
+ *         [121.46727569824205, 31.238706037961997],
+ *         [121.47019394165014, 31.24145804961012]
+ *     ]
+ * ).addTo(layer);
  */
 Z.LineString = Z.Polyline = Z.Vector.extend(/** @lends maptalks.LineString.prototype */{
     includes:[Z.Geometry.Poly],
@@ -11611,13 +12439,14 @@ Z.LineString = Z.Polyline = Z.Vector.extend(/** @lends maptalks.LineString.proto
     type:Z.Geometry['TYPE_LINESTRING'],
 
     /**
-    * @property {Object} [options=null] - specific construct options for LineString, also support options defined in [Vector]{@link maptalks.Vector#options} and [Geometry]{@link maptalks.Geometry#options}
-    * @property {Number} [options.antiMeridian=default]            - antimeridian
-    * @property {Number} [options.arrowStyle=null]                 - style of arrow, if not null, arrows will be drawn, possible values: classic
-    * @property {Number} [options.arrowPlacement=vertex-last]      - arrow's placement: vertex-first, vertex-last, vertex-firstlast, point
+    * @property {Object} [options=null]
+    * @property {String} [options.antiMeridian=continuous] - how to deal with the anti-meridian problem, split or continue the linestring when it cross the 180 or -180 longtitude line.
+    * @property {String} [options.arrowStyle=null]                 - style of arrow, if not null, arrows will be drawn, possible values: classic
+    * @property {String} [options.arrowPlacement=vertex-last]      - arrow's placement: vertex-first, vertex-last, vertex-firstlast, point
+    * @property {*} options.* - any other option defined in [maptalks.Geometry]{@link maptalks.Geometry#options}
     */
     options:{
-        'antiMeridian' : 'default',
+        'antiMeridian' : 'continuous',
         'arrowStyle' : null,
         'arrowPlacement' : 'vertex-last' //vertex-first, vertex-last, vertex-firstlast, point
     },
@@ -11630,7 +12459,7 @@ Z.LineString = Z.Polyline = Z.Vector.extend(/** @lends maptalks.LineString.proto
     /**
      * Set new coordinates to the line string
      * @param {maptalks.Coordinate[]|Number[][]} coordinates - new coordinates
-     * @fires maptalks.Geometry#shapechange
+     * @fires maptalks.LineString#shapechange
      * @return {maptalks.LineString} this
      */
     setCoordinates:function (coordinates) {
@@ -11643,7 +12472,7 @@ Z.LineString = Z.Polyline = Z.Vector.extend(/** @lends maptalks.LineString.proto
         if (this.getMap()) {
             this._setPrjCoordinates(this._projectCoords(this._coordinates));
         } else {
-            this._onShapeChanged();
+            this.onShapeChanged();
         }
         return this;
     },
@@ -11660,7 +12489,7 @@ Z.LineString = Z.Polyline = Z.Vector.extend(/** @lends maptalks.LineString.proto
     },
 
     _computeGeodesicLength:function (measurer) {
-        return Z.GeoUtils.computeLength(this.getCoordinates(), measurer);
+        return Z.GeoUtil._computeLength(this.getCoordinates(), measurer);
     },
 
     _computeGeodesicArea:function () {
@@ -11677,7 +12506,7 @@ Z.LineString = Z.Polyline = Z.Vector.extend(/** @lends maptalks.LineString.proto
                 p1 = points[i];
                 p2 = points[i + 1];
 
-                if (Z.GeoUtils.distanceToSegment(point, p1, p2) <= t) {
+                if (Z.GeoUtil.distanceToSegment(point, p1, p2) <= t) {
                     return true;
                 }
             }
@@ -11687,8 +12516,8 @@ Z.LineString = Z.Polyline = Z.Vector.extend(/** @lends maptalks.LineString.proto
             extent = this._getPrjExtent(),
             nw = new Z.Coordinate(extent.xmin, extent.ymax),
             se = new Z.Coordinate(extent.xmax, extent.ymin),
-            pxMin = map._prjToViewPoint(nw),
-            pxMax = map._prjToViewPoint(se),
+            pxMin = map._prjToPoint(nw),
+            pxMax = map._prjToPoint(se),
             pxExtent = new Z.PointExtent(pxMin.x - t, pxMin.y - t,
                                     pxMax.x + t, pxMax.y + t);
         if (t < 2) {
@@ -11699,7 +12528,7 @@ Z.LineString = Z.Polyline = Z.Vector.extend(/** @lends maptalks.LineString.proto
         if (!pxExtent.contains(point)) { return false; }
 
         // screen points
-        var points = this._getPathViewPoints(this._getPrjCoordinates()),
+        var points = this._getPath2DPoints(this._getPrjCoordinates()),
             isSplitted = points.length > 0 && Z.Util.isArray(points[0]);
         if (isSplitted) {
             for (var i = 0; i < points.length; i++) {
@@ -11722,11 +12551,29 @@ Z.LineString = Z.Polyline = Z.Vector.extend(/** @lends maptalks.LineString.proto
  * @category geometry
  * @extends {maptalks.LineString}
  * @param {maptalks.Coordinate[]|Number[][]} coordinates - coordinates of the line string
- * @param {Object} options - construct options of LineString, specific construct options for circle, also support options defined in [LineString]{@link maptalks.LineString#options}
- * @param {Number} [options.curveType=1]            - curve type of the curve line: 0 - straight line; 1: circle arc; 2: quadratic curve; 3: bezier curve
+ * @param {Object} options - construct options of LineString, specific construct options for CurveLine
+ * @param {Number} [options.curveType=1]            - curve type of the curve line: 0 - straight line; 1: circle arc; 2: quadratic bezier curve; 3: cubic bezier curve
  * @param {Number} [options.arcDegree=90]           - arc's degree if curveType is 1 (circle arc).
+ * @param {*} options.* - any other option defined in [maptalks.LineString]{@link maptalks.LineString#options}
+ * @example
+ * var curve = new maptalks.CurveLine(
+ *     [[121.47083767181408,31.214448123476995],[121.4751292062378,31.215475523000404],[121.47869117980943,31.211916269810335]],
+ *     {
+ *         curveType : 1,
+ *         arcDegree : 120,
+ *         symbol : {
+ *             'lineWidth' : 5
+ *         }
+ *     }
+ * ).addTo(layer);
  */
 Z.CurveLine = Z.LineString.extend({
+    /**
+     * @property {Object} options
+     * @property {Number} [options.curveType=1]            - curve type of the curve line: 0 - straight line; 1: circle arc; 2: quadratic curve; 3: bezier curve
+     * @property {Number} [options.arcDegree=90]           - arc's degree if curveType is 1 (circle arc).
+     * @property {*} options.* - any other option defined in [maptalks.LineString]{@link maptalks.LineString#options}
+     */
     options:{
         'curveType'   : 1,
         'arcDegree'     : 90
@@ -11742,7 +12589,7 @@ Z.CurveLine = Z.LineString.extend({
     _getRenderCanvasResources:function () {
         //draw a triangle arrow
         var prjVertexes = this._getPrjCoordinates();
-        var points = this._getPathViewPoints(prjVertexes);
+        var points = this._getPath2DPoints(prjVertexes);
         var arcDegree = this.options['arcDegree'],
             curveType = this.options['curveType'];
         var me = this;
@@ -11757,7 +12604,8 @@ Z.CurveLine = Z.LineString.extend({
             var i, len = _points.length;
             _ctx.beginPath();
             for (i = 0; i < len; i += degree) {
-                var p = _points[i].round();
+                // var p = _points[i].round();
+                var p = _points[i];
                 if (i === 0) {
                     _ctx.moveTo(p.x, p.y);
                 }
@@ -11813,7 +12661,7 @@ Z.CurveLine = Z.LineString.extend({
     }
 });
 
-Z.CurveLine._fromJSON = function (json) {
+Z.CurveLine.fromJSON = function (json) {
     var feature = json['feature'];
     var curveLine = new Z.CurveLine(feature['geometry']['coordinates'], json['options']);
     curveLine.setProperties(feature['properties']);
@@ -11821,23 +12669,40 @@ Z.CurveLine._fromJSON = function (json) {
 };
 
 /**
- * A connector line geometry can connect geometries and ui components with each other. <br>
- * Can be
+ * @classdesc
+ * A connector line geometry can connect geometries or ui components with each other. <br>
+ *
  * @class
  * @category geometry
  * @extends maptalks.CurveLine
- * @param {maptalks.Geometry|maptalks.Control|maptalks.UIComponent} src     - source to connect
- * @param {maptalks.Geometry|maptalks.Control|maptalks.UIComponent} target  - target to connect
- * @param {Object} [options=null]                   - construct options, also support options defined in the parent class [maptalks.CurveLine]{@link maptalks.CurveLine#options}
- * @param {Number} [options.curveType=0]            - curve type of the connector
+ * @param {maptalks.Geometry|maptalks.control.Control|maptalks.UIComponent} src     - source to connect
+ * @param {maptalks.Geometry|maptalks.control.Control|maptalks.UIComponent} target  - target to connect
+ * @param {Object} [options=null]                   - construct options
+ * @param {Number} [options.curveType=0]            - curve type of the connector, same as [maptalks.CurveLine]{@link maptalks.CurveLine}
  * @param {String} [options.showOn=always]          - when to show the connector line, possible values: 'moving', 'click', 'mouseover', 'always'
+ * @param {*} options.* - any other option defined in [maptalks.CurveLine]{@link maptalks.CurveLine#options}
+ * @example
+ * var src = new maptalks.Marker([0,0]).addTo(layer),
+ *      dst = new maptalks.Marker([1,0]).addTo(layer),
+ *      line = new maptalks.ConnectorLine(src, dst, {
+ *         curveType : 0, //0, 1, 2, 3
+ *         arcDegree : 120,
+ *         showOn : 'always', //'moving', 'click', 'mouseover', 'always'
+ *         arrowStyle : 'classic',
+ *         arrowPlacement : 'vertex-last', //vertex-first, vertex-last, vertex-firstlast, point
+ *         symbol: {
+ *           lineColor: '#34495e',
+ *           lineWidth: 2
+ *        }
+ *      }).addTo(layer);
  */
-Z.ConnectorLine = Z.CurveLine.extend(/** @lends maptalks.CurveLine.prototype */{
+Z.ConnectorLine = Z.CurveLine.extend(/** @lends maptalks.ConnectorLine.prototype */{
 
     /**
-     * @property {Object} options - specific options of circle, also support options defined in the parent class [maptalks.CurveLine]{@link maptalks.CurveLine#options}
-     * @param {Number} [options.curveType=0] - curve type of the connector
-     * @param {String} [options.showOn=always]          - when to show the connector line, possible values: 'moving', 'click', 'mouseover', 'always'
+     * @property {Object} options
+     * @property {Number} [options.curveType=0] - curve type of the connector
+     * @property {String} [options.showOn=always]          - when to show the connector line, possible values: 'moving', 'click', 'mouseover', 'always'
+     * @property {*} options.* - any other option defined in [maptalks.CurveLine]{@link maptalks.CurveLine#options}
      */
     options: {
         curveType : 0,
@@ -11853,7 +12718,7 @@ Z.ConnectorLine = Z.CurveLine.extend(/** @lends maptalks.CurveLine.prototype */{
 
     /**
      * Gets the source of the connector line.
-     * @return {maptalks.Geometry|maptalks.Control|maptalks.UIComponent}
+     * @return {maptalks.Geometry|maptalks.control.Control|maptalks.UIComponent}
      */
     getConnectSource:function () {
         return this._connSource;
@@ -11861,11 +12726,11 @@ Z.ConnectorLine = Z.CurveLine.extend(/** @lends maptalks.CurveLine.prototype */{
 
     /**
      * Sets the source to the connector line.
-     * @param {maptalks.Geometry|maptalks.Control|maptalks.UIComponent} src
+     * @param {maptalks.Geometry|maptalks.control.Control|maptalks.UIComponent} src
      * @return {maptalks.ConnectorLine} this
      */
     setConnectSource:function (src) {
-        this._onRemove();
+        this.onRemove();
         this._connSource = src;
         this._updateCoordinates();
         this._registEvents();
@@ -11874,7 +12739,7 @@ Z.ConnectorLine = Z.CurveLine.extend(/** @lends maptalks.CurveLine.prototype */{
 
     /**
      * Gets the target of the connector line.
-     * @return {maptalks.Geometry|maptalks.Control|maptalks.UIComponent}
+     * @return {maptalks.Geometry|maptalks.control.Control|maptalks.UIComponent}
      */
     getConnectTarget:function () {
         return this._connTarget;
@@ -11882,11 +12747,11 @@ Z.ConnectorLine = Z.CurveLine.extend(/** @lends maptalks.CurveLine.prototype */{
 
     /**
      * Sets the target to the connector line.
-     * @param {maptalks.Geometry|maptalks.Control|maptalks.UIComponent} target
+     * @param {maptalks.Geometry|maptalks.control.Control|maptalks.UIComponent} target
      * @return {maptalks.ConnectorLine} this
      */
     setConnectTarget:function (target) {
-        this._onRemove();
+        this.onRemove();
         this._connTarget = target;
         this._updateCoordinates();
         this._registEvents();
@@ -11929,13 +12794,13 @@ Z.ConnectorLine = Z.CurveLine.extend(/** @lends maptalks.CurveLine.prototype */{
         }
     },
 
-    _onRemove: function () {
+    onRemove: function () {
         Z.Util.removeFromArray(this, this._connSource.__connectors);
         Z.Util.removeFromArray(this, this._connTarget.__connectors);
         this._connSource.off('dragging positionchange', this._updateCoordinates, this)
-                        .off('remove', this._onRemove, this);
+                        .off('remove', this.onRemove, this);
         this._connTarget.off('dragging positionchange', this._updateCoordinates, this)
-                        .off('remove', this._onRemove, this);
+                        .off('remove', this.onRemove, this);
         this._connSource.off('dragstart mousedown mouseover', this._showConnect, this);
         this._connSource.off('dragend mouseup mouseout', this.hide, this);
         this._connSource.off('show', this._showConnect, this).off('hide', this.hide, this);
@@ -11946,8 +12811,8 @@ Z.ConnectorLine = Z.CurveLine.extend(/** @lends maptalks.CurveLine.prototype */{
         if (!this._connSource || !this._connTarget) {
             return;
         }
-        if ((this._connSource instanceof Z.Control || this._connSource.isVisible()) &&
-            (this._connTarget instanceof Z.Control || this._connTarget.isVisible())) {
+        if ((this._connSource instanceof Z.control.Control || this._connSource.isVisible()) &&
+            (this._connTarget instanceof Z.control.Control || this._connTarget.isVisible())) {
             this._updateCoordinates();
             this.show();
         }
@@ -11982,10 +12847,6 @@ Z.ConnectorLine = Z.CurveLine.extend(/** @lends maptalks.CurveLine.prototype */{
         } else {
             this._showConnect();
         }
-    },
-    _isEditingOrDragging:function () {
-        return ((!(this._connSource instanceof Z.Control) && this._connSource._isEditingOrDragging()) ||
-            (!(this._connTarget instanceof Z.Control) && this._connTarget._isEditingOrDragging()));
     }
 });
 
@@ -12011,16 +12872,22 @@ Z.Util.extend(Z.ConnectorLine, {
  * @param {maptalks.Coordinate} center  - center of the ellipse
  * @param {Number} width                - width of the ellipse
  * @param {Number} height                - height of the ellipse
- * @param {Object} [options=null]   - specific construct options for ellipse, also support options defined in [Polygon]{@link maptalks.Polygon#options}
+ * @param {Object} [options=null]   - specific construct options for ellipse
  * @param {Number} [options.numberOfShellPoints=60]   - number of shell points when exporting the ellipse's shell coordinates as a polygon.
+ * @param {*} options.* - any other option defined in [maptalks.Polygon]{@link maptalks.Polygon#options}
  * @example
  * var ellipse = new maptalks.Ellipse([100, 0], 1000, 500, {
- *     id : 'ellipse-id'
+ *     id : 'ellipse0'
  * });
  */
 Z.Ellipse = Z.Polygon.extend(/** @lends maptalks.Ellipse.prototype */{
     includes:[Z.Geometry.Center],
 
+    /**
+     * @property {Object} [options=null]
+     * @property {Number} [options.numberOfShellPoints=60]   - number of shell points when exporting the ellipse's shell coordinates as a polygon.
+     * @property {*} options.* - any other option defined in [maptalks.Polygon]{@link maptalks.Polygon#options}
+     */
     options:{
         'numberOfShellPoints':60
     },
@@ -12044,12 +12911,12 @@ Z.Ellipse = Z.Polygon.extend(/** @lends maptalks.Ellipse.prototype */{
     /**
      * Set new width to ellipse
      * @param {Number} width - new width
-     * @fires maptalks.Geometry#shapechange
+     * @fires maptalks.Ellipse#shapechange
      * @return {maptalks.Ellipse} this
      */
     setWidth:function (width) {
         this.width = width;
-        this._onShapeChanged();
+        this.onShapeChanged();
         return this;
     },
 
@@ -12064,33 +12931,41 @@ Z.Ellipse = Z.Polygon.extend(/** @lends maptalks.Ellipse.prototype */{
     /**
      * Set new height to ellipse
      * @param {Number} height - new height
-     * @fires maptalks.Geometry#shapechange
+     * @fires maptalks.Ellipse#shapechange
      * @return {maptalks.Ellipse} this
      */
     setHeight:function (height) {
         this.height = height;
-        this._onShapeChanged();
+        this.onShapeChanged();
         return this;
     },
 
     /**
-     * Gets the shell of the circle as a polygon, number of the shell points is decided by [options.numberOfShellPoints]{@link maptalks.Circle#options}
+     * Gets the shell of the ellipse as a polygon, number of the shell points is decided by [options.numberOfShellPoints]{@link maptalks.Circle#options}
      * @return {maptalks.Coordinate[]} - shell coordinates
      */
     getShell:function () {
-        var measurer = this._getMeasurer();
-        var center = this.getCoordinates();
-        var numberOfPoints = this.options['numberOfShellPoints'];
-        var width = this.getWidth(),
+        var measurer = this._getMeasurer(),
+            center = this.getCoordinates(),
+            numberOfPoints = this.options['numberOfShellPoints'],
+            width = this.getWidth(),
             height = this.getHeight();
         var shell = [];
-        var s = Math.pow(width, 2) * Math.pow(height, 2),
-            sx = Math.pow(width, 2),
-            sy = Math.pow(height, 2);
+        var s = Math.pow(width / 2, 2) * Math.pow(height / 2, 2),
+            sx = Math.pow(width / 2, 2),
+            sy = Math.pow(height / 2, 2);
+        var deg, rad, dx, dy;
         for (var i = 0; i < numberOfPoints; i++) {
-            var rad = (360 * i / numberOfPoints) * Math.PI / 180;
-            var dx = Math.sqrt(s / (sx * Math.pow(Math.tan(rad), 2) + sy));
-            var dy = Math.sqrt(s / (sy * Math.pow(1 / Math.tan(rad), 2) + sx));
+            deg = 360 * i / numberOfPoints;
+            rad = deg * Math.PI / 180;
+            dx = Math.sqrt(s / (sx * Math.pow(Math.tan(rad), 2) + sy));
+            dy = Math.sqrt(s / (sy * Math.pow(1 / Math.tan(rad), 2) + sx));
+            if (deg > 90 && deg < 270) {
+                dx *= -1;
+            }
+            if (deg > 180 && deg < 360) {
+                dy *= -1;
+            }
             var vertex = measurer.locate(center, dx, dy);
             shell.push(vertex);
         }
@@ -12114,7 +12989,7 @@ Z.Ellipse = Z.Polygon.extend(/** @lends maptalks.Ellipse.prototype */{
             b = pb.height,
             c = Math.sqrt(Math.abs(a * a - b * b)),
             xfocus = a >= b;
-        var center = this._getCenterViewPoint();
+        var center = this._getCenter2DPoint();
         var f1, f2, d;
         if (xfocus) {
             f1 = new Z.Point(center.x - c, center.y);
@@ -12191,7 +13066,7 @@ Z.Ellipse = Z.Polygon.extend(/** @lends maptalks.Ellipse.prototype */{
 
 });
 
-Z.Ellipse._fromJSON = function (json) {
+Z.Ellipse.fromJSON = function (json) {
     var feature = json['feature'];
     var ellipse = new Z.Ellipse(json['coordinates'], json['width'], json['height'], json['options']);
     ellipse.setProperties(feature['properties']);
@@ -12208,11 +13083,12 @@ Z.Ellipse._fromJSON = function (json) {
  * @mixes maptalks.Geometry.Center
  * @param {maptalks.Coordinate} center - center of the circle
  * @param {Number} radius           - radius of the circle
- * @param {Object} [options=null]   - specific construct options for circle, also support options defined in [Polygon]{@link maptalks.Polygon#options}
+ * @param {Object} [options=null]   - specific construct options for circle
  * @param {Number} [options.numberOfShellPoints=60]   - number of shell points when exporting the circle's shell coordinates as a polygon.
+ * @param {*} options.* - any other option defined in [maptalks.Polygon]{@link maptalks.Polygon#options}
  * @example
  * var circle = new maptalks.Circle([100, 0], 1000, {
- *     id : 'circle-id'
+ *     id : 'circle0'
  * });
  */
 Z.Circle = Z.Polygon.extend(/** @lends maptalks.Circle.prototype */{
@@ -12221,6 +13097,7 @@ Z.Circle = Z.Polygon.extend(/** @lends maptalks.Circle.prototype */{
     /**
      * @property {Object} options - specific options of circle, also support options defined in [Polygon]{@link maptalks.Polygon#options}
      * @property {Number} [options.numberOfShellPoints=60]   - number of shell points when converting the circle to a polygon.
+     * @property {*} options.* - any other option defined in [maptalks.Polygon]{@link maptalks.Polygon#options}
      */
     options:{
         'numberOfShellPoints':60
@@ -12244,11 +13121,11 @@ Z.Circle = Z.Polygon.extend(/** @lends maptalks.Circle.prototype */{
      * Set a new radius to the circle
      * @param {Number} radius - new radius
      * @return {maptalks.Circle} this
-     * @fires maptalks.Geometry#shapechange
+     * @fires maptalks.Circle#shapechange
      */
     setRadius:function (radius) {
         this._radius = radius;
-        this._onShapeChanged();
+        this.onShapeChanged();
         return this;
     },
 
@@ -12257,15 +13134,16 @@ Z.Circle = Z.Polygon.extend(/** @lends maptalks.Circle.prototype */{
      * @return {maptalks.Coordinate[]} - shell coordinates
      */
     getShell:function () {
-        var measurer = this._getMeasurer();
-        var center = this.getCoordinates();
-        var numberOfPoints = this.options['numberOfShellPoints'];
-        var radius = this.getRadius();
-        var shell = [];
+        var measurer = this._getMeasurer(),
+            center = this.getCoordinates(),
+            numberOfPoints = this.options['numberOfShellPoints'],
+            radius = this.getRadius();
+        var shell = [],
+            rad, dx, dy;
         for (var i = 0; i < numberOfPoints; i++) {
-            var rad = (360 * i / numberOfPoints) * Math.PI / 180;
-            var dx = radius * Math.cos(rad);
-            var dy = radius * Math.sin(rad);
+            rad = (360 * i / numberOfPoints) * Math.PI / 180;
+            dx = radius * Math.cos(rad);
+            dy = radius * Math.sin(rad);
             var vertex = measurer.locate(center, dx, dy);
             shell.push(vertex);
         }
@@ -12281,7 +13159,7 @@ Z.Circle = Z.Polygon.extend(/** @lends maptalks.Circle.prototype */{
     },
 
     _containsPoint: function (point, tolerance) {
-        var center = this._getCenterViewPoint(),
+        var center = this._getCenter2DPoint(),
             size = this.getSize(),
             t = Z.Util.isNil(tolerance) ? this._hitTestTolerance() : tolerance,
             pc = new Z.Point(center.x, center.y),
@@ -12341,7 +13219,7 @@ Z.Circle = Z.Polygon.extend(/** @lends maptalks.Circle.prototype */{
 
 });
 
-Z.Circle._fromJSON = function (json) {
+Z.Circle.fromJSON = function (json) {
     var feature = json['feature'];
     var circle = new Z.Circle(json['coordinates'], json['radius'], json['options']);
     circle.setProperties(feature['properties']);
@@ -12360,19 +13238,21 @@ Z.Circle._fromJSON = function (json) {
  * @param {Number} radius           - radius of the sector
  * @param {Number} startAngle       - start angle of the sector
  * @param {Number} endAngle         - end angle of the sector
- * @param {Object} [options=null]   - specific construct options for sector, also support options defined in [Polygon]{@link maptalks.Polygon#options}
+ * @param {Object} [options=null]   - specific construct options for sector
  * @param {Number} [options.numberOfShellPoints=60]   - number of shell points when exporting the sector's shell coordinates as a polygon.
+ * @param {*} options.* - any other option defined in [maptalks.Polygon]{@link maptalks.Polygon#options}
  * @example
  * var sector = new maptalks.Sector([100, 0], 1000, 30, 120, {
- *     id : 'sector-id'
+ *     id : 'sector0'
  * });
  */
 Z.Sector = Z.Polygon.extend(/** @lends maptalks.Sector.prototype */{
     includes:[Z.Geometry.Center],
 
     /**
-     * @property {Object} options - specific options of sector, also support options defined in [Polygon]{@link maptalks.Polygon#options}
+     * @property {Object} options -
      * @property {Number} [options.numberOfShellPoints=60]   - number of shell points when converting the sector to a polygon.
+     * @property {*} options.* - any other option defined in [maptalks.Polygon]{@link maptalks.Polygon#options}
      */
     options:{
         'numberOfShellPoints':60
@@ -12399,11 +13279,11 @@ Z.Sector = Z.Polygon.extend(/** @lends maptalks.Sector.prototype */{
      * Set a new radius to the sector
      * @param {Number} radius - new radius
      * @return {maptalks.Sector} this
-     * @fires maptalks.Geometry#shapechange
+     * @fires maptalks.Sector#shapechange
      */
     setRadius:function (radius) {
         this._radius = radius;
-        this._onShapeChanged();
+        this.onShapeChanged();
         return this;
     },
 
@@ -12419,11 +13299,11 @@ Z.Sector = Z.Polygon.extend(/** @lends maptalks.Sector.prototype */{
      * Set a new start angle to the sector
      * @param {Number} startAngle
      * @return {maptalks.Sector} this
-     * @fires maptalksGeometry#shapechange
+     * @fires maptalks.Sector#shapechange
      */
     setStartAngle:function (startAngle) {
         this.startAngle = startAngle;
-        this._onShapeChanged();
+        this.onShapeChanged();
         return this;
     },
 
@@ -12439,11 +13319,11 @@ Z.Sector = Z.Polygon.extend(/** @lends maptalks.Sector.prototype */{
      * Set a new end angle to the sector
      * @param {Number} endAngle
      * @return {maptalks.Sector} this
-     * @fires maptalksGeometry#shapechange
+     * @fires maptalks.Sector#shapechange
      */
     setEndAngle:function (endAngle) {
         this.endAngle = endAngle;
-        this._onShapeChanged();
+        this.onShapeChanged();
         return this;
     },
 
@@ -12452,16 +13332,17 @@ Z.Sector = Z.Polygon.extend(/** @lends maptalks.Sector.prototype */{
      * @return {maptalks.Coordinate[]} - shell coordinates
      */
     getShell:function () {
-        var measurer = this._getMeasurer();
-        var center = this.getCoordinates();
-        var numberOfPoints = this.options['numberOfShellPoints'];
-        var radius = this.getRadius();
-        var shell = [];
-        var angle = this.getEndAngle() - this.getStartAngle();
+        var measurer = this._getMeasurer(),
+            center = this.getCoordinates(),
+            numberOfPoints = this.options['numberOfShellPoints'],
+            radius = this.getRadius(),
+            shell = [],
+            angle = this.getEndAngle() - this.getStartAngle();
+        var rad, dx, dy;
         for (var i = 0; i < numberOfPoints; i++) {
-            var rad = (angle * i / numberOfPoints + this.getStartAngle()) * Math.PI / 180;
-            var dx = radius * Math.cos(rad);
-            var dy = radius * Math.sin(rad);
+            rad = (angle * i / (numberOfPoints - 1) + this.getStartAngle()) * Math.PI / 180;
+            dx = radius * Math.cos(rad);
+            dy = radius * Math.sin(rad);
             var vertex = measurer.locate(center, dx, dy);
             shell.push(vertex);
         }
@@ -12478,7 +13359,7 @@ Z.Sector = Z.Polygon.extend(/** @lends maptalks.Sector.prototype */{
     },
 
     _containsPoint: function (point, tolerance) {
-        var center = this._getCenterViewPoint(),
+        var center = this._getCenter2DPoint(),
             t = Z.Util.isNil(tolerance) ? this._hitTestTolerance() : tolerance,
             size = this.getSize(),
             pc = center,
@@ -12555,7 +13436,7 @@ Z.Sector = Z.Polygon.extend(/** @lends maptalks.Sector.prototype */{
 
 });
 
-Z.Sector._fromJSON = function (json) {
+Z.Sector.fromJSON = function (json) {
     var feature = json['feature'];
     var sector = new Z.Sector(json['coordinates'], json['radius'], json['startAngle'], json['endAngle'], json['options']);
     sector.setProperties(feature['properties']);
@@ -12572,10 +13453,10 @@ Z.Sector._fromJSON = function (json) {
  * @param {maptalks.Coordinate} coordinates  - northwest of the rectangle
  * @param {Number} width                     - width of the rectangle
  * @param {Number} height                    - height of the rectangle
- * @param {Object} [options=null]            - options defined in [Polygon]{@link maptalks.Polygon#options}
+ * @param {Object} [options=null]            - options defined in [maptalks.Polygon]{@link maptalks.Polygon#options}
  * @example
  * var rectangle = new maptalks.Rectangle([100, 0], 1000, 500, {
- *     id : 'rectangle-id'
+ *     id : 'rectangle0'
  * });
  */
 Z.Rectangle = Z.Polygon.extend(/** @lends maptalks.Rectangle.prototype */{
@@ -12600,13 +13481,13 @@ Z.Rectangle = Z.Polygon.extend(/** @lends maptalks.Rectangle.prototype */{
      * Set a new coordinate for northwest of the rectangle
      * @param {maptalks.Coordinate} nw - coordinates of new northwest
      * @return {maptalks.Rectangle} this
-     * @fires maptalks.Geometry#positionchange
+     * @fires maptalks.Rectangle#positionchange
      */
     setCoordinates:function (nw) {
         this._coordinates = new Z.Coordinate(nw);
 
         if (!this._coordinates || !this.getMap()) {
-            this._onPositionChanged();
+            this.onPositionChanged();
             return this;
         }
         var projection = this._getProjection();
@@ -12625,12 +13506,12 @@ Z.Rectangle = Z.Polygon.extend(/** @lends maptalks.Rectangle.prototype */{
     /**
      * Set new width to the rectangle
      * @param {Number} width - new width
-     * @fires maptalks.Geometry#shapechange
+     * @fires maptalks.Rectangle#shapechange
      * @return {maptalks.Rectangle} this
      */
     setWidth:function (width) {
         this._width = width;
-        this._onShapeChanged();
+        this.onShapeChanged();
         return this;
     },
 
@@ -12645,12 +13526,12 @@ Z.Rectangle = Z.Polygon.extend(/** @lends maptalks.Rectangle.prototype */{
     /**
      * Set new height to rectangle
      * @param {Number} height - new height
-     * @fires maptalks.Geometry#shapechange
+     * @fires maptalks.Rectangle#shapechange
      * @return {maptalks.Rectangle} this
      */
     setHeight:function (height) {
         this._height = height;
-        this._onShapeChanged();
+        this.onShapeChanged();
         return this;
     },
 
@@ -12701,7 +13582,7 @@ Z.Rectangle = Z.Polygon.extend(/** @lends maptalks.Rectangle.prototype */{
 
     _setPrjCoordinates:function (pnw) {
         this._pnw = pnw;
-        this._onPositionChanged();
+        this.onPositionChanged();
     },
 
 
@@ -12725,7 +13606,7 @@ Z.Rectangle = Z.Polygon.extend(/** @lends maptalks.Rectangle.prototype */{
     _containsPoint: function (point, tolerance) {
         var map = this.getMap(),
             t = Z.Util.isNil(tolerance) ? this._hitTestTolerance() : tolerance,
-            sp = map.coordinateToViewPoint(this._coordinates),
+            sp = map.coordinateToPoint(this._coordinates),
             pxSize = map.distanceToPixel(this._width, this._height);
 
         var pxMin = new Z.Point(sp.x, sp.y),
@@ -12789,7 +13670,7 @@ Z.Rectangle = Z.Polygon.extend(/** @lends maptalks.Rectangle.prototype */{
 
 });
 
-Z.Rectangle._fromJSON = function (json) {
+Z.Rectangle.fromJSON = function (json) {
     var feature = json['feature'];
     var rect = new Z.Rectangle(json['coordinates'], json['width'], json['height'], json['options']);
     rect.setProperties(feature['properties']);
@@ -12803,6 +13684,13 @@ Z.Rectangle._fromJSON = function (json) {
  * @category geometry
  * @extends maptalks.Geometry
  * @param {maptalks.Geometry[]} geometries - GeometryCollection's geometries
+ * @param {Object} [options=null] - options defined in [nmaptalks.Geometry]{@link maptalks.Geometry#options}
+ * @example
+ * var marker = new maptalks.Marker([0, 0]),
+ *     line = new maptalks.LineString([[0, 0], [0, 1]]),
+ *     polygon = new maptalks.Polygon([[0, 0], [0, 1], [1, 3]]);
+ * var collection = new maptalks.GeometryCollection([marker, line, polygon])
+ *     .addTo(layer);
  */
 Z.GeometryCollection = Z.Geometry.extend(/** @lends maptalks.GeometryCollection.prototype */{
     type:Z.Geometry['TYPE_GEOMETRYCOLLECTION'],
@@ -12825,6 +13713,7 @@ Z.GeometryCollection = Z.Geometry.extend(/** @lends maptalks.GeometryCollection.
      * Set new geometries to the geometry collection
      * @param {maptalks.Geometry[]} geometries
      * @return {maptalks.GeometryCollection} this
+     * @fires maptalks.GeometryCollection#shapechange
      */
     setGeometries:function (_geometries) {
         var geometries = this._checkGeometries(_geometries);
@@ -12833,21 +13722,21 @@ Z.GeometryCollection = Z.Geometry.extend(/** @lends maptalks.GeometryCollection.
             for (var i = geometries.length - 1; i >= 0; i--) {
                 geometries[i]._initOptions(this.config());
                 geometries[i]._setParent(this);
-                geometries[i].setEventParent(this);
+                geometries[i]._setEventParent(this);
                 geometries[i].setSymbol(this.getSymbol());
             }
         }
         this._geometries = geometries;
         if (this.getLayer()) {
             this._bindGeometriesToLayer();
-            this._onShapeChanged();
+            this.onShapeChanged();
         }
         return this;
     },
 
     /**
      * Get geometries of the geometry collection
-     * @return {maptalks.Geometry[]}
+     * @return {maptalks.Geometry[]} geometries
      */
     getGeometries:function () {
         if (!this._geometries) {
@@ -12857,9 +13746,9 @@ Z.GeometryCollection = Z.Geometry.extend(/** @lends maptalks.GeometryCollection.
     },
 
     /**
-     * Travels among the geometries the collection has.
-     * @param  {Function} fn - a callback function
-     * @param  {*} context   - callback's context
+     * Executes the provided callback once for each geometry present in the collection in order.
+     * @param  {Function} fn             - a callback function
+     * @param  {*} [context=undefined]   - callback's context
      * @return {maptalks.GeometryCollection} this
      */
     forEach: function (fn, context) {
@@ -12878,9 +13767,9 @@ Z.GeometryCollection = Z.Geometry.extend(/** @lends maptalks.GeometryCollection.
     },
 
     /**
-     * creates a GeometryCollection with all elements that pass the test implemented by the provided function.
+     * Creates a GeometryCollection with all elements that pass the test implemented by the provided function.
      * @param  {Function} fn      - Function to test each geometry
-     * @param  {*} context        - Function's context
+     * @param  {*} [context=undefined]    - Function's context
      * @return {maptalks.GeometryCollection} A GeometryCollection with all elements that pass the test
      */
     filter: function () {
@@ -12918,8 +13807,9 @@ Z.GeometryCollection = Z.Geometry.extend(/** @lends maptalks.GeometryCollection.
     /**
      * remove itself from the layer if any.
      * @returns {maptalks.Geometry} this
-     * @fires maptalks.Geometry#removestart
-     * @fires maptalks.Geometry#remove
+     * @fires maptalks.GeometryCollection#removestart
+     * @fires maptalks.GeometryCollection#remove
+     * @fires maptalks.GeometryCollection#removeend
      */
     remove:function () {
         this.forEach(function (geometry) {
@@ -12931,7 +13821,7 @@ Z.GeometryCollection = Z.Geometry.extend(/** @lends maptalks.GeometryCollection.
     /**
      * Show the geometry collection.
      * @return {maptalks.GeometryCollection} this
-     * @fires maptalks.Geometry#show
+     * @fires maptalks.GeometryCollection#show
      */
     show:function () {
         this.options['visible'] = true;
@@ -12944,7 +13834,7 @@ Z.GeometryCollection = Z.Geometry.extend(/** @lends maptalks.GeometryCollection.
     /**
      * Hide the geometry collection.
      * @return {maptalks.GeometryCollection} this
-     * @fires maptalks.Geometry#hide
+     * @fires maptalks.GeometryCollection#hide
      */
     hide:function () {
         this.options['visible'] = false;
@@ -12960,7 +13850,7 @@ Z.GeometryCollection = Z.Geometry.extend(/** @lends maptalks.GeometryCollection.
         this.forEach(function (geometry) {
             geometry.setSymbol(symbol);
         });
-        this._onSymbolChanged();
+        this.onSymbolChanged();
         return this;
     },
 
@@ -12976,7 +13866,7 @@ Z.GeometryCollection = Z.Geometry.extend(/** @lends maptalks.GeometryCollection.
         this.forEach(function (geometry) {
             geometry._setExternSymbol(symbol);
         });
-        this._onSymbolChanged();
+        this.onSymbolChanged();
         return this;
     },
 
@@ -13344,18 +14234,21 @@ Z.Geometry.MultiPoly = {
  * @extends maptalks.GeometryCollection
  * @mixes maptalks.Geometry.MultiPoly
  * @param {Number[][]|maptalks.Coordinate[]|maptalks.Marker[]} data - construct data, coordinates or a array of markers
- * @param {Object} [options=null]           - specific construct options for MultiPoint, also support options defined in [Geometry]{@link maptalks.Geometry#options}
- * @param {Object} [options.symbol=object]  - default symbol of the MultiPoint.
+ * @param {Object} [options=null] - options defined in [nmaptalks.Geometry]{@link maptalks.Geometry#options}
+ * @example
+ * var multiPoint = new maptalks.MultiPoint(
+ *     [
+ *         [121.5080881906138, 31.241128104458117],
+ *         [121.50804527526954, 31.237238340103413],
+ *         [121.5103728890997, 31.23888972560888]
+ *     ]
+ * ).addTo(layer);
  */
 Z.MultiPoint = Z.GeometryCollection.extend(/** @lends maptalks.MultiPoint.prototype */{
     includes:[Z.Geometry.MultiPoly],
 
     GeometryType:Z.Marker,
 
-    /**
-     * @property {String} type - MultiPoint
-     * @static
-     */
     type:Z.Geometry['TYPE_MULTIPOINT'],
 
     initialize:function (data, opts) {
@@ -13372,7 +14265,32 @@ Z.MultiPoint = Z.GeometryCollection.extend(/** @lends maptalks.MultiPoint.protot
  * @extends maptalks.GeometryCollection
  * @mixes maptalks.Geometry.MultiPoly
  * @param {Number[][][]|maptalks.Coordinate[][]|maptalks.LineString[]} data - construct data, coordinates or a array of linestrings
- * @param {Object} [options=null]           - options defined in [Geometry]{@link maptalks.Geometry#options}
+ * @param {Object} [options=null]           - options defined in [maptalks.Geometry]{@link maptalks.Geometry#options}
+ * @example
+ * var multiLineString = new maptalks.MultiLineString(
+ *      [
+ *          [
+ *              [121.5289450479131, 31.2420083925986],
+ *              [121.52860172515919, 31.238926401171824]
+ *          ],
+ *          [
+ *              [121.53091915374796, 31.241898323208233],
+ *              [121.53104789978069, 31.23859618183896]
+ *          ],
+ *          [
+ *               [121.5324641061405, 31.241898323208233],
+ *               [121.53242119079626, 31.239146546752256]
+ *           ]
+ *       ],
+ *       {
+ *           symbol:{
+ *               'lineColor' : '#000000',
+ *               'lineWidth' : 5,
+ *               'lineOpacity' : 1
+ *           },
+ *          draggable:true
+ *      }
+ * ).addTo(layer);
  */
 Z.MultiLineString = Z.MultiPolyline = Z.GeometryCollection.extend(/** @lends maptalks.MultiLineString.prototype */{
 
@@ -13397,7 +14315,42 @@ Z.MultiLineString = Z.MultiPolyline = Z.GeometryCollection.extend(/** @lends map
  * @extends maptalks.GeometryCollection
  * @mixes maptalks.Geometry.MultiPoly
  * @param {Number[][][][]|maptalks.Coordinate[][][]|maptalks.Polygon[]} data - construct data, coordinates or a array of polygons
- * @param {Object} [options=null]           - options defined in [Geometry]{@link maptalks.Geometry#options}
+ * @param {Object} [options=null]           - options defined in [maptalks.Geometry]{@link maptalks.Geometry#options}
+ * @example
+ * var multiPolygon = new maptalks.MultiPolygon(
+ *       [
+ *           [
+ *               [
+ *                   [121.55074604278596, 31.242008515751614],
+ *                   [121.55074604278596, 31.23914637638951],
+ *                   [121.55349262481711, 31.23914637638951],
+ *                   [121.55349262481711, 31.24134802974913],
+ *                   [121.5518618417361, 31.241384723537074],
+ *                   [121.55074604278596, 31.242008515751614]
+ *               ]
+ *           ],
+ *           [
+ *               [
+ *                   [121.5543080163576, 31.241054478932387],
+ *                   [121.5543938470461, 31.240100432478293],
+ *                   [121.55555256134048, 31.240173821009137],
+ *                   [121.55542381530773, 31.240981091085693],
+ *                   [121.5543080163576, 31.241054478932387]
+ *               ]
+ *           ]
+ *
+ *       ],
+ *       {
+ *           symbol:{
+ *               'lineColor' : '#000000',
+ *               'lineWidth' : 2,
+ *               'lineDasharray' : null,//线形
+ *               'lineOpacity' : 1,
+ *               'polygonFill' : 'rgb(255, 0, 0)',
+ *               'polygonOpacity' : 0.8
+ *           },
+ *           draggable:true
+ * }).addTo(layer);
  */
 Z.MultiPolygon = Z.GeometryCollection.extend(/** @lends maptalks.MultiPolygon.prototype */{
     includes:[Z.Geometry.MultiPoly],
@@ -13412,6 +14365,7 @@ Z.MultiPolygon = Z.GeometryCollection.extend(/** @lends maptalks.MultiPolygon.pr
 });
 
 /**
+ * @classdesc
  * GeoJSON utilities
  * @class
  * @category geometry
@@ -13423,7 +14377,44 @@ Z.GeoJSON = {
     /**
      * Convert one or more GeoJSON objects to a geometry
      * @param  {String|Object|Object[]} json - json objects or json string
-     * @return {maptalks.Geometry|maptalks.Geometry[]}
+     * @return {maptalks.Geometry|maptalks.Geometry[]} a geometry array when input is a FeatureCollection
+     * @example
+     * var collection = {
+     *      "type": "FeatureCollection",
+     *      "features": [
+     *          { "type": "Feature",
+     *            "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
+     *            "properties": {"prop0": "value0"}
+     *           },
+     *           { "type": "Feature",
+     *             "geometry": {
+     *                 "type": "LineString",
+     *                 "coordinates": [
+     *                     [102.0, 0.0], [103.0, 1.0], [104.0, 0.0], [105.0, 1.0]
+     *                 ]
+     *             },
+     *             "properties": {
+     *                 "prop0": "value0",
+     *                 "prop1": 0.0
+     *             }
+     *           },
+     *           { "type": "Feature",
+     *             "geometry": {
+     *                 "type": "Polygon",
+     *                 "coordinates": [
+     *                     [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0],
+     *                       [100.0, 1.0], [100.0, 0.0] ]
+     *                 ]
+     *             },
+     *             "properties": {
+     *                 "prop0": "value0",
+     *                 "prop1": {"this": "that"}
+     *             }
+     *          }
+     *      ]
+     *  }
+     *  // a geometry array.
+     *  var geometries = maptalks.GeoJSON.toGeometry(collection);
      */
     toGeometry:function (geoJSON) {
         if (Z.Util.isString(geoJSON)) {
@@ -13453,7 +14444,7 @@ Z.GeoJSON = {
      * @return {Number[]|Number[][]}
      * @example
      * // result is [[100,0], [101,1]]
-     * var jsonCoords = maptalks.GeoJSON.toNumberArrays([new maptalks.Coordinate(100,0), new maptalks.Coordinate(101,1)]);
+     * var numCoords = maptalks.GeoJSON.toNumberArrays([new maptalks.Coordinate(100,0), new maptalks.Coordinate(101,1)]);
      */
     toNumberArrays:function (coordinates) {
         if (!Z.Util.isArray(coordinates)) {
@@ -13468,6 +14459,8 @@ Z.GeoJSON = {
      * Convert one or more GeoJSON style coordiantes to maptalks.Coordinate objects
      * @param  {Number[]|Number[][]} coordinates - coordinates to convert
      * @return {maptalks.Coordinate|maptalks.Coordinate[]}
+     * @example
+     * var coordinates = maptalks.GeoJSON.toCoordinates([[100,0], [101,1]]);
      */
     toCoordinates:function (coordinates) {
         if (Z.Util.isNumber(coordinates[0]) && Z.Util.isNumber(coordinates[1])) {
@@ -13555,7 +14548,7 @@ Z.GeoJSON = {
  * @param {maptalks._shadow} geometry 待编辑图形
  * @param {Object} opts 属性
  */
-Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype */{
+Z.Geometry.Editor = Z.Class.extend(/** @lends maptalks.Geometry.Editor.prototype */{
     includes: [Z.Eventable],
 
     editStageLayerIdPrefix : Z.internalLayerPrefix + '_edit_stage_',
@@ -13586,10 +14579,10 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
 
     _prepareEditStageLayer:function () {
         var map = this.getMap();
-        var guid = Z.Util.GUID();
-        this._editStageLayer = map.getLayer(this.editStageLayerIdPrefix + guid);
+        var uid = Z.Util.UID();
+        this._editStageLayer = map.getLayer(this.editStageLayerIdPrefix + uid);
         if (!this._editStageLayer) {
-            this._editStageLayer = new Z.VectorLayer(this.editStageLayerIdPrefix + guid, {'drawImmediate' : true});
+            this._editStageLayer = new Z.VectorLayer(this.editStageLayerIdPrefix + uid);
             map.addLayer(this._editStageLayer);
         }
     },
@@ -13606,11 +14599,16 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
         this.prepare();
         //edits are applied to a shadow of geometry to improve performance.
         var shadow = geometry.copy();
+        shadow.setSymbol(geometry._getInternalSymbol());
         //geometry copy没有将event复制到新建的geometry,对于编辑这个功能会存在一些问题
         //原geometry上可能绑定了其它监听其click/dragging的事件,在编辑时就无法响应了.
         shadow.copyEventListeners(geometry);
+        //unregister idchange listener
         if (geometry._getParent()) {
             shadow.copyEventListeners(geometry._getParent());
+        }
+        if (geometry.getLayer()._onGeometryIdChange) {
+            shadow.off('idchange', geometry.getLayer()._onGeometryIdChange, geometry.getLayer());
         }
         //drag shadow by center handle instead.
         shadow.setId(null).config({'draggable': false});
@@ -13730,10 +14728,9 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
         var geometry = this._geometry,
             map = this.getMap(),
             outline = this._editOutline;
-
-        var pixelExtent = geometry._getPainter().getViewExtent(),
+        var pixelExtent = geometry._getPainter().get2DExtent(),
             size = pixelExtent.getSize();
-        var nw = map.viewPointToCoordinate(pixelExtent.getMin());
+        var nw = map.pointToCoordinate(pixelExtent.getMin());
         var width = map.pixelToDistance(size['width'], 0),
             height = map.pixelToDistance(0, size['height']);
         if (!outline) {
@@ -13887,7 +14884,7 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
         var anchorIndexes = {};
         var me = this, map = this.getMap();
         var fnLocateHandles = function () {
-            var pExt = geometry._getPainter().getViewExtent(),
+            var pExt = geometry._getPainter().get2DExtent(),
                 anchors = getResizeAnchors(pExt);
             for (var i = 0; i < anchors.length; i++) {
                 //ignore anchors in blacklist
@@ -13904,7 +14901,7 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
                     }
                 }
                 var anchor = anchors[i],
-                    coordinate = map.viewPointToCoordinate(anchor);
+                    coordinate = map.pointToCoordinate(anchor);
                 if (resizeHandles.length < anchors.length - blackList.length) {
                     var handle = me.createHandle(coordinate, {
                         'markerType' : 'square',
@@ -13967,7 +14964,7 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
             }
         }
         if (!marker._canEdit()) {
-            console.warn('A marker can\'t be resized with symbol:', marker.getSymbol());
+            Z.Util.warn('A marker can\'t be resized with symbol:', marker.getSymbol());
             return;
         }
         //only image marker and vector marker can be edited now.
@@ -14004,7 +15001,7 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
         resizeHandles = this._createResizeHandles(null, function (handleViewPoint, i) {
             if (blackList && Z.Util.indexOfArray(i, blackList) >= 0) {
                 //need to change marker's coordinates
-                var newCoordinates = map.viewPointToCoordinate(handleViewPoint);
+                var newCoordinates = map.viewPointToCoordinate(handleViewPoint.substract(dxdy));
                 var coordinates = marker.getCoordinates();
                 newCoordinates.x = coordinates.x;
                 marker.setCoordinates(newCoordinates);
@@ -14016,9 +15013,12 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
             }
 
             //caculate width and height
-            var viewCenter = marker._getCenterViewPoint().add(dxdy),
+            var viewCenter = map._pointToViewPoint(marker._getCenter2DPoint()).add(dxdy),
                 symbol = marker._getInternalSymbol();
             var wh = handleViewPoint.substract(viewCenter);
+            if (blackList && handleViewPoint.y > viewCenter.y) {
+                wh.y = 0;
+            }
             //if this marker's anchor is on its bottom, height doesn't need to multiply by 2.
             var r = blackList ? 1 : 2;
             var width = Math.abs(wh.x) * 2,
@@ -14047,7 +15047,7 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
             circle = this._geometry;
         var map = this.getMap();
         this._createResizeHandles(null, function (handleViewPoint) {
-            var viewCenter = shadow._getCenterViewPoint();
+            var viewCenter = map._pointToViewPoint(shadow._getCenter2DPoint());
             var wh = handleViewPoint.substract(viewCenter);
             var w = Math.abs(wh.x),
                 h = Math.abs(wh.y);
@@ -14126,7 +15126,7 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
                 viewCenter = map._prjToViewPoint(shadow._getPrjCoordinates());
             } else {
                 r = 2;
-                viewCenter = shadow._getCenterViewPoint();
+                viewCenter = map._pointToViewPoint(shadow._getCenter2DPoint());
             }
             var wh = handleViewPoint.substract(viewCenter);
             var ability = resizeAbilities[i];
@@ -14216,7 +15216,7 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
             pVertex.x = nVertex.x;
             pVertex.y = nVertex.y;
             shadow._updateCache();
-            shadow._onShapeChanged();
+            shadow.onShapeChanged();
             var nextIndex;
             if (index === 0) {
                 nextIndex = newVertexHandles.length - 1;
@@ -14373,10 +15373,17 @@ Z.GeometryEditor = Z.Class.extend(/** @lends maptalks.GeometryEditor.prototype *
 
 });
 
-Z.Label.include(/** @lends maptalks.Label.prototype */{
+
+/**
+ * @memberOf maptalks.TextMarker
+ * @name TextMarker.Edit
+ */
+Z.TextMarker.Editor = {
     /**
-     * Start to edit the label text
-     * @return {maptalks.Label} this
+     * Start to edit the text, editing will be ended automatically whenever map is clicked.
+     *
+     * @return {maptalks.TextMarker} this
+     * @fires maptalks.TextMarker#edittextstart
      */
     startEditText: function () {
         if (!this.getMap()) {
@@ -14385,13 +15392,22 @@ Z.Label.include(/** @lends maptalks.Label.prototype */{
         this.hide();
         this.endEditText();
         this._prepareEditor();
-        this.fire('edittextstart', this);
+        /**
+         * edittextstart when starting to edit text content
+         * @event maptalks.TextMarker#edittextstart
+         * @type {Object}
+         * @property {String} type - edittextstart
+         * @property {maptalks.TextMarker} target - fires the event
+         */
+        this._fireEvent('edittextstart');
         return this;
     },
 
     /**
-     * End label text edit.
-     * @return {maptalks.Label} this
+     * End text edit.
+     *
+     * @return {maptalks.TextMarker} this
+     * @fires maptalks.TextMarker#edittextend
      */
     endEditText: function () {
         if (this._textEditor) {
@@ -14402,14 +15418,23 @@ Z.Label.include(/** @lends maptalks.Label.prototype */{
             this.getMap().off('mousedown', this.endEditText, this);
             this._editUIMarker.remove();
             delete this._editUIMarker;
+            delete this._textEditor.onkeyup;
             delete this._textEditor;
-            this.fire('edittextend', this);
+            /**
+             * edittextend when ended editing text content
+             * @event maptalks.TextMarker#edittextend
+             * @type {Object}
+             * @property {String} type - edittextend
+             * @property {maptalks.TextMarker} target - textMarker fires the event
+             */
+            this._fireEvent('edittextend');
         }
         return this;
     },
 
     /**
-     * Whether the label is being edited text.
+     * Whether the text is being edited.
+     *
      * @return {Boolean}
      */
     isEditingText: function () {
@@ -14419,6 +15444,10 @@ Z.Label.include(/** @lends maptalks.Label.prototype */{
         return false;
     },
 
+    /**
+     * Get the text editor which is a [maptalks.ui.UIMarker]{@link maptalks.ui.UIMarker}
+     * @return {maptalks.ui.UIMarker} text editor
+     */
     getTextEditor: function () {
         return this._editUIMarker;
     },
@@ -14428,29 +15457,49 @@ Z.Label.include(/** @lends maptalks.Label.prototype */{
         var editContainer = this._createEditor();
         this._textEditor = editContainer;
         map.on('mousedown',  this.endEditText, this);
+        var offset = this._getEditorOffset();
         this._editUIMarker = new maptalks.ui.UIMarker(this.getCoordinates(), {
-            'content' : editContainer
+            'content' : editContainer,
+            'dx' : offset.dx,
+            'dy' : offset.dy
         }).addTo(map).show();
+        this._setCursorToLast(this._textEditor);
+    },
+
+    _getEditorOffset: function () {
+        var symbol = this._getInternalSymbol() || {}, dx = 0, dy = 0;
+        var textAlign = symbol['textHorizontalAlignment'];
+        if (textAlign === 'middle') {
+            dx = symbol['textDx'] - 2 || 0;
+            dy = symbol['textDy'] - 2 || 0;
+        } else if (textAlign === 'left') {
+            dx = symbol['markerDx'] - 2 || 0;
+            dy = symbol['markerDy'] - 2 || 0;
+        } else {
+            dx = symbol['markerDx'] - 2 || 0;
+            dy = symbol['markerDy'] - 2 || 0;
+        }
+        return {'dx' : dx, 'dy' : dy};
     },
 
     _createEditor: function () {
         var labelSize = this.getSize(),
             symbol = this._getInternalSymbol() || {},
             width = labelSize['width'] || 100,
-            // height = labelSize['height'] || 100,
             textColor = symbol['textFill'] || '#000000',
             textSize = symbol['textSize'] || 12,
+            height = labelSize['height'] || textSize,
             fill = symbol['markerFill'] || '#3398CC',
-            lineColor = symbol['markerLineColor'] || '#ffffff',
-            spacing = symbol['textLineSpacing'] || 0,
-            editor = Z.DomUtil.createEl('div');
+            // lineColor = symbol['markerLineColor'] || '#ffffff',
+            spacing = symbol['textLineSpacing'] || 0;
+        var editor = Z.DomUtil.createEl('div');
         editor.contentEditable = true;
         editor.style.cssText = 'background: ' + fill + ';' +
-            'border: 1px solid ' + lineColor + ';' +
+            'border: 1px solid #ff0000;' +
             'color: ' + textColor + ';' +
             'font-size: ' + textSize + 'px;' +
-            'width: ' + (width + 10) + 'px;' +
-            // 'height: '+(height - spacing) +'px;'+
+            'width: ' + (width - 2) + 'px;' +
+            'height: ' + (height - 2) + 'px;' +
             // 'min-height: '+(height - spacing)+'px;'+
             // 'max-height: 300px;'+
             'margin-left: auto;' +
@@ -14459,15 +15508,41 @@ Z.Label.include(/** @lends maptalks.Label.prototype */{
             'outline: 0;' +
             'word-wrap: break-word;' +
             'overflow-x: hidden;' +
-            'overflow-y: auto;' +
+            'overflow-y: hidden;' +
             '-webkit-user-modify: read-write-plaintext-only;';
         var content = this.getContent();
         editor.innerText = content;
         Z.DomUtil.on(editor, 'mousedown dblclick', Z.DomUtil.stopPropagation);
+        editor.onkeyup =  function (event) {
+            var h = editor.style.height;
+            if (!h) {
+                h = 0;
+            }
+            if (event.keyCode === 13) {
+                editor.style.height = (parseInt(h) + textSize) + 'px';
+            }
+        };
         return editor;
-    }
+    },
 
-});
+    _setCursorToLast: function (obj) {
+        var range;
+        if (window.getSelection) {
+            obj.focus();
+            range = window.getSelection();
+            range.selectAllChildren(obj);
+            range.collapseToEnd();
+        } else if (document.selection) {
+            range = document.selection.createRange();
+            range.moveToElementText(obj);
+            range.collapse(false);
+            range.select();
+        }
+    }
+};
+
+Z.TextBox.include(Z.TextMarker.Editor);
+Z.Label.include(Z.TextMarker.Editor);
 
 Z.View = function (options) {
     if (!options) {
@@ -14724,26 +15799,15 @@ Z.Util.extend(Z.View.prototype, {
  * @param {Object} options - construct options
  * @param {(Number[]|maptalks.Coordinate)} options.center - initial center of the map.
  * @param {Number} options.zoom - initial zoom of the map.
- * @param {Object} [options.view=null] - map's view state, default is the common-used by google map or osm<br/>
- *                               use projection EPSG:3857 with resolutions
+ * @param {Object} [options.view=null] - map's view config, default is using projection EPSG:3857 with resolutions used by google map/osm.
  * @param {maptalks.Layer} [options.baseLayer=null] - base layer that will be set to map initially.
  * @param {maptalks.Layer[]} [options.layers=null] - layers that will be added to map initially.
  * @param {*} options.* - any other option defined in [Map.options]{@link maptalks.Map#options}
  *
  * @mixes maptalks.Eventable
  * @mixes maptalks.Handlerable
- * @mixes maptalks.Renderable
- * @mixins maptalks.ui.Menu.Mixin
+ * @mixes maptalks.ui.Menu.Mixin
  *
- * @fires maptalks.Map#load
- * @fires maptalks.Map#viewchange
- * @fires maptalks.Map#baselayerload
- * @fires maptalks.Map#baselayerchangestart
- * @fires maptalks.Map#baselayerchangeend
- * @fires maptalks.Map#resize
- * @fires maptalks.Map#movestart
- * @fires maptalks.Map#moving
- * @fires maptalks.Map#moveend
  * @classdesc
  * The central class of the library, to create a map on a container.
  * @example
@@ -14762,32 +15826,34 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
 
     /**
      * @property {Object} options                                   - map's options, options must be updated by config method, eg: map.config('zoomAnimation', false);
+     * @property {Boolean} [options.centerCross=false]              - Display a red cross in the center of map
      * @property {Boolean} [options.clipFullExtent=false]           - clip geometries outside map's full extent
      * @property {Boolean} [options.zoomAnimation=true]             - enable zooming animation
-     * @property {Number}  [options.zoomAnimationDuration=250]      - zoom animation duration.
+     * @property {Number}  [options.zoomAnimationDuration=330]      - zoom animation duration.
      * @property {Boolean} [options.zoomBackground=true]            - leaves a background after zooming.
      * @property {Boolean} [options.layerZoomAnimation=true]        - also animate layers when zooming.
      * @property {Boolean} [options.layerTransforming=true] - update points when transforming (e.g. zoom animation), this may bring drastic low performance when rendering a large number of points.
      * @property {Boolean} [options.panAnimation=true]              - continue to animate panning when draging or touching ended.
      * @property {Boolean} [options.panAnimationDuration=600]       - duration of pan animation.
-     * @property {Boolean} [options.zoomable=true]                - whether to enable map zooming.
-     * @property {Boolean} [options.enableInfoWindow=true]          - whether to enable infowindow opening on this map.
-     * @property {Boolean} [options.maxZoom=null]                   - the maximum zoom the map can be zooming to.
-     * @property {Boolean} [options.minZoom=null]                   - the minimum zoom the map can be zooming to.
+     * @property {Boolean} [options.zoomable=true]                  - whether to enable map zooming.
+     * @property {Boolean} [options.enableInfoWindow=true]          - whether to enable infowindow on this map.
+     * @property {Boolean} [options.hitDetect=true]                 - whether to enable hit detecting of layers for cursor style on this map, disable it to improve performance.
+     * @property {Number}  [options.maxZoom=null]                   - the maximum zoom the map can be zooming to.
+     * @property {Number}  [options.minZoom=null]                   - the minimum zoom the map can be zooming to.
      * @property {maptalks.Extent} [options.maxExtent=null]         - when maxExtent is set, map will be restricted to the give max extent and bouncing back when user trying to pan ouside the extent.
      *
-     * options merged from handlers:
      * @property {Boolean} [options.draggable=true]                         - disable the map dragging if set to false.
      * @property {Boolean} [options.doublClickZoom=true]                    - whether to allow map to zoom by double click events.
      * @property {Boolean} [options.scrollWheelZoom=true]                   - whether to allow map to zoom by scroll wheel events.
      * @property {Boolean} [options.touchZoom=true]                         - whether to allow map to zoom by touch events.
      * @property {Boolean} [options.autoBorderPanning=false]                - whether to pan the map automatically if mouse moves on the border of the map
-     * @property {Boolean} [options.geometryEvents=false]                   - enable/disable firing geometry events
+     * @property {Boolean} [options.geometryEvents=true]                    - enable/disable firing geometry events
      *
-     * options merged from controls:
+     * @property {Boolean}        [options.control=true]                    - whether allow map to add controls.
      * @property {Boolean|Object} [options.attributionControl=false]        - display the attribution control on the map if set to true or a object as the control construct option.
      * @property {Boolean|Object} [options.zoomControl=false]               - display the zoom control on the map if set to true or a object as the control construct option.
      * @property {Boolean|Object} [options.scaleControl=false]              - display the scale control on the map if set to true or a object as the control construct option.
+     * @property {Boolean|Object} [options.overviewControl=false]           - display the overview control on the map if set to true or a object as the control construct option.
      *
      * @property {String} [options.renderer=canvas]                 - renderer type. Don't change it if you are not sure about it. About renderer, see [TODO]{@link tutorial.renderer}.
      */
@@ -14848,29 +15914,33 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
             throw new Error(this.exceptions['INVALID_OPTION']);
         }
 
-        if (!options['center']) {
-            throw new Error(this.exceptions['INVALID_CENTER']);
-        }
-
         this._loaded = false;
-        this._container = container;
 
-        if (Z.Util.isString(this._container)) {
-            this._containerDOM = document.getElementById(this._container);
+        if (Z.Util.isString(container)) {
+            this._containerDOM = document.getElementById(container);
             if (!this._containerDOM) {
                 throw new Error('invalid container: \'' + container + '\'');
             }
         } else {
             this._containerDOM = container;
             if (Z.node) {
-                //node环境中map的containerDOM即为模拟Canvas容器, 例如node-canvas
-                //获取模拟Canvas类的类型, 用以在各图层的渲染器中构造Canvas
+                //Reserve container's constructor in node for canvas creating.
                 this.CanvasClass = this._containerDOM.constructor;
             }
         }
 
+        if (!Z.node) {
+            if (this._containerDOM.childNodes && this._containerDOM.childNodes.length > 0) {
+                if (this._containerDOM.childNodes[0].className === 'maptalks-wrapper') {
+                    throw new Error('Container is already loaded with another map instance, use map.remove() to clear it.');
+                }
+            }
+        }
 
-        //Layer of Details, always derived from baseLayer
+        if (!options['center']) {
+            throw new Error(this.exceptions['INVALID_CENTER']);
+        }
+
         this._panels = {};
 
         //Layers
@@ -14934,7 +16004,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
 
     /**
      * Get the view of the Map.
-     * @return {Object} map's view
+     * @return {maptalks.View} map's view
      */
     getView: function () {
         if (!this._view) {
@@ -14949,12 +16019,25 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * 1. the projection.<br>
      * 2. zoom levels and resolutions. <br>
      * 3. full extent.<br>
-     * there are some [predefined views]{@link http://www.foo.com}, and surely you can [define a custom one.]{@link http://www.foo.com}
-     * @param {Object} view - view settings
+     * There are some [predefined views]{@link http://www.foo.com}, and surely you can [define a custom one.]{@link http://www.foo.com}.<br>
+     * View can also be set by map.config('view', view);
+     * @param {maptalks.View} view - view settings
      * @returns {maptalks.Map} this
+     * @fires maptalks.Map#viewchange
+     * @example
+     *  map.setView({
+            projection:'EPSG:4326',
+            resolutions: (function() {
+                var resolutions = [];
+                for (var i=0; i < 19; i++) {
+                    resolutions[i] = 180/(Math.pow(2, i)*128);
+                }
+                return resolutions;
+            })()
+        });
      */
     setView:function (view) {
-        var oldView = this._view;
+        var oldView = this.options['view'];
         if (oldView && !view) {
             return this;
         }
@@ -14967,7 +16050,17 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
             this.options['view']['projection'] = projection['code'];
         }
         this._resetMapStatus();
-        this._fireEvent('viewchange');
+        /**
+         * viewchange event, fired when map's view is updated.
+         *
+         * @event maptalks.Map#viewchange
+         * @type {Object}
+         * @property {String} type - viewchange
+         * @property {maptalks.Map} target - map
+         * @property {maptalks.Map} old - the old view
+         * @property {maptalks.Map} new - the new view changed to
+         */
+        this._fireEvent('viewchange', {'old' : oldView, 'new' : Z.Util.extend({}, this.options['view'])});
         return this;
     },
 
@@ -14986,7 +16079,14 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
 
     /**
      * Get the projection of the map. <br>
-     * Projection is an algorithm for map projection, e.g. well-known [Mercator Projection]{@link https://en.wikipedia.org/wiki/Mercator_projection}
+     * Projection is an algorithm for map projection, e.g. well-known [Mercator Projection]{@link https://en.wikipedia.org/wiki/Mercator_projection} <br>
+     * A projection must have 2 methods: <br>
+     * 1. project(coordinate) - project the input coordinate <br>
+     * 2. unproject(coordinate) - unproject the input coordinate <br>
+     * Projection also contains measuring method usually extended from a measurer: <br>
+     * 1. measureLength(coord1, coord2) - compute length between 2 coordinates.  <br>
+     * 2. measureArea(coords[]) - compute area of the input coordinates. <br>
+     * 3. locate(coord, distx, disty) - compute the coordinate from the coord with xdist on axis x and ydist on axis y.
      * @return {Object}
      */
     getProjection:function () {
@@ -14994,8 +16094,8 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     },
 
     /**
-     * Get map's full extent, e.g. the world's full extent. <br>
-     * Any geometries outside this extent will be clipped if clipFullExtent options is set true
+     * Get map's full extent, which is defined in map's view. <br>
+     * eg: {'left': -180, 'right' : 180, 'top' : 90, 'bottom' : -90}
      * @return {maptalks.Extent}
      */
     getFullExtent:function () {
@@ -15003,9 +16103,11 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     },
 
     /**
-     * Set map's cursor style, same with CSS.
+     * Set map's cursor style, cursor style is same with CSS.
      * @param {String} cursor - cursor style
      * @returns {maptalks.Map} this
+     * @example
+     * map.setCursor('url(cursor.png) 4 12, auto');
      */
     setCursor:function (cursor) {
         delete this._cursor;
@@ -15041,11 +16143,11 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
             this._center = center;
             return this;
         }
-        this._onMoveStart();
+        this.onMoveStart();
         var projection = this.getProjection();
         var _pcenter = projection.project(center);
         this._setPrjCenterAndMove(_pcenter);
-        this._onMoveEnd();
+        this.onMoveEnd();
         return this;
     },
 
@@ -15060,13 +16162,17 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
         return new Z.Size(this.width, this.height);
     },
 
+    getContainerExtent: function () {
+        return new Z.PointExtent(0, 0, this.width, this.height);
+    },
+
     /**
      * Get the geographical extent of map's current view extent.
      *
      * @return {maptalks.Extent}
      */
     getExtent:function () {
-        return this.viewToExtent(this._getViewExtent());
+        return this._pointToExtent(this._get2DExtent());
     },
 
     /**
@@ -15084,6 +16190,8 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * Sets the max extent that the map is restricted to.
      * @param {maptalks.Extent}
      * @return {maptalks.Map} this
+     * @example
+     * map.setMaxExtent(map.getExtent());
      */
     setMaxExtent:function (extent) {
         if (extent) {
@@ -15111,7 +16219,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * Caculate the target zoom if scaling from "fromZoom" by "scale"
      * @param  {Number} scale
      * @param  {Number} fromZoom
-     * @return {Number}
+     * @return {Number} zoom fit for scale starting from fromZoom
      */
     getZoomForScale:function (scale, fromZoom) {
         if (Z.Util.isNil(fromZoom)) {
@@ -15119,6 +16227,8 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
         }
         var res = this._getResolution(fromZoom),
             resolutions = this._getResolutions(),
+            minZoom = this.getMinZoom(),
+            maxZoom = this.getMaxZoom(),
             min = Number.MAX_VALUE,
             hit = -1;
         for (var i = resolutions.length - 1; i >= 0; i--) {
@@ -15128,20 +16238,31 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
                 hit = i;
             }
         }
+        if (Z.Util.isNumber(minZoom) && hit < minZoom) {
+            hit = minZoom;
+        }
+        if (Z.Util.isNumber(maxZoom) && hit > maxZoom) {
+            hit = maxZoom;
+        }
         return hit;
     },
 
     /**
-     * Sets the zoom of the map
+     * Sets zoom of the map
      * @param {Number} zoom
      * @returns {maptalks.Map} this
      */
     setZoom:function (zoom) {
-        if (this.options['zoomAnimation']) {
-            this._zoomAnimation(zoom);
-        } else {
-            this._zoom(zoom);
-        }
+        var me = this;
+        Z.Util.executeWhen(function () {
+            if (me.options['zoomAnimation']) {
+                me._zoomAnimation(zoom);
+            } else {
+                me._zoom(zoom);
+            }
+        }, function () {
+            return !me._zooming;
+        });
         return this;
     },
 
@@ -15207,7 +16328,12 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * @return {maptalks.Map} this
      */
     zoomIn: function () {
-        this.setZoom(this.getZoom() + 1);
+        var me = this;
+        Z.Util.executeWhen(function () {
+            me.setZoom(me.getZoom() + 1);
+        }, function () {
+            return !me._zooming;
+        });
         return this;
     },
 
@@ -15216,21 +16342,26 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * @return {maptalks.Map} this
      */
     zoomOut: function () {
-        this.setZoom(this.getZoom() - 1);
+        var me = this;
+        Z.Util.executeWhen(function () {
+            me.setZoom(me.getZoom() - 1);
+        }, function () {
+            return !me._zooming;
+        });
         return this;
     },
 
     /**
      * Sets the center and zoom at the same time.
      * @param {maptalks.Coordinate} center
-     * @param {Number} zoomLevel
+     * @param {Number} zoom
      * @return {maptalks.Map} this
      */
-    setCenterAndZoom:function (center, zoomLevel) {
-        if (this._zoomLevel !== zoomLevel) {
+    setCenterAndZoom:function (center, zoom) {
+        if (this._zoomLevel !== zoom) {
             this.setCenter(center);
-            if (!Z.Util.isNil(zoomLevel)) {
-                this.setZoom(zoomLevel);
+            if (!Z.Util.isNil(zoom)) {
+                this.setZoom(zoom);
             }
         } else {
             this.setCenter(center);
@@ -15242,13 +16373,13 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     /**
      * Caculate the zoom level that contains the given extent with the maximum zoom level possible.
      * @param {maptalks.Extent} extent
-     * @return {Number}
+     * @return {Number} zoom fit for the extent
      */
     getFitZoom: function (extent) {
         if (!extent || !(extent instanceof Z.Extent)) {
             return this._zoomLevel;
         }
-        //点类型
+        //It's a point
         if (extent['xmin'] === extent['xmax'] && extent['ymin'] === extent['ymax']) {
             return this.getMaxZoom();
         }
@@ -15297,17 +16428,44 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * Some events will be thrown such as baselayerchangestart, baselayerload, baselayerchangeend.
      * @param  {maptalks.Layer} baseLayer - new base layer
      * @return {maptalks.Map} this
+     * @fires maptalks.Map#setbaselayer
+     * @fires maptalks.Map#baselayerchangestart
+     * @fires maptalks.Map#baselayerchangeend
      */
     setBaseLayer:function (baseLayer) {
         var isChange = false;
         if (this._baseLayer) {
             isChange = true;
+            /**
+             * baselayerchangestart event, fired when base layer is changed.
+             *
+             * @event maptalks.Map#baselayerchangestart
+             * @type {Object}
+             * @property {String} type - baselayerchangestart
+             * @property {maptalks.Map} target - map
+             */
             this._fireEvent('baselayerchangestart');
             this._baseLayer.remove();
         }
         if (!baseLayer) {
             delete this._baseLayer;
+            /**
+             * baselayerchangeend event, fired when base layer is changed.
+             *
+             * @event maptalks.Map#baselayerchangeend
+             * @type {Object}
+             * @property {String} type - baselayerchangeend
+             * @property {maptalks.Map} target - map
+             */
             this._fireEvent('baselayerchangeend');
+            /**
+             * setbaselayer event, fired when base layer is set.
+             *
+             * @event maptalks.Map#setbaselayer
+             * @type {Object}
+             * @property {String} type - setbaselayer
+             * @property {maptalks.Map} target - map
+             */
             this._fireEvent('setbaselayer');
             return this;
         }
@@ -15322,6 +16480,14 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
         baseLayer._bindMap(this, -1);
         this._baseLayer = baseLayer;
         function onbaseLayerload() {
+            /**
+             * baselayerload event, fired when base layer is loaded.
+             *
+             * @event maptalks.Map#baselayerload
+             * @type {Object}
+             * @property {String} type - baselayerload
+             * @property {maptalks.Map} target - map
+             */
             this._fireEvent('baselayerload');
             if (isChange) {
                 isChange = false;
@@ -15339,21 +16505,34 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     /**
      * Remove the base layer from the map
      * @return {maptalks.Map} this
+     * @fires maptalks.Map#baselayerremove
      */
     removeBaseLayer: function ()  {
         if (this._baseLayer) {
             this._baseLayer.remove();
             delete this._baseLayer;
+            /**
+             * baselayerremove event, fired when base layer is removed.
+             *
+             * @event maptalks.Map#baselayerremove
+             * @type {Object}
+             * @property {String} type - baselayerremove
+             * @property {maptalks.Map} target - map
+             */
             this._fireEvent('baselayerremove');
         }
         return this;
     },
 
     /**
-     * Get the layers of the map, not including base layer (by getBaseLayer). <br>
-     * A filter function can be given to exclude certain layers, eg exclude all the VectorLayers.
-     * @param {function} [filter=null] - a filter function of layers, return false to exclude the given layer.
+     * Get the layers of the map, except base layer (which should be by getBaseLayer). <br>
+     * A filter function can be given to filter layers, e.g. exclude all the VectorLayers.
+     * @param {Function} [filter=undefined] - a filter function of layers, return false to exclude the given layer.
      * @return {maptalks.Layer[]}
+     * @example
+     * var vectorLayers = map.getLayers(function (layer) {
+     *     return (layer instanceof maptalks.VectorLayer);
+     * });
      */
     getLayers:function (filter) {
         return this._getLayers(function (layer) {
@@ -15381,8 +16560,9 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
 
     /**
      * Add a new layer on the top of the map.
-     * @param  {maptalks.Layer} layer - Any valid layer object
+     * @param  {maptalks.Layer|maptalks.Layer[]} layer - one or more layers to add
      * @return {maptalks.Map} this
+     * @fires maptalks.Map#addlayer
      */
     addLayer:function (layers) {
         if (!layers) {
@@ -15410,14 +16590,24 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
                 layer.load();
             }
         }
+        /**
+         * addlayer event, fired when adding layers.
+         *
+         * @event maptalks.Map#addlayer
+         * @type {Object}
+         * @property {String} type - addlayer
+         * @property {maptalks.Map} target - map
+         * @property {maptalks.Layer[]} layers - layers to add
+         */
         this._fireEvent('addlayer', {'layers' : layers});
         return this;
     },
 
     /**
      * Remove a layer from the map
-     * @param  {string|maptalks.Layer} layer - id of the layer or a layer object
+     * @param  {String|String[]|maptalks.Layer|maptalks.Layer[]} layer - one or more layers or layer ids
      * @return {maptalks.Map} this
+     * @fires maptalks.Map#removelayer
      */
     removeLayer: function (layers) {
         if (!layers) {
@@ -15440,7 +16630,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
             }
             this._removeLayer(layer, this._layers);
             if (this._loaded) {
-                layer._onRemove();
+                layer._doRemove();
             }
             var id = layer.getId();
             if (this._layerCache) {
@@ -15448,6 +16638,15 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
             }
             layer.fire('remove');
         }
+        /**
+         * removelayer event, fired when removing layers.
+         *
+         * @event maptalks.Map#removelayer
+         * @type {Object}
+         * @property {String} type - removelayer
+         * @property {maptalks.Map} target - map
+         * @property {maptalks.Layer[]} layers - layers to remove
+         */
         this._fireEvent('removelayer', {'layers' : layers});
         return this;
     },
@@ -15456,6 +16655,10 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * Sort layers according to the order provided, the last will be on the top.
      * @param  {string[]|maptalks.Layer[]} layers - layers or layer ids to sort
      * @return {maptalks.Map} this
+     * @example
+     * map.addLayer([layer1, layer2, layer3]);
+     * map.sortLayers([layer2, layer3, layer1]);
+     * map.sortLayers(['3', '2', '1']); // sort by layer ids.
      */
     sortLayers:function (layers) {
         if (!layers || !Z.Util.isArray(layers)) {
@@ -15484,7 +16687,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
 
     /**
      * Exports image from the map's canvas.
-     * @param {Object} options - options
+     * @param {Object} [options=undefined] - options
      * @param {String} [options.mimeType=image/png] - mime type of the image
      * @param {Boolean} [options.save=false] - whether pop a file save dialog to save the export image.
      * @param {String} [options.filename=export] - specify the file name, if options.save is true.
@@ -15500,7 +16703,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
         }
         var save = options['save'];
         var renderer = this._getRenderer();
-        if (renderer) {
+        if (renderer && renderer.toDataURL) {
             var file = options['filename'];
             if (!file) {
                 file = 'export';
@@ -15523,11 +16726,15 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
         return null;
     },
 
+
     /**
-     * Converts a coordinate to the 2D point in the specific zoom level.
+     * Converts a coordinate to the 2D point in current zoom or in the specific zoom. <br>
+     * The 2D point's coordinate system's origin is the same with map's origin.
      * @param  {maptalks.Coordinate} coordinate - coordinate
-     * @param  {Number} zoom       - zoom level
+     * @param  {Number} [zoom=undefined]       - zoom level
      * @return {maptalks.Point}  2D point
+     * @example
+     * var point = map.coordinateToPoint(new maptalks.Coordinate(121.3, 29.1));
      */
     coordinateToPoint: function (coordinate, zoom) {
         var prjCoord = this.getProjection().project(coordinate);
@@ -15535,10 +16742,12 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     },
 
     /**
-     * Converts a 2D point to a coordinate
+     * Converts a 2D point in current zoom or a specific zoom to a coordinate.
      * @param  {maptalks.Point} point - 2D point
      * @param  {Number} zoom  - zoom level
      * @return {maptalks.Coordinate} coordinate
+     * @example
+     * var coord = map.pointToCoordinate(new maptalks.Point(4E6, 3E4));
      */
     pointToCoordinate: function (point, zoom) {
         var prjCoord = this._pointToPrj(point, zoom);
@@ -15546,8 +16755,8 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     },
 
     /**
-     * Converts a geographical coordinate to the [view point]{@link http://www.foo.com}.<br>
-     * It is useful for placing overlays or ui controls on the map.
+     * Converts a geographical coordinate to view point.<br>
+     * A view point is a point relative to map's mapPlatform panel's position. <br>
      * @param {maptalks.Coordinate} coordinate
      * @return {maptalks.Point}
      */
@@ -15565,7 +16774,8 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     },
 
     /**
-     * Convert a geographical coordinate to the container point.
+     * Convert a geographical coordinate to the container point. <br>
+     *  A container point is a point relative to map container's top-left corner. <br>
      * @param {maptalks.Coordinate}
      * @return {maptalks.Point}
      */
@@ -15605,47 +16815,22 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     },
 
     /**
-     * Converts a view points extent to the geographic extent.
-     * @param  {maptalks.PointExtent} viewExtent - view points extent
-     * @return {maptalks.Extent}  geographic extent
-     */
-    viewToExtent:function (viewExtent) {
-        var projection = this.getProjection();
-        if (!projection) {
-            return null;
-        }
-        var res = this._getResolution();
-        if (Z.Util.isNil(res)) {
-            return null;
-        }
-        var viewCenter = this._getViewExtent().getCenter();
-        var prjCenter = this._getPrjCenter();
-        var min = viewExtent.getMin();
-        var max = viewExtent.getMax();
-
-        var dist1 = viewCenter.substract(min),
-            dist2 = viewCenter.substract(max);
-        var c1 = projection.unproject(new Z.Coordinate(prjCenter.x - dist1.x * res, prjCenter.y + dist1.y * res));
-        var c2 = projection.unproject(new Z.Coordinate(prjCenter.x - dist2.x * res, prjCenter.y + dist2.y * res));
-        return new Z.Extent(c1, c2);
-    },
-
-    /**
-     * Converts a container points extent to the geographic extent.
+     * Converts a container point extent to the geographic extent.
      * @param  {maptalks.PointExtent} containerExtent - containeproints extent
      * @return {maptalks.Extent}  geographic extent
      */
     containerToExtent:function (containerExtent) {
-        var viewExtent = new Z.PointExtent(
-                this.containerPointToViewPoint(containerExtent.getMin()),
-                this.containerPointToViewPoint(containerExtent.getMax())
+        var extent2D = new Z.PointExtent(
+                this._containerPointToPoint(containerExtent.getMin()),
+                this._containerPointToPoint(containerExtent.getMax())
             );
-        return this.viewToExtent(viewExtent);
+        return this._pointToExtent(extent2D);
     },
 
     /**
      * Checks if the map container size changed and updates the map if so.
      * @return {maptalks.Map} this
+     * @fires maptalks.Map#resize
      */
     checkSize:function () {
         var justStart = ((Z.Util.now() - this._initTime) < 1500) && this.width === 0 && this.height === 0;
@@ -15676,7 +16861,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     },
 
     /**
-     * Converts a geographical distance to the pixel length.<br>
+     * Converts geographical distances to the pixel length.<br>
      * The value varis with difference zoom level.
      *
      * @param  {Number} xDist - distance on X axis.
@@ -15698,11 +16883,11 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     },
 
     /**
-     * Converts pixel length to geographical distance.
+     * Converts pixel size to geographical distance.
      *
-     * @param  {Number} width -
-     * @param  {Number} height 纵轴像素长度
-     * @return {Number}  distance
+     * @param  {Number} width - pixel width
+     * @param  {Number} height - pixel height
+     * @return {Number}  distance - Geographical distance
      */
     pixelToDistance:function (width, height) {
         var projection = this.getProjection();
@@ -15719,22 +16904,113 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     },
 
     /**
-     * 返回距离coordinate坐标距离为dx, dy的坐标
-     * @param  {maptalks.Coordinate} coordinate 坐标
-     * @param  {Number} dx         x轴上的距离, 地图CRS为经纬度时,单位为米, 地图CRS为像素时, 单位为像素
-     * @param  {Number} dy         y轴上的距离, 地图CRS为经纬度时,单位为米, 地图CRS为像素时, 单位为像素
-     * @return {maptalks.Coordinate}            新的坐标
+     * Computes the coordinate from the given coordinate with xdist on axis x and ydist on axis y.
+     * @param  {maptalks.Coordinate} coordinate - source coordinate
+     * @param  {Number} dx           - distance on X axis from the source coordinate
+     * @param  {Number} dy           - distance on Y axis from the source coordinate
+     * @return {maptalks.Coordinate} Result coordinate
      */
     locate:function (coordinate, dx, dy) {
         return this.getProjection().locate(new Z.Coordinate(coordinate), dx, dy);
     },
 
     /**
-    * Returns an object with different map panels (to build customized layers or overlays).
-    * @returns {Object}
+    * Return map's main panel
+    * @returns {HTMLElement}
     */
-    getPanel: function () {
-        return this._getRenderer().getPanel();
+    getMainPanel: function () {
+        return this._getRenderer().getMainPanel();
+    },
+
+    /**
+     * Returns map panels.
+     * @return {Object}
+     */
+    getPanels: function () {
+        return this._panels;
+    },
+
+    remove: function () {
+        this._registerDomEvents(true);
+        this._clearHandlers();
+        this.removeBaseLayer();
+        var layers = this.getLayers();
+        for (var i = 0; i < layers.length; i++) {
+            layers[i].remove();
+        }
+        if (this._getRenderer()) {
+            this._getRenderer().remove();
+        }
+        this._clearAllListeners();
+        if (this._containerDOM && this._containerDOM.innerHTML) {
+            this._containerDOM.innerHTML = '';
+        }
+        delete this._panels;
+        delete this._containerDOM;
+        return this;
+    },
+
+    /**
+     * The callback function when move started
+     * @private
+     * @fires maptalks.Map#movestart
+     */
+    onMoveStart:function (param) {
+        this._originCenter = this.getCenter();
+        this._enablePanAnimation = false;
+        this._moving = true;
+        this._trySetCursor('move');
+        /**
+         * movestart event
+         * @event maptalks.Map#movestart
+         * @type {Object}
+         * @property {String} type - movestart
+         * @property {maptalks.Map} target - map fires the event
+         * @property {maptalks.Coordinate} coordinate - coordinate of the event
+         * @property {maptalks.Point} containerPoint  - container point of the event
+         * @property {maptalks.Point} viewPoint       - view point of the event
+         * @property {Event} domEvent                 - dom event
+         */
+        this._fireEvent('movestart', this._parseEvent(param ? param['domEvent'] : null, 'movestart'));
+    },
+
+    onMoving:function (param) {
+        /**
+         * moving event
+         * @event maptalks.Map#moving
+         * @type {Object}
+         * @property {String} type - moving
+         * @property {maptalks.Map} target - map fires the event
+         * @property {maptalks.Coordinate} coordinate - coordinate of the event
+         * @property {maptalks.Point} containerPoint  - container point of the event
+         * @property {maptalks.Point} viewPoint       - view point of the event
+         * @property {Event} domEvent                 - dom event
+         */
+        this._fireEvent('moving', this._parseEvent(param ? param['domEvent'] : null, 'moving'));
+    },
+
+    onMoveEnd:function (param) {
+        this._moving = false;
+        this._trySetCursor('default');
+        /**
+         * moveend event
+         * @event maptalks.Map#moveend
+         * @type {Object}
+         * @property {String} type - moveend
+         * @property {maptalks.Map} target - map fires the event
+         * @property {maptalks.Coordinate} coordinate - coordinate of the event
+         * @property {maptalks.Point} containerPoint  - container point of the event
+         * @property {maptalks.Point} viewPoint       - view point of the event
+         * @property {Event} domEvent                 - dom event
+         */
+        this._fireEvent('moveend', this._parseEvent(param ? param['domEvent'] : null, 'moveend'));
+        if (!this._verifyExtent(this.getCenter())) {
+            var moveTo = this._originCenter;
+            if (!this._verifyExtent(moveTo)) {
+                moveTo = this.getMaxExtent().getCenter();
+            }
+            this.panTo(moveTo);
+        }
     },
 
 //-----------------------------------------------------------
@@ -15781,7 +17057,7 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     },
 
     _setCursorToPanel:function (cursor) {
-        var panel = this.getPanel();
+        var panel = this.getMainPanel();
         if (panel && panel.style) {
             panel.style.cursor = cursor;
         }
@@ -15792,12 +17068,29 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * @return {maptalks.PointExtent}
      * @private
      */
-    _getViewExtent:function () {
-        var size = this.getSize();
-        var offset = this.offsetPlatform();
-        var min = new Z.Point(0, 0);
-        var max = new Z.Point(size['width'], size['height']);
-        return new Z.PointExtent(min.substract(offset), max.substract(offset));
+    _get2DExtent:function () {
+        var c1 = this._containerPointToPoint(new Z.Point(0, 0)),
+            c2 = this._containerPointToPoint(new Z.Point(this.width, 0)),
+            c3 = this._containerPointToPoint(new Z.Point(this.width, this.height)),
+            c4 = this._containerPointToPoint(new Z.Point(0, this.height));
+        var xmin = Math.min(c1.x, c2.x, c3.x, c4.x),
+            xmax = Math.max(c1.x, c2.x, c3.x, c4.x),
+            ymin = Math.min(c1.y, c2.y, c3.y, c4.y),
+            ymax = Math.max(c1.y, c2.y, c3.y, c4.y);
+        return new Z.PointExtent(xmin, ymin, xmax, ymax);
+    },
+
+    /**
+     * Converts a view point extent to the geographic extent.
+     * @param  {maptalks.PointExtent} extent2D - view points extent
+     * @return {maptalks.Extent}  geographic extent
+     * @protected
+     */
+    _pointToExtent:function (extent2D) {
+        return new Z.Extent(
+            this.pointToCoordinate(extent2D.getMin()),
+            this.pointToCoordinate(extent2D.getMax())
+        );
     },
 
     _setPrjCenterAndMove:function (pcenter) {
@@ -15828,50 +17121,63 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     },
 
 
-    _onMoveStart:function () {
-        this._originCenter = this.getCenter();
-        this._enablePanAnimation = false;
-        this._moving = true;
-        this._trySetCursor('move');
-        /**
-         * movestart event
-         * @event maptalks.Map#movestart
-         * @type {Object}
-         * @property {String} type - movestart
-         * @property {maptalks.Map} target - map fires the event
-         */
-        this._fireEvent('movestart');
-    },
-
-    _onMoving:function () {
-        /**
-         * moving event
-         * @event maptalks.Map#moving
-         * @type {Object}
-         * @property {String} type - moving
-         * @property {maptalks.Map} target - map fires the event
-         */
-        this._fireEvent('moving');
-    },
-
-    _onMoveEnd:function () {
-        this._moving = false;
-        this._trySetCursor('default');
-        /**
-         * moveend event
-         * @event maptalks.Map#moveend
-         * @type {Object}
-         * @property {String} type - moveend
-         * @property {maptalks.Map} target - map fires the event
-         */
-        this._fireEvent('moveend');
-        if (!this._verifyExtent(this.getCenter())) {
-            var moveTo = this._originCenter;
-            if (!this._verifyExtent(moveTo)) {
-                moveTo = this.getMaxExtent().getCenter();
-            }
-            this.panTo(moveTo);
+    _genViewMatrix : function (origin, scale, rotate) {
+        if (!rotate) {
+            rotate = 0;
         }
+        this._generatingMatrix = true;
+        if (origin instanceof Z.Coordinate) {
+            origin = this.coordinateToContainerPoint(origin);
+        }
+        var point = this._containerPointToPoint(origin),
+            viewPoint = this.containerPointToViewPoint(origin);
+
+        var matrices = {
+            '2dPoint' : point,
+            'view' : new Z.Matrix().translate(viewPoint.x, viewPoint.y)
+                    .scaleU(scale).rotate(rotate).translate(-viewPoint.x, -viewPoint.y),
+            '2d' : new Z.Matrix().translate(point.x, point.y)
+                    .scaleU(scale).rotate(rotate).translate(-point.x, -point.y)
+        };
+        matrices['inverse'] = {
+            '2d' : matrices['2d'].inverse(),
+            'view' : matrices['view'].inverse()
+        };
+        this._generatingMatrix = false;
+        return matrices;
+    },
+
+    _fillMatrices: function (matrix, scale, rotate) {
+        if (!rotate) {
+            rotate = 0;
+        }
+        this._generatingMatrix = true;
+        var origin = this._pointToContainerPoint(matrix['2dPoint']);
+        //matrix for layers to transform
+        // var view = origin.substract(mapViewPoint);
+        matrix['container'] = new Z.Matrix().translate(origin.x, origin.y)
+                        .scaleU(scale).rotate(rotate).translate(-origin.x, -origin.y);
+
+        origin = origin.multi(2);
+        matrix['retina'] = new Z.Matrix().translate(origin.x, origin.y)
+                    .scaleU(scale).rotate(rotate).translate(-origin.x, -origin.y);
+        matrix['inverse']['container'] = matrix['container'].inverse();
+        matrix['inverse']['retina'] = matrix['retina'].inverse();
+        // var scale = matrix['container'].decompose()['scale'];
+        matrix['scale'] = {x:scale, y:scale};
+        this._generatingMatrix = false;
+    },
+
+    /**
+     * get Transform Matrix for zooming
+     * @param  {Number} scale  scale
+     * @param  {Point} origin Transform Origin
+     * @private
+     */
+    _generateMatrices:function (origin, scale, rotate) {
+        var viewMatrix = this._genViewMatrix(origin, scale, rotate);
+        this._fillMatrices(viewMatrix, scale, rotate);
+        return viewMatrix;
     },
 
     /**
@@ -15902,6 +17208,14 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
         this._loaded = true;
         this._callOnLoadHooks();
         this._initTime = Z.Util.now();
+        /**
+         * load event, fired when the map completes loading.
+         *
+         * @event maptalks.Map#load
+         * @type {Object}
+         * @property {String} type - load
+         * @property {maptalks.Map} target - map
+         */
         this._fireEvent('load');
     },
 
@@ -16049,9 +17363,8 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * @returns {maptalks.Coordinate} the new projected center.
      */
     _offsetCenterByPixel:function (pixel) {
-        var posX = this.width / 2 - pixel.x,
-            posY = this.height / 2 - pixel.y;
-        var pCenter = this._containerPointToPrj(new Z.Point(posX, posY));
+        var pos = new Z.Point(this.width / 2 - pixel.x, this.height / 2 - pixel.y);
+        var pCenter = this._containerPointToPrj(pos);
         this._setPrjCenter(pCenter);
         return pCenter;
     },
@@ -16123,15 +17436,12 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
     /**
      * transform container point to geographical projected coordinate
      *
-     * @param  {maptalks.Point} containerPointt
+     * @param  {maptalks.Point} containerPoint
      * @return {maptalks.Coordinate}
      * @private
      */
     _containerPointToPrj:function (containerPoint) {
-        var centerPoint = this._prjToPoint(this._getPrjCenter());
-        //容器的像素坐标方向是固定方向的, 和html标准一致, 即从左到右增大, 从上到下增大
-        var point = new Z.Point(centerPoint.x + containerPoint.x - this.width / 2, centerPoint.y + containerPoint.y - this.height / 2);
-        return this._pointToPrj(point);
+        return this._pointToPrj(this._containerPointToPoint(containerPoint));
     },
 
     /**
@@ -16151,12 +17461,15 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
      * @private
      */
     _prjToContainerPoint:function (pCoordinate) {
-        var centerPoint = this._prjToPoint(this._getPrjCenter());
-        var point = this._prjToPoint(pCoordinate);
-        return new Z.Point(
-            this.width / 2 + point.x - centerPoint.x,
-            this.height / 2 + point.y - centerPoint.y
+        var centerPoint = this._prjToPoint(this._getPrjCenter()),
+            point = this._prjToPoint(pCoordinate),
+            centerContainerPoint = new Z.Point(this.width / 2, this.height / 2);
+        var result = new Z.Point(
+            centerContainerPoint.x + point.x - centerPoint.x,
+            centerContainerPoint.y + point.y - centerPoint.y
             );
+
+        return result;
     },
 
     /**
@@ -16175,7 +17488,26 @@ Z.Map = Z.Class.extend(/** @lends maptalks.Map.prototype */{
         if (!containerPoint) { return null; }
         var platformOffset = this.offsetPlatform();
         return containerPoint._substract(platformOffset);
-    }
+    },
+
+    _pointToContainerPoint: function (point) {
+        return this._prjToContainerPoint(this._pointToPrj(point));
+    },
+
+    _containerPointToPoint: function (containerPoint) {
+        var centerPoint = this._prjToPoint(this._getPrjCenter()),
+            centerContainerPoint = new Z.Point(this.width / 2, this.height / 2);
+        //容器的像素坐标方向是固定方向的, 和html标准一致, 即从左到右增大, 从上到下增大
+        return new Z.Point(centerPoint.x + containerPoint.x - centerContainerPoint.x, centerPoint.y + containerPoint.y - centerContainerPoint.y);
+    },
+
+    _viewPointToPoint: function (viewPoint) {
+        return this._containerPointToPoint(this.viewPointToContainerPoint(viewPoint));
+    },
+
+    _pointToViewPoint: function (point) {
+        return this._prjToViewPoint(this._pointToPrj(point));
+    },
 });
 
 
@@ -16226,8 +17558,8 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
         }
         var map = this;
         coordinate = new Z.Coordinate(coordinate);
-        var dest = this.coordinateToViewPoint(coordinate),
-            current = this.coordinateToViewPoint(this.getCenter());
+        var dest = this.coordinateToContainerPoint(coordinate),
+            current = this.coordinateToContainerPoint(this.getCenter());
         return this._panBy(dest.substract(current), options, function () {
             var c = map.getProjection().project(coordinate);
             map._setPrjCenterAndMove(c);
@@ -16251,7 +17583,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
             return this;
         }
         offset = new Z.Point(offset).multi(-1);
-        this._onMoveStart();
+        this.onMoveStart();
         if (!options) {
             options = {};
         }
@@ -16260,11 +17592,11 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
         } else {
             this.offsetPlatform(offset);
             this._offsetCenterByPixel(offset);
-            this._onMoving();
+            this.onMoving();
             if (cb) {
                 cb();
             }
-            this._onMoveEnd();
+            this.onMoveEnd();
         }
         return this;
     },
@@ -16277,20 +17609,20 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
 
 Z.Map.include(/** @lends maptalks.Map.prototype */{
     _zoom:function (nextZoomLevel, origin, startScale) {
-        if (!this.options['zoomable']) { return; }
+        if (!this.options['zoomable'] || this._zooming) { return; }
         this._originZoomLevel = this.getZoom();
         nextZoomLevel = this._checkZoomLevel(nextZoomLevel);
-        this._onZoomStart(nextZoomLevel);
+        this.onZoomStart(nextZoomLevel);
         var zoomOffset;
         if (origin) {
             origin = new Z.Point(this.width / 2, this.height / 2);
             zoomOffset = this._getZoomCenterOffset(nextZoomLevel, origin, startScale);
         }
-        this._onZoomEnd(nextZoomLevel, zoomOffset);
+        this.onZoomEnd(nextZoomLevel, zoomOffset);
     },
 
     _zoomAnimation:function (nextZoomLevel, origin, startScale) {
-        if (!this.options['zoomable']) { return; }
+        if (!this.options['zoomable'] || this._zooming) { return; }
         if (Z.Util.isNil(startScale)) {
             startScale = 1;
         }
@@ -16302,7 +17634,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
             return;
         }
 
-        this._onZoomStart(nextZoomLevel);
+        this.onZoomStart(nextZoomLevel);
         if (!origin) {
             origin = new Z.Point(this.width / 2, this.height / 2);
         }
@@ -16319,7 +17651,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
             transOrigin = new Z.Point(this.width / 2, this.height / 2);
         }
         var duration = this.options['zoomAnimationDuration'] * Math.abs(endScale - startScale) / Math.abs(endScale - 1);
-        this._getRenderer().onZoomStart(
+        this._getRenderer().animateZoom(
             {
                 startScale : startScale,
                 endScale : endScale,
@@ -16327,18 +17659,27 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                 duration : duration
             },
             function () {
-                me._onZoomEnd(nextZoomLevel, zoomOffset);
+                me.onZoomEnd(nextZoomLevel, zoomOffset);
             }
         );
     },
 
-    _onZoomStart: function (nextZoomLevel) {
+    onZoomStart: function (nextZoomLevel) {
         this._zooming = true;
         this._enablePanAnimation = false;
+        /**
+          * zoomstart event
+          * @event maptalks.Map#zoomstart
+          * @type {Object}
+          * @property {String} type                    - zoomstart
+          * @property {maptalks.Map} target            - the map fires event
+          * @property {Number} from                    - zoom level zooming from
+          * @property {Number} to                      - zoom level zooming to
+          */
         this._fireEvent('zoomstart', {'from' : this._originZoomLevel, 'to': nextZoomLevel});
     },
 
-    _onZoomEnd:function (nextZoomLevel, zoomOffset) {
+    onZoomEnd:function (nextZoomLevel, zoomOffset) {
         this._zoomLevel = nextZoomLevel;
         if (zoomOffset) {
             this._offsetCenterByPixel(zoomOffset._multi(-1));
@@ -16352,7 +17693,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
           * @event maptalks.Map#zoomend
           * @type {Object}
           * @property {String} type                    - zoomend
-          * @property {String} target                  - the map fires event
+          * @property {maptalks.Map} target            - the map fires event
           * @property {Number} from                    - zoom level zooming from
           * @property {Number} to                      - zoom level zooming to
           */
@@ -16415,7 +17756,9 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
      * Caculate distance of two coordinates.
      * @param {Number[]|maptalks.Coordinate} coord1 - coordinate 1
      * @param {Number[]|maptalks.Coordinate} coord2 - coordinate 2
-     * @return {Number} distance
+     * @return {Number} distance, unit is meter
+     * @example
+     * var distance = map.computeLength([0, 0], [0, 20]);
      */
     computeLength: function (coord1, coord2) {
         if (!this.getProjection()) { return null; }
@@ -16428,7 +17771,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
     /**
      * Caculate a geometry's length.
      * @param {maptalks.Geometry} geometry - geometry to caculate
-     * @return {Number} length
+     * @return {Number} length, unit is meter
      */
     computeGeometryLength:function (geometry) {
         return geometry._computeGeodesicLength(this.getProjection());
@@ -16437,7 +17780,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
     /**
      * Caculate a geometry's area.
      * @param  {maptalks.Geometry} geometry - geometry to caculate
-     * @return {Number} area
+     * @return {Number} area, unit is sq.meter
      */
     computeGeometryArea:function (geometry) {
         return geometry._computeGeodesicArea(this.getProjection());
@@ -16453,6 +17796,14 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
      * @param {Boolean}  [opts.includeInternals=false] - whether to identify the internal layers.
      * @param {Function} callback           - the callback function using the result geometries as the parameter.
      * @return {maptalks.Map} this
+     * @example
+     * map.identify({
+     *      coordinate: [0, 0],
+     *      layers: [layer],
+     *      success: function(geos){
+     *          console.log(geos);
+     *      }
+     *  });
      */
     identify: function (opts, callback) {
         if (!opts) {
@@ -16471,7 +17822,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                 layers.push(reqLayers[i]);
             }
         }
-        var point = this.coordinateToViewPoint(opts['coordinate'])._round();
+        var point = this.coordinateToPoint(new Z.Coordinate(opts['coordinate']))._round();
         var fn = callback,
             filter = opts['filter'];
         var hits = [],
@@ -16481,7 +17832,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                 break;
             }
             var layer = layers[i];
-            if (!layer || !layer.getMap() || (!opts['includeInternals'] && layer.getId().indexOf(Z.internalLayerPrefix) >= 0)) {
+            if (!layer || !layer.getMap() || !layer.isVisible() || (!opts['includeInternals'] && layer.getId().indexOf(Z.internalLayerPrefix) >= 0)) {
                 continue;
             }
             var allGeos = layers[i].getGeometries();
@@ -16490,8 +17841,8 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                 if (!geo || !geo.isVisible()) {
                     continue;
                 }
-                var pxExtent = !geo._getPainter() ? null : geo._getPainter().getViewExtent();
-                if (!pxExtent || !pxExtent.contains(point)) {
+                var pxExtent = !geo._getPainter() ? null : geo._getPainter().get2DExtent();
+                if (!pxExtent || !pxExtent._round().contains(point)) {
                     continue;
                 }
                 if (geo._containsPoint(point) && (!filter || (filter && filter(geo)))) {
@@ -16518,7 +17869,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                       * @event maptalks.Map#mousedown
                       * @type {Object}
                       * @property {String} type                    - mousedown
-                      * @property {String} target                  - the map fires event
+                      * @property {maptalks.Map} target            - the map fires event
                       * @property {maptalks.Coordinate} coordinate - coordinate of the event
                       * @property {maptalks.Point} containerPoint  - container point of the event
                       * @property {maptalks.Point} viewPoint       - view point of the event
@@ -16530,7 +17881,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                       * @event maptalks.Map#mouseup
                       * @type {Object}
                       * @property {String} type                    - mouseup
-                      * @property {String} target                  - the map fires event
+                      * @property {maptalks.Map} target            - the map fires event
                       * @property {maptalks.Coordinate} coordinate - coordinate of the event
                       * @property {maptalks.Point} containerPoint  - container point of the event
                       * @property {maptalks.Point} viewPoint       - view point of the event
@@ -16542,7 +17893,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                       * @event maptalks.Map#mouseover
                       * @type {Object}
                       * @property {String} type                    - mouseover
-                      * @property {String} target                  - the map fires event
+                      * @property {maptalks.Map} target            - the map fires event
                       * @property {maptalks.Coordinate} coordinate - coordinate of the event
                       * @property {maptalks.Point} containerPoint  - container point of the event
                       * @property {maptalks.Point} viewPoint       - view point of the event
@@ -16554,7 +17905,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                       * @event maptalks.Map#mouseout
                       * @type {Object}
                       * @property {String} type                    - mouseout
-                      * @property {String} target                  - the map fires event
+                      * @property {maptalks.Map} target            - the map fires event
                       * @property {maptalks.Coordinate} coordinate - coordinate of the event
                       * @property {maptalks.Point} containerPoint  - container point of the event
                       * @property {maptalks.Point} viewPoint       - view point of the event
@@ -16566,7 +17917,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                       * @event maptalks.Map#mousemove
                       * @type {Object}
                       * @property {String} type                    - mousemove
-                      * @property {String} target                  - the map fires event
+                      * @property {maptalks.Map} target            - the map fires event
                       * @property {maptalks.Coordinate} coordinate - coordinate of the event
                       * @property {maptalks.Point} containerPoint  - container point of the event
                       * @property {maptalks.Point} viewPoint       - view point of the event
@@ -16578,7 +17929,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                       * @event maptalks.Map#click
                       * @type {Object}
                       * @property {String} type                    - click
-                      * @property {String} target                  - the map fires event
+                      * @property {maptalks.Map} target            - the map fires event
                       * @property {maptalks.Coordinate} coordinate - coordinate of the event
                       * @property {maptalks.Point} containerPoint  - container point of the event
                       * @property {maptalks.Point} viewPoint       - view point of the event
@@ -16590,7 +17941,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                       * @event maptalks.Map#dblclick
                       * @type {Object}
                       * @property {String} type                    - dblclick
-                      * @property {String} target                  - the map fires event
+                      * @property {maptalks.Map} target            - the map fires event
                       * @property {maptalks.Coordinate} coordinate - coordinate of the event
                       * @property {maptalks.Point} containerPoint  - container point of the event
                       * @property {maptalks.Point} viewPoint       - view point of the event
@@ -16602,7 +17953,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                       * @event maptalks.Map#contextmenu
                       * @type {Object}
                       * @property {String} type                    - contextmenu
-                      * @property {String} target                  - the map fires event
+                      * @property {maptalks.Map} target            - the map fires event
                       * @property {maptalks.Coordinate} coordinate - coordinate of the event
                       * @property {maptalks.Point} containerPoint  - container point of the event
                       * @property {maptalks.Point} viewPoint       - view point of the event
@@ -16614,7 +17965,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                       * @event maptalks.Map#keypress
                       * @type {Object}
                       * @property {String} type                    - keypress
-                      * @property {String} target                  - the map fires event
+                      * @property {maptalks.Map} target            - the map fires event
                       * @property {maptalks.Coordinate} coordinate - coordinate of the event
                       * @property {maptalks.Point} containerPoint  - container point of the event
                       * @property {maptalks.Point} viewPoint       - view point of the event
@@ -16626,7 +17977,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                       * @event maptalks.Map#touchstart
                       * @type {Object}
                       * @property {String} type                    - touchstart
-                      * @property {String} target                  - the map fires event
+                      * @property {maptalks.Map} target            - the map fires event
                       * @property {maptalks.Coordinate} coordinate - coordinate of the event
                       * @property {maptalks.Point} containerPoint  - container point of the event
                       * @property {maptalks.Point} viewPoint       - view point of the event
@@ -16638,7 +17989,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                       * @event maptalks.Map#touchmove
                       * @type {Object}
                       * @property {String} type                    - touchmove
-                      * @property {String} target                  - the map fires event
+                      * @property {maptalks.Map} target            - the map fires event
                       * @property {maptalks.Coordinate} coordinate - coordinate of the event
                       * @property {maptalks.Point} containerPoint  - container point of the event
                       * @property {maptalks.Point} viewPoint       - view point of the event
@@ -16650,7 +18001,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
                       * @event maptalks.Map#touchend
                       * @type {Object}
                       * @property {String} type                    - touchend
-                      * @property {String} target                  - the map fires event
+                      * @property {maptalks.Map} target            - the map fires event
                       * @property {maptalks.Coordinate} coordinate - coordinate of the event
                       * @property {maptalks.Point} containerPoint  - container point of the event
                       * @property {maptalks.Point} viewPoint       - view point of the event
@@ -16668,22 +18019,33 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
     },
 
     _handleDOMEvent: function (e) {
+        var type = e.type;
+        if (type === 'mousedown' || type === 'click') {
+            var button = e.button;
+            if (button === 2) {
+                type = 'contextmenu';
+            }
+        }
+        //阻止右键菜单
+        if (type === 'contextmenu') {
+            Z.DomUtil.preventDefault(e);
+        }
         if (this._ignoreEvent(e)) {
             return;
         }
-        var type = e.type;
         this._fireDOMEvent(this, e, type);
     },
 
     _ignoreEvent: function (domEvent) {
-        //ignore events originated from control doms.
+        //ignore events originated from control and ui doms.
         if (!domEvent || !this._panels.control) {
             return false;
         }
         var target = domEvent.srcElement || domEvent.target;
         if (target) {
             while (target && target !== this._containerDOM) {
-                if (target.className === 'maptalks-control') {
+                if (target.className && target.className.indexOf &&
+                    (target.className.indexOf('maptalks-control') >= 0 || target.className.indexOf('maptalks-ui') >= 0)) {
                     return true;
                 }
                 target = target.parentNode;
@@ -16694,16 +18056,22 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
     },
 
     _parseEvent:function (e, type) {
+        if (!e) {
+            return null;
+        }
         var eventParam = {
             'domEvent': e
         };
         if (type !== 'keypress') {
-            var actual = e.touches ? e.touches[0] : e;
+            var actual = e.touches && e.touches.length > 0 ?
+                e.touches[0] : e.changedTouches && e.changedTouches.length > 0 ?
+                e.changedTouches[0] : e;
             if (actual) {
                 var containerPoint = Z.DomUtil.getEventContainerPoint(actual, this._containerDOM);
                 eventParam['coordinate'] = this.containerPointToCoordinate(containerPoint);
                 eventParam['containerPoint'] = containerPoint;
                 eventParam['viewPoint'] = this.containerPointToViewPoint(containerPoint);
+                eventParam['point2d'] = this._containerPointToPoint(containerPoint);
             }
         }
         return eventParam;
@@ -16711,17 +18079,6 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
 
     _fireDOMEvent: function (target, e, type) {
         var eventParam = this._parseEvent(e, type);
-
-        //阻止右键菜单
-        if (type === 'contextmenu') {
-            Z.DomUtil.preventDefault(e);
-        }
-        if (type === 'mousedown' || type === 'click') {
-            var button = e.button;
-            if (button === 2) {
-                type = 'contextmenu';
-            }
-        }
         this._fireEvent(type, eventParam);
     }
 });
@@ -16737,7 +18094,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
           * @event maptalks.Map#fullscreenstart
           * @type {Object}
           * @property {String} type                    - fullscreenstart
-          * @property {String} target                  - the map fires event
+          * @property {maptalks.Map} target            - the map fires event
           */
         this._fireEvent('fullscreenstart');
         this._requestFullScreen(this._containerDOM);
@@ -16746,7 +18103,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
           * @event maptalks.Map#fullscreenend
           * @type {Object}
           * @property {String} type                    - fullscreenend
-          * @property {String} target                  - the map fires event
+          * @property {maptalks.Map} target            - the map fires event
           */
         this._fireEvent('fullscreenend');
         return this;
@@ -16763,7 +18120,7 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
           * @event maptalks.Map#cancelfullscreen
           * @type {Object}
           * @property {String} type                    - cancelfullscreen
-          * @property {String} target                  - the map fires event
+          * @property {maptalks.Map} target            - the map fires event
           */
         this._fireEvent('cancelfullscreen');
         return this;
@@ -16830,10 +18187,10 @@ Z.Layer.fromJSON = function (layerJSON) {
     } else if (layerType === 'tile') {
         layerType = layerJSON['type'] = 'TileLayer';
     }
-    if (typeof Z[layerType] === 'undefined' || !Z[layerType]._fromJSON) {
+    if (typeof Z[layerType] === 'undefined' || !Z[layerType].fromJSON) {
         throw new Error('unsupported layer type:' + layerType);
     }
-    return Z[layerType]._fromJSON(layerJSON);
+    return Z[layerType].fromJSON(layerJSON);
 };
 
 Z.Map.include(/** @lends maptalks.Map.prototype */{
@@ -16927,6 +18284,8 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
  * @return {maptalks.Map}
  * @static
  * @function
+ * @example
+ * var map = maptalks.Map.fromJSON('map', mapProfile);
  */
 Z.Map.fromJSON = function (container, profile, options) {
     if (!container || !profile) {
@@ -16963,8 +18322,10 @@ Z.Map.Drag = Z.Handler.extend({
     addHooks: function () {
         var map = this.target;
         if (!map) { return; }
-        this.dom = map._panels.mapWrapper || map._containerDOM;
-        this._dragHandler = new Z.Handler.Drag(this.dom);
+        var dom = map._panels.mapWrapper || map._containerDOM;
+        this._dragHandler = new Z.Handler.Drag(dom, {
+            'cancelOn' : Z.Util.bind(this._cancelOn, this)
+        });
         this._dragHandler.on('mousedown', this._onMouseDown, this)
             .on('dragstart', this._onDragStart, this)
             .on('dragging', this._onDragging, this)
@@ -16978,21 +18339,29 @@ Z.Map.Drag = Z.Handler.extend({
                 .off('dragging', this._onDragging, this)
                 .off('dragend', this._onDragEnd, this)
                 .disable();
+        this._dragHandler.remove();
         delete this._dragHandler;
     },
 
+    _cancelOn: function (domEvent) {
+        if (this._ignore(domEvent)) {
+            return true;
+        }
+        return false;
+    },
+
     _ignore: function (param) {
-        if (!param || !param.domEvent) {
+        if (!param) {
             return false;
         }
-        return this.target._ignoreEvent(param.domEvent);
+        if (param.domEvent) {
+            param = param.domEvent;
+        }
+        return this.target._ignoreEvent(param);
     },
 
 
     _onMouseDown:function (param) {
-        if (this._ignore(param)) {
-            return;
-        }
         if (this.target._panAnimating) {
             this.target._enablePanAnimation = false;
         }
@@ -17000,9 +18369,6 @@ Z.Map.Drag = Z.Handler.extend({
     },
 
     _onDragStart:function (param) {
-        if (this._ignore(param)) {
-            return;
-        }
         var map = this.target;
         this.startDragTime = new Date().getTime();
         var domOffset = map.offsetPlatform();
@@ -17012,13 +18378,10 @@ Z.Map.Drag = Z.Handler.extend({
         this.preY = param['mousePos'].y;
         this.startX = this.preX;
         this.startY = this.preY;
-        map._onMoveStart();
+        map.onMoveStart(param);
     },
 
     _onDragging:function (param) {
-        if (this._ignore(param)) {
-            return;
-        }
         //Z.DomUtil.preventDefault(param['domEvent']);
         if (this.startLeft === undefined) {
             return;
@@ -17032,13 +18395,10 @@ Z.Map.Drag = Z.Handler.extend({
         var offset = new Z.Point(nextLeft, nextTop)._substract(mapPos);
         map.offsetPlatform(offset);
         map._offsetCenterByPixel(offset);
-        map._onMoving();
+        map.onMoving(param);
     },
 
     _onDragEnd:function (param) {
-        if (this._ignore(param)) {
-            return;
-        }
         //Z.DomUtil.preventDefault(param['domEvent']);
         if (this.startLeft === undefined) {
             return;
@@ -17061,9 +18421,8 @@ Z.Map.Drag = Z.Handler.extend({
             t = 5 * t * (Math.abs(distance.x) + Math.abs(distance.y)) / 600;
             map._panAnimation(distance._multi(2 / 3), t);
         } else {
-            map._onMoveEnd();
+            map.onMoveEnd(param);
         }
-
     }
 });
 
@@ -17080,15 +18439,15 @@ Z.Map.AutoBorderPanning = Z.Handler.extend({
     step : 4,
 
     addHooks: function () {
-        this._dom = this.target._containerDOM;
-        Z.DomUtil.on(this._dom, 'mousemove', this._onMouseMove, this);
-        Z.DomUtil.on(this._dom, 'mouseout', this._onMouseOut, this);
+        this.dom = this.target._containerDOM;
+        Z.DomUtil.on(this.dom, 'mousemove', this._onMouseMove, this);
+        Z.DomUtil.on(this.dom, 'mouseout', this._onMouseOut, this);
     },
 
     removeHooks: function () {
         this._cancelPan();
-        Z.DomUtil.off(this._dom, 'mousemove', this._onMouseMove, this);
-        Z.DomUtil.off(this._dom, 'mouseout', this._onMouseOut, this);
+        Z.DomUtil.off(this.dom, 'mousemove', this._onMouseMove, this);
+        Z.DomUtil.off(this.dom, 'mouseout', this._onMouseOut, this);
     },
 
     _onMouseMove: function (event) {
@@ -17232,12 +18591,11 @@ Z.Map.ScrollWheelZoom = Z.Handler.extend({
         var preScale = map._getResolution(map.getZoom())/map._getResolution(preZoom);
         var render = map._getRenderer();
         var me = this;
-        render.onZoomStart(preScale, scale, zoomPoint, 100, function() {
+        render.animateZoom(preScale, scale, zoomPoint, 100, function() {
             me._scaling = false;
             map._zoom(me._targetZoom, zoomPoint);
             me._wheelExecutor = setTimeout(function () {
-                console.log('zoomend');
-                map._onZoomEnd(me._targetZoom);
+                map.onZoomEnd(me._targetZoom);
                 delete me._targetZoom;
             },100);
         });
@@ -17285,6 +18643,13 @@ Z.Map.TouchZoom = Z.Handler.extend({
             .addDomEvent(document, 'touchend', this._onTouchEnd, this);
 
         Z.DomUtil.preventDefault(event);
+        /**
+          * touchzoomstart event
+          * @event maptalks.Map#touchzoomstart
+          * @type {Object}
+          * @property {String} type                    - touchzoomstart
+          * @property {maptalks.Map} target            - the map fires event
+          */
         map._fireEvent('touchzoomstart');
     },
 
@@ -17310,9 +18675,17 @@ Z.Map.TouchZoom = Z.Handler.extend({
 
         var renderer = map._getRenderer();
 
-        var matrix = renderer.getZoomMatrix(scale, origin, Z.Browser.retina);
+        var matrix = map._generateMatrices(origin, scale);
         renderer.transform(matrix);
-
+        /**
+          * touchzooming event
+          * @event maptalks.Map#touchzooming
+          * @type {Object}
+          * @property {String} type                    - touchzooming
+          * @property {maptalks.Map} target            - the map fires event
+          * @property {Matrix} matrix                  - transforming matrix
+          */
+        map._fireEvent('touchzooming', {'matrix': matrix});
         // Z.DomUtil.preventDefault(event);
     },
 
@@ -17333,8 +18706,20 @@ Z.Map.TouchZoom = Z.Handler.extend({
         if (zoom === -1) {
             zoom = map.getZoom();
         }
+        /**
+          * touchzoomend event
+          * @event maptalks.Map#touchzoomend
+          * @type {Object}
+          * @property {String} type                    - touchzoomend
+          * @property {maptalks.Map} target            - the map fires event
+          */
         map._fireEvent('touchzoomend');
-        map._zoomAnimation(zoom, this._preOrigin, this._scale);
+        if (zoom === map.getZoom()) {
+            //remove scale transform
+            map._getRenderer().transform(null);
+        } else {
+            map._zoomAnimation(zoom, this._preOrigin, this._scale);
+        }
     }
 });
 
@@ -17385,9 +18770,18 @@ Z.Map.GeometryEvents = Z.Handler.extend({
         if (layers.length === 0) {
             return;
         }
-        var eventType = domEvent.type,
-            containerPoint = Z.DomUtil.getEventContainerPoint(domEvent, map._containerDOM),
+        var eventType = domEvent.type;
+        var actual = domEvent.touches && domEvent.touches.length > 0 ?
+            domEvent.touches[0] : domEvent.changedTouches && domEvent.changedTouches.length > 0 ?
+            domEvent.changedTouches[0] : domEvent;
+        if (!actual) {
+            return;
+        }
+        var containerPoint = Z.DomUtil.getEventContainerPoint(actual, map._containerDOM),
             coordinate = map.containerPointToCoordinate(containerPoint);
+        if (eventType === 'touchstart') {
+            Z.DomUtil.preventDefault(domEvent);
+        }
         var geometryCursorStyle = null;
         var identifyOptions = {
             'includeInternals' : true,
@@ -17475,8 +18869,9 @@ Z.Map.GeometryEvents = Z.Handler.extend({
 
 Z.Map.addInitHook('addHandler', 'geometryEvents', Z.Map.GeometryEvents);
 
-    /**
+/**
  * @namespace
+ * @protected
  */
 Z.renderer = {};
 
@@ -17496,68 +18891,90 @@ Z.renderer.Canvas = Z.Class.extend(/** @lends maptalks.renderer.Canvas.prototype
         return true;
     },
 
-    render:function () {
-        this._prepareRender();
+    render:function (isCheckRes) {
+        this.prepareRender();
         if (!this.getMap()) {
             return;
         }
-        if (!this._layer.isVisible()) {
-            this._complete();
+        if (!this.layer.isVisible()) {
+            this.completeRender();
             return;
         }
-        if (this.checkResources) {
+        if (!this.resources) {
+            this.resources = new Z.renderer.Canvas.Resources();
+        }
+        if (this.checkResources && isCheckRes) {
             var me = this, args = arguments;
             var resources = this.checkResources.apply(this, args);
             if (Z.Util.isArrayHasData(resources)) {
-                this._loadResources(resources).then(function () {
-                    if (me._layer) {
-                        me.draw.apply(me, args);
+                this.loadResources(resources).then(function () {
+                    if (me.layer) {
+                        me._tryToDraw.apply(me, args);
                     }
                 });
             } else {
-                this.draw.apply(this, args);
+                this._tryToDraw.apply(this, args);
             }
         } else {
-            this.draw.apply(this, arguments);
+            this._tryToDraw.apply(this, arguments);
+        }
+    },
+
+    _tryToDraw:function () {
+        this._clearTimeout();
+        if (this.layer.isEmpty && this.layer.isEmpty()) {
+            this.completeRender();
+            return;
+        }
+        var me = this, args = arguments;
+        if (this.layer.options['drawImmediate']) {
+            this.draw.apply(this, args);
+        } else {
+            this._animReqId = Z.Util.requestAnimFrame(function () {
+                if (me.layer) {
+                    me.draw.apply(me, args);
+                }
+            });
         }
     },
 
     remove: function () {
-        if (this._onRemove) {
-            this._onRemove();
+        this._clearTimeout();
+        if (this.onRemove) {
+            this.onRemove();
         }
-        delete this._canvas;
-        delete this._context;
-        delete this._viewExtent;
-        delete this._resources;
-        Z.renderer.Canvas.prototype._requestMapToRender.call(this);
-        delete this._layer;
+        delete this.canvas;
+        delete this.context;
+        delete this._extent2D;
+        delete this.resources;
+        // requestMapToRender may be overrided, e.g. renderer.TileLayer.Canvas
+        Z.renderer.Canvas.prototype.requestMapToRender.call(this);
+        delete this.layer;
     },
 
     getMap: function () {
-        if (!this._layer) {
+        if (!this.layer) {
             return null;
         }
-        return this._layer.getMap();
-    },
-
-    getLayer:function () {
-        return this._layer;
+        return this.layer.getMap();
     },
 
     getCanvasImage:function () {
-        if (!this._canvas) {
+        if (!this.canvas) {
             return null;
         }
-        if ((this._layer.isEmpty && this._layer.isEmpty()) || !this._viewExtent) {
+        if ((this.layer.isEmpty && this.layer.isEmpty()) || !this._extent2D) {
             return null;
         }
         if (this.isBlank && this.isBlank()) {
             return null;
         }
-        var size = this._viewExtent.getSize();
-        var point = this._viewExtent.getMin();
-        return {'image':this._canvas, 'layer':this._layer, 'point':this.getMap().viewPointToContainerPoint(point), 'size':size};
+        var map = this.getMap(),
+            size = this._extent2D.getSize(),
+            point = this._extent2D.getMin(),
+            containerPoint = map._pointToContainerPoint(point);
+
+        return {'image':this.canvas, 'layer':this.layer, 'point': containerPoint, 'size':size};
     },
 
     isLoaded:function () {
@@ -17571,9 +18988,9 @@ Z.renderer.Canvas = Z.Class.extend(/** @lends maptalks.renderer.Canvas.prototype
      * 显示图层
      */
     show: function () {
-        var mask = this._layer.getMask();
+        var mask = this.layer.getMask();
         if (mask) {
-            mask._onZoomEnd();
+            mask.onZoomEnd();
         }
         this.render();
     },
@@ -17582,12 +18999,12 @@ Z.renderer.Canvas = Z.Class.extend(/** @lends maptalks.renderer.Canvas.prototype
      * 隐藏图层
      */
     hide: function () {
-        this._clearCanvas();
-        this._requestMapToRender();
+        this.clearCanvas();
+        this.requestMapToRender();
     },
 
     setZIndex: function () {
-        this._requestMapToRender();
+        this.requestMapToRender();
     },
 
     getRenderZoom: function () {
@@ -17600,24 +19017,24 @@ Z.renderer.Canvas = Z.Class.extend(/** @lends maptalks.renderer.Canvas.prototype
      * @return {Boolean}       true|false
      */
     hitDetect:function (point) {
-        if (!this._context || (this._layer.isEmpty && this._layer.isEmpty()) || this._errorThrown) {
+        if (!this.context || (this.layer.isEmpty && this.layer.isEmpty()) || this._errorThrown) {
             return false;
         }
-        var viewExtent = this.getMap()._getViewExtent();
-        var size = viewExtent.getSize();
-        var leftTop = viewExtent.getMin();
+        var extent2D = this.getMap()._get2DExtent();
+        var size = extent2D.getSize();
+        var leftTop = extent2D.getMin();
         var detectPoint = point.substract(leftTop);
         if (detectPoint.x < 0 || detectPoint.x > size['width'] || detectPoint.y < 0 || detectPoint.y > size['height']) {
             return false;
         }
         try {
-            var imgData = this._context.getImageData(detectPoint.x, detectPoint.y, 1, 1).data;
+            var imgData = this.context.getImageData(detectPoint.x, detectPoint.y, 1, 1).data;
             if (imgData[3] > 0) {
                 return true;
             }
         } catch (error) {
             if (!this._errorThrown) {
-                console.warn('hit detect failed with tainted canvas, some geometries have external resources in another domain:\n', error);
+                Z.Util.warn('hit detect failed with tainted canvas, some geometries have external resources in another domain:\n', error);
                 this._errorThrown = true;
             }
             //usually a CORS error will be thrown if the canvas uses resources from other domain.
@@ -17634,11 +19051,8 @@ Z.renderer.Canvas = Z.Class.extend(/** @lends maptalks.renderer.Canvas.prototype
      * @param  {Function} onComplete          - callback after loading complete
      * @param  {Object} context         - callback's context
      */
-    _loadResources:function (resourceUrls) {
-        if (!this._resources) {
-            this._resources = new Z.renderer.Canvas.Resources();
-        }
-        var resources = this._resources,
+    loadResources:function (resourceUrls) {
+        var resources = this.resources,
             promises = [];
         if (Z.Util.isArrayHasData(resourceUrls)) {
             var cache = {}, url;
@@ -17648,7 +19062,7 @@ Z.renderer.Canvas = Z.Class.extend(/** @lends maptalks.renderer.Canvas.prototype
                     continue;
                 }
                 cache[url.join('-')] = 1;
-                if (!resources.isResourceLoaded(url)) {
+                if (!resources.isResourceLoaded(url, true)) {
                     //closure it to preserve url's value
                     promises.push(new Z.Promise(this._promiseResource(url)));
                 }
@@ -17658,11 +19072,11 @@ Z.renderer.Canvas = Z.Class.extend(/** @lends maptalks.renderer.Canvas.prototype
     },
 
     _promiseResource: function (url) {
-        var me = this, resources = this._resources,
-            crossOrigin = this._layer.options['crossOrigin'];
+        var me = this, resources = this.resources,
+            crossOrigin = this.layer.options['crossOrigin'];
         return function (resolve) {
-            if (resources.isResourceLoaded(url)) {
-                resolve({});
+            if (resources.isResourceLoaded(url, true)) {
+                resolve(url);
                 return;
             }
             var img = new Image();
@@ -17675,23 +19089,23 @@ Z.renderer.Canvas = Z.Class.extend(/** @lends maptalks.renderer.Canvas.prototype
                 if (url[2]) { url[2] *= 2; }
             }
             img.onload = function () {
-                me._cacheResource(url, this);
-                resolve({});
+                me._cacheResource(url, img);
+                resolve(url);
             };
             img.onabort = function (err) {
-                console.warn('image loading aborted: ' + url[0]);
+                Z.Util.warn('image loading aborted: ' + url[0]);
                 if (err) {
-                    console.warn(err);
+                    Z.Util.warn(err);
                 }
-                resolve({});
+                resolve(url);
             };
             img.onerror = function (err) {
-                // console.warn('image loading failed: ' + url[0]);
+                // Z.Util.warn('image loading failed: ' + url[0]);
                 if (err && !Z.Browser.phantomjs) {
-                    console.warn(err);
+                    Z.Util.warn(err);
                 }
                 resources.markErrorResource(url);
-                resolve({});
+                resolve(url);
             };
             Z.Util.loadImage(img,  url);
         };
@@ -17699,69 +19113,48 @@ Z.renderer.Canvas = Z.Class.extend(/** @lends maptalks.renderer.Canvas.prototype
     },
 
     _cacheResource: function (url, img) {
-        if (!this._layer) {
+        if (!this.layer || !this.resources) {
             return;
         }
         var w = url[1], h = url[2];
-        if (this._layer.options['cacheSvgOnCanvas'] && Z.Util.isSVG(url[0]) === 1 && (Z.Browser.edge || Z.Browser.ie)) {
+        if (this.layer.options['cacheSvgOnCanvas'] && Z.Util.isSVG(url[0]) === 1 && (Z.Browser.edge || Z.Browser.ie)) {
             //opacity of svg img painted on canvas is always 1, so we paint svg on a canvas at first.
             if (Z.Util.isNil(w)) {
-                w = img.width || this._layer.options['defaultIconSize'][0];
+                w = img.width || this.layer.options['defaultIconSize'][0];
             }
             if (Z.Util.isNil(h)) {
-                h = img.height || this._layer.options['defaultIconSize'][1];
+                h = img.height || this.layer.options['defaultIconSize'][1];
             }
             var canvas = Z.Canvas.createCanvas(w, h);
             Z.Canvas.image(canvas.getContext('2d'), img, 0, 0, w, h);
             img = canvas;
         }
-        this._resources.addResource(url, img);
+        this.resources.addResource(url, img);
     },
 
-    _prepareRender: function () {
+    prepareRender: function () {
         this._renderZoom = this.getMap().getZoom();
-        this._viewExtent = this.getMap()._getViewExtent();
+        this._extent2D = this.getMap()._get2DExtent();
         this._loaded = false;
     },
 
-    _requestMapToRender: function () {
-        if (this.getMap()) {
-            if (this._context) {
-                this._layer.fire('renderend', {'context' : this._context});
-            }
-            this.getMap()._getRenderer().render();
-        }
-    },
-
-    _fireLoadedEvent: function () {
-        this._loaded = true;
-        if (this._layer) {
-            this._layer.fire('layerload');
-        }
-    },
-
-    _complete: function () {
-        this._requestMapToRender();
-        this._fireLoadedEvent();
-    },
-
-    _createCanvas:function () {
-        if (this._canvas) {
+    createCanvas:function () {
+        if (this.canvas) {
             return;
         }
         var map = this.getMap();
         var size = map.getSize();
         var r = Z.Browser.retina ? 2 : 1;
-        this._canvas = Z.Canvas.createCanvas(r * size['width'], r * size['height'], map.CanvasClass);
-        this._context = this._canvas.getContext('2d');
+        this.canvas = Z.Canvas.createCanvas(r * size['width'], r * size['height'], map.CanvasClass);
+        this.context = this.canvas.getContext('2d');
         if (Z.Browser.retina) {
-            this._context.scale(2, 2);
+            this.context.scale(2, 2);
         }
-        Z.Canvas.setDefaultCanvasSetting(this._context);
+        Z.Canvas.setDefaultCanvasSetting(this.context);
     },
 
-    _resizeCanvas:function (canvasSize) {
-        if (!this._canvas) {
+    resizeCanvas:function (canvasSize) {
+        if (!this.canvas) {
             return;
         }
         var size;
@@ -17773,102 +19166,178 @@ Z.renderer.Canvas = Z.Class.extend(/** @lends maptalks.renderer.Canvas.prototype
         }
         var r = Z.Browser.retina ? 2 : 1;
         //only make canvas bigger, never smaller
-        if (this._canvas.width >= r * size['width'] && this._canvas.height >= r * size['height']) {
+        if (this.canvas.width >= r * size['width'] && this.canvas.height >= r * size['height']) {
             return;
         }
         //retina support
-        this._canvas.height = r * size['height'];
-        this._canvas.width = r * size['width'];
+        this.canvas.height = r * size['height'];
+        this.canvas.width = r * size['width'];
         if (Z.Browser.retina) {
-            this._context.scale(2, 2);
+            this.context.scale(2, 2);
         }
     },
 
-    _clearCanvas:function () {
-        if (!this._canvas) {
+    clearCanvas:function () {
+        if (!this.canvas) {
             return;
         }
-        Z.Canvas.clearRect(this._context, 0, 0, this._canvas.width, this._canvas.height);
+        Z.Canvas.clearRect(this.context, 0, 0, this.canvas.width, this.canvas.height);
     },
 
-    _prepareCanvas:function () {
+    prepareCanvas:function () {
         if (this._clipped) {
-            this._context.restore();
+            this.context.restore();
             this._clipped = false;
         }
-        if (!this._canvas) {
-            this._createCanvas();
+        if (!this.canvas) {
+            this.createCanvas();
         } else {
-            this._clearCanvas();
+            this.clearCanvas();
         }
-        var mask = this.getLayer().getMask();
+        var mask = this.layer.getMask();
         if (!mask) {
             return null;
         }
-        var maskViewExtent = mask._getPainter().getViewExtent();
-        if (!maskViewExtent.intersects(this._viewExtent)) {
-            return maskViewExtent;
+        var maskExtent2D = mask._getPainter().get2DExtent();
+        if (!maskExtent2D.intersects(this._extent2D)) {
+            return maskExtent2D;
         }
-        this._context.save();
+        this.context.save();
         mask._getPainter().paint();
-        this._context.clip();
+        this.context.clip();
         this._clipped = true;
-        this._layer.fire('renderstart', {'context' : this._context});
-        return maskViewExtent;
+        /**
+         * renderstart event, fired when layer starts to render.
+         *
+         * @event maptalks.Layer#renderstart
+         * @type {Object}
+         * @property {String} type              - renderstart
+         * @property {maptalks.Layer} target    - layer
+         * @property {CanvasRenderingContext2D} context - canvas's context
+         */
+        this.layer.fire('renderstart', {'context' : this.context});
+        return maskExtent2D;
+    },
+
+    get2DExtent: function () {
+        return this._extent2D;
+    },
+
+    requestMapToRender: function () {
+        if (this.getMap()) {
+            if (this.context) {
+                /**
+                 * renderend event, fired when layer ends rendering.
+                 *
+                 * @event maptalks.Layer#renderend
+                 * @type {Object}
+                 * @property {String} type              - renderend
+                 * @property {maptalks.Layer} target    - layer
+                 * @property {CanvasRenderingContext2D} context - canvas's context
+                 */
+                this.layer.fire('renderend', {'context' : this.context});
+            }
+            this.getMap()._getRenderer().render();
+        }
+    },
+
+    fireLoadedEvent: function () {
+        this._loaded = true;
+        if (this.layer) {
+            /**
+             * layerload event, fired when layer is loaded.
+             *
+             * @event maptalks.Layer#layerload
+             * @type {Object}
+             * @property {String} type - layerload
+             * @property {maptalks.Layer} target - layer
+             */
+            this.layer.fire('layerload');
+        }
+    },
+
+    completeRender: function () {
+        this.requestMapToRender();
+        this.fireLoadedEvent();
     },
 
     getPaintContext:function () {
-        if (!this._context) {
+        if (!this.context) {
             return null;
         }
-        return [this._context, this._resources];
+        return [this.context, this.resources];
     },
 
-    _getEvents: function () {
+    getEvents: function () {
         return {
-            '_zoomend' : this._onZoomEnd,
-            '_resize'  : this._onResize,
-            '_moveend' : this._onMoveEnd
+            '_zoomstart' : this.onZoomStart,
+            '_zoomend' : this.onZoomEnd,
+            '_resize'  : this.onResize,
+            '_movestart' : this.onMoveStart,
+            '_moving' : this.onMoving,
+            '_moveend' : this.onMoveEnd
         };
     },
 
-    _onZoomEnd: function () {
-        this.render();
+    onZoomStart: function () {
+
     },
 
-    _onMoveEnd: function () {
-        this.render();
+    onZoomEnd: function () {
+        this.prepareRender();
+        this.draw();
     },
 
-    _onResize: function () {
-        this._resizeCanvas();
-        this.render();
+    onMoveStart: function () {
+
+    },
+
+    onMoving: function () {
+
+    },
+
+    onMoveEnd: function () {
+        this.prepareRender();
+        this.draw();
+    },
+
+    onResize: function () {
+        this.resizeCanvas();
+        this.prepareRender();
+        this.draw();
+    },
+
+    _clearTimeout:function () {
+        if (this._animReqId) {
+            //clearTimeout(this._animReqId);
+            Z.Util.cancelAnimFrame(this._animReqId);
+        }
     }
 });
 
 Z.renderer.Canvas.Resources = function () {
-    this._resources = {};
+    this.resources = {};
     this._errors = {};
 };
 
 Z.Util.extend(Z.renderer.Canvas.Resources.prototype, {
     addResource:function (url, img) {
-        this._resources[url[0]] = {
+        this.resources[url[0]] = {
             image : img,
             width : +url[1],
             height : +url[2]
         };
     },
 
-    isResourceLoaded:function (url) {
+    isResourceLoaded:function (url, checkSVG) {
         if (this._errors[this._getImgUrl(url)]) {
             return true;
         }
-        var img = this._resources[this._getImgUrl(url)];
+        var img = this.resources[this._getImgUrl(url)];
         if (!img) {
             return false;
         }
-        if (+url[1] > img.width || +url[2] > img.height) {
+        if (checkSVG && Z.Util.isSVG(url[0]) && (+url[1] > img.width || +url[2] > img.height)) {
             return false;
         }
         return true;
@@ -17878,7 +19347,7 @@ Z.Util.extend(Z.renderer.Canvas.Resources.prototype, {
         if (!this.isResourceLoaded(url) || this._errors[this._getImgUrl(url)]) {
             return null;
         }
-        return this._resources[this._getImgUrl(url)].image;
+        return this.resources[this._getImgUrl(url)].image;
     },
 
     markErrorResource:function (url) {
@@ -17895,6 +19364,7 @@ Z.Util.extend(Z.renderer.Canvas.Resources.prototype, {
 
 /**
  * @namespace
+ * @protected
  */
 Z.renderer.map = {};
 
@@ -17909,31 +19379,6 @@ Z.renderer.map = {};
  * @extends {maptalks.Class}
  */
 Z.renderer.map.Renderer = Z.Class.extend(/** @lends Z.renderer.map.Renderer.prototype */{
-
-    /**
-     * get Transform Matrix for zooming
-     * @param  {Number} scale  scale
-     * @param  {Point} origin Transform Origin
-     */
-    getZoomMatrix:function (scale, origin, retina) {
-        //matrix for layers to transform
-        var view = this.map.containerPointToViewPoint(origin);
-        var matrices  = {
-            'container' : new Z.Matrix().translate(origin.x, origin.y)
-                        .scaleU(scale).translate(-origin.x, -origin.y),
-            'view'      : new Z.Matrix().translate(view.x, view.y)
-                        .scaleU(scale).translate(-view.x, -view.y)
-        };
-
-        if (retina) {
-            origin = origin.multi(2);
-            matrices['retina'] = new Z.Matrix().translate(origin.x, origin.y)
-                        .scaleU(scale).translate(-origin.x, -origin.y);
-        }
-        // var scale = matrices['container'].decompose()['scale'];
-        matrices['scale'] = {x:scale, y:scale};
-        return matrices;
-    },
 
     panAnimation:function (distance, t, onFinish) {
         distance = new Z.Point(distance);
@@ -17957,12 +19402,12 @@ Z.renderer.map.Renderer = Z.Class.extend(/** @lends Z.renderer.map.Renderer.prot
                 if (!map._enablePanAnimation) {
                     player.finish();
                     map._panAnimating = false;
-                    map._onMoveEnd();
+                    map.onMoveEnd();
                     return;
                 }
 
                 if (player.playState === 'running' && frame.styles['distance']) {
-                    var dist = frame.styles['distance']._round();
+                    var dist = frame.styles['distance'];
                     if (!preDist) {
                         preDist = dist;
                     }
@@ -17970,18 +19415,18 @@ Z.renderer.map.Renderer = Z.Class.extend(/** @lends Z.renderer.map.Renderer.prot
                     map.offsetPlatform(offset);
                     map._offsetCenterByPixel(offset);
                     preDist = dist;
-                    map._onMoving();
+                    map.onMoving();
                 } else if (player.playState === 'finished') {
                     map._panAnimating = false;
                     if (onFinish) {
                         onFinish();
                     }
-                    map._onMoveEnd();
+                    map.onMoveEnd();
                 }
             });
             player.play();
         } else {
-            map._onMoveEnd();
+            map.onMoveEnd();
         }
     },
 
@@ -17994,11 +19439,13 @@ Z.renderer.map.Renderer = Z.Class.extend(/** @lends Z.renderer.map.Renderer.prot
         if (!this.map._panels.mapPlatform) {
             return this;
         }
-        var mapPlatform = this.map._panels.mapPlatform,
-            layer = this.map._panels.layer,
-            pos = this.map.offsetPlatform().add(offset)._round();
-        Z.DomUtil.offsetDom(mapPlatform, pos);
-        Z.DomUtil.offsetDom(layer, pos);
+        var pos = this.map.offsetPlatform().add(offset)._round();
+        Z.DomUtil.offsetDom(this.map._panels.mapPlatform, pos);
+        Z.DomUtil.offsetDom(this.map._panels.frontLayer, pos);
+        Z.DomUtil.offsetDom(this.map._panels.layer, pos);
+        if (Z.Browser.mobile) {
+            Z.DomUtil.offsetDom(this.map._panels.canvasContainer, pos);
+        }
         return this;
     },
 
@@ -18008,6 +19455,10 @@ Z.renderer.map.Renderer = Z.Class.extend(/** @lends Z.renderer.map.Renderer.prot
             var pos = new Z.Point(0, 0);
             Z.DomUtil.offsetDom(this.map._panels.mapPlatform, pos);
             Z.DomUtil.offsetDom(this.map._panels.layer, pos);
+            Z.DomUtil.offsetDom(this.map._panels.frontLayer, pos);
+            if (Z.Browser.mobile) {
+                Z.DomUtil.offsetDom(this.map._panels.canvasContainer, pos);
+            }
         }
     },
 
@@ -18043,22 +19494,28 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
     },
 
     /**
-     * 基于Canvas的渲染方法, layers总定义了要渲染的图层
+     * Renders the layers
      */
     render:function () {
-        this.map._fireEvent('renderstart', {'context' : this._context});
-        if (!this._canvas) {
-            this._createCanvas();
+         /**
+          * renderstart event, an event fired when map starts to render.
+          * @event maptalks.Map#renderstart
+          * @type {Object}
+          * @property {String} type                    - renderstart
+          * @property {maptalks.Map} target            - the map fires event
+          * @property {CanvasRenderingContext2D} context  - canvas context
+          */
+        this.map._fireEvent('renderstart', {'context' : this.context});
+        if (!this.canvas) {
+            this.createCanvas();
         }
         var zoom = this.map.getZoom();
         var layers = this._getAllLayerToTransform();
 
         if (!this._updateCanvasSize()) {
-            this._clearCanvas();
+            this.clearCanvas();
         }
 
-        var mwidth = this._canvas.width,
-            mheight = this._canvas.height;
         this._drawBackground();
 
         for (var i = 0, len = layers.length; i < len; i++) {
@@ -18069,22 +19526,30 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
             if (renderer && renderer.getRenderZoom() === zoom) {
                 var layerImage = this._getLayerImage(layers[i]);
                 if (layerImage && layerImage['image']) {
-                    this._drawLayerCanvasImage(layers[i], layerImage, mwidth, mheight);
+                    this._drawLayerCanvasImage(layers[i], layerImage);
                 }
             }
         }
 
         this._drawCenterCross();
-        this.map._fireEvent('renderend', {'context' : this._context});
+        /**
+          * renderend event, an event fired when map ends rendering.
+          * @event maptalks.Map#renderend
+          * @type {Object}
+          * @property {String} type                      - renderend
+          * @property {maptalks.Map} target              - the map fires event
+          * @property {CanvasRenderingContext2D} context - canvas context
+          */
+        this.map._fireEvent('renderend', {'context' : this.context});
     },
 
-    onZoomStart:function (options, fn) {
+    animateZoom:function (options, fn) {
         if (Z.Browser.ielt9) {
             fn.call(this);
             return;
         }
         var map = this.map;
-        this._clearCanvas();
+        this.clearCanvas();
         if (!map.options['zoomAnimation']) {
             fn.call(this);
             return;
@@ -18100,7 +19565,7 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
             this._beforeTransform();
         }
 
-        if (this._context) { this._context.save(); }
+        if (this.context) { this.context.save(); }
         var player = Z.Animation.animate(
             {
                 'scale'  : [options.startScale, options.endScale]
@@ -18110,14 +19575,21 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
                 'speed'  : options.duration
             },
             Z.Util.bind(function (frame) {
-                matrix = this.getZoomMatrix(frame.styles['scale'], options.origin, Z.Browser.retina);
                 if (player.playState === 'finished') {
                     this._afterTransform(matrix);
-                    if (this._context) { this._context.restore(); }
+                    if (this.context) { this.context.restore(); }
                     this._drawCenterCross();
                     fn.call(this);
                 } else if (player.playState === 'running') {
-                    this.transform(matrix, layersToTransform);
+                    matrix = this._transformZooming(options.origin, frame.styles['scale'], layersToTransform);
+                    /**
+                      * zooming event
+                      * @event maptalks.Map#zooming
+                      * @type {Object}
+                      * @property {String} type                    - zooming
+                      * @property {maptalks.Map} target            - the map fires event
+                      * @property {Matrix} matrix                  - transforming matrix
+                      */
                     map._fireEvent('zooming', {'matrix' : matrix});
                 }
             }, this)
@@ -18130,16 +19602,14 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
      * @param  {maptalks.Layer[]} layersToTransform 参与变换和绘制的图层
      */
     transform:function (matrix, layersToTransform) {
-        this.map._fireEvent('renderstart', {'context' : this._context});
+        this.map._fireEvent('renderstart', {'context' : this.context});
 
-        var mwidth = this._canvas.width,
-            mheight = this._canvas.height;
         var layers = layersToTransform || this._getAllLayerToTransform();
-        this._clearCanvas();
-        //automatically disable updatePointsWhileTransforming with mobile browsers.
+        this.clearCanvas();
+        //automatically disable layerTransforming with mobile browsers.
         var transformLayers = !Z.Browser.mobile && this.map.options['layerTransforming'];
         if (!transformLayers) {
-            this._context.save();
+            this.context.save();
             this._applyTransform(matrix);
         }
 
@@ -18149,30 +19619,36 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
             }
             var renderer = layers[i]._getRenderer();
             if (renderer) {
-                var transformed = false;
-                if (renderer.transform) {
-                    transformed = renderer.transform(matrix);
-                }
-                if (transformLayers && !transformed) {
-                    this._context.save();
-                    this._applyTransform(matrix);
+                if (renderer.isCanvasRender && renderer.isCanvasRender()) {
+                    var transformed = false;
+                    if (transformLayers && renderer.transform) {
+                        transformed = renderer.transform(matrix);
+                    }
+                    if (transformLayers && !transformed) {
+                        this.context.save();
+                        this._applyTransform(matrix);
+                    }
+
+                    var layerImage = this._getLayerImage(layers[i]);
+                    if (layerImage && layerImage['image']) {
+                        this._drawLayerCanvasImage(layers[i], layerImage);
+                    }
+                    if (transformLayers && !transformed) {
+                        this.context.restore();
+                    }
+                } else if (renderer.transform) {
+                    //e.g. baseTileLayer renderered by DOM
+                    renderer.transform(matrix);
                 }
 
-                var layerImage = this._getLayerImage(layers[i]);
-                if (layerImage && layerImage['image']) {
-                    this._drawLayerCanvasImage(layers[i], layerImage, mwidth, mheight);
-                }
-                if (transformLayers && !transformed) {
-                    this._context.restore();
-                }
             }
         }
         if (!transformLayers) {
-            this._context.restore();
+            this.context.restore();
         }
 
         this._drawCenterCross();
-        this.map._fireEvent('renderend', {'context' : this._context});
+        this.map._fireEvent('renderend', {'context' : this.context});
     },
 
     updateMapSize:function (mSize) {
@@ -18191,7 +19667,7 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
         this._updateCanvasSize();
     },
 
-    getPanel: function () {
+    getMainPanel: function () {
         if (this._isCanvasContainer) {
             return this.map._containerDOM;
         }
@@ -18199,10 +19675,26 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
     },
 
     toDataURL:function (mimeType) {
-        if (!this._canvas) {
+        if (!this.canvas) {
             return null;
         }
-        return this._canvas.toDataURL(mimeType);
+        return this.canvas.toDataURL(mimeType);
+    },
+
+    remove: function () {
+        if (this._resizeInterval) {
+            clearInterval(this._resizeInterval);
+        }
+        if (this._resizeFrame) {
+            Z.Util.cancelAnimFrame(this._resizeFrame);
+        }
+        delete this.context;
+        delete this.canvas;
+        delete this.map;
+        delete this._canvasBgRes;
+        delete this._canvasBgCoord;
+        delete this._canvasBg;
+        delete this._zoomingMatrix;
     },
 
     _getLayerImage: function (layer) {
@@ -18210,6 +19702,13 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
             return layer._getRenderer().getCanvasImage();
         }
         return null;
+    },
+
+    _transformZooming: function (origin, scale, layersToTransform) {
+        var matrix = this.map._generateMatrices(origin, scale);
+        this._zoomingMatrix = matrix;
+        this.transform(matrix, layersToTransform);
+        return matrix;
     },
 
     _beforeTransform: function () {
@@ -18221,8 +19720,7 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
                 baseLayerImage = this._getLayerImage(baseLayer);
             //zoom animation with better performance, only animate baseLayer, ignore other layers.
             if (baseLayerImage) {
-                var width = this._canvas.width, height = this._canvas.height;
-                this._drawLayerCanvasImage(baseLayer, baseLayerImage, width, height);
+                this._drawLayerCanvasImage(baseLayer, baseLayerImage);
             }
         } else {
             //default zoom animation, animate all the layers.
@@ -18231,15 +19729,17 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
     },
 
     _afterTransform: function (matrix) {
-        delete this._transMatrix;
-        this._clearCanvas();
+        this.clearCanvas();
         this._applyTransform(matrix);
         this._drawBackground();
     },
 
     _applyTransform : function (matrix) {
+        if (!matrix) {
+            return;
+        }
         matrix = Z.Browser.retina ? matrix['retina'] : matrix['container'];
-        matrix.applyToContext(this._context);
+        matrix.applyToContext(this.context);
     },
 
     _getCountOfGeosToDraw: function () {
@@ -18289,10 +19789,12 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
         var mapPlatform = createContainer('mapPlatform', 'maptalks-platform', 'position:absolute;top:0px;left:0px;', true);
         var ui = createContainer('ui', 'maptalks-ui', 'position:absolute;top:0px;left:0px;border:none;', true);
         var layer = createContainer('layer', 'maptalks-layer', 'position:absolute;left:0px;top:0px;');
+        var frontLayer = createContainer('frontLayer', 'maptalks-front-layer', 'position:absolute;left:0px;top:0px;');
         var canvasContainer = createContainer('canvasContainer', 'maptalks-layer-canvas', 'position:absolute;top:0px;left:0px;border:none;');
 
         mapPlatform.style.zIndex = 300;
-        canvasContainer.style.zIndex = 280;
+        frontLayer.style.zIndex = 201;
+        canvasContainer.style.zIndex = 200;
         layer.style.zIndex = 100;
         ui.style.zIndex = 300;
         control.style.zIndex = 400;
@@ -18303,17 +19805,18 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
         mapWrapper.appendChild(mapPlatform);
         mapWrapper.appendChild(canvasContainer);
         mapWrapper.appendChild(layer);
+        mapWrapper.appendChild(frontLayer);
         mapWrapper.appendChild(control);
 
-        this._createCanvas();
+        this.createCanvas();
 
         this.resetContainer();
         var mapSize = this.map._getContainerDomSize();
         this.updateMapSize(mapSize);
     },
 
-    _drawLayerCanvasImage:function (layer, layerImage, mwidth, mheight) {
-        if (!layer || !layerImage || mwidth === 0 || mheight === 0) {
+    _drawLayerCanvasImage:function (layer, layerImage) {
+        if (!layer || !layerImage) {
             return;
         }
         var point = layerImage['point'].multi(Z.Browser.retina ? 2 : 1);
@@ -18321,7 +19824,6 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
         if (point.x + canvasImage.width <= 0 || point.y + canvasImage.height <= 0) {
             return;
         }
-
         //opacity of the layer image
         var op = layer.options['opacity'];
         if (!Z.Util.isNumber(op)) {
@@ -18337,13 +19839,13 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
         if (imgOp <= 0) {
             return;
         }
-        var alpha = this._context.globalAlpha;
+        var alpha = this.context.globalAlpha;
 
         if (op < 1) {
-            this._context.globalAlpha *= op;
+            this.context.globalAlpha *= op;
         }
         if (imgOp < 1) {
-            this._context.globalAlpha *= imgOp;
+            this.context.globalAlpha *= imgOp;
         }
 
         if (Z.node) {
@@ -18353,14 +19855,8 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
                 canvasImage = context;
             }
         }
-        try {
-            this._context.drawImage(canvasImage, Z.Util.round(point.x), Z.Util.round(point.y));
-        } catch (err) {
-            console.warn('error when drawing layer image.');
-            console.warn(err);
-        }
-
-        this._context.globalAlpha = alpha;
+        this.context.drawImage(canvasImage, point.x, point.y);
+        this.context.globalAlpha = alpha;
     },
 
     _storeBackground: function (baseLayerImage) {
@@ -18377,21 +19873,21 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
         if (this._canvasBg) {
             var scale = this._canvasBgRes / map._getResolution();
             var p = map.coordinateToContainerPoint(this._canvasBgCoord)._multi(Z.Browser.retina ? 2 : 1);
-            Z.Canvas.image(this._context, this._canvasBg, p.x, p.y, this._canvasBg.width * scale, this._canvasBg.height * scale);
+            Z.Canvas.image(this.context, this._canvasBg, p.x, p.y, this._canvasBg.width * scale, this._canvasBg.height * scale);
         }
     },
 
     _drawCenterCross: function () {
         if (this.map.options['centerCross']) {
-            var p = new Z.Point(this._canvas.width / 2, this._canvas.height / 2)._round();
-            this._context.strokeStyle = '#ff0000';
-            this._context.lineWidth = 2;
-            this._context.beginPath();
-            this._context.moveTo(p.x - 5, p.y);
-            this._context.lineTo(p.x + 5, p.y);
-            this._context.moveTo(p.x, p.y - 5);
-            this._context.lineTo(p.x, p.y + 5);
-            this._context.stroke();
+            var p = new Z.Point(this.canvas.width / 2, this.canvas.height / 2);
+            this.context.strokeStyle = '#ff0000';
+            this.context.lineWidth = 2;
+            this.context.beginPath();
+            this.context.moveTo(p.x - 5, p.y);
+            this.context.lineTo(p.x + 5, p.y);
+            this.context.moveTo(p.x, p.y - 5);
+            this.context.lineTo(p.x, p.y + 5);
+            this.context.stroke();
         }
     },
 
@@ -18399,20 +19895,20 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
         return this.map._getLayers();
     },
 
-    _clearCanvas:function () {
-        if (!this._canvas) {
+    clearCanvas:function () {
+        if (!this.canvas) {
             return;
         }
-        Z.Canvas.clearRect(this._context, 0, 0, this._canvas.width, this._canvas.height);
+        Z.Canvas.clearRect(this.context, 0, 0, this.canvas.width, this.canvas.height);
     },
 
     _updateCanvasSize: function () {
-        if (!this._canvas || this._isCanvasContainer) {
+        if (!this.canvas || this._isCanvasContainer) {
             return false;
         }
         var map = this.map;
         var mapSize = map.getSize();
-        var canvas = this._canvas;
+        var canvas = this.canvas;
         var r = Z.Browser.retina ? 2 : 1;
         if (mapSize['width'] * r === canvas.width && mapSize['height'] * r === canvas.height) {
             return false;
@@ -18429,26 +19925,21 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
         return true;
     },
 
-    _createCanvas:function () {
+    createCanvas:function () {
         if (this._isCanvasContainer) {
-            this._canvas = this.map._containerDOM;
+            this.canvas = this.map._containerDOM;
         } else {
-            this._canvas = Z.DomUtil.createEl('canvas');
+            this.canvas = Z.DomUtil.createEl('canvas');
             this._updateCanvasSize();
-            this.map._panels.canvasContainer.appendChild(this._canvas);
+            this.map._panels.canvasContainer.appendChild(this.canvas);
         }
-        this._context = this._canvas.getContext('2d');
+        this.context = this.canvas.getContext('2d');
     },
 
-    /**
-     * 设置地图的watcher, 用来监视地图容器的大小变化
-     * @ignore
-     */
-    _onResize:function () {
-        Z.Util.cancelAnimFrame(this._resizeRequest);
-        this._resizeRequest = Z.Util.requestAnimFrame(
+    _checkSize:function () {
+        Z.Util.cancelAnimFrame(this._resizeFrame);
+        this._resizeFrame = Z.Util.requestAnimFrame(
             Z.Util.bind(function () {
-                delete this._canvasBg;
                 this.map.checkSize();
             }, this)
         );
@@ -18465,19 +19956,21 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
                 delete this._canvasBg;
             }
         }, this);
-
+        map.on('_resize', function () {
+            delete this._canvasBg;
+        }, this);
         map.on('_zoomstart', function () {
             delete this._canvasBg;
-            this._clearCanvas();
+            this.clearCanvas();
         }, this);
-        if (map.options['checkSize'] && (typeof window !== 'undefined')) {
-            // Z.DomUtil.on(window, 'resize', this._onResize, this);
+        if (map.options['checkSize'] && !Z.node && (typeof window !== 'undefined')) {
+            // Z.DomUtil.on(window, 'resize', this._checkSize, this);
             this._resizeInterval = setInterval(Z.Util.bind(function () {
                 if (!map._containerDOM.parentNode) {
                     //is deleted
                     clearInterval(this._resizeInterval);
                 } else {
-                    this._onResize();
+                    this._checkSize();
                 }
             }, this), 1000);
         }
@@ -18490,7 +19983,7 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
                     Z.Util.cancelAnimFrame(this._hitDetectTimeout);
                 }
                 this._hitDetectTimeout = Z.Util.requestAnimFrame(function () {
-                    var vp = param['viewPoint'];
+                    var vp = param['point2d'];
                     var layers = map._getLayers();
                     var hit = false,
                         cursor;
@@ -18514,9 +20007,21 @@ Z.renderer.map.Canvas = Z.renderer.map.Renderer.extend(/** @lends Z.renderer.map
             };
             map.on('_mousemove', this._onMapMouseMove, this);
         }
-        map.on('_moving _moveend', function () {
+        map.on('_moveend', function () {
+            if (Z.Browser.mobile) {
+                Z.DomUtil.offsetDom(this.canvas, map.offsetPlatform().multi(-1));
+            }
             this.render();
         }, this);
+        if (!Z.Browser.mobile) {
+            map.on('_moving', function () {
+                this.render();
+            }, this);
+        } else {
+            map.on('_zoomend', function () {
+                Z.DomUtil.offsetDom(this.canvas, new Z.Point(0, 0));
+            }, this);
+        }
     }
 });
 
@@ -18566,6 +20071,7 @@ Z.Util.extend(Z.TileLayer.TileCache.prototype, {
 
 /**
  * @namespace
+ * @protected
  */
 Z.renderer.tilelayer = {};
 
@@ -18586,15 +20092,17 @@ Z.renderer.tilelayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.til
     propertyOfTileZoom      : '--maptalks-tile-zoom',
 
     initialize:function (layer) {
-        this._layer = layer;
+        this.layer = layer;
         this._mapRender = layer.getMap()._getRenderer();
-        this._tileCache = new Z.TileLayer.TileCache();
+        if (!Z.node || !this.layer.options['cacheTiles']) {
+            this._tileCache = new Z.TileLayer.TileCache();
+        }
         this._tileQueue = {};
     },
 
     clear:function () {
-        this._clearCanvas();
-        this._requestMapToRender();
+        this.clearCanvas();
+        this.requestMapToRender();
     },
 
     clearExecutors:function () {
@@ -18602,10 +20110,10 @@ Z.renderer.tilelayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.til
     },
 
     draw:function () {
-        var layer = this._layer;
+        var layer = this.layer;
         var tileGrid = layer._getTiles();
         if (!tileGrid) {
-            this._complete();
+            this.completeRender();
             return;
         }
         if (!this._tileRended) {
@@ -18618,28 +20126,29 @@ Z.renderer.tilelayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.til
             tileCache = this._tileCache,
             tileSize = layer.getTileSize();
 
-        this._viewExtent = tileGrid['fullExtent'];
-        if (!this._canvas) {
-            this._createCanvas();
+        this._extent2D = tileGrid['fullExtent'];
+        this._viewExtent = tileGrid['viewExtent'];
+        if (!this.canvas) {
+            this.createCanvas();
         }
-        this._resizeCanvas(tileGrid['fullExtent'].getSize());
-        var maskViewExtent = this._prepareCanvas();
-        if (maskViewExtent && !maskViewExtent.intersects(this._viewExtent)) {
-            this._complete();
+        this.resizeCanvas(tileGrid['fullExtent'].getSize());
+        var mask2DExtent = this.prepareCanvas();
+        if (mask2DExtent && !mask2DExtent.intersects(this._extent2D)) {
+            this.completeRender();
             return;
         }
 
         //遍历瓦片
         this._totalTileToLoad = this._tileToLoadCounter = 0;
-        var tile, tileId, cached, tileViewExtent;
+        var tile, tileId, cached, tile2DExtent;
         for (var i = tiles.length - 1; i >= 0; i--) {
             tile = tiles[i];
             tileId = tiles[i]['id'];
             //如果缓存中已存有瓦片, 则从不再请求而从缓存中读取.
-            cached = tileRended[tileId] || tileCache.get(tileId);
-            tileViewExtent = new Z.PointExtent(tile['viewPoint'],
-                                tile['viewPoint'].add(tileSize.toPoint()));
-            if (!this._viewExtent.intersects(tileViewExtent)) {
+            cached = tileRended[tileId] || tileCache ? tileCache.get(tileId) : null;
+            tile2DExtent = new Z.PointExtent(tile['2dPoint'],
+                                tile['2dPoint'].add(tileSize.toPoint()));
+            if (!this._extent2D.intersects(tile2DExtent)) {
                 continue;
             }
             this._totalTileToLoad++;
@@ -18654,29 +20163,32 @@ Z.renderer.tilelayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.til
         }
 
         if (this._tileToLoadCounter === 0) {
-            this._complete();
+            this.completeRender();
         } else {
             if (this._tileToLoadCounter < this._totalTileToLoad) {
-                this._requestMapToRender();
+                this.requestMapToRender();
             }
             this._scheduleLoadTileQueue();
         }
     },
 
     getCanvasImage:function () {
-        if (this._renderZoom !== this.getMap().getZoom() || !this._canvas) {
+        if (this._renderZoom !== this.getMap().getZoom() || !this.canvas) {
             return null;
         }
         var gradualOpacity = null;
-        if (this._gradualLoading && this._totalTileToLoad && this._layer.options['gradualLoading']) {
+        if (this._gradualLoading && this._totalTileToLoad && this.layer.options['gradualLoading']) {
             gradualOpacity = ((this._totalTileToLoad - this._tileToLoadCounter) / this._totalTileToLoad) * 1.5;
             if (gradualOpacity > 1) {
                 gradualOpacity = 1;
             }
         }
-        var size = this._viewExtent.getSize();
-        var point = this._viewExtent.getMin();
-        return {'image':this._canvas, 'layer':this._layer, 'point':this.getMap().viewPointToContainerPoint(point), 'size':size, 'opacity':gradualOpacity};
+        var canvasImage = Z.renderer.Canvas.prototype.getCanvasImage.apply(this, arguments);
+        canvasImage['opacity'] = gradualOpacity;
+        return canvasImage;
+        // var size = this._extent2D.getSize();
+        // var point = this._extent2D.getMin();
+        // return {'image':this.canvas, 'layer':this.layer, 'point':this.getMap()._pointToContainerPoint(point), 'size':size, 'opacity':gradualOpacity};
     },
 
     _scheduleLoadTileQueue:function () {
@@ -18693,7 +20205,7 @@ Z.renderer.tilelayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.til
         var me = this;
         function onTileLoad() {
             if (!Z.node) {
-                me._tileCache.add(this[me.propertyOfTileId], this);
+                if (me._tileCache) { me._tileCache.add(this[me.propertyOfTileId], this); }
                 me._tileRended[this[me.propertyOfTileId]] = this;
             }
             me._drawTileAndRequest(this);
@@ -18707,7 +20219,7 @@ Z.renderer.tilelayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.til
                 tileId = p.split('@')[0];
                 tile = this._tileQueue[p];
                 delete this._tileQueue[p];
-                if (!this._tileCache[tileId]) {
+                if (!this._tileCache || !this._tileCache[tileId]) {
                     this._loadTile(tileId, tile, onTileLoad, onTileError);
                 } else {
                     this._drawTileAndRequest(this._tileCache[tileId]);
@@ -18720,13 +20232,16 @@ Z.renderer.tilelayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.til
 
 
     _loadTile:function (tileId, tile, onTileLoad, onTileError) {
-        var crossOrigin = this._layer.options['crossOrigin'];
-        var tileSize = this._layer.getTileSize();
+        var crossOrigin = this.layer.options['crossOrigin'];
+        var tileSize = this.layer.getTileSize();
         var tileImage = new Image();
         tileImage.width = tileSize['width'];
         tileImage.height = tileSize['height'];
         tileImage[this.propertyOfTileId] = tileId;
-        tileImage[this.propertyOfPointOnTile] = tile['viewPoint'];
+        tileImage[this.propertyOfPointOnTile] = {
+            'viewPoint' : tile['viewPoint'],
+            '2dPoint' : tile['2dPoint']
+        };
         tileImage[this.propertyOfTileZoom] = tile['zoom'];
         tileImage.onload = onTileLoad;
         tileImage.onabort = onTileError;
@@ -18742,22 +20257,22 @@ Z.renderer.tilelayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.til
         if (!point) {
             return;
         }
-        var tileSize = this._layer.getTileSize();
+        var tileSize = this.layer.getTileSize();
         var leftTop = this._viewExtent.getMin();
-        Z.Canvas.image(this._context, tileImage,
+        Z.Canvas.image(this.context, tileImage,
             point.x - leftTop.x, point.y - leftTop.y,
             tileSize['width'], tileSize['height']);
-        if (this._layer.options['debug']) {
+        if (this.layer.options['debug']) {
             var p = point.substract(leftTop);
-            this._context.save();
-            this._context.strokeStyle = 'rgb(0,0,0)';
-            this._context.fillStyle = 'rgb(0,0,0)';
-            this._context.strokeWidth = 10;
-            this._context.font = '15px monospace';
-            Z.Canvas.rectangle(this._context, p, tileSize, 1, 0);
+            this.context.save();
+            this.context.strokeStyle = 'rgb(0,0,0)';
+            this.context.fillStyle = 'rgb(0,0,0)';
+            this.context.strokeWidth = 10;
+            this.context.font = '15px monospace';
+            Z.Canvas.rectangle(this.context, p, tileSize, 1, 0);
             var xyz = tileImage[this.propertyOfTileId].split('__');
-            Z.Canvas.fillText(this._context, 'x:' + xyz[1] + ',y:' + xyz[0] + ',z:' + xyz[2], p.add(10, 20), 'rgb(0,0,0)');
-            this._context.restore();
+            Z.Canvas.fillText(this.context, 'x:' + xyz[1] + ',y:' + xyz[0] + ',z:' + xyz[2], p.add(10, 20), 'rgb(0,0,0)');
+            this.context.restore();
         }
         tileImage = null;
     },
@@ -18778,13 +20293,13 @@ Z.renderer.tilelayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.til
         }
         this._tileToLoadCounter--;
         var point = tileImage[this.propertyOfPointOnTile];
-        this._drawTile(point, tileImage);
+        this._drawTile(point['viewPoint'], tileImage);
 
         if (!Z.node) {
-            var tileSize = this._layer.getTileSize();
-            var viewExtent = this.getMap()._getViewExtent();
-            if (viewExtent.intersects(new Z.PointExtent(point, point.add(tileSize['width'], tileSize['height'])))) {
-                this._requestMapToRender();
+            var tileSize = this.layer.getTileSize();
+            var mapExtent = this.getMap()._get2DExtent();
+            if (mapExtent.intersects(new Z.PointExtent(point['2dPoint'], point['2dPoint'].add(tileSize['width'], tileSize['height'])))) {
+                this.requestMapToRender();
             }
         }
         if (this._tileToLoadCounter === 0) {
@@ -18796,9 +20311,9 @@ Z.renderer.tilelayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.til
         //In browser, map will be requested to render once a tile was loaded.
         //but in node, map will be requested to render when the layer is loaded.
         if (Z.node) {
-            this._requestMapToRender();
+            this.requestMapToRender();
         }
-        this._fireLoadedEvent();
+        this.fireLoadedEvent();
     },
 
     /**
@@ -18814,7 +20329,7 @@ Z.renderer.tilelayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.til
             return;
         }
         if (!Z.node) {
-            this._requestMapToRender();
+            this.requestMapToRender();
         }
         this._tileToLoadCounter--;
         if (this._tileToLoadCounter === 0) {
@@ -18825,7 +20340,7 @@ Z.renderer.tilelayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.til
     /**
      * @override
      */
-    _requestMapToRender:function () {
+    requestMapToRender:function () {
         if (Z.node) {
             if (this.getMap() && !this.getMap()._isBusy()) {
                 this._mapRender.render();
@@ -18843,25 +20358,22 @@ Z.renderer.tilelayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.til
         });
     },
 
-    _onMoveEnd: function () {
+    onMoveEnd: function () {
         this._gradualLoading = false;
-        this.render();
+        Z.renderer.Canvas.prototype.onMoveEnd.apply(this, arguments);
     },
 
-    _onZoomEnd: function () {
+    onZoomEnd: function () {
         this._gradualLoading = true;
-        this.render();
+        Z.renderer.Canvas.prototype.onZoomEnd.apply(this, arguments);
     },
 
-    _onResize: function () {
-        this._resizeCanvas();
-        this.render();
-    },
-
-    _onRemove: function () {
-        delete this._tileCache;
-        delete this._tileQueue;
+    onRemove: function () {
+        delete this._viewExtent;
         delete this._mapRender;
+        delete this._tileCache;
+        delete this._tileRended;
+        delete this._tileQueue;
     }
 });
 
@@ -18881,13 +20393,13 @@ Z.TileLayer.registerRenderer('canvas', Z.renderer.tilelayer.Canvas);
 Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.prototype */{
 
     initialize:function (layer) {
-        this._layer = layer;
+        this.layer = layer;
         this._tiles = {};
-        this._fadeAnimated = true;
+        this._fadeAnimated = !Z.Browser.mobile && true;
     },
 
     getMap:function () {
-        return this._layer.getMap();
+        return this.layer.getMap();
     },
 
     show: function () {
@@ -18905,6 +20417,8 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
     },
 
     remove:function () {
+        delete this._tiles;
+        delete this.layer;
         this._removeLayerContainer();
     },
 
@@ -18925,7 +20439,7 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
     },
 
     render:function () {
-        var layer = this._layer;
+        var layer = this.layer;
         if (!this._container) {
             this._createLayerContainer();
         }
@@ -18954,12 +20468,14 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
             tile.current = true;
             queue.push(tile);
         }
+        var container = this._getTileContainer();
+        Z.DomUtil.removeTransform(container);
         if (queue.length > 0) {
             var fragment = document.createDocumentFragment();
             for (i = 0; i < queue.length; i++) {
                 fragment.appendChild(this._loadTile(queue[i]));
             }
-            this._getTileContainer().appendChild(fragment);
+            container.appendChild(fragment);
         }
     },
 
@@ -18969,7 +20485,11 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
         }
         var zoom = this.getMap().getZoom();
         if (this._levelContainers[zoom]) {
-            Z.DomUtil.setTransform(this._levelContainers[zoom], matrices['view']);
+            if (matrices) {
+                Z.DomUtil.setTransform(this._levelContainers[zoom], matrices['view']);
+            } else {
+                Z.DomUtil.removeTransform(this._levelContainers[zoom]);
+            }
             // Z.DomUtil.setTransform(this._levelContainers[zoom], new Z.Point(matrices['view'].e, matrices['view'].f), matrices.scale.x);
         }
         return false;
@@ -18981,7 +20501,7 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
     },
 
     _createTile: function (tile, done) {
-        var tileSize = this._layer.getTileSize();
+        var tileSize = this.layer.getTileSize();
         var tileImage = Z.DomUtil.createEl('img');
 
         tile['el'] = tileImage;
@@ -18989,8 +20509,8 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
         Z.DomUtil.on(tileImage, 'load', Z.Util.bind(this._tileOnLoad, this, done, tile));
         Z.DomUtil.on(tileImage, 'error', Z.Util.bind(this._tileOnError, this, done, tile));
 
-        if (this._layer.options['crossOrigin']) {
-            tile.crossOrigin = this._layer.options['crossOrigin'];
+        if (this.layer.options['crossOrigin']) {
+            tile.crossOrigin = this.layer.options['crossOrigin'];
         }
 
         tileImage.style.position = 'absolute';
@@ -19009,8 +20529,21 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
     },
 
     _tileReady: function (err, tile) {
+        if (!this.layer) {
+            return;
+        }
         if (err) {
-            this._layer.fire('tileerror', {
+            /**
+             * tileerror event, fired when layer is 'dom' rendered and a tile errors
+             *
+             * @event maptalks.TileLayer#tileerror
+             * @type {Object}
+             * @property {String} type - tileerror
+             * @property {maptalks.TileLayer} target - tile layer
+             * @property {String} err  - error message
+             * @property {Object} tile - tile
+             */
+            this.layer.fire('tileerror', {
                 error: err,
                 tile: tile
             });
@@ -19027,12 +20560,21 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
             this._pruneTiles();
         }
 
-        this._layer.fire('tileload', {
+        /**
+         * tileload event, fired when layer is 'dom' rendered and a tile is loaded
+         *
+         * @event maptalks.TileLayer#tileload
+         * @type {Object}
+         * @property {String} type - tileload
+         * @property {maptalks.TileLayer} target - tile layer
+         * @property {Object} tile - tile
+         */
+        this.layer.fire('tileload', {
             tile: tile
         });
 
         if (this._noTilesToLoad()) {
-            this._layer.fire('layerload');
+            this.layer.fire('layerload');
 
             if (Z.Browser.ielt9) {
                 Z.Util.requestAnimFrame(this._pruneTiles, this);
@@ -19059,7 +20601,7 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
     },
 
     _tileOnError: function (done, tile) {
-        var errorUrl = this._layer.options['errorTileUrl'];
+        var errorUrl = this.layer.options['errorTileUrl'];
         if (errorUrl) {
             tile['el'].src = errorUrl;
         } else {
@@ -19076,7 +20618,7 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
             return;
         }
 
-        Z.DomUtil.setOpacity(this._container, this._layer.options['opacity']);
+        Z.DomUtil.setOpacity(this._container, this.layer.options['opacity']);
 
         var now = Z.Util.now(),
             nextFrame = false;
@@ -19115,7 +20657,7 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
         var key,
             zoom = map.getZoom();
 
-        if (!this._layer.isVisible()) {
+        if (!this.layer.isVisible()) {
             this._removeAllTiles();
             return;
         }
@@ -19151,9 +20693,16 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
 
         delete this._tiles[key];
 
-        // @event tileunload: TileEvent
-        // Fired when a tile is removed (e.g. when a tile goes off the screen).
-        this._layer.fire('tileunload', {
+        /**
+         * tileunload event, fired when layer is 'dom' rendered and a tile is removed
+         *
+         * @event maptalks.TileLayer#tileunload
+         * @type {Object}
+         * @property {String} type - tileunload
+         * @property {maptalks.TileLayer} target - tile layer
+         * @property {Object} tile - tile
+         */
+        this.layer.fire('tileunload', {
             tile: tile
         });
     },
@@ -19207,19 +20756,20 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
         if (this._container) {
             Z.DomUtil.removeDomNode(this._container);
         }
+        delete this._container;
         delete this._levelContainers;
     },
 
-    _getEvents:function () {
+    getEvents:function () {
         var events = {
-            '_zoomstart'    : this._onZoomStart,
+            '_zoomstart'    : this.onZoomStart,
             '_touchzoomstart' : this._onTouchZoomStart,
-            '_zoomend'      : this._onZoomEnd,
+            '_zoomend'      : this.onZoomEnd,
             '_moveend _resize' : this.render,
-            '_movestart'    : this._onMoveStart
+            '_movestart'    : this.onMoveStart
         };
-        if (!this._onMapMoving && this._layer.options['renderWhenPanning']) {
-            var rendSpan = this._layer.options['renderSpanWhenPanning'];
+        if (!this._onMapMoving && this.layer.options['renderWhenPanning']) {
+            var rendSpan = this.layer.options['renderSpanWhenPanning'];
             if (Z.Util.isNumber(rendSpan) && rendSpan >= 0) {
                 if (rendSpan > 0) {
                     this._onMapMoving = Z.Util.throttle(function () {
@@ -19242,7 +20792,7 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
         return Z.Browser.any3d || Z.Browser.ie9;
     },
 
-    _onMoveStart: function () {
+    onMoveStart: function () {
         // this._fadeAnimated = false;
     },
 
@@ -19250,8 +20800,8 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
         this._pruneTiles(true);
     },
 
-    _onZoomStart: function () {
-        this._fadeAnimated = true;
+    onZoomStart: function () {
+        this._fadeAnimated = !Z.Browser.mobile && true;
         this._pruneTiles(true);
         this._zoomStartPos = this.getMap().offsetPlatform();
         if (!this._canTransform()) {
@@ -19259,7 +20809,7 @@ Z.renderer.tilelayer.Dom = Z.Class.extend(/** @lends Z.renderer.tilelayer.Dom.pr
         }
     },
 
-    _onZoomEnd: function (param) {
+    onZoomEnd: function (param) {
         if (this._pruneTimeout) {
             clearTimeout(this._pruneTimeout);
         }
@@ -19286,8 +20836,8 @@ Z.renderer.canvastilelayer = {};
 
 Z.renderer.canvastilelayer.Canvas = Z.renderer.tilelayer.Canvas.extend({
     _loadTile:function (tileId, tile, onTileLoad, onTileError) {
-        var tileSize = this._layer.getTileSize(),
-            canvasClass = this._canvas.constructor,
+        var tileSize = this.layer.getTileSize(),
+            canvasClass = this.canvas.constructor,
             map = this.getMap();
         var r = Z.Browser.retina ? 2 : 1;
         var tileCanvas = Z.Canvas.createCanvas(tileSize['width'] * r, tileSize['height'] * r, canvasClass);
@@ -19295,11 +20845,11 @@ Z.renderer.canvastilelayer.Canvas = Z.renderer.tilelayer.Canvas.extend({
         tileCanvas[this.propertyOfTileId] = tileId;
         tileCanvas[this.propertyOfPointOnTile] = tile['viewPoint'];
         tileCanvas[this.propertyOfTileZoom] = tile['zoom'];
-        this._layer.drawTile(tileCanvas, {
+        this.layer.drawTile(tileCanvas, {
             'url' : tile['url'],
             'viewPoint' : tile['viewPoint'],
             'zoom' : tile['zoom'],
-            'extent' : map.viewToExtent(new Z.PointExtent(tile['viewPoint'], tile['viewPoint'].add(tileSize.toPoint())))
+            'extent' : map._pointToExtent(new Z.PointExtent(tile['2dPoint'], tile['2dPoint'].add(tileSize.toPoint())))
         }, function (error) {
             if (error) {
                 onTileError.call(tileCanvas);
@@ -19314,6 +20864,7 @@ Z.CanvasTileLayer.registerRenderer('canvas', Z.renderer.canvastilelayer.Canvas);
 
 /**
  * @namespace
+ * @protected
  */
 Z.renderer.vectorlayer = {};
 
@@ -19330,7 +20881,7 @@ Z.renderer.vectorlayer = {};
 Z.renderer.vectorlayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.vectorlayer.Canvas.prototype */{
 
     initialize:function (layer) {
-        this._layer = layer;
+        this.layer = layer;
         this._painted = false;
     },
 
@@ -19340,32 +20891,33 @@ Z.renderer.vectorlayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.v
      * @param  {Boolean} ignorePromise   whether escape step of promise
      */
     draw:function () {
-        var me = this;
-        this._clearTimeout();
-        if (this._layer.isEmpty()) {
-            this._complete();
+        if (!this.getMap()) {
             return;
         }
-        if (this._layer.options['drawImmediate']) {
-            this._drawImmediate();
-        } else {
-            this._renderTimeout = Z.Util.requestAnimFrame(function () {
-                me._drawImmediate();
-            });
+        var map = this.getMap();
+        if (!this.layer.isVisible() || this.layer.isEmpty()) {
+            this.clearCanvas();
+            this.completeRender();
+            return;
         }
+        var zoom = this.getMap().getZoom();
+
+        this._drawGeos();
+
+        this.completeRender();
     },
 
     //redraw all the geometries with transform matrix
     //this may bring low performance if number of geometries is large.
     transform: function (matrix) {
-        if (this._layer.options['drawOnce'] || this._layer.getMask()) {
+        if (Z.Browser.mobile || this.layer.getMask()) {
             return false;
         }
         //determin whether this layer should be transformed.
         //if all the geometries to render are vectors including polygons and linestrings,
         //disable transforming won't reduce user experience.
         if (!this._hasPointSymbolizer ||
-            this.getMap()._getRenderer()._getCountOfGeosToDraw() > this._layer.options['thresholdOfTransforming']) {
+            this.getMap()._getRenderer()._getCountOfGeosToDraw() > this.layer.options['thresholdOfTransforming']) {
             return false;
         }
         this._drawGeos(matrix);
@@ -19373,10 +20925,10 @@ Z.renderer.vectorlayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.v
     },
 
     checkResources:function (geometries) {
-        if (!this._painted && !geometries) {
-            geometries = this._layer._geoCache;
+        if (!this._painted && !Z.Util.isArray(geometries)) {
+            geometries = this.layer._geoList;
         }
-        if (!geometries) {
+        if (!geometries || !Z.Util.isArrayHasData(geometries)) {
             return null;
         }
         var me = this,
@@ -19387,27 +20939,19 @@ Z.renderer.vectorlayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.v
             if (!Z.Util.isArrayHasData(res)) {
                 return;
             }
-            if (!me._resources) {
+            if (!me.resources) {
                 resources = resources.concat(res);
             } else {
                 for (ii = 0; ii < res.length; ii++) {
-                    if (!me._resources.isResourceLoaded(res[ii])) {
+                    if (!me.resources.isResourceLoaded(res[ii])) {
                         resources.push(res[ii]);
                     }
                 }
             }
         }
 
-        if (Z.Util.isArrayHasData(geometries)) {
-            for (var i = geometries.length - 1; i >= 0; i--) {
-                checkGeo(geometries[i]);
-            }
-        } else {
-            for (var p in geometries) {
-                if (geometries.hasOwnProperty(p)) {
-                    checkGeo(geometries[p]);
-                }
-            }
+        for (var i = geometries.length - 1; i >= 0; i--) {
+            checkGeo(geometries[i]);
         }
         return resources;
     },
@@ -19422,8 +20966,8 @@ Z.renderer.vectorlayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.v
      * @override
      */
     show: function () {
-        this._layer.forEach(function (geo) {
-            geo._onZoomEnd();
+        this.layer.forEach(function (geo) {
+            geo.onZoomEnd();
         });
         Z.renderer.Canvas.prototype.show.apply(this, arguments);
     },
@@ -19433,29 +20977,28 @@ Z.renderer.vectorlayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.v
         if (!map) {
             return;
         }
-        var layer = this._layer;
+        var layer = this.layer;
         if (layer.isEmpty()) {
-            this._resources = new Z.renderer.Canvas.Resources();
-            this._fireLoadedEvent();
+            this.resources = new Z.renderer.Canvas.Resources();
+            this.fireLoadedEvent();
             return;
         }
         if (!layer.isVisible()) {
-            this._fireLoadedEvent();
+            this.fireLoadedEvent();
             return;
         }
         this._prepareToDraw();
-        var viewExtent = this._viewExtent,
-            maskViewExtent = this._prepareCanvas();
-        if (maskViewExtent) {
-            if (!maskViewExtent.intersects(viewExtent)) {
-                this._fireLoadedEvent();
+        var extent2D = this._extent2D,
+            maskExtent2D = this.prepareCanvas();
+        if (maskExtent2D) {
+            if (!maskExtent2D.intersects(extent2D)) {
+                this.fireLoadedEvent();
                 return;
             }
-            viewExtent = viewExtent.intersection(maskViewExtent);
+            extent2D = extent2D.intersection(maskExtent2D);
         }
-        this._displayExtent = viewExtent;
+        this._displayExtent = extent2D;
         this._forEachGeo(this._checkGeo, this);
-
         for (var i = 0, len = this._geosToDraw.length; i < len; i++) {
             this._geosToDraw[i]._getPainter().paint(matrix);
         }
@@ -19474,8 +21017,8 @@ Z.renderer.vectorlayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.v
             return;
         }
         var painter = geo._getPainter(),
-            viewExtent = painter.getViewExtent();
-        if (!viewExtent || !viewExtent.intersects(this._displayExtent)) {
+            extent2D = painter.get2DExtent();
+        if (!extent2D || !extent2D.intersects(this._displayExtent)) {
             return;
         }
         this._isBlank = false;
@@ -19487,113 +21030,59 @@ Z.renderer.vectorlayer.Canvas = Z.renderer.Canvas.extend(/** @lends Z.renderer.v
 
 
     _forEachGeo: function (fn, context) {
-        this._layer.forEach(fn, context);
+        this.layer.forEach(fn, context);
     },
 
-    /**
-     * Renderer the layer immediately.
-     */
-    _drawImmediate:function () {
-        this._clearTimeout();
-        if (!this.getMap()) {
-            return;
-        }
-        var map = this.getMap();
-        if (!this._layer.isVisible() || this._layer.isEmpty()) {
-            this._clearCanvas();
-            this._complete();
-            return;
-        }
-        var zoom = this.getMap().getZoom();
-        if (this._layer.options['drawOnce']) {
-            if (!this._canvasCache) {
-                this._canvasCache = {};
-            }
-            if (this._viewExtent) {
-                this._complete();
-                return;
-            } else if (this._canvasCache[zoom]) {
-                this._canvas = this._canvasCache[zoom].canvas;
-                var center = map._prjToPoint(map._getPrjCenter());
-                this._viewExtent = this._canvasCache[zoom].viewExtent.add(this._canvasCache[zoom].center.substract(center));
-                this._complete();
-                return;
-            } else {
-                delete this._canvas;
-            }
-        }
-        this._drawGeos();
-        if (this._layer.options['drawOnce']) {
-            if (!this._canvasCache[zoom]) {
-                this._canvasCache[zoom] = {
-                    'canvas'       : this._canvas,
-                    'viewExtent'   : this._viewExtent,
-                    'center'       : map._prjToPoint(map._getPrjCenter())
-                };
-            }
-        }
-        this._complete();
-    },
-
-    _onZoomEnd: function () {
-        delete this._viewExtent;
-        if (this._layer.isVisible()) {
-            this._layer.forEach(function (geo) {
-                geo._onZoomEnd();
+    onZoomEnd: function () {
+        delete this._extent2D;
+        if (this.layer.isVisible()) {
+            this.layer.forEach(function (geo) {
+                geo.onZoomEnd();
             });
         }
         if (!this._painted) {
-            this.render();
+            this.render(true);
         } else {
-            //_prepareRender is called in render not in _drawImmediate.
-            //Thus _prepareRender needs to be called here
-            this._prepareRender();
-            this._drawImmediate();
+            //prepareRender is called in render not in draw.
+            //Thus prepareRender needs to be called here
+            this.prepareRender();
+            this.draw();
         }
     },
 
-    _onMoveEnd: function () {
+    onMoveEnd: function () {
         if (!this._painted) {
-            this.render();
+            this.render(true);
         } else {
-            this._prepareRender();
-            this._drawImmediate();
+            this.prepareRender();
+            this.draw();
         }
     },
 
-    _onResize: function () {
-        this._resizeCanvas();
+    onResize: function () {
+        this.resizeCanvas();
         if (!this._painted) {
-            this.render();
+            this.render(true);
         } else {
             delete this._canvasCache;
-            delete this._viewExtent;
-            this._prepareRender();
-            this._drawImmediate();
+            delete this._extent2D;
+            this.prepareRender();
+            this.draw();
         }
     },
 
-    _onRemove:function () {
+    onRemove:function () {
         delete this._canvasCache;
-    },
-
-    _clearTimeout:function () {
-        if (this._renderTimeout) {
-            //clearTimeout(this._renderTimeout);
-            Z.Util.cancelAnimFrame(this._renderTimeout);
-        }
+        delete this._geosToDraw;
     }
 });
 
 
 Z.VectorLayer.registerRenderer('canvas', Z.renderer.vectorlayer.Canvas);
 
-if (Z.GeoJSONLayer) {
-    Z.GeoJSONLayer.registerRenderer('canvas', Z.renderer.vectorlayer.Canvas);
-}
-
 /**
  * @namespace
+ * @protected
  */
 Z.symbolizer = {};
 /**
@@ -19667,24 +21156,12 @@ Z.Symbolizer.testColor = function (prop) {
  */
 Z.symbolizer.CanvasSymbolizer = Z.Symbolizer.extend(/** @lends maptalks.symbolizer.CanvasSymbolizer.prototype */{
     _prepareContext:function (ctx) {
-        //for VectorPathMarkerSymbolizer, opacity is already added into SVG element.
-        if (!(this instanceof Z.symbolizer.VectorPathMarkerSymbolizer)) {
-            var symbol = this.symbol;
-            if (Z.Util.isNumber(symbol['opacity'])) {
-                if (ctx.globalAlpha !== symbol['opacity']) {
-                    ctx.globalAlpha = symbol['opacity'];
-                }
-            } else if (ctx.globalAlpha !== 1) {
-                ctx.globalAlpha = 1;
+        if (Z.Util.isNumber(this.symbol['opacity'])) {
+            if (ctx.globalAlpha !== this.symbol['opacity']) {
+                ctx.globalAlpha = this.symbol['opacity'];
             }
-        }
-        var shadowBlur = this.geometry.options['shadowBlur'];
-        if (Z.Util.isNumber(shadowBlur) && shadowBlur > 0) {
-            ctx.shadowBlur = shadowBlur;
-            ctx.shadowColor = this.geometry.options['shadowColor'];
-        } else {
-            ctx.shadowBlur = null;
-            ctx.shadowColor = null;
+        } else if (ctx.globalAlpha !== 1) {
+            ctx.globalAlpha = 1;
         }
     },
 
@@ -19722,9 +21199,11 @@ Z.symbolizer.StrokeAndFillSymbolizer = Z.symbolizer.CanvasSymbolizer.extend({
         'lineOpacity' : 1,
         'lineDasharray': [],
         'lineCap' : 'butt', //“butt”, “square”, “round”
-        'lineJoin' : 'round', //“bevel”, “round”, “miter”
+        'lineJoin' : 'miter', //“bevel”, “round”, “miter”
+        'linePatternFile' : null,
         'polygonFill': null,
-        'polygonOpacity': 0
+        'polygonOpacity': 1,
+        'polygonPatternFile' : null
     },
 
     initialize:function (symbol, geometry) {
@@ -19747,10 +21226,10 @@ Z.symbolizer.StrokeAndFillSymbolizer = Z.symbolizer.CanvasSymbolizer.extend({
         var canvasResources = this._getRenderResources();
         this._prepareContext(ctx);
         if (Z.Util.isGradient(style['lineColor'])) {
-            style['lineGradientExtent'] = this.geometry._getPainter().getContainerExtent()._expand(style['lineWidth'])._round();
+            style['lineGradientExtent'] = this.geometry._getPainter().getContainerExtent()._expand(style['lineWidth']);
         }
         if (Z.Util.isGradient(style['polygonFill'])) {
-            style['polygonGradientExtent'] = this.geometry._getPainter().getContainerExtent()._round();
+            style['polygonGradientExtent'] = this.geometry._getPainter().getContainerExtent();
         }
 
         var points = canvasResources['context'][0],
@@ -19773,7 +21252,7 @@ Z.symbolizer.StrokeAndFillSymbolizer = Z.symbolizer.CanvasSymbolizer.extend({
         }
     },
 
-    getViewExtent:function () {
+    get2DExtent:function () {
         if (this.geometry instanceof Z.Marker) {
             return null;
         }
@@ -19792,8 +21271,8 @@ Z.symbolizer.StrokeAndFillSymbolizer = Z.symbolizer.CanvasSymbolizer.extend({
         this._extMin.y = extent['ymin'];
         this._extMax.x = extent['xmax'];
         this._extMax.y = extent['ymax'];
-        var min = map._prjToViewPoint(this._extMin),
-            max = map._prjToViewPoint(this._extMax);
+        var min = map._prjToPoint(this._extMin),
+            max = map._prjToPoint(this._extMax);
         if (!this._pxExtent) {
             this._pxExtent = new Z.PointExtent(min, max);
         } else {
@@ -19816,7 +21295,7 @@ Z.symbolizer.StrokeAndFillSymbolizer = Z.symbolizer.CanvasSymbolizer.extend({
     },
 
     _getRenderResources:function () {
-        return this.geometry._getPainter()._getRenderResources();
+        return this.geometry._getPainter().getRenderResources();
     },
 
     translate:function () {
@@ -19826,6 +21305,9 @@ Z.symbolizer.StrokeAndFillSymbolizer = Z.symbolizer.CanvasSymbolizer.extend({
         Z.Util.extend(result, d, s);
         if (result['lineWidth'] === 0) {
             result['lineOpacity'] = 0;
+        }
+        if (this.geometry instanceof Z.LineString) {
+            result['polygonFill'] = result['lineColor'];
         }
         return result;
     }
@@ -19855,21 +21337,22 @@ Z.symbolizer.StrokeAndFillSymbolizer.test = function (symbol) {
  * @extends {maptalks.symbolizer.CanvasSymbolizer}
  */
 Z.symbolizer.PointSymbolizer = Z.symbolizer.CanvasSymbolizer.extend(/** @lends maptalks.symbolizer.PointSymbolizer */{
-    getViewExtent: function () {
-        var extent = new Z.PointExtent();
-        var markerExtent = this.getMarkerExtent();
-        var min = markerExtent.getMin(),
-            max = markerExtent.getMax();
+    get2DExtent: function () {
+        var extent = new Z.PointExtent(),
+            m = this.getMarkerExtent();
         var renderPoints = this._getRenderPoints()[0];
         for (var i = renderPoints.length - 1; i >= 0; i--) {
-            var point = renderPoints[i];
-            extent = extent.combine(new Z.PointExtent(point.add(min), point.add(max)));
+            extent._combine(renderPoints[i]);
         }
+        extent['xmin'] += m['xmin'];
+        extent['ymin'] += m['ymin'];
+        extent['xmax'] += m['xmax'];
+        extent['ymax'] += m['ymax'];
         return extent;
     },
 
     _getRenderPoints: function () {
-        return this.geometry._getPainter()._getRenderPoints(this.getPlacement());
+        return this.geometry._getPainter().getRenderPoints(this.getPlacement());
     },
 
     /**
@@ -19882,13 +21365,13 @@ Z.symbolizer.PointSymbolizer = Z.symbolizer.CanvasSymbolizer.extend(/** @lends m
             matrix = matrices ? matrices['container'] : null,
             scale = matrices ? matrices['scale'] : null,
             dxdy = this.getDxDy(),
-            layerViewPoint = this.geometry.getLayer()._getRenderer()._viewExtent.getMin();
+            layerPoint = this.geometry.getLayer()._getRenderer()._extent2D.getMin();
         if (matrix) {
             dxdy = new Z.Point(dxdy.x / scale.x, dxdy.y / scale.y);
         }
 
         var containerPoints = Z.Util.mapArrayRecursively(points, function (point) {
-            return point.substract(layerViewPoint)._add(dxdy);
+            return point.substract(layerPoint)._add(dxdy);
         });
         if (matrix) {
             return matrix.applyToArray(containerPoints);
@@ -19896,12 +21379,38 @@ Z.symbolizer.PointSymbolizer = Z.symbolizer.CanvasSymbolizer.extend(/** @lends m
         return containerPoints;
     },
 
-    _getRotations: function () {
-        return this._getRenderPoints()[1];
+    _getRotationAt: function (i) {
+        var r = this.getRotation(),
+            rotations = this._getRenderPoints()[1];
+        if (!rotations) {
+            return r;
+        }
+        if (!r) {
+            r = 0;
+        }
+        return rotations[i] + r;
+    },
+
+    _rotate: function (ctx, origin, rotation) {
+        if (!Z.Util.isNil(rotation)) {
+            ctx.save();
+            ctx.translate(origin.x, origin.y);
+            ctx.rotate(rotation);
+            return new Z.Point(0, 0);
+        }
+        return null;
     }
 });
 
 Z.symbolizer.ImageMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
+
+    defaultSymbol:{
+        'markerOpacity' : 1,
+        'markerWidth' : null,
+        'markerHeight' : null,
+        'markerDx': 0,
+        'markerDy': 0
+    },
 
     initialize:function (symbol, geometry) {
         this.symbol = symbol;
@@ -19923,7 +21432,7 @@ Z.symbolizer.ImageMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
         var img = this._getImage(resources);
         if (!img) {
             if (!Z.Browser.phantomjs) {
-                console.warn('no img found for ' + (this.style['markerFile'] || this._url[0]));
+                Z.Util.warn('no img found for ' + (this.style['markerFile'] || this._url[0]));
             }
             return;
         }
@@ -19939,7 +21448,7 @@ Z.symbolizer.ImageMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
             if (!resources.isResourceLoaded(imgURL)) {
                 resources.addResource(imgURL, img);
             }
-            this.geometry._getPainter()._removeCache();
+            this.geometry._getPainter().removeCache();
         }
         var alpha;
         if (!(this instanceof Z.symbolizer.VectorPathMarkerSymbolizer) &&
@@ -19947,12 +21456,21 @@ Z.symbolizer.ImageMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
             alpha = ctx.globalAlpha;
             ctx.globalAlpha *= style['markerOpacity'];
         }
+        var p;
         for (var i = 0, len = cookedPoints.length; i < len; i++) {
+            p = cookedPoints[i];
+            var origin = this._rotate(ctx, p, this._getRotationAt(i));
+            if (origin) {
+                p = origin;
+            }
             //图片定位到中心底部
             Z.Canvas.image(ctx, img,
-                cookedPoints[i].x - width / 2,
-                cookedPoints[i].y - height,
+                p.x - width / 2,
+                p.y - height,
                 width, height);
+            if (origin) {
+                ctx.restore();
+            }
         }
         if (alpha !== undefined) {
             ctx.globalAlpha = alpha;
@@ -19966,6 +21484,15 @@ Z.symbolizer.ImageMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
 
     getPlacement:function () {
         return this.symbol['markerPlacement'];
+    },
+
+    getRotation: function () {
+        var r = this.style['markerRotation'];
+        if (!Z.Util.isNumber(r)) {
+            return null;
+        }
+        //to radian
+        return r * Math.PI / 180;
     },
 
     getDxDy:function () {
@@ -19984,15 +21511,9 @@ Z.symbolizer.ImageMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
     },
 
     translate:function () {
-        var s = this.symbol;
-        return {
-            'markerFile' : s['markerFile'],
-            'markerWidth' : s['markerWidth'] || null,
-            'markerHeight' : s['markerHeight'] || null,
-            'markerOpacity' : s['markerOpacity'] || 1,
-            'markerDx' : s['markerDx'] || 0,
-            'markerDy' : s['markerDy'] || 0
-        };
+        var s = this.symbol,
+            d = this.defaultSymbol;
+        return Z.Util.extend({}, d, s);
     }
 });
 
@@ -20014,16 +21535,22 @@ Z.symbolizer.VectorMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
 
         'markerFill': '#0000ff', //blue as cartoCSS
         'markerFillOpacity': 1,
+        'markerFillPatternFile' : null,
         'markerLineColor': '#000000', //black
         'markerLineWidth': 1,
         'markerLineOpacity': 1,
         'markerLineDasharray':[],
+        'markerLinePatternFile' : null,
+
+
         'markerWidth': 10,
         'markerHeight': 10,
 
         'markerDx': 0,
         'markerDy': 0
     },
+
+    padding : [2, 2],
 
     initialize:function (symbol, geometry) {
         this.symbol = symbol;
@@ -20043,73 +21570,208 @@ Z.symbolizer.VectorMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
         if (!Z.Util.isArrayHasData(cookedPoints)) {
             return;
         }
-        var strokeAndFill = this.strokeAndFill;
         this._prepareContext(ctx);
-        if (Z.Util.isGradient(strokeAndFill['lineColor'])) {
-            strokeAndFill['lineGradientExtent'] = this.geometry._getPainter().getContainerExtent()._expand(strokeAndFill['lineWidth'])._round();
+        if (this.geometry.getLayer().getMask() === this.geometry ||
+            this.geometry.getLayer().options['cacheVectorOnCanvas'] === false) {
+            this._drawMarkers(ctx, cookedPoints, resources);
+        } else {
+            this._drawMarkersWithCache(ctx, cookedPoints, resources);
         }
-        if (Z.Util.isGradient(strokeAndFill['polygonFill'])) {
-            strokeAndFill['polygonGradientExtent'] = this.geometry._getPainter().getContainerExtent()._round();
-        }
-        Z.Canvas.prepareCanvas(ctx, strokeAndFill, resources);
-        this._drawMarkers(ctx, cookedPoints);
+
     },
 
-    _drawMarkers: function (ctx, cookedPoints) {
-        var style = this.style, strokeAndFill = this.strokeAndFill,
-            markerType = style['markerType'].toLowerCase(),
-            vectorArray = Z.symbolizer.VectorMarkerSymbolizer._getVectorPoints(markerType,
-                            style['markerWidth'], style['markerHeight']),
-            lineOpacity = strokeAndFill['lineOpacity'], fillOpacity = strokeAndFill['polygonOpacity'],
-            j;
-        var width = style['markerWidth'],
-            height = style['markerHeight'],
-            point, lineCap, angle;
+    _drawMarkers: function (ctx, cookedPoints, resources) {
+
+        var strokeAndFill = this.strokeAndFill,
+            point, origin;
+        var gradient = Z.Util.isGradient(strokeAndFill['lineColor']) || Z.Util.isGradient(strokeAndFill['polygonFill']);
+        if (!gradient) {
+            Z.Canvas.prepareCanvas(ctx, strokeAndFill, resources);
+        }
         for (var i = cookedPoints.length - 1; i >= 0; i--) {
             point = cookedPoints[i];
-            if (markerType === 'ellipse' || markerType === 'circle') {
-                 //ellipse default
-                Z.Canvas.ellipse(ctx, point, width / 2, height / 2, lineOpacity, fillOpacity);
-            } else if (markerType === 'cross' || markerType === 'x') {
-                for (j = vectorArray.length - 1; j >= 0; j--) {
-                    vectorArray[j]._add(point);
-                }
-                //线类型
-                Z.Canvas.path(ctx, vectorArray.slice(0, 2), lineOpacity);
-                Z.Canvas.path(ctx, vectorArray.slice(2, 4), lineOpacity);
-            } else if (markerType === 'diamond' || markerType === 'bar' || markerType === 'square' || markerType === 'triangle') {
-                if (markerType === 'bar') {
-                    point = point.add(0, -style['markerLineWidth'] / 2);
-                }
-                for (j = vectorArray.length - 1; j >= 0; j--) {
-                    vectorArray[j]._add(point);
-                }
-                //面类型
-                Z.Canvas.polygon(ctx, vectorArray, lineOpacity, fillOpacity);
-            } else if (markerType === 'pin') {
-                point = point.add(0, -style['markerLineWidth'] / 2);
-                for (j = vectorArray.length - 1; j >= 0; j--) {
-                    vectorArray[j]._add(point);
-                }
-                lineCap = ctx.lineCap;
-                ctx.lineCap = 'round'; //set line cap to round to close the pin bottom
-                Z.Canvas.bezierCurveAndFill(ctx, vectorArray, lineOpacity, fillOpacity);
-                ctx.lineCap = lineCap;
-            } else if (markerType === 'pie') {
-                point = point.add(0, -style['markerLineWidth'] / 2);
-                angle = Math.atan(width / 2 / height) * 180 / Math.PI;
-                lineCap = ctx.lineCap;
-                ctx.lineCap = 'round';
-                Z.Canvas.sector(ctx, point, height, [90 - angle, 90 + angle], lineOpacity, fillOpacity);
-                ctx.lineCap = lineCap;
-            } else {
-                throw new Error('unsupported markerType: ' + markerType);
+            origin = this._rotate(ctx, point, this._getRotationAt(i));
+            if (origin) {
+                point = origin;
             }
+
+            this._drawVectorMarker(ctx, point, resources);
+            if (origin) {
+                ctx.restore();
+            }
+        }
+    },
+
+    _drawMarkersWithCache: function (ctx, cookedPoints, resources) {
+        var stamp = this._stampSymbol(),
+            lineWidth = this.strokeAndFill['lineWidth'] ? this.strokeAndFill['lineWidth'] : 0,
+            shadow = this.geometry.options['shadowBlur'],
+            w = this.style['markerWidth'] + lineWidth + 2 * shadow + this.padding[0],
+            h = this.style['markerHeight'] + lineWidth + 2 * shadow + this.padding[1];
+        var image = resources.getImage(stamp);
+        if (!image) {
+            image = this._createMarkerImage(ctx, resources);
+            resources.addResource([stamp, w, h], image);
+        }
+        var point, origin,
+            anchor = this._getAnchor();
+        for (var i = cookedPoints.length - 1; i >= 0; i--) {
+            point = cookedPoints[i].substract(anchor);
+            origin = this._rotate(ctx, point, this._getRotationAt(i));
+            if (origin) {
+                point = origin;
+            }
+            Z.Canvas.image(ctx, image, point.x, point.y, w, h);
+            if (origin) {
+                ctx.restore();
+            }
+        }
+    },
+
+    _createMarkerImage: function (ctx, resources) {
+        var canvasClass = ctx.canvas.constructor,
+            lineWidth = this.strokeAndFill['lineWidth'] ? this.strokeAndFill['lineWidth'] : 0,
+            shadow = this.geometry.options['shadowBlur'],
+            w = this.style['markerWidth'] + lineWidth + 2 * shadow + this.padding[0],
+            h = this.style['markerHeight'] + lineWidth + 2 * shadow + this.padding[1],
+            canvas = Z.Canvas.createCanvas(w, h, canvasClass),
+            point = this._getAnchor();
+        var context = canvas.getContext('2d');
+        var gradient = Z.Util.isGradient(this.strokeAndFill['lineColor']) || Z.Util.isGradient(this.strokeAndFill['polygonFill']);
+        if (!gradient) {
+            Z.Canvas.prepareCanvas(context, this.strokeAndFill, resources);
+        }
+        this._drawVectorMarker(context, point, resources);
+        // context.strokeStyle = '#f00';
+        // context.strokeWidth = 10;
+        // context.strokeRect(0, 0, w, h);
+        return canvas;
+    },
+
+    _stampSymbol: function () {
+        if (!this._stamp) {
+            this._stamp =  [
+                this.style['markerType'],
+                Z.Util.isGradient(this.style['markerFill']) ? Z.Util.getGradientStamp(this.style['markerFill']) : this.style['markerFill'],
+                this.style['markerFillOpacity'],
+                this.style['markerFillPatternFile'],
+                Z.Util.isGradient(this.style['markerLineColor']) ? Z.Util.getGradientStamp(this.style['markerLineColor']) : this.style['markerLineColor'],
+                this.style['markerLineWidth'],
+                this.style['markerLineOpacity'],
+                this.style['markerLineDasharray'].join(','),
+                this.style['markerLinePatternFile'],
+                this.style['markerWidth'],
+                this.style['markerHeight']
+            ].join('_');
+        }
+        return this._stamp;
+    },
+
+    _getAnchor: function () {
+        var markerType = this.style['markerType'].toLowerCase(),
+            lineWidth = this.strokeAndFill['lineWidth'] ? this.strokeAndFill['lineWidth'] : 0,
+            shadow = this.geometry.options['shadowBlur'],
+            w = this.style['markerWidth'],
+            h = this.style['markerHeight'];
+        if (markerType  === 'bar' || markerType  === 'pie' || markerType  === 'pin') {
+            return new Z.Point(w / 2 + lineWidth / 2 + shadow + this.padding[0] / 2, h + lineWidth / 2 + shadow + this.padding[1]);
+        } else {
+            return new Z.Point(w / 2  + lineWidth / 2 + shadow + this.padding[0] / 2, h / 2  + lineWidth / 2 + shadow + this.padding[1] / 2);
+        }
+    },
+
+    _getGraidentExtent: function (points) {
+        var e = new Z.PointExtent(),
+            m = this.getMarkerExtent();
+        if (Z.Util.isArray(points)) {
+            for (var i = points.length - 1; i >= 0; i--) {
+                e._combine(points[i]);
+            }
+        } else {
+            e._combine(points);
+        }
+        e['xmin'] += m['xmin'];
+        e['ymin'] += m['ymin'];
+        e['xmax'] += m['xmax'];
+        e['ymax'] += m['ymax'];
+        return e;
+    },
+
+    _drawVectorMarker: function (ctx, point, resources) {
+        var style = this.style, strokeAndFill = this.strokeAndFill,
+            markerType = style['markerType'].toLowerCase(),
+            vectorArray = Z.symbolizer.VectorMarkerSymbolizer._getVectorPoints(markerType, style['markerWidth'], style['markerHeight']),
+            lineOpacity = strokeAndFill['lineOpacity'], fillOpacity = strokeAndFill['polygonOpacity'],
+            j, lineCap, angle, gradientExtent;
+        var gradient = Z.Util.isGradient(strokeAndFill['lineColor']) || Z.Util.isGradient(strokeAndFill['polygonFill']);
+        if (gradient) {
+            if (Z.Util.isGradient(strokeAndFill['lineColor'])) {
+                gradientExtent = this._getGraidentExtent(point);
+                strokeAndFill['lineGradientExtent'] = gradientExtent.expand(strokeAndFill['lineWidth']);
+            }
+            if (Z.Util.isGradient(strokeAndFill['polygonFill'])) {
+                if (!gradientExtent) {
+                    gradientExtent = this._getGraidentExtent(point);
+                }
+                strokeAndFill['polygonGradientExtent'] = gradientExtent;
+            }
+            Z.Canvas.prepareCanvas(ctx, strokeAndFill, resources);
+        }
+
+
+        var width = style['markerWidth'],
+            height = style['markerHeight'];
+        if (markerType === 'ellipse') {
+             //ellipse default
+            Z.Canvas.ellipse(ctx, point, width / 2, height / 2, lineOpacity, fillOpacity);
+        } else if (markerType === 'cross' || markerType === 'x') {
+            for (j = vectorArray.length - 1; j >= 0; j--) {
+                vectorArray[j]._add(point);
+            }
+            //线类型
+            Z.Canvas.path(ctx, vectorArray.slice(0, 2), lineOpacity);
+            Z.Canvas.path(ctx, vectorArray.slice(2, 4), lineOpacity);
+        } else if (markerType === 'diamond' || markerType === 'bar' || markerType === 'square' || markerType === 'triangle') {
+            if (markerType === 'bar') {
+                point = point.add(0, -style['markerLineWidth'] / 2);
+            }
+            for (j = vectorArray.length - 1; j >= 0; j--) {
+                vectorArray[j]._add(point);
+            }
+            //面类型
+            Z.Canvas.polygon(ctx, vectorArray, lineOpacity, fillOpacity);
+        } else if (markerType === 'pin') {
+            point = point.add(0, -style['markerLineWidth'] / 2);
+            for (j = vectorArray.length - 1; j >= 0; j--) {
+                vectorArray[j]._add(point);
+            }
+            lineCap = ctx.lineCap;
+            ctx.lineCap = 'round'; //set line cap to round to close the pin bottom
+            Z.Canvas.bezierCurveAndFill(ctx, vectorArray, lineOpacity, fillOpacity);
+            ctx.lineCap = lineCap;
+        } else if (markerType === 'pie') {
+            point = point.add(0, -style['markerLineWidth'] / 2);
+            angle = Math.atan(width / 2 / height) * 180 / Math.PI;
+            lineCap = ctx.lineCap;
+            ctx.lineCap = 'round';
+            Z.Canvas.sector(ctx, point, height, [90 - angle, 90 + angle], lineOpacity, fillOpacity);
+            ctx.lineCap = lineCap;
+        } else {
+            throw new Error('unsupported markerType: ' + markerType);
         }
     },
 
     getPlacement:function () {
         return this.symbol['markerPlacement'];
+    },
+
+    getRotation: function () {
+        var r = this.style['markerRotation'];
+        if (!Z.Util.isNumber(r)) {
+            return null;
+        }
+        //to radian
+        return r * Math.PI / 180;
     },
 
     getDxDy:function () {
@@ -20210,8 +21872,8 @@ Z.symbolizer.VectorMarkerSymbolizer.translateToSVGStyles = function (s) {
 
 Z.symbolizer.VectorMarkerSymbolizer._getVectorPoints = function (markerType, width, height) {
         //half height and half width
-    var hh = Math.round(height / 2),
-        hw = Math.round(width / 2);
+    var hh = height / 2,
+        hw = width / 2;
     var left = 0, top = 0;
     var v0, v1, v2, v3;
     if (markerType === 'triangle') {
@@ -20265,7 +21927,7 @@ Z.symbolizer.VectorPathMarkerSymbolizer = Z.symbolizer.ImageMarkerSymbolizer.ext
     initialize:function (symbol, geometry) {
         this.symbol = symbol;
         this.geometry = geometry;
-        this._url = [Z.Geometry._getMarkerPathURL(symbol), symbol['markerWidth'], symbol['markerHeight']];
+        this._url = [Z.Geometry.getMarkerPathBase64(symbol), symbol['markerWidth'], symbol['markerHeight']];
         this.style = this._defineStyle(this.translate());
         //IE must have a valid width and height to draw a svg image
         //otherwise, error will be thrown
@@ -20275,6 +21937,10 @@ Z.symbolizer.VectorPathMarkerSymbolizer = Z.symbolizer.ImageMarkerSymbolizer.ext
         if (Z.Util.isNil(this.style['markerHeight'])) {
             this.style['markerHeight'] = 80;
         }
+    },
+
+    _prepareContext: function () {
+        //for VectorPathMarkerSymbolizer, opacity is already added into SVG element.
     },
 
     _getImage:function (resources) {
@@ -20302,8 +21968,11 @@ Z.symbolizer.TextMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
         'textFont'          : null,
         'textFill'          : '#000',
         'textOpacity'       : 1,
+
         'textHaloFill'      : '#ffffff',
         'textHaloRadius'    : 0,
+        'textHaloOpacity'   : 1,
+
         'textWrapWidth'     : null,
         'textWrapBefore'    : false,
         'textWrapCharacter' : null,
@@ -20335,7 +22004,6 @@ Z.symbolizer.TextMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
         if (!Z.Util.isArrayHasData(cookedPoints)) {
             return;
         }
-        var rotations = this._getRotations();
         var style = this.style,
             strokeAndFill = this.strokeAndFill;
         var textContent = Z.StringUtil.replaceVariable(this.style['textName'], this.geometry.getProperties());
@@ -20346,14 +22014,12 @@ Z.symbolizer.TextMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
         var p;
         for (var i = 0, len = cookedPoints.length; i < len; i++) {
             p = cookedPoints[i];
-            if (rotations && !Z.Util.isNil(rotations[i])) {
-                ctx.save();
-                ctx.translate(p.x, p.y);
-                ctx.rotate(rotations[i]);
-                p = new Z.Point(0, 0);
+            var origin = this._rotate(ctx, p, this._getRotationAt(i));
+            if (origin) {
+                p = origin;
             }
             Z.Canvas.text(ctx, textContent, p, style, this.textDesc);
-            if (rotations && !Z.Util.isNil(rotations[i])) {
+            if (origin) {
                 ctx.restore();
             }
         }
@@ -20361,6 +22027,15 @@ Z.symbolizer.TextMarkerSymbolizer = Z.symbolizer.PointSymbolizer.extend({
 
     getPlacement:function () {
         return this.symbol['textPlacement'];
+    },
+
+    getRotation: function () {
+        var r = this.style['textRotation'];
+        if (!Z.Util.isNumber(r)) {
+            return null;
+        }
+        //to radian
+        return r * Math.PI / 180;
     },
 
     getDxDy:function () {
@@ -20476,7 +22151,7 @@ Z.symbolizer.DebugSymbolizer = Z.symbolizer.PointSymbolizer.extend({
     },
 
     getPlacement:function () {
-        return 'center';
+        return 'point';
     },
 
     getDxDy:function () {
@@ -20497,9 +22172,9 @@ Z.symbolizer.DebugSymbolizer = Z.symbolizer.PointSymbolizer.extend({
         var op = this.styles['lineOpacity'];
 
         //outline
-        var pixelExtent = geometry._getPainter().getViewExtent(),
+        var pixelExtent = geometry._getPainter().getContainerExtent();
+        var nw = pixelExtent.getMin(),
             size = pixelExtent.getSize();
-        var nw = map.viewPointToContainerPoint(pixelExtent.getMin());
         Z.Canvas.rectangle(ctx, nw, size, op, 0);
 
         //center cross and id if have any.
@@ -20527,7 +22202,7 @@ var Symboling = {};
 //有中心点的图形的共同方法
 Symboling.Center = {
     _getRenderPoints:function () {
-        return [[this._getCenterViewPoint()], null];
+        return [[this._getCenter2DPoint()], null];
     }
 };
 /**
@@ -20562,15 +22237,15 @@ Z.Sector.include(Symboling.Center, {
 //----------------------------------------------------
 Z.Rectangle.include({
     _getRenderPoints:function (placement) {
-        if (placement === 'point') {
+        if (placement === 'vertex') {
             var shell = this.getShell();
             var points = [];
             for (var i = 0, len = shell.length; i < len; i++) {
-                points.push(this.getMap().coordinateToViewPoint(shell[i]));
+                points.push(this.getMap().coordinateToPoint(shell[i]));
             }
             return [points, null];
         } else {
-            var c = this.getMap().coordinateToViewPoint(this.getCenter());
+            var c = this.getMap().coordinateToPoint(this.getCenter());
             return [[c], null];
         }
     },
@@ -20587,8 +22262,8 @@ Symboling.Poly = {
     _getRenderPoints:function (placement) {
         var map = this.getMap();
         var points, rotations = null;
-        if (placement === 'point') {
-            points = this._getPathViewPoints(this._getPrjCoordinates());
+        if (placement === 'vertex') {
+            points = this._getPath2DPoints(this._getPrjCoordinates());
             if (points && points.length > 0 && Z.Util.isArray(points[0])) {
                 //anti-meridian
                 points = points[0].concat(points[1]);
@@ -20596,7 +22271,7 @@ Symboling.Poly = {
         } else if (placement === 'line') {
             points = [];
             rotations = [];
-            var vertice = this._getPathViewPoints(this._getPrjCoordinates()),
+            var vertice = this._getPath2DPoints(this._getPrjCoordinates()),
                 isSplitted =  vertice.length > 0 && Z.Util.isArray(vertice[0]);
             var i, len;
             if (isSplitted) {
@@ -20622,10 +22297,15 @@ Symboling.Poly = {
                 }
             }
 
+        } else if (placement === 'vertex-first') {
+            var first = this._getPrjCoordinates()[0];
+            points = [map._prjToPoint(first)];
+        } else if (placement === 'vertex-last') {
+            var last = this._getPrjCoordinates()[this._getPrjCoordinates().length - 1];
+            points = [map._prjToPoint(last)];
         } else {
-            var center = this.getCenter();
-            var pcenter = this._getProjection().project(center);
-            points = [map._prjToViewPoint(pcenter)];
+            var pcenter = this._getProjection().project(this.getCenter());
+            points = [map._prjToPoint(pcenter)];
         }
         return [points, rotations];
     }
@@ -20642,7 +22322,7 @@ if (Z.Browser.canvas) {
         _getRenderCanvasResources:function () {
             var map = this.getMap();
             var pcenter = this._getPrjCoordinates();
-            var pt = map._prjToViewPoint(pcenter);
+            var pt = map._prjToPoint(pcenter);
             var size = this._getRenderSize();
             return {
                 'fn' : Z.Canvas.ellipse,
@@ -20658,7 +22338,7 @@ if (Z.Browser.canvas) {
     Z.Rectangle.include({
         _getRenderCanvasResources:function () {
             var map = this.getMap();
-            var pt = map._prjToViewPoint(this._getPrjCoordinates());
+            var pt = map._prjToPoint(this._getPrjCoordinates());
             var size = this._getRenderSize();
             return {
                 'fn' : Z.Canvas.rectangle,
@@ -20671,7 +22351,7 @@ if (Z.Browser.canvas) {
         _getRenderCanvasResources:function () {
             var map = this.getMap();
             var pcenter = this._getPrjCoordinates();
-            var pt = map._prjToViewPoint(pcenter);
+            var pt = map._prjToPoint(pcenter);
             var size = this._getRenderSize();
             return {
                 'fn' : Z.Canvas.sector,
@@ -20683,25 +22363,29 @@ if (Z.Browser.canvas) {
     //----------------------------------------------------
 
     Z.Polyline.include({
+        arrowStyles : {
+            'classic' : [2, 5]
+        },
+
         _arrow: function (ctx, prePoint, point, opacity, arrowStyle) {
-            if (arrowStyle !== 'classic') {
+            var style = this.arrowStyles[arrowStyle];
+            if (!style) {
                 return;
             }
             var lineWidth = this._getInternalSymbol()['lineWidth'];
-            if (!lineWidth) {
+            if (!lineWidth || lineWidth < 3) {
                 lineWidth = 3;
             }
-            //TODO 箭头与线宽度的比率相差近四倍,导致不太协调
-            lineWidth = lineWidth / 2;
-            var arrowWidth = lineWidth * 3,
-                arrowHeight = lineWidth * 4,
-                hh = arrowHeight / 2,
+
+            var arrowWidth = lineWidth * style[0],
+                arrowHeight = lineWidth * style[1],
+                hh = arrowHeight,
                 hw = arrowWidth / 2;
 
-            var v0 = new Z.Point(0, -hh),
-                v1 = new Z.Point(Z.Util.round(-hw), Z.Util.round(hh)),
-                v2 = new Z.Point(Z.Util.round(hw), Z.Util.round(hh));
-            var pts = [v0, v1, v2];
+            var v0 = new Z.Point(0, lineWidth),
+                v1 = new Z.Point(-hw, hh),
+                v2 = new Z.Point(hw, hh);
+            var pts = [v0, v1, v2, v0];
             var angle = Math.atan2(point.x - prePoint.x, prePoint.y - point.y);
             var matrix = new Z.Matrix().translate(point.x, point.y).rotate(angle);
             var ptsToDraw = matrix.applyToArray(pts);
@@ -20712,7 +22396,7 @@ if (Z.Browser.canvas) {
             //draw a triangle arrow
 
             var prjVertexes = this._getPrjCoordinates();
-            var points = this._getPathViewPoints(prjVertexes);
+            var points = this._getPath2DPoints(prjVertexes);
 
             var me = this;
             var fn = function (_ctx, _points, _lineOpacity, _fillOpacity, _dasharray) {
@@ -20746,7 +22430,7 @@ if (Z.Browser.canvas) {
     Z.Polygon.include({
         _getRenderCanvasResources:function () {
             var prjVertexes = this._getPrjCoordinates(),
-                points = this._getPathViewPoints(prjVertexes),
+                points = this._getPath2DPoints(prjVertexes),
                 //splitted by anti-meridian
                 isSplitted = points.length > 0 && Z.Util.isArray(points[0]);
             if (isSplitted) {
@@ -20757,7 +22441,7 @@ if (Z.Browser.canvas) {
             if (Z.Util.isArrayHasData(prjHoles)) {
                 var hole;
                 for (var i = 0; i < prjHoles.length; i++) {
-                    hole = this._getPathViewPoints(prjHoles[i]);
+                    hole = this._getPath2DPoints(prjHoles[i]);
                     if (isSplitted) {
                         if (Z.Util.isArray(hole)) {
                             points[0].push(hole[0]);
@@ -20804,18 +22488,19 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
      * @return {*} [description]
      */
     _createSymbolizers:function () {
-        var geoSymbol = this._getSymbol();
-        var symbolizers = [];
-        var regSymbolizers = Z.Painter.registerSymbolizers;
-        var symbols = geoSymbol;
+        var geoSymbol = this.getSymbol(),
+            symbolizers = [],
+            regSymbolizers = Z.Painter.registerSymbolizers,
+            symbols = geoSymbol;
         if (!Z.Util.isArray(geoSymbol)) {
             symbols = [geoSymbol];
         }
-        for (var ii = 0; ii < symbols.length; ii++) {
-            var symbol = symbols[ii];
+        var symbol, symbolizer;
+        for (var ii = symbols.length - 1; ii >= 0; ii--) {
+            symbol = symbols[ii];
             for (var i = regSymbolizers.length - 1; i >= 0; i--) {
                 if (regSymbolizers[i].test(symbol)) {
-                    var symbolizer = new regSymbolizers[i](symbol, this.geometry);
+                    symbolizer = new regSymbolizers[i](symbol, this.geometry);
                     symbolizers.push(symbolizer);
                     if (symbolizer instanceof Z.symbolizer.PointSymbolizer) {
                         this._hasPointSymbolizer = true;
@@ -20827,6 +22512,7 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
             throw new Error('no symbolizers can be created to draw, check the validity of the symbol.');
         }
         this._debugSymbolizer = new Z.symbolizer.DebugSymbolizer(symbol, this.geometry);
+        this._hasShadow = this.geometry.options['shadowBlur'] > 0;
         return symbolizers;
     },
 
@@ -20845,7 +22531,7 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
      * for point symbolizers
      * @return {maptalks.Point[]} points to render
      */
-    _getRenderPoints:function (placement) {
+    getRenderPoints:function (placement) {
         if (!this._renderPoints) {
             this._renderPoints = {};
         }
@@ -20862,7 +22548,7 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
      * for strokeAndFillSymbolizer
      * @return {Object[]} resources to render vector
      */
-    _getRenderResources:function () {
+    getRenderResources:function () {
         if (!this._rendResources) {
             //render resources geometry returned are based on view points.
             this._rendResources = this.geometry._getRenderCanvasResources();
@@ -20870,7 +22556,7 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
         var matrices = this.getTransformMatrix(),
             matrix = matrices ? matrices['container'] : null,
             scale = matrices ? matrices['scale'] : null;
-        var layerViewPoint = this.geometry.getLayer()._getRenderer()._viewExtent.getMin(),
+        var layerPoint = this.geometry.getLayer()._getRenderer()._extent2D.getMin(),
             context = this._rendResources['context'],
             transContext = [],
         //refer to Geometry.Canvas
@@ -20879,14 +22565,14 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
         //convert view points to container points needed by canvas
         if (Z.Util.isArray(points)) {
             containerPoints = Z.Util.mapArrayRecursively(points, function (point) {
-                var cp = point.substract(layerViewPoint);
+                var cp = point.substract(layerPoint);
                 if (matrix) {
                     return matrix.applyToPointInstance(cp);
                 }
                 return cp;
             });
         } else if (points instanceof Z.Point) {
-            containerPoints = points.substract(layerViewPoint);
+            containerPoints = points.substract(layerPoint);
             if (matrix) {
                 containerPoints = matrix.applyToPointInstance(containerPoints);
             }
@@ -20918,7 +22604,7 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
         return resources;
     },
 
-    _getSymbol:function () {
+    getSymbol:function () {
         return this.geometry._getInternalSymbol();
     },
 
@@ -20930,14 +22616,24 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
         if (!contexts || !this.symbolizers) {
             return;
         }
+
         this._matrix = matrix;
-        var args = contexts.concat([this]);
+        this._prepareShadow(contexts[0]);
         for (var i = this.symbolizers.length - 1; i >= 0; i--) {
-            var symbolizer = this.symbolizers[i];
-            symbolizer.symbolize.apply(symbolizer, args);
+            this.symbolizers[i].symbolize.apply(this.symbolizers[i], contexts);
         }
         this._painted = true;
-        this._debugSymbolizer.symbolize.apply(this._debugSymbolizer, args);
+        this._debugSymbolizer.symbolize.apply(this._debugSymbolizer, contexts);
+    },
+
+    _prepareShadow: function (ctx) {
+        if (this._hasShadow) {
+            ctx.shadowBlur = this.geometry.options['shadowBlur'];
+            ctx.shadowColor = this.geometry.options['shadowColor'];
+        } else {
+            ctx.shadowBlur = null;
+            ctx.shadowColor = null;
+        }
     },
 
     _eachSymbolizer:function (fn, context) {
@@ -20953,32 +22649,30 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
     },
 
     //需要实现的接口方法
-    getViewExtent:function () {
-        if (!this._viewExtent) {
+    get2DExtent:function () {
+        if (!this._extent2D) {
             if (this.symbolizers) {
-                var viewExtent = new Z.PointExtent();
+                var _extent2D = new Z.PointExtent();
                 var len = this.symbolizers.length - 1;
                 for (var i = len; i >= 0; i--) {
-                    viewExtent._combine(this.symbolizers[i].getViewExtent());
+                    _extent2D._combine(this.symbolizers[i].get2DExtent());
                 }
-                viewExtent._round();
-                this._viewExtent = viewExtent;
+                this._extent2D = _extent2D;
             }
         }
-        return this._viewExtent;
+        return this._extent2D;
     },
 
     getContainerExtent : function () {
-        var layerViewPoint = this.geometry.getLayer()._getRenderer()._viewExtent.getMin(),
-            viewExtent = this.getViewExtent();
-        var matrices = this.getTransformMatrix(),
-            matrix = matrices ? matrices['container'] : null;
-        var containerExtent = viewExtent.add(layerViewPoint._multi(-1));
+        var map = this.getMap(),
+            matrix = this.getTransformMatrix(),
+            extent2D = this.get2DExtent();
+        var containerExtent = new Z.PointExtent(map._pointToContainerPoint(extent2D.getMin()), map._pointToContainerPoint(extent2D.getMax()));
         if (matrix) {
-            containerExtent = new Z.PointExtent(
-                    matrix.applyToPointInstance(containerExtent.getMin()),
-                    matrix.applyToPointInstance(containerExtent.getMax())
-                    );
+            //FIXME not right for markers
+            var min = matrix['container'].applyToPointInstance(containerExtent.getMin());
+            var max = matrix['container'].applyToPointInstance(containerExtent.getMax());
+            containerExtent = new Z.PointExtent(min, max);
         }
         return containerExtent;
     },
@@ -20996,7 +22690,7 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
                 this.paint();
             }
         } else {
-            this._removeCache();
+            this.removeCache();
             this._refreshSymbolizers();
             this._eachSymbolizer(function (symbolizer) {
                 symbolizer.show();
@@ -21013,12 +22707,12 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
     },
 
     onZoomEnd:function () {
-        this._removeCache();
+        this.removeCache();
         this._refreshSymbolizers();
     },
 
     repaint:function () {
-        this._removeCache();
+        this.removeCache();
         this._refreshSymbolizers();
         if (this.geometry.isVisible()) {
             this._requestToRender();
@@ -21031,7 +22725,7 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
         });
     },
 
-    _requestToRender:function () {
+    _requestToRender:function (isCheckRes) {
         var geometry = this.geometry,
             map = geometry.getMap();
         if (!map || map._isBusy()) {
@@ -21039,11 +22733,11 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
         }
         var layer = geometry.getLayer(),
             renderer = layer._getRenderer();
-        if (!renderer || !(layer instanceof Z.VectorLayer)) {
+        if (!renderer || !(layer instanceof Z.OverlayLayer)) {
             return;
         }
         if (layer.isCanvasRender()) {
-            renderer.render([geometry]);
+            renderer.render(isCheckRes ? [geometry] : null);
         }
     },
 
@@ -21051,7 +22745,7 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
      * symbol发生变化后, 刷新symbol
      */
     refreshSymbol:function () {
-        this._removeCache();
+        this.removeCache();
         this._removeSymbolizers();
         this.symbolizers = this._createSymbolizers();
         if (!this.getMap()) {
@@ -21060,7 +22754,7 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
         var layer = this.geometry.getLayer();
         if (this.geometry.isVisible() && (layer instanceof Z.VectorLayer)) {
             if (layer.isCanvasRender()) {
-                this._requestToRender();
+                this._requestToRender(true);
             } else {
                 this.paint();
             }
@@ -21068,7 +22762,7 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
     },
 
     remove:function () {
-        this._removeCache();
+        this.removeCache();
         this._removeSymbolizers();
     },
 
@@ -21080,12 +22774,12 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
     },
 
     /**
-     * 删除缓存属性
+     * delete painter's caches
      */
-    _removeCache:function () {
+    removeCache:function () {
         delete this._renderPoints;
         delete this._rendResources;
-        delete this._viewExtent;
+        delete this._extent2D;
     }
 });
 
@@ -21093,8 +22787,8 @@ Z.Painter = Z.Class.extend(/** @lends maptalks.Painter.prototype */{
 Z.Painter.registerSymbolizers = [
     Z.symbolizer.StrokeAndFillSymbolizer,
     Z.symbolizer.ImageMarkerSymbolizer,
-    Z.symbolizer.VectorMarkerSymbolizer,
     Z.symbolizer.VectorPathMarkerSymbolizer,
+    Z.symbolizer.VectorMarkerSymbolizer,
     Z.symbolizer.TextMarkerSymbolizer
 ];
 
@@ -21135,10 +22829,10 @@ Z.CollectionPainter = Z.Class.extend(/** @lends maptalks.CollectionPainter.proto
         });
     },
 
-    getViewExtent:function () {
+    get2DExtent:function () {
         var  extent = new Z.PointExtent();
         this._eachPainter(function (painter) {
-            extent = extent.combine(painter.getViewExtent());
+            extent = extent.combine(painter.get2DExtent());
         });
         return extent;
     },
@@ -21206,23 +22900,97 @@ Z.CollectionPainter = Z.Class.extend(/** @lends maptalks.CollectionPainter.proto
 });
 
 /**
+ * @classdesc
+ * A sub class of maptalks.VectorLayer supports GeoJSON.
+ * @class
+ * @category layer
+ * @extends {maptalks.VectorLayer}
+ * @param {String|Number} id - layer's id
+ * @param {Object}        json - GeoJSON objects
+ * @param {Object} [options=null] - construct options
+ * @param {*} options.* - any other option defined in [maptalks.VectorLayer]{@link maptalks.VectorLayer#options}
+ */
+Z.GeoJSONLayer = Z.VectorLayer.extend(/** @lends maptalks.GeoJSONLayer.prototype */{
+
+    initialize: function (id, json, options) {
+        this.setId(id);
+        Z.Util.setOptions(this, options);
+        var geometries = this._parse(json);
+        this.addGeometry(geometries);
+    },
+
+    _parse: function (json) {
+        json = Z.Util.parseJSON(json);
+        return Z.Geometry.fromJSON(json);
+    },
+
+    /**
+     * Export the GeoJSONLayer's profile json. <br>
+     * @param  {Object} [options=null] - export options
+     * @param  {Object} [options.geometries=null] - If not null and the layer is a [OverlayerLayer]{@link maptalks.OverlayLayer},
+     *                                            the layer's geometries will be exported with the given "options.geometries" as a parameter of geometry's toJSON.
+     * @param  {maptalks.Extent} [options.clipExtent=null] - if set, only the geometries intersectes with the extent will be exported.
+     * @return {Object} layer's profile JSON
+     */
+    toJSON: function (options) {
+        var profile = Z.VectorLayer.prototype.toJSON.call(this, options);
+        profile['type'] = 'GeoJSONLayer';
+        var json = [];
+        if (profile['geometries']) {
+            var g;
+            for (var i = 0, len = profile['geometries'].length; i < len; i++) {
+                g = profile['geometries'][i]['feature'];
+                if (!g['id'] && !g['properties']) {
+                    g = g['geometry'];
+                }
+                json.push(g);
+            }
+            delete profile['geometries'];
+        }
+        profile['geojson'] = json;
+        return profile;
+    }
+});
+
+/**
+ * Reproduce a GeoJSONLayer from layer's profile JSON.
+ * @param  {Object} layerJSON - layer's profile JSON
+ * @return {maptalks.GeoJSONLayer}
+ * @static
+ * @private
+ * @function
+ */
+Z.GeoJSONLayer.fromJSON = function (profile) {
+    if (!profile || profile['type'] !== 'GeoJSONLayer') { return null; }
+    var layer = new Z.GeoJSONLayer(profile['id'], profile['geojson'], profile['options']);
+    if (profile['style']) {
+        layer.setStyle(profile['style']);
+    }
+    return layer;
+};
+
+/**
  * @namespace
  */
 Z.ui = {};
 /**
+ * Some instance methods subclasses needs to implement:  <br>
+ *  <br>
+ * 1. Optional, returns the Dom element's position offset  <br>
+ * function getOffset : maptalks.Point  <br>
+ *  <br>
+ * 2. Method to create UI's Dom element  <br>
+ * function buildOn : HTMLElement  <br>
+ *  <br>
+ * 3 Optional, to provide an event map to register event listeners.  <br>
+ * function getEvents : void  <br>
+ * 4 Optional, a callback when dom is removed.  <br>
+ * function onDomRemove : void  <br>
+ * 5 Optional, a callback when UI Component is removed.  <br>
+ * function onRemove : void  <br>
  * @classdesc
- * Base class for all the ui component classes.
- *
- * Some instance methods subclasses needs to implement:
- *
- * 1. Optional, UI Dom's pixel offset from UI's coordinate
- * function getOffset : maptalks.Point
- *
- * 2. Method to create UI's Dom element
- * function buildOn : HTMLElement
- *
- * 3 Optional, to provide an event map to register event listeners.
- * function getEvents : void
+ * Base class for all the UI component classes, a UI component is a HTMLElement positioned with geographic coordinate. <br>
+ * It is abstract and not intended to be instantiated.
  *
  * @class
  * @category ui
@@ -21236,10 +23004,11 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
 
     /**
      * @property {Object} options
-     * @property {Boolean} [options.eventsToStop='mousedown dblclick']  - events to stop propagation from UI's Dom.
+     * @property {Boolean} [options.eventsToStop='mousedown dblclick']  - UI's dom events to stop propagation.
      * @property {Number}  [options.dx=0]     - pixel offset on x axis
      * @property {Number}  [options.dy=0]     - pixel offset on y axis
      * @property {Boolean} [options.autoPan=false]  - set it to false if you don't want the map to do panning animation to fit the opened UI.
+     * @property {Boolean} [options.single=true]    - whether the UI is a global single one, only one UI will be shown at the same time if set to true.
      */
     options:{
         'eventsToStop' : 'mousedown dblclick',
@@ -21257,14 +23026,24 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
      * Adds the UI Component to a geometry or a map
      * @param {maptalks.Geometry|maptalks.Map} owner - geometry or map to addto.
      * @returns {maptalks.ui.UIComponent} this
+     * @fires maptalks.ui.UIComponent#add
      */
     addTo:function (owner) {
         this._owner = owner;
+        /**
+         * add event.
+         *
+         * @event maptalks.ui.UIComponent#add
+         * @type {Object}
+         * @property {String} type - add
+         * @property {maptalks.ui.UIComponent} target - UIComponent
+         */
+        this.fire('add');
         return this;
     },
 
     /**
-     * Get the map instance it displayed
+     * Get the map it added to
      * @return {maptalks.Map} map instance
      * @override
      */
@@ -21277,13 +23056,27 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
 
     /**
      * Show the UI Component, if it is a global single one, it will close previous one.
-     * @param {maptalks.Coordinate} - coordinate to show
+     * @param {maptalks.Coordinate} coordinate - coordinate to show
      * @return {maptalks.ui.UIComponent} this
+     * @fires maptalks.ui.UIComponent#showstart
+     * @fires maptalks.ui.UIComponent#showend
      */
     show: function (coordinate) {
         if (!coordinate) {
-            throw new Error('UI\'s show coordinate is invalid');
+            if (this._coordinate) {
+                coordinate = this._coordinate;
+            } else {
+                throw new Error('UI\'s show coordinate is invalid');
+            }
         }
+        /**
+         * showstart event.
+         *
+         * @event maptalks.ui.UIComponent#showstart
+         * @type {Object}
+         * @property {String} type - showstart
+         * @property {maptalks.ui.UIComponent} target - UIComponent
+         */
         this.fire('showstart');
         var map = this.getMap(),
             container = this._getUIContainer();
@@ -21294,6 +23087,14 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
         this._removePrevDOM();
         var dom = this.__uiDOM = this.buildOn(map);
         if (!dom) {
+            /**
+             * showend event.
+             *
+             * @event maptalks.ui.UIComponent#showend
+             * @type {Object}
+             * @property {String} type - showend
+             * @property {maptalks.ui.UIComponent} target - UIComponent
+             */
             this.fire('showend');
             return this;
         }
@@ -21304,7 +23105,7 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
             map[this._uiDomKey()] = dom;
         }
 
-        var point = this._getPosition();
+        var point = this.getPosition();
 
         dom.style.position = 'absolute';
         dom.style.left = point.x + 'px';
@@ -21328,18 +23129,27 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
     /**
      * Hide the UI Component.
      * @return {maptalks.ui.UIComponent} this
+     * @fires maptalks.ui.UIComponent#hide
      */
     hide:function () {
         if (!this.getDOM()) {
             return this;
         }
         this.getDOM().style.display = 'none';
+        /**
+         * hide event.
+         *
+         * @event maptalks.ui.UIComponent#hide
+         * @type {Object}
+         * @property {String} type - hide
+         * @property {maptalks.ui.UIComponent} target - UIComponent
+         */
         this.fire('hide');
         return this;
     },
 
     /**
-     * Decide whether the component is open
+     * Decide whether the ui component is open
      * @returns {Boolean} true|false
      */
     isVisible:function () {
@@ -21349,15 +23159,28 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
     /**
      * Remove the UI Component
      * @return {maptalks.ui.UIComponent} this
+     * @fires maptalks.ui.UIComponent#hide
+     * @fires maptalks.ui.UIComponent#remove
      */
     remove: function () {
         this.hide();
         this._switchEvents('off');
-        delete this._owner;
-        delete this._map;
+        if (this.onRemove) {
+            this.onRemove();
+        }
         if (!this._singleton() && this.__uiDOM) {
             this._removePrevDOM();
         }
+        delete this._owner;
+        delete this._map;
+        /**
+         * remove event.
+         *
+         * @event maptalks.ui.UIComponent#remove
+         * @type {Object}
+         * @property {String} type - remove
+         * @property {maptalks.ui.UIComponent} target - UIComponent
+         */
         this.fire('remove');
         return this;
     },
@@ -21382,14 +23205,18 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
         return this.__uiDOM;
     },
 
-    _getPosition : function () {
-        var p = this.getMap().coordinateToViewPoint(this._coordinate)
-                    ._add(this.options['dx'], this.options['dy']);
+    getPosition : function () {
+        var p = this._getViewPoint();
         if (this.getOffset) {
             var o = this.getOffset();
             if (o) { p._add(o); }
         }
         return p;
+    },
+
+    _getViewPoint : function () {
+        return this.getMap().coordinateToViewPoint(this._coordinate)
+                    ._add(this.options['dx'], this.options['dy']);
     },
 
     _autoPan : function () {
@@ -21443,8 +23270,8 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
      * @private
      */
     _removePrevDOM:function () {
-        if (this._onDOMRemove) {
-            this._onDOMRemove();
+        if (this.onDomRemove) {
+            this.onDomRemove();
         }
         if (this._singleton()) {
             var map = this.getMap(),
@@ -21508,12 +23335,12 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
 
     _getDefaultEvents: function () {
         return {
-            'zooming' : this._onZooming,
-            'zoomend' : this._onZoomEnd
+            'zooming' : this.onZooming,
+            'zoomend' : this.onZoomEnd
         };
     },
 
-    _onZooming : function (param) {
+    onZooming : function (param) {
         if (!this.isVisible() || !this.getDOM()) {
             return;
         }
@@ -21529,36 +23356,52 @@ Z.ui.UIComponent = Z.Class.extend(/** @lends maptalks.ui.UIComponent.prototype *
         dom.style.top  = p.y + 'px';
     },
 
-    _onZoomEnd : function () {
+    onZoomEnd : function () {
         if (!this.isVisible() || !this.getDOM()) {
             return;
         }
         var dom = this.getDOM(),
-            p = this._getPosition();
+            p = this.getPosition();
         dom.style.left = p.x + 'px';
         dom.style.top  = p.y + 'px';
     }
 });
 
 /**
- * @classdesc
- * Class for UI Marker, a html based marker positioned by geographic coordinate.
+ * As it's renderered by HTMLElement such as a DIV, it: <br>
+ * 1. always on the top of all the map layers <br>
+ * 2. can't be snapped as it's not drawn on the canvas. <br>
  *
- * As it's an actual html element, it:
- * 1. always on the top of all the map layers
- * 2. can't be snapped as it's not drawn on the canvas.
+ * @classdesc
+ * Class for UI Marker, a html based marker positioned by geographic coordinate. <br>
  *
  * @class
  * @category ui
  * @extends maptalks.ui.UIComponent
  * @param {Object} options - construct options
+ * @param {Boolean} [options.draggable=false]  - if the marker can be dragged.
+ * @param {Number}  [options.single=false]     - if the marker is a global single one.
+ * @param {String|HTMLElement}  options.content - content of the marker, can be a string type HTML code or a HTMLElement.
  * @memberOf maptalks.ui
  * @name UIMarker
+ * @example
+ * var dom = document.createElement('div');
+ * dom.innerHTML = 'hello ui marker';
+ * var marker = new maptalks.ui.UIMarker([0, 0], {
+ *      draggable : true,
+ *      content : dom
+ *  }).addTo(map);
  */
 Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototype */{
 
     includes: [Z.Handlerable],
 
+    /**
+     * @property {Object} options - construct options
+     * @property {Boolean} [options.draggable=false]  - if the marker can be dragged.
+     * @property {Number}  [options.single=false]     - if the marker is a global single one.
+     * @property {String|HTMLElement}  options.content - content of the marker, can be a string type HTML code or a HTMLElement.
+     */
     options : {
         'draggable': false,
         'single' : false,
@@ -21570,34 +23413,87 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
         Z.Util.setOptions(this, options);
     },
 
+    /**
+     * Sets the coordinates
+     * @param {maptalks.Coordinate} coordinates - UIMarker's coordinate
+     * @returns {maptalks.ui.UIMarker} this
+     * @fires maptalks.ui.UIMarker#positionchange
+     */
     setCoordinates: function (coordinates) {
         this._markerCoord = coordinates;
+        /**
+         * positionchange event.
+         *
+         * @event maptalks.ui.UIMarker#positionchange
+         * @type {Object}
+         * @property {String} type - positionchange
+         * @property {maptalks.ui.UIMarker} target - ui marker
+         */
+        this.fire('positionchange');
         if (this.isVisible()) {
             this.show();
         }
         return this;
     },
 
+    /**
+     * Gets the coordinates
+     * @return {maptalks.Coordinate} coordinates
+     */
     getCoordinates: function () {
         return this._markerCoord;
     },
 
+    /**
+     * Sets the content of the UIMarker
+     * @param {String|HTMLElement} content - UIMarker's content
+     * @returns {maptalks.ui.UIMarker} this
+     * @fires maptalks.ui.UIMarker#contentchange
+     */
     setContent: function (content) {
+        var old = this.options['content'];
         this.options['content'] = content;
+        /**
+         * contentchange event.
+         *
+         * @event maptalks.ui.UIMarker#contentchange
+         * @type {Object}
+         * @property {String} type - contentchange
+         * @property {maptalks.ui.UIMarker} target - ui marker
+         * @property {String|HTMLElement} old      - old content
+         * @property {String|HTMLElement} new      - new content
+         */
+        this.fire('contentchange', {'old' : old, 'new' : content});
         if (this.isVisible()) {
             this.show();
         }
         return this;
     },
 
+    /**
+     * Gets the content of the UIMarker
+     * @return {String|HTMLElement} content
+     */
     getContent: function () {
         return this.options['content'];
     },
 
-    show: function (coordinates) {
-        return Z.ui.UIComponent.prototype.show.call(this, coordinates || this._markerCoord);
+    /**
+     * Show the UIMarker
+     * @returns {maptalks.ui.UIMarker} this
+     * @fires maptalks.ui.UIMarker#showstart
+     * @fires maptalks.ui.UIMarker#showend
+     */
+    show: function () {
+        return Z.ui.UIComponent.prototype.show.call(this, this._markerCoord);
     },
 
+    /**
+     * A callback method to build UIMarker's HTMLElement
+     * @protected
+     * @param {maptalks.Map} map - map to be built on
+     * @return {HTMLElement} UIMarker's HTMLElement
+     */
     buildOn: function () {
         var dom;
         if (Z.Util.isString(this.options['content'])) {
@@ -21610,12 +23506,17 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
         return dom;
     },
 
+    /**
+     * Gets UIMarker's HTMLElement's position offset, it's caculated dynamically accordiing to its actual size.
+     * @protected
+     * @return {maptalks.Point} offset
+     */
     getOffset: function () {
         var size = this.getSize();
         return new Z.Point(-size['width'] / 2, -size['height'] / 2);
     },
 
-    _onDOMRemove: function () {
+    onDomRemove: function () {
         var dom = this.getDOM();
         this._removeDOMEvents(dom);
     },
@@ -21625,7 +23526,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
                   * @event maptalks.ui.UIMarker#mousedown
                   * @type {Object}
                   * @property {String} type                    - mousedown
-                  * @property {String} target                  - the map fires event
+                  * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
                   * @property {maptalks.Coordinate} coordinate - coordinate of the event
                   * @property {maptalks.Point} containerPoint  - container point of the event
                   * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21637,7 +23538,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
                   * @event maptalks.ui.UIMarker#mouseup
                   * @type {Object}
                   * @property {String} type                    - mouseup
-                  * @property {String} target                  - the map fires event
+                  * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
                   * @property {maptalks.Coordinate} coordinate - coordinate of the event
                   * @property {maptalks.Point} containerPoint  - container point of the event
                   * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21649,7 +23550,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
                   * @event maptalks.ui.UIMarker#mouseover
                   * @type {Object}
                   * @property {String} type                    - mouseover
-                  * @property {String} target                  - the map fires event
+                  * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
                   * @property {maptalks.Coordinate} coordinate - coordinate of the event
                   * @property {maptalks.Point} containerPoint  - container point of the event
                   * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21661,7 +23562,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
                   * @event maptalks.ui.UIMarker#mouseout
                   * @type {Object}
                   * @property {String} type                    - mouseout
-                  * @property {String} target                  - the map fires event
+                  * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
                   * @property {maptalks.Coordinate} coordinate - coordinate of the event
                   * @property {maptalks.Point} containerPoint  - container point of the event
                   * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21673,7 +23574,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
                   * @event maptalks.ui.UIMarker#mousemove
                   * @type {Object}
                   * @property {String} type                    - mousemove
-                  * @property {String} target                  - the map fires event
+                  * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
                   * @property {maptalks.Coordinate} coordinate - coordinate of the event
                   * @property {maptalks.Point} containerPoint  - container point of the event
                   * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21685,7 +23586,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
                   * @event maptalks.ui.UIMarker#click
                   * @type {Object}
                   * @property {String} type                    - click
-                  * @property {String} target                  - the map fires event
+                  * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
                   * @property {maptalks.Coordinate} coordinate - coordinate of the event
                   * @property {maptalks.Point} containerPoint  - container point of the event
                   * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21697,7 +23598,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
                   * @event maptalks.ui.UIMarker#dblclick
                   * @type {Object}
                   * @property {String} type                    - dblclick
-                  * @property {String} target                  - the map fires event
+                  * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
                   * @property {maptalks.Coordinate} coordinate - coordinate of the event
                   * @property {maptalks.Point} containerPoint  - container point of the event
                   * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21709,7 +23610,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
                   * @event maptalks.ui.UIMarker#contextmenu
                   * @type {Object}
                   * @property {String} type                    - contextmenu
-                  * @property {String} target                  - the map fires event
+                  * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
                   * @property {maptalks.Coordinate} coordinate - coordinate of the event
                   * @property {maptalks.Point} containerPoint  - container point of the event
                   * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21721,7 +23622,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
                   * @event maptalks.ui.UIMarker#keypress
                   * @type {Object}
                   * @property {String} type                    - keypress
-                  * @property {String} target                  - the map fires event
+                  * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
                   * @property {maptalks.Coordinate} coordinate - coordinate of the event
                   * @property {maptalks.Point} containerPoint  - container point of the event
                   * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21733,7 +23634,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
                   * @event maptalks.ui.UIMarker#touchstart
                   * @type {Object}
                   * @property {String} type                    - touchstart
-                  * @property {String} target                  - the map fires event
+                  * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
                   * @property {maptalks.Coordinate} coordinate - coordinate of the event
                   * @property {maptalks.Point} containerPoint  - container point of the event
                   * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21745,7 +23646,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
                   * @event maptalks.ui.UIMarker#touchmove
                   * @type {Object}
                   * @property {String} type                    - touchmove
-                  * @property {String} target                  - the map fires event
+                  * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
                   * @property {maptalks.Coordinate} coordinate - coordinate of the event
                   * @property {maptalks.Point} containerPoint  - container point of the event
                   * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21757,7 +23658,7 @@ Z.ui.UIMarker = Z.ui.UIComponent.extend(/** @lends maptalks.ui.UIMarker.prototyp
                   * @event maptalks.ui.UIMarker#touchend
                   * @type {Object}
                   * @property {String} type                    - touchend
-                  * @property {String} target                  - the map fires event
+                  * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
                   * @property {maptalks.Coordinate} coordinate - coordinate of the event
                   * @property {maptalks.Point} containerPoint  - container point of the event
                   * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21818,7 +23719,7 @@ Z.ui.UIMarker.Drag = Z.Handler.extend(/** @lends maptalks.ui.UIMarker.Drag.proto
          * @event maptalks.ui.UIMarker#dragstart
          * @type {Object}
          * @property {String} type                    - dragstart
-         * @property {String} target                  - the geometry fires event
+         * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
          * @property {maptalks.Coordinate} coordinate - coordinate of the event
          * @property {maptalks.Point} containerPoint  - container point of the event
          * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21828,11 +23729,26 @@ Z.ui.UIMarker.Drag = Z.Handler.extend(/** @lends maptalks.ui.UIMarker.Drag.proto
     },
 
     _prepareDragHandler:function () {
-        this._dragHandler = new Z.Handler.Drag(this.target.getDOM());
+        this._dragHandler = new Z.Handler.Drag(this.target.getDOM(), {
+            'cancelOn' : Z.Util.bind(this._cancelOn, this)
+        });
         this._dragHandler.on('mousedown', this._onMouseDown, this);
         this._dragHandler.on('dragging', this._dragging, this);
         this._dragHandler.on('mouseup', this._endDrag, this);
         this._dragHandler.enable();
+    },
+
+    _cancelOn: function (domEvent) {
+        var target = domEvent.srcElement || domEvent.target,
+            tagName = target.tagName.toLowerCase();
+        if (tagName === 'button' ||
+            tagName === 'input' ||
+            tagName === 'select' ||
+            tagName === 'option' ||
+            tagName === 'textarea') {
+            return true;
+        }
+        return false;
     },
 
     _onMouseDown: function (param) {
@@ -21865,7 +23781,7 @@ Z.ui.UIMarker.Drag = Z.Handler.extend(/** @lends maptalks.ui.UIMarker.Drag.proto
          * @event maptalks.ui.UIMarker#dragging
          * @type {Object}
          * @property {String} type                    - dragging
-         * @property {String} target                  - the geometry fires event
+         * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
          * @property {maptalks.Coordinate} coordinate - coordinate of the event
          * @property {maptalks.Point} containerPoint  - container point of the event
          * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21894,7 +23810,7 @@ Z.ui.UIMarker.Drag = Z.Handler.extend(/** @lends maptalks.ui.UIMarker.Drag.proto
          * @event maptalks.ui.UIMarker#dragend
          * @type {Object}
          * @property {String} type                    - dragend
-         * @property {String} target                  - the geometry fires event
+         * @property {maptalks.ui.UIMarker} target    - the uimarker fires event
          * @property {maptalks.Coordinate} coordinate - coordinate of the event
          * @property {maptalks.Point} containerPoint  - container point of the event
          * @property {maptalks.Point} viewPoint       - view point of the event
@@ -21917,7 +23833,7 @@ Z.ui.UIMarker.addInitHook('addHandler', 'draggable', Z.ui.UIMarker.Drag);
 Z.ui.UIMarker.include(/** @lends maptalks.ui.UIMarker.prototype */{
     /**
      * Whether the uimarker is being dragged.
-     * @reutrn {Boolean}
+     * @returns {Boolean}
      */
     isDragging: function () {
         if (this['draggable']) {
@@ -21937,9 +23853,9 @@ Z.ui.UIMarker.include(/** @lends maptalks.ui.UIMarker.prototype */{
  * @param {Boolean} [options.autoPan=true]  - set it to false if you don't want the map to do panning animation to fit the opened window.
  * @param {Number}  [options.width=300]     - default width
  * @param {Number}  [options.minHeight=120] - minimun height
- * @param {String|HTMLElement} [options.custom=false]  - set it to true if you want a customized infowindow, customized html codes or a HTMLElement is set to content.
+ * @param {Boolean} [options.custom=false]  - set it to true if you want a customized infowindow, customized html codes or a HTMLElement is set to content.
  * @param {String}  [options.title=null]    - title of the infowindow.
- * @param {String}  options.content         - content of the infowindow.
+ * @param {String|HTMLElement}  options.content - content of the infowindow.
  * @memberOf maptalks.ui
  * @name InfoWindow
  */
@@ -21950,9 +23866,9 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
      * @property {Boolean} [options.autoPan=true]  - set it to false if you don't want the map to do panning animation to fit the opened window.
      * @property {Number}  [options.width=300]     - default width
      * @property {Number}  [options.minHeight=120] - minimun height
-     * @property {String|HTMLElement} [options.custom=false]  - set it to true if you want a customized infowindow, customized html codes or a HTMLElement is set to content.
+     * @property {Boolean} [options.custom=false]  - set it to true if you want a customized infowindow, customized html codes or a HTMLElement is set to content.
      * @property {String}  [options.title=null]    - title of the infowindow.
-     * @property {String}  options.content         - content of the infowindow.
+     * @property {String|HTMLElement}  options.content - content of the infowindow.
      */
     options: {
         'autoPan'   : true,
@@ -21967,9 +23883,22 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
      * Set the content of the infowindow.
      * @param {String|HTMLElement} content - content of the infowindow.
      * return {maptalks.ui.InfoWindow} this
+     * @fires maptalks.ui.InfoWindow#contentchange
      */
     setContent:function (content) {
+        var old = this.options['content'];
         this.options['content'] = content;
+        /**
+         * contentchange event.
+         *
+         * @event maptalks.ui.InfoWindow#contentchange
+         * @type {Object}
+         * @property {String} type - contentchange
+         * @property {maptalks.ui.InfoWindow} target - InfoWindow
+         * @property {String|HTMLElement} old      - old content
+         * @property {String|HTMLElement} new      - new content
+         */
+        this.fire('contentchange', {'old' : old, 'new' : content});
         if (this.isVisible()) {
             this.show(this._coordinate);
         }
@@ -21988,9 +23917,22 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
      * Set the title of the infowindow.
      * @param {String|HTMLElement} title - title of the infowindow.
      * return {maptalks.ui.InfoWindow} this
+     * @fires maptalks.ui.InfoWindow#titlechange
      */
     setTitle:function (title) {
+        var old = title;
         this.options['title'] = title;
+        /**
+         * titlechange event.
+         *
+         * @event maptalks.ui.InfoWindow#titlechange
+         * @type {Object}
+         * @property {String} type - titlechange
+         * @property {maptalks.ui.InfoWindow} target - InfoWindow
+         * @property {String} old      - old content
+         * @property {String} new      - new content
+         */
+        this.fire('contentchange', {'old' : old, 'new' : title});
         if (this.isVisible()) {
             this.show(this._coordinate);
         }
@@ -22062,21 +24004,25 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
     };
 
     /**
+     * Menu items is set to options.items or by setItems method. <br>
+     * <br>
+     * Normally items is a object array, containing: <br>
+     * 1. item object: {'item': 'This is a menu text', 'click': function() {alert('oops! You clicked!');)}} <br>
+     * 2. minus string "-", which will draw a splitor line on the menu. <br>
+     * <br>
+     * If options.custom is set to true, the menu is considered as a customized one. Then items is the customized html codes or HTMLElement. <br>
+     *
      * @classdesc
      * Class for context menu, useful for interactions with right clicks on the map.
-     *
-     * Menu items is set to options.items or by setItems method.
-     *
-     * Normally items is a object array, containing:
-     * 1. item object: {'item': 'This is a menu text', 'click': function() {alert('oops! You clicked!');)}}
-     * 2. minus string "-", which will draw a splitor line on the menu.
-     *
-     * If options.custom is set to true, the menu is considered as a customized one. Then items is the customized html codes or HTMLElement.
-     *
      * @class
      * @category ui
      * @extends maptalks.ui.UIComponent
      * @param {Object} options - construct options
+     * @param {Object} options
+     * @param {Boolean} [options.autoPan=false]  - set it to false if you don't want the map to do panning animation to fit the opened menu.
+     * @param {Number}  [options.width=160]      - default width
+     * @param {String|HTMLElement} [options.custom=false]  - set it to true if you want a customized menu, customized html codes or a HTMLElement is set to items.
+     * @param {Object[]|String|HTMLElement}  options.items   - html code or a html element is options.custom is true. Or a menu items array, containing: item objects, "-" as a splitor line
      * @memberOf maptalks.ui
      * @name Menu
      */
@@ -22095,6 +24041,14 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
          * Set the items of the menu.
          * @param {Object[]|String|HTMLElement} items - items of the menu
          * return {maptalks.ui.Menu} this
+         * @example
+         * menu.setItems([
+         *      //return false to prevent event propagation
+         *     {'item': 'Query', 'click': function() {alert('Query Clicked!'); return false;}},
+         *     '-',
+         *     {'item': 'Edit', 'click': function() {alert('Edit Clicked!')}},
+         *     {'item': 'About', 'click': function() {alert('About Clicked!')}}
+         * ]);
          */
         setItems: function (items) {
             this.options['items'] = items;
@@ -22109,6 +24063,11 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
             return this.options['items'];
         },
 
+        /**
+         * Create the menu DOM.
+         * @protected
+         * @return {HTMLElement} menu's DOM
+         */
         buildOn:function () {
             if (this.options['custom']) {
                 if (Z.Util.isString(this.options['items'])) {
@@ -22122,10 +24081,10 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
                 var dom = Z.DomUtil.createEl('div');
                 Z.DomUtil.addClass(dom, 'maptalks-menu');
                 dom.style.width = this._getMenuWidth() + 'px';
-                var arrow = Z.DomUtil.createEl('em');
-                Z.DomUtil.addClass(arrow, 'maptalks-ico');
+                /*var arrow = Z.DomUtil.createEl('em');
+                Z.DomUtil.addClass(arrow, 'maptalks-ico');*/
                 var menuItems = this._createMenuItemDom();
-                dom.appendChild(arrow);
+                // dom.appendChild(arrow);
                 dom.appendChild(menuItems);
                 return dom;
             }
@@ -22137,7 +24096,17 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
          * @private
          */
         getOffset:function () {
-            return new Z.Point(-17, 10);
+            var mapSize = this.getMap().getSize(),
+                p = this.getMap().viewPointToContainerPoint(this._getViewPoint()),
+                size = this.getSize();
+            var dx = 0, dy = 0;
+            if (p.x + size['width'] > mapSize['width']) {
+                dx = -size['width'];
+            }
+            if (p.y + size['height'] > mapSize['height']) {
+                dy = -size['height'];
+            }
+            return new Z.Point(dx, dy);
         },
 
         getEvents: function () {
@@ -22198,6 +24167,18 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
         * Set a context menu
         * @param {Object} options - menu options
         * @return {*} this
+        * @example
+        * foo.setMenu({
+        *  'width'  : 160,
+        *  'custom' : false,
+        *  'items' : [
+        *      //return false to prevent event propagation
+        *     {'item': 'Query', 'click': function() {alert('Query Clicked!'); return false;}},
+        *     '-',
+        *     {'item': 'Edit', 'click': function() {alert('Edit Clicked!')}},
+        *     {'item': 'About', 'click': function() {alert('About Clicked!')}}
+        *    ]
+        *});
         */
         setMenu: function (options) {
             this._menuOptions = options;
@@ -22211,7 +24192,7 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
         },
 
         /**
-        * Open the context menu
+        * Open the context menu, default on the center of the geometry or map.
         * @param {maptalks.Coordinate} [coordinate=null] - coordinate to open the context menu
         * @return {*} this
         */
@@ -22307,7 +24288,7 @@ Z.ui.InfoWindow = Z.ui.UIComponent.extend(/** @lends maptalks.ui.InfoWindow.prot
          * 如果注册过contextmenu事件, 则不做任何操作
          * @param  {*} param [description]
          * @return {*}       [description]
-         * @default
+         * @private
          */
         _defaultOpenMenu:function (param) {
             if (this.listens('contextmenu') > 1) {
@@ -22325,9 +24306,14 @@ Z.Geometry.include(Z.ui.Menu.Mixin);
 
 Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
     /**
-     * Set info window settings to the geometry
-     * @param {Object} options - construct [options]{@link maptalks.ui.InfoWindow#options} for the info window
+     * Set an InfoWindow to the geometry
+     * @param {Object} options - construct [options]{@link maptalks.ui.InfoWindow#options} for the InfoWindow
      * @return {maptalks.Geometry} this
+     * @example
+     * geometry.setInfoWindow({
+     *     title    : 'This is a title',
+     *     content  : '<div style="color:#f00">This is content of the InfoWindow</div>'
+     * });
      */
     setInfoWindow:function (options) {
         this._infoWinOptions = Z.Util.extend({}, options);
@@ -22341,7 +24327,7 @@ Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
     },
 
     /**
-     * Get info window's instance of infowindow if it has been already created.
+     * Get the InfoWindow instance.
      * @return {maptalks.ui.InfoWindow}
      */
     getInfoWindow:function () {
@@ -22352,8 +24338,8 @@ Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
     },
 
     /**
-     * Open the info window.
-     * @param  {maptalks.Coordinate} [coordinate=null] - coordinate to open the info window
+     * Open the InfoWindow, default on the center of the geometry.
+     * @param  {maptalks.Coordinate} [coordinate=null] - coordinate to open the InfoWindow
      * @return {maptalks.Geometry} this
      */
     openInfoWindow:function (coordinate) {
@@ -22375,7 +24361,7 @@ Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
     },
 
     /**
-     * close the info window
+     * Close the InfoWindow
      * @return {maptalks.Geometry} this
      */
     closeInfoWindow:function () {
@@ -22386,7 +24372,7 @@ Z.Geometry.include(/** @lends maptalks.Geometry.prototype */{
     },
 
     /**
-     * remove the info window
+     * Remove the InfoWindow
      * @return {maptalks.Geometry} this
      */
     removeInfoWindow:function () {
@@ -22421,19 +24407,17 @@ Z.control = {};
 
 /**
  * Base class for all the map controls, you can extend it to build your own customized Control.
+ * It is abstract and not intended to be instantiated.
  * @class
  * @category control
  * @abstract
  * @extends maptalks.Class
+ * @memberOf maptalks.control
+ * @name  Control
  *
  * @mixes maptalks.Eventable
- *
- * @example
- * control.addTo(map);
- * //or you can also
- * map.addControl(control);
  */
-Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
+Z.control.Control = Z.Class.extend(/** @lends maptalks.control.Control.prototype */{
     includes: [Z.Eventable],
 
     statics : {
@@ -22455,8 +24439,8 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
     /**
      * Adds the control to a map.
      * @param {maptalks.Map} map
-     * @returns {maptalks.Control} this
-     * @fires maptalks.Control#add
+     * @returns {maptalks.control.Control} this
+     * @fires maptalks.control.Control#add
      */
     addTo: function (map) {
         this.remove();
@@ -22475,10 +24459,10 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
         /**
          * add event.
          *
-         * @event maptalks.Control#add
+         * @event maptalks.control.Control#add
          * @type {Object}
          * @property {String} type - add
-         * @property {maptalks.Control} target - the control instance
+         * @property {maptalks.control.Control} target - the control instance
          */
         this.fire('add', {'dom' : controlContainer});
         return this;
@@ -22502,9 +24486,9 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
 
     /**
      * update the control's position
-     * @param {Object} position - e.g.{'top': '40','left': '60'}
-     * @return {maptalks.Control} this
-     * @fires maptalks.Control#positionupdate
+     * @param {String|Object} position - can be one of 'top-left', 'top-right', 'bottom-left', 'bottom-right' or a position object like {'top': 40,'left': 60}
+     * @return {maptalks.control.Control} this
+     * @fires maptalks.control.Control#positionchange
      */
     setPosition: function (position) {
         if (Z.Util.isString(position)) {
@@ -22517,13 +24501,13 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
     },
 
     /**
-     * Get container point of the control.
+     * Get the container point of the control.
      * @return {maptalks.Point}
      */
     getContainerPoint:function () {
         var position = this.getPosition();
 
-        var size = this._map.getSize();
+        var size = this.getMap().getSize();
         var x, y;
         if (!Z.Util.isNil(position['top'])) {
             x = position['top'];
@@ -22539,7 +24523,8 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
     },
 
     /**
-     * Get the container HTML dom element of the control.
+     * Get the control's container.
+     * Container is a div element wrapping the control's dom and decides the control's position and display.
      * @return {HTMLElement}
      */
     getContainer: function () {
@@ -22547,7 +24532,7 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
     },
 
     /**
-     * Get DOM element of the control
+     * Get html dom element of the control
      * @return {HTMLElement}
      */
     getDOM: function () {
@@ -22556,7 +24541,7 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
 
     /**
      * Show
-     * @return {maptalks.Control} this
+     * @return {maptalks.control.Control} this
      */
     show: function () {
         this.__ctrlContainer.style.display = '';
@@ -22565,7 +24550,7 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
 
     /**
      * Hide
-     * @return {maptalks.Control} this
+     * @return {maptalks.control.Control} this
      */
     hide: function () {
         this.__ctrlContainer.style.display = 'none';
@@ -22582,26 +24567,27 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
 
     /**
      * Remove itself from the map
-     * @return {maptalks.Control} this
-     * @fires maptalks.Control#remove
+     * @return {maptalks.control.Control} this
+     * @fires maptalks.control.Control#remove
      */
     remove: function () {
         if (!this._map) {
             return this;
         }
         Z.DomUtil.removeDomNode(this.__ctrlContainer);
-        if (this._onRemove) {
-            this._onRemove(this._map);
+        if (this.onRemove) {
+            this.onRemove();
         }
         delete this._map;
         delete this.__ctrlContainer;
+        delete this._controlDom;
         /**
          * remove event.
          *
-         * @event maptalks.Control#remove
+         * @event maptalks.control.Control#remove
          * @type {Object}
          * @property {String} type - remove
-         * @property {maptalks.Control} target - the control instance
+         * @property {maptalks.control.Control} target - the control instance
          */
         this.fire('remove');
         return this;
@@ -22610,7 +24596,7 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
     _parse: function (position) {
         var p = position;
         if (Z.Util.isString(position)) {
-            p = Z.Control['positions'][p];
+            p = Z.control.Control['positions'][p];
         }
         return p;
     },
@@ -22619,7 +24605,7 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
         var position = this.getPosition();
         if (!position) {
             //default one
-            position = {'top': '20', 'left': '20'};
+            position = {'top': 20, 'left': 20};
         }
         for (var p in position) {
             if (position.hasOwnProperty(p)) {
@@ -22630,13 +24616,13 @@ Z.Control = Z.Class.extend(/** @lends maptalks.Control.prototype */{
         /**
          * Control's position update event.
          *
-         * @event maptalks.Control#positionupdate
+         * @event maptalks.control.Control#positionchange
          * @type {Object}
-         * @property {String} type - positionupdate
-         * @property {maptalks.Control} target - the control instance
+         * @property {String} type - positionchange
+         * @property {maptalks.control.Control} target - the control instance
          * @property {Object} position - Position of the control, eg:{"top" : 100, "left" : 50}
          */
-        this.fire('positionupdate', {
+        this.fire('positionchange', {
             'position' : Z.Util.extend({}, position)
         });
     }
@@ -22651,7 +24637,7 @@ Z.Map.mergeOptions({
 Z.Map.include(/** @lends maptalks.Map.prototype */{
     /**
      * Add a control on the map.
-     * @param {maptalks.Control} control - contorl to add
+     * @param {maptalks.control.Control} control - contorl to add
      * @return {maptalks.Map} this
      */
     addControl: function (control) {
@@ -22665,10 +24651,13 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
 
     /**
      * Remove a control from the map.
-     * @param {maptalks.Control} control - control to remove
+     * @param {maptalks.control.Control} control - control to remove
      * @return {maptalks.Map} this
      */
     removeControl: function (control) {
+        if (!control || control.getMap() !== this) {
+            return this;
+        }
         control.remove();
         return this;
     }
@@ -22680,15 +24669,21 @@ Z.Map.include(/** @lends maptalks.Map.prototype */{
  * A zoom control with buttons to zoomin/zoomout and a slider indicator for the zoom level.
  * @class
  * @category control
- * @extends maptalks.Control
+ * @extends maptalks.control.Control
  * @memberOf maptalks.control
  * @name Zoom
  * @param {Object}   options - construct options
  * @param {String|Object}   [options.position="top-left"]  - position of the zoom control.
  * @param {Boolean}  [options.slider=true]                         - Whether to display the slider
  * @param {Boolean}  [options.zoomLevel=true]                      - Whether to display the text box of zoom level
+ * @example
+ * var zoomControl = new maptalks.control.Zoom({
+ *     position : 'top-left',
+ *     slider : true,
+ *     zoomLevel : false
+ * }).addTo(map);
  */
-Z.control.Zoom = Z.Control.extend(/** @lends maptalks.control.Zoom.prototype */{
+Z.control.Zoom = Z.control.Control.extend(/** @lends maptalks.control.Zoom.prototype */{
 
     /**
      * @property {Object}   options - options
@@ -22754,7 +24749,7 @@ Z.control.Zoom = Z.Control.extend(/** @lends maptalks.control.Zoom.prototype */{
     },
 
     _update:function () {
-        var map = this._map;
+        var map = this.getMap();
         if (this._sliderBox) {
             var pxUnit = 10;
             var totalRange = (map.getMaxZoom() - map.getMinZoom()) * pxUnit;
@@ -22771,7 +24766,7 @@ Z.control.Zoom = Z.Control.extend(/** @lends maptalks.control.Zoom.prototype */{
     },
 
     _registerDomEvents:function () {
-        var map = this._map;
+        var map = this.getMap();
         if (this._zoomInButton) {
             Z.DomUtil.on(this._zoomInButton, 'click', map.zoomIn, map);
         }
@@ -22781,9 +24776,14 @@ Z.control.Zoom = Z.Control.extend(/** @lends maptalks.control.Zoom.prototype */{
         //TODO slider dot拖放缩放逻辑还没有实现
     },
 
-    _onRemove: function () {
+    onRemove: function () {
         var map = this.getMap();
-        map.off('_zoomend _zoomstart', this._onZoomEnd, this);
+        if (this._zoomInButton) {
+            Z.DomUtil.off(this._zoomInButton, 'click', map.zoomIn, map);
+        }
+        if (this._zoomOutButton) {
+            Z.DomUtil.off(this._zoomOutButton, 'click', map.zoomOut, map);
+        }
     }
 });
 
@@ -22804,25 +24804,31 @@ Z.Map.addOnLoadHook(function () {
  * A control to allows to display attribution content in a small text box on the map.
  * @class
  * @category control
- * @extends maptalks.Control
+ * @extends maptalks.control.Control
  * @memberOf maptalks.control
  * @name Attribution
- * @param {Object} options - construct options
- * @param {String} options.content - content of the attribution control, HTML format
+ * @param {Object} [options=undefined] - construct options
+ * @param {Object} [options.position={'bottom': 0, 'left': 0} - position of the control
+ * @param {String} [options.content=maptalks] - content of the attribution control, HTML format
+ * @example
+ * var attribution = new maptalks.control.Attribution({
+ *     position : 'bottom-left',
+ *     content : 'hello maptalks'
+ * }).addTo(map);
  */
-Z.control.Attribution = Z.Control.extend(/** @lends maptalks.control.Attribution.prototype */{
+Z.control.Attribution = Z.control.Control.extend(/** @lends maptalks.control.Attribution.prototype */{
 
     /**
      * @param {Object} options - options
-     * @param {Object} [options.position={"bottom":0,"right":0}] - position of the control
+     * @param {Object} options.position - position of the control
      * @param {String} options.content  - content of the attribution control, HTML format
      */
     options:{
         'position' : {
-            'bottom': '0',
-            'left': '0'
+            'bottom': 0,
+            'left': 0
         },
-        'content' : '<a href="http://www.maptalks.org" target="_blank">Powered By MapTalks</a>'
+        'content' : 'Powered By <a href="http://www.maptalks.org" target="_blank">MapTalks</a>'
     },
 
     buildOn: function () {
@@ -22862,43 +24868,10 @@ Z.Map.addOnLoadHook(function () {
 
 /**
  * @classdesc
- * A control for map navigation.
- * @class
- * @category control
- * @extends maptalks.Control
- * @memberOf maptalks.control
- * @name Nav
- */
-Z.control.Nav = Z.Control.extend(/** @lends maptalks.control.Nav.prototype */{
-
-    options:{
-        'position' : 'top-left'
-    },
-
-    buildOn: function () {
-        return null;
-    }
-
-});
-
-Z.Map.mergeOptions({
-
-    'navControl' : false
-});
-
-Z.Map.addOnLoadHook(function () {
-    if (this.options['navControl']) {
-        this.navControl = new Z.control.Nav(this.options['navControl']);
-        this.addControl(this.navControl);
-    }
-});
-
-/**
- * @classdesc
  * Based on the implementation in Leaflet, a simple scale control that shows the scale of the current center of screen in metric (m/km) and imperial (mi/ft) systems.
  * @class
  * @category control
- * @extends maptalks.Control
+ * @extends maptalks.control.Control
  * @memberOf maptalks.control
  * @name Scale
  * @param {Object} [options=null] - construct options
@@ -22906,8 +24879,15 @@ Z.Map.addOnLoadHook(function () {
  * @param {Number} [options.maxWidth=100]               - max width of the scale control.
  * @param {Boolean} [options.metric=true]               - Whether to show the metric scale line (m/km).
  * @param {Boolean} [options.imperial=false]            - Whether to show the imperial scale line (mi/ft).
+ * @example
+ * var scale = new maptalks.control.Scale({
+ *     position : 'bottom-left',
+ *     maxWidth : 160,
+ *     metric : true,
+ *     imperial : true
+ * }).addTo(map);
  */
-Z.control.Scale = Z.Control.extend(/** @lends maptalks.control.Scale.prototype */{
+Z.control.Scale = Z.control.Control.extend(/** @lends maptalks.control.Scale.prototype */{
 
     /**
      * @property {Object} [options=null] - options
@@ -22934,9 +24914,8 @@ Z.control.Scale = Z.Control.extend(/** @lends maptalks.control.Scale.prototype *
         return this._scaleContainer;
     },
 
-    _onRemove: function () {
-        var map = this.getMap();
-        map.off('zoomend', this._update, this);
+    onRemove: function () {
+        this.getMap().off('zoomend', this._update, this);
     },
 
     _addScales: function () {
@@ -23022,7 +25001,7 @@ Z.Map.addOnLoadHook(function () {
  * Class for panel controls.
  * @class
  * @category control
- * @extends maptalks.Control
+ * @extends maptalks.control.Control
  * @memberOf maptalks.control
  * @name Panel
  * @param {Object} options - construct options
@@ -23030,8 +25009,16 @@ Z.Map.addOnLoadHook(function () {
  * @param {Boolean} [options.custom=false]              - whether the panel's content is customized .
  * @param {String|HTMLElement} options.content          - panel's content, can be a dom element or a string.
  * @param {Boolean} [options.closeButton=true]          - whether to display the close button on the panel.
+ * @example
+ * var panel = new maptalks.control.Panel({
+ *     position : {'bottom': '0', 'right': '0'},
+ *     draggable : true,
+ *     custom : false,
+ *     content : '<div class="map-panel">hello maptalks.</div>',
+ *     closeButton : true
+ * }).addTo(map);
  */
-Z.control.Panel = Z.Control.extend(/** @lends maptalks.control.Panel.prototype */{
+Z.control.Panel = Z.control.Control.extend(/** @lends maptalks.control.Panel.prototype */{
 
     /**
      * @property {Object} options - options
@@ -23076,10 +25063,11 @@ Z.control.Panel = Z.Control.extend(/** @lends maptalks.control.Panel.prototype *
             dom.appendChild(panelContent);
         }
 
-        this.draggable = new Z.Handler.Drag(dom);
+        this.draggable = new Z.Handler.Drag(dom, {
+            'cancelOn' : Z.Util.bind(this._cancelOn, this)
+        });
 
-        this.draggable.on('mousedown', this._onMouseDown, this)
-            .on('dragstart', this._onDragStart, this)
+        this.draggable.on('dragstart', this._onDragStart, this)
             .on('dragging', this._onDragging, this)
             .on('dragend', this._onDragEnd, this);
 
@@ -23090,8 +25078,17 @@ Z.control.Panel = Z.Control.extend(/** @lends maptalks.control.Panel.prototype *
         return dom;
     },
 
-    _onMouseDown: function (param) {
-        Z.DomUtil.stopPropagation(param['domEvent']);
+    _cancelOn: function (domEvent) {
+        var target = domEvent.srcElement || domEvent.target,
+            tagName = target.tagName.toLowerCase();
+        if (tagName === 'button' ||
+            tagName === 'input' ||
+            tagName === 'select' ||
+            tagName === 'option' ||
+            tagName === 'textarea') {
+            return true;
+        }
+        return false;
     },
 
     _onDragStart:function (param) {
@@ -23126,14 +25123,15 @@ Z.control.Panel = Z.Control.extend(/** @lends maptalks.control.Panel.prototype *
     },
 
     /**
-     * 获取panel端点数组
+     * Get the connect points of panel for connector lines.
+     * @private
      */
     _getConnectPoints: function () {
         var map = this._map;
         var containerPoint = this.getContainerPoint();
-        var controlContainer = this.getContainer(),
-            width = controlContainer.clientWidth,
-            height = controlContainer.clientHeight;
+        var dom = this.getDOM(),
+            width = dom.clientWidth,
+            height = dom.clientHeight;
 
         var anchors = [
             //top center
@@ -23164,15 +25162,33 @@ Z.control.Panel = Z.Control.extend(/** @lends maptalks.control.Panel.prototype *
  * A toolbar control of the map.
  * @class
  * @category control
- * @extends maptalks.Control
+ * @extends maptalks.control.Control
  * @memberOf maptalks.control
  * @name Toolbar
  * @param {Object}   options - construct options
  * @param {String|Object}   [options.position="top-right"]  - position of the toolbar control.
  * @param {Boolean}  [options.vertical=true]                        - Whether the toolbar is a vertical one.
  * @param {Object[]} options.items                                  - items on the toolbar
+ * @example
+ * var toolbar = new maptalks.control.Toolbar({
+ *     position : 'top-right',
+ *     items: [
+ *          {
+ *            item: 'item1',
+ *            click: function () {
+ *              alert('item1 clicked');
+ *            }
+ *          },
+ *          {
+ *            item: 'item2',
+ *            click: function () {
+ *              alert('item2 clicked');
+ *            }
+ *          }
+ *      ]
+ * }).addTo(map);
  */
-Z.control.Toolbar = Z.Control.extend(/** @lends maptalks.control.Toolbar.prototype */{
+Z.control.Toolbar = Z.control.Control.extend(/** @lends maptalks.control.Toolbar.prototype */{
 
     /**
      * @property {Object}   options - options
@@ -23181,6 +25197,7 @@ Z.control.Toolbar = Z.Control.extend(/** @lends maptalks.control.Toolbar.prototy
      * @property {Object[]} options.items                                  - items on the toolbar
      */
     options:{
+        'height' : 28,
         'vertical' : false,
         'position' : 'top-right',
         'items'     : {
@@ -23213,8 +25230,19 @@ Z.control.Toolbar = Z.Control.extend(/** @lends maptalks.control.Toolbar.prototy
             for (var i = 0, len = items.length; i < len; i++) {
                 var item = items[i];
                 var li = Z.DomUtil.createEl('li');
-                li.innerHTML = item['item'];
+                if (this.options['height'] !== 28) {
+                    li.style.lineHeight = this.options['height'] + 'px';
+                }
+                li.style.height = this.options['height'] + 'px';
                 li.style.cursor = 'pointer';
+                if (Z.DomUtil.isHTML(item['item'])) {
+                    li.style.textAlign = 'center';
+                    var itemSize = Z.DomUtil.measureDom('div', item['item']);
+                    //vertical-middle
+                    li.innerHTML = '<div style="margin-top:' + (this.options['height'] - itemSize['height']) / 2 + 'px;">' + item['item'] + '</div>';
+                } else {
+                    li.innerHTML = item['item'];
+                }
                 if (item['click']) {
                     Z.DomUtil.on(li, 'click', (onButtonClick)(item['click'], i, null, li));
                 }
@@ -23262,7 +25290,7 @@ Z.control.Toolbar = Z.Control.extend(/** @lends maptalks.control.Toolbar.prototy
             var li = Z.DomUtil.createEl('li');
             li.innerHTML = '<a href="javascript:;">' + child['item'] + '</a>';
             li.style.cursor = 'pointer';
-            li.style.width = liWidth + 'px';// 16 for li padding
+            li.style.width = (liWidth + 24) + 'px';// 20 for text-intent
             Z.DomUtil.on(li.childNodes[0], 'click', (onButtonClick)(child['click'], index, i));
             menuUL.appendChild(li);
         }
@@ -23276,24 +25304,33 @@ Z.control.Toolbar = Z.Control.extend(/** @lends maptalks.control.Toolbar.prototy
 
 /**
  * @classdesc
- * A control to allows to display attribution data in a small text box on the map.
+ * An overview control for the map.
  * @class
  * @category control
- * @extends maptalks.Control
+ * @extends maptalks.control.Control
  * @memberOf maptalks.control
- * @name Attribution
- * @param {Object} options - construct options
+ * @name Overview
+ * @param {Object} [options=undefined] - construct options
+ * @param {Object} [options.position={"bottom":0,"right":0}] - position of the control
+ * @param {Number} [options.level=4]  - the zoom level of the overview
+ * @param {Object} [options.size={"width":300, "height":200}  - size of the Control
+ * @param {Object} [options.style={"color":"#1bbc9b"}] - style of the control, color is the overview rectangle's color
+ * @example
+ * var overview = new maptalks.control.Overview({
+ *     position : {'bottom': '0', 'right': '0'},
+ *     size : {'width' : 300,'height' : 200}
+ * }).addTo(map);
  */
-Z.control.Overview = Z.Control.extend(/** @lends maptalks.control.Attribution.prototype */{
+Z.control.Overview = Z.control.Control.extend(/** @lends maptalks.control.Overview.prototype */{
 
     loadDelay : 1600,
 
     /**
-     * @param {Object} options - options
-     * @param {Object} [options.position={"bottom":0,"right":0}] - position of the control
-     * @param {Number} [options.level=4]  - the zoom level of the overview
-     * @param {Object} [options.size={"width":300, "height":200}  - size of the Control
-     * @param {Object} [options.style={"color":"#1bbc9b"}] - style of the control, color is the overview rectangle's color
+     * @property {Object} options - options
+     * @property {Object} [options.position={"bottom":0,"right":0}] - position of the control
+     * @property {Number} [options.level=4]  - the zoom level of the overview
+     * @property {Object} [options.size={"width":300, "height":200}  - size of the Control
+     * @property {Object} [options.style={"color":"#1bbc9b"}] - style of the control, color is the overview rectangle's color
      */
     options:{
         'level' : 4,
@@ -23362,8 +25399,8 @@ Z.control.Overview = Z.Control.extend(/** @lends maptalks.control.Attribution.pr
         this.fire('load');
     },
 
-    _onRemove : function (map) {
-        map.off('load', this._initOverview, this)
+    onRemove : function () {
+        this.getMap().off('load', this._initOverview, this)
             .off('resize moveend zoomend', this._update, this)
             .off('setbaselayer', this._updateBaseLayer, this);
     },
@@ -23442,7 +25479,7 @@ function exportMaptalks() {
     window['maptalks'] = Z;
 }
 
-if (Z.node) {
+if (typeof module !== 'undefined' && module.exports) {
     exports = module.exports = Z;
 } else if (typeof define === 'function' && define.amd) {
     define(Z);

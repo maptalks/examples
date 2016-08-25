@@ -30,10 +30,31 @@ var labelWithBox = new maptalks.Label('label with box', [121.489545, 31.226732],
   'boxPadding'   :   {'width' : 26, 'height' : 8},
   'boxTextAlign' :   'middle', //left, middle, right
   'symbol': {
-    'markerLineColor': '#34495e',
+    /*'markerLineColor': '#34495e',
     'markerFill' : '#34495e',
     'textFaceName' : '"microsoft yahei",arial,sans-serif',
     'textFill' : '#fff',
-    'textSize' : 18
+    'textVerticalAlignment'   : 'bottom',   // top | middle | bottom | auto
+    'textSize' : 18*/
+    markerFill:"#4E98DD",
+    markerFillOpacity:0.9,
+    markerLineColor:"",
+    markerLineDasharray:null,
+    markerLineOpacity:0.9,
+    markerLineWidth:0,
+    textDy:5,
+    textFaceName:"monospace",
+    textFill:"#ff0000",
+    textHaloFill:"#ffffff",
+    textHaloRadius:4,
+    textHorizontalAlignment:"middle",
+    textLineSpacing:4,
+    textOpacity:1,
+    textSize:12,
+    textSpacing:1,
+    textVerticalAlignment:"bottom",
+    textWrapBefore:false,
+    textWrapCharacter:"\n",
+    textWrapWidth:null
   }
 }).addTo(layer);

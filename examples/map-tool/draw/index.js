@@ -15,6 +15,7 @@ var drawTool = new maptalks.DrawTool({
 }).addTo(map).disable();
 
 drawTool.on('drawend', function (param) {
+  console.log(param.geometry);
   layer.addGeometry(param.geometry);
 });
 

@@ -1,14 +1,42 @@
 
-var myUI = maptalks.ui.UIComponent.extend({
+var MyUI = maptalks.ui.UIComponent.extend({
 
   options :{
-    'content'  : 'UI Component'
+    'content'  : ''
   },
 
   buildOn: function (map) {
-    var dom = maptalks.DomUtil.createEl('div', 'my-ui');
+    var dom = document.createElement('div');
+    dom.className = 'my-ui';
     dom.innerText = this.options['content'];
     return dom;
+  },
+
+  getOffset: function () {
+    var size = this.getSize();
+    //move anchor to center of UI
+    return new maptalks.Point(-size.width / 2, -size.height / 2);
+  },
+
+  getEvents: function () {
+    return {
+      'zoomend' : this._flash
+    };
+  },
+
+  onRemove: function () {
+    if (this._flashTimeout) {
+      clearTimeout(this._flashTimeout);
+    }
+  },
+
+  _flash: function () {
+    //flash after zooming.
+    this.hide();
+    var me = this;
+    this._flashTimeout = setTimeout(function () {
+      me.show();
+    }, 200);
   }
 });
 
@@ -22,7 +50,7 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var ui = new myUI({
+var ui = new MyUI({
   'content'   : 'My customized UI.'
 });
 ui.addTo(map).show(map.getCenter());

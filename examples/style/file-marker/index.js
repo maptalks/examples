@@ -9,9 +9,87 @@ var map = new maptalks.Map('map', {
 });
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
-var symbol = {
-  'markerFile'   : 'marker.png',
-  'markerWidth'  : 32,
-  'markerHeight' : 32
-};
-var geometry = new maptalks.Marker([121.485428, 31.228541], {'symbol' : symbol}).addTo(layer);
+
+var marker1 = new maptalks.Marker(
+  map.getCenter().substract(0.009, 0),
+  {
+    'symbol' : {
+      'markerFile'   : '1.png',
+      'markerOpacity': 1,
+      'markerWidth'  : 28,
+      'markerHeight' : 40,
+      'markerDx'     : 0,
+      'markerDy'     : 0
+    }
+  }
+).addTo(layer);
+
+var marker2 = new maptalks.Marker(
+  map.getCenter().substract(0.006, 0),
+  {
+    'symbol' : {
+      'markerFile'   : '2.png',
+      'markerOpacity': 1,
+      'markerWidth'  : 28,
+      'markerHeight' : 40,
+      'markerDx'     : 0,
+      'markerDy'     : 0
+    }
+  }
+).addTo(layer);
+
+var marker3 = new maptalks.Marker(
+  map.getCenter().substract(0.003, 0),
+  {
+    'symbol' : {
+      'markerFile'   : '3.png',
+      'markerOpacity': 1,
+      'markerWidth'  : 28,
+      'markerHeight' : 40,
+      'markerDx'     : 0,
+      'markerDy'     : 0
+    }
+  }
+).addTo(layer);
+
+var marker4 = new maptalks.Marker(
+  map.getCenter(),
+  {
+    'symbol' : {
+      'markerFile'   : '4.png',
+      'markerOpacity': 1,
+      'markerWidth'  : 28,
+      'markerHeight' : 40,
+      'markerDx'     : 0,
+      'markerDy'     : 0
+    }
+  }
+).addTo(layer);
+
+var marker5 = new maptalks.Marker(
+  map.getCenter().add(0.003, 0),
+  {
+    'symbol' : {
+      'markerFile'   : '5.png',
+      'markerOpacity': 1,
+      'markerWidth'  : 28,
+      'markerHeight' : 40,
+      'markerDx'     : 0,
+      'markerDy'     : 0
+    }
+  }
+).addTo(layer);
+
+var marker6= new maptalks.Marker(
+  map.getCenter().add(0.006, 0),
+  {
+    'symbol' : {
+      'markerFile'   : '6.png',
+      'markerOpacity': 1,
+      'markerWidth'  : 28,
+      'markerHeight' : 40,
+      'markerDx'     : 0,
+      'markerDy'     : 0
+    }
+  }
+).addTo(layer);

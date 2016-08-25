@@ -10,10 +10,16 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-var line = new maptalks.LineString([[121.485428, 31.228541], [121.496428, 31.228541]], {
-  symbol:{
-    'linePatternFile' : 'marker.png',
-    'lineOpacity' : 1,
-    'lineWidth' : 20
+var line = new maptalks.LineString(
+  [
+    map.getCenter().substract(0.1, 0),
+    map.getCenter().add(0.1, 0)
+  ],
+  {
+    symbol:{
+      'linePatternFile' : 'line-pattern.png',
+      'lineOpacity' : 1,
+      'lineWidth' : 20
+    }
   }
-}).addTo(layer);
+).addTo(layer);

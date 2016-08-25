@@ -21,5 +21,5 @@ var distanceTool = new maptalks.DistanceTool({
     'markerWidth'       : 10,
     'markerHeight'      : 10
   },
-  language: ''
+  'language' : 'en-US'
 }).addTo(map);

@@ -11,9 +11,34 @@ var map = new maptalks.Map('map', {
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
 var symbol = {
-  'textName'          : 'TEXT MARKER',
-  'textFaceName'      : 'monospace',
-  'textSize'          : 12,
-  'textFill'          : '#6fa8dc'
+  'textFaceName' : '"microsoft yahei",arial,sans-serif',
+  'textName' : '{name}',
+  'textWeight'        : 'normal', //'bold', 'bolder'
+  'textStyle'         : 'normal', //'italic', 'oblique'
+  'textSize'          : 40,
+  'textFont'          : null,
+  'textFill'          : '#34495e',
+  'textOpacity'       : 1,
+  'textHaloFill'      : '#fff',
+  'textHaloRadius'    : 5,
+  'textWrapWidth'     : null,
+  'textWrapBefore'    : false,
+  'textWrapCharacter' : '\n',
+  'textLineSpacing'   : 0,
+
+  'textDx'            : 0,
+  'textDy'            : 0,
+
+  'textHorizontalAlignment' : 'middle', //left | middle | right | auto
+  'textVerticalAlignment'   : 'middle',   // top | middle | bottom | auto
+  'textAlign'               : 'center' //left | right | center | auto
 };
-var geometry = new maptalks.Marker([121.485428, 31.228541], {'symbol' : symbol}).addTo(layer);
+var geometry = new maptalks.Marker(
+  [121.485428, 31.228541],
+  {
+    'symbol' : symbol,
+    'properties' : {
+      'name' : 'Hello\nMapTalks'
+    }
+  }
+).addTo(layer);

@@ -23,15 +23,15 @@ for (var i = 0; i < 3; i++) {
     },
     'symbol': [
       {
-        'textName' : '{count}',
-        'textSize' : 40,
-        'textFill' : '#fff'
-      },
-      {
         'polygonFill': '#747474',
         'polygonOpacity': 0.5,
         'lineColor': '#000',
         'lineWidth': 2
+      },
+      {
+        'textName' : '{count}',
+        'textSize' : 40,
+        'textFill' : '#fff'
       }
     ]
   }).addTo(layer);
@@ -44,15 +44,15 @@ function doFilter() {
     .forEach(function (feature) {
       feature.setSymbol([
         {
-          'textName' : '{count}',
-          'textSize' : 40,
-          'textFill' : '#fff'
-        },
-        {
           'polygonFill': 'rgb(216,115,149)',
           'polygonOpacity': 0.5,
           'lineColor': '#000',
           'lineWidth': 2
+        },
+        {
+          'textName' : '{count}',
+          'textSize' : 40,
+          'textFill' : '#fff'
         }
       ]);
     });

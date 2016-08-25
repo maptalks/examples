@@ -15,16 +15,16 @@ var rect2 = new maptalks.Rectangle(
   {
     'symbol': [
       {
-        'textName' : 'Layer 2',
-        'textWeight' : 'bold',
-        'textSize' : 30,
-        'textFill' : '#fff'
-      },
-      {
         'lineColor': '#34495e',
         'lineWidth': 3,
         'polygonFill': '#1bbc9b',
         'polygonOpacity' : 1
+      },
+      {
+        'textName' : 'Layer 2',
+        'textWeight' : 'bold',
+        'textSize' : 30,
+        'textFill' : '#fff'
       }
     ]
   }
@@ -36,7 +36,7 @@ var layer2 = new maptalks.VectorLayer('2')
 
 var rect1 = rect2.copy()
   .translate([0.006, 0.006])
-  .updateSymbol([{'textName' : 'Layer 1'}, {'polygonFill' : 'rgb(216,115,149)'}]);
+  .updateSymbol([{'polygonFill' : 'rgb(216,115,149)'}, {'textName' : 'Layer 1'}]);
 
 var layer1 = new maptalks.VectorLayer('1')
   .addGeometry(rect1)

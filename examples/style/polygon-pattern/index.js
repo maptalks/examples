@@ -10,10 +10,13 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-var rect = new maptalks.Rectangle([121.485428, 31.228541], 1000, 800, {
-  symbol:{
-    'lineColor' : '#6fa8dc',
-    'polygonPatternFile' : 'marker.png',
-    'polygonOpacity' : 1
+var rect = new maptalks.Rectangle(
+  map.getCenter().add(-0.03, 0.01), 4250, 3000,
+  {
+    symbol:{
+      'lineColor' : '#fff',
+      'polygonPatternFile' : 'fill-pattern.png',
+      'polygonOpacity' : 1
+    }
   }
-}).addTo(layer);
+).addTo(layer);

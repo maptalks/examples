@@ -10,12 +10,55 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-var vector = new maptalks.Marker([121.485428, 31.228541], {
-  symbol:{
-    'markerType' : 'ellipse',
-    'markerFillPatternFile' : 'marker.png',
-    'markerFillOpacity': 1,
-    'markerWidth' : 100,
-    'markerHeight' : 100
+var marker3 = new maptalks.Marker(
+  map.getCenter().substract(0.02, -0.01),
+  {
+    'symbol' : {
+      'markerType': 'ellipse',
+      'markerFillPatternFile': 'fill-pattern.png',
+      'markerLineColor': '#fff',
+      'markerWidth'  : 120,
+      'markerHeight' : 120
+    }
   }
-}).addTo(layer);
+).addTo(layer);
+
+var marker4 = new maptalks.Marker(
+  map.getCenter().substract(0.015, 0.01),
+  {
+    'symbol' : {
+      'markerType': 'triangle',
+      'markerFillPatternFile': 'fill-pattern.png',
+      'markerLineColor': '#fff',
+      'markerWidth'  : 120,
+      'markerHeight' : 120
+    }
+  }
+).addTo(layer);
+
+var marker5 = new maptalks.Marker(
+  map.getCenter(),
+  {
+    'symbol' : {
+      'markerType': 'square',
+      'markerFillPatternFile': 'fill-pattern.png',
+      'markerLineColor': '#fff',
+      'markerWidth'  : 120,
+      'markerHeight' : 120
+    }
+  }
+).addTo(layer);
+
+
+var marker6= new maptalks.Marker(
+  map.getCenter().add(0.015, 0),
+  {
+    'symbol' : {
+      'markerType': 'diamond',
+      'markerFillPatternFile': 'fill-pattern.png',
+      'markerLineColor': '#fff',
+      'markerWidth'  : 120,
+      'markerHeight' : 120
+    }
+  }
+).addTo(layer);
