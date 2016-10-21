@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=1000">
 <title>{{ category }} - {{ title }}</title>
 <link rel="stylesheet" href="../../../../style.css">
-<link rel="stylesheet" href="../../../../highlight.css">
+<link rel="stylesheet" href="../../../../monokai-sublime.css">
 </head>
 <body>
 <header>
@@ -16,31 +16,39 @@
   <div class="index">
     <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" style="height:500px;" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
   </div>
-  <div class="index-pop">
-    <a target="_blank" title="Open in a new window." href="raw/{{ basename }}">Open<svg height="16" width="12"><path d="M11 10h1v3c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V3c0-0.55 0.45-1 1-1h3v1H1v10h10V10zM6 2l2.25 2.25-3.25 3.25 1.5 1.5 3.25-3.25 2.25 2.25V2H6z"></path></svg></a>
-    <a target="_blank" title="Edit in a new window." href="raw/{{ basename }}">Edit<svg height="16" width="12"><path d="M11 10h1v3c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V3c0-0.55 0.45-1 1-1h3v1H1v10h10V10zM6 2l2.25 2.25-3.25 3.25 1.5 1.5 3.25-3.25 2.25 2.25V2H6z"></path></svg></a>
+  <div class="btn_">
+    <a target="_blank" title="Open in a new window." class="btn_open" href="raw/{{ basename }}">
+      <img src="../../../../images/demo/btn_open.png"> Open
+    </a>
+    <a target="_blank" title="Edit in a new window." class="btn_edit" href="raw/{{ basename }}">
+      <img src="../../../../images/demo/btn_edit.png"> Edit
+    </a>
   </div>
   <div class="gist-readme" data-key="README.md"></div>
-  <div class="gist-sources">
-    <div class="gist-source" data-key="{{ basename }}">
-      <h2>{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h2>
+  <div  id="Code" class="CodeBox">
+    <div class="CodeBox" data-key="{{ basename }}">
+      <h4 class="Codetitle">{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h4>
       <pre>
         <code class="html xml">{{#escape}}{{> example}}{{/escape}}</code>
       </pre>
     </div>
     {{#if css.source}}
-    <div class="gist-source" data-key="{{ css.basename }}">
-      <h2>{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h2>
+    <div class="CodeBox" data-key="{{ css.basename }}">
+      <h4 class="Codetitle">{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h4>
       <pre>
-        <code class="lang-css">{{ css.source }}</code>
+         <code class="lang-css">{{ css.source }}</code>
       </pre>
     </div>
     {{/if}}
-  </div>
-  <div class="gist-license">
-    <h2>LICENSE<a name="license" class="anchor" href="#license">#</a></h2>
-    Based on <a target="_blank" href="http://bl.ocks.org">bl.ocks.org</a>.<br>
-    Released under the <a target="_blank" href="https://opensource.org/licenses/GPL-3.0">GNU General Public License, version 3</a>.
+    <div class="CodeBox">
+      <h4 class="Codetitle">LICENSE<a name="license" class="anchor" href="#license">#</a></h4>
+      <pre>
+         <code class="lang-text">
+          Based on <a target="_blank" href="http://bl.ocks.org">bl.ocks.org</a>.<br>
+          Released under the <a target="_blank" href="https://opensource.org/licenses/GPL-3.0">GNU General Public License, version 3</a>.
+      </code>
+      </pre>
+    </div>
   </div>
 </div>
 <script type="text/javascript" src="../../../../highlight.min.js"></script>
