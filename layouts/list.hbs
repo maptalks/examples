@@ -45,11 +45,8 @@
             </ul>
         </aside>
         <!-- sidebar end -->
-        <iframe id="demo_iframe" name="demo_iframe" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="map/canvas/index.html"></iframe>
-        <!-- content end -->
-
+        <iframe id="demo_iframe" name="demo_iframe" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" style="min-height: 800px;" marginheight="0" scrolling="no" frameborder="0" src="map/canvas/index.html"></iframe>
         <span class="clear"></span>
-        <!-- clear float -->
     </div>
     <!-- container end -->
 
@@ -76,16 +73,25 @@
     <script type="text/javascript">
     function setIframeHeight(iframe) {
         if (iframe) {
+            //Clear the blank block on the page bottom.
+            iframe.height = '800px';
             var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
             if (iframeWin.document.body) {
-            iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+            iframe.height = iframeWin.document.documentElement.scrollHeight
+                || iframeWin.document.body.scrollHeight;
             }
         }
     };
 
+    function reSetIframeHeight() {
+        var iframe = document.getElementById('demo_iframe');
+        setIframeHeight(iframe);
+    }
+
     window.onload = function () {
-        setIframeHeight(document.getElementById('demo_iframe'));
+        reSetIframeHeight();
     };
+
     </script>
 </body>
 </html>

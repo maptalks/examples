@@ -25,25 +25,25 @@
     </a>
   </div>
   <div class="gist-readme" data-key="README.md"></div>
-  <div  id="Code" class="CodeBox">
+  <div id="Code" class="CodeBox">
     <div class="CodeBox" data-key="{{ basename }}">
-      <h4 class="Codetitle">{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h4>
+      <h3 class="Codetitle">{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h3>
       <pre>
         <code class="html xml">{{#escape}}{{> example}}{{/escape}}</code>
       </pre>
     </div>
     {{#if css.source}}
     <div class="CodeBox" data-key="{{ css.basename }}">
-      <h4 class="Codetitle">{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h4>
+      <h3 class="Codetitle">{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h3>
       <pre>
          <code class="lang-css">{{ css.source }}</code>
       </pre>
     </div>
     {{/if}}
     <div class="CodeBox">
-      <h4 class="Codetitle">LICENSE<a name="license" class="anchor" href="#license">#</a></h4>
+      <h3 class="Codetitle">LICENSE<a name="license" class="anchor" href="#license">#</a></h3>
       <pre>
-         <code class="lang-text">
+         <code class="lang-html">
           Based on <a target="_blank" href="http://bl.ocks.org">bl.ocks.org</a>.<br>
           Released under the <a target="_blank" href="https://opensource.org/licenses/GPL-3.0">GNU General Public License, version 3</a>.
       </code>
@@ -57,6 +57,9 @@
   for (var i = 0; i < codes.length; i++) {
     hljs.highlightBlock(codes[i]);
   }
+  window.onload = function () {
+      window.parent.reSetIframeHeight();
+  };
 </script>
 </body>
 </html>
