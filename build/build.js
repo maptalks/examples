@@ -27,14 +27,24 @@ module.exports = exports = {
     var out = '';
     for (var i = 0; i < items.length; i++) {
       var cat = items[i];
-      out += '<h3>' + (i + 1 ) + ' ' + cat.title.zh + '</h3>';
-      out += "<ul>";
+      var title = (i + 1 ) + ' ' + cat.title.zh;
+      if (i === 0) {
+        out += '<li class="change"><a href="javascript:;">' + title + '</a>';
+      } else {
+        out += '<li><a href="javascript:;">' + title + '</a>';
+      }
+      out += "<ol>";
       var examples = cat.examples;
       for(var ii=0, ll=examples.length; ii<ll; ii++) {
-        out += '<li><a target="_blank" href = "' + cat.name + '/' + examples[ii].name + '/index.html">' + (i + 1 ) + '.' + (ii + 1 ) + ' '  + examples[ii].title.zh + '</a></li>';
+        var url = cat.name + '/' + examples[ii].name +'/index.html';
+        var subTitle = (i + 1 ) + '.' + (ii + 1 ) + ' '  + examples[ii].title.zh;
+        if (ii === 0) {
+          out += '<li><a href = "' + url + '" class="change" target="demo_iframe">' + subTitle + '</a></li>';
+        } else {
+          out += '<li><a href = "' + url + '" target="demo_iframe">' + subTitle + '</a></li>';
+        }
       }
-      out += '</ul>'
-
+      out += '</ol></li>'
     }
 
     return out;
