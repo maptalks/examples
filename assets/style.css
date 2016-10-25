@@ -62,7 +62,7 @@ h5 {
   font-size: 12px;
 }
 h1,iframe {
-  width: 960px;
+  width: 920px;
 }
 iframe {
   border: solid 1px #eee;
@@ -299,8 +299,9 @@ body {
   display: none;
 }
 #container {/*demo page block*/
-  padding-left: 280px;
+  margin-left: 40px;
   position: relative;
+  max-width: 1200px;
   background: url(../images/demo/line_y.gif) repeat-y left top;
 }
 #sidebar {/*Side bar*/
@@ -357,6 +358,11 @@ body {
 }
 .SortList li ol li a.change {
   color: #2f9d94;
+}
+#demo_iframe {
+  margin-left: 280px;
+  border: solid 1px #eee;
+  border-bottom: solid 1px #ccc;
 }
 #Code .CodeBox{
   border-radius: 7px 7px 0 0;
