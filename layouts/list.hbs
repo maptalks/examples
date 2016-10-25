@@ -11,32 +11,36 @@
     <link rel="stylesheet" href="../../../../style.css">
 </head>
 <body>
-    <header id="header">
-        <div id="logo">
-            <a href="#" > <img src="../../../../images/demo/logo.jpg" alt="description " /></a>
-        </div>
-        <!-- logo end -->
-        <nav id="menu">
-            <ul>
-                <li><a href="#">文档</a></li>
-                <li class="change"><a href="#">API</a>
-                    <ol>
-                        <li><a href="#">文档</a></li>
-                        <li><a href="#" class="change">示例</a></li>
-                    </ol>
-                </li>
-                <li><a href="#">插件</a></li>
-                <li><a href="#">服务与支持</a></li>
-            </ul>
-
+    <header id="header" class="wrapper">
+      <div id="header-inner" class="inner">
+        <h1 id="logo-wrap">
+          <a href="/maptalks.org/" id="logo">Maptalks.js</a>
+        </h1>
+        <nav id="main-nav">
+          <a href="/maptalks.org/download/" class="main-nav-link">Download</a>
+          <a href="/maptalks.org/docs/" class="main-nav-link">Docs</a>
+          <a href="https://github.com/maptalks/docs" class="main-nav-link">API</a>
+          <a href="http://121.40.37.230/maptalks-demo/examples/en/list.html" class="main-nav-link">Examples</a>
+          <a href="/maptalks.org/plugins/" class="main-nav-link">Plugins</a><a href="/maptalks.org/supports/" class="main-nav-link">Supports</a>
         </nav>
-        <!-- menu end -->
-        <a href="#" class="btn_menu"></a>
-        <span class="clear"></span>
-        <!-- clear float -->
+        <div id="lang-select-wrap">
+          <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+          <select id="lang-select" data-canonical="index.html">
+
+              <option value="en" selected>English</option>
+
+              <option value="zh-cn">简体中文</option>
+
+          </select>
+        </div>
+        <a id="mobile-nav-toggle">
+          <span class="mobile-nav-toggle-bar"></span>
+          <span class="mobile-nav-toggle-bar"></span>
+          <span class="mobile-nav-toggle-bar"></span>
+        </a>
+      </div>
     </header>
     <!-- header end -->
-
     <div id="container">
         <aside id="sidebar">
             <a href="#" class="btn_Sort"></a>
@@ -49,19 +53,18 @@
         <span class="clear"></span>
     </div>
     <!-- container end -->
-
-    <footer id="footer">
-        <ul class="bomnav">
-            <li> <a href="#">招聘机会</a></li>
-            <li><a href="#">免责声明</a></li>
-            <li><a href="#">联系我们</a></li>
-            <li><a href="#">投资合作</a></li>
-        </ul>
-        <div class="copyright">
-            <p>
-            Copyright &copy; MapTalks.org </p>
+    <footer id="footer" class="wrapper">
+      <div class="inner">
+        <div id="footer-links">
+          <a href="#" class="footer-link" target="_blank"><i class="fa"></i>Recruit</a>
+          <a href="#" class="footer-link" target="_blank"><i class="fa"></i>Disclaimer</a>
+          <a href="https://github.com/maptalks/maptalks.js" class="footer-link" target="_blank"><i class="fa"></i>Contact us</a>
+          <a href="#" class="footer-link" target="_blank"><i class="fa"></i>Investment</a>
         </div>
-        <span class="clear"></span>
+        <div id="footer-copyright">
+          Copyright &copy; 2016 <a href="https://maptalks.org/" target="_blank">Maptalks</a><br>
+        </div>
+      </div>
     </footer>
     <!-- footer end -->
     <!--[if lt IE 9]>
