@@ -20,7 +20,7 @@
     <a target="_blank" title="Open in a new window." class="btn_open" href="raw/{{ basename }}">
       <img src="../../../../images/demo/btn_open.png"> Open
     </a>
-    <a target="_blank" title="Edit in a new window." class="btn_edit" href="raw/{{ basename }}">
+    <a target="_blank" title="Edit in a new window." class="btn_edit" href="javascript:void(0);" onclick="editInJsfiddle();return false;">
       <img src="../../../../images/demo/btn_edit.png"> Edit
     </a>
   </div>
@@ -41,7 +41,28 @@
     </div>
     {{/if}}
   </div>
+  <div style="display:none;">
+    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" target="_blanks">
+
+        <textarea name="html">
+          <link rel="stylesheet" href="http://121.40.37.230/maptalks-demo/maptalks.css">
+          <script type="text/javascript" src="http://121.40.37.230/maptalks-demo/maptalks.js">\</script>{{{ indent contents spaces=4 }}}
+        </textarea>
+        <textarea name="js">
+          {{{ indent js.source spaces=6 }}}
+        </textarea>
+        {{#if css.source}}
+        <textarea name="css">{{ css.source }}</textarea>
+        {{/if}}
+        <input type="text" name="title" value="{{ title }}">
+        <textarea name="description">{{ category }} - {{ title }}</textarea>
+        <textarea name="resources">
+        </textarea>
+        <input type="text" name="wrap" value="l">
+    </form>
+  </div>
 </div>
+<script src="../../../../js/jquery.js"></script>
 <script type="text/javascript" src="../../../../highlight.min.js"></script>
 <script>
   var codes = document.getElementsByTagName("code");
@@ -51,6 +72,10 @@
   window.onload = function () {
       window.parent.reSetIframeHeight();
   };
+
+  function editInJsfiddle() {
+    $("form").submit();
+  }
 </script>
 </body>
 </html>
