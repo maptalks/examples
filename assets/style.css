@@ -124,7 +124,7 @@ body {
 @media screen {
   .wrapper {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 0 0 40px;
   }
 }
 .inner:before,

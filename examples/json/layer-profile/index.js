@@ -1,6 +1,6 @@
 
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.498568],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -10,11 +10,11 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map),
   layer1 = new maptalks.VectorLayer('vector1').addTo(map),
-  marker = new maptalks.Marker([121.485428, 31.228541]).addTo(layer),
-  rect = new maptalks.Rectangle([121.485428, 31.218541], 1000, 800).addTo(layer1);
+  marker = new maptalks.Marker([-0.113049,51.498568]).addTo(layer),
+  rect = new maptalks.Rectangle([-0.113049,51.488568], 1000, 800).addTo(layer1);
 
 var map1 = new maptalks.Map('map1', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.498568],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base1', {
     urlTemplate: '$(urlTemplate)',

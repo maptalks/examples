@@ -1,6 +1,6 @@
-
+var center = new maptalks.Coordinate(-0.113049,51.498568);
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: center,
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -9,8 +9,8 @@ var map = new maptalks.Map('map', {
 });
 
 var fill = 'DimGray';
-
-var circle = new maptalks.Circle([121.487562, 31.236812], 500, {
+var circle = new maptalks.Circle(center.add(0.002,0.008).toArray(),
+  500, {
   symbol: {
     lineColor: '#34495e',
     lineWidth: 2,
@@ -21,7 +21,8 @@ var circle = new maptalks.Circle([121.487562, 31.236812], 500, {
     name: 'a circle'
   }
 });
-var ellipse = new maptalks.Ellipse([121.488532, 31.223344], 1000, 600, {
+var ellipse = new maptalks.Ellipse(center.add(0.003,-0.005).toArray(),
+  1000, 600, {
   symbol: {
     lineColor: '#34495e',
     lineWidth: 2,
@@ -32,7 +33,8 @@ var ellipse = new maptalks.Ellipse([121.488532, 31.223344], 1000, 600, {
     name: 'an ellipse'
   }
 });
-var sector = new maptalks.Sector([121.472345, 31.226732], 900, 240, 300, {
+var sector = new maptalks.Sector(center.add(-0.013,-0.002).toArray(),
+ 900, 240, 300, {
   symbol: {
     lineColor: '#34495e',
     lineWidth: 2,
@@ -43,7 +45,8 @@ var sector = new maptalks.Sector([121.472345, 31.226732], 900, 240, 300, {
     name: 'a sector'
   }
 });
-var rectangle = new maptalks.Rectangle([121.469332, 31.240102], 800, 700, {
+var rectangle = new maptalks.Rectangle(center.add(-0.016,0.012).toArray(),
+  800, 700, {
   symbol: {
     lineColor: '#34495e',
     lineWidth: 2,

@@ -1,6 +1,6 @@
 
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.498568],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -8,8 +8,8 @@ var map = new maptalks.Map('map', {
   })
 });
 var layer = new maptalks.VectorLayer('vector').addTo(map);
-var marker = new maptalks.Marker([121.485428, 31.228541]).addTo(layer);
-var rect = new maptalks.Rectangle([121.485428, 31.226541], 1000, 800).addTo(layer);
+var marker = new maptalks.Marker([-0.113049,51.498568]).addTo(layer);
+var rect = new maptalks.Rectangle([-0.113049,51.496568], 1000, 800).addTo(layer);
 
 marker.on('click', function () {
   printEvents('marker');

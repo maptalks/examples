@@ -1,6 +1,6 @@
-
+var center = new maptalks.Coordinate(-0.113049,51.498568);
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: center,
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -9,8 +9,9 @@ var map = new maptalks.Map('map', {
 });
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
-
-var labelNoBox = new maptalks.Label('label without box', [121.472345, 31.226732], {
+var labelNoBox = new maptalks.Label('label without box',
+  center.add(-0.013083,-0.002).toArray(),
+  {
   'box': false,
   'symbol' : {
     'textWeight' : 'bold',
@@ -22,7 +23,9 @@ var labelNoBox = new maptalks.Label('label without box', [121.472345, 31.226732]
   }
 }).addTo(layer);
 
-var labelWithBox = new maptalks.Label('label with box', [121.489545, 31.226732], {
+var labelWithBox = new maptalks.Label('label with box',
+  center.add(0.004,-0.002).toArray(),
+  {
   'box'          :   true,
   'boxAutoSize'  :   true,
   'boxMinWidth'  :   0,

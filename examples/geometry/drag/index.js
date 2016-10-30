@@ -1,6 +1,6 @@
-
+var center = new maptalks.Coordinate(-0.113049,51.498568);
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: center,
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -9,7 +9,7 @@ var map = new maptalks.Map('map', {
 });
 
 var marker = new maptalks.Marker(
-  [121.467906,31.2351467],
+  center.add(-0.018,0.007).toArray(),
   {
     'draggable' : true,
     'symbol' : {
@@ -22,7 +22,8 @@ var marker = new maptalks.Marker(
   }
 );
 var polyline = new maptalks.LineString([
-  [121.467906, 31.233055], [121.4993941, 31.233055]
+  center.add(-0.018,0.005).toArray(),
+  center.add(0.006,0.005).toArray()
 ], {
   'draggable' : true,
   'symbol': {
@@ -31,11 +32,11 @@ var polyline = new maptalks.LineString([
   }
 });
 var polygon = new maptalks.Polygon([
-  [121.467906, 31.23217],
-  [121.499394, 31.23217],
-  [121.499394, 31.227255],
-  [121.467906, 31.227255],
-  [121.467906, 31.23217]
+  center.add(-0.018,0.004).toArray(),
+  center.add(0.006,0.004).toArray(),
+  center.add(0.006,-0.001).toArray(),
+  center.add(-0.018,-0.001).toArray(),
+  center.add(-0.018,0.004).toArray()
 ], {
   'draggable' : true,
   'symbol': {

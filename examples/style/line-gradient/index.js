@@ -1,6 +1,6 @@
 
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.49856],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -10,7 +10,7 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-var line = new maptalks.LineString([[121.485428, 31.228541], [121.496428, 31.228541]], {
+var line = new maptalks.LineString([[-0.113049,51.49856], [-0.123049,51.49856]], {
   symbol:{
     'lineColor' : {
       type : 'linear',
@@ -27,7 +27,7 @@ var line = new maptalks.LineString([[121.485428, 31.228541], [121.496428, 31.228
   }
 }).addTo(layer);
 
-var line1 = new maptalks.LineString([[121.485428, 31.218541], [121.506428, 31.218541]], {
+var line1 = new maptalks.LineString([[-0.113049,51.48856], [-0.133049,51.48856]], {
   symbol:{
     'lineColor' : {
       type : 'radial',

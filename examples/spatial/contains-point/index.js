@@ -1,6 +1,6 @@
 
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.22854533313702],
+  center: [-0.113049,51.498568],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -10,10 +10,10 @@ var map = new maptalks.Map('map', {
 var layer = new maptalks.VectorLayer('v').addTo(map),
   markerLayer = new maptalks.VectorLayer('markers').addTo(map);
 var polygon = new maptalks.Polygon([
-    [121.475542, 31.238812],
-    [121.488542, 31.238812],
-    [121.488542, 31.223812],
-    [121.475542, 31.223812]
+    [-0.103049, 51.508568],121.48542888885189, 31.22854533313702
+    [-0.116049, 51.508568],
+    [-0.116049, 51.493568],
+    [-0.103049, 51.493568]
 ], {
   symbol : {
     'lineWidth' : 3,

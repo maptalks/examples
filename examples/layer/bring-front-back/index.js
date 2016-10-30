@@ -1,6 +1,6 @@
 
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.498568],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -9,7 +9,7 @@ var map = new maptalks.Map('map', {
 });
 
 var rect2 = new maptalks.Rectangle(
-  [121.46281250243517, 31.23050448425938],
+  [-0.093049,51.508568],
   1600,
   1000,
   {

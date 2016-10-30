@@ -1,6 +1,6 @@
 
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.498568],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -9,15 +9,15 @@ var map = new maptalks.Map('map', {
 });
 
 var geoJSONs = [
-  {'type': 'Point', 'coordinates': [121.485428, 31.228541]},
+  {'type': 'Point', 'coordinates': [-0.113049,51.498568]},
   {
     'type': 'LineString',
-    'coordinates': [[121.485428, 31.238541], [121.475428, 31.238541]]
+    'coordinates': [[-0.113049,51.508568], [-0.103049,51.508568]]
   },
   {
     'type': 'Polygon',
     'coordinates': [
-      [121.485428, 31.221541], [121.475428, 31.218541],  [121.475428, 31.211541], [121.485428, 31.221541]
+      [-0.113049,51.498568],[-0.103049,51.495568],[-0.103049,51.488568],[-0.113049,51.498568]
     ]
   }
 ];

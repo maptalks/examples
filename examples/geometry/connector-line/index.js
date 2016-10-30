@@ -1,6 +1,6 @@
-
+var center = new maptalks.Coordinate(-0.113049,51.498568);
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: center,
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -9,9 +9,8 @@ var map = new maptalks.Map('map', {
 });
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
-
 var src = new maptalks.Marker(
-  [121.459953, 31.227678],
+  center.add(-0.025475,-0.001).toArray(),
   {
     symbol: {
       'markerType' : 'ellipse',
@@ -26,7 +25,7 @@ var src = new maptalks.Marker(
 ).addTo(layer);
 
 var dst = new maptalks.Marker(
-  [121.495345, 31.227678],
+  center.add(0.009917,-0.001).toArray(),
   {
     'draggable' : true,
     'symbol': [

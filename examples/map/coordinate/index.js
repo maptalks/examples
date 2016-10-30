@@ -1,6 +1,6 @@
 
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.498568],
   zoom: 14,
   centerCross : true,
   baseLayer: new maptalks.TileLayer('base', {

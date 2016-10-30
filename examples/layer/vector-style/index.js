@@ -1,6 +1,6 @@
 
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.498568],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     baseLayerRenderer: 'dom',
@@ -18,10 +18,10 @@ var layer = new maptalks.VectorLayer('vector')
 
 for (var i = 0; i < 3; i++) {
   new maptalks.Polygon([
-    [121.455542 + 0.02 * i, 31.233812],
-    [121.468542 + 0.02 * i, 31.233812],
-    [121.468542 + 0.02 * i, 31.222812],
-    [121.455542 + 0.02 * i, 31.222812]
+    [-0.083049 + 0.02 * i, 51.503568],
+    [-0.096049 + 0.02 * i, 51.503568],
+    [-0.096049 + 0.02 * i, 51.488568],
+    [-0.083049+ 0.02 * i, 51.488568]
   ], {
     'properties': {
       'count': (i + 1) * 100

@@ -1,6 +1,6 @@
 
 var map0 = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.498568],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -10,7 +10,7 @@ var map0 = new maptalks.Map('map', {
 
 
 var map1 = new maptalks.Map('map1', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.498568],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base1', {
     urlTemplate: '$(urlTemplate)',

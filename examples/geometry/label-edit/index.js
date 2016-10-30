@@ -1,6 +1,6 @@
 
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.498568],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -10,7 +10,7 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-var labelWithBox = new maptalks.Label('label with box', [121.489545, 31.226732], {
+var labelWithBox = new maptalks.Label('label with box', [-0.117049,51.496568], {
   'box'          :   true,
   'boxAutoSize'  :   true,
   'boxMinWidth'  :   0,

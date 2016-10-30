@@ -1,6 +1,6 @@
 
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.498568],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -9,7 +9,7 @@ var map = new maptalks.Map('map', {
 });
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
-var coordinate = new maptalks.Coordinate(121.48542, 31.22854);
+var coordinate = new maptalks.Coordinate(-0.113049,51.498568);
 var marker = new maptalks.Marker(coordinate).addTo(layer);
 
 function fly(type) {

@@ -1,6 +1,6 @@
 
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.49856],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -15,7 +15,7 @@ var copyLayer = new maptalks.VectorLayer('copy').addTo(map);
 var counter = 1;
 
 var rect = new maptalks.Rectangle(
-  [121.458765, 31.243709],
+  [-0.113049,51.49656],
   800, 600,
   {
     'symbol': {

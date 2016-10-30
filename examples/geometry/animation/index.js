@@ -1,6 +1,6 @@
-
+var center = new maptalks.Coordinate(-0.113049,51.498568);
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: center,
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -9,9 +9,8 @@ var map = new maptalks.Map('map', {
 });
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
-
 var bar1 = new maptalks.Marker(
-  [121.47388, 31.2265965],
+  center.add(-0.012,-0.002).toArray(),
   {
     'symbol': {
       'markerType': 'bar',
@@ -24,7 +23,7 @@ var bar1 = new maptalks.Marker(
 ).addTo(layer);
 
 var bar2 = new maptalks.Marker(
-  [121.48100, 31.2265965],
+  center.add(-0.004,-0.002).toArray(),
   {
     'symbol': {
       'markerType': 'bar',
@@ -37,7 +36,7 @@ var bar2 = new maptalks.Marker(
 ).addTo(layer);
 
 var bar3 = new maptalks.Marker(
-  [121.48900, 31.2265965],
+  center.add(0.004,-0.002).toArray(),
   {
     'symbol': {
       'markerType': 'bar',

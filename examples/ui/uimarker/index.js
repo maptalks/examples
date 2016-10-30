@@ -1,6 +1,6 @@
 
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [-0.113049,51.49856],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -8,7 +8,7 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var marker = new maptalks.ui.UIMarker([121.48542, 31.22854], {
+var marker = new maptalks.ui.UIMarker([-0.113049,51.49856], {
   'draggable'     : true,
   'single'        : false,
   'content'       : '<div class="text_marker">UI Marker</div>'
