@@ -9,7 +9,7 @@ var map = new maptalks.Map('map', {
 });
 
 var marker = new maptalks.Marker(
-  center.add(-0.018,0.007).toArray(),
+  center,//.add(-0.018,0.007).toArray(),
   {
     symbol : {
       'textFaceName' : '"microsoft yahei",arial,sans-serif',
@@ -21,7 +21,7 @@ var marker = new maptalks.Marker(
   }
 );
 var polyline = new maptalks.LineString([
-  center.add(-0.018,0.005).toArray(),
+  center,//.add(-0.018,0.005).toArray(),
   center.add(0.006,0.005).toArray()
 ], {
   symbol: {
