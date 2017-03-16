@@ -17,19 +17,8 @@
     },
 
     {
-      "name" : "map-tool",
-      "title" : {"zh" : "地图工具", "en":"Map tools"},
-      "examples" : [
-         {"name" : "distance", "title" : {"zh" : "测距工具", "en" : "Distance tool to measure distance"}},
-         {"name" : "area", "title" : {"zh" : "测面工具", "en" : "Area tool to measure area"}},
-         {"name" : "draw", "title" : {"zh" : "绘制工具", "en" : "Draw tool to draw geometries"}},
-         {"name" : "custom", "title" : {"zh" : "创建自定义工具", "en" : "Create your own map tool"}}
-      ]
-    },
-
-    {
      "name" : "layer",
-     "title" : {"zh" : "常用图层", "en" : "Common layers"},
+     "title" : {"zh" : "常用图层", "en" : "Layers"},
      "examples" : [
         {"name" : "load", "title" : {"zh" : "载入图层", "en" : "Load Layers"}},
         {"name" : "add-remove", "title" : {"zh" : "添加图层和移除图层", "en" : "Add and remove layers"}},
@@ -66,19 +55,7 @@
         {"name" : "copy", "title" : {"zh" : "克隆图形", "en" : "Copy geometries"}}
       ]
     },
-    {
-      "name" : "json",
-      "title" : {"zh" : "JSON序列化", "en" : "JSON Serialization"},
-      "examples" : [
-        {"name" : "geojson-to-geometry", "title" : {"zh" : "GeoJSON转化为Geometry", "en" : "GeoJSON to geometries"}},
-        {"name" : "geometry-to-geojson", "title" : {"zh" : "Geometry转化为GeoJSON", "en" : "Geometries to GeoJSON"}},
-        {"name" : "load-geojson", "title" : {"zh" : "用GeoJSON图层载入GeoJSON数据", "en" : "Load GeoJSON with GeoJSONLayer"}},
-        {"name" : "map-to-profile", "title" : {"zh" : "地图转化为Profile JSON", "en" : "Map to profile JSON"}},
-        {"name" : "profile-to-map", "title" : {"zh" : "用Profile JSON载入地图", "en" : "Load a map from profile JSON"}},
-        {"name" : "layer-profile", "title" : {"zh" : "用Profile JSON复制Layer", "en" : "Copy a layer by profile JSON"}},
-        {"name" : "geometry-profile", "title" : {"zh" : "用Profile JSON复制Geometry", "en" : "Copy geometries by profile JSON"}}
-      ]
-    },
+
     {
       "name" : "style",
       "title" : {"zh" : "样式渲染", "en" : "Styles"},
@@ -97,6 +74,32 @@
         {"name" : "composite-symbol", "title" : {"zh" : "多样式渲染", "en" : "Composite symbol"}}
       ]
     },
+
+    {
+      "name" : "map-tool",
+      "title" : {"zh" : "地图工具", "en":"Map tools"},
+      "examples" : [
+         {"name" : "distance", "title" : {"zh" : "测距工具", "en" : "Distance tool to measure distance"}},
+         {"name" : "area", "title" : {"zh" : "测面工具", "en" : "Area tool to measure area"}},
+         {"name" : "draw", "title" : {"zh" : "绘制工具", "en" : "Draw tool to draw geometries"}},
+         {"name" : "custom", "title" : {"zh" : "创建自定义工具", "en" : "Create your own map tool"}}
+      ]
+    },
+
+    {
+      "name" : "json",
+      "title" : {"zh" : "JSON序列化", "en" : "JSON Serialization"},
+      "examples" : [
+        {"name" : "geojson-to-geometry", "title" : {"zh" : "GeoJSON转化为Geometry", "en" : "GeoJSON to geometries"}},
+        {"name" : "geometry-to-geojson", "title" : {"zh" : "Geometry转化为GeoJSON", "en" : "Geometries to GeoJSON"}},
+        {"name" : "load-geojson", "title" : {"zh" : "用GeoJSON图层载入GeoJSON数据", "en" : "Load GeoJSON with GeoJSONLayer"}},
+        {"name" : "map-to-profile", "title" : {"zh" : "地图转化为Profile JSON", "en" : "Map to profile JSON"}},
+        {"name" : "profile-to-map", "title" : {"zh" : "用Profile JSON载入地图", "en" : "Load a map from profile JSON"}},
+        {"name" : "layer-profile", "title" : {"zh" : "用Profile JSON复制Layer", "en" : "Copy a layer by profile JSON"}},
+        {"name" : "geometry-profile", "title" : {"zh" : "用Profile JSON复制Geometry", "en" : "Copy geometries by profile JSON"}}
+      ]
+    },
+
     {
       "name" : "events",
       "title" : {"zh" : "事件", "en" : "Events"},
@@ -154,15 +157,6 @@
         {"name" : "animation", "title" : {"zh" : "动画", "en" : "Animations"}},
         {"name" : "geo-animation", "title" : {"zh" : "为Geometry设置动画", "en" : "Set animation for geometry."}},
         {"name" : "in-out", "title" : {"zh" : "飞入/飞出图形", "en" : "Set the geometry to fly in and out of the animation"}}
-      ]
-    },
-    {
-      "name" : "mapresty",
-      "title" : {"zh" : "MapResty调用示例", "en" : "MapResty examples"},
-      "examples" : [
-        {"name" : "relation", "title" : {"zh" : "空间关系", "en" : "Spatial relations"}},
-        {"name" : "analysis", "title" : {"zh" : "空间分析", "en" : "Spatial Analysis"}},
-        {"name" : "query", "title" : {"zh" : "空间数据查询", "en" : "Spatial Query"}}
       ]
     }
   ]

@@ -1,51 +1,60 @@
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=1000">
-<title>{{ category }} - {{ title }}</title>
-<link rel="stylesheet" href="../../../../style.css">
-<link rel="stylesheet" href="../../../../monokai-sublime.css">
+  <meta charset="utf-8" />
+  <title>{{ category }} - {{ title }}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="stylesheet" href="../../../../css/reset_css.css" />
+    <link rel="stylesheet" href="../../../../css/all.css" />
+    <link rel="stylesheet" href="../../../../monokai-sublime.css" />
+    <style type="text/css">
+      html,body {
+        overflow-y:auto;
+      }
+    </style>
 </head>
 <body>
-<header>
-  <div class="column">
-  </div>
-</header>
-<div class="column">
-  <h1>{{ title }}</h1>
-  <div class="index">
-    <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" style="height:500px;" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
-  </div>
-  <div class="btn_">
-    <a target="_blank" title="Open in a new window." class="btn_open" href="raw/{{ basename }}">
-      <img src="../../../../images/demo/btn_open.png"> Open
-    </a>
-    <a target="_blank" title="Edit in a new window." class="btn_edit" href="javascript:void(0);" onclick="editInJsfiddle();return false;">
-      <img src="../../../../images/demo/btn_edit.png"> Edit
-    </a>
-  </div>
-  <div class="gist-readme" data-key="README.md"></div>
-  <div id="Code" class="CodeBox">
-    <div class="CodeBox" data-key="{{ basename }}">
-      <h3 class="Codetitle">{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h3>
-      <pre>
-        <code class="html xml">{{#escape}}{{> example}}{{/escape}}</code>
-      </pre>
-    </div>
-    {{#if css.source}}
-    <div class="CodeBox" data-key="{{ css.basename }}">
-      <h3 class="Codetitle">{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h3>
-      <pre>
-         <code class="lang-css">{{ css.source }}</code>
-      </pre>
-    </div>
-    {{/if}}
-  </div>
+    <article id="example">
+      <div id="Map">
+              <h3 class="MainTitle">{{ title }}</h3>
+              <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/{{ basename }}" ></iframe>
+      </div>
+      <div class="btn_">
+          <a href="raw/{{ basename }}" class="btn_open" target="_blank"><img src="../../../../images/icon1.png"> Open</a>
+          <a href="javascript:edit();" class="btn_edit"><img src="../../../../images/icon2.png"> Edit</a>
+      </div>
+
+      <div id="Code">
+        <div class="CodeBox" data-key="{{ basename }}">
+          <h3 class="Codetitle">{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h3>
+          <pre>
+            <code class="html xml">{{#escape}}{{> example}}{{/escape}}</code>
+          </pre>
+        </div>
+        {{#if css.source}}
+        <div class="CodeBox" data-key="{{ css.basename }}">
+          <h3 class="Codetitle">{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h3>
+          <pre>
+             <code class="lang-css">{{ css.source }}</code>
+          </pre>
+        </div>
+        {{/if}}
+      </div>
+
+    </article>
+
+    <span class="clear"></span>
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" target="_blanks">
+    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
         <textarea name="html">
-          <link rel="stylesheet" href="http://121.40.37.230/maptalks-demo/maptalks.css">
-          <script type="text/javascript" src="http://121.40.37.230/maptalks-demo/maptalks.js">\</script>{{{ indent contents spaces=4 }}}
+          <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+          <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+          {{{ indent contents spaces=4 }}}
         </textarea>
         <textarea name="js">{{{ indent js.source spaces=6 }}}</textarea>
         {{#if css.source}}
@@ -58,20 +67,15 @@
         <input type="text" name="wrap" value="l">
     </form>
   </div>
-</div>
-<script src="../../../../js/jquery.js"></script>
 <script type="text/javascript" src="../../../../highlight.min.js"></script>
 <script>
-  var codes = document.getElementsByTagName("code");
+  var codes = document.getElementsByTagName('code');
   for (var i = 0; i < codes.length; i++) {
     hljs.highlightBlock(codes[i]);
   }
-  window.onload = function () {
-      window.parent.reSetIframeHeight();
-  };
 
-  function editInJsfiddle() {
-    $("form").submit();
+  function edit() {
+    document.getElementById('editor').submit();
   }
 </script>
 </body>

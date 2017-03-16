@@ -1,6 +1,7 @@
 /* eslint global-require: 0 */
 var path = require('path');
 var gulp = require('gulp');
+var del = require('del');
 var rename = require('gulp-rename');
 var metalsmith = require('gulp-metalsmith');
 var layouts = require('metalsmith-layouts');
@@ -21,7 +22,7 @@ var defines = define({
       'subdomains': '[1, 2, 3, 4]'
     },
     'en': {
-      'urlTemplate': 'http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png',
+      'urlTemplate': 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       'subdomains': '["a","b","c"]'
     }
   }
@@ -51,7 +52,7 @@ function readExamplesInfo() {
 
 function processSingleFile(file, filepath, files, metadata, isRaw) {
   var basename = path.basename(filepath);
-  var match = (basename !== 'list.html' && basename.match(markupRegex));
+  var match = basename.match(markupRegex);
   if (!match) return;
 
   var id = match[1];
@@ -59,8 +60,12 @@ function processSingleFile(file, filepath, files, metadata, isRaw) {
 
   var info = readExamplesInfo();
   file.meta = info[dirname] || {};
-  file.category = file.meta.category[locale];
-  file.title = file.meta.title[locale];
+  if (file.meta.category) {
+    file.category = file.meta.category[locale];
+  }
+  if (file.meta.title) {
+    file.title = file.meta.title[locale];
+  }
 
   file.basename = basename;
 
@@ -88,6 +93,9 @@ function processSingleFile(file, filepath, files, metadata, isRaw) {
   }
 }
 
+/**
+ * Process the raw demo pages
+ */
 function processRaw(files, metalsmith, done) {
   setImmediate(done);
   for (var filepath in files) {
@@ -96,6 +104,9 @@ function processRaw(files, metalsmith, done) {
   }
 }
 
+/**
+ * Process demo pages
+ */
 function processDemo(files, metalsmith, done) {
   setImmediate(done);
   for (var filepath in files) {
@@ -104,6 +115,9 @@ function processDemo(files, metalsmith, done) {
   }
 }
 
+/**
+ *
+ */
 function indentHelper(text, options) {
   if (!text) {
     return text;
@@ -120,7 +134,7 @@ function escapeHelper(options) {
 }
 
 gulp.task('examples-raw', function () {
-  return gulp.src('examples/**/!(list.html)')
+  return gulp.src('src/examples/**/*')
     .pipe(metalsmith({
       use: [
         drafts(),
@@ -139,38 +153,51 @@ gulp.task('examples-raw', function () {
       path.dirname += '/raw';
       return path;
     }))
-    .pipe(gulp.dest(path.join('dist/examples', locale)));
+    .pipe(gulp.dest(path.join('dist/', locale, 'examples')));
 });
+
+var options = [
+  drafts(),
+  defines,
+  processDemo,
+  layouts({
+    engine: 'handlebars',
+    directory: 'layouts',
+    partials: 'layouts/raw',
+    helpers: {
+      indent: indentHelper,
+      escape: escapeHelper,
+      list: builder.listHelper
+    }
+  })
+];
 
 gulp.task('examples-demo', function () {
-  return gulp.src('examples/**/*.{html,js,css}')
+  return gulp.src('src/examples/**/*.{html,js,css}')
     .pipe(metalsmith({
-      use: [
-        drafts(),
-        defines,
-        processDemo,
-        layouts({
-          engine: 'handlebars',
-          directory: 'layouts',
-          partials: 'layouts/raw',
-          helpers: {
-            indent: indentHelper,
-            escape: escapeHelper,
-            list: builder.listHelper
-          }
-        })
-      ]
+      use: options
     }))
-    .pipe(gulp.dest(path.join('dist/examples', locale)));
+    .pipe(gulp.dest(path.join('dist', locale, 'examples')));
 });
 
-gulp.task('examples', ['examples-raw', 'examples-demo'], function () {
+gulp.task('examples-index', function () {
+  return gulp.src('src/*.{html,js,css}')
+    .pipe(metalsmith({
+      use: options
+    }))
+    .pipe(gulp.dest(path.join('dist', locale)));
+});
+
+gulp.task('examples', ['examples-index', 'examples-raw', 'examples-demo'], function () {
+  del([
+    'dist/**/*'
+  ]);
   return gulp.src('assets/**/*')
     .pipe(gulp.dest('dist'));
 });
 
 gulp.task('watch', ['examples'], function () {
-  var scriptWatcher = gulp.watch(['./examples/**/*', './assets/**/*', './layouts/**/*'], ['examples']); // watch the same files in our scripts task
+  var scriptWatcher = gulp.watch(['./src/**/*', './assets/**/*', './layouts/**/*'], ['examples']); // watch the same files in our scripts task
 });
 
 gulp.task('connect', ['watch'], function () {
