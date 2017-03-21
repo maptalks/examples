@@ -10,11 +10,19 @@ var map = new maptalks.Map('map', {
 
 var options = {
   'custom': true,
-  'items'  : '<div class="custom_menu"><span onclick="clickItem(this);">item1</span><br/>' +
-             '<span onclick="clickItem(this);">item2</span></div>'
+  'items'  : '<ul class="custom_menu">' +
+    '<li onclick="clickItem(this);">Locate</li>' +
+    '<li onclick="clickItem(this);">Mark</li>' +
+    '<li onclick="clickItem(this);">Identify</li>' +
+    '<li onclick="clickItem(this);">About</li>' +
+    '</ul>'
 };
 map.setMenu(options).openMenu();
 
+map.on('contextmenu', function (e) {
+  map.openMenu(e.coordinate);
+});
+
 function clickItem(dom) {
-  alert('Click ' + dom.innerText);
+  document.getElementById('info').innerHTML = dom.innerText + ' clicked';
 }

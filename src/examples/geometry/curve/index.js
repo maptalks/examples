@@ -1,6 +1,6 @@
-var center = new maptalks.Coordinate(-0.113049,51.498568);
+var c = new maptalks.Coordinate(-0.11305,51.4985);
 var map = new maptalks.Map('map', {
-  center: center,
+  center: c.sub(0.02, 0),
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -8,62 +8,53 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var layer = new maptalks.VectorLayer('vector').addTo(map);
-
-// /121.48542888885189, 31.228541533313702
-var curve0 = new maptalks.CurveLine([
-  center.add(-0.002029,0.008183).toArray(),
-  center.add(-0.0269928700000008,0.00693599999999961).toArray(),
-  center.add(-0.0311985999999962,0.00326652000000038).toArray(),
-  center.add(-0.0314560599999965,-0.00333900000000042).toArray(),
-  center.add(-0.0278511700000053,-0.00862370000000112).toArray(),
-  center.add(-0.0220146899999918,-0.00950459999999964).toArray()
+var arc = new maptalks.ArcCurve([
+  c.add(-0.0202, 0.0081),
+  c.add(-0.0269, 0.0069),
+  c.add(-0.0369, 0.0032),
+  c.add(-0.0314, -0.003),
+  c.add(-0.0278, -0.008),
+  c.add(-0.0220, -0.009)
 ], {
-  curveType: 0,
-  symbol: getCurveSymbol('Straight')
-}).addTo(layer);
+  'symbol' : getSymbol('Arc')
+});
 
-var curve1 = new maptalks.CurveLine([
-  center.add(-0.0102980700000046,0.0081836399999986).toArray(),
-  center.add(-0.0169928699999957,0.00693599999999961).toArray(),
-  center.add(-0.0211986000000053,0.00326652000000038).toArray(),
-  center.add(-0.0214560600000056,-0.00333900000000042).toArray(),
-  center.add(-0.0178511700000001,-0.00862370000000112).toArray(),
-  center.add(-0.0120146900000009,-0.00950459999999964).toArray()
+var quad = new maptalks.QuadBezierCurve([
+  c.add(-0.0102, 0.0081),
+  c.add(-0.0169, 0.0069),
+  c.add(-0.0211, 0.0032),
+  c.add(-0.0214, -0.0033),
+  c.add(-0.0178, -0.0086),
+  c.add(-0.0120, -0.0095)
 ], {
-  curveType: 1,
-  symbol: getCurveSymbol('Arc')
-}).addTo(layer);
+  'symbol' : getSymbol('Quadratic\nBézier')
+});
 
-var curve2 = new maptalks.CurveLine([
-  center.add(-0.000298069999999484,0.0081836399999986).toArray(),
-  center.add(-0.00699287000000481,0.00693599999999961).toArray(),
-  center.add(-0.00699287000000481,0.00326652000000038).toArray(),
-  center.add(-0.0114560600000004,-0.00333900000000042).toArray(),
-  center.add(-0.00785116999999502,-0.00862370000000112).toArray(),
-  center.add(-0.00201468999999577,-0.00950459999999964).toArray()
+var cubic = new maptalks.CubicBezierCurve([
+  c.add(-0.0002, 0.0081),
+  c.add(-0.0069, 0.0069),
+  c.add(-0.0069, 0.0032),
+  c.add(-0.0114, -0.0033),
+  c.add(-0.0078, -0.0086),
+  c.add(-0.0020, -0.0095)
 ], {
-  curveType: 2,
-  symbol: getCurveSymbol('Quadratic\nBézier')
-}).addTo(layer);
+  'symbol' : getSymbol('Cubic\nBézier')
+});
 
-var curve3 = new maptalks.CurveLine([
-  center.add(-0.000298069999999484,0.0081836399999986).toArray(),
-  center.add(-0.00699287000000481,0.00693599999999961).toArray(),
-  center.add(-0.00699287000000481,0.00326652000000038).toArray(),
-  center.add(-0.0114560600000004,-0.00333900000000042).toArray(),
-  center.add(-0.00785116999999502,-0.00862370000000112).toArray(),
-  center.add(-0.00201468999999577,-0.00950459999999964).toArray()
-], {
-  curveType: 3,
-  symbol: getCurveSymbol('Cubic\nBézier')
-}).addTo(layer);
+new maptalks.VectorLayer('vector', [arc, quad, cubic]).addTo(map);
 
-function getCurveSymbol(title) {
+function getSymbol(title) {
   return [
     {
       lineColor: '#34495e',
       lineWidth: 3
+    },
+    {
+      markerType : 'ellipse',
+      markerWidth : 8,
+      markerHeight : 8,
+      markerFill : '#f00',
+      markerPlacement : 'vertex'
     },
     {
       textName : title,

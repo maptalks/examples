@@ -9,41 +9,41 @@ var map = new maptalks.Map('map', {
 });
 
 var zoomControl = new maptalks.control.Zoom({
-  'position'  : 'top-right',
+  'position'  : 'top-left',
   'slider'    : true,
   'zoomLevel' : true
 }).addTo(map);
 
-function hideControl() {
-  if (zoomControl.isVisible()) zoomControl.hide();
+function hide() {
+  zoomControl.hide();
 }
 
-function showControl() {
-  if (zoomControl.isVisible()) {
+function show() {
+  if (zoomControl.getMap()) {
     zoomControl.show();
   } else {
     map.addControl(zoomControl);
   }
 }
 
-function removeControl() {
+function remove() {
   zoomControl.remove();
 }
 
 var toolbar = new maptalks.control.Toolbar({
-  position: maptalks.Control.bottom_right,
+  position: 'top-right',
   items: [
     {
-      item: 'SHOW',
-      click: showControl
+      item: 'Show',
+      click: show
     },
     {
-      item: 'HIDE',
-      click: hideControl
+      item: 'Hide',
+      click: hide
     },
     {
-      item: 'REMOVE',
-      click: removeControl
+      item: 'Remove',
+      click: remove
     }
   ]
 }).addTo(map);

@@ -1,6 +1,6 @@
-var center = new maptalks.Coordinate(-0.113049,51.498568);
+var c = new maptalks.Coordinate(-0.113049,51.498568);
 var map = new maptalks.Map('map', {
-  center: center,
+  center: c,
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -9,8 +9,9 @@ var map = new maptalks.Map('map', {
 });
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
+
 var src = new maptalks.Marker(
-  center.add(-0.025475,-0.001).toArray(),
+  c.add(-0.0154, 0.005),
   {
     symbol: {
       'markerType' : 'ellipse',
@@ -22,10 +23,10 @@ var src = new maptalks.Marker(
       'markerHeight' : 120
     }
   }
-).addTo(layer);
+);
 
 var dst = new maptalks.Marker(
-  center.add(0.009917,-0.001).toArray(),
+  c.add(0.0109, 0.005),
   {
     'draggable' : true,
     'symbol': [
@@ -46,15 +47,32 @@ var dst = new maptalks.Marker(
       }
     ]
   }
-).addTo(layer);
+);
 
 var line = new maptalks.ConnectorLine(src, dst, {
-  curveType : 0, //0, 1, 2, 3
   showOn : 'always', //'moving', 'click', 'mouseover', 'always'
   arrowStyle : 'classic',
-  arrowPlacement : 'vertex-last', //vertex-first, vertex-last, vertex-firstlast, point
+  arrowPlacement : null,// 'vertex-last', //vertex-first, vertex-last, vertex-firstlast, point
   symbol: {
     lineColor: '#34495e',
     lineWidth: 2
   }
-}).addTo(layer);
+});
+
+layer.addGeometry(src, dst, line);
+
+// Arc Connector Line
+var src2 = src.copy().translate(0, -0.01);
+var dst2 = dst.copy().translate(0, -0.01);
+var line2 = new maptalks.ArcConnectorLine(src2, dst2, {
+  arcDegree : 90,
+  showOn : 'always',
+  arrowStyle : 'classic',
+  arrowPlacement : null,
+  symbol: {
+    lineColor: '#34495e',
+    lineWidth: 2
+  }
+});
+
+layer.addGeometry(src2, dst2, line2);

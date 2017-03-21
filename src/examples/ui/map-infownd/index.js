@@ -1,4 +1,3 @@
-
 var map = new maptalks.Map('map', {
   center: [-0.113049,51.49856],
   zoom: 14,
@@ -9,9 +8,12 @@ var map = new maptalks.Map('map', {
 });
 
 var options = {
-  'title'     : 'Title',
-  'content'   : 'Content'
+  'title'     : 'Map\' InfoWindow',
+  'content'   : 'Click on map to reopen'
 };
 var infoWindow = new maptalks.ui.InfoWindow(options);
-infoWindow.addTo(map).show(map.getCenter());
+infoWindow.addTo(map).show();
 
+map.on('click', function (e) {
+  infoWindow.show(e.coordinate);
+});

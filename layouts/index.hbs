@@ -14,10 +14,10 @@
 <body>
   <div id="container">
     <div id="sidebar">
-        <a href="javascript:;" class="btn_Sort"></a>
+        <a href="javascript:;" class="button-menu"></a>
         {{#list}} {{/list}}
     </div>
-    <div id="viewerWrapper">
+    <div id="viewer-wrapper">
       <iframe id="viewer" name="viewer" allowfullscreen="" allowvr="" onmousewheel=""></iframe>
     </div>
     <span class="clear"></span>
@@ -32,7 +32,7 @@
         link = 'examples/' + hash.replace('#', '').replace(',', '/') + '/';
       }
       $('#viewer')[0].src = link;
-      $('#sidebar .SortList').sidebarmenu();
+      $('#sidebar .menu-list').sidebarmenu();
     });
 
     function selectExample(link) {
@@ -45,16 +45,16 @@
       if (self.length === 0) {
         return;
       }
-      self.prev('.btn_Sort').bind('click', function () {
-        if ($(this).is('.btn_Sort_open')) {
-          $(this).removeClass('btn_Sort_open');
+      self.prev('.button-menu').bind('click', function () {
+        if ($(this).is('.button-menu-open')) {
+          $(this).removeClass('button-menu-open');
           self.slideUp(function () {
-            $('#viewerWrapper').show();
+            $('#viewer-wrapper').show();
           });
         } else {
-          $(this).addClass('btn_Sort_open');
+          $(this).addClass('button-menu-open');
           self.slideDown();
-          $('#viewerWrapper').hide();
+          $('#viewer-wrapper').hide();
         }
       });
     };

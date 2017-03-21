@@ -1,4 +1,3 @@
-
 var map = new maptalks.Map('map', {
   center: [-0.113049,51.498568],
   zoom: 14,
@@ -9,22 +8,26 @@ var map = new maptalks.Map('map', {
 });
 
 var textPanel = new maptalks.control.Panel({
-  'position'  : {'top': '10', 'right': '10'},
+  'position'      : 'top-right',
   'draggable'     : true,
   'custom'        : false,
-  'content'       : 'This is a text panel.',
+  'content'       : 'A draggable text panel.',
   'closeButton'   : true
 });
 map.addControl(textPanel);
 
-var htmlPanel = new maptalks.control.Panel({
-  'position'  : {'bottom': '10', 'right': '10'},
+var customPanel = new maptalks.control.Panel({
+  'position'      : 'bottom-right',
   'draggable'     : true,
   'custom'        : true,
-  'content'       : '<div class="content"><input type="text" height=10/><div class="closeButton" onclick="closeHtmlPanel()">x</div>This is a html panel.</div>'
+  'content'       : '<div class="content">' +
+    'A custom panel.<br>' +
+    '<input type="text" height=10 value="a text input"/><br>' +
+    '<br><a href="javascript:;" onclick="hide()">close</a>' +
+    '</div>'
 });
-map.addControl(htmlPanel);
+map.addControl(customPanel);
 
-function closeHtmlPanel() {
-  htmlPanel.hide();
+function hide() {
+  customPanel.hide();
 }

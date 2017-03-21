@@ -1,7 +1,7 @@
-
+var c = new maptalks.Coordinate(-0.113049,51.49856);
 var map = new maptalks.Map('map', {
-  center: [-0.113049,51.49856],
-  zoom: 14,
+  center: c,
+  zoom: 13,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains)
@@ -11,7 +11,7 @@ var map = new maptalks.Map('map', {
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
 var marker3 = new maptalks.Marker(
-  map.getCenter().substract(0.02, -0.01),
+  c.sub(0.02, -0.01),
   {
     'symbol' : {
       'markerType': 'ellipse',
@@ -24,7 +24,7 @@ var marker3 = new maptalks.Marker(
 ).addTo(layer);
 
 var marker4 = new maptalks.Marker(
-  map.getCenter().substract(0.015, 0.01),
+  c.sub(0.015, 0.01),
   {
     'symbol' : {
       'markerType': 'triangle',
@@ -37,7 +37,7 @@ var marker4 = new maptalks.Marker(
 ).addTo(layer);
 
 var marker5 = new maptalks.Marker(
-  map.getCenter(),
+  c,
   {
     'symbol' : {
       'markerType': 'square',
@@ -50,8 +50,8 @@ var marker5 = new maptalks.Marker(
 ).addTo(layer);
 
 
-var marker6= new maptalks.Marker(
-  map.getCenter().add(0.015, 0),
+var marker6 = new maptalks.Marker(
+  c.add(0.015, 0),
   {
     'symbol' : {
       'markerType': 'diamond',

@@ -21,8 +21,7 @@ var marker = new maptalks.Marker(
     }
   }
 );
-var layer = new maptalks.VectorLayer('vector')
-    .addGeometry(marker)
+var layer = new maptalks.VectorLayer('vector', [marker])
     .addTo(map);
 
 var toolbar = new maptalks.control.Toolbar({

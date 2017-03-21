@@ -1,6 +1,6 @@
 
 var map = new maptalks.Map('map', {
-  center: [121.48542888885189, 31.228541533313702],
+  center: [121.4854, 31.2285],
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -12,9 +12,10 @@ var layer = new maptalks.VectorLayer('vector')
     .addTo(map);
 
 function getById(id) {
-  layer.getGeometryById(id).updateSymbol([{'polygonFill': '#f00'}]);
+  layer.getGeometryById(id).updateSymbol([{ 'polygonFill': '#f00' }]);
 }
 
+//<<<<<<<< prepare data
 for (var i = 0; i < 3; i++) {
   new maptalks.Polygon(
     [
@@ -44,7 +45,7 @@ for (var i = 0; i < 3; i++) {
     }
   ).addTo(layer);
 }
-
+//>>>>>>>>
 var actionBar = new maptalks.control.Toolbar({
   items: [
     {

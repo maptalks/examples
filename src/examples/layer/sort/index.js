@@ -9,7 +9,7 @@ var map = new maptalks.Map('map', {
 });
 
 var rect3 = new maptalks.Rectangle(
-  [-0.093049,51.508568],
+  map.getCenter().sub(0.025, 0.0035),
   1600,
   1000,
   {
@@ -30,27 +30,21 @@ var rect3 = new maptalks.Rectangle(
   }
 );
 
-var layer3 = new maptalks.VectorLayer('3')
-  .addGeometry(rect3)
-  .addTo(map);
-
 var rect2 = rect3.copy()
   .translate([0.006, 0.006])
-  .updateSymbol([{'polygonFill' : 'rgb(216,115,149)'}, {'textName' : 'Layer 2'}]);
-
-var layer2 = new maptalks.VectorLayer('2')
-  .addGeometry(rect2)
-  .addTo(map);
+  .updateSymbol([{ 'polygonFill' : 'rgb(216,115,149)' }, { 'textName' : 'Layer 2' }]);
 
 var rect1 = rect2.copy()
   .translate([0.006, 0.006])
-  .updateSymbol([{'polygonFill' : 'rgb(135,196,240)'}, {'textName' : 'Layer 1'}]);
+  .updateSymbol([{ 'polygonFill' : 'rgb(135,196,240)' }, { 'textName' : 'Layer 1' }]);
 
-var layer1 = new maptalks.VectorLayer('1')
-  .addGeometry(rect1)
-  .addTo(map);
+map.addLayer([
+  new maptalks.VectorLayer('3', [rect3]),
+  new maptalks.VectorLayer('2', [rect2]),
+  new maptalks.VectorLayer('1', [rect1])
+]);
 
-var toolbar = new maptalks.control.Toolbar({
+new maptalks.control.Toolbar({
   items: [
     {
       item: 'Sort to 3, 2, 1',

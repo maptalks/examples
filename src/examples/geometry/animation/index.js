@@ -10,53 +10,56 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 var bar1 = new maptalks.Marker(
-  center.add(-0.012,-0.002).toArray(),
+  center.add(-0.012,-0.002),
   {
     'symbol': {
       'markerType': 'bar',
       'markerWidth': 48,
       'markerHeight': 33,
       'markerFill': 'rgb(135,196,240)',
-      'markerLineWidth': 0
+      'markerLineWidth': 2,
+      'markerLineColor' : '#fff'
     }
   }
 ).addTo(layer);
 
 var bar2 = new maptalks.Marker(
-  center.add(-0.004,-0.002).toArray(),
+  center.add(-0.004,-0.002),
   {
     'symbol': {
       'markerType': 'bar',
       'markerWidth': 48,
       'markerHeight': 47,
       'markerFill': 'rgb(216,115,149)',
-      'markerLineWidth': 0
+      'markerLineWidth': 2,
+      'markerLineColor' : '#fff'
     }
   }
 ).addTo(layer);
 
 var bar3 = new maptalks.Marker(
-  center.add(0.004,-0.002).toArray(),
+  center.add(0.004,-0.002),
   {
     'symbol': {
       'markerType': 'bar',
       'markerWidth': 48,
       'markerHeight': 79,
       'markerFill': '#1bbc9b',
-      'markerLineWidth': 0
+      'markerLineWidth': 2,
+      'markerLineColor' : '#fff'
     }
   }
 ).addTo(layer);
 
 function animation() {
-  var speed = 1000;
+  var duration = 1000;
 
   bar1.animate({
     'symbol': {
       'markerHeight': 82
     }
   }, {
-    'speed': speed
+    'duration': duration
   });
 
   bar2.animate({
@@ -64,7 +67,7 @@ function animation() {
       'markerHeight': 197
     }
   }, {
-    'speed': speed
+    'duration': duration
   });
 
   bar3.animate({
@@ -72,7 +75,19 @@ function animation() {
       'markerHeight': 154
     }
   }, {
-    'speed': speed
+    'duration': duration
+  });
+}
+
+function reset() {
+  bar1.updateSymbol({
+    'markerHeight' : 33
+  });
+  bar2.updateSymbol({
+    'markerHeight' : 47
+  });
+  bar3.updateSymbol({
+    'markerHeight' : 79
   });
 }
 
@@ -81,6 +96,7 @@ var actionBar = new maptalks.control.Toolbar({
     {
       item: 'Animation',
       click: function () {
+        reset();
         animation();
       }
     }

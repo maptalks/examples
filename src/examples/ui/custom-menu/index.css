@@ -11,17 +11,36 @@ body {
     height: 100%;
 }
 
-.custom_menu {
-    background: #fff;
-    padding: 1px;
-    width: 80px;
-    border: 1px solid #b4b3b3;
-    box-shadow: 3px 5px 10px #dbdada;
+#info {
+  position:fixed;
+  background-color: rgba(13, 13, 13, 0.5);
+  padding : 10px 10px 10px 10px;
+  font : 13px bold sans-serif;
+  color : #fff;
+  right : 20px;
+  top : 20px;
+  width : 100px;
+  height: 40px;
+  overflow : hidden;
 }
 
-.custom_menu span {
-    color: #5a5756;
-    margin: 0;
-    padding: 0;
-    font-size: 12px;
+.custom_menu {
+  width : 90px;
+  color : #fff;
+  background-color:#051127;
+  border :1px solid #0c2c45;
+  list-style: none;
+  padding : 0;
+}
+.custom_menu li {
+  padding : 0 8px;
+  font-size: 12px;
+  line-height: 24px;
+}
+.custom_menu li:hover {
+  background: #0e595e;
+  cursor : pointer;
+}
+.custom_menu li+li {
+  border-top : 1px solid #bbb;
 }

@@ -1,4 +1,3 @@
-
 var map = new maptalks.Map('map', {
   center: [-0.113049,51.498568],
   zoom: 14,
@@ -8,6 +7,5 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var textPanel = new maptalks.control.Overview();
-map.addControl(textPanel);
-
+var overview = new maptalks.control.Overview();
+map.addControl(overview);

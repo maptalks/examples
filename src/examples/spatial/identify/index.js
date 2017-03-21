@@ -5,21 +5,26 @@ var map = new maptalks.Map('map', {
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains)
-  })
+  }),
+  attribution : {
+    position : 'top-right',
+    content : '<div class="attr">click on circles to identify</div>'
+  }
 });
 
 var layer = new maptalks.VectorLayer('v').addTo(map);
 
-map.on('click', function (param) {
+map.on('click', function (e) {
   //reset colors
   layer.forEach(function (g) {
     g.updateSymbol({
       'markerFill' : '#0e595e'
     });
   });
+  //identify
   map.identify(
     {
-      'coordinate' : param.coordinate,
+      'coordinate' : e.coordinate,
       'layers' : [layer]
     },
     function (geos) {
@@ -53,19 +58,7 @@ for (var i = 65; i <= 90; i++) {
       'markerLineColor' : 'white',
       'markerWidth' : 70,
       'markerHeight' : 70
-    },
-    'properties' : {
-      'value' : String.fromCharCode(i)
     }
   }));
 }
 layer.addGeometry(markers);
-
-var toolbar = new maptalks.control.Toolbar({
-  items: [
-    {
-      item: 'Click to identify',
-      click: function () {}
-    }
-  ]
-}).addTo(map);

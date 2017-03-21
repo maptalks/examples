@@ -1,18 +1,18 @@
 
-//Van der Grinten IV projection from D3
-//http://bl.ocks.org/mbostock/4489365
-var d3Projection =  d3.geo.vanDerGrinten4()
+//Versor Dragging projection from D3
+//https://bl.ocks.org/mbostock/7ea1dde508cec6d2d95306f92642bc42
+var projection =  d3.geoOrthographic()
                     .scale(148)
                     .precision(.1);
 
 //convert to a maptalks projection object
 var proj = {
   project : function (c) {
-    var pc = d3Projection([c.x, c.y]);
+    var pc = projection([c.x, c.y]);
     return new maptalks.Coordinate(pc[0], pc[1]);
   },
   unproject : function (pc) {
-    var c = d3Projection.invert([pc.x, (pc.y)]);
+    var c = projection.invert([pc.x, (pc.y)]);
     if (!c || isNaN(c[0]) || isNaN(c[1])) {
       return null;
     }
@@ -31,7 +31,8 @@ var min = proj.project(new maptalks.Coordinate(-180, -90)),
 //initialize map with a customized projection
 var map = new maptalks.Map('map', {
   center:     [0, 0],
-  zoom:  2,
+  centerCross : true,
+  zoom:  3,
   view:{
     'projection': proj,
     'resolutions': (function () {
@@ -55,11 +56,10 @@ d3.json('world-50m.json', function (error, world) {
     'polygonOpacity' : 1,
     'polygonFill'    : '#747474'
   };
-  var vectors = new maptalks.VectorLayer('v', {'geometryEvents':false, 'enableSimplify':false})
-      .addGeometry(geometries)
-      .forEach(function (g) {
-        g.config('antiMeridian', 'split')
-         .setSymbol(symbol);
-      })
-      .addTo(map);
+  new maptalks.VectorLayer('v', geometries, { 'geometryEvents':false, 'enableSimplify':false })
+    .forEach(function (geo) {
+      geo.config('antiMeridian', 'split')
+       .setSymbol(symbol);
+    })
+    .addTo(map);
 });

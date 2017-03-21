@@ -10,24 +10,11 @@ var map = new maptalks.Map('map', {
 });
 
 var layer = new maptalks.VectorLayer('vector')
-    .setStyle({
-      'filter' : ['count', '>=', 0],
-      'symbol' : getSymbol('#747474')
-    })
-    .addTo(map);
-
-for (var i = 0; i < 3; i++) {
-  new maptalks.Polygon([
-    [-0.083049 + 0.02 * i, 51.503568],
-    [-0.096049 + 0.02 * i, 51.503568],
-    [-0.096049 + 0.02 * i, 51.488568],
-    [-0.083049+ 0.02 * i, 51.488568]
-  ], {
-    'properties': {
-      'count': (i + 1) * 100
-    }
-  }).addTo(layer);
-}
+      .setStyle({
+        'filter' : ['count', '>=', 0],
+        'symbol' : getSymbol('#747474')
+      })
+      .addTo(map);
 
 function setStyle() {
   layer.setStyle([
@@ -44,6 +31,20 @@ function setStyle() {
       'symbol': getSymbol('rgb(135,196,240)')
     }
   ]);
+}
+
+// prepare data
+for (var i = 0; i < 3; i++) {
+  new maptalks.Polygon([
+    [-0.123049 + 0.02 * i, 51.503568],
+    [-0.136049 + 0.02 * i, 51.503568],
+    [-0.136049 + 0.02 * i, 51.488568],
+    [-0.123049 + 0.02 * i, 51.488568]
+  ], {
+    'properties': {
+      'count': (i + 1) * 100
+    }
+  }).addTo(layer);
 }
 
 function getSymbol(color) {

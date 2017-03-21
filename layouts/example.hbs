@@ -20,25 +20,25 @@
 </head>
 <body>
     <article id="example">
-      <div id="Map">
-              <h3 class="MainTitle">{{ title }}</h3>
+      <div id="map">
+              <h3 class="main-title">{{ title }}</h3>
               <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/{{ basename }}" ></iframe>
       </div>
-      <div class="btn_">
-          <a href="raw/{{ basename }}" class="btn_open" target="_blank"><img src="../../../../images/icon1.png"> Open</a>
-          <a href="javascript:edit();" class="btn_edit"><img src="../../../../images/icon2.png"> Edit</a>
+      <div class="button">
+          <a href="raw/{{ basename }}" target="_blank"><img src="../../../../images/icon1.png"> Open</a>
+          <a href="javascript:edit();"><img src="../../../../images/icon2.png"> Edit</a>
       </div>
 
-      <div id="Code">
-        <div class="CodeBox" data-key="{{ basename }}">
-          <h3 class="Codetitle">{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h3>
+      <div id="code">
+        <div class="code-box" data-key="{{ basename }}">
+          <h3 class="code-title">{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h3>
           <pre>
             <code class="html xml">{{#escape}}{{> example}}{{/escape}}</code>
           </pre>
         </div>
         {{#if css.source}}
-        <div class="CodeBox" data-key="{{ css.basename }}">
-          <h3 class="Codetitle">{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h3>
+        <div class="code-box" data-key="{{ css.basename }}">
+          <h3 class="code-title">{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h3>
           <pre>
              <code class="lang-css">{{ css.source }}</code>
           </pre>

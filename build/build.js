@@ -26,7 +26,7 @@ module.exports = exports = {
 
   listHelper: function (i, options) {
     var items = all.examples;
-    var out = '<ul class="SortList">';
+    var out = '<ul class="menu-list">';
     for (var i = 0; i < items.length; i++) {
       var cat = items[i];
       var title = (i + 1 ) + ' ' + cat.title[locale];

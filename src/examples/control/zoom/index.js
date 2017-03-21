@@ -1,4 +1,3 @@
-
 var map = new maptalks.Map('map', {
   center: [-0.113049,51.498568],
   zoom: 14,
@@ -28,7 +27,7 @@ var noSlider = new maptalks.control.Zoom({
 map.addControl(noSlider);
 
 var customPosition = new maptalks.control.Zoom({
-  'position'  : {'bottom' : '20', 'left' : '20'},
+  'position'  : { 'bottom' : '20', 'left' : '20' },
   'slider'    : false,
   'zoomLevel' : false
 });

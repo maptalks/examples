@@ -8,7 +8,7 @@ var map3857 = new maptalks.Map('map-3857', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains)
   }),
-  attributionControl : {
+  attribution : {
     content : '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a> contributors'
   }
 });
@@ -25,7 +25,7 @@ var mapBD = new maptalks.Map('map-bd09', {
     urlTemplate:'http://online{s}.map.bdimg.com/tile/?qt=tile&x={x}&y={y}&z={z}&styles=pl',
     subdomains:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   }),
-  attributionControl : {
+  attribution : {
     content : '&copy; <a target="_blank" href="http://map.baidu.com">Baidu</a>'
   }
 });
@@ -52,7 +52,7 @@ var map4326 = new maptalks.Map('map-4326', {
       opacity:1
     })
   ],
-  attributionControl : {
+  attribution : {
     content : '&copy; <a target="_blank" href="http://www.tianditu.cn">Tianditu</a>'
   }
 });

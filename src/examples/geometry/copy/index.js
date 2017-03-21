@@ -1,21 +1,18 @@
-
+var c = new maptalks.Coordinate(-0.113049,51.49856);
 var map = new maptalks.Map('map', {
-  center: [-0.113049,51.49856],
+  center: c,
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains)
   })
 });
-
-
+//<<<<<<<< prepare data
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 var copyLayer = new maptalks.VectorLayer('copy').addTo(map);
 
-var counter = 1;
-
 var rect = new maptalks.Rectangle(
-  [-0.113049,51.49656],
+  c.add(-0.008, 0.008),
   800, 600,
   {
     'symbol': {
@@ -25,15 +22,17 @@ var rect = new maptalks.Rectangle(
       'polygonOpacity': 0.7
     }
   }).addTo(layer);
+//>>>>>>>>
 
-var actionBar = new maptalks.control.Toolbar({
+var counter = 1;
+var toolBar = new maptalks.control.Toolbar({
   items: [
     {
       item: 'Copy',
       click: function () {
-        var copy = rect.copy();
-        copy.translate([0.003 * counter, -0.003 * (counter++)]);
-        copy.addTo(copyLayer);
+        rect.copy()
+          .translate([0.003 * counter, -0.003 * (counter++)])
+          .addTo(copyLayer);
       }
     },
     {

@@ -12,7 +12,8 @@ body {
 }
 
 .text_marker {
-    font-size: 30px;
-    color: #0099FF;
+    font: 30px bold sans-serif;
+    color: #34495e;
+    text-shadow: 2px 0 white;
     width: 160px;
 }

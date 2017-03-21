@@ -8,19 +8,19 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var layer = new maptalks.VectorLayer('vector').addTo(map);
+var layer = new maptalks.VectorLayer('v').addTo(map);
 
-var labelWithBox = new maptalks.Label('label with box', [-0.117049,51.496568], {
+var label = new maptalks.Label('label with box', [-0.117, 51.496], {
   'box'          :   true,
   'boxAutoSize'  :   true,
   'boxMinWidth'  :   0,
   'boxMinHeight' :   0,
-  'boxPadding'   :   {'width' : 26, 'height' : 8},
+  'boxPadding'   :   { 'width' : 26, 'height' : 8 },
   'boxTextAlign' :   'middle', //left, middle, right
   'symbol': {
     'markerLineColor': '#34495e',
     'markerFill' : '#34495e',
-    'textFaceName' : '"microsoft yahei",arial,sans-serif',
+    'textFaceName' : 'sans-serif',
     'textFill' : '#fff',
     'textSize' : 18
   }
@@ -32,13 +32,13 @@ var actionBar = new maptalks.control.Toolbar({
     {
       item: 'Edit Text',
       click: function () {
-        labelWithBox.startEditText();
+        label.startEditText();
       }
     },
     {
-      item: 'Stop Edit',
+      item: 'End Edit',
       click: function () {
-        labelWithBox.endEditText();
+        label.endEditText();
       }
     }
   ]

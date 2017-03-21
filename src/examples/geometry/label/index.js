@@ -1,6 +1,6 @@
-var center = new maptalks.Coordinate(-0.113049,51.498568);
+var c = new maptalks.Coordinate(-0.113049,51.498568);
 var map = new maptalks.Map('map', {
-  center: center,
+  center: c,
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -8,56 +8,43 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var layer = new maptalks.VectorLayer('vector').addTo(map);
-var labelNoBox = new maptalks.Label('label without box',
-  center.add(-0.013083,-0.002).toArray(),
+var label = new maptalks.Label('label without box',
+  c.add(-0.013,-0.002),
   {
-  'box': false,
-  'symbol' : {
-    'textWeight' : 'bold',
-    'textFaceName' : '"microsoft yahei",arial,sans-serif',
-    'textFill' : '#34495e',
-    'textSize' : 18,
-    'textHaloColor' : '#fff',
-    'textHaloRadius' : 3
-  }
-}).addTo(layer);
+    'box': false,
+    'symbol' : {
+      'textWeight' : 'bold',
+      'textFaceName' : 'sans-serif',
+      'textFill' : '#34495e',
+      'textSize' : 18,
+      'textHaloColor' : '#fff',
+      'textHaloRadius' : 3
+    }
+  });
 
-var labelWithBox = new maptalks.Label('label with box',
-  center.add(0.004,-0.002).toArray(),
+var labelBox = new maptalks.Label('label with box',
+  c.add(0.004,-0.002),
   {
-  'box'          :   true,
-  'boxAutoSize'  :   true,
-  'boxMinWidth'  :   0,
-  'boxMinHeight' :   0,
-  'boxPadding'   :   {'width' : 26, 'height' : 8},
-  'boxTextAlign' :   'middle', //left, middle, right
-  'symbol': {
-    /*'markerLineColor': '#34495e',
-    'markerFill' : '#34495e',
-    'textFaceName' : '"microsoft yahei",arial,sans-serif',
-    'textFill' : '#fff',
-    'textVerticalAlignment'   : 'bottom',   // top | middle | bottom | auto
-    'textSize' : 18*/
-    markerFill:"#4E98DD",
-    markerFillOpacity:0.9,
-    markerLineColor:"",
-    markerLineDasharray:null,
-    markerLineOpacity:0.9,
-    markerLineWidth:0,
-    textDy:5,
-    textFaceName:"monospace",
-    textFill:"#ff0000",
-    textHaloFill:"#ffffff",
-    textHaloRadius:4,
-    textHorizontalAlignment:"middle",
-    textLineSpacing:4,
-    textOpacity:1,
-    textSize:12,
-    textSpacing:1,
-    textVerticalAlignment:"bottom",
-    textWrapBefore:false,
-    textWrapCharacter:"\n",
-    textWrapWidth:null
-  }
-}).addTo(layer);
+    'box'          :   true,
+    'boxAutoSize'  :   true,
+    'boxMinWidth'  :   0,
+    'boxMinHeight' :   0,
+    'boxPadding'   :   { 'width' : 26, 'height' : 8 },
+    'boxTextAlign' :   'middle', //left, middle, right
+    'symbol': {
+      // box's symbol
+      'markerFill' : 'rgb(135,196,240)',
+      'markerFillOpacity' : 0.9,
+      'markerLineColor' : '34495e',
+      'markerLineWidth' : 1,
+      // text's symbol
+      'textFaceName' : 'monospace',
+      'textFill' : '#34495e',
+      'textHaloFill' : '#fff',
+      'textHaloRadius' : 4,
+      'textSize' : 18,
+      'textWeight' : 'bold'
+    }
+  });
+
+new maptalks.VectorLayer('vector', [label, labelBox]).addTo(map);

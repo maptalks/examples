@@ -8,18 +8,34 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var options = {
-  'custom': true,
-  'content'   : '<div class="custom_window">' +
-                '<div class="close_btn" onclick="closeWindow();">x</div>' +
-                '<div>My customized InfoWindow.</div>' +
-                '</div>'
-};
+var extent = map.getExtent();
+var w = extent.getWidth(),
+  h = extent.getHeight();
 
-var infoWindow = new maptalks.ui.InfoWindow(options);
-infoWindow.addTo(map).show(map.getCenter());
-
-function closeWindow() {
-  infoWindow.hide();
+for (var i = 0; i < 5; i++) {
+  setTimeout(addInfo, 500 * i);
 }
 
+function addInfo() {
+  var coordinate = extent.getMin()
+    .add(Math.random() * w, Math.random() * h)
+    .toFixed(3);
+
+  var options = {
+    'single' : false,
+    'width'  : 183,
+    'height' : 105,
+    'custom' : true,
+    'dx' : -3,
+    'dy' : -20,
+    'content'   : '<div class="content">' +
+      '<div class="pop_title">Custom InfoWindow</div>' +
+      '<div class="pop_time">' + new Date().toLocaleTimeString() + '</div><br>' +
+      '<div class="pop_dept">' + coordinate.x + '</div>' +
+      '<div class="pop_dept">' + coordinate.y + '</div>' +
+      '<div class="arrow"></div>' +
+      '</div>'
+  };
+  var infoWindow = new maptalks.ui.InfoWindow(options);
+  infoWindow.addTo(map).show(coordinate);
+}

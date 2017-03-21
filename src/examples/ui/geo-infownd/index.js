@@ -9,11 +9,15 @@ var map = new maptalks.Map('map', {
 });
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
-var geometry = new maptalks.Marker([-0.113049,51.49856]).addTo(layer);
+var marker = new maptalks.Marker([-0.113049,51.49856]).addTo(layer);
 
-var options = {
-  'title'     : 'Title',
-  'content'   : 'Content'
-};
-var infoWindow = new maptalks.ui.InfoWindow(options);
-infoWindow.addTo(geometry).show(geometry.getCenter());
+marker.setInfoWindow({
+  'title'     : 'Marker\'s InfoWindow',
+  'content'   : 'Click on marker to open.'
+});
+
+marker.openInfoWindow();
+
+marker.on('click', function () {
+  marker.openInfoWindow();
+});
