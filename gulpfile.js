@@ -133,6 +133,8 @@ function escapeHelper(options) {
   return handlebars.Utils.escapeExpression(options.fn(this));
 }
 
+var outputFolder = '../examples.maptalks.org';
+
 gulp.task('examples-raw', function () {
   return gulp.src('src/examples/**/*')
     .pipe(metalsmith({
@@ -153,7 +155,7 @@ gulp.task('examples-raw', function () {
       path.dirname += '/raw';
       return path;
     }))
-    .pipe(gulp.dest(path.join('dist/', locale, 'examples')));
+    .pipe(gulp.dest(path.join(outputFolder, locale, 'examples')));
 });
 
 var options = [
@@ -177,7 +179,7 @@ gulp.task('examples-demo', function () {
     .pipe(metalsmith({
       use: options
     }))
-    .pipe(gulp.dest(path.join('dist', locale, 'examples')));
+    .pipe(gulp.dest(path.join(outputFolder, locale, 'examples')));
 });
 
 gulp.task('examples-index', function () {
@@ -185,24 +187,28 @@ gulp.task('examples-index', function () {
     .pipe(metalsmith({
       use: options
     }))
-    .pipe(gulp.dest(path.join('dist', locale)));
+    .pipe(gulp.dest(path.join(outputFolder, locale)));
 });
 
 gulp.task('examples', ['examples-index', 'examples-raw', 'examples-demo'], function () {
-  del([
+  return gulp.src('assets/**/*')
+    .pipe(gulp.dest(outputFolder));
+});
+
+gulp.task('clean', function () {
+  return del([
     'dist/**/*'
   ]);
-  return gulp.src('assets/**/*')
-    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('watch', ['examples'], function () {
-  var scriptWatcher = gulp.watch(['./src/**/*', './assets/**/*', './layouts/**/*'], ['examples']); // watch the same files in our scripts task
+  gulp.watch(['./src/**/*', './assets/**/*', './layouts/**/*'], ['examples']);
+  gulp.watch(['./build/*'], ['examples-index']);
 });
 
 gulp.task('connect', ['watch'], function () {
   connect.server({
-    root: 'dist',
+    root: outputFolder,
     livereload: true,
     port: 20001
   });
