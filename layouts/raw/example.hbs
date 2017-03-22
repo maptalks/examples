@@ -1,24 +1,12 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-    <link rel="stylesheet" href="../../../../../css/maptalks.css">
-    {{#if css.source}}<link rel="stylesheet" href="{{ css.basename }}">{{/if}}
-    <style>
-      body {
-        font: 13px "microsoft yahei",Arial,Helvetica;
-      }
-    </style>
-    <script type="text/javascript" src="../../../../../maptalks.js"></script>
-    <title>{{ category }} - {{ title }}</title>
-
-  </head>
+  <meta charset="UTF-8">
+  {{#if css.source}}<link rel="stylesheet" href="{{ css.basename }}">{{/if}}
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <title>{{ category }} - {{ title }}</title>
   <body>
 {{{ indent contents spaces=4 }}}
     <script>
 {{{ indent js.source spaces=6 }}}
     </script>
   </body>
-</html>

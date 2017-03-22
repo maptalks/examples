@@ -3,6 +3,8 @@ var fs = require('fs');
 var all = require('./examples.json');
 var chalk = require('chalk');
 
+var locale = process.env.locale || 'en';
+
 module.exports = exports = {
   check: function () {
     var examples = all.examples,
@@ -24,29 +26,23 @@ module.exports = exports = {
 
   listHelper: function (i, options) {
     var items = all.examples;
-    var out = '';
+    var out = '<ul class="menu-list">';
     for (var i = 0; i < items.length; i++) {
       var cat = items[i];
-      var title = (i + 1 ) + ' ' + cat.title.zh;
-      if (i === 0) {
-        out += '<li class="change"><a href="javascript:;">' + title + '</a>';
-      } else {
-        out += '<li><a href="javascript:;">' + title + '</a>';
-      }
+      var title = (i + 1 ) + ' ' + cat.title[locale];
+
+      out += '<li><a href="javascript:;">' + title + '</a>';
       out += "<ol>";
       var examples = cat.examples;
       for(var ii=0, ll=examples.length; ii<ll; ii++) {
-        var url = cat.name + '/' + examples[ii].name +'/index.html';
-        var subTitle = (i + 1 ) + '.' + (ii + 1 ) + ' '  + examples[ii].title.zh;
-        if (ii === 0) {
-          out += '<li><a href = "' + url + '" class="change" target="demo_iframe">' + subTitle + '</a></li>';
-        } else {
-          out += '<li><a href = "' + url + '" target="demo_iframe">' + subTitle + '</a></li>';
-        }
+        var url = 'examples/' + cat.name + '/' + examples[ii].name +'/index.html';
+        var subTitle = (i + 1 ) + '.' + (ii + 1 ) + ' '  + examples[ii].title[locale];
+        var onclick = 'selectExample(\'' + cat.name + ',' + examples[ii].name + '\');';
+        out += '<li><a href = "' + url + '" target="viewer" onclick = "' + onclick + '">' + subTitle + '</a></li>';
       }
       out += '</ol></li>'
     }
-
+    out += '</ul>';
     return out;
   },
 

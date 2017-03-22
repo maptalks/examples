@@ -1,0 +1,27 @@
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map0 {
+  width: calc(50% - 2px);
+  height: calc(100% - 2px);
+  float: left;
+  border : 1px solid;
+}
+
+#map1 {
+  width: calc(50% - 2px);
+  height: calc(100% - 2px);
+  float: right;
+  border : 1px solid;
+}
+
+.attr {
+  background-color: #34495e;
+  color : #fff;
+  padding:0px 4px;
+  font : 16px sans-serif;
+}
