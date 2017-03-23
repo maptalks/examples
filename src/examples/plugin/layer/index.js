@@ -9,8 +9,7 @@ var map = new maptalks.Map('map', {
 });
 
 const options = {
-  'textColor' : 'Red',
-  'renderWhenMoving'  : true
+  'textColor' : 'Red'
 };
 
 // A layer display given text with given color in the center.
@@ -51,6 +50,16 @@ class MyLayerRenderer extends maptalks.renderer.CanvasRenderer {
   //constructor
   constructor(layer) {
     super(layer);
+  }
+
+  // render the layer when map is moving
+  isRenderOnMoving() {
+    return true;
+  }
+
+  // render the layer when map is moving
+  isRenderOnZooming() {
+    return true;
   }
 
   //interface method to draw

@@ -3,7 +3,7 @@ var fs = require('fs');
 var all = require('./examples.json');
 var chalk = require('chalk');
 
-var locale = process.env.locale || 'en';
+var locale = process.env.locale || 'cn';
 
 module.exports = exports = {
   check: function () {

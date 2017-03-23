@@ -28,26 +28,26 @@ var min = proj.project(new maptalks.Coordinate(-180, -90)),
     'right' : max.x,
     'bottom' : min.y
   };
-//initialize map with a customized projection
-var map = new maptalks.Map('map', {
-  center:     [0, 0],
-  centerCross : true,
-  zoom:  3,
-  view:{
-    'projection': proj,
-    'resolutions': (function () {
-      var resolutions = [];
-      for (var i = 0; i < 10; i++) {
-        resolutions[i] = 4 / Math.pow(2, i);
-      }
-      return resolutions;
-    })(),
-    'fullExtent': fullExtent
-  }
-});
 
 d3.json('world-50m.json', function (error, world) {
   if (error) throw error;
+  //initialize map with a customized projection
+  var map = new maptalks.Map('map', {
+    center:     [0, 0],
+    centerCross : true,
+    zoom:  3,
+    view:{
+      'projection': proj,
+      'resolutions': (function () {
+        var resolutions = [];
+        for (var i = 0; i < 10; i++) {
+          resolutions[i] = 4 / Math.pow(2, i);
+        }
+        return resolutions;
+      })(),
+      'fullExtent': fullExtent
+    }
+  });
   var featureCollection = topojson.feature(world, world.objects.countries),
     geometries = maptalks.GeoJSON.toGeometry(featureCollection);
   var symbol = {

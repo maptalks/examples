@@ -17,8 +17,16 @@
     },
 
     {
+      "name" : "3d",
+      "title" : {"cn" : "三维视角", "en" : "3D Views"},
+      "examples" : [
+        {"name" : "view", "title" : {"cn" : "三维视角变换", "en" : "Change 3D View"}}
+      ]
+    },
+
+    {
      "name" : "layer",
-     "title" : {"cn" : "常用图层", "en" : "Layers"},
+     "title" : {"cn" : "常用图层", "en" : "Common Layers"},
      "examples" : [
         {"name" : "add-remove", "title" : {"cn" : "添加图层和移除图层", "en" : "Add and remove layers"}},
         {"name" : "show-hide", "title" : {"cn" : "隐藏显示图层", "en" : "Show and hide layers"}},
@@ -55,13 +63,14 @@
 
     {
       "name" : "style",
-      "title" : {"cn" : "样式渲染", "en" : "Styles"},
+      "title" : {"cn" : "图形样式", "en" : "Styles"},
       "examples" : [
         {"name" : "file-marker", "title" : {"cn" : "图片标注", "en" : "Image file marker"}},
         {"name" : "text-marker", "title" : {"cn" : "文字标注", "en" : "Text Marker"}},
         {"name" : "vector-marker", "title" : {"cn" : "矢量标注", "en" : "Vector Marker"}},
         {"name" : "svg-path-marker", "title" : {"cn" : "SVG矢量标注", "en" : "Vector marker by SVG path"}},
         {"name" : "line-pattern", "title" : {"cn" : "线的模式填充线", "en" : "Line's pattern fill"}},
+        {"name" : "line-dasharray", "title" : {"cn" : "虚线", "en" : "Line dasharray"}},
         {"name" : "polygon-pattern", "title" : {"cn" : "面的模式填充", "en" : "Polygon's pattern fill"}},
         {"name" : "vector-pattern", "title" : {"cn" : "矢量标注的模式填充", "en" : "Vector marker's pattern fill"}},
         {"name" : "line-gradient", "title" : {"cn" : "线的渐变填充", "en" : "Line's gradient fill"}},
@@ -69,6 +78,33 @@
         {"name" : "vector-gradient", "title" : {"cn" : "矢量标注的渐变填充", "en" : "Vector marker's pradient fill"}},
         {"name" : "function-type", "title" : {"cn" : "函数类型的动态样式", "en" : "Dynamic symbol with function type"}},
         {"name" : "composite-symbol", "title" : {"cn" : "多样式渲染", "en" : "Composite symbol"}}
+      ]
+    },
+
+    {
+      "name" : "otherlayer",
+      "title" : {"cn" : "Canvas图层示例", "en" : "Canvas Layers"},
+      "examples" : [
+        {"name" : "canvaslayer", "title" : {"cn" : "CanvasLayer示例", "en" : "A CanvasLayer example"}},
+        {"name" : "particlelayer", "title" : {"cn" : "粒子图层示例", "en" : "A ParticleLayer example"}},
+        {"name" : "canvastilelayer", "title" : {"cn" : "CanvasTileLayer图层示例", "en" : "A CanvasTileLayer example"}}
+      ]
+    },
+
+    {
+      "name" : "ui",
+      "title" : {"cn" : "UI组件", "en" : "UI components"},
+      "examples" : [
+        {"name" : "uimarker", "title" : {"cn" : "UI Marker", "en" : "UI Markers"}},
+        {"name" : "echarts-ui", "title" : {"cn" : "ECharts UI Marker", "en" : "ECharts UI Marker"}},
+        {"name" : "highcharts-ui", "title" : {"cn" : "Highcharts UI Marker", "en" : "Highcharts UI Marker"}},
+        {"name" : "d3-ui", "title" : {"cn" : "D3 UI Marker", "en" : "D3 UI Marker"}},
+        {"name" : "map-menu", "title" : {"cn" : "地图右键菜单", "en" : "Map's context menu"}},
+        {"name" : "map-infownd", "title" : {"cn" : "地图信息框", "en" : "Map's InfoWindow"}},
+        {"name" : "geo-menu", "title" : {"cn" : "图形右键菜单",  "en" : "Geometry's context menu"}},
+        {"name" : "geo-infownd", "title" : {"cn" : "图形信息框", "en" : "Geometry's InfoWindow"}},
+        {"name" : "custom-menu", "title" : {"cn" : "自定义右键菜单", "en" : "Custom context menu"}},
+        {"name" : "custom-infownd", "title" : {"cn" : "自定义信息框", "en" : "Custom InfoWindow"}}
       ]
     },
 
@@ -115,23 +151,6 @@
       "examples" : [
         {"name" : "contains-point", "title" : {"cn" : "包含指定坐标", "en" : "Contains a point"}},
         {"name" : "identify", "title" : {"cn" : "查询指定坐标上的图形", "en" : "Identify geometries"}}
-      ]
-    },
-
-    {
-      "name" : "ui",
-      "title" : {"cn" : "UI组件", "en" : "UI components"},
-      "examples" : [
-        {"name" : "map-menu", "title" : {"cn" : "地图右键菜单", "en" : "Map's context menu"}},
-        {"name" : "map-infownd", "title" : {"cn" : "地图信息框", "en" : "Map's InfoWindow"}},
-        {"name" : "uimarker", "title" : {"cn" : "UI Marker", "en" : "UI Markers"}},
-        {"name" : "echarts-ui", "title" : {"cn" : "ECharts UI Marker", "en" : "ECharts UI Marker"}},
-        {"name" : "highcharts-ui", "title" : {"cn" : "Highcharts UI Marker", "en" : "Highcharts UI Marker"}},
-        {"name" : "d3-ui", "title" : {"cn" : "D3 UI Marker", "en" : "D3 UI Marker"}},
-        {"name" : "geo-menu", "title" : {"cn" : "图形右键菜单",  "en" : "Geometry's context menu"}},
-        {"name" : "geo-infownd", "title" : {"cn" : "图形信息框", "en" : "Geometry's InfoWindow"}},
-        {"name" : "custom-menu", "title" : {"cn" : "自定义右键菜单", "en" : "Custom context menu"}},
-        {"name" : "custom-infownd", "title" : {"cn" : "自定义信息框", "en" : "Custom InfoWindow"}}
       ]
     },
 
