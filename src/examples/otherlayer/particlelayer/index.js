@@ -10,7 +10,7 @@ var map = new maptalks.Map('map', {
   ]
 });
 
-// A animated particle circle
+// An animated particle circle
 var particles = new maptalks.ParticleLayer('c', {
   'renderOnMoving' : true
 });

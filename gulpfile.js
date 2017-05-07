@@ -13,17 +13,21 @@ var builder = require('./build/build');
 var handlebars = require('handlebars');
 
 var markupRegex = /([^\/^\.]*)\.html$/;
-var locale = process.env.locale || 'en';
+var locale = process.env.locale || 'cn';
 
 var defines = define({
   'urls': {
-    'zh': {
-      'urlTemplate' : 'http://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
-      'subdomains': '[1, 2, 3, 4]'
+    'cn': {
+      // 'urlTemplate' : 'http://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+      // 'subdomains': '[1, 2, 3, 4]'
+      'urlTemplate' : 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+      'subdomains'  : "['a','b','c','d','e']"
     },
     'en': {
-      'urlTemplate': 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      'subdomains': '["a","b","c"]'
+      // 'urlTemplate': 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      // 'subdomains': '["a","b","c"]'
+      'urlTemplate' : 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+      'subdomains'  : "['a','b','c','d','e']"
     }
   }
 });
@@ -66,9 +70,8 @@ function processSingleFile(file, filepath, files, metadata, isRaw) {
   if (file.meta.title) {
     file.title = file.meta.title[locale];
   }
-
   file.basename = basename;
-
+  file.path = dirname;
   var js = path.join(dirname, id + '.js');
   if (js in files) {
     var url = metadata['urls'][locale];

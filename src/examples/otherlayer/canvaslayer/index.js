@@ -19,7 +19,7 @@ canvasLayer.prepareToDraw = function (context) {
 };
 
 // param1 and param2 are prepareToDraw's return values.
-canvasLayer.draw = function (context, param1, param2) {
+canvasLayer.draw = function (context, view, param1, param2) {
   var size = map.getSize();
   var str = param1 + ',' + param2;
   var len = context.measureText(str);

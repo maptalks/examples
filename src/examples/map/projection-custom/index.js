@@ -36,7 +36,7 @@ d3.json('world-50m.json', function (error, world) {
     center:     [0, 0],
     centerCross : true,
     zoom:  3,
-    view:{
+    spatialReference:{
       'projection': proj,
       'resolutions': (function () {
         var resolutions = [];

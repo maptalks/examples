@@ -1,4 +1,3 @@
-
 var map = new maptalks.Map('map', {
   center: [-0.113049,51.49856],
   zoom: 14,
@@ -8,34 +7,26 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var extent = map.getExtent();
-var w = extent.getWidth(),
-  h = extent.getHeight();
+var coordinate = map.getCenter().toFixed(3);
 
-for (var i = 0; i < 5; i++) {
-  setTimeout(addInfo, 500 * i);
-}
+var options = {
+  'single' : false,
+  'width'  : 183,
+  'height' : 105,
+  'custom' : true,
+  'dx' : -3,
+  'dy' : -12,
+  'content'   : '<div class="content">' +
+    '<div class="pop_title">Custom InfoWindow</div>' +
+    '<div class="pop_time">' + new Date().toLocaleTimeString() + '</div><br>' +
+    '<div class="pop_dept">' + coordinate.x + '</div>' +
+    '<div class="pop_dept">' + coordinate.y + '</div>' +
+    '<div class="arrow"></div>' +
+    '</div>'
+};
+var infoWindow = new maptalks.ui.InfoWindow(options);
+infoWindow.addTo(map).show(coordinate);
 
-function addInfo() {
-  var coordinate = extent.getMin()
-    .add(Math.random() * w, Math.random() * h)
-    .toFixed(3);
-
-  var options = {
-    'single' : false,
-    'width'  : 183,
-    'height' : 105,
-    'custom' : true,
-    'dx' : -3,
-    'dy' : -20,
-    'content'   : '<div class="content">' +
-      '<div class="pop_title">Custom InfoWindow</div>' +
-      '<div class="pop_time">' + new Date().toLocaleTimeString() + '</div><br>' +
-      '<div class="pop_dept">' + coordinate.x + '</div>' +
-      '<div class="pop_dept">' + coordinate.y + '</div>' +
-      '<div class="arrow"></div>' +
-      '</div>'
-  };
-  var infoWindow = new maptalks.ui.InfoWindow(options);
-  infoWindow.addTo(map).show(coordinate);
-}
+map.on('click', function (e) {
+  infoWindow.show(e.coordinate);
+});

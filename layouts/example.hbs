@@ -17,6 +17,7 @@
         overflow-y:auto;
       }
     </style>
+    <script type="text/javascript" src="../../../../highlight.min.js"></script>
 </head>
 <body>
     <article id="example">
@@ -68,16 +69,19 @@
         <input type="text" name="wrap" value="l">
     </form>
   </div>
-<script type="text/javascript" src="../../../../highlight.min.js"></script>
 <script>
-  var codes = document.getElementsByTagName('code');
-  for (var i = 0; i < codes.length; i++) {
-    hljs.highlightBlock(codes[i]);
+  function highlight() {
+    var codes = document.getElementsByTagName('code');
+    for (var i = 0; i < codes.length; i++) {
+      hljs.highlightBlock(codes[i]);
+    }
   }
 
   function edit() {
     document.getElementById('editor').submit();
   }
+
+  highlight();
 </script>
 </body>
 </html>

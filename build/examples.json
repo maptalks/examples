@@ -35,8 +35,8 @@
         {"name" : "sort", "title" : {"cn" : "改变图层叠加顺序", "en" : "Sort layers"}},
         {"name" : "mask", "title" : {"cn" : "设置图层遮罩", "en" : "Layer mask"}},
         {"name" : "tile-renderer", "title" : {"cn" : "瓦片图层不同的渲染方式", "en" : "TileLayer renderers"}},
-        {"name" : "vector-feature-filter", "title" : {"cn" : "在矢量图层中选择符合条件的geometries", "en" : "Filter geometries"}},
-        {"name" : "vector-style", "title" : {"cn" : "矢量图层样式", "en" : "Set style for VectorLayers"}},
+        {"name" : "vector-feature-filter", "title" : {"cn" : "图形条件查询", "en" : "Filter geometries"}},
+        {"name" : "vector-style", "title" : {"cn" : "根据条件设置图层样式", "en" : "Set style for VectorLayers"}},
         {"name" : "arcgis-tile", "title" : {"cn" : "载入ArcGIS瓦片服务", "en" : "Load ArcGIS tile service"}}
       ]
      },

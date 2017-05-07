@@ -18,7 +18,7 @@ var mapBD = new maptalks.Map('map-bd09', {
   zoom: 4,
   minZoom:1,
   maxZoom:19,
-  view:{
+  spatialReference:{
     projection : 'baidu'
   },
   baseLayer: new maptalks.TileLayer('base', {
@@ -35,7 +35,7 @@ var map4326 = new maptalks.Map('map-4326', {
   zoom: 4,
   minZoom:1,
   maxZoom:18,
-  view:{
+  spatialReference:{
     projection:'EPSG:4326'
   },
   baseLayer: new maptalks.TileLayer('base', {
