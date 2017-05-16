@@ -1,4 +1,5 @@
 /* eslint global-require: 0 */
+var exec = require('child_process').exec;
 var path = require('path');
 var gulp = require('gulp');
 var del = require('del');
@@ -136,7 +137,7 @@ function escapeHelper(options) {
   return handlebars.Utils.escapeExpression(options.fn(this));
 }
 
-var outputFolder = '../examples.maptalks.org';
+var outputFolder = '../docs/examples';
 
 gulp.task('examples-raw', function () {
   return gulp.src('src/examples/**/*')
@@ -200,8 +201,10 @@ gulp.task('examples', ['examples-index', 'examples-raw', 'examples-demo'], funct
 
 gulp.task('clean', function () {
   return del([
-    'dist/**/*'
-  ]);
+    outputFolder + '/**/*'
+  ],{
+    'force' : true
+  });
 });
 
 gulp.task('watch', ['examples'], function () {
@@ -222,3 +225,15 @@ gulp.task('check', function () {
 });
 
 gulp.task('default', ['connect']);
+
+gulp.task('publish', ['clean'], function (cb) {
+  process.env.locale = 'cn';
+  exec('gulp examples', function (err) {
+    if (err) return cb(err); // return error
+    process.env.locale = 'en';
+    exec('gulp examples', function (err) {
+      if (err) return cb(err); // return error
+      cb(); // finished task
+    });
+  });
+});

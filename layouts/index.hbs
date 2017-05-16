@@ -26,10 +26,10 @@
   <script src="../js/jquery.js"></script>
   <script type="text/javascript">
     $(document).ready(function () {
-      var link = 'examples/map/load/';
+      var link = 'examples/map/load/index.html';
       var hash = window.location.hash;
       if (hash) {
-        link = 'examples/' + hash.replace('#', '').replace(',', '/') + '/';
+        link = 'examples/' + hash.replace('#', '').replace(',', '/') + '/index.html';
       }
       $('#viewer')[0].src = link;
       $('#sidebar .menu-list').sidebarmenu();

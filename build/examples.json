@@ -34,6 +34,7 @@
         {"name" : "bring-front-back", "title" : {"cn" : "图层置顶或置底", "en" : "Bring layers to front or back"}},
         {"name" : "sort", "title" : {"cn" : "改变图层叠加顺序", "en" : "Sort layers"}},
         {"name" : "mask", "title" : {"cn" : "设置图层遮罩", "en" : "Layer mask"}},
+        {"name" : "mask2", "title" : {"cn" : "行政区图层遮罩", "en" : "Use boundary to mask layer"}},
         {"name" : "tile-renderer", "title" : {"cn" : "瓦片图层不同的渲染方式", "en" : "TileLayer renderers"}},
         {"name" : "vector-feature-filter", "title" : {"cn" : "图形条件查询", "en" : "Filter geometries"}},
         {"name" : "vector-style", "title" : {"cn" : "根据条件设置图层样式", "en" : "Set style for VectorLayers"}},
