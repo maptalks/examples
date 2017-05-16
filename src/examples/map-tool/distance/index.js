@@ -21,5 +21,35 @@ var distanceTool = new maptalks.DistanceTool({
     'markerWidth'       : 10,
     'markerHeight'      : 10
   },
+  'labelOptions' : {
+    'symbol': {
+      'textFaceName': 'monospace',
+      'textFill' : '#fff',
+      'textLineSpacing': 1,
+      'textHorizontalAlignment': 'right',
+      'textDx': 15,
+      'markerLineColor': '#b4b3b3',
+      'markerFill' : '#000'
+    },
+    'boxPadding': {
+      'width': 6,
+      'height': 4
+    }
+  },
+  'clearButtonSymbol' :[{
+    'markerType': 'square',
+    'markerFill': '#000',
+    'markerLineColor': '#b4b3b3',
+    'markerLineWidth': 2,
+    'markerWidth': 15,
+    'markerHeight': 15,
+    'markerDx': 20
+  }, {
+    'markerType': 'x',
+    'markerWidth': 10,
+    'markerHeight': 10,
+    'markerLineColor' : '#fff',
+    'markerDx': 20
+  }],
   'language' : 'en-US'
 }).addTo(map);
