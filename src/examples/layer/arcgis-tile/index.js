@@ -14,7 +14,7 @@ maptalks.SpatialReference.loadArcgis(arcUrl + '?f=pjson', function (err, conf) {
     spatialReference : ref,
     baseLayer: new maptalks.TileLayer('base', {
       'tileSystem' : conf.tileSystem,
-      'tileSize' : conf.tileSize, // 512, 512
+      'tileSize' : conf.tileSize, // [512, 512]
       'urlTemplate' : arcUrl + '/tile/{z}/{y}/{x}'
     }),
     attribution : {
