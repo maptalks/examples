@@ -183,10 +183,18 @@
       "name" : "plugin",
       "title" : {"cn" : "插件开发示例", "en" : "Plugin development"},
       "examples" : [
-          {"name" : "layer", "title" : {"cn" : "创建自定义图层类型", "en" : "New layer"}},
           {"name" : "control", "title" : {"cn" : "创建新的控件", "en" : "New control"}},
           {"name" : "ui", "title" : {"cn" : "创建新的UI组件", "en" : "New UI Component"}},
           {"name" : "maptool", "title" : {"cn" : "创建地图工具", "en" : "New MapTool"}}
+      ]
+    },
+
+    {
+      "name" : "hellolayer",
+      "title" : {"cn" : "图层开发示例", "en" : "Layer development"},
+      "examples" : [
+          {"name" : "layer", "title" : {"cn" : "HelloLayer", "en" : "HelloLayer"}},
+          {"name" : "animation", "title" : {"cn" : "HelloLayer动画图层", "en" : "HelloLayer with animation"}}
       ]
     }
   ]
