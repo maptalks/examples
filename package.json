@@ -26,6 +26,9 @@
     "lint": "eslint examples/**/*.js",
     "pretest": "npm run lint"
   },
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MapTalks/maptalks-demo.git"
