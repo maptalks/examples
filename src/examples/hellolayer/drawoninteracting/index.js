@@ -1,4 +1,3 @@
-
 var map = new maptalks.Map('map', {
   center: [-0.113049,51.498568],
   zoom: 14,
@@ -8,10 +7,10 @@ var map = new maptalks.Map('map', {
   })
 });
 
+
 const options = {
-  'animation' : true,
   // 默认颜色
-  'color' : ['Red', 'Blue', 'Green', 'Yellow'],
+  'color' : 'Red',
   // 默认字体
   'font' : '30px san-serif'
 };
@@ -38,17 +37,18 @@ HelloLayer.mergeOptions(options);
 
 
 class HelloLayerRenderer extends maptalks.renderer.CanvasRenderer {
-   checkResources() {
+  checkResources() {
     //HelloLayer只是绘制文字, 没有外部图片, 所以返回空数组
     return [];
   }
 
   draw() {
-    const colors = this.layer.options.color;
-    const rndIdx = Math.round(Math.random() * (colors.length - 1)),
-      color = colors[rndIdx];
-    const drawn = this._drawData(this.layer.getData(), color);
+    const drawn = this._drawData(this.layer.getData(), this.layer.options.color);
+    //记录下绘制过的数据
     this._drawnData = drawn;
+    //结束绘制:
+    // 1. 触发必要的事件
+    // 2. 将渲染器的canvas设为更新状态, map会加载canvas并呈现在地图上
     this.completeRender();
   }
 
@@ -56,23 +56,12 @@ class HelloLayerRenderer extends maptalks.renderer.CanvasRenderer {
     if (!this._drawnData || this._drawnData.length === 0) {
       return;
     }
-    const colors = this.layer.options.color;
-    const rndIdx = Math.round(Math.random() * (colors.length - 1)),
-      color = colors[rndIdx];
-    this._drawData(this._drawnData, color);
+    this._drawData(this._drawnData, this.layer.options.color);
   }
 
-  //drawOnIntearcting被略过时的回调函数
-  onSkipDrawOnInteracting() { }
-
-  //当animation为true时是动画图层, 返回true
-  needToRedraw() {
-    if (this.layer.options['animation']) {
-      return true;
-    }
-    return super.needToRedraw();
-  }
-
+  /**
+  * 绘制数据
+  */
   _drawData(data, color) {
     if (!Array.isArray(data)) {
       return;
@@ -117,7 +106,6 @@ layer.setData([
     'coord' : map.getCenter().toArray(),
     'text' : 'Hello World'
   },
-
   {
     'coord' : map.getCenter().add(0.01, 0.01).toArray(),
     'text' : 'Hello World 2'

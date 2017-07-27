@@ -194,6 +194,7 @@
       "title" : {"cn" : "图层开发示例", "en" : "Layer development"},
       "examples" : [
           {"name" : "layer", "title" : {"cn" : "HelloLayer", "en" : "HelloLayer"}},
+          {"name" : "drawoninteracting", "title" : {"cn" : "HelloLayer交互绘制", "en" : "HelloLayer with drawOnInteracting"}},
           {"name" : "animation", "title" : {"cn" : "HelloLayer动画图层", "en" : "HelloLayer with animation"}}
       ]
     }
