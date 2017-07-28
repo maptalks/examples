@@ -148,6 +148,7 @@ gulp.task('examples-raw', function () {
         }),
         layouts({
           engine: 'handlebars',
+          pattern: '**/*.html',
           default: 'example.hbs',
           directory: 'layouts/raw',
           helpers: {
@@ -175,6 +176,7 @@ gulp.task('examples-demo', function () {
         }),
         layouts({
           engine: 'handlebars',
+          pattern: '**/*.html',
           default: 'example.hbs',
           directory: 'layouts',
           partials: 'layouts/raw',
@@ -198,6 +200,7 @@ gulp.task('examples-index', function () {
         }),
         layouts({
           engine: 'handlebars',
+          pattern: '**/*.html',
           directory: 'layouts',
           helpers: {
             list: builder.listHelper
