@@ -2408,13 +2408,16 @@ merge-stream@^1.0.0:
   dependencies:
     readable-stream "^2.0.1"
 
+metalsmith-debug@^1.1.0:
+  version "1.1.0"
+  resolved "http://registry.npm.taobao.org/metalsmith-debug/download/metalsmith-debug-1.1.0.tgz#6490225703bf45df96cae485b41838022f696849"
+  dependencies:
+    debug "^2.2.0"
+    multimatch "^2.1.0"
+
 metalsmith-define@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/metalsmith-define/-/metalsmith-define-2.0.1.tgz#a5a48632e62958ba61a74169f65bc2b6f65b915d"
-
-metalsmith-drafts@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/metalsmith-drafts/-/metalsmith-drafts-0.0.1.tgz#727858ba266934a37a287013beca9b6033272f77"
 
 metalsmith-layouts@^1.6.5:
   version "1.8.0"
@@ -2560,7 +2563,7 @@ ms@0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
 
-multimatch@^2.0.0:
+multimatch@^2.0.0, multimatch@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/multimatch/-/multimatch-2.1.0.tgz#9c7906a22fb4c02919e2f5f75161b4cdbd4b2a2b"
   dependencies:
