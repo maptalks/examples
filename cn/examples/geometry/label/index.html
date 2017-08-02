@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>图形 - 文字标签</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <link rel="stylesheet" href="../../../../css/reset_css.css" />
+  <link rel="stylesheet" href="../../../../css/all.css" />
+  <link rel="stylesheet" href="../../../../monokai-sublime.css" />
+  <style type="text/css">
+    html,
+    body {
+      overflow-y: auto;
+    }
+
+  </style>
+  <script type="text/javascript" src="../../../../highlight.min.js"></script>
+</head>
+
+<body>
+  <article id="example">
+    <div id="map">
+      <h3 class="main-title">文字标签</h3>
+      <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/index.html"></iframe>
+    </div>
+    <div class="button">
+      <a href="https://github.com/maptalks/maptalks-demo/tree/master/src/examples/geometry/label" target="_blank"><img src="../../../../images/icon2.png"> Source</a>
+      <a href="raw/index.html" target="_blank"><img src="../../../../images/icon1.png"> Open</a>
+      <a href="javascript:edit();"><img src="../../../../images/icon2.png"> Edit</a>
+    </div>
+
+    <div id="code">
+      <div class="code-box" data-key="index.html">
+        <h3 class="code-title">index.html<a name="index.html" class="anchor" href="#index.html">#</a></h3>
+        <pre>
+          <code class="html xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+  &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;index.css&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.css&quot;&gt;
+  &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.js&quot;&gt;&lt;/script&gt;
+  &lt;title&gt;图形 - 文字标签&lt;/title&gt;
+  &lt;body&gt;
+
+    &lt;div id&#x3D;&quot;map&quot;&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+      var c &#x3D; new maptalks.Coordinate(-0.113049,51.498568);
+      var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+        center: c,
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
+          urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
+          subdomains: [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;]
+        })
+      });
+
+      var label &#x3D; new maptalks.Label(&#x27;label without box&#x27;,
+        c.add(-0.013,-0.002),
+        {
+          &#x27;box&#x27;: false,
+          &#x27;symbol&#x27; : {
+            &#x27;textWeight&#x27; : &#x27;bold&#x27;,
+            &#x27;textFaceName&#x27; : &#x27;sans-serif&#x27;,
+            &#x27;textFill&#x27; : &#x27;#34495e&#x27;,
+            &#x27;textSize&#x27; : 18,
+            &#x27;textHaloColor&#x27; : &#x27;#fff&#x27;,
+            &#x27;textHaloRadius&#x27; : 3
+          }
+        });
+
+      var labelBox &#x3D; new maptalks.Label(&#x27;label with box&#x27;,
+        c.add(0.004,-0.002),
+        {
+          &#x27;box&#x27;          :   true,
+          &#x27;boxAutoSize&#x27;  :   true,
+          &#x27;boxMinWidth&#x27;  :   0,
+          &#x27;boxMinHeight&#x27; :   0,
+          &#x27;boxPadding&#x27;   :   { &#x27;width&#x27; : 26, &#x27;height&#x27; : 8 },
+          &#x27;boxTextAlign&#x27; :   &#x27;middle&#x27;, //left, middle, right
+          &#x27;symbol&#x27;: {
+            // box&#x27;s symbol
+            &#x27;markerFill&#x27; : &#x27;rgb(135,196,240)&#x27;,
+            &#x27;markerFillOpacity&#x27; : 0.9,
+            &#x27;markerLineColor&#x27; : &#x27;34495e&#x27;,
+            &#x27;markerLineWidth&#x27; : 1,
+            // text&#x27;s symbol
+            &#x27;textFaceName&#x27; : &#x27;monospace&#x27;,
+            &#x27;textFill&#x27; : &#x27;#34495e&#x27;,
+            &#x27;textHaloFill&#x27; : &#x27;#fff&#x27;,
+            &#x27;textHaloRadius&#x27; : 4,
+            &#x27;textSize&#x27; : 18,
+            &#x27;textWeight&#x27; : &#x27;bold&#x27;
+          }
+        });
+
+      new maptalks.VectorLayer(&#x27;vector&#x27;, [label, labelBox]).addTo(map);
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code>
+        </pre>
+      </div>
+      <div class="code-box" data-key="index.css">
+        <h3 class="code-title">index.css<a name="index.css" class="anchor" href="#index.css">#</a></h3>
+        <pre>
+          <code class="lang-css">
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+</code>
+        </pre>
+      </div>
+    </div>
+
+  </article>
+
+  <span class="clear"></span>
+  <div style="display:none;">
+    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
+      <textarea name="html">
+        <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+        <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+        
+    <div id="map"></div>
+
+      </textarea>
+      <textarea name="js">      var c = new maptalks.Coordinate(-0.113049,51.498568);
+      var map = new maptalks.Map('map', {
+        center: c,
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      var label = new maptalks.Label('label without box',
+        c.add(-0.013,-0.002),
+        {
+          'box': false,
+          'symbol' : {
+            'textWeight' : 'bold',
+            'textFaceName' : 'sans-serif',
+            'textFill' : '#34495e',
+            'textSize' : 18,
+            'textHaloColor' : '#fff',
+            'textHaloRadius' : 3
+          }
+        });
+
+      var labelBox = new maptalks.Label('label with box',
+        c.add(0.004,-0.002),
+        {
+          'box'          :   true,
+          'boxAutoSize'  :   true,
+          'boxMinWidth'  :   0,
+          'boxMinHeight' :   0,
+          'boxPadding'   :   { 'width' : 26, 'height' : 8 },
+          'boxTextAlign' :   'middle', //left, middle, right
+          'symbol': {
+            // box's symbol
+            'markerFill' : 'rgb(135,196,240)',
+            'markerFillOpacity' : 0.9,
+            'markerLineColor' : '34495e',
+            'markerLineWidth' : 1,
+            // text's symbol
+            'textFaceName' : 'monospace',
+            'textFill' : '#34495e',
+            'textHaloFill' : '#fff',
+            'textHaloRadius' : 4,
+            'textSize' : 18,
+            'textWeight' : 'bold'
+          }
+        });
+
+      new maptalks.VectorLayer('vector', [label, labelBox]).addTo(map);
+</textarea>
+      <textarea name="css">
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+</textarea>
+      <input type="text" name="title" value="文字标签">
+      <textarea name="description">图形 - 文字标签</textarea>
+      <textarea name="resources">
+      </textarea>
+      <input type="text" name="wrap" value="l">
+    </form>
+  </div>
+  <script>
+    function highlight() {
+      var codes = document.getElementsByTagName('code');
+      for (var i = 0; i < codes.length; i++) {
+        hljs.highlightBlock(codes[i]);
+      }
+    }
+
+    function edit() {
+      document.getElementById('editor').submit();
+    }
+
+    highlight();
+
+  </script>
+</body>
+
+</html>

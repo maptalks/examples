@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Canvas图层示例 - CanvasTileLayer图层示例</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <link rel="stylesheet" href="../../../../css/reset_css.css" />
+  <link rel="stylesheet" href="../../../../css/all.css" />
+  <link rel="stylesheet" href="../../../../monokai-sublime.css" />
+  <style type="text/css">
+    html,
+    body {
+      overflow-y: auto;
+    }
+
+  </style>
+  <script type="text/javascript" src="../../../../highlight.min.js"></script>
+</head>
+
+<body>
+  <article id="example">
+    <div id="map">
+      <h3 class="main-title">CanvasTileLayer图层示例</h3>
+      <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/index.html"></iframe>
+    </div>
+    <div class="button">
+      <a href="https://github.com/maptalks/maptalks-demo/tree/master/src/examples/otherlayer/canvastilelayer" target="_blank"><img src="../../../../images/icon2.png"> Source</a>
+      <a href="raw/index.html" target="_blank"><img src="../../../../images/icon1.png"> Open</a>
+      <a href="javascript:edit();"><img src="../../../../images/icon2.png"> Edit</a>
+    </div>
+
+    <div id="code">
+      <div class="code-box" data-key="index.html">
+        <h3 class="code-title">index.html<a name="index.html" class="anchor" href="#index.html">#</a></h3>
+        <pre>
+          <code class="html xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+  &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;index.css&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.css&quot;&gt;
+  &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.js&quot;&gt;&lt;/script&gt;
+  &lt;title&gt;Canvas图层示例 - CanvasTileLayer图层示例&lt;/title&gt;
+  &lt;body&gt;
+    &lt;script src&#x3D;&quot;style.js&quot;&gt;&lt;/script&gt;
+    &lt;div id&#x3D;&quot;map&quot;&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+      var layerOrder &#x3D; [
+        &#x27;earth&#x27;, &#x27;landuse&#x27;, &#x27;water&#x27;, &#x27;roads&#x27;, &#x27;building&#x27;
+      ];
+      // draw mapzen&#x27;s geojson vector tile with CanvasTileLayer
+      var canvasTile &#x3D; new maptalks.CanvasTileLayer(&#x27;tile&#x27;,{
+        urlTemplate : &#x27;https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.json?api_key&#x3D;mapzen-cGRKZj&#x27;
+      });
+      canvasTile.drawTile &#x3D; function (canvas, tileContext, onComplete) {
+        maptalks.Ajax.getJSON(tileContext.url, function (err, data) {
+          if (err) {
+            throw err;
+          }
+          var layers &#x3D; [];
+          var loaded &#x3D; 0;
+          function onLayerLoaded() {
+            loaded++;
+            if (loaded &#x3D;&#x3D;&#x3D; layers.length) {
+              onComplete(null);
+            }
+          }
+          //prepare a VectorLayer per mapzen&#x27;s layer
+          for (var i &#x3D; 0, l &#x3D; layerOrder.length; i &lt; l; i++) {
+            var name &#x3D; layerOrder[i];
+            if (!data[name]) {
+              continue;
+            }
+            // mapzenStyle is the layer style defined in ./style.js
+            var style &#x3D; mapzenStyle[name];
+            layers.push(
+              new maptalks.VectorLayer(name, maptalks.GeoJSON.toGeometry(data[name]), {
+                &#x27;style&#x27; : style,
+                &#x27;enableSimplify&#x27; : false,
+                &#x27;geometryEvents&#x27; : false
+              }).on(&#x27;layerload&#x27;, onLayerLoaded)
+            );
+          }
+          //create a map instance on tile&#x27;s canvas
+          var tileMap &#x3D; new maptalks.Map(canvas,{
+            center : tileContext.center,
+            zoom   :  tileContext.z,
+            layers : layers
+          });
+        });
+      };
+      var map &#x3D; new maptalks.Map(&#x27;map&#x27;,{
+        center:      [-122.12258202067433, 38.080679835385574],
+        zoom:  9,
+        centerCross : true,
+        baseLayer : canvasTile,
+        attribution : {
+          content : &#x27;&amp;copy; &lt;a href&#x3D;&quot;https://mapzen.com/&quot; target&#x3D;&quot;_blank&quot;&gt;mapzen&lt;/a&gt;&#x27;
+        }
+      });
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code>
+        </pre>
+      </div>
+      <div class="code-box" data-key="index.css">
+        <h3 class="code-title">index.css<a name="index.css" class="anchor" href="#index.css">#</a></h3>
+        <pre>
+          <code class="lang-css">
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+
+  width: 100%;
+  height: 100%;
+}
+</code>
+        </pre>
+      </div>
+    </div>
+
+  </article>
+
+  <span class="clear"></span>
+  <div style="display:none;">
+    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
+      <textarea name="html">
+        <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+        <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+            <script src="style.js"></script>
+    <div id="map"></div>
+
+      </textarea>
+      <textarea name="js">      var layerOrder = [
+        'earth', 'landuse', 'water', 'roads', 'building'
+      ];
+      // draw mapzen's geojson vector tile with CanvasTileLayer
+      var canvasTile = new maptalks.CanvasTileLayer('tile',{
+        urlTemplate : 'https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.json?api_key=mapzen-cGRKZj'
+      });
+      canvasTile.drawTile = function (canvas, tileContext, onComplete) {
+        maptalks.Ajax.getJSON(tileContext.url, function (err, data) {
+          if (err) {
+            throw err;
+          }
+          var layers = [];
+          var loaded = 0;
+          function onLayerLoaded() {
+            loaded++;
+            if (loaded === layers.length) {
+              onComplete(null);
+            }
+          }
+          //prepare a VectorLayer per mapzen's layer
+          for (var i = 0, l = layerOrder.length; i < l; i++) {
+            var name = layerOrder[i];
+            if (!data[name]) {
+              continue;
+            }
+            // mapzenStyle is the layer style defined in ./style.js
+            var style = mapzenStyle[name];
+            layers.push(
+              new maptalks.VectorLayer(name, maptalks.GeoJSON.toGeometry(data[name]), {
+                'style' : style,
+                'enableSimplify' : false,
+                'geometryEvents' : false
+              }).on('layerload', onLayerLoaded)
+            );
+          }
+          //create a map instance on tile's canvas
+          var tileMap = new maptalks.Map(canvas,{
+            center : tileContext.center,
+            zoom   :  tileContext.z,
+            layers : layers
+          });
+        });
+      };
+      var map = new maptalks.Map('map',{
+        center:      [-122.12258202067433, 38.080679835385574],
+        zoom:  9,
+        centerCross : true,
+        baseLayer : canvasTile,
+        attribution : {
+          content : '&copy; <a href="https://mapzen.com/" target="_blank">mapzen</a>'
+        }
+      });
+</textarea>
+      <textarea name="css">
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+
+  width: 100%;
+  height: 100%;
+}
+</textarea>
+      <input type="text" name="title" value="CanvasTileLayer图层示例">
+      <textarea name="description">Canvas图层示例 - CanvasTileLayer图层示例</textarea>
+      <textarea name="resources">
+      </textarea>
+      <input type="text" name="wrap" value="l">
+    </form>
+  </div>
+  <script>
+    function highlight() {
+      var codes = document.getElementsByTagName('code');
+      for (var i = 0; i < codes.length; i++) {
+        hljs.highlightBlock(codes[i]);
+      }
+    }
+
+    function edit() {
+      document.getElementById('editor').submit();
+    }
+
+    highlight();
+
+  </script>
+</body>
+
+</html>

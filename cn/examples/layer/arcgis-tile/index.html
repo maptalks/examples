@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>常用图层 - 载入ArcGIS瓦片服务</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <link rel="stylesheet" href="../../../../css/reset_css.css" />
+  <link rel="stylesheet" href="../../../../css/all.css" />
+  <link rel="stylesheet" href="../../../../monokai-sublime.css" />
+  <style type="text/css">
+    html,
+    body {
+      overflow-y: auto;
+    }
+
+  </style>
+  <script type="text/javascript" src="../../../../highlight.min.js"></script>
+</head>
+
+<body>
+  <article id="example">
+    <div id="map">
+      <h3 class="main-title">载入ArcGIS瓦片服务</h3>
+      <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/index.html"></iframe>
+    </div>
+    <div class="button">
+      <a href="https://github.com/maptalks/maptalks-demo/tree/master/src/examples/layer/arcgis-tile" target="_blank"><img src="../../../../images/icon2.png"> Source</a>
+      <a href="raw/index.html" target="_blank"><img src="../../../../images/icon1.png"> Open</a>
+      <a href="javascript:edit();"><img src="../../../../images/icon2.png"> Edit</a>
+    </div>
+
+    <div id="code">
+      <div class="code-box" data-key="index.html">
+        <h3 class="code-title">index.html<a name="index.html" class="anchor" href="#index.html">#</a></h3>
+        <pre>
+          <code class="html xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+  &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;index.css&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.css&quot;&gt;
+  &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.js&quot;&gt;&lt;/script&gt;
+  &lt;title&gt;常用图层 - 载入ArcGIS瓦片服务&lt;/title&gt;
+  &lt;body&gt;
+
+    &lt;div id&#x3D;&quot;map&quot;&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+      var arcUrl &#x3D; &#x27;https://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer&#x27;;
+
+      maptalks.SpatialReference.loadArcgis(arcUrl + &#x27;?f&#x3D;pjson&#x27;, function (err, conf) {
+        if (err) {
+          throw new Error(err);
+        }
+        var ref &#x3D; conf.spatialReference;
+        ref.projection &#x3D; &#x27;EPSG:4326&#x27;;
+
+        var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+          center: [121, 0],
+          zoom: 0,
+          maxZoom : 16,
+          spatialReference : ref,
+          baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
+            &#x27;tileSystem&#x27; : conf.tileSystem,
+            &#x27;tileSize&#x27; : conf.tileSize, // [512, 512]
+            &#x27;urlTemplate&#x27; : arcUrl + &#x27;/tile/{z}/{y}/{x}&#x27;
+          }),
+          attribution : {
+            content : &#x27;&amp;copy; &lt;a target&#x3D;&quot;_blank&quot; href&#x3D;&quot;&#x27; + arcUrl + &#x27;&quot;&quot;&gt;ArcGIS&lt;/a&gt;&#x27;
+          }
+        });
+      });
+
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code>
+        </pre>
+      </div>
+      <div class="code-box" data-key="index.css">
+        <h3 class="code-title">index.css<a name="index.css" class="anchor" href="#index.css">#</a></h3>
+        <pre>
+          <code class="lang-css">
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+</code>
+        </pre>
+      </div>
+    </div>
+
+  </article>
+
+  <span class="clear"></span>
+  <div style="display:none;">
+    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
+      <textarea name="html">
+        <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+        <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+        
+    <div id="map"></div>
+
+      </textarea>
+      <textarea name="js">      var arcUrl = 'https://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer';
+
+      maptalks.SpatialReference.loadArcgis(arcUrl + '?f=pjson', function (err, conf) {
+        if (err) {
+          throw new Error(err);
+        }
+        var ref = conf.spatialReference;
+        ref.projection = 'EPSG:4326';
+
+        var map = new maptalks.Map('map', {
+          center: [121, 0],
+          zoom: 0,
+          maxZoom : 16,
+          spatialReference : ref,
+          baseLayer: new maptalks.TileLayer('base', {
+            'tileSystem' : conf.tileSystem,
+            'tileSize' : conf.tileSize, // [512, 512]
+            'urlTemplate' : arcUrl + '/tile/{z}/{y}/{x}'
+          }),
+          attribution : {
+            content : '&copy; <a target="_blank" href="' + arcUrl + '"">ArcGIS</a>'
+          }
+        });
+      });
+
+</textarea>
+      <textarea name="css">
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+</textarea>
+      <input type="text" name="title" value="载入ArcGIS瓦片服务">
+      <textarea name="description">常用图层 - 载入ArcGIS瓦片服务</textarea>
+      <textarea name="resources">
+      </textarea>
+      <input type="text" name="wrap" value="l">
+    </form>
+  </div>
+  <script>
+    function highlight() {
+      var codes = document.getElementsByTagName('code');
+      for (var i = 0; i < codes.length; i++) {
+        hljs.highlightBlock(codes[i]);
+      }
+    }
+
+    function edit() {
+      document.getElementById('editor').submit();
+    }
+
+    highlight();
+
+  </script>
+</body>
+
+</html>

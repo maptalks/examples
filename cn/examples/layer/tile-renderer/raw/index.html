@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <title>常用图层 - 瓦片图层不同的渲染方式</title>
+  <body>
+
+    <div id="map-on-dom"></div>
+    <div id="map-on-canvas"></div>
+
+    <script>
+
+      var map1 = new maptalks.Map('map-on-dom', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        layers : [
+          new maptalks.TileLayer('base', {
+            renderer: 'dom',
+            urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+            subdomains: ["a","b","c","d","e"]
+          })
+        ],
+        attribution : {
+          position : 'top-right',
+          content : '<div class="attr">dom renderer</div>'
+        }
+      });
+
+      var map2 = new maptalks.Map('map-on-canvas', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        layers : [
+          new maptalks.TileLayer('base', {
+            renderer: 'canvas',
+            urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+            subdomains: ["a","b","c","d","e"]
+          })
+        ],
+        attribution : {
+          position : 'top-right',
+          content : '<div class="attr">canvas renderer</div>'
+        }
+      });
+
+
+    </script>
+  </body>
+</html>

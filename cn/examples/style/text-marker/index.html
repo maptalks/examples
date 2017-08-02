@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>图形样式 - 文字标注</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <link rel="stylesheet" href="../../../../css/reset_css.css" />
+  <link rel="stylesheet" href="../../../../css/all.css" />
+  <link rel="stylesheet" href="../../../../monokai-sublime.css" />
+  <style type="text/css">
+    html,
+    body {
+      overflow-y: auto;
+    }
+
+  </style>
+  <script type="text/javascript" src="../../../../highlight.min.js"></script>
+</head>
+
+<body>
+  <article id="example">
+    <div id="map">
+      <h3 class="main-title">文字标注</h3>
+      <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/index.html"></iframe>
+    </div>
+    <div class="button">
+      <a href="https://github.com/maptalks/maptalks-demo/tree/master/src/examples/style/text-marker" target="_blank"><img src="../../../../images/icon2.png"> Source</a>
+      <a href="raw/index.html" target="_blank"><img src="../../../../images/icon1.png"> Open</a>
+      <a href="javascript:edit();"><img src="../../../../images/icon2.png"> Edit</a>
+    </div>
+
+    <div id="code">
+      <div class="code-box" data-key="index.html">
+        <h3 class="code-title">index.html<a name="index.html" class="anchor" href="#index.html">#</a></h3>
+        <pre>
+          <code class="html xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+  &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;index.css&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.css&quot;&gt;
+  &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.js&quot;&gt;&lt;/script&gt;
+  &lt;title&gt;图形样式 - 文字标注&lt;/title&gt;
+  &lt;body&gt;
+
+    &lt;div id&#x3D;&quot;map&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+
+      var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+        center: [-0.113049,51.49856],
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
+          urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
+          subdomains: [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;]
+        })
+      });
+
+      var layer &#x3D; new maptalks.VectorLayer(&#x27;vector&#x27;).addTo(map);
+
+      var symbol &#x3D; {
+        &#x27;textFaceName&#x27; : &#x27;&quot;microsoft yahei&quot;,arial,sans-serif&#x27;,
+        &#x27;textName&#x27; : &#x27;{name}&#x27;,
+        &#x27;textWeight&#x27;        : &#x27;normal&#x27;, //&#x27;bold&#x27;, &#x27;bolder&#x27;
+        &#x27;textStyle&#x27;         : &#x27;normal&#x27;, //&#x27;italic&#x27;, &#x27;oblique&#x27;
+        &#x27;textSize&#x27;          : 40,
+        &#x27;textFont&#x27;          : null,
+        &#x27;textFill&#x27;          : &#x27;#34495e&#x27;,
+        &#x27;textOpacity&#x27;       : 1,
+        &#x27;textHaloFill&#x27;      : &#x27;#fff&#x27;,
+        &#x27;textHaloRadius&#x27;    : 5,
+        &#x27;textWrapWidth&#x27;     : null,
+        &#x27;textWrapBefore&#x27;    : false,
+        &#x27;textWrapCharacter&#x27; : &#x27;\n&#x27;,
+        &#x27;textLineSpacing&#x27;   : 0,
+
+        &#x27;textDx&#x27;            : 0,
+        &#x27;textDy&#x27;            : 0,
+
+        &#x27;textHorizontalAlignment&#x27; : &#x27;middle&#x27;, //left | middle | right | auto
+        &#x27;textVerticalAlignment&#x27;   : &#x27;middle&#x27;,   // top | middle | bottom | auto
+        &#x27;textAlign&#x27;               : &#x27;center&#x27; //left | right | center | auto
+      };
+      var geometry &#x3D; new maptalks.Marker(
+        [-0.113049,51.49856],
+        {
+          &#x27;symbol&#x27; : symbol,
+          &#x27;properties&#x27; : {
+            &#x27;name&#x27; : &#x27;Hello\nMapTalks&#x27;
+          }
+        }
+      ).addTo(layer);
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code>
+        </pre>
+      </div>
+      <div class="code-box" data-key="index.css">
+        <h3 class="code-title">index.css<a name="index.css" class="anchor" href="#index.css">#</a></h3>
+        <pre>
+          <code class="lang-css">
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}</code>
+        </pre>
+      </div>
+    </div>
+
+  </article>
+
+  <span class="clear"></span>
+  <div style="display:none;">
+    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
+      <textarea name="html">
+        <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+        <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+        
+    <div id="map"></div>
+      </textarea>
+      <textarea name="js">
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.49856],
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      var layer = new maptalks.VectorLayer('vector').addTo(map);
+
+      var symbol = {
+        'textFaceName' : '"microsoft yahei",arial,sans-serif',
+        'textName' : '{name}',
+        'textWeight'        : 'normal', //'bold', 'bolder'
+        'textStyle'         : 'normal', //'italic', 'oblique'
+        'textSize'          : 40,
+        'textFont'          : null,
+        'textFill'          : '#34495e',
+        'textOpacity'       : 1,
+        'textHaloFill'      : '#fff',
+        'textHaloRadius'    : 5,
+        'textWrapWidth'     : null,
+        'textWrapBefore'    : false,
+        'textWrapCharacter' : '\n',
+        'textLineSpacing'   : 0,
+
+        'textDx'            : 0,
+        'textDy'            : 0,
+
+        'textHorizontalAlignment' : 'middle', //left | middle | right | auto
+        'textVerticalAlignment'   : 'middle',   // top | middle | bottom | auto
+        'textAlign'               : 'center' //left | right | center | auto
+      };
+      var geometry = new maptalks.Marker(
+        [-0.113049,51.49856],
+        {
+          'symbol' : symbol,
+          'properties' : {
+            'name' : 'Hello\nMapTalks'
+          }
+        }
+      ).addTo(layer);
+</textarea>
+      <textarea name="css">
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}</textarea>
+      <input type="text" name="title" value="文字标注">
+      <textarea name="description">图形样式 - 文字标注</textarea>
+      <textarea name="resources">
+      </textarea>
+      <input type="text" name="wrap" value="l">
+    </form>
+  </div>
+  <script>
+    function highlight() {
+      var codes = document.getElementsByTagName('code');
+      for (var i = 0; i < codes.length; i++) {
+        hljs.highlightBlock(codes[i]);
+      }
+    }
+
+    function edit() {
+      document.getElementById('editor').submit();
+    }
+
+    highlight();
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <title>UI components - Custom context menu</title>
+  <body>
+    <div id="map"></div>
+    <div id="info"></div>
+
+    <script>
+
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.49856],
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      var options = {
+        'custom': true,
+        'items'  : '<ul class="custom_menu">' +
+          '<li onclick="clickItem(this);">Locate</li>' +
+          '<li onclick="clickItem(this);">Mark</li>' +
+          '<li onclick="clickItem(this);">Identify</li>' +
+          '<li onclick="clickItem(this);">About</li>' +
+          '</ul>'
+      };
+      map.setMenu(options).openMenu();
+
+      map.on('contextmenu', function (e) {
+        map.openMenu(e.coordinate);
+      });
+
+      function clickItem(dom) {
+        document.getElementById('info').innerHTML = dom.innerText + ' clicked';
+      }
+
+    </script>
+  </body>
+</html>

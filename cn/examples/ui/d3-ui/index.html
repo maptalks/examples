@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>UI组件 - D3 UI Marker</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <link rel="stylesheet" href="../../../../css/reset_css.css" />
+  <link rel="stylesheet" href="../../../../css/all.css" />
+  <link rel="stylesheet" href="../../../../monokai-sublime.css" />
+  <style type="text/css">
+    html,
+    body {
+      overflow-y: auto;
+    }
+
+  </style>
+  <script type="text/javascript" src="../../../../highlight.min.js"></script>
+</head>
+
+<body>
+  <article id="example">
+    <div id="map">
+      <h3 class="main-title">D3 UI Marker</h3>
+      <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/index.html"></iframe>
+    </div>
+    <div class="button">
+      <a href="https://github.com/maptalks/maptalks-demo/tree/master/src/examples/ui/d3-ui" target="_blank"><img src="../../../../images/icon2.png"> Source</a>
+      <a href="raw/index.html" target="_blank"><img src="../../../../images/icon1.png"> Open</a>
+      <a href="javascript:edit();"><img src="../../../../images/icon2.png"> Edit</a>
+    </div>
+
+    <div id="code">
+      <div class="code-box" data-key="index.html">
+        <h3 class="code-title">index.html<a name="index.html" class="anchor" href="#index.html">#</a></h3>
+        <pre>
+          <code class="html xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+  &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;index.css&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.css&quot;&gt;
+  &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.js&quot;&gt;&lt;/script&gt;
+  &lt;title&gt;UI组件 - D3 UI Marker&lt;/title&gt;
+  &lt;body&gt;
+
+    &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;d3.v3.min.js&quot;&gt;&lt;/script&gt;
+    &lt;div id&#x3D;&quot;map&quot;&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+      var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+        center: [-0.113049,51.49856],
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
+          urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
+          subdomains: [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;]
+        }),
+        attribution: {
+          content : &#x27;&amp;copy; &lt;a href&#x3D;&quot;https://d3js.org&quot; target&#x3D;&quot;_blank&quot;&gt;d3js&lt;/a&gt;&#x27;
+        }
+      });
+
+      var d3 &#x3D; new maptalks.ui.UIMarker([-0.113049,51.49856], {
+        &#x27;draggable&#x27;     : false,
+        &#x27;single&#x27;        : false,
+        &#x27;content&#x27;       : createD3Dom()
+      });
+      d3.addTo(map).show();
+
+      // copy right d3js.org
+      function createD3Dom() {
+        var width &#x3D; 960,
+          height &#x3D; 500;
+
+        var dom &#x3D; document.createElement(&#x27;div&#x27;);
+        dom.style.cssText &#x3D; &#x27;width:&#x27; + 960 + &#x27;px; height:&#x27; + 500 + &#x27;px;&#x27;;
+
+        var data &#x3D; d3.range(5000).map(function () {
+          return [Math.random() * width, Math.random() * width];
+        });
+
+        var quadtree &#x3D; d3.geom.quadtree()
+                    .extent([[-1, -1], [width + 1, height + 1]])(data);
+
+        var brush &#x3D; d3.svg.brush()
+                    .x(d3.scale.identity().domain([0, width]))
+                    .y(d3.scale.identity().domain([0, height]))
+                    .extent([[100, 100], [200, 200]])
+                    .on(&#x27;brush&#x27;, brushed);
+
+        var svg &#x3D; d3.select(dom).append(&#x27;svg&#x27;)
+                    .attr(&#x27;width&#x27;, width)
+                    .attr(&#x27;height&#x27;, height);
+
+        svg.selectAll(&#x27;.node&#x27;)
+                    .data(nodes(quadtree))
+                  .enter().append(&#x27;rect&#x27;)
+                    .attr(&#x27;class&#x27;, &#x27;node&#x27;)
+                    .attr(&#x27;x&#x27;, function (d) { return d.x; })
+                    .attr(&#x27;y&#x27;, function (d) { return d.y; })
+                    .attr(&#x27;width&#x27;, function (d) { return d.width; })
+                    .attr(&#x27;height&#x27;, function (d) { return d.height; });
+
+        var point &#x3D; svg.selectAll(&#x27;.point&#x27;)
+                    .data(data)
+                  .enter().append(&#x27;circle&#x27;)
+                    .attr(&#x27;class&#x27;, &#x27;point&#x27;)
+                    .attr(&#x27;cx&#x27;, function (d) { return d[0]; })
+                    .attr(&#x27;cy&#x27;, function (d) { return d[1]; })
+                    .attr(&#x27;r&#x27;, 4);
+
+        svg.append(&#x27;g&#x27;)
+                    .attr(&#x27;class&#x27;, &#x27;brush&#x27;)
+                    .call(brush);
+
+        brushed();
+
+        return dom;
+
+        function brushed() {
+          var extent &#x3D; brush.extent();
+          point.each(function (d) { d.scanned &#x3D; d.selected &#x3D; false; });
+          search(quadtree, extent[0][0], extent[0][1], extent[1][0], extent[1][1]);
+          point.classed(&#x27;scanned&#x27;, function (d) { return d.scanned; });
+          point.classed(&#x27;selected&#x27;, function (d) { return d.selected; });
+        }
+
+        // Collapse the quadtree into an array of rectangles.
+        function nodes(quadtree) {
+          var nodes &#x3D; [];
+          quadtree.visit(function (node, x1, y1, x2, y2) {
+            nodes.push({ x: x1, y: y1, width: x2 - x1, height: y2 - y1 });
+          });
+          return nodes;
+        }
+
+        // Find the nodes within the specified rectangle.
+        function search(quadtree, x0, y0, x3, y3) {
+          quadtree.visit(function (node, x1, y1, x2, y2) {
+            var p &#x3D; node.point;
+            if (p) {
+              p.scanned &#x3D; true;
+              p.selected &#x3D; (p[0] &gt;&#x3D; x0) &amp;&amp; (p[0] &lt; x3) &amp;&amp; (p[1] &gt;&#x3D; y0) &amp;&amp; (p[1] &lt; y3);
+            }
+            return x1 &gt;&#x3D; x3 || y1 &gt;&#x3D; y3 || x2 &lt; x0 || y2 &lt; y0;
+          });
+        }
+      }
+
+
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code>
+        </pre>
+      </div>
+      <div class="code-box" data-key="index.css">
+        <h3 class="code-title">index.css<a name="index.css" class="anchor" href="#index.css">#</a></h3>
+        <pre>
+          <code class="lang-css">
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+.point {
+  fill: #999;
+  stroke: #fff;
+}
+
+.point.scanned {
+  fill: orange;
+  fill-opacity: 1;
+  stroke: brown;
+}
+
+.point.selected {
+  fill: red;
+  fill-opacity: 1;
+}
+
+.node {
+  fill: none;
+  stroke: #ccc;
+  shape-rendering: crispEdges;
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+</code>
+        </pre>
+      </div>
+    </div>
+
+  </article>
+
+  <span class="clear"></span>
+  <div style="display:none;">
+    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
+      <textarea name="html">
+        <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+        <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+        
+    <script type="text/javascript" src="d3.v3.min.js"></script>
+    <div id="map"></div>
+
+      </textarea>
+      <textarea name="js">      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.49856],
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        }),
+        attribution: {
+          content : '&copy; <a href="https://d3js.org" target="_blank">d3js</a>'
+        }
+      });
+
+      var d3 = new maptalks.ui.UIMarker([-0.113049,51.49856], {
+        'draggable'     : false,
+        'single'        : false,
+        'content'       : createD3Dom()
+      });
+      d3.addTo(map).show();
+
+      // copy right d3js.org
+      function createD3Dom() {
+        var width = 960,
+          height = 500;
+
+        var dom = document.createElement('div');
+        dom.style.cssText = 'width:' + 960 + 'px; height:' + 500 + 'px;';
+
+        var data = d3.range(5000).map(function () {
+          return [Math.random() * width, Math.random() * width];
+        });
+
+        var quadtree = d3.geom.quadtree()
+                    .extent([[-1, -1], [width + 1, height + 1]])(data);
+
+        var brush = d3.svg.brush()
+                    .x(d3.scale.identity().domain([0, width]))
+                    .y(d3.scale.identity().domain([0, height]))
+                    .extent([[100, 100], [200, 200]])
+                    .on('brush', brushed);
+
+        var svg = d3.select(dom).append('svg')
+                    .attr('width', width)
+                    .attr('height', height);
+
+        svg.selectAll('.node')
+                    .data(nodes(quadtree))
+                  .enter().append('rect')
+                    .attr('class', 'node')
+                    .attr('x', function (d) { return d.x; })
+                    .attr('y', function (d) { return d.y; })
+                    .attr('width', function (d) { return d.width; })
+                    .attr('height', function (d) { return d.height; });
+
+        var point = svg.selectAll('.point')
+                    .data(data)
+                  .enter().append('circle')
+                    .attr('class', 'point')
+                    .attr('cx', function (d) { return d[0]; })
+                    .attr('cy', function (d) { return d[1]; })
+                    .attr('r', 4);
+
+        svg.append('g')
+                    .attr('class', 'brush')
+                    .call(brush);
+
+        brushed();
+
+        return dom;
+
+        function brushed() {
+          var extent = brush.extent();
+          point.each(function (d) { d.scanned = d.selected = false; });
+          search(quadtree, extent[0][0], extent[0][1], extent[1][0], extent[1][1]);
+          point.classed('scanned', function (d) { return d.scanned; });
+          point.classed('selected', function (d) { return d.selected; });
+        }
+
+        // Collapse the quadtree into an array of rectangles.
+        function nodes(quadtree) {
+          var nodes = [];
+          quadtree.visit(function (node, x1, y1, x2, y2) {
+            nodes.push({ x: x1, y: y1, width: x2 - x1, height: y2 - y1 });
+          });
+          return nodes;
+        }
+
+        // Find the nodes within the specified rectangle.
+        function search(quadtree, x0, y0, x3, y3) {
+          quadtree.visit(function (node, x1, y1, x2, y2) {
+            var p = node.point;
+            if (p) {
+              p.scanned = true;
+              p.selected = (p[0] >= x0) && (p[0] < x3) && (p[1] >= y0) && (p[1] < y3);
+            }
+            return x1 >= x3 || y1 >= y3 || x2 < x0 || y2 < y0;
+          });
+        }
+      }
+
+
+</textarea>
+      <textarea name="css">
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+.point {
+  fill: #999;
+  stroke: #fff;
+}
+
+.point.scanned {
+  fill: orange;
+  fill-opacity: 1;
+  stroke: brown;
+}
+
+.point.selected {
+  fill: red;
+  fill-opacity: 1;
+}
+
+.node {
+  fill: none;
+  stroke: #ccc;
+  shape-rendering: crispEdges;
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+</textarea>
+      <input type="text" name="title" value="D3 UI Marker">
+      <textarea name="description">UI组件 - D3 UI Marker</textarea>
+      <textarea name="resources">
+      </textarea>
+      <input type="text" name="wrap" value="l">
+    </form>
+  </div>
+  <script>
+    function highlight() {
+      var codes = document.getElementsByTagName('code');
+      for (var i = 0; i < codes.length; i++) {
+        hljs.highlightBlock(codes[i]);
+      }
+    }
+
+    function edit() {
+      document.getElementById('editor').submit();
+    }
+
+    highlight();
+
+  </script>
+</body>
+
+</html>

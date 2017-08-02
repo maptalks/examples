@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>图形 - 点线面</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <link rel="stylesheet" href="../../../../css/reset_css.css" />
+  <link rel="stylesheet" href="../../../../css/all.css" />
+  <link rel="stylesheet" href="../../../../monokai-sublime.css" />
+  <style type="text/css">
+    html,
+    body {
+      overflow-y: auto;
+    }
+
+  </style>
+  <script type="text/javascript" src="../../../../highlight.min.js"></script>
+</head>
+
+<body>
+  <article id="example">
+    <div id="map">
+      <h3 class="main-title">点线面</h3>
+      <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/index.html"></iframe>
+    </div>
+    <div class="button">
+      <a href="https://github.com/maptalks/maptalks-demo/tree/master/src/examples/geometry/point-line-polygon" target="_blank"><img src="../../../../images/icon2.png"> Source</a>
+      <a href="raw/index.html" target="_blank"><img src="../../../../images/icon1.png"> Open</a>
+      <a href="javascript:edit();"><img src="../../../../images/icon2.png"> Edit</a>
+    </div>
+
+    <div id="code">
+      <div class="code-box" data-key="index.html">
+        <h3 class="code-title">index.html<a name="index.html" class="anchor" href="#index.html">#</a></h3>
+        <pre>
+          <code class="html xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+  &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;index.css&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.css&quot;&gt;
+  &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.js&quot;&gt;&lt;/script&gt;
+  &lt;title&gt;图形 - 点线面&lt;/title&gt;
+  &lt;body&gt;
+
+    &lt;div id&#x3D;&quot;map&quot;&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+      var center &#x3D; new maptalks.Coordinate(-0.113049, 51.498568);
+      var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+        center: center,
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
+          urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
+          subdomains: [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;]
+        })
+      });
+
+      var point &#x3D; new maptalks.Marker(
+        center.add(-0.018,0.007),
+        {
+          symbol : {
+            &#x27;textFaceName&#x27; : &#x27;sans-serif&#x27;,
+            &#x27;textName&#x27; : &#x27;MapTalks&#x27;,
+            &#x27;textFill&#x27; : &#x27;#34495e&#x27;,
+            &#x27;textHorizontalAlignment&#x27; : &#x27;right&#x27;,
+            &#x27;textSize&#x27; : 40
+          }
+        }
+      );
+      var line &#x3D; new maptalks.LineString([
+        center.add(-0.018,0.005),
+        center.add(0.006,0.005)
+      ], {
+        symbol: {
+          &#x27;lineColor&#x27; : &#x27;#1bbc9b&#x27;,
+          &#x27;lineWidth&#x27; : 3
+        }
+      });
+      var polygon &#x3D; new maptalks.Polygon([
+        center.add(-0.018,0.004),
+        center.add(0.006,0.004),
+        center.add(0.006,-0.001),
+        center.add(-0.018,-0.001)
+      ], {
+        symbol: {
+          &#x27;lineColor&#x27; : &#x27;#34495e&#x27;,
+          &#x27;lineWidth&#x27; : 2,
+          &#x27;polygonFill&#x27; : &#x27;rgb(135,196,240)&#x27;,
+          &#x27;polygonOpacity&#x27; : 0.6
+        }
+      });
+
+      new maptalks.VectorLayer(&#x27;vector&#x27;, [point, line, polygon]).addTo(map);
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code>
+        </pre>
+      </div>
+      <div class="code-box" data-key="index.css">
+        <h3 class="code-title">index.css<a name="index.css" class="anchor" href="#index.css">#</a></h3>
+        <pre>
+          <code class="lang-css">
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.maptalks-toolbar-horizonal li {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+</code>
+        </pre>
+      </div>
+    </div>
+
+  </article>
+
+  <span class="clear"></span>
+  <div style="display:none;">
+    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
+      <textarea name="html">
+        <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+        <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+        
+    <div id="map"></div>
+
+      </textarea>
+      <textarea name="js">      var center = new maptalks.Coordinate(-0.113049, 51.498568);
+      var map = new maptalks.Map('map', {
+        center: center,
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      var point = new maptalks.Marker(
+        center.add(-0.018,0.007),
+        {
+          symbol : {
+            'textFaceName' : 'sans-serif',
+            'textName' : 'MapTalks',
+            'textFill' : '#34495e',
+            'textHorizontalAlignment' : 'right',
+            'textSize' : 40
+          }
+        }
+      );
+      var line = new maptalks.LineString([
+        center.add(-0.018,0.005),
+        center.add(0.006,0.005)
+      ], {
+        symbol: {
+          'lineColor' : '#1bbc9b',
+          'lineWidth' : 3
+        }
+      });
+      var polygon = new maptalks.Polygon([
+        center.add(-0.018,0.004),
+        center.add(0.006,0.004),
+        center.add(0.006,-0.001),
+        center.add(-0.018,-0.001)
+      ], {
+        symbol: {
+          'lineColor' : '#34495e',
+          'lineWidth' : 2,
+          'polygonFill' : 'rgb(135,196,240)',
+          'polygonOpacity' : 0.6
+        }
+      });
+
+      new maptalks.VectorLayer('vector', [point, line, polygon]).addTo(map);
+</textarea>
+      <textarea name="css">
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.maptalks-toolbar-horizonal li {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+</textarea>
+      <input type="text" name="title" value="点线面">
+      <textarea name="description">图形 - 点线面</textarea>
+      <textarea name="resources">
+      </textarea>
+      <input type="text" name="wrap" value="l">
+    </form>
+  </div>
+  <script>
+    function highlight() {
+      var codes = document.getElementsByTagName('code');
+      for (var i = 0; i < codes.length; i++) {
+        hljs.highlightBlock(codes[i]);
+      }
+    }
+
+    function edit() {
+      document.getElementById('editor').submit();
+    }
+
+    highlight();
+
+  </script>
+</body>
+
+</html>

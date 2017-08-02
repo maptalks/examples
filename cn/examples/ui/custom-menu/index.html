@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>UI组件 - 自定义右键菜单</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <link rel="stylesheet" href="../../../../css/reset_css.css" />
+  <link rel="stylesheet" href="../../../../css/all.css" />
+  <link rel="stylesheet" href="../../../../monokai-sublime.css" />
+  <style type="text/css">
+    html,
+    body {
+      overflow-y: auto;
+    }
+
+  </style>
+  <script type="text/javascript" src="../../../../highlight.min.js"></script>
+</head>
+
+<body>
+  <article id="example">
+    <div id="map">
+      <h3 class="main-title">自定义右键菜单</h3>
+      <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/index.html"></iframe>
+    </div>
+    <div class="button">
+      <a href="https://github.com/maptalks/maptalks-demo/tree/master/src/examples/ui/custom-menu" target="_blank"><img src="../../../../images/icon2.png"> Source</a>
+      <a href="raw/index.html" target="_blank"><img src="../../../../images/icon1.png"> Open</a>
+      <a href="javascript:edit();"><img src="../../../../images/icon2.png"> Edit</a>
+    </div>
+
+    <div id="code">
+      <div class="code-box" data-key="index.html">
+        <h3 class="code-title">index.html<a name="index.html" class="anchor" href="#index.html">#</a></h3>
+        <pre>
+          <code class="html xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+  &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;index.css&quot;&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.css&quot;&gt;
+  &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.js&quot;&gt;&lt;/script&gt;
+  &lt;title&gt;UI组件 - 自定义右键菜单&lt;/title&gt;
+  &lt;body&gt;
+    &lt;div id&#x3D;&quot;map&quot;&gt;&lt;/div&gt;
+    &lt;div id&#x3D;&quot;info&quot;&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+
+      var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+        center: [-0.113049,51.49856],
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
+          urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
+          subdomains: [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;]
+        })
+      });
+
+      var options &#x3D; {
+        &#x27;custom&#x27;: true,
+        &#x27;items&#x27;  : &#x27;&lt;ul class&#x3D;&quot;custom_menu&quot;&gt;&#x27; +
+          &#x27;&lt;li onclick&#x3D;&quot;clickItem(this);&quot;&gt;Locate&lt;/li&gt;&#x27; +
+          &#x27;&lt;li onclick&#x3D;&quot;clickItem(this);&quot;&gt;Mark&lt;/li&gt;&#x27; +
+          &#x27;&lt;li onclick&#x3D;&quot;clickItem(this);&quot;&gt;Identify&lt;/li&gt;&#x27; +
+          &#x27;&lt;li onclick&#x3D;&quot;clickItem(this);&quot;&gt;About&lt;/li&gt;&#x27; +
+          &#x27;&lt;/ul&gt;&#x27;
+      };
+      map.setMenu(options).openMenu();
+
+      map.on(&#x27;contextmenu&#x27;, function (e) {
+        map.openMenu(e.coordinate);
+      });
+
+      function clickItem(dom) {
+        document.getElementById(&#x27;info&#x27;).innerHTML &#x3D; dom.innerText + &#x27; clicked&#x27;;
+      }
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code>
+        </pre>
+      </div>
+      <div class="code-box" data-key="index.css">
+        <h3 class="code-title">index.css<a name="index.css" class="anchor" href="#index.css">#</a></h3>
+        <pre>
+          <code class="lang-css">
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+#info {
+  position:fixed;
+  background-color: rgba(13, 13, 13, 0.5);
+  padding : 10px 10px 10px 10px;
+  font : 13px bold sans-serif;
+  color : #fff;
+  right : 20px;
+  top : 20px;
+  width : 100px;
+  height: 40px;
+  overflow : hidden;
+}
+
+.custom_menu {
+  width : 90px;
+  color : #fff;
+  background-color:#051127;
+  border :1px solid #0c2c45;
+  list-style: none;
+  padding : 0;
+}
+.custom_menu li {
+  padding : 0 8px;
+  font-size: 12px;
+  line-height: 24px;
+}
+.custom_menu li:hover {
+  background: #0e595e;
+  cursor : pointer;
+}
+.custom_menu li+li {
+  border-top : 1px solid #bbb;
+}
+</code>
+        </pre>
+      </div>
+    </div>
+
+  </article>
+
+  <span class="clear"></span>
+  <div style="display:none;">
+    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
+      <textarea name="html">
+        <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+        <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+            <div id="map"></div>
+    <div id="info"></div>
+
+      </textarea>
+      <textarea name="js">
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.49856],
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      var options = {
+        'custom': true,
+        'items'  : '<ul class="custom_menu">' +
+          '<li onclick="clickItem(this);">Locate</li>' +
+          '<li onclick="clickItem(this);">Mark</li>' +
+          '<li onclick="clickItem(this);">Identify</li>' +
+          '<li onclick="clickItem(this);">About</li>' +
+          '</ul>'
+      };
+      map.setMenu(options).openMenu();
+
+      map.on('contextmenu', function (e) {
+        map.openMenu(e.coordinate);
+      });
+
+      function clickItem(dom) {
+        document.getElementById('info').innerHTML = dom.innerText + ' clicked';
+      }
+</textarea>
+      <textarea name="css">
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+#info {
+  position:fixed;
+  background-color: rgba(13, 13, 13, 0.5);
+  padding : 10px 10px 10px 10px;
+  font : 13px bold sans-serif;
+  color : #fff;
+  right : 20px;
+  top : 20px;
+  width : 100px;
+  height: 40px;
+  overflow : hidden;
+}
+
+.custom_menu {
+  width : 90px;
+  color : #fff;
+  background-color:#051127;
+  border :1px solid #0c2c45;
+  list-style: none;
+  padding : 0;
+}
+.custom_menu li {
+  padding : 0 8px;
+  font-size: 12px;
+  line-height: 24px;
+}
+.custom_menu li:hover {
+  background: #0e595e;
+  cursor : pointer;
+}
+.custom_menu li+li {
+  border-top : 1px solid #bbb;
+}
+</textarea>
+      <input type="text" name="title" value="自定义右键菜单">
+      <textarea name="description">UI组件 - 自定义右键菜单</textarea>
+      <textarea name="resources">
+      </textarea>
+      <input type="text" name="wrap" value="l">
+    </form>
+  </div>
+  <script>
+    function highlight() {
+      var codes = document.getElementsByTagName('code');
+      for (var i = 0; i < codes.length; i++) {
+        hljs.highlightBlock(codes[i]);
+      }
+    }
+
+    function edit() {
+      document.getElementById('editor').submit();
+    }
+
+    highlight();
+
+  </script>
+</body>
+
+</html>

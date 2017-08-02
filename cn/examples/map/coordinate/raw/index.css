@@ -1,0 +1,30 @@
+
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+#coordinate {
+    position:fixed;
+    left : 0px;
+    top : 0px;
+    width : 100%;
+    height: 95px;
+    overflow : hidden;
+}
+
+#coordinate div {
+    background-color: rgba(13, 13, 13, 0.5);
+    width : 100%;
+    height : 100%;
+    padding : 10px 10px 10px 10px;
+    font : 13px bold sans-serif;
+    color : #fff;
+}

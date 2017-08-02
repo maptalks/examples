@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <title>事件 - 同步地图</title>
+  <body>
+    <div id="map0"></div>
+    <div id="map1"></div>
+
+    <script>
+      var map0 = new maptalks.Map('map0', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        }),
+        attribution : {
+          position : 'top-right',
+          content : '<div class="attr">move me</div>'
+        }
+      });
+
+
+      var map1 = new maptalks.Map('map1', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        draggable : false,
+        scrollWheelZoom : false,
+        dblClickZoom : false,
+        baseLayer: new maptalks.TileLayer('base1', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      map0.on('moving', function (param) {
+        map1.setCenter(param.target.getCenter());
+      });
+
+      map0.on('zoomend', function (param) {
+        map1.setCenterAndZoom(param.target.getCenter(), param.target.getZoom());
+      });
+
+    </script>
+  </body>
+</html>

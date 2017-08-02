@@ -1,0 +1,24 @@
+
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+.my-control {
+    background: #051127;
+    border: 5px solid #fff;
+    border-radius: 5px;
+    color : #fff;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 30px;
+    padding: 0 8px;
+}

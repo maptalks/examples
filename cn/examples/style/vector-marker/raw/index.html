@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <title>图形样式 - 矢量标注</title>
+  <body>
+
+    <div id="map"></div>
+    <script>
+      var c = new maptalks.Coordinate([-0.113049,51.49856]);
+      var map = new maptalks.Map('map', {
+        center: c,
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer('tile', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      var layer = new maptalks.VectorLayer('v').addTo(map);
+
+      var marker1 = new maptalks.Marker(
+        c.sub(0.020, 0),
+        {
+          'symbol' : {
+            'markerType': 'ellipse',
+            'markerFill': 'rgb(135,196,240)',
+            'markerFillOpacity': 1,
+            'markerLineColor': '#34495e',
+            'markerLineWidth': 3,
+            'markerLineOpacity': 1,
+            'markerLineDasharray':[],
+            'markerWidth': 40,
+            'markerHeight': 40,
+            'markerDx': 0,
+            'markerDy': 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker2 = new maptalks.Marker(
+        c.sub(0.015, 0),
+        {
+          'symbol' : {
+            'markerType': 'cross',
+            'markerFill': 'rgb(135,196,240)',
+            'markerFillOpacity': 1,
+            'markerLineColor': '#34495e',
+            'markerLineWidth': 3,
+            'markerLineOpacity': 1,
+            'markerLineDasharray':[],
+            'markerWidth': 40,
+            'markerHeight': 40,
+            'markerDx': 0,
+            'markerDy': 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker3 = new maptalks.Marker(
+        c.sub(0.010, 0),
+        {
+          'symbol' : {
+            'markerType': 'x',
+            'markerFill': 'rgb(135,196,240)',
+            'markerFillOpacity': 1,
+            'markerLineColor': '#34495e',
+            'markerLineWidth': 3,
+            'markerLineOpacity': 1,
+            'markerLineDasharray':[],
+            'markerWidth': 40,
+            'markerHeight': 40,
+            'markerDx': 0,
+            'markerDy': 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker4 = new maptalks.Marker(
+        c.sub(0.005, 0),
+        {
+          'symbol' : {
+            'markerType': 'triangle',
+            'markerFill': 'rgb(135,196,240)',
+            'markerFillOpacity': 1,
+            'markerLineColor': '#34495e',
+            'markerLineWidth': 3,
+            'markerLineOpacity': 1,
+            'markerLineDasharray':[],
+            'markerWidth': 40,
+            'markerHeight': 40,
+            'markerDx': 0,
+            'markerDy': 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker5 = new maptalks.Marker(
+        c,
+        {
+          'symbol' : {
+            'markerType': 'square',
+            'markerFill': 'rgb(135,196,240)',
+            'markerFillOpacity': 1,
+            'markerLineColor': '#34495e',
+            'markerLineWidth': 3,
+            'markerLineOpacity': 1,
+            'markerLineDasharray':[],
+            'markerWidth': 40,
+            'markerHeight': 40,
+            'markerDx': 0,
+            'markerDy': 0
+          }
+        }
+      ).addTo(layer);
+
+
+      var marker6 = new maptalks.Marker(
+        c.add(0.005, 0),
+        {
+          'symbol' : {
+            'markerType': 'diamond',
+            'markerFill': 'rgb(135,196,240)',
+            'markerFillOpacity': 1,
+            'markerLineColor': '#34495e',
+            'markerLineWidth': 3,
+            'markerLineOpacity': 1,
+            'markerLineDasharray':[],
+            'markerWidth': 40,
+            'markerHeight': 40,
+            'markerDx': 0,
+            'markerDy': 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker7 = new maptalks.Marker(
+        c.add(0.010, 0),
+        {
+          'symbol' : {
+            'markerType': 'bar',
+            'markerFill': 'rgb(135,196,240)',
+            'markerFillOpacity': 1,
+            'markerLineColor': '#34495e',
+            'markerLineWidth': 3,
+            'markerLineOpacity': 1,
+            'markerLineDasharray':[],
+            'markerWidth': 30,
+            'markerHeight': 60,
+            'markerDx': 0,
+            'markerDy': 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker8 = new maptalks.Marker(
+        c.add(0.015, 0),
+        {
+          'symbol' : {
+            'markerType': 'pie',
+            'markerFill': 'rgb(135,196,240)',
+            'markerFillOpacity': 1,
+            'markerLineColor': '#34495e',
+            'markerLineWidth': 3,
+            'markerLineOpacity': 1,
+            'markerLineDasharray':[],
+            'markerWidth': 40,
+            'markerHeight': 40,
+            'markerDx': 0,
+            'markerDy': 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker9 = new maptalks.Marker(
+        c.add(0.020, 0),
+        {
+          'symbol' : {
+            'markerType': 'pin',
+            'markerFill': 'rgb(135,196,240)',
+            'markerFillOpacity': 1,
+            'markerLineColor': '#34495e',
+            'markerLineWidth': 3,
+            'markerLineOpacity': 1,
+            'markerLineDasharray':[],
+            'markerWidth': 40,
+            'markerHeight': 40,
+            'markerDx': 0,
+            'markerDy': 0
+          }
+        }
+      ).addTo(layer);
+
+    </script>
+  </body>
+</html>
