@@ -20,7 +20,7 @@
     "metalsmith-layouts": "^1.6.5"
   },
   "scripts": {
-    "preinstall": "gulp publish"
+    "pretest": "gulp publish"
   },
   "engines": {
     "node": ">=6.0.0"
