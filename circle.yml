@@ -1,4 +1,6 @@
 machine:
+  environment:
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   node:
     version: 6
 
@@ -7,9 +9,15 @@ general:
     ignore:
       - gh-pages
 
+dependencies:
+  override:
+    - yarn
+  cache_directories:
+    - ~/.cache/yarn
+
 test:
   override:
-    - exit 0
+    - yarn test
 
 deployment:
   pages:
