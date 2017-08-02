@@ -14,7 +14,7 @@ var builder = require('./build/build');
 var handlebars = require('handlebars');
 
 var markupRegex = /([^\/^\.]*)\.html$/;
-var locale = process.env.locale || 'cn';
+var locale = process.env.locale || 'en';
 
 var defines = define({
   'urls': {
@@ -134,9 +134,9 @@ function escapeHelper(options) {
   return handlebars.Utils.escapeExpression(options.fn(this));
 }
 
-var outputFolder = '../docs/examples';
+var outputFolder = './dist';
 
-gulp.task('examples-raw', function () {
+gulp.task('build:raw', function () {
   return gulp.src('src/examples/**/*')
     .pipe(metalsmith({
       use: [
@@ -164,7 +164,7 @@ gulp.task('examples-raw', function () {
     .pipe(gulp.dest(path.join(outputFolder, locale, 'examples')));
 });
 
-gulp.task('examples-demo', function () {
+gulp.task('build:demo', function () {
   return gulp.src('src/examples/**/*.{html,js,css}')
     .pipe(metalsmith({
       use: [
@@ -190,7 +190,7 @@ gulp.task('examples-demo', function () {
     .pipe(gulp.dest(path.join(outputFolder, locale, 'examples')));
 });
 
-gulp.task('examples-index', function () {
+gulp.task('build:index', function () {
   return gulp.src('src/*.{html,js,css}')
     .pipe(metalsmith({
       use: [
@@ -211,7 +211,7 @@ gulp.task('examples-index', function () {
     .pipe(gulp.dest(path.join(outputFolder, locale)));
 });
 
-gulp.task('examples', ['examples-index', 'examples-raw', 'examples-demo'], function () {
+gulp.task('build', ['build:index', 'build:raw', 'build:demo'], function () {
   return gulp.src('assets/**/*')
     .pipe(gulp.dest(outputFolder));
 });
@@ -224,9 +224,9 @@ gulp.task('clean', function () {
   });
 });
 
-gulp.task('watch', ['examples'], function () {
-  gulp.watch(['./src/**/*', './assets/**/*', './layouts/**/*'], ['examples']);
-  gulp.watch(['./build/*'], ['examples-index']);
+gulp.task('watch', ['build'], function () {
+  gulp.watch(['./src/**/*', './assets/**/*', './layouts/**/*'], ['build']);
+  gulp.watch(['./build/*'], ['build:index']);
 });
 
 gulp.task('connect', ['watch'], function () {
@@ -245,13 +245,13 @@ gulp.task('default', ['connect']);
 
 gulp.task('publish', ['clean'], function (cb) {
   process.env.locale = 'cn';
-  exec('gulp examples', function (err) {
+  exec('gulp build', function (err) {
     if (err) {
       cb(err); // return error
       return;
     }
     process.env.locale = 'en';
-    exec('gulp examples', function (err) {
+    exec('gulp build', function (err) {
       if (err) {
         cb(err); // return error
         return;

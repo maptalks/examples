@@ -1,17 +1,17 @@
 {
   "extends": "maptalks",
   "globals": {
-      "$" : true,
-      "d3" : true,
-      "topojson" : true,
-      "subdomains" : true,
-      "echarts" : true,
-      "Highcharts" : true
+    "$": true,
+    "d3": true,
+    "topojson": true,
+    "subdomains": true,
+    "echarts": true,
+    "Highcharts": true
   },
   "rules": {
-    "strict" : 0,
-    "no-unused-vars" : 0,
-    "comma-spacing" : 0,
-    "indent" : ["error", 2]
+    "strict": 0,
+    "no-unused-vars": 0,
+    "comma-spacing": 0,
+    "indent": ["error", 2]
   }
 }
