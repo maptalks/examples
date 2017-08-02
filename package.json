@@ -1,5 +1,5 @@
 {
-  "name": "maptalks-demo",
+  "name": "maptalk-examples",
   "version": "0.1.0",
   "description": "",
   "dependencies": {},
@@ -31,14 +31,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MapTalks/maptalks-demo.git"
+    "url": "git+https://github.com/maptalks/examples.git"
   },
   "keywords": [
     "maptalks",
     "examples",
     "demo"
   ],
-  "author": "",
+  "author": "wsw0108 <wangshiwei@maptalks.org>",
+  "contributors": [
+    "fuzhenn <fuzhen@maptalks.org>",
+    "wangjun <wangjun@maptalks.org>"
+  ],
   "license": "GPL-3.0",
-  "homepage": "https://github.com/MapTalks/maptalks-demo#readme"
+  "homepage": "https://github.com/maptalks/examples#readme"
 }
