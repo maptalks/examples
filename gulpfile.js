@@ -6,8 +6,8 @@ var del = require('del');
 var rename = require('gulp-rename');
 var metalsmith = require('gulp-metalsmith');
 var layouts = require('metalsmith-layouts');
-var drafts = require('metalsmith-drafts');
 var define = require('metalsmith-define');
+var debug = require('metalsmith-debug');
 var connect = require('gulp-connect');
 var builder = require('./build/build');
 
@@ -21,14 +21,14 @@ var defines = define({
     'cn': {
       // 'urlTemplate' : 'http://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
       // 'subdomains': '[1, 2, 3, 4]'
-      'urlTemplate' : 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-      'subdomains'  : "['a','b','c','d','e']"
+      'urlTemplate': 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+      'subdomains': '["a","b","c","d","e"]'
     },
     'en': {
       // 'urlTemplate': 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       // 'subdomains': '["a","b","c"]'
-      'urlTemplate' : 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
-      'subdomains'  : "['a','b','c','d','e']"
+      'urlTemplate': 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+      'subdomains': '["a","b","c","d","e"]'
     }
   }
 });
@@ -119,9 +119,6 @@ function processDemo(files, metalsmith, done) {
   }
 }
 
-/**
- *
- */
 function indentHelper(text, options) {
   if (!text) {
     return text;
@@ -143,11 +140,16 @@ gulp.task('examples-raw', function () {
   return gulp.src('src/examples/**/*')
     .pipe(metalsmith({
       use: [
-        drafts(),
         defines,
         processRaw,
+        debug({
+          source: false,
+          destination: false
+        }),
         layouts({
           engine: 'handlebars',
+          pattern: '**/*.html',
+          default: 'example.hbs',
           directory: 'layouts/raw',
           helpers: {
             indent: indentHelper
@@ -162,26 +164,28 @@ gulp.task('examples-raw', function () {
     .pipe(gulp.dest(path.join(outputFolder, locale, 'examples')));
 });
 
-var options = [
-  drafts(),
-  defines,
-  processDemo,
-  layouts({
-    engine: 'handlebars',
-    directory: 'layouts',
-    partials: 'layouts/raw',
-    helpers: {
-      indent: indentHelper,
-      escape: escapeHelper,
-      list: builder.listHelper
-    }
-  })
-];
-
 gulp.task('examples-demo', function () {
   return gulp.src('src/examples/**/*.{html,js,css}')
     .pipe(metalsmith({
-      use: options
+      use: [
+        defines,
+        processDemo,
+        debug({
+          source: false,
+          destination: false
+        }),
+        layouts({
+          engine: 'handlebars',
+          pattern: '**/*.html',
+          default: 'example.hbs',
+          directory: 'layouts',
+          partials: 'layouts/raw',
+          helpers: {
+            indent: indentHelper,
+            escape: escapeHelper
+          }
+        })
+      ]
     }))
     .pipe(gulp.dest(path.join(outputFolder, locale, 'examples')));
 });
@@ -189,7 +193,20 @@ gulp.task('examples-demo', function () {
 gulp.task('examples-index', function () {
   return gulp.src('src/*.{html,js,css}')
     .pipe(metalsmith({
-      use: options
+      use: [
+        debug({
+          source: false,
+          destination: false
+        }),
+        layouts({
+          engine: 'handlebars',
+          pattern: '**/*.html',
+          directory: 'layouts',
+          helpers: {
+            list: builder.listHelper
+          }
+        })
+      ]
     }))
     .pipe(gulp.dest(path.join(outputFolder, locale)));
 });
@@ -202,8 +219,8 @@ gulp.task('examples', ['examples-index', 'examples-raw', 'examples-demo'], funct
 gulp.task('clean', function () {
   return del([
     outputFolder + '/**/*'
-  ],{
-    'force' : true
+  ], {
+    'force': true
   });
 });
 
@@ -229,10 +246,16 @@ gulp.task('default', ['connect']);
 gulp.task('publish', ['clean'], function (cb) {
   process.env.locale = 'cn';
   exec('gulp examples', function (err) {
-    if (err) return cb(err); // return error
+    if (err) {
+      cb(err); // return error
+      return;
+    }
     process.env.locale = 'en';
     exec('gulp examples', function (err) {
-      if (err) return cb(err); // return error
+      if (err) {
+        cb(err); // return error
+        return;
+      }
       cb(); // finished task
     });
   });

@@ -1,6 +1,10 @@
 <!DOCTYPE html>
+<html>
   <meta charset="UTF-8">
-  {{#if css.source}}<link rel="stylesheet" href="{{ css.basename }}">{{/if}}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{#if css.source}}
+  <link rel="stylesheet" href="{{ css.basename }}">
+  {{/if}}
   <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
   <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
   <title>{{ category }} - {{ title }}</title>
@@ -10,3 +14,4 @@
 {{{ indent js.source spaces=6 }}}
     </script>
   </body>
+</html>
