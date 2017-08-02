@@ -1,3 +1,9 @@
 machine:
   node:
-    version: 4.0.0
+    version: 6
+
+deployment:
+  pages:
+    branch: master
+    commands:
+      - sh deploy.sh dist
