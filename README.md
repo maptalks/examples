@@ -7,10 +7,11 @@ Demos of [maptalks.js](https://github.com/maptalks/maptalks.js)
 ## 目录说明
 ```
 .
-|- assets 全局资源文件, 页面css/图片及maptalks.js
+|- assets 全局资源文件, 页面css/图片
 |- build  脚本程序, 例如自动页面错误检测
 |- dist   生成目录, 编译好的demo页面都会生成在这里, 也是connect http服务的根目录
-|- examples 源代码, examples.json是所有demo的索引文件
+|- src/examples example的源代码
+|- build/examples.json  example的索引文件, gulp根据索引合成页面
 |- layouts  模板文件
 ```
 
