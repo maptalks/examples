@@ -1,8 +1,8 @@
-# maptalks demos
+# maptalks examples
 
-[![Circle CI](https://circleci.com/gh/maptalks/maptalks-demo.svg?style=shield)](https://circleci.com/gh/maptalks/maptalks-demo)
+[![Circle CI](https://circleci.com/gh/maptalks/examples.svg?style=shield)](https://circleci.com/gh/maptalks/examples)
 
-Demos of [maptalks.js](https://github.com/maptalks/maptalks.js)
+Examples of [maptalks.js](https://github.com/maptalks/maptalks.js)
 
 ## 目录说明
 ```
