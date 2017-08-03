@@ -1,4 +1,5 @@
 dist/
+.publish/
 
 # Logs
 logs
