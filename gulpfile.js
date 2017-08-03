@@ -4,6 +4,7 @@ var path = require('path');
 var gulp = require('gulp');
 var del = require('del');
 var rename = require('gulp-rename');
+var ghPages = require('gulp-gh-pages');
 var metalsmith = require('gulp-metalsmith');
 var layouts = require('metalsmith-layouts');
 var define = require('metalsmith-define');
@@ -213,7 +214,8 @@ gulp.task('build:index', function () {
 
 gulp.task('build', ['build:index', 'build:raw', 'build:demo'], function () {
   return gulp.src('assets/**/*')
-    .pipe(gulp.dest(outputFolder));
+    .pipe(gulp.dest(outputFolder))
+    .pipe(connect.reload());
 });
 
 gulp.task('clean', function () {
@@ -259,4 +261,9 @@ gulp.task('publish', ['clean'], function (cb) {
       cb(); // finished task
     });
   });
+});
+
+gulp.task('deploy', ['publish'], function () {
+  return gulp.src('dist/**/*')
+    .pipe(ghPages());
 });
