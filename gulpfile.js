@@ -23,13 +23,15 @@ var defines = define({
       // 'urlTemplate' : 'http://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
       // 'subdomains': '[1, 2, 3, 4]'
       'urlTemplate': 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-      'subdomains': '["a","b","c","d","e"]'
+      'subdomains': '["a","b","c","d","e"]',
+      'attribution': '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
     },
     'en': {
       // 'urlTemplate': 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       // 'subdomains': '["a","b","c"]'
       'urlTemplate': 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
-      'subdomains': '["a","b","c","d","e"]'
+      'subdomains': '["a","b","c","d","e"]',
+      'attribution': '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
     }
   }
 });
@@ -82,6 +84,7 @@ function processSingleFile(file, filepath, files, metadata, isRaw) {
       source: files[js].contents.toString()
         .replace(/\$\(urlTemplate\)/g, url.urlTemplate)
         .replace(/\$\(subdomains\)/g, url.subdomains)
+        .replace(/\$\(attribution\)/g, url.attribution)
     };
     delete files[js];
   }
