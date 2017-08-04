@@ -1726,10 +1726,6 @@ metalsmith-debug@^1.1.0:
     debug "^2.2.0"
     multimatch "^2.1.0"
 
-metalsmith-define@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/metalsmith-define/-/metalsmith-define-2.0.1.tgz#a5a48632e62958ba61a74169f65bc2b6f65b915d"
-
 metalsmith-layouts@^1.6.5:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/metalsmith-layouts/-/metalsmith-layouts-1.8.0.tgz#6ce595ddef6e25bcbc3254c0e25313ac4db1dc5a"

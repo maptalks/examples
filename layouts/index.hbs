@@ -17,7 +17,20 @@
   <div id="container">
     <div id="sidebar">
       <a href="javascript:;" class="button-menu"></a>
-      {{#list}} {{/list}}
+      <ul class="menu-list">
+        {{#each examples}}
+        <li>
+          <a href="javascript:;">{{index}} {{category}}</a>
+          <ol>
+            {{#each examples}}
+            <li>
+              <a href="examples/{{../name}}/{{name}}/index.html" target="viewer" onclick="selectExample('{{../name}},{{name}}');">{{../index}}.{{index}} {{title}}</a>
+            </li>
+            {{/each}}
+          </ol>
+        </li>
+        {{/each}}
+      </ul>
     </div>
     <div id="viewer-wrapper">
       <iframe id="viewer" name="viewer" allowfullscreen="" allowvr="" onmousewheel=""></iframe>
