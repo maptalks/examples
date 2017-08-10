@@ -1,9 +1,9 @@
-
 var map = new maptalks.Map('map', {
-  center: [-0.113049,51.498568],
+  center: [-0.113049, 51.498568],
   zoom: 14,
   attribution: {
-    'position'  : 'top-right'
+    position: 'top-right',
+    content: '$(attribution)'
   },
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -12,7 +12,10 @@ var map = new maptalks.Map('map', {
 });
 
 var attribution = new maptalks.control.Attribution({
-  'position'  : { 'bottom': '20', 'right': '75' },
-  'content'   : 'Powered by <a href="http://www.maptalks.org" target="_blank" style="text-decoration:none;cursor: pointer;color: #6490C4; ">maptalks</a>'
+  position: {
+    bottom: 20,
+    right: 75
+  },
+  content: '$(attribution)'
 });
 map.addControl(attribution);
