@@ -160,7 +160,7 @@ function escapeHelper(options) {
 var outputFolder = './dist';
 
 gulp.task('build:raw', function () {
-  return gulp.src('src/examples/**/*')
+  return gulp.src('src/**/*')
     .pipe(metalsmith({
       use: [
         readMapParams(locale),
@@ -185,11 +185,11 @@ gulp.task('build:raw', function () {
       path.dirname += '/raw';
       return path;
     }))
-    .pipe(gulp.dest(path.join(outputFolder, locale, 'examples')));
+    .pipe(gulp.dest(path.join(outputFolder, locale)));
 });
 
 gulp.task('build:demo', function () {
-  return gulp.src('src/examples/**/*.{html,js,css}')
+  return gulp.src('src/**/*.{html,js,css}')
     .pipe(metalsmith({
       use: [
         readMapParams(locale),
@@ -212,29 +212,10 @@ gulp.task('build:demo', function () {
         })
       ]
     }))
-    .pipe(gulp.dest(path.join(outputFolder, locale, 'examples')));
-});
-
-gulp.task('build:index', function () {
-  return gulp.src('src/*.{html,js,css}')
-    .pipe(metalsmith({
-      use: [
-        readExamplesInfo(locale),
-        layouts({
-          engine: 'handlebars',
-          pattern: '**/*.html',
-          directory: 'layouts'
-        }),
-        debug({
-          source: false,
-          destination: false
-        })
-      ]
-    }))
     .pipe(gulp.dest(path.join(outputFolder, locale)));
 });
 
-gulp.task('build', ['build:index', 'build:raw', 'build:demo'], function () {
+gulp.task('build', ['build:raw', 'build:demo'], function () {
   return gulp.src('assets/**/*')
     .pipe(gulp.dest(outputFolder))
     .pipe(connect.reload());
@@ -250,7 +231,7 @@ gulp.task('clean', function () {
 
 gulp.task('watch', ['build'], function () {
   gulp.watch(['./src/**/*', './assets/**/*', './layouts/**/*'], ['build']);
-  gulp.watch(['./build/*'], ['build:index']);
+  gulp.watch(['./build/*'], ['build:demo']);
 });
 
 gulp.task('connect', ['watch'], function () {

@@ -3,13 +3,9 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>{{ category }} - {{ title }}</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
-  <meta name="format-detection" content="telephone=no" />
-
+  <title>{{ category }} - {{ title }}</title>
   <link rel="stylesheet" href="../../../../css/reset_css.css" />
   <link rel="stylesheet" href="../../../../css/all.css" />
   <link rel="stylesheet" href="../../../../monokai-sublime.css" />
@@ -24,35 +20,57 @@
 </head>
 
 <body>
-  <article id="example">
-    <div id="map">
-      <h3 class="main-title">{{ title }}</h3>
-      <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
-    </div>
-    <div class="button">
-      <a href="https://github.com/maptalks/maptalks-demo/tree/master/src/examples/{{ path }}" target="_blank"><img src="../../../../images/icon2.png"> Source</a>
-      <a href="raw/{{ basename }}" target="_blank"><img src="../../../../images/icon1.png"> Open</a>
-      <a href="javascript:edit();"><img src="../../../../images/icon2.png"> Edit</a>
+
+  <div id="container">
+
+    <div id="sidebar">
+      <ul class="menu-list">
+        {{#each examples}}
+        <li>
+          <a href="javascript:;">{{index}} {{category}}</a>
+          <ol>
+            {{#each examples}}
+            <li>
+              <a href="../../{{../name}}/{{name}}/">{{../index}}.{{index}} {{title}}</a>
+            </li>
+            {{/each}}
+          </ol>
+        </li>
+        {{/each}}
+      </ul>
     </div>
 
-    <div id="code">
-      <div class="code-box" data-key="{{ basename }}">
-        <h3 class="code-title">{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h3>
-        <pre>
-          <code class="html xml">{{#escape}}{{> example}}{{/escape}}</code>
-        </pre>
-      </div>
-      {{#if css.source}}
-      <div class="code-box" data-key="{{ css.basename }}">
-        <h3 class="code-title">{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h3>
-        <pre>
-          <code class="lang-css">{{ css.source }}</code>
-        </pre>
-      </div>
-      {{/if}}
+    <div id="viewer-wrapper">
+      <article id="example">
+        <div id="map">
+          <h3 class="main-title">{{ title }}</h3>
+          <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
+        </div>
+        <div class="button">
+          <a href="https://github.com/maptalks/maptalks-demo/tree/master/src/examples/{{ path }}" target="_blank"><img src="../../../../images/icon2.png"> Source</a>
+          <a href="raw/{{ basename }}" target="_blank"><img src="../../../../images/icon1.png"> Open</a>
+          <a href="javascript:edit();"><img src="../../../../images/icon2.png"> Edit</a>
+        </div>
+        <div id="code">
+          <div class="code-box" data-key="{{ basename }}">
+            <h3 class="code-title">{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h3>
+            <pre>
+              <code class="html xml">{{#escape}}{{> example}}{{/escape}}</code>
+            </pre>
+          </div>
+          {{#if css.source}}
+          <div class="code-box" data-key="{{ css.basename }}">
+            <h3 class="code-title">{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h3>
+            <pre>
+              <code class="lang-css">{{ css.source }}</code>
+            </pre>
+          </div>
+          {{/if}}
+        </div>
+      </article>
     </div>
 
-  </article>
+  </div>
 
   <span class="clear"></span>
   <div style="display:none;">
