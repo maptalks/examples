@@ -58,14 +58,6 @@
               <code class="html xml">{{#escape}}{{> example}}{{/escape}}</code>
             </pre>
           </div>
-          {{#if css.source}}
-          <div class="code-box" data-key="{{ css.basename }}">
-            <h3 class="code-title">{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h3>
-            <pre>
-              <code class="lang-css">{{ css.source }}</code>
-            </pre>
-          </div>
-          {{/if}}
         </div>
       </article>
     </div>
@@ -76,18 +68,18 @@
   <div style="display:none;">
     <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
       <textarea name="html">
-        <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
-        <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
-        {{{ indent contents spaces=4 }}}
+<link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+<script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+{{ contents }}
       </textarea>
-      <textarea name="js">{{{ indent js.source spaces=6 }}}</textarea>
-      {{#if css.source}}
-      <textarea name="css">{{ css.source }}</textarea>
-      {{/if}}
+      <textarea name="js">
+{{ js.source }}
+      </textarea>
+      <textarea name="css">
+{{ css.source }}
+      </textarea>
       <input type="text" name="title" value="{{ title }}">
       <textarea name="description">{{ category }} - {{ title }}</textarea>
-      <textarea name="resources">
-      </textarea>
       <input type="text" name="wrap" value="l">
     </form>
   </div>

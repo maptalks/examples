@@ -116,9 +116,7 @@ function processSingleFile(file, files, metadata, isRaw) {
       basename: id + '.css',
       source: files[css].contents.toString()
     };
-    if (!isRaw) {
-      delete files[css];
-    }
+    delete files[css];
   }
 }
 
