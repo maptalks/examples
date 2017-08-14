@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>{{ category }} - {{ title }}</title>
   <link rel="stylesheet" href="../../../css/example.css" />
+  <link rel="stylesheet" href="../../../css/fixup.css" />
   <script type="text/javascript" src="../../../js/run_prettify.js"></script>
 </head>
 
@@ -61,18 +62,26 @@
       <div class="title-area">
         <div class="title">{{ title }}</div>
         <div class="action-area">
-          <div class="action-button button">
-            <i class="icon source"></i>source
-          </div>
-          <div class="action-button button">
-            <i class="icon open"></i>open
-          </div>
-          <div class="action-button button">
-            <i class="icon edit"></i>edit
-          </div>
-          <div class="action-button button">
-            <i class="icon copy"></i>copy
-          </div>
+          <a class="action-link" href="https://github.com/maptalks/examples/tree/master/src/{{ path }}" target="_blank">
+            <div class="action-button button">
+              <i class="icon source"></i>source
+            </div>
+          </a>
+          <a class="action-link" href="raw/{{ basename }}" target="_blank">
+            <div class="action-button button">
+              <i class="icon open"></i>open
+            </div>
+          </a>
+          <a class="action-link" href="javascript:edit();">
+            <div class="action-button button">
+              <i class="icon edit"></i>edit
+            </div>
+          </a>
+          <a class="action-link" href="" id="action-link-copy">
+            <div class="action-button button">
+              <i class="icon copy"></i>copy
+            </div>
+          </a>
         </div>
       </div>
 
@@ -97,7 +106,6 @@
 
   </div>
 
-  <span class="clear"></span>
   <div style="display:none;">
     <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
       <textarea name="html">
@@ -131,6 +139,12 @@
     function edit() {
       document.getElementById('editor').submit();
     }
+  </script>
+  <script>
+    $('#action-link-copy').click(function (event) {
+      event.preventDefault();
+      // TODO: copy source to clipboard
+    });
   </script>
 
 </body>
