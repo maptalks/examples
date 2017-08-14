@@ -6,60 +6,97 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>{{ category }} - {{ title }}</title>
-  <link rel="stylesheet" href="../../../css/reset_css.css" />
-  <link rel="stylesheet" href="../../../css/all.css" />
-  <link rel="stylesheet" href="../../../monokai-sublime.css" />
-  <style type="text/css">
-    html,
-    body {
-      overflow-y: auto;
-    }
-
-  </style>
-  <script type="text/javascript" src="../../../highlight.min.js"></script>
+  <link rel="stylesheet" href="../../../css/example.css" />
+  <script type="text/javascript" src="../../../js/run_prettify.js"></script>
 </head>
 
 <body>
 
-  <div id="container">
+  <div class="demo-viewer">
 
-    <div id="sidebar">
-      <ul class="menu-list">
-        {{#each examples}}
-        <li>
-          <a href="javascript:;">{{index}} {{category}}</a>
-          <ol>
-            {{#each examples}}
-            <li>
-              <a href="../../{{../name}}/{{name}}/">{{../index}}.{{index}} {{title}}</a>
-            </li>
-            {{/each}}
-          </ol>
-        </li>
-        {{/each}}
-      </ul>
+    <div class="sidebar">
+
+      <div class="logo-area">
+          <a href="https://maptalks.org/" class="logo">
+          </a>
+          <div class="lang-switch">
+              <div class="lang-option lang-en">EN</div>
+              <div class="lang-option lang-cn">中文</div>
+          </div>
+      </div>
+
+      <div class="menu-button"></div>
+
+      <div class="menu-area">
+
+        <div class="action-bar">
+          <div class="search-bar">
+            <input type="text" class="search-field">
+            <div class="search-button"></div>
+          </div>
+          <div class="all-download-button"></div>
+        </div>
+
+        <ul class="menu scroll-block">
+          {{#each examples}}
+          <li class="list-tile">
+            <div class="list-title">{{index}} {{category}}</div>
+            <ul class="list">
+              {{#each examples}}
+              <li class="list-tile">
+                <a href="../../{{../name}}/{{name}}/">{{../index}}.{{index}} {{title}}</a>
+              </li>
+              {{/each}}
+            </ul>
+          </li>
+          {{/each}}
+        </ul>
+
+      </div>
+
     </div>
 
-    <div id="viewer-wrapper">
-      <article id="example">
-        <div id="map">
-          <h3 class="main-title">{{ title }}</h3>
-          <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
+    <div class="demo-panel">
+
+      <div class="title-area">
+        <div class="title">{{ title }}</div>
+        <div class="action-area">
+          <div class="action-button button">
+            <i class="icon source"></i>source
+          </div>
+          <div class="action-button button">
+            <i class="icon open"></i>open
+          </div>
+          <div class="action-button button">
+            <i class="icon edit"></i>edit
+          </div>
+          <div class="action-button button">
+            <i class="icon copy"></i>copy
+          </div>
         </div>
-        <div class="button">
-          <a href="https://github.com/maptalks/maptalks-demo/tree/master/src/examples/{{ path }}" target="_blank"><img src="../../../images/icon2.png"> Source</a>
-          <a href="raw/{{ basename }}" target="_blank"><img src="../../../images/icon1.png"> Open</a>
-          <a href="javascript:edit();"><img src="../../../images/icon2.png"> Edit</a>
+      </div>
+
+      <div class="content-area scroll-block">
+
+        <div class="map-viewer">
+          <iframe class="map-view" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
         </div>
-        <div id="code">
-          <div class="code-box" data-key="{{ basename }}">
-            <h3 class="code-title">{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h3>
-            <pre>
-              <code class="html xml">{{#escape}}{{> example}}{{/escape}}</code>
+
+        <div class="readme md"></div>
+
+        <div class="code-viewer">
+          <div class="code-snippet html">
+            <div class="code-title">{{ basename }}</div>
+            <pre class="prettyprint">
+              <code class="html xml">
+{{#escape}}{{> example}}{{/escape}}
+              </code>
             </pre>
           </div>
         </div>
-      </article>
+
+      </div>
+
     </div>
 
   </div>
@@ -83,21 +120,23 @@
       <input type="text" name="wrap" value="l">
     </form>
   </div>
-  <script>
-    function highlight() {
-      var codes = document.getElementsByTagName('code');
-      for (var i = 0; i < codes.length; i++) {
-        hljs.highlightBlock(codes[i]);
-      }
-    }
 
+  <script src="../../../js/jquery.js"></script>
+  <script>
+    $(".lang-option").click(function () {
+      $(".lang-switch").toggleClass("-en");
+    });
+
+    $(".menu-button").click(function () {
+      $(".sidebar").toggleClass("-active");
+    });
+  </script>
+  <script>
     function edit() {
       document.getElementById('editor').submit();
     }
-
-    highlight();
-
   </script>
+
 </body>
 
 </html>
