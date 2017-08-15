@@ -1,5 +1,4 @@
 /* eslint global-require: 0 */
-var exec = require('child_process').exec;
 var path = require('path');
 var gulp = require('gulp');
 var del = require('del');
@@ -10,19 +9,11 @@ var layouts = require('metalsmith-layouts');
 var copy = require('metalsmith-copy');
 var debug = require('metalsmith-debug');
 var handlebars = require('handlebars');
+var multimatch = require('multimatch');
 var i18n = require('./i18n');
 
 var markupRegex = /([^\/^\.]*)\.html$/;
 var locales = ['en', 'cn'];
-
-var siteInfo = {
-  'cn': {
-    'prefixURL': '/examples/cn/'
-  },
-  'en': {
-    'prefixURL': '/examples/en/'
-  }
-};
 
 var mapParams = {
   'cn': {
@@ -87,7 +78,7 @@ function readExamplesInfo() {
 
 var examplesInfo = readExamplesInfo();
 
-function processSingleFile(file, files, metadata) {
+function processSingleFile(file, files) {
   var basename = path.basename(file);
   var match = basename.match(markupRegex);
   if (!match) return;
@@ -130,24 +121,30 @@ function processSingleFile(file, files, metadata) {
   }
 }
 
-/**
- * Process raw pages
- */
-function processRaw(files, metalsmith, done) {
-  setImmediate(done);
-  for (var file in files) {
-    processSingleFile(file, files, metalsmith.metadata());
-  }
-}
+function processExamples(options) {
+  options = Object.assign({
+    pattern: '**/*'
+  }, options || {});
 
-/**
- * Process demo pages
- */
-function processDemo(files, metalsmith, done) {
-  setImmediate(done);
-  for (var file in files) {
-    processSingleFile(file, files, metalsmith.metadata());
+  var pattern = options.pattern;
+
+  function isHtml(file) {
+    return !!multimatch(file, '**/*.html')[0];
   }
+
+  return function (files, metalsmith, done) {
+    Object.keys(files).forEach(function (file) {
+      if (!multimatch(file, pattern)[0]) {
+        delete files[file];
+        return;
+      }
+
+      if (!isHtml(file)) return;
+
+      processSingleFile(file, files);
+    });
+    done();
+  };
 }
 
 function indentHelper(text, options) {
@@ -173,7 +170,9 @@ gulp.task('build:raw', function (done) {
     .use(i18n({
       locales: locales
     }))
-    .use(processRaw)
+    .use(processExamples({
+      pattern: '**/*'
+    }))
     .use(layouts({
       engine: 'handlebars',
       pattern: '**/*.html',
@@ -204,7 +203,9 @@ gulp.task('build:demo', function (done) {
     .use(i18n({
       locales: locales
     }))
-    .use(processDemo)
+    .use(processExamples({
+      pattern: ['**/*.html', '**/*.js', '**/*.css']
+    }))
     .use(layouts({
       engine: 'handlebars',
       pattern: '**/*.html',
@@ -227,9 +228,7 @@ gulp.task('build', ['build:raw', 'build:demo'], function () {
 });
 
 gulp.task('clean', function () {
-  return del(['dist'], {
-    force: true
-  });
+  return del(['dist/**']);
 });
 
 gulp.task('watch', ['build'], function () {
@@ -245,7 +244,7 @@ gulp.task('connect', ['watch'], function () {
 });
 
 gulp.task('deploy', ['build'], function () {
-  return gulp.src('build/**/*')
+  return gulp.src('dist/**/*')
     .pipe(ghPages());
 });
 

@@ -36,8 +36,8 @@ function i18n(options) {
       options.locales.forEach(function (locale) {
         var data = Object.assign({}, files[file]);
         var p = path.join(locale, file);
-        data.locale = locale;
         var h = helper(function () { return locale; });
+        data.locale = locale;
         data.t = h.t;
         data.i18nOrigPath = file;
         files[p] = data;
