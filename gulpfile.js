@@ -4,17 +4,25 @@ var path = require('path');
 var gulp = require('gulp');
 var del = require('del');
 var connect = require('gulp-connect');
-var rename = require('gulp-rename');
 var ghPages = require('gulp-gh-pages');
-var metalsmith = require('gulp-metalsmith');
+var Metalsmith = require('metalsmith');
 var layouts = require('metalsmith-layouts');
+var copy = require('metalsmith-copy');
 var debug = require('metalsmith-debug');
 var handlebars = require('handlebars');
-
-var builder = require('./build/build');
+var i18n = require('./i18n');
 
 var markupRegex = /([^\/^\.]*)\.html$/;
-var locale = process.env.locale || 'en';
+var locales = ['en', 'cn'];
+
+var siteInfo = {
+  'cn': {
+    'prefixURL': '/examples/cn/'
+  },
+  'en': {
+    'prefixURL': '/examples/en/'
+  }
+};
 
 var mapParams = {
   'cn': {
@@ -33,22 +41,13 @@ var mapParams = {
   }
 };
 
-function readMapParams(locale) {
-  return function (files, metalsmith, done) {
-    setImmediate(done);
-    var metadata = metalsmith.metadata();
-    metadata['mapParams'] = mapParams[locale];
-  };
-}
-
-function readExamplesInfo(locale) {
-  return function (files, metalsmith, done) {
-    setImmediate(done);
-    var json = require('./build/examples.json');
+function readExamplesInfo() {
+  var json = require('./build/examples.json');
+  function buildLocalizedInfo(locale) {
     var items = json.examples;
     var count = items.length;
     var examples = [];
-    var info = {};
+    var metadata = {};
     var i, j;
     for (i = 0; i < count; i++) {
       var category = items[i].title[locale];
@@ -58,7 +57,7 @@ function readExamplesInfo(locale) {
       for (j = 0; j < subCount; j++) {
         var title = subItems[j].title[locale];
         var key = path.join(items[i].name, subItems[j].name);
-        info[key] = {
+        metadata[key] = {
           category: category,
           title: title
         };
@@ -75,13 +74,20 @@ function readExamplesInfo(locale) {
         examples: subExamples
       });
     }
-    var metadata = metalsmith.metadata();
-    metadata['examples'] = examples;
-    metadata['info'] = info;
-  };
+    return {
+      examples: examples,
+      metadata: metadata
+    };
+  }
+  return locales.reduce(function (memo, locale) {
+    memo[locale] = buildLocalizedInfo(locale);
+    return memo;
+  }, {});
 }
 
-function processSingleFile(file, files, metadata, isRaw) {
+var examplesInfo = readExamplesInfo();
+
+function processSingleFile(file, files, metadata) {
   var basename = path.basename(file);
   var match = basename.match(markupRegex);
   if (!match) return;
@@ -89,17 +95,21 @@ function processSingleFile(file, files, metadata, isRaw) {
   var data = files[file];
 
   var id = match[1];
+  var dirnameOrig = path.dirname(data.i18nOrigPath);
   var dirname = path.dirname(file);
 
-  var info = metadata['info'][dirname] || {};
-  data.category = info.category;
-  data.title = info.title;
+  var info = examplesInfo[data.locale];
+  var meta = info.metadata;
+  var filemeta = meta[dirnameOrig] || {};
+  data.examples = info.examples;
+  data.category = filemeta.category;
+  data.title = filemeta.title;
   data.basename = basename;
-  data.path = dirname;
+  data.path = dirnameOrig;
 
   var js = path.join(dirname, id + '.js');
   if (js in files) {
-    var params = metadata['mapParams'];
+    var params = mapParams[data.locale];
     data.js = {
       basename: id + '.js',
       source: files[js].contents.toString()
@@ -121,12 +131,12 @@ function processSingleFile(file, files, metadata, isRaw) {
 }
 
 /**
- * Process the raw demo pages
+ * Process raw pages
  */
 function processRaw(files, metalsmith, done) {
   setImmediate(done);
   for (var file in files) {
-    processSingleFile(file, files, metalsmith.metadata(), true);
+    processSingleFile(file, files, metalsmith.metadata());
   }
 }
 
@@ -136,7 +146,7 @@ function processRaw(files, metalsmith, done) {
 function processDemo(files, metalsmith, done) {
   setImmediate(done);
   for (var file in files) {
-    processSingleFile(file, files, metalsmith.metadata(), false);
+    processSingleFile(file, files, metalsmith.metadata());
   }
 }
 
@@ -155,116 +165,88 @@ function escapeHelper(options) {
   return handlebars.Utils.escapeExpression(options.fn(this));
 }
 
-var outputFolder = './dist';
-
-gulp.task('build:raw', function () {
-  return gulp.src('src/**/*')
-    .pipe(metalsmith({
-      use: [
-        readMapParams(locale),
-        readExamplesInfo(locale),
-        processRaw,
-        layouts({
-          engine: 'handlebars',
-          pattern: '**/*.html',
-          default: 'example.hbs',
-          directory: 'layouts/raw',
-          helpers: {
-            indent: indentHelper
-          }
-        }),
-        debug({
-          source: false,
-          destination: false
-        })
-      ]
+gulp.task('build:raw', function (done) {
+  Metalsmith(__dirname)
+    .source('src')
+    .destination('dist')
+    .clean(false)
+    .use(i18n({
+      locales: locales
     }))
-    .pipe(rename(function (path) {
-      path.dirname += '/raw';
-      return path;
+    .use(processRaw)
+    .use(layouts({
+      engine: 'handlebars',
+      pattern: '**/*.html',
+      default: 'example.hbs',
+      directory: 'layouts/raw',
+      helpers: {
+        indent: indentHelper
+      }
     }))
-    .pipe(gulp.dest(path.join(outputFolder, locale)));
+    .use(copy({
+      pattern: '**/*',
+      move: true,
+      transform: function (file) {
+        var dirname = path.dirname(file);
+        var basename = path.basename(file);
+        return path.join(dirname, 'raw', basename);
+      }
+    }))
+    .use(debug())
+    .build(done);
 });
 
-gulp.task('build:demo', function () {
-  return gulp.src('src/**/*.{html,js,css}')
-    .pipe(metalsmith({
-      use: [
-        readMapParams(locale),
-        readExamplesInfo(locale),
-        processDemo,
-        layouts({
-          engine: 'handlebars',
-          pattern: '**/*.html',
-          default: 'example.hbs',
-          directory: 'layouts',
-          partials: 'layouts/raw',
-          helpers: {
-            indent: indentHelper,
-            escape: escapeHelper
-          }
-        }),
-        debug({
-          source: false,
-          destination: false
-        })
-      ]
+gulp.task('build:demo', function (done) {
+  Metalsmith(__dirname)
+    .source('src')
+    .destination('dist')
+    .clean(false)
+    .use(i18n({
+      locales: locales
     }))
-    .pipe(gulp.dest(path.join(outputFolder, locale)));
+    .use(processDemo)
+    .use(layouts({
+      engine: 'handlebars',
+      pattern: '**/*.html',
+      default: 'example.hbs',
+      directory: 'layouts',
+      partials: 'layouts/raw',
+      helpers: {
+        indent: indentHelper,
+        escape: escapeHelper
+      }
+    }))
+    .use(debug())
+    .build(done);
 });
 
 gulp.task('build', ['build:raw', 'build:demo'], function () {
   return gulp.src('assets/**/*')
-    .pipe(gulp.dest(outputFolder))
+    .pipe(gulp.dest('dist'))
     .pipe(connect.reload());
 });
 
 gulp.task('clean', function () {
-  return del([
-    outputFolder + '/**/*'
-  ], {
-    'force': true
+  return del(['dist'], {
+    force: true
   });
 });
 
 gulp.task('watch', ['build'], function () {
-  gulp.watch(['./src/**/*', './assets/**/*', './layouts/**/*'], ['build']);
-  gulp.watch(['./build/*'], ['build:demo']);
+  gulp.watch(['src/**/*', 'assets/**/*', 'layouts/**/*'], ['build']);
 });
 
 gulp.task('connect', ['watch'], function () {
   connect.server({
-    root: outputFolder,
+    root: 'dist',
     livereload: true,
     port: 20001
   });
 });
 
-gulp.task('check', function () {
-  builder.check();
+gulp.task('deploy', ['build'], function () {
+  return gulp.src('build/**/*')
+    .pipe(ghPages());
 });
 
 gulp.task('default', ['connect']);
-
-gulp.task('publish', ['clean'], function (cb) {
-  process.env.locale = 'cn';
-  exec('gulp build', function (err) {
-    if (err) {
-      cb(err); // return error
-      return;
-    }
-    process.env.locale = 'en';
-    exec('gulp build', function (err) {
-      if (err) {
-        cb(err); // return error
-        return;
-      }
-      cb(); // finished task
-    });
-  });
-});
-
-gulp.task('deploy', ['publish'], function () {
-  return gulp.src('dist/**/*')
-    .pipe(ghPages());
-});
