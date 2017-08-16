@@ -246,7 +246,9 @@ gulp.task('connect', ['watch'], function () {
 
 gulp.task('deploy', ['build'], function () {
   return gulp.src('dist/**/*')
-    .pipe(ghPages());
+    .pipe(ghPages({
+      message: 'Deploy to GitHub pages [ci skip]'
+    }));
 });
 
 gulp.task('default', ['connect']);
