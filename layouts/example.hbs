@@ -3,91 +3,151 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>{{ category }} - {{ title }}</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
-  <meta name="format-detection" content="telephone=no" />
-
-  <link rel="stylesheet" href="../../../../css/reset_css.css" />
-  <link rel="stylesheet" href="../../../../css/all.css" />
-  <link rel="stylesheet" href="../../../../monokai-sublime.css" />
-  <style type="text/css">
-    html,
-    body {
-      overflow-y: auto;
-    }
-
-  </style>
-  <script type="text/javascript" src="../../../../highlight.min.js"></script>
+  <title>{{ category }} - {{ title }}</title>
+  <link rel="stylesheet" href="../../../css/example.css" />
+  <link rel="stylesheet" href="../../../css/fixup.css" />
+  <script type="text/javascript" src="../../../js/run_prettify.js"></script>
+  <script src="../../../js/clipboard.min.js"></script>
 </head>
 
 <body>
-  <article id="example">
-    <div id="map">
-      <h3 class="main-title">{{ title }}</h3>
-      <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
-    </div>
-    <div class="button">
-      <a href="https://github.com/maptalks/maptalks-demo/tree/master/src/examples/{{ path }}" target="_blank"><img src="../../../../images/icon2.png"> Source</a>
-      <a href="raw/{{ basename }}" target="_blank"><img src="../../../../images/icon1.png"> Open</a>
-      <a href="javascript:edit();"><img src="../../../../images/icon2.png"> Edit</a>
-    </div>
 
-    <div id="code">
-      <div class="code-box" data-key="{{ basename }}">
-        <h3 class="code-title">{{ basename }}<a name="{{ basename }}" class="anchor" href="#{{ basename }}">#</a></h3>
-        <pre>
-          <code class="html xml">{{#escape}}{{> example}}{{/escape}}</code>
-        </pre>
+  <div class="demo-viewer">
+
+    <div class="sidebar">
+
+      <div class="logo-area">
+          <a href="https://maptalks.org/" class="logo">
+          </a>
+          <div class="lang-switch">
+              <div class="lang-option lang-en">EN</div>
+              <div class="lang-option lang-cn">中文</div>
+          </div>
       </div>
-      {{#if css.source}}
-      <div class="code-box" data-key="{{ css.basename }}">
-        <h3 class="code-title">{{ css.basename }}<a name="{{ css.basename }}" class="anchor" href="#{{ css.basename }}">#</a></h3>
-        <pre>
-          <code class="lang-css">{{ css.source }}</code>
-        </pre>
+
+      <div class="menu-button"></div>
+
+      <div class="menu-area">
+
+        <div class="action-bar">
+          <div class="search-bar">
+            <input type="text" class="search-field">
+            <div class="search-button"></div>
+          </div>
+          <div class="all-download-button">{{ t 'Download All' }}</div>
+        </div>
+
+        <ul class="menu scroll-block">
+          {{#each examples}}
+          <li class="list-tile">
+            <div class="list-title">{{index}} {{category}}</div>
+            <ul class="list">
+              {{#each examples}}
+              <li class="list-tile">
+                <a href="../../{{../name}}/{{name}}/">{{../index}}.{{index}} {{title}}</a>
+              </li>
+              {{/each}}
+            </ul>
+          </li>
+          {{/each}}
+        </ul>
+
       </div>
-      {{/if}}
+
     </div>
 
-  </article>
+    <div class="demo-panel">
 
-  <span class="clear"></span>
+      <div class="title-area">
+        <div class="title">{{ title }}</div>
+        <div class="action-area">
+          <a class="action-link" href="https://github.com/maptalks/examples/tree/master/src/{{ path }}" target="_blank">
+            <div class="action-button button">
+              <i class="icon source"></i>{{ t "action.source" }}
+            </div>
+          </a>
+          <a class="action-link" href="raw/{{ basename }}" target="_blank">
+            <div class="action-button button">
+              <i class="icon open"></i>{{ t "action.open" }}
+            </div>
+          </a>
+          <a class="action-link" href="javascript:edit();">
+            <div class="action-button button">
+              <i class="icon edit"></i>{{ t "action.edit" }}
+            </div>
+          </a>
+          <a class="action-link" href="javascript:;" id="action-link-copy" data-clipboard-target="#source">
+            <div class="action-button button">
+              <i class="icon copy"></i>{{ t "action.copy" }}
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="content-area scroll-block">
+
+        <div class="map-viewer">
+          <iframe class="map-view" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
+        </div>
+
+        <div class="readme md"></div>
+
+        <div class="code-viewer">
+          <div class="code-snippet html">
+            <div class="code-title">{{ basename }}</div>
+            <pre id="source" class="prettyprint">{{#escape}}{{> example}}{{/escape}}</pre>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
   <div style="display:none;">
     <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
       <textarea name="html">
-        <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
-        <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
-        {{{ indent contents spaces=4 }}}
+<link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+<script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+{{ contents }}
       </textarea>
-      <textarea name="js">{{{ indent js.source spaces=6 }}}</textarea>
-      {{#if css.source}}
-      <textarea name="css">{{ css.source }}</textarea>
-      {{/if}}
+      <textarea name="js">
+{{ js.source }}
+      </textarea>
+      <textarea name="css">
+{{ css.source }}
+      </textarea>
       <input type="text" name="title" value="{{ title }}">
       <textarea name="description">{{ category }} - {{ title }}</textarea>
-      <textarea name="resources">
-      </textarea>
       <input type="text" name="wrap" value="l">
     </form>
   </div>
-  <script>
-    function highlight() {
-      var codes = document.getElementsByTagName('code');
-      for (var i = 0; i < codes.length; i++) {
-        hljs.highlightBlock(codes[i]);
-      }
-    }
 
+  <script src="../../../js/jquery.js"></script>
+  <script>
+    $(".lang-option").click(function () {
+      $(".lang-switch").toggleClass("-en");
+    });
+
+    $(".menu-button").click(function () {
+      $(".sidebar").toggleClass("-active");
+    });
+  </script>
+  <script>
     function edit() {
       document.getElementById('editor').submit();
     }
 
-    highlight();
-
+    var clipboard = new Clipboard('#action-link-copy');
+    clipboard.on('success', function (e) {
+      e.clearSelection();
+      // TODO: show a tooltip
+    });
   </script>
+
 </body>
 
 </html>

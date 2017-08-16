@@ -2,12 +2,12 @@
 <html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  {{#if css.source}}
-  <link rel="stylesheet" href="{{ css.basename }}">
-  {{/if}}
+  <title>{{ category }} - {{ title }}</title>
+  <style type="text/css">
+{{{ indent css.source spaces=4 }}}
+  </style>
   <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
   <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
-  <title>{{ category }} - {{ title }}</title>
   <body>
 {{{ indent contents spaces=4 }}}
     <script>

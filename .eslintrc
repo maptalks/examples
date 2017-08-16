@@ -10,7 +10,6 @@
   },
   "rules": {
     "strict": 0,
-    "no-unused-vars": 0,
     "comma-spacing": 0,
     "indent": ["error", 2]
   }
