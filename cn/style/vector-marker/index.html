@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>图形样式 - 矢量标注</title>
+  <link rel="stylesheet" href="../../../css/example.css" />
+  <link rel="stylesheet" href="../../../css/fixup.css" />
+  <script type="text/javascript" src="../../../js/run_prettify.js"></script>
+  <script src="../../../js/clipboard.min.js"></script>
+</head>
+
+<body>
+
+  <div class="demo-viewer">
+
+    <div class="sidebar">
+
+      <div class="logo-area">
+          <a href="https://maptalks.org/" class="logo">
+          </a>
+          <div class="lang-switch">
+              <div class="lang-option lang-en">EN</div>
+              <div class="lang-option lang-cn">中文</div>
+          </div>
+      </div>
+
+      <div class="menu-button"></div>
+
+      <div class="menu-area">
+
+        <div class="action-bar">
+          <div class="search-bar">
+            <input type="text" class="search-field">
+            <div class="search-button"></div>
+          </div>
+          <div class="all-download-button">全部下载</div>
+        </div>
+
+        <ul class="menu scroll-block">
+          <li class="list-tile">
+            <div class="list-title">1 地图</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../map/load/">1.1 载入地图</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/canvas/">1.2 在Canvas容器中载入</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/status/">1.3 获取地图状态</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/limit/">1.4 限制地图区域</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/on-off/">1.5 功能开关</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/animation/">1.6 地图动画</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/projection/">1.7 预定义地图投影</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/projection-custom/">1.8 自定义地图投影</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/coordinate/">1.9 坐标转化</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">2 三维视角</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../3d/view/">2.1 三维视角变换</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">3 常用图层</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../layer/add-remove/">3.1 添加图层和移除图层</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/show-hide/">3.2 隐藏显示图层</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/opacity/">3.3 设置图层透明度</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/bring-front-back/">3.4 图层置顶或置底</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/sort/">3.5 改变图层叠加顺序</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/mask/">3.6 设置图层遮罩</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/mask2/">3.7 行政区图层遮罩</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/tile-renderer/">3.8 瓦片图层不同的渲染方式</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/vector-feature-filter/">3.9 图形条件查询</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/vector-style/">3.10 根据条件设置图层样式</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/arcgis-tile/">3.11 载入ArcGIS瓦片服务</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">4 图形</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../geometry/point-line-polygon/">4.1 点线面</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/ext-polygon/">4.2 矩形/圆形/椭圆/扇面</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/collection/">4.3 集合类型图形</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/curve/">4.4 添加弧线</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/label/">4.5 文字标签</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/label-edit/">4.6 编辑文字标签</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/connector-line/">4.7 图形连接线</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/get-by-id/">4.8 通过ID获取图形</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/sort/">4.9 改变图形叠加顺序</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/drag/">4.10 拖拽</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/flash/">4.11 闪烁</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/events/">4.12 事件响应</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/copy/">4.13 克隆图形</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">5 图形样式</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../style/file-marker/">5.1 图片标注</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/text-marker/">5.2 文字标注</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/vector-marker/">5.3 矢量标注</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/svg-path-marker/">5.4 SVG矢量标注</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/line-pattern/">5.5 线的模式填充线</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/line-dasharray/">5.6 虚线</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/polygon-pattern/">5.7 面的模式填充</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/vector-pattern/">5.8 矢量标注的模式填充</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/line-gradient/">5.9 线的渐变填充</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/polygon-gradient/">5.10 面的渐变填充</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/vector-gradient/">5.11 矢量标注的渐变填充</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/function-type/">5.12 函数类型的动态样式</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/composite-symbol/">5.13 多样式渲染</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">6 Canvas图层示例</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../otherlayer/canvaslayer/">6.1 CanvasLayer示例</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../otherlayer/particlelayer/">6.2 粒子图层示例</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../otherlayer/canvastilelayer/">6.3 CanvasTileLayer图层示例</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">7 UI组件</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../ui/uimarker/">7.1 UI Marker</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/echarts-ui/">7.2 ECharts UI Marker</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/highcharts-ui/">7.3 Highcharts UI Marker</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/d3-ui/">7.4 D3 UI Marker</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/map-menu/">7.5 地图右键菜单</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/map-infownd/">7.6 地图信息框</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/geo-menu/">7.7 图形右键菜单</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/geo-infownd/">7.8 图形信息框</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/custom-menu/">7.9 自定义右键菜单</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/custom-infownd/">7.10 自定义信息框</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">8 JSON序列化</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../json/geojson-to-geometry/">8.1 GeoJSON转化为Geometry</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/geometry-to-geojson/">8.2 Geometry转化为GeoJSON</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/load-geojson/">8.3 GeoJSONLayer</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/map-to-json/">8.4 地图转化为JSON</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/json-to-map/">8.5 用JSON载入地图</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/copy-map/">8.6 用JSON复制地图</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/layer-json/">8.7 用JSON复制Layer</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/geometry-json/">8.8 用JSON复制Geometry</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">9 动画</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../animation/animation/">9.1 动画</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../animation/geo-animation/">9.2 Geometry动画</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../animation/move-animation/">9.3 Geometry移动动画</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">10 事件</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../events/map-events/">10.1 监听地图鼠标事件</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../events/sync-map/">10.2 同步地图</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../events/layer-load/">10.3 图层layerload事件</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../events/geometry-events/">10.4 图形鼠标事件</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../events/listener/">10.5 注册/注销事件监听</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">11 空间计算</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../spatial/contains-point/">11.1 包含指定坐标</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../spatial/identify/">11.2 查询指定坐标上的图形</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">12 地图控件</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../control/zoom/">12.1 Zoom控件</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../control/scale/">12.2 Scale控件</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../control/attribution/">12.3 Attribution控件</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../control/toolbar/">12.4 Toolbar控件</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../control/overview/">12.5 鹰眼控件</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../control/panel/">12.6 Panel控件</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../control/show-hide/">12.7 控件显示与隐藏</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">13 地图工具</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../map-tool/distance/">13.1 测距工具</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map-tool/area/">13.2 测面工具</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map-tool/draw/">13.3 绘制工具</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">14 插件开发示例</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../plugin/control/">14.1 创建新的控件</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../plugin/ui/">14.2 创建新的UI组件</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../plugin/maptool/">14.3 创建地图工具</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">15 图层开发示例</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../hellolayer/layer/">15.1 HelloLayer</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../hellolayer/drawoninteracting/">15.2 HelloLayer交互绘制</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../hellolayer/animation/">15.3 HelloLayer动画图层</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="demo-panel">
+
+      <div class="title-area">
+        <div class="title">矢量标注</div>
+        <div class="action-area">
+          <a class="action-link" href="https://github.com/maptalks/examples/tree/master/src/style/vector-marker" target="_blank">
+            <div class="action-button button">
+              <i class="icon source"></i>源码
+            </div>
+          </a>
+          <a class="action-link" href="raw/index.html" target="_blank">
+            <div class="action-button button">
+              <i class="icon open"></i>打开
+            </div>
+          </a>
+          <a class="action-link" href="javascript:edit();">
+            <div class="action-button button">
+              <i class="icon edit"></i>编辑
+            </div>
+          </a>
+          <a class="action-link" href="javascript:;" id="action-link-copy" data-clipboard-target="#source">
+            <div class="action-button button">
+              <i class="icon copy"></i>复制
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="content-area scroll-block">
+
+        <div class="map-viewer">
+          <iframe class="map-view" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/index.html"></iframe>
+        </div>
+
+        <div class="readme md"></div>
+
+        <div class="code-viewer">
+          <div class="code-snippet html">
+            <div class="code-title">index.html</div>
+            <pre id="source" class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+  &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;
+  &lt;title&gt;图形样式 - 矢量标注&lt;/title&gt;
+  &lt;style type&#x3D;&quot;text/css&quot;&gt;
+
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+  &lt;/style&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.css&quot;&gt;
+  &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.js&quot;&gt;&lt;/script&gt;
+  &lt;body&gt;
+
+    &lt;div id&#x3D;&quot;map&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+      var c &#x3D; new maptalks.Coordinate([-0.113049,51.49856]);
+      var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+        center: c,
+        zoom: 14,
+        attribution: {
+          content: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.openstreetmap.org/copyright&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/attributions&quot;&gt;CARTO&lt;/a&gt;&#x27;
+        },
+        baseLayer: new maptalks.TileLayer(&#x27;tile&#x27;, {
+          urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
+          subdomains: [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;]
+        })
+      });
+
+      var layer &#x3D; new maptalks.VectorLayer(&#x27;v&#x27;).addTo(map);
+
+      var marker1 &#x3D; new maptalks.Marker(
+        c.sub(0.020, 0),
+        {
+          &#x27;symbol&#x27; : {
+            &#x27;markerType&#x27;: &#x27;ellipse&#x27;,
+            &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+            &#x27;markerFillOpacity&#x27;: 1,
+            &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+            &#x27;markerLineWidth&#x27;: 3,
+            &#x27;markerLineOpacity&#x27;: 1,
+            &#x27;markerLineDasharray&#x27;:[],
+            &#x27;markerWidth&#x27;: 40,
+            &#x27;markerHeight&#x27;: 40,
+            &#x27;markerDx&#x27;: 0,
+            &#x27;markerDy&#x27;: 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker2 &#x3D; new maptalks.Marker(
+        c.sub(0.015, 0),
+        {
+          &#x27;symbol&#x27; : {
+            &#x27;markerType&#x27;: &#x27;cross&#x27;,
+            &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+            &#x27;markerFillOpacity&#x27;: 1,
+            &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+            &#x27;markerLineWidth&#x27;: 3,
+            &#x27;markerLineOpacity&#x27;: 1,
+            &#x27;markerLineDasharray&#x27;:[],
+            &#x27;markerWidth&#x27;: 40,
+            &#x27;markerHeight&#x27;: 40,
+            &#x27;markerDx&#x27;: 0,
+            &#x27;markerDy&#x27;: 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker3 &#x3D; new maptalks.Marker(
+        c.sub(0.010, 0),
+        {
+          &#x27;symbol&#x27; : {
+            &#x27;markerType&#x27;: &#x27;x&#x27;,
+            &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+            &#x27;markerFillOpacity&#x27;: 1,
+            &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+            &#x27;markerLineWidth&#x27;: 3,
+            &#x27;markerLineOpacity&#x27;: 1,
+            &#x27;markerLineDasharray&#x27;:[],
+            &#x27;markerWidth&#x27;: 40,
+            &#x27;markerHeight&#x27;: 40,
+            &#x27;markerDx&#x27;: 0,
+            &#x27;markerDy&#x27;: 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker4 &#x3D; new maptalks.Marker(
+        c.sub(0.005, 0),
+        {
+          &#x27;symbol&#x27; : {
+            &#x27;markerType&#x27;: &#x27;triangle&#x27;,
+            &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+            &#x27;markerFillOpacity&#x27;: 1,
+            &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+            &#x27;markerLineWidth&#x27;: 3,
+            &#x27;markerLineOpacity&#x27;: 1,
+            &#x27;markerLineDasharray&#x27;:[],
+            &#x27;markerWidth&#x27;: 40,
+            &#x27;markerHeight&#x27;: 40,
+            &#x27;markerDx&#x27;: 0,
+            &#x27;markerDy&#x27;: 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker5 &#x3D; new maptalks.Marker(
+        c,
+        {
+          &#x27;symbol&#x27; : {
+            &#x27;markerType&#x27;: &#x27;square&#x27;,
+            &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+            &#x27;markerFillOpacity&#x27;: 1,
+            &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+            &#x27;markerLineWidth&#x27;: 3,
+            &#x27;markerLineOpacity&#x27;: 1,
+            &#x27;markerLineDasharray&#x27;:[],
+            &#x27;markerWidth&#x27;: 40,
+            &#x27;markerHeight&#x27;: 40,
+            &#x27;markerDx&#x27;: 0,
+            &#x27;markerDy&#x27;: 0
+          }
+        }
+      ).addTo(layer);
+
+
+      var marker6 &#x3D; new maptalks.Marker(
+        c.add(0.005, 0),
+        {
+          &#x27;symbol&#x27; : {
+            &#x27;markerType&#x27;: &#x27;diamond&#x27;,
+            &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+            &#x27;markerFillOpacity&#x27;: 1,
+            &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+            &#x27;markerLineWidth&#x27;: 3,
+            &#x27;markerLineOpacity&#x27;: 1,
+            &#x27;markerLineDasharray&#x27;:[],
+            &#x27;markerWidth&#x27;: 40,
+            &#x27;markerHeight&#x27;: 40,
+            &#x27;markerDx&#x27;: 0,
+            &#x27;markerDy&#x27;: 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker7 &#x3D; new maptalks.Marker(
+        c.add(0.010, 0),
+        {
+          &#x27;symbol&#x27; : {
+            &#x27;markerType&#x27;: &#x27;bar&#x27;,
+            &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+            &#x27;markerFillOpacity&#x27;: 1,
+            &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+            &#x27;markerLineWidth&#x27;: 3,
+            &#x27;markerLineOpacity&#x27;: 1,
+            &#x27;markerLineDasharray&#x27;:[],
+            &#x27;markerWidth&#x27;: 30,
+            &#x27;markerHeight&#x27;: 60,
+            &#x27;markerDx&#x27;: 0,
+            &#x27;markerDy&#x27;: 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker8 &#x3D; new maptalks.Marker(
+        c.add(0.015, 0),
+        {
+          &#x27;symbol&#x27; : {
+            &#x27;markerType&#x27;: &#x27;pie&#x27;,
+            &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+            &#x27;markerFillOpacity&#x27;: 1,
+            &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+            &#x27;markerLineWidth&#x27;: 3,
+            &#x27;markerLineOpacity&#x27;: 1,
+            &#x27;markerLineDasharray&#x27;:[],
+            &#x27;markerWidth&#x27;: 40,
+            &#x27;markerHeight&#x27;: 40,
+            &#x27;markerDx&#x27;: 0,
+            &#x27;markerDy&#x27;: 0
+          }
+        }
+      ).addTo(layer);
+
+      var marker9 &#x3D; new maptalks.Marker(
+        c.add(0.020, 0),
+        {
+          &#x27;symbol&#x27; : {
+            &#x27;markerType&#x27;: &#x27;pin&#x27;,
+            &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+            &#x27;markerFillOpacity&#x27;: 1,
+            &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+            &#x27;markerLineWidth&#x27;: 3,
+            &#x27;markerLineOpacity&#x27;: 1,
+            &#x27;markerLineDasharray&#x27;:[],
+            &#x27;markerWidth&#x27;: 40,
+            &#x27;markerHeight&#x27;: 40,
+            &#x27;markerDx&#x27;: 0,
+            &#x27;markerDy&#x27;: 0
+          }
+        }
+      ).addTo(layer);
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div style="display:none;">
+    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
+      <textarea name="html">
+<link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+<script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+
+&lt;div id&#x3D;&quot;map&quot;&gt;&lt;/div&gt;
+      </textarea>
+      <textarea name="js">
+var c &#x3D; new maptalks.Coordinate([-0.113049,51.49856]);
+var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+  center: c,
+  zoom: 14,
+  attribution: {
+    content: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.openstreetmap.org/copyright&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/attributions&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  },
+  baseLayer: new maptalks.TileLayer(&#x27;tile&#x27;, {
+    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
+    subdomains: [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;]
+  })
+});
+
+var layer &#x3D; new maptalks.VectorLayer(&#x27;v&#x27;).addTo(map);
+
+var marker1 &#x3D; new maptalks.Marker(
+  c.sub(0.020, 0),
+  {
+    &#x27;symbol&#x27; : {
+      &#x27;markerType&#x27;: &#x27;ellipse&#x27;,
+      &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+      &#x27;markerFillOpacity&#x27;: 1,
+      &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+      &#x27;markerLineWidth&#x27;: 3,
+      &#x27;markerLineOpacity&#x27;: 1,
+      &#x27;markerLineDasharray&#x27;:[],
+      &#x27;markerWidth&#x27;: 40,
+      &#x27;markerHeight&#x27;: 40,
+      &#x27;markerDx&#x27;: 0,
+      &#x27;markerDy&#x27;: 0
+    }
+  }
+).addTo(layer);
+
+var marker2 &#x3D; new maptalks.Marker(
+  c.sub(0.015, 0),
+  {
+    &#x27;symbol&#x27; : {
+      &#x27;markerType&#x27;: &#x27;cross&#x27;,
+      &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+      &#x27;markerFillOpacity&#x27;: 1,
+      &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+      &#x27;markerLineWidth&#x27;: 3,
+      &#x27;markerLineOpacity&#x27;: 1,
+      &#x27;markerLineDasharray&#x27;:[],
+      &#x27;markerWidth&#x27;: 40,
+      &#x27;markerHeight&#x27;: 40,
+      &#x27;markerDx&#x27;: 0,
+      &#x27;markerDy&#x27;: 0
+    }
+  }
+).addTo(layer);
+
+var marker3 &#x3D; new maptalks.Marker(
+  c.sub(0.010, 0),
+  {
+    &#x27;symbol&#x27; : {
+      &#x27;markerType&#x27;: &#x27;x&#x27;,
+      &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+      &#x27;markerFillOpacity&#x27;: 1,
+      &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+      &#x27;markerLineWidth&#x27;: 3,
+      &#x27;markerLineOpacity&#x27;: 1,
+      &#x27;markerLineDasharray&#x27;:[],
+      &#x27;markerWidth&#x27;: 40,
+      &#x27;markerHeight&#x27;: 40,
+      &#x27;markerDx&#x27;: 0,
+      &#x27;markerDy&#x27;: 0
+    }
+  }
+).addTo(layer);
+
+var marker4 &#x3D; new maptalks.Marker(
+  c.sub(0.005, 0),
+  {
+    &#x27;symbol&#x27; : {
+      &#x27;markerType&#x27;: &#x27;triangle&#x27;,
+      &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+      &#x27;markerFillOpacity&#x27;: 1,
+      &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+      &#x27;markerLineWidth&#x27;: 3,
+      &#x27;markerLineOpacity&#x27;: 1,
+      &#x27;markerLineDasharray&#x27;:[],
+      &#x27;markerWidth&#x27;: 40,
+      &#x27;markerHeight&#x27;: 40,
+      &#x27;markerDx&#x27;: 0,
+      &#x27;markerDy&#x27;: 0
+    }
+  }
+).addTo(layer);
+
+var marker5 &#x3D; new maptalks.Marker(
+  c,
+  {
+    &#x27;symbol&#x27; : {
+      &#x27;markerType&#x27;: &#x27;square&#x27;,
+      &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+      &#x27;markerFillOpacity&#x27;: 1,
+      &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+      &#x27;markerLineWidth&#x27;: 3,
+      &#x27;markerLineOpacity&#x27;: 1,
+      &#x27;markerLineDasharray&#x27;:[],
+      &#x27;markerWidth&#x27;: 40,
+      &#x27;markerHeight&#x27;: 40,
+      &#x27;markerDx&#x27;: 0,
+      &#x27;markerDy&#x27;: 0
+    }
+  }
+).addTo(layer);
+
+
+var marker6 &#x3D; new maptalks.Marker(
+  c.add(0.005, 0),
+  {
+    &#x27;symbol&#x27; : {
+      &#x27;markerType&#x27;: &#x27;diamond&#x27;,
+      &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+      &#x27;markerFillOpacity&#x27;: 1,
+      &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+      &#x27;markerLineWidth&#x27;: 3,
+      &#x27;markerLineOpacity&#x27;: 1,
+      &#x27;markerLineDasharray&#x27;:[],
+      &#x27;markerWidth&#x27;: 40,
+      &#x27;markerHeight&#x27;: 40,
+      &#x27;markerDx&#x27;: 0,
+      &#x27;markerDy&#x27;: 0
+    }
+  }
+).addTo(layer);
+
+var marker7 &#x3D; new maptalks.Marker(
+  c.add(0.010, 0),
+  {
+    &#x27;symbol&#x27; : {
+      &#x27;markerType&#x27;: &#x27;bar&#x27;,
+      &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+      &#x27;markerFillOpacity&#x27;: 1,
+      &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+      &#x27;markerLineWidth&#x27;: 3,
+      &#x27;markerLineOpacity&#x27;: 1,
+      &#x27;markerLineDasharray&#x27;:[],
+      &#x27;markerWidth&#x27;: 30,
+      &#x27;markerHeight&#x27;: 60,
+      &#x27;markerDx&#x27;: 0,
+      &#x27;markerDy&#x27;: 0
+    }
+  }
+).addTo(layer);
+
+var marker8 &#x3D; new maptalks.Marker(
+  c.add(0.015, 0),
+  {
+    &#x27;symbol&#x27; : {
+      &#x27;markerType&#x27;: &#x27;pie&#x27;,
+      &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+      &#x27;markerFillOpacity&#x27;: 1,
+      &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+      &#x27;markerLineWidth&#x27;: 3,
+      &#x27;markerLineOpacity&#x27;: 1,
+      &#x27;markerLineDasharray&#x27;:[],
+      &#x27;markerWidth&#x27;: 40,
+      &#x27;markerHeight&#x27;: 40,
+      &#x27;markerDx&#x27;: 0,
+      &#x27;markerDy&#x27;: 0
+    }
+  }
+).addTo(layer);
+
+var marker9 &#x3D; new maptalks.Marker(
+  c.add(0.020, 0),
+  {
+    &#x27;symbol&#x27; : {
+      &#x27;markerType&#x27;: &#x27;pin&#x27;,
+      &#x27;markerFill&#x27;: &#x27;rgb(135,196,240)&#x27;,
+      &#x27;markerFillOpacity&#x27;: 1,
+      &#x27;markerLineColor&#x27;: &#x27;#34495e&#x27;,
+      &#x27;markerLineWidth&#x27;: 3,
+      &#x27;markerLineOpacity&#x27;: 1,
+      &#x27;markerLineDasharray&#x27;:[],
+      &#x27;markerWidth&#x27;: 40,
+      &#x27;markerHeight&#x27;: 40,
+      &#x27;markerDx&#x27;: 0,
+      &#x27;markerDy&#x27;: 0
+    }
+  }
+).addTo(layer);
+
+      </textarea>
+      <textarea name="css">
+
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+      </textarea>
+      <input type="text" name="title" value="矢量标注">
+      <textarea name="description">图形样式 - 矢量标注</textarea>
+      <input type="text" name="wrap" value="l">
+    </form>
+  </div>
+
+  <script src="../../../js/jquery.js"></script>
+  <script>
+    $(".lang-option").click(function () {
+      $(".lang-switch").toggleClass("-en");
+    });
+
+    $(".menu-button").click(function () {
+      $(".sidebar").toggleClass("-active");
+    });
+  </script>
+  <script>
+    function edit() {
+      document.getElementById('editor').submit();
+    }
+
+    var clipboard = new Clipboard('#action-link-copy');
+    clipboard.on('success', function (e) {
+      e.clearSelection();
+      // TODO: show a tooltip
+    });
+  </script>
+
+</body>
+
+</html>

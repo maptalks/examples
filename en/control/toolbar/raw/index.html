@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Map controls - Toolbar Control</title>
+  <style type="text/css">
+
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+
+    #info {
+      position:fixed;
+      background-color: rgba(13, 13, 13, 0.5);
+      padding : 10px 10px 10px 10px;
+      font : 13px bold sans-serif;
+      color : #fff;
+      right : calc(50% - 100px);
+      bottom : calc(50% - 40px);
+      width : 200px;
+      height: 80px;
+      overflow : hidden;
+    }
+
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <body>
+
+    <div id="map"></div>
+    <div id="info"></div>
+
+    <script>
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        attribution: {
+          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        },
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      // horizonal one on top left
+      new maptalks.control.Toolbar({
+        'position' : 'top-left',
+        'items'     : [{
+          item: 'menu',
+          click : function () { info('menu'); },
+          children : [{
+            item: 'child 1',
+            click : function () { info('child 1'); }
+          }, {
+            item: 'child 2',
+            click : function () { info('child 2'); }
+          }]
+        }, {
+          item: 'item 2',
+          click : function () { info('item 2'); }
+        }, {
+          item: 'item 3',
+          click : function () { info('item 3'); }
+        }]
+      })
+      .addTo(map);
+
+      // horizonal one on bottom left
+      new maptalks.control.Toolbar({
+        'position' : 'bottom-left',
+        'reverseMenu' : true,
+        'items'     : [{
+          item: 'menu',
+          click : function () { info('menu'); },
+          children : [{
+            item: 'child 1',
+            click : function () { info('child 1'); }
+          }, {
+            item: 'child 2',
+            click : function () { info('child 2'); }
+          }]
+        }, {
+          item: 'item 2',
+          click : function () { info('item 2'); }
+        }, {
+          item: 'item 3',
+          click : function () { info('item 3'); }
+        }]
+      })
+      .addTo(map);
+
+      // vertical one on top right
+      new maptalks.control.Toolbar({
+        'vertical' : true,
+        'position' : 'top-right',
+        'items'     : [{
+          item: 'menu',
+          click : function () { info('menu'); },
+          children : [{
+            item: 'child 1',
+            click : function () { info('child 1'); }
+          }, {
+            item: 'child 2',
+            click : function () { info('child 2'); }
+          }]
+        }, {
+          item: 'item 2',
+          click : function () { info('item 2'); }
+        }, {
+          item: 'item 3',
+          click : function () { info('item 3'); }
+        }]
+      })
+      .addTo(map);
+
+      // vertical one on top left
+      new maptalks.control.Toolbar({
+        'vertical' : true,
+        'position' : { 'top' : 120, 'left' : 20 },
+        'reverseMenu' : true,
+        'items'     : [{
+          item: 'menu',
+          click : function () { info('menu'); },
+          children : [{
+            item: 'child 1',
+            click : function () { info('child 1'); }
+          }, {
+            item: 'child 2',
+            click : function () { info('child 2'); }
+          }]
+        }, {
+          item: 'item 2',
+          click : function () { info('item 2'); }
+        }, {
+          item: 'item 3',
+          click : function () { info('item 3'); }
+        }]
+      })
+      .addTo(map);
+
+      function info(str) {
+        document.getElementById('info').innerHTML = str + ' is clicked';
+      }
+
+    </script>
+  </body>
+</html>

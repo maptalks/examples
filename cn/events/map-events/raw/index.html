@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>事件 - 监听地图鼠标事件</title>
+  <style type="text/css">
+
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+
+    #info {
+        position:fixed;
+        background-color: rgba(13, 13, 13, 0.5);
+        padding : 10px 10px 10px 10px;
+        font : 13px bold sans-serif;
+        color : #fff;
+        left : 0px;
+        top : 0px;
+        width : 100%;
+        height: 140px;
+        overflow : hidden;
+    }
+
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <body>
+
+    <div id="map"></div>
+    <div id="info"></div>
+
+    <script>
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        attribution: {
+          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        },
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      map.on('click', function (param) {
+        var infoDom = document.getElementById('info');
+        infoDom.innerHTML = '<div>' + new Date().toLocaleTimeString() +
+          ': click map on ' + param.coordinate.toFixed(5).toArray().join() + '</div>' +
+          infoDom.innerHTML;
+      });
+
+    </script>
+  </body>
+</html>

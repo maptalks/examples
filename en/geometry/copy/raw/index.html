@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Geometries - Copy geometry</title>
+  <style type="text/css">
+
+    html,
+    body {
+      margin: 0px;
+      height: 100%;
+      width: 100%;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+    .maptalks-toolbar-horizonal li {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <body>
+
+    <div id="map"></div>
+
+    <script>
+      var c = new maptalks.Coordinate(-0.113049,51.49856);
+      var map = new maptalks.Map('map', {
+        center: c,
+        zoom: 14,
+        attribution: {
+          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        },
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+      //<<<<<<<< prepare data
+      var layer = new maptalks.VectorLayer('vector').addTo(map);
+      var copyLayer = new maptalks.VectorLayer('copy').addTo(map);
+
+      var rect = new maptalks.Rectangle(
+        c.add(-0.008, 0.008),
+        800, 600,
+        {
+          'symbol': {
+            'lineColor': '#fff',
+            'lineWidth': 2,
+            'polygonFill': 'rgb(216,115,149)',
+            'polygonOpacity': 0.7
+          }
+        }).addTo(layer);
+      //>>>>>>>>
+
+      var counter = 1;
+      var toolBar = new maptalks.control.Toolbar({
+        items: [
+          {
+            item: 'Copy',
+            click: function () {
+              rect.copy()
+                .translate([0.003 * counter, -0.003 * (counter++)])
+                .addTo(copyLayer);
+            }
+          },
+          {
+            item: 'Clear',
+            click: function () {
+              counter = 1;
+              copyLayer.clear();
+            }
+          }
+        ]
+      }).addTo(map);
+
+    </script>
+  </body>
+</html>

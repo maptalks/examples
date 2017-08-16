@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>地图 - 限制地图区域</title>
+  <style type="text/css">
+
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <body>
+
+    <div id="map"></div>
+    <script>
+
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        attribution: {
+          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        },
+        centerCross : true,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        }),
+        layers : [
+          new maptalks.VectorLayer('v')
+        ]
+      });
+
+      var zoom = map.getZoom(),
+        extent = map.getExtent();
+
+      map.setMinZoom(zoom - 2);
+      map.setMaxZoom(zoom + 1);
+      map.setMaxExtent(extent);
+
+      map.getLayer('v')
+        .addGeometry(
+          new maptalks.Polygon(extent.toArray())
+          .updateSymbol({ 'polygonOpacity':0, 'lineWidth':5 })
+        );
+
+    </script>
+  </body>
+</html>

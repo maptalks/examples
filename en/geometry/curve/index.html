@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Geometries - Curve lines</title>
+  <link rel="stylesheet" href="../../../css/example.css" />
+  <link rel="stylesheet" href="../../../css/fixup.css" />
+  <script type="text/javascript" src="../../../js/run_prettify.js"></script>
+  <script src="../../../js/clipboard.min.js"></script>
+</head>
+
+<body>
+
+  <div class="demo-viewer">
+
+    <div class="sidebar">
+
+      <div class="logo-area">
+          <a href="https://maptalks.org/" class="logo">
+          </a>
+          <div class="lang-switch">
+              <div class="lang-option lang-en">EN</div>
+              <div class="lang-option lang-cn">中文</div>
+          </div>
+      </div>
+
+      <div class="menu-button"></div>
+
+      <div class="menu-area">
+
+        <div class="action-bar">
+          <div class="search-bar">
+            <input type="text" class="search-field">
+            <div class="search-button"></div>
+          </div>
+          <div class="all-download-button">Download All</div>
+        </div>
+
+        <ul class="menu scroll-block">
+          <li class="list-tile">
+            <div class="list-title">1 Map</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../map/load/">1.1 Load a map</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/canvas/">1.2 Load on Canvas</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/status/">1.3 Get map&#x27;s status</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/limit/">1.4 Limit map&#x27;s view</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/on-off/">1.5 Turn on/off map capabilities</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/animation/">1.6 Animations</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/projection/">1.7 Predefined projections</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/projection-custom/">1.8 Custom projection</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map/coordinate/">1.9 Coodinate conversion</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">2 3D Views</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../3d/view/">2.1 Change 3D View</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">3 Common Layers</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../layer/add-remove/">3.1 Add and remove layers</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/show-hide/">3.2 Show and hide layers</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/opacity/">3.3 Set layer&#x27;s opacity</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/bring-front-back/">3.4 Bring layers to front or back</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/sort/">3.5 Sort layers</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/mask/">3.6 Layer mask</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/mask2/">3.7 Use boundary to mask layer</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/tile-renderer/">3.8 TileLayer renderers</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/vector-feature-filter/">3.9 Filter geometries</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/vector-style/">3.10 Set style for VectorLayers</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../layer/arcgis-tile/">3.11 Load ArcGIS tile service</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">4 Geometries</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../geometry/point-line-polygon/">4.1 Point/LineString/Polygon</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/ext-polygon/">4.2 Rectangle/Circle/Ellipse/Sector</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/collection/">4.3 GeometryCollections</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/curve/">4.4 Curve lines</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/label/">4.5 Text labels</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/label-edit/">4.6 Edit label&#x27;s text</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/connector-line/">4.7 Connector lines</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/get-by-id/">4.8 Get geometry by ID</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/sort/">4.9 Sort geometries</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/drag/">4.10 Drag geometries</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/flash/">4.11 Flash geometries</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/events/">4.12 Listening geometry events</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../geometry/copy/">4.13 Copy geometry</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">5 Styles</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../style/file-marker/">5.1 Image file marker</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/text-marker/">5.2 Text Marker</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/vector-marker/">5.3 Vector Marker</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/svg-path-marker/">5.4 Vector marker by SVG path</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/line-pattern/">5.5 Line&#x27;s pattern fill</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/line-dasharray/">5.6 Line dasharray</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/polygon-pattern/">5.7 Polygon&#x27;s pattern fill</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/vector-pattern/">5.8 Vector marker&#x27;s pattern fill</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/line-gradient/">5.9 Line&#x27;s gradient fill</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/polygon-gradient/">5.10 Polygon&#x27;s gradient fill</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/vector-gradient/">5.11 Vector marker&#x27;s pradient fill</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/function-type/">5.12 Dynamic symbol with function type</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../style/composite-symbol/">5.13 Composite symbol</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">6 Canvas Layers</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../otherlayer/canvaslayer/">6.1 A CanvasLayer example</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../otherlayer/particlelayer/">6.2 A ParticleLayer example</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../otherlayer/canvastilelayer/">6.3 A CanvasTileLayer example</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">7 UI components</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../ui/uimarker/">7.1 UI Markers</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/echarts-ui/">7.2 ECharts UI Marker</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/highcharts-ui/">7.3 Highcharts UI Marker</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/d3-ui/">7.4 D3 UI Marker</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/map-menu/">7.5 Map&#x27;s context menu</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/map-infownd/">7.6 Map&#x27;s InfoWindow</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/geo-menu/">7.7 Geometry&#x27;s context menu</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/geo-infownd/">7.8 Geometry&#x27;s InfoWindow</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/custom-menu/">7.9 Custom context menu</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../ui/custom-infownd/">7.10 Custom InfoWindow</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">8 JSON Serialization</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../json/geojson-to-geometry/">8.1 GeoJSON to geometries</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/geometry-to-geojson/">8.2 Geometries to GeoJSON</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/load-geojson/">8.3 GeoJSONLayer</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/map-to-json/">8.4 Map to JSON</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/json-to-map/">8.5 Map from JSON</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/copy-map/">8.6 Copy map by JSON</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/layer-json/">8.7 Copy layer by JSON</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../json/geometry-json/">8.8 Copy geometry by JSON</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">9 Animation</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../animation/animation/">9.1 Animation</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../animation/geo-animation/">9.2 Geometry animation</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../animation/move-animation/">9.3 Geometry move animation</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">10 Events</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../events/map-events/">10.1 Map events</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../events/sync-map/">10.2 Sync map by events</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../events/layer-load/">10.3 Layerload event of a layer</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../events/geometry-events/">10.4 Geometry events</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../events/listener/">10.5 Turn on/off event listeners</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">11 Spatial computing</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../spatial/contains-point/">11.1 Contains a point</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../spatial/identify/">11.2 Identify geometries</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">12 Map controls</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../control/zoom/">12.1 Zoom Control</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../control/scale/">12.2 Scale Control</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../control/attribution/">12.3 Attribution Control</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../control/toolbar/">12.4 Toolbar Control</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../control/overview/">12.5 Overview Control</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../control/panel/">12.6 Panel Control</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../control/show-hide/">12.7 Show and hide controls</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">13 Map tools</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../map-tool/distance/">13.1 Distance tool to measure distance</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map-tool/area/">13.2 Area tool to measure area</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../map-tool/draw/">13.3 Draw tool to draw geometries</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">14 Plugin development</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../plugin/control/">14.1 New control</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../plugin/ui/">14.2 New UI Component</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../plugin/maptool/">14.3 New MapTool</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">15 Layer development</div>
+            <ul class="list">
+              <li class="list-tile">
+                <a href="../../hellolayer/layer/">15.1 HelloLayer</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../hellolayer/drawoninteracting/">15.2 HelloLayer with drawOnInteracting</a>
+              </li>
+              <li class="list-tile">
+                <a href="../../hellolayer/animation/">15.3 HelloLayer with animation</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="demo-panel">
+
+      <div class="title-area">
+        <div class="title">Curve lines</div>
+        <div class="action-area">
+          <a class="action-link" href="https://github.com/maptalks/examples/tree/master/src/geometry/curve" target="_blank">
+            <div class="action-button button">
+              <i class="icon source"></i>Source
+            </div>
+          </a>
+          <a class="action-link" href="raw/index.html" target="_blank">
+            <div class="action-button button">
+              <i class="icon open"></i>Open
+            </div>
+          </a>
+          <a class="action-link" href="javascript:edit();">
+            <div class="action-button button">
+              <i class="icon edit"></i>Edit
+            </div>
+          </a>
+          <a class="action-link" href="javascript:;" id="action-link-copy" data-clipboard-target="#source">
+            <div class="action-button button">
+              <i class="icon copy"></i>Copy
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="content-area scroll-block">
+
+        <div class="map-viewer">
+          <iframe class="map-view" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/index.html"></iframe>
+        </div>
+
+        <div class="readme md"></div>
+
+        <div class="code-viewer">
+          <div class="code-snippet html">
+            <div class="code-title">index.html</div>
+            <pre id="source" class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+  &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;
+  &lt;title&gt;Geometries - Curve lines&lt;/title&gt;
+  &lt;style type&#x3D;&quot;text/css&quot;&gt;
+
+    html,
+    body {
+      margin: 0px;
+      height: 100%;
+      width: 100%;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+  &lt;/style&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.css&quot;&gt;
+  &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;https://unpkg.com/maptalks/dist/maptalks.js&quot;&gt;&lt;/script&gt;
+  &lt;body&gt;
+
+    &lt;div id&#x3D;&quot;map&quot;&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+      var c &#x3D; new maptalks.Coordinate(-0.11305,51.4985);
+      var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+        center: c.sub(0.02, 0),
+        zoom: 14,
+        attribution: {
+          content: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.openstreetmap.org/copyright&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/attributions&quot;&gt;CARTO&lt;/a&gt;&#x27;
+        },
+        baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
+          urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png&#x27;,
+          subdomains: [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;]
+        })
+      });
+
+      var arc &#x3D; new maptalks.ArcCurve([
+        c.add(-0.0202, 0.0081),
+        c.add(-0.0269, 0.0069),
+        c.add(-0.0369, 0.0032),
+        c.add(-0.0314, -0.003),
+        c.add(-0.0278, -0.008),
+        c.add(-0.0220, -0.009)
+      ], {
+        &#x27;symbol&#x27; : getSymbol(&#x27;Arc&#x27;)
+      });
+
+      var quad &#x3D; new maptalks.QuadBezierCurve([
+        c.add(-0.0102, 0.0081),
+        c.add(-0.0169, 0.0069),
+        c.add(-0.0211, 0.0032),
+        c.add(-0.0214, -0.0033),
+        c.add(-0.0178, -0.0086),
+        c.add(-0.0120, -0.0095)
+      ], {
+        &#x27;symbol&#x27; : getSymbol(&#x27;Quadratic\nBézier&#x27;)
+      });
+
+      var cubic &#x3D; new maptalks.CubicBezierCurve([
+        c.add(-0.0002, 0.0081),
+        c.add(-0.0069, 0.0069),
+        c.add(-0.0069, 0.0032),
+        c.add(-0.0114, -0.0033),
+        c.add(-0.0078, -0.0086),
+        c.add(-0.0020, -0.0095)
+      ], {
+        &#x27;symbol&#x27; : getSymbol(&#x27;Cubic\nBézier&#x27;)
+      });
+
+      new maptalks.VectorLayer(&#x27;vector&#x27;, [arc, quad, cubic]).addTo(map);
+
+      function getSymbol(title) {
+        return [
+          {
+            lineColor: &#x27;#34495e&#x27;,
+            lineWidth: 3
+          },
+          {
+            markerType : &#x27;ellipse&#x27;,
+            markerWidth : 8,
+            markerHeight : 8,
+            markerFill : &#x27;#f00&#x27;,
+            markerPlacement : &#x27;vertex&#x27;
+          },
+          {
+            textName : title,
+            textFill : &#x27;#f00&#x27;,
+            textWeight : &#x27;bold&#x27;,
+            textHaloColor : &#x27;#fff&#x27;,
+            textHaloRadius : 3,
+            textSize : 20,
+            textWrapCharacter : &#x27;\n&#x27;
+          }
+        ];
+      }
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div style="display:none;">
+    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
+      <textarea name="html">
+<link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+<script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+
+&lt;div id&#x3D;&quot;map&quot;&gt;&lt;/div&gt;
+
+      </textarea>
+      <textarea name="js">
+var c &#x3D; new maptalks.Coordinate(-0.11305,51.4985);
+var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+  center: c.sub(0.02, 0),
+  zoom: 14,
+  attribution: {
+    content: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.openstreetmap.org/copyright&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/attributions&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  },
+  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
+    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png&#x27;,
+    subdomains: [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;]
+  })
+});
+
+var arc &#x3D; new maptalks.ArcCurve([
+  c.add(-0.0202, 0.0081),
+  c.add(-0.0269, 0.0069),
+  c.add(-0.0369, 0.0032),
+  c.add(-0.0314, -0.003),
+  c.add(-0.0278, -0.008),
+  c.add(-0.0220, -0.009)
+], {
+  &#x27;symbol&#x27; : getSymbol(&#x27;Arc&#x27;)
+});
+
+var quad &#x3D; new maptalks.QuadBezierCurve([
+  c.add(-0.0102, 0.0081),
+  c.add(-0.0169, 0.0069),
+  c.add(-0.0211, 0.0032),
+  c.add(-0.0214, -0.0033),
+  c.add(-0.0178, -0.0086),
+  c.add(-0.0120, -0.0095)
+], {
+  &#x27;symbol&#x27; : getSymbol(&#x27;Quadratic\nBézier&#x27;)
+});
+
+var cubic &#x3D; new maptalks.CubicBezierCurve([
+  c.add(-0.0002, 0.0081),
+  c.add(-0.0069, 0.0069),
+  c.add(-0.0069, 0.0032),
+  c.add(-0.0114, -0.0033),
+  c.add(-0.0078, -0.0086),
+  c.add(-0.0020, -0.0095)
+], {
+  &#x27;symbol&#x27; : getSymbol(&#x27;Cubic\nBézier&#x27;)
+});
+
+new maptalks.VectorLayer(&#x27;vector&#x27;, [arc, quad, cubic]).addTo(map);
+
+function getSymbol(title) {
+  return [
+    {
+      lineColor: &#x27;#34495e&#x27;,
+      lineWidth: 3
+    },
+    {
+      markerType : &#x27;ellipse&#x27;,
+      markerWidth : 8,
+      markerHeight : 8,
+      markerFill : &#x27;#f00&#x27;,
+      markerPlacement : &#x27;vertex&#x27;
+    },
+    {
+      textName : title,
+      textFill : &#x27;#f00&#x27;,
+      textWeight : &#x27;bold&#x27;,
+      textHaloColor : &#x27;#fff&#x27;,
+      textHaloRadius : 3,
+      textSize : 20,
+      textWrapCharacter : &#x27;\n&#x27;
+    }
+  ];
+}
+
+      </textarea>
+      <textarea name="css">
+
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+      </textarea>
+      <input type="text" name="title" value="Curve lines">
+      <textarea name="description">Geometries - Curve lines</textarea>
+      <input type="text" name="wrap" value="l">
+    </form>
+  </div>
+
+  <script src="../../../js/jquery.js"></script>
+  <script>
+    $(".lang-option").click(function () {
+      $(".lang-switch").toggleClass("-en");
+    });
+
+    $(".menu-button").click(function () {
+      $(".sidebar").toggleClass("-active");
+    });
+  </script>
+  <script>
+    function edit() {
+      document.getElementById('editor').submit();
+    }
+
+    var clipboard = new Clipboard('#action-link-copy');
+    clipboard.on('success', function (e) {
+      e.clearSelection();
+      // TODO: show a tooltip
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Geometries - Get geometry by ID</title>
+  <style type="text/css">
+
+    html,
+    body {
+      margin: 0px;
+      height: 100%;
+      width: 100%;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+    .maptalks-toolbar-horizonal li {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <body>
+
+    <div id="map"></div>
+
+    <script>
+
+      var map = new maptalks.Map('map', {
+        center: [121.4854, 31.2285],
+        zoom: 14,
+        attribution: {
+          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        },
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      var layer = new maptalks.VectorLayer('vector')
+          .addTo(map);
+
+      function getById(id) {
+        layer.getGeometryById(id).updateSymbol([{ 'polygonFill': '#f00' }]);
+      }
+
+      //<<<<<<<< prepare data
+      for (var i = 0; i < 3; i++) {
+        new maptalks.Polygon(
+          [
+            [121.455542 + 0.02 * i, 31.233812],
+            [121.468542 + 0.02 * i, 31.233812],
+            [121.468542 + 0.02 * i, 31.222812],
+            [121.455542 + 0.02 * i, 31.222812]
+          ],
+          {
+            'id' : (i + 1) * 100,
+            'properties': {
+              'count': (i + 1) * 100
+            },
+            'symbol': [
+              {
+                'polygonFill': '#747474',
+                'polygonOpacity': 0.5,
+                'lineColor': '#000',
+                'lineWidth': 2
+              },
+              {
+                'textName' : '{count}',
+                'textSize' : 40,
+                'textFill' : '#fff'
+              }
+            ]
+          }
+        ).addTo(layer);
+      }
+      //>>>>>>>>
+      var actionBar = new maptalks.control.Toolbar({
+        items: [
+          {
+            item: 'Get ID of 100',
+            click: function () {
+              getById(100);
+            }
+          },
+          {
+            item: 'Get ID of 200',
+            click: function () {
+              getById(200);
+            }
+          }
+        ]
+      }).addTo(map);
+
+    </script>
+  </body>
+</html>

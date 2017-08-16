@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>事件 - 同步地图</title>
+  <style type="text/css">
+    html,
+    body {
+      margin: 0px;
+      height: 100%;
+      width: 100%;
+    }
+
+    #map0 {
+      width: calc(50% - 2px);
+      height: calc(100% - 2px);
+      float: left;
+      border : 1px solid;
+    }
+
+    #map1 {
+      width: calc(50% - 2px);
+      height: calc(100% - 2px);
+      float: right;
+      border : 1px solid;
+    }
+
+    .attr {
+      background-color: #34495e;
+      color : #fff;
+      padding:0px 4px;
+      font : 16px sans-serif;
+    }
+
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <body>
+    <div id="map0"></div>
+    <div id="map1"></div>
+
+    <script>
+      var map0 = new maptalks.Map('map0', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        attribution: {
+          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        },
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      new maptalks.control.Toolbar({
+        'position': 'top-right',
+        'items': [{
+          item: 'move me',
+          click: function () {}
+        }]
+      })
+      .addTo(map0);
+
+      var map1 = new maptalks.Map('map1', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        attribution: {
+          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        },
+        draggable : false,
+        scrollWheelZoom : false,
+        dblClickZoom : false,
+        baseLayer: new maptalks.TileLayer('base1', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      map0.on('moving', function (param) {
+        map1.setCenter(param.target.getCenter());
+      });
+
+      map0.on('zoomend', function (param) {
+        map1.setCenterAndZoom(param.target.getCenter(), param.target.getZoom());
+      });
+
+    </script>
+  </body>
+</html>

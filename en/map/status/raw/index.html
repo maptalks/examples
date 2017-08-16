@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Map - Get map&#x27;s status</title>
+  <style type="text/css">
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+
+    #status {
+        position:fixed;
+        left : 0px;
+        top : 0px;
+        width : 100%;
+        height: 140px;
+        overflow : hidden;
+    }
+
+    #status div {
+        background-color: rgba(13, 13, 13, 0.5);
+        width : 100%;
+        height : 100%;
+        padding : 10px 10px 10px 10px;
+        font : 13px bold sans-serif;
+        color : #fff;
+    }
+
+
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <body>
+
+    <div id="map"></div>
+    <div id="status"></div>
+    <script>
+
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        attribution: {
+          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        },
+        centerCross: true,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      map.on('zoomend moving moveend', getStatus);
+
+      getStatus();
+
+      function getStatus() {
+        var extent = map.getExtent(),
+          ex = [
+            '{',
+            'xmin:' + extent.xmin.toFixed(5),
+            ', ymin:' + extent.ymin.toFixed(5),
+            ', xmax:' + extent.xmax.toFixed(5),
+            ', ymax:' + extent.xmax.toFixed(5),
+            '}'
+          ].join('');
+        var center = map.getCenter();
+        var mapStatus = [
+          'Center : [' + [center.x.toFixed(5), center.y.toFixed(5)].join() + ']',
+          'Extent : ' + ex,
+          'Size : ' + map.getSize().toArray().join(),
+          'Zoom : '   + map.getZoom(),
+          'MinZoom : ' + map.getMinZoom(),
+          'MaxZoom : ' + map.getMaxZoom(),
+          'Projection : ' + map.getProjection().code
+        ];
+
+        document.getElementById('status').innerHTML = '<div>' + mapStatus.join('<br>') + '</div>';
+      }
+
+
+    </script>
+  </body>
+</html>

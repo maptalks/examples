@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plugin development - New UI Component</title>
+  <style type="text/css">
+
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+
+    .my-ui {
+        background: #051127;
+        border: 5px solid #fff;
+        border-radius: 5px;
+        color : #fff;
+        width: 200px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+    }
+
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <body>
+
+    <div id="map"></div>
+    <script>
+      const options = {
+        'content'  : '',
+        //override parent's animationOnHide option
+        'animationOnHide' : false
+      };
+
+      class MyUI extends maptalks.ui.UIComponent {
+
+        constructor(coordinate, options) {
+          super(options);
+          this._coordinate = coordinate;
+        }
+
+        buildOn(map) {
+          var dom = document.createElement('div');
+          dom.className = 'my-ui';
+          dom.innerText = this.options['content'];
+          return dom;
+        }
+
+        getOffset() {
+          var size = this.getSize();
+          //move anchor to center of UI
+          return new maptalks.Point(-size.width / 2, -size.height / 2);
+        }
+
+        getEvents() {
+          return {
+            'zoomend' : this._flash
+          };
+        }
+
+        onRemove() {
+          if (this._flashTimeout) {
+            clearTimeout(this._flashTimeout);
+          }
+        }
+
+        _flash() {
+          //flash after zooming.
+          this.hide();
+          this._flashTimeout = setTimeout(() => {
+            this.show(this._coordinate);
+          }, 200);
+        }
+      }
+
+      MyUI.mergeOptions(options);
+
+
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.49856],
+        zoom: 14,
+        attribution: {
+          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        },
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      var ui = new MyUI(map.getCenter(), {
+                  'content'   : 'Hello, MyUI'
+                });
+      ui.addTo(map).show();
+
+    </script>
+  </body>
+</html>

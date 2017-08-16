@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>图形样式 - 矢量标注的渐变填充</title>
+  <style type="text/css">
+
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <body>
+
+    <div id="map"></div>
+    <script>
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.49856],
+        zoom: 14,
+        attribution: {
+          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        },
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      var layer = new maptalks.VectorLayer('vector').addTo(map);
+
+      var marker = new maptalks.Marker([-0.109049,51.49856], {
+        symbol:{
+          'markerType' : 'ellipse',
+          'markerFill' : {
+            'type' : 'linear',
+            'places' : [0, 0, 1, 1],
+            'colorStops' : [
+              [0.00, '#fff'],
+              [0.50, '#fff27e'],
+              [1, '#f87e4b']
+            ]
+          },
+          'markerLineWidth' : 0,
+          'markerWidth' : 100,
+          'markerHeight' : 100
+        }
+      }).addTo(layer);
+
+      var marker2 = new maptalks.Marker([-0.119049,51.49856], {
+        symbol:{
+          'markerType' : 'ellipse',
+          'markerFill' : {
+            'type' : 'radial',
+            'colorStops' : [
+              [0.00, 'rgba(216,115,149,0)'],
+              [0.50, 'rgba(216,115,149,1)'],
+              [1.00, 'rgba(216,115,149,1)']
+            ]
+          },
+          'markerLineWidth' : 0,
+          'markerWidth' : 100,
+          'markerHeight' : 100
+        }
+      }).addTo(layer);
+
+
+    </script>
+  </body>
+</html>

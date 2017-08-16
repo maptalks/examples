@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>地图 - 功能开关</title>
+  <style type="text/css">
+
+    html,
+    body {
+      margin: 0px;
+      height: 100%;
+      width: 100%;
+    }
+
+    #map {
+      float: left;
+      width: 100%;
+      height: 100%;
+    }
+
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.js"></script>
+  <body>
+
+    <div id="map"></div>
+
+    <script>
+
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        attribution: {
+          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        },
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      function dragOn() {
+        map.config('draggable', true);
+      }
+      function dragOff() {
+        map.config('draggable', false);
+      }
+      function zoomOn() {
+        map.config('zoomable', true);
+      }
+      function zoomOff() {
+        map.config('zoomable', false);
+      }
+      function scrollOn() {
+        map.config('scrollWheelZoom', true);
+      }
+      function scrollOff() {
+        map.config('scrollWheelZoom', false);
+      }
+      function touchZoomOn() {
+        map.config('touchZoom', true);
+      }
+      function touchZoomOff() {
+        map.config('touchZoom', false);
+      }
+      function dblClickOn() {
+        map.config('doubleClickZoom', true);
+      }
+      function dblClickOff() {
+        map.config('doubleClickZoom', false);
+      }
+      function borderPanOn() {
+        map.config('autoBorderPanning', true);
+      }
+      function borderPanOff() {
+        map.config('autoBorderPanning', false);
+      }
+
+      var items = [
+        ['Drag', dragOn, dragOff],
+        ['Zoom', zoomOn, zoomOff],
+        ['ScrollWheel', scrollOn, scrollOff],
+        ['TouchZoom', touchZoomOn, touchZoomOff],
+        ['DblClick', dblClickOn, dblClickOff],
+        ['BorderPan', borderPanOn, borderPanOff]
+      ].map(function (value) {
+        return {
+          item: value[0],
+          children: [
+            {
+              item: 'ON',
+              click: value[1]
+            },
+            {
+              item: 'OFF',
+              click: value[2]
+            }
+          ]
+        };
+      });
+
+      var toolbar = new maptalks.control.Toolbar({
+        items: items
+      }).addTo(map);
+
+    </script>
+  </body>
+</html>
