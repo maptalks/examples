@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../../../css/example.css" />
   <link rel="stylesheet" href="../../../css/fixup.css" />
   <script type="text/javascript" src="../../../js/run_prettify.js"></script>
+  <script src="../../../js/clipboard.min.js"></script>
 </head>
 
 <body>
@@ -64,22 +65,22 @@
         <div class="action-area">
           <a class="action-link" href="https://github.com/maptalks/examples/tree/master/src/{{ path }}" target="_blank">
             <div class="action-button button">
-              <i class="icon source"></i>source
+              <i class="icon source"></i>{{ t "action.source" }}
             </div>
           </a>
           <a class="action-link" href="raw/{{ basename }}" target="_blank">
             <div class="action-button button">
-              <i class="icon open"></i>open
+              <i class="icon open"></i>{{ t "action.open" }}
             </div>
           </a>
           <a class="action-link" href="javascript:edit();">
             <div class="action-button button">
-              <i class="icon edit"></i>edit
+              <i class="icon edit"></i>{{ t "action.edit" }}
             </div>
           </a>
-          <a class="action-link" href="" id="action-link-copy">
+          <a class="action-link" href="javascript:;" id="action-link-copy" data-clipboard-target="#source">
             <div class="action-button button">
-              <i class="icon copy"></i>copy
+              <i class="icon copy"></i>{{ t "action.copy" }}
             </div>
           </a>
         </div>
@@ -96,7 +97,7 @@
         <div class="code-viewer">
           <div class="code-snippet html">
             <div class="code-title">{{ basename }}</div>
-            <pre class="prettyprint">{{#escape}}{{> example}}{{/escape}}</pre>
+            <pre id="source" class="prettyprint">{{#escape}}{{> example}}{{/escape}}</pre>
           </div>
         </div>
 
@@ -139,11 +140,11 @@
     function edit() {
       document.getElementById('editor').submit();
     }
-  </script>
-  <script>
-    $('#action-link-copy').click(function (event) {
-      event.preventDefault();
-      // TODO: copy source to clipboard
+
+    var clipboard = new Clipboard('#action-link-copy');
+    clipboard.on('success', function (e) {
+      e.clearSelection();
+      // TODO: show a tooltip
     });
   </script>
 

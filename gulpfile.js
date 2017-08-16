@@ -143,6 +143,7 @@ function processExamples(options) {
 
       processSingleFile(file, files);
     });
+
     done();
   };
 }
