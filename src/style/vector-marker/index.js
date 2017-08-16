@@ -2,6 +2,9 @@ var c = new maptalks.Coordinate([-0.113049,51.49856]);
 var map = new maptalks.Map('map', {
   center: c,
   zoom: 14,
+  attribution: {
+    content: '$(attribution)'
+  },
   baseLayer: new maptalks.TileLayer('tile', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains)

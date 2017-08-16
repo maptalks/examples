@@ -4,15 +4,26 @@ var map = new maptalks.Map('map', {
   zoom: 14,
   maxZoom : 14,
   minZoom : 7,
+  attribution: {
+    content: '$(attribution)'
+  },
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains)
-  }),
-  attribution : {
-    position : 'top-right',
-    content : '<div class="attr">Size changes with zoom</div>'
-  }
+  })
 });
+
+function toolbar(text) {
+  var toolbar = new maptalks.control.Toolbar({
+    position: 'top-right',
+    items: [{
+      item: text,
+      click: function () {}
+    }]
+  });
+  return toolbar;
+}
+toolbar('<div class="attr">Size changes with zoom</div>').addTo(map);
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
