@@ -144,6 +144,10 @@ assert-plus@^0.2.0:
   version "0.2.0"
   resolved "http://registry.npm.taobao.org/assert-plus/download/assert-plus-0.2.0.tgz#d74e1b87e7affc0db8aadb7021f3fe48101ab234"
 
+async@^0.7.0:
+  version "0.7.0"
+  resolved "http://registry.npm.taobao.org/async/download/async-0.7.0.tgz#4429e0e62f5de0a54f37458c49f0b897eb52ada5"
+
 async@^1.3.0, async@^1.4.0:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
@@ -321,6 +325,10 @@ cliui@^2.1.0:
 clone-stats@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/clone-stats/-/clone-stats-0.0.1.tgz#b88f94a82cf38b8791d58046ea4029ad88ca99d1"
+
+clone@^0.1.11:
+  version "0.1.19"
+  resolved "http://registry.npm.taobao.org/clone/download/clone-0.1.19.tgz#613fb68639b26a494ac53253e15b1a6bd88ada85"
 
 clone@^0.2.0:
   version "0.2.0"
@@ -554,6 +562,10 @@ debug@^2.1.1, debug@^2.2.0:
   dependencies:
     ms "0.7.2"
 
+debug@~0.7.4:
+  version "0.7.4"
+  resolved "http://registry.npm.taobao.org/debug/download/debug-0.7.4.tgz#06e1ea8082c2cb14e39806e22e2f6f757f92af39"
+
 debug@~2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.2.0.tgz#f87057e995b1a1f6ae6a4960664137bc56f039da"
@@ -574,7 +586,7 @@ defaults@^1.0.0:
   dependencies:
     clone "^1.0.2"
 
-del@^2.0.2, del@^2.2.2:
+del@^2.0.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/del/-/del-2.2.2.tgz#c12c981d067846c84bcaf862cff930d907ffd1a8"
   dependencies:
@@ -1250,17 +1262,16 @@ gray-matter@^2.0.0:
     js-yaml "^3.8.1"
     toml "^2.3.2"
 
-gulp-connect@^4.1.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/gulp-connect/-/gulp-connect-4.2.0.tgz#a9ea11cedcbc5c13a1638ac7f6c81e5818c3d55e"
+gulp-connect@wsw0108/gulp-connect:
+  version "5.0.0"
+  resolved "https://codeload.github.com/wsw0108/gulp-connect/tar.gz/b92e4d8497680f8847d0b3516f67ba6a695028b8"
   dependencies:
     connect "^2.30.0"
     connect-livereload "^0.5.4"
     event-stream "^3.3.2"
     gulp-util "^3.0.6"
+    send "^0.13.2"
     tiny-lr "^0.2.1"
-  optionalDependencies:
-    http2 "^3.3.2"
 
 gulp-gh-pages@^0.5.4:
   version "0.5.4"
@@ -1400,10 +1411,6 @@ http-signature@~1.1.0:
     assert-plus "^0.2.0"
     jsprim "^1.2.2"
     sshpk "^1.7.0"
-
-http2@^3.3.2:
-  version "3.3.6"
-  resolved "https://registry.yarnpkg.com/http2/-/http2-3.3.6.tgz#7df06227e02b5b5a5841deea08239b3198d04bec"
 
 i18next-sync-fs-backend@^1.0.0:
   version "1.0.0"
@@ -1857,10 +1864,6 @@ lodash.templatesettings@^3.0.0:
     lodash._reinterpolate "^3.0.0"
     lodash.escape "^3.0.0"
 
-lodash@^2.4.1:
-  version "2.4.2"
-  resolved "http://registry.npm.taobao.org/lodash/download/lodash-2.4.2.tgz#fadd834b9683073da179b3eae6d9c0d15053f73e"
-
 lodash@^4.0.0, lodash@^4.3.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
@@ -1895,13 +1898,28 @@ merge-stream@^1.0.0:
   dependencies:
     readable-stream "^2.0.1"
 
-metalsmith-copy@^0.3.0:
-  version "0.3.0"
-  resolved "http://registry.npm.taobao.org/metalsmith-copy/download/metalsmith-copy-0.3.0.tgz#b9f2d2854642896722d98efb7e7d3b1c95f38eae"
+merge@^1.1.3:
+  version "1.2.0"
+  resolved "http://registry.npm.taobao.org/merge/download/merge-1.2.0.tgz#7531e39d4949c281a66b8c5a6e0265e8b05894da"
+
+metalsmith-assets@^0.1.0:
+  version "0.1.0"
+  resolved "http://registry.npm.taobao.org/metalsmith-assets/download/metalsmith-assets-0.1.0.tgz#c838d483f09723ede8387449c6bfda9b3da3cc40"
   dependencies:
+    async "^0.7.0"
     debug "^0.8.1"
-    lodash "^2.4.1"
-    minimatch "^0.2.14"
+    merge "^1.1.3"
+    recursive-readdir "^1.0.0"
+    stat-mode "^0.2.0"
+
+metalsmith-branch@^0.0.5:
+  version "0.0.5"
+  resolved "http://registry.npm.taobao.org/metalsmith-branch/download/metalsmith-branch-0.0.5.tgz#42f79f99c5ff0dd848f261255668afb3fcfe04bc"
+  dependencies:
+    clone "^0.1.11"
+    debug "~0.7.4"
+    multimatch "^2.1.0"
+    ware "~0.3.0"
 
 metalsmith-debug@^1.1.0:
   version "1.1.0"
@@ -1999,24 +2017,31 @@ mime@1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.3.4.tgz#115f9e3b6b3daf2959983cb38f149a2d40eb5d53"
 
+minimatch@0.3.0:
+  version "0.3.0"
+  resolved "http://registry.npm.taobao.org/minimatch/download/minimatch-0.3.0.tgz#275d8edaac4f1bb3326472089e7949c8394699dd"
+  dependencies:
+    lru-cache "2"
+    sigmund "~1.0.0"
+
 "minimatch@2 || 3", minimatch@3.0.3, minimatch@^3.0.0, minimatch@^3.0.2:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.3.tgz#2a4e4090b96b2db06a9d7df01055a62a77c9b774"
   dependencies:
     brace-expansion "^1.0.0"
 
-minimatch@^0.2.14, minimatch@~0.2.11:
-  version "0.2.14"
-  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-0.2.14.tgz#c74e780574f63c6f9a090e90efbe6ef53a6a756a"
-  dependencies:
-    lru-cache "2"
-    sigmund "~1.0.0"
-
 minimatch@^2.0.1:
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-2.0.10.tgz#8d087c39c6b38c001b97fca7ce6d0e1e80afbac7"
   dependencies:
     brace-expansion "^1.0.0"
+
+minimatch@~0.2.11:
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-0.2.14.tgz#c74e780574f63c6f9a090e90efbe6ef53a6a756a"
+  dependencies:
+    lru-cache "2"
+    sigmund "~1.0.0"
 
 minimist@0.0.8, minimist@~0.0.1:
   version "0.0.8"
@@ -2050,16 +2075,7 @@ ms@0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
 
-multimatch@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/multimatch/-/multimatch-2.1.0.tgz#9c7906a22fb4c02919e2f5f75161b4cdbd4b2a2b"
-  dependencies:
-    array-differ "^1.0.0"
-    array-union "^1.0.1"
-    arrify "^1.0.0"
-    minimatch "^3.0.0"
-
-multimatch@^2.1.0:
+multimatch@^2.0.0, multimatch@^2.1.0:
   version "2.1.0"
   resolved "http://registry.npm.taobao.org/multimatch/download/multimatch-2.1.0.tgz#9c7906a22fb4c02919e2f5f75161b4cdbd4b2a2b"
   dependencies:
@@ -2381,6 +2397,12 @@ rechoir@^0.6.2:
   dependencies:
     resolve "^1.1.6"
 
+recursive-readdir@^1.0.0:
+  version "1.3.0"
+  resolved "http://registry.npm.taobao.org/recursive-readdir/download/recursive-readdir-1.3.0.tgz#c6e66c9ae473f4928f8e6c67a05d80e7a56528ef"
+  dependencies:
+    minimatch "0.3.0"
+
 recursive-readdir@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/recursive-readdir/-/recursive-readdir-2.1.1.tgz#a01cfc7f7f38a53ec096a096f63a50489c3e297c"
@@ -2505,7 +2527,7 @@ semver@^4.1.0:
   version "4.3.6"
   resolved "https://registry.yarnpkg.com/semver/-/semver-4.3.6.tgz#300bc6e0e86374f7ba61068b5b1ecd57fc6532da"
 
-send@0.13.2:
+send@0.13.2, send@^0.13.2:
   version "0.13.2"
   resolved "https://registry.yarnpkg.com/send/-/send-0.13.2.tgz#765e7607c8055452bba6f0b052595350986036de"
   dependencies:
@@ -2994,6 +3016,10 @@ ware@^1.2.0:
   resolved "https://registry.yarnpkg.com/ware/-/ware-1.3.0.tgz#d1b14f39d2e2cb4ab8c4098f756fe4b164e473d4"
   dependencies:
     wrap-fn "^0.1.0"
+
+ware@~0.3.0:
+  version "0.3.0"
+  resolved "http://registry.npm.taobao.org/ware/download/ware-0.3.0.tgz#2df8044973542ecb5eb54397d7cd3773bcf8e9eb"
 
 websocket-driver@>=0.5.1:
   version "0.6.5"
