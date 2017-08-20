@@ -1,16 +1,16 @@
 /* eslint global-require: 0 */
 var path = require('path');
 var gulp = require('gulp');
-var del = require('del');
 var connect = require('gulp-connect');
 var ghPages = require('gulp-gh-pages');
 var Metalsmith = require('metalsmith');
+var branch = require('metalsmith-branch');
 var layouts = require('metalsmith-layouts');
-var copy = require('metalsmith-copy');
+var assets = require('metalsmith-assets');
 var debug = require('metalsmith-debug');
-var handlebars = require('handlebars');
 var multimatch = require('multimatch');
-var i18n = require('./i18n');
+var helpers = require('./lib/helpers');
+var i18n = require('./lib/plugins/i18n');
 
 var markupRegex = /([^\/^\.]*)\.html$/;
 var locales = ['en', 'cn'];
@@ -121,115 +121,86 @@ function processSingleFile(file, files) {
   }
 }
 
-function processExamples(options) {
-  options = Object.assign({
-    pattern: '**/*'
-  }, options || {});
-
-  var pattern = options.pattern;
-
+function raw() {
   function isHtml(file) {
     return !!multimatch(file, '**/*.html')[0];
   }
 
   return function (files, metalsmith, done) {
+    // attach index.js/index.css to index.html
     Object.keys(files).forEach(function (file) {
-      if (!multimatch(file, pattern)[0]) {
-        delete files[file];
-        return;
-      }
-
       if (!isHtml(file)) return;
-
       processSingleFile(file, files);
+    });
+
+    // copy index.html, move other resources, to 'raw'
+    Object.keys(files).forEach(function (file) {
+      var data = Object.assign({}, files[file]);
+      data.raw = true;
+
+      var dirname = path.dirname(file);
+      var basename = path.basename(file);
+      var rawPath = path.join(dirname, 'raw', basename);
+      files[rawPath] = data;
+
+      if (!isHtml(file)) {
+        delete files[file];
+      }
     });
 
     done();
   };
 }
 
-function indentHelper(text, options) {
-  if (!text) {
-    return text;
+gulp.task('build', function (done) {
+  function isRaw(file, data) {
+    return data.raw;
   }
-  var count = options.hash.spaces || 2;
-  var spaces = new Array(count + 1).join(' ');
-  return text.split('\n').map(function (line) {
-    return line ? spaces + line : '';
-  }).join('\n');
-}
-
-function escapeHelper(options) {
-  return handlebars.Utils.escapeExpression(options.fn(this));
-}
-
-gulp.task('build:raw', function (done) {
+  function notRaw(file, data) {
+    return !data.raw;
+  }
   Metalsmith(__dirname)
     .source('src')
     .destination('dist')
-    .clean(false)
+    .clean(true)
     .use(i18n({
       locales: locales
     }))
-    .use(processExamples({
-      pattern: '**/*'
-    }))
-    .use(layouts({
-      engine: 'handlebars',
-      pattern: '**/*.html',
-      default: 'example.hbs',
-      directory: 'layouts/raw',
-      helpers: {
-        indent: indentHelper
-      }
-    }))
-    .use(copy({
-      pattern: '**/*',
-      move: true,
-      transform: function (file) {
-        var dirname = path.dirname(file);
-        var basename = path.basename(file);
-        return path.join(dirname, 'raw', basename);
-      }
-    }))
-    .use(debug())
-    .build(done);
-});
-
-gulp.task('build:demo', function (done) {
-  Metalsmith(__dirname)
-    .source('src')
-    .destination('dist')
-    .clean(false)
-    .use(i18n({
-      locales: locales
-    }))
-    .use(processExamples({
-      pattern: ['**/*.html', '**/*.js', '**/*.css']
-    }))
-    .use(layouts({
-      engine: 'handlebars',
-      pattern: '**/*.html',
-      default: 'example.hbs',
-      directory: 'layouts',
-      partials: 'layouts/raw',
-      helpers: {
-        indent: indentHelper,
-        escape: escapeHelper
-      }
+    .use(raw())
+    .use(branch(isRaw)
+          .use(layouts({
+            engine: 'handlebars',
+            pattern: '**/*.html',
+            default: 'example.hbs',
+            directory: 'layouts/raw',
+            helpers: {
+              indent: helpers.indent
+            }
+          })))
+    .use(branch(notRaw)
+          .use(layouts({
+            engine: 'handlebars',
+            pattern: '**/*.html',
+            default: 'example.hbs',
+            directory: 'layouts',
+            partials: 'layouts/raw',
+            helpers: {
+              indent: helpers.indent,
+              escape: helpers.escape
+            }
+          })))
+    .use(assets({
+      source: 'assets'
     }))
     .use(debug())
-    .build(done);
-});
-
-gulp.task('build', ['build:raw', 'build:demo'], function () {
-  return gulp.src('assets/**/*')
-    .pipe(gulp.dest('dist'))
-    .pipe(connect.reload());
-});
-
-gulp.task('clean', function () {
-  return del(['dist/**']);
+    .build(function (err, files) {
+      if (err) {
+        done(err);
+        return;
+      }
+      connect.changed(Object.keys(files));
+      done();
+    });
 });
 
 gulp.task('watch', ['build'], function () {
