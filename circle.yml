@@ -15,6 +15,10 @@ dependencies:
   cache_directories:
     - ~/.cache/yarn
 
+compile:
+  override:
+    - npm run build
+
 test:
   override:
     - exit 0

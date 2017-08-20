@@ -21,6 +21,7 @@
   },
   "scripts": {
     "dev": "gulp connect",
+    "build": "gulp build",
     "deploy": "gulp deploy"
   },
   "engines": {
