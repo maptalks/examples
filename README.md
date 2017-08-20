@@ -1,6 +1,6 @@
 # maptalks examples
 
-[![Circle CI](https://circleci.com/gh/maptalks/examples.svg?style=shield)](https://circleci.com/gh/maptalks/examples)
+[![Circle CI](https://circleci.com/gh/maptalks/examples/tree/master.svg?style=shield)](https://circleci.com/gh/maptalks/examples/tree/master)
 
 Examples of [maptalks.js](https://github.com/maptalks/maptalks.js)
 
