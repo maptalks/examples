@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>{{ category }} - {{ title }}</title>
   <link rel="stylesheet" href="{{ site.baseurl }}/css/example.css" />
+  <link rel="stylesheet" href="{{ site.baseurl }}/css/primer-tooltips.css" />
   <link rel="stylesheet" href="{{ site.baseurl }}/css/fixup.css" />
   <script type="text/javascript" src="{{ site.baseurl }}/js/run_prettify.js"></script>
   <script src="{{ site.baseurl }}/js/clipboard.min.js"></script>
@@ -145,10 +146,24 @@
       document.getElementById('editor').submit();
     }
 
+    function clearTooltip(e) {
+      e.currentTarget.setAttribute('class', 'action-link');
+      e.currentTarget.removeAttribute('aria-label');
+    }
+
+    function showTooltip(elem, msg) {
+      elem.setAttribute('class', 'action-link tooltipped tooltipped-s');
+      elem.setAttribute('aria-label', msg);
+    }
+
+    var copyBtn = document.getElementById('action-link-copy');
+    copyBtn.addEventListener('mouseleave', clearTooltip);
+    copyBtn.addEventListener('blur', clearTooltip);
+
     var clipboard = new Clipboard('#action-link-copy');
     clipboard.on('success', function (e) {
       e.clearSelection();
-      // TODO: show a tooltip
+      showTooltip(e.trigger, '{{ t "message.copied" }}');
     });
   </script>
 
