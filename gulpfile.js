@@ -168,7 +168,7 @@ function raw() {
         var md = path.join(dirname, 'readme' + langPart + '.md');
         if (md in files) {
           var contents = files[md].contents.toString();
-          data.md = {
+          data.readme = {
             contents: marked(contents)
           };
           delete files[md];
