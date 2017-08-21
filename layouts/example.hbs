@@ -6,10 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>{{ category }} - {{ title }}</title>
-  <link rel="stylesheet" href="../../../css/example.css" />
-  <link rel="stylesheet" href="../../../css/fixup.css" />
-  <script type="text/javascript" src="../../../js/run_prettify.js"></script>
-  <script src="../../../js/clipboard.min.js"></script>
+  <link rel="stylesheet" href="{{ site.baseurl }}/css/example.css" />
+  <link rel="stylesheet" href="{{ site.baseurl }}/css/fixup.css" />
+  <script type="text/javascript" src="{{ site.baseurl }}/js/run_prettify.js"></script>
+  <script src="{{ site.baseurl }}/js/clipboard.min.js"></script>
 </head>
 
 <body>
@@ -46,7 +46,7 @@
             <ul class="list">
               {{#each examples}}
               <li class="list-tile">
-                <a href="../../{{../name}}/{{name}}/">{{../index}}.{{index}} {{title}}</a>
+                <a href="{{ @root.site.baseurl }}/{{ @root.locale }}/{{../name}}/{{name}}/">{{../index}}.{{index}} {{title}}</a>
               </li>
               {{/each}}
             </ul>
@@ -130,7 +130,7 @@
     </form>
   </div>
 
-  <script src="../../../js/jquery.js"></script>
+  <script src="{{ site.baseurl }}/js/jquery.js"></script>
   <script>
     $(".lang-option").click(function () {
       $(".lang-switch").toggleClass("-en");
