@@ -12,6 +12,7 @@
     "handlebars": "^4.0.5",
     "i18next": "^8.4.3",
     "i18next-sync-fs-backend": "^1.0.0",
+    "marked": "^0.3.6",
     "metalsmith": "^2.1.0",
     "metalsmith-assets": "^0.1.0",
     "metalsmith-branch": "^0.0.5",

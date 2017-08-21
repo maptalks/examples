@@ -9,6 +9,7 @@ var layouts = require('metalsmith-layouts');
 var assets = require('metalsmith-assets');
 var debug = require('metalsmith-debug');
 var multimatch = require('multimatch');
+var marked = require('marked');
 var helpers = require('./lib/helpers');
 var i18n = require('./lib/plugins/i18n');
 
@@ -126,15 +127,22 @@ function raw() {
     return !!multimatch(file, '**/*.html')[0];
   }
 
+  function isReadme(file) {
+    return !!multimatch(file, '**/readme*.md')[0];
+  }
+
   return function (files, metalsmith, done) {
-    // attach index.js/index.css to index.html
     Object.keys(files).forEach(function (file) {
       if (!isHtml(file)) return;
+      // attach index.js/index.css to index.html
       processSingleFile(file, files);
     });
 
-    // copy index.html, move other resources, to 'raw'
     Object.keys(files).forEach(function (file) {
+      // do not copy/move readme
+      if (isReadme(file)) return;
+
+      // copy index.html, move other resources, to 'raw'
       var data = Object.assign({}, files[file]);
       data.raw = true;
 
@@ -145,6 +153,26 @@ function raw() {
 
       if (!isHtml(file)) {
         delete files[file];
+      }
+
+      // attach readme to html
+      if (isHtml(file)) {
+        data = files[file];
+        dirname = path.dirname(data.i18nOrigPath);
+        var langPart;
+        if (data.locale === 'en') {
+          langPart = '';
+        } else {
+          langPart = '-' + data.locale;
+        }
+        var md = path.join(dirname, 'readme' + langPart + '.md');
+        if (md in files) {
+          var contents = files[md].contents.toString();
+          data.md = {
+            contents: marked(contents)
+          };
+          delete files[md];
+        }
       }
     });
 
@@ -164,6 +192,7 @@ gulp.task('build', function (done) {
     .destination('dist')
     .clean(true)
     .use(i18n({
+      ignore: '**/readme*.md',
       locales: locales
     }))
     .use(raw())
