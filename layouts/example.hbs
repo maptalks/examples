@@ -92,7 +92,11 @@
           <iframe class="map-view" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
         </div>
 
-        <div class="readme md"></div>
+        <div class="readme md">
+        {{#if md.contents}}
+          {{{ md.contents }}}
+        {{/if}}
+        </div>
 
         <div class="code-viewer">
           <div class="code-snippet html">
