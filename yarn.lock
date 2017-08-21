@@ -1264,7 +1264,7 @@ gray-matter@^2.0.0:
 
 gulp-connect@wsw0108/gulp-connect:
   version "5.0.0"
-  resolved "https://codeload.github.com/wsw0108/gulp-connect/tar.gz/b92e4d8497680f8847d0b3516f67ba6a695028b8"
+  resolved "https://codeload.github.com/wsw0108/gulp-connect/tar.gz/90fa152bfedf8a004972d56faae25858fadb58cd"
   dependencies:
     connect "^2.30.0"
     connect-livereload "^0.5.4"

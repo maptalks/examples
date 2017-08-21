@@ -38,5 +38,5 @@ gulp脚本会自动运行以下任务
 
 3. 用浏览器打开以下地址
 
-* [http://localhost:20001/en/](http://localhost:20001/en/)
-* [http://localhost:20001/cn/](http://localhost:20001/cn/)
+* [http://localhost:20001/examples/en/](http://localhost:20001/examples/en/)
+* [http://localhost:20001/examples/cn/](http://localhost:20001/examples/cn/)

@@ -16,6 +16,10 @@ var i18n = require('./lib/plugins/i18n');
 var markupRegex = /([^\/^\.]*)\.html$/;
 var locales = ['en', 'cn'];
 
+var siteInfo = {
+  baseurl: '/examples'
+};
+
 var mapParams = {
   'cn': {
     // 'urlTemplate' : 'http://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
@@ -191,6 +195,9 @@ gulp.task('build', function (done) {
     .source('src')
     .destination('dist')
     .clean(true)
+    .metadata({
+      site: siteInfo
+    })
     .use(i18n({
       ignore: '**/readme*.md',
       locales: locales
@@ -238,6 +245,7 @@ gulp.task('watch', ['build'], function () {
 
 gulp.task('connect', ['watch'], function () {
   connect.server({
+    base: '/examples',
     root: 'dist',
     livereload: true,
     port: 20001
