@@ -5,5 +5,8 @@
     "open": "打开",
     "edit": "编辑",
     "copy": "复制"
+  },
+  "message": {
+    "copied": "已复制！"
   }
 }

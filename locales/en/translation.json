@@ -5,5 +5,8 @@
     "open": "Open",
     "edit": "Edit",
     "copy": "Copy"
+  },
+  "message": {
+    "copied": "Copied!"
   }
 }
