@@ -9,8 +9,9 @@
   <link rel="stylesheet" href="{{ site.baseurl }}/css/example.css" />
   <link rel="stylesheet" href="{{ site.baseurl }}/css/primer-tooltips.css" />
   <link rel="stylesheet" href="{{ site.baseurl }}/css/fixup.css" />
-  <script type="text/javascript" src="{{ site.baseurl }}/js/run_prettify.js"></script>
-  <script src="{{ site.baseurl }}/js/clipboard.min.js"></script>
+  <link rel="stylesheet" href="{{ site.baseurl }}/code-prettify/prettify.css" />
+  <script type="text/javascript" src="{{ site.baseurl }}/code-prettify/prettify.js"></script>
+  <script type="text/javascript" src="{{ site.baseurl }}/js/clipboard.min.js"></script>
 </head>
 
 <body>
@@ -131,6 +132,7 @@
     </form>
   </div>
 
+  <script type="text/javascript" src="{{ site.baseurl }}/js/tooltips.js"></script>
   <script src="{{ site.baseurl }}/js/jquery.js"></script>
   <script>
     $(".lang-option").click(function () {
@@ -142,23 +144,11 @@
     });
   </script>
   <script>
+    PR.prettyPrint();
+
     function edit() {
       document.getElementById('editor').submit();
     }
-
-    function clearTooltip(e) {
-      e.currentTarget.setAttribute('class', 'action-link');
-      e.currentTarget.removeAttribute('aria-label');
-    }
-
-    function showTooltip(elem, msg) {
-      elem.setAttribute('class', 'action-link tooltipped tooltipped-s');
-      elem.setAttribute('aria-label', msg);
-    }
-
-    var copyBtn = document.getElementById('action-link-copy');
-    copyBtn.addEventListener('mouseleave', clearTooltip);
-    copyBtn.addEventListener('blur', clearTooltip);
 
     var clipboard = new Clipboard('#action-link-copy');
     clipboard.on('success', function (e) {
