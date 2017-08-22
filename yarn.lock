@@ -1880,6 +1880,10 @@ lru-cache@2:
   version "2.7.3"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-2.7.3.tgz#6d4524e8b955f95d4f5b58851ce21dd72fb4e952"
 
+lunr@^2.1.2:
+  version "2.1.2"
+  resolved "http://registry.npm.taobao.org/lunr/download/lunr-2.1.2.tgz#6b6306e04238fb09c04cfab28e45ae550226c479"
+
 map-cache@^0.2.0:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/map-cache/-/map-cache-0.2.2.tgz#c32abd0bd6525d9b051645bb4f26ac5dc98a0dbf"

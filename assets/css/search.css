@@ -1,0 +1,7 @@
+.example {
+  display: none;
+}
+
+.example.on {
+  display: block;
+}

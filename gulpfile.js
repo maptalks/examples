@@ -221,6 +221,7 @@ gulp.task('build', function (done) {
             directory: 'layouts',
             partials: 'layouts/raw',
             helpers: {
+              lunrIndex: helpers.lunrIndex,
               indent: helpers.indent,
               escape: helpers.escape
             }
