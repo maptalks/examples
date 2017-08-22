@@ -1,12 +1,13 @@
 /* eslint global-require: 0 */
 var path = require('path');
 var gulp = require('gulp');
-var connect = require('gulp-connect');
+var connect = require('gulp-connect-ex');
 var ghPages = require('gulp-gh-pages');
 var Metalsmith = require('metalsmith');
 var branch = require('metalsmith-branch');
 var layouts = require('metalsmith-layouts');
-var assets = require('metalsmith-assets');
+var assets = require('metalsmith-assets-ex');
+var webpack = require('ms-webpack');
 var debug = require('metalsmith-debug');
 var multimatch = require('multimatch');
 var marked = require('marked');
@@ -203,6 +204,7 @@ gulp.task('build', function (done) {
       locales: locales
     }))
     .use(raw())
+    .use(webpack(require('./webpack.config.js')))
     .use(branch(isRaw)
           .use(layouts({
             engine: 'handlebars',
@@ -227,6 +229,7 @@ gulp.task('build', function (done) {
             }
           })))
     .use(assets({
+      ignores: ['js', 'css'],
       source: 'assets'
     }))
     .use(debug())
@@ -241,7 +244,7 @@ gulp.task('build', function (done) {
 });
 
 gulp.task('watch', ['build'], function () {
-  gulp.watch(['src/**/*', 'assets/**/*', 'layouts/**/*'], ['build']);
+  gulp.watch(['src/**/*', 'assets/**/*', 'layouts/**/*', 'static/**/*'], ['build']);
 });
 
 gulp.task('connect', ['watch'], function () {

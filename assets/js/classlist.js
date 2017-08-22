@@ -24,6 +24,6 @@ function toggleClass(elem, className) {
   }
 }
 
-window.addClass = addClass;
-window.removeClass = removeClass;
-window.toggleClass = toggleClass;
+exports.addClass = addClass;
+exports.removeClass = removeClass;
+exports.toggleClass = toggleClass;
