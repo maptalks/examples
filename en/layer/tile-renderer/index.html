@@ -6,12 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>Common Layers - TileLayer renderers</title>
-  <link rel="stylesheet" href="/examples/css/example.css" />
-  <link rel="stylesheet" href="/examples/css/primer-tooltips.css" />
-  <link rel="stylesheet" href="/examples/css/fixup.css" />
+  <link rel="stylesheet" href="/examples/css/main-3022fc.css" />
   <link rel="stylesheet" href="/examples/code-prettify/prettify.css" />
   <script type="text/javascript" src="/examples/code-prettify/prettify.js"></script>
-  <script type="text/javascript" src="/examples/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/examples/lib/clipboard.min.js"></script>
 </head>
 
 <body>
@@ -35,8 +33,8 @@
 
         <div class="action-bar">
           <div class="search-bar">
-            <input type="text" class="search-field">
-            <div class="search-button"></div>
+            <input type="text" class="search-field" id="example-search-input">
+            <div class="search-button" id="example-search-button"></div>
           </div>
           <div class="all-download-button">Download All</div>
         </div>
@@ -45,31 +43,31 @@
           <li class="list-tile">
             <div class="list-title">1 Map</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/map/load/">1.1 Load a map</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/map/canvas/">1.2 Load on Canvas</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/map/status/">1.3 Get map&#x27;s status</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/map/limit/">1.4 Limit map&#x27;s view</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/map/on-off/">1.5 Turn on/off map capabilities</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/map/animation/">1.6 Animations</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/map/projection/">1.7 Predefined projections</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/map/projection-custom/">1.8 Custom projection</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/map/coordinate/">1.9 Coodinate conversion</a>
               </li>
             </ul>
@@ -77,7 +75,7 @@
           <li class="list-tile">
             <div class="list-title">2 3D Views</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/3d/view/">2.1 Change 3D View</a>
               </li>
             </ul>
@@ -85,37 +83,37 @@
           <li class="list-tile">
             <div class="list-title">3 Common Layers</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/layer/add-remove/">3.1 Add and remove layers</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/layer/show-hide/">3.2 Show and hide layers</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/layer/opacity/">3.3 Set layer&#x27;s opacity</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/layer/bring-front-back/">3.4 Bring layers to front or back</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/layer/sort/">3.5 Sort layers</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/layer/mask/">3.6 Layer mask</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/layer/mask2/">3.7 Use boundary to mask layer</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/layer/tile-renderer/">3.8 TileLayer renderers</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/layer/vector-feature-filter/">3.9 Filter geometries</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/layer/vector-style/">3.10 Set style for VectorLayers</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/layer/arcgis-tile/">3.11 Load ArcGIS tile service</a>
               </li>
             </ul>
@@ -123,43 +121,43 @@
           <li class="list-tile">
             <div class="list-title">4 Geometries</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/geometry/point-line-polygon/">4.1 Point/LineString/Polygon</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/geometry/ext-polygon/">4.2 Rectangle/Circle/Ellipse/Sector</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/geometry/collection/">4.3 GeometryCollections</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/geometry/curve/">4.4 Curve lines</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/geometry/label/">4.5 Text labels</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/geometry/label-edit/">4.6 Edit label&#x27;s text</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/geometry/connector-line/">4.7 Connector lines</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/geometry/get-by-id/">4.8 Get geometry by ID</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/geometry/sort/">4.9 Sort geometries</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/geometry/drag/">4.10 Drag geometries</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/geometry/flash/">4.11 Flash geometries</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/geometry/events/">4.12 Listening geometry events</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/geometry/copy/">4.13 Copy geometry</a>
               </li>
             </ul>
@@ -167,43 +165,43 @@
           <li class="list-tile">
             <div class="list-title">5 Styles</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/style/file-marker/">5.1 Image file marker</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/style/text-marker/">5.2 Text Marker</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/style/vector-marker/">5.3 Vector Marker</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/style/svg-path-marker/">5.4 Vector marker by SVG path</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/style/line-pattern/">5.5 Line&#x27;s pattern fill</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/style/line-dasharray/">5.6 Line dasharray</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/style/polygon-pattern/">5.7 Polygon&#x27;s pattern fill</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/style/vector-pattern/">5.8 Vector marker&#x27;s pattern fill</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/style/line-gradient/">5.9 Line&#x27;s gradient fill</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/style/polygon-gradient/">5.10 Polygon&#x27;s gradient fill</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/style/vector-gradient/">5.11 Vector marker&#x27;s pradient fill</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/style/function-type/">5.12 Dynamic symbol with function type</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/style/composite-symbol/">5.13 Composite symbol</a>
               </li>
             </ul>
@@ -211,13 +209,13 @@
           <li class="list-tile">
             <div class="list-title">6 Canvas Layers</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/otherlayer/canvaslayer/">6.1 A CanvasLayer example</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/otherlayer/particlelayer/">6.2 A ParticleLayer example</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/otherlayer/canvastilelayer/">6.3 A CanvasTileLayer example</a>
               </li>
             </ul>
@@ -225,34 +223,34 @@
           <li class="list-tile">
             <div class="list-title">7 UI components</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/ui/uimarker/">7.1 UI Markers</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/ui/echarts-ui/">7.2 ECharts UI Marker</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/ui/highcharts-ui/">7.3 Highcharts UI Marker</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/ui/d3-ui/">7.4 D3 UI Marker</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/ui/map-menu/">7.5 Map&#x27;s context menu</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/ui/map-infownd/">7.6 Map&#x27;s InfoWindow</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/ui/geo-menu/">7.7 Geometry&#x27;s context menu</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/ui/geo-infownd/">7.8 Geometry&#x27;s InfoWindow</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/ui/custom-menu/">7.9 Custom context menu</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/ui/custom-infownd/">7.10 Custom InfoWindow</a>
               </li>
             </ul>
@@ -260,28 +258,28 @@
           <li class="list-tile">
             <div class="list-title">8 JSON Serialization</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/json/geojson-to-geometry/">8.1 GeoJSON to geometries</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/json/geometry-to-geojson/">8.2 Geometries to GeoJSON</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/json/load-geojson/">8.3 GeoJSONLayer</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/json/map-to-json/">8.4 Map to JSON</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/json/json-to-map/">8.5 Map from JSON</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/json/copy-map/">8.6 Copy map by JSON</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/json/layer-json/">8.7 Copy layer by JSON</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/json/geometry-json/">8.8 Copy geometry by JSON</a>
               </li>
             </ul>
@@ -289,13 +287,13 @@
           <li class="list-tile">
             <div class="list-title">9 Animation</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/animation/animation/">9.1 Animation</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/animation/geo-animation/">9.2 Geometry animation</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/animation/move-animation/">9.3 Geometry move animation</a>
               </li>
             </ul>
@@ -303,19 +301,19 @@
           <li class="list-tile">
             <div class="list-title">10 Events</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/events/map-events/">10.1 Map events</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/events/sync-map/">10.2 Sync map by events</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/events/layer-load/">10.3 Layerload event of a layer</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/events/geometry-events/">10.4 Geometry events</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/events/listener/">10.5 Turn on/off event listeners</a>
               </li>
             </ul>
@@ -323,10 +321,10 @@
           <li class="list-tile">
             <div class="list-title">11 Spatial computing</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/spatial/contains-point/">11.1 Contains a point</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/spatial/identify/">11.2 Identify geometries</a>
               </li>
             </ul>
@@ -334,25 +332,25 @@
           <li class="list-tile">
             <div class="list-title">12 Map controls</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/control/zoom/">12.1 Zoom Control</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/control/scale/">12.2 Scale Control</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/control/attribution/">12.3 Attribution Control</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/control/toolbar/">12.4 Toolbar Control</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/control/overview/">12.5 Overview Control</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/control/panel/">12.6 Panel Control</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/control/show-hide/">12.7 Show and hide controls</a>
               </li>
             </ul>
@@ -360,13 +358,13 @@
           <li class="list-tile">
             <div class="list-title">13 Map tools</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/map-tool/distance/">13.1 Distance tool to measure distance</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/map-tool/area/">13.2 Area tool to measure area</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/map-tool/draw/">13.3 Draw tool to draw geometries</a>
               </li>
             </ul>
@@ -374,13 +372,13 @@
           <li class="list-tile">
             <div class="list-title">14 Plugin development</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/plugin/control/">14.1 New control</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/plugin/ui/">14.2 New UI Component</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/plugin/maptool/">14.3 New MapTool</a>
               </li>
             </ul>
@@ -388,13 +386,13 @@
           <li class="list-tile">
             <div class="list-title">15 Layer development</div>
             <ul class="list">
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/hellolayer/layer/">15.1 HelloLayer</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/hellolayer/drawoninteracting/">15.2 HelloLayer with drawOnInteracting</a>
               </li>
-              <li class="list-tile">
+              <li class="list-tile example on">
                 <a href="/examples/en/hellolayer/animation/">15.3 HelloLayer with animation</a>
               </li>
             </ul>
@@ -639,7 +637,13 @@ body {
     </form>
   </div>
 
-  <script type="text/javascript" src="/examples/js/main.js"></script>
+  <div style="display:none;">
+    <span id="text-message-copied">Copied!</span>
+  </div>
+
+  <script>window.SEARCH_INDEX = {"version":"2.1.2","fields":["pname","ptitle","sname","stitle"],"fieldVectors":[["pname/0",[0,0.746]],["ptitle/0",[0,0.86]],["sname/0",[1,3.146]],["stitle/0",[0,0.798,1,2.908]],["pname/1",[0,0.746]],["ptitle/1",[0,0.86]],["sname/1",[2,3.342]],["stitle/1",[1,2.908,2,3.089]],["pname/2",[0,0.746]],["ptitle/2",[0,0.86]],["sname/2",[3,4.267]],["stitle/2",[3,3.944,4,3.306]],["pname/3",[0,0.746]],["ptitle/3",[0,0.86]],["sname/3",[5,4.267]],["stitle/3",[4,2.803,5,3.343,6,2.803]],["pname/4",[0,0.746]],["ptitle/4",[0,0.86]],["sname/4",[]],["stitle/4",[0,0.587,7,2.901,8,2.901,9,3.308]],["pname/5",[0,0.746]],["ptitle/5",[0,0.86]],["sname/5",[10,2.053]],["stitle/5",[10,2.313]],["pname/6",[0,0.746]],["ptitle/6",[0,0.86]],["sname/6",[11,3.577]],["stitle/6",[11,3.306,12,4.497]],["pname/7",[0,0.746]],["ptitle/7",[0,0.86]],["sname/7",[11,2.737,13,2.407]],["stitle/7",[11,3.306,13,2.908]],["pname/8",[0,0.746]],["ptitle/8",[0,0.86]],["sname/8",[14,4.866]],["stitle/8",[15,4.497,16,4.497]],["pname/9",[17,3.343]],["ptitle/9",[6,2.72,17,2.944]],["sname/9",[6,3.577]],["stitle/9",[6,2.803,17,3.034,18,3.812]],["pname/10",[19,0.889]],["ptitle/10",[19,0.783,20,1.883]],["sname/10",[21,3.265,22,3.265]],["stitle/10",[19,0.806,21,3.343,22,3.343]],["pname/11",[19,0.889]],["ptitle/11",[19,0.783,20,1.883]],["sname/11",[23,2.737,24,2.737]],["stitle/11",[19,0.806,23,2.803,24,2.803]],["pname/12",[19,0.889]],["ptitle/12",[19,0.783,20,1.883]],["sname/12",[25,4.267]],["stitle/12",[25,3.343,26,3.343,27,3.812]],["pname/13",[19,0.889]],["ptitle/13",[19,0.783,20,1.883]],["sname/13",[28,2.644,29,2.644,30,2.644]],["stitle/13",[19,0.7,28,2.901,29,2.901,30,2.901]],["pname/14",[19,0.889]],["ptitle/14",[19,0.783,20,1.883]],["sname/14",[31,3.577]],["stitle/14",[19,0.951,31,3.306]],["pname/15",[19,0.889]],["ptitle/15",[19,0.783,20,1.883]],["sname/15",[32,3.872]],["stitle/15",[19,0.951,32,3.579]],["pname/16",[19,0.889]],["ptitle/16",[19,0.783,20,1.883]],["sname/16",[33,4.866]],["stitle/16",[19,0.7,32,2.633,34,3.308,35,3.308]],["pname/17",[19,0.889]],["ptitle/17",[19,0.783,20,1.883]],["sname/17",[36,2.963,37,3.265]],["stitle/17",[37,3.944,38,4.497]],["pname/18",[19,0.889]],["ptitle/18",[19,0.783,20,1.883]],["sname/18",[39,1.674,40,3.016,41,2.644]],["stitle/18",[41,3.944,42,0.798]],["pname/19",[19,0.889]],["ptitle/19",[19,0.783,20,1.883]],["sname/19",[39,2.067,43,1.081]],["stitle/19",[26,3.343,43,1.106,44,3.812]],["pname/20",[19,0.889]],["ptitle/20",[19,0.783,20,1.883]],["sname/20",[36,2.963,45,3.265]],["stitle/20",[1,2.139,36,2.633,45,2.901,46,3.308]],["pname/21",[42,0.746]],["ptitle/21",[42,0.86]],["sname/21",[47,2.4,48,1.755,49,2.217]],["stitle/21",[50,5.483]],["pname/22",[42,0.746]],["ptitle/22",[42,0.86]],["sname/22",[49,2.737,51,3.724]],["stitle/22",[52,5.483]],["pname/23",[42,0.746]],["ptitle/23",[42,0.86]],["sname/23",[53,4.866]],["stitle/23",[54,5.483]],["pname/24",[42,0.746]],["ptitle/24",[42,0.86]],["sname/24",[55,4.267]],["stitle/24",[48,2.617,55,3.944]],["pname/25",[42,0.746]],["ptitle/25",[42,0.86]],["sname/25",[56,3.872]],["stitle/25",[56,3.579,57,3.306]],["pname/26",[42,0.746]],["ptitle/26",[42,0.86]],["sname/26",[56,2.963,58,3.265]],["stitle/26",[57,2.803,58,3.343,59,3.812]],["pname/27",[42,0.746]],["ptitle/27",[42,0.86]],["sname/27",[48,2.167,60,3.265]],["stitle/27",[48,2.617,60,3.944]],["pname/28",[42,0.746]],["ptitle/28",[42,0.86]],["sname/28",[61,4.267]],["stitle/28",[42,0.798,61,3.944]],["pname/29",[42,0.746]],["ptitle/29",[42,0.86]],["sname/29",[31,3.577]],["stitle/29",[31,3.306,42,0.798]],["pname/30",[42,0.746]],["ptitle/30",[42,0.86]],["sname/30",[62,4.267]],["stitle/30",[42,0.798,62,3.944]],["pname/31",[42,0.746]],["ptitle/31",[42,0.86]],["sname/31",[63,4.267]],["stitle/31",[42,0.798,63,3.944]],["pname/32",[42,0.746]],["ptitle/32",[42,0.86]],["sname/32",[64,1.857]],["stitle/32",[42,0.677,64,1.455,65,3.034]],["pname/33",[42,0.746]],["ptitle/33",[42,0.86]],["sname/33",[66,3.146]],["stitle/33",[42,0.798,66,2.908]],["pname/34",[43,1.219]],["ptitle/34",[43,1.406]],["sname/34",[67,3.265,68,1.82]],["stitle/34",[67,3.343,68,1.864,69,3.812]],["pname/35",[43,1.219]],["ptitle/35",[43,1.406]],["sname/35",[57,2.737,68,1.82]],["stitle/35",[57,3.306,68,2.199]],["pname/36",[43,1.219]],["ptitle/36",[43,1.406]],["sname/36",[39,2.067,68,1.82]],["stitle/36",[39,2.496,68,2.199]],["pname/37",[43,1.219]],["ptitle/37",[43,1.406]],["sname/37",[68,1.474,70,2.644,71,2.644]],["stitle/37",[39,1.836,68,1.617,70,2.901,71,2.901]],["pname/38",[43,1.219]],["ptitle/38",[43,1.406]],["sname/38",[48,2.167,72,2.407]],["stitle/38",[72,2.465,73,3.343,74,2.465]],["pname/39",[43,1.219]],["ptitle/39",[43,1.406]],["sname/39",[48,2.167,75,3.265]],["stitle/39",[48,2.617,75,3.944]],["pname/40",[43,1.219]],["ptitle/40",[43,1.406]],["sname/40",[49,2.737,72,2.407]],["stitle/40",[72,2.465,74,2.465,76,3.343]],["pname/41",[43,1.219]],["ptitle/41",[43,1.406]],["sname/41",[39,2.067,72,2.407]],["stitle/41",[39,1.836,72,2.139,74,2.139,77,2.901]],["pname/42",[43,1.219]],["ptitle/42",[43,1.406]],["sname/42",[48,2.167,78,2.557]],["stitle/42",[73,3.343,74,2.465,78,2.618]],["pname/43",[43,1.219]],["ptitle/43",[43,1.406]],["sname/43",[49,2.737,78,2.557]],["stitle/43",[74,2.465,76,3.343,78,2.618]],["pname/44",[43,1.219]],["ptitle/44",[43,1.406]],["sname/44",[39,2.067,78,2.557]],["stitle/44",[39,1.836,74,2.139,77,2.901,79,3.308]],["pname/45",[43,1.219]],["ptitle/45",[43,1.406]],["sname/45",[80,3.265,81,3.265]],["stitle/45",[80,2.901,81,2.901,82,3.308,83,2.633]],["pname/46",[43,1.219]],["ptitle/46",[43,1.406]],["sname/46",[83,2.963,84,3.265]],["stitle/46",[83,3.579,84,3.944]],["pname/47",[85,3.343]],["ptitle/47",[2,2.541,19,0.783]],["sname/47",[86,4.267]],["stitle/47",[86,3.944,87,3.579]],["pname/48",[85,3.343]],["ptitle/48",[2,2.541,19,0.783]],["sname/48",[88,4.267]],["stitle/48",[87,3.579,88,3.944]],["pname/49",[85,3.343]],["ptitle/49",[2,2.541,19,0.783]],["sname/49",[89,4.267]],["stitle/49",[87,3.579,89,3.944]],["pname/50",[90,1.184]],["ptitle/50",[90,1.043,91,1.883]],["sname/50",[92,4.866]],["stitle/50",[68,2.199,90,1.268]],["pname/51",[90,1.184]],["ptitle/51",[90,1.043,91,1.883]],["sname/51",[90,1.05,93,3.265]],["stitle/51",[68,1.864,90,1.075,93,3.343]],["pname/52",[90,1.184]],["ptitle/52",[90,1.043,91,1.883]],["sname/52",[90,1.05,94,3.265]],["stitle/52",[68,1.864,90,1.075,94,3.343]],["pname/53",[90,1.184]],["ptitle/53",[90,1.043,91,1.883]],["sname/53",[90,1.05,95,3.265]],["stitle/53",[68,1.864,90,1.075,95,3.343]],["pname/54",[90,1.184]],["ptitle/54",[90,1.043,91,1.883]],["sname/54",[0,0.661,96,2.407]],["stitle/54",[4,2.803,96,2.465,97,3.034]],["pname/55",[90,1.184]],["ptitle/55",[90,1.043,91,1.883]],["sname/55",[0,0.661,98,2.963]],["stitle/55",[4,3.306,99,3.579]],["pname/56",[90,1.184]],["ptitle/56",[90,1.043,91,1.883]],["sname/56",[96,2.407,100,2.963]],["stitle/56",[96,2.465,97,3.034,101,3.343]],["pname/57",[90,1.184]],["ptitle/57",[90,1.043,91,1.883]],["sname/57",[98,2.963,100,2.963]],["stitle/57",[99,3.579,101,3.944]],["pname/58",[90,1.184]],["ptitle/58",[90,1.043,91,1.883]],["sname/58",[13,2.407,96,2.407]],["stitle/58",[13,2.465,96,2.465,97,3.034]],["pname/59",[90,1.184]],["ptitle/59",[90,1.043,91,1.883]],["sname/59",[13,2.407,98,2.963]],["stitle/59",[13,2.908,99,3.579]],["pname/60",[102,1.332]],["ptitle/60",[102,1.173,103,2.153]],["sname/60",[42,0.661,104,2.557]],["stitle/60",[42,0.798,104,3.089]],["pname/61",[102,1.332]],["ptitle/61",[102,1.173,103,2.153]],["sname/61",[42,0.661,104,2.557]],["stitle/61",[42,0.798,104,3.089]],["pname/62",[102,1.332]],["ptitle/62",[102,1.173,103,2.153]],["sname/62",[1,2.407,104,2.557]],["stitle/62",[105,5.483]],["pname/63",[102,1.332]],["ptitle/63",[102,1.173,103,2.153]],["sname/63",[0,0.661,102,1.181]],["stitle/63",[0,0.798,102,1.426]],["pname/64",[102,1.332]],["ptitle/64",[102,1.173,103,2.153]],["sname/64",[0,0.661,102,1.181]],["stitle/64",[0,0.798,102,1.426]],["pname/65",[102,1.332]],["ptitle/65",[102,1.173,103,2.153]],["sname/65",[0,0.661,66,2.407]],["stitle/65",[0,0.677,66,2.465,102,1.209]],["pname/66",[102,1.332]],["ptitle/66",[102,1.173,103,2.153]],["sname/66",[19,0.788,102,1.181]],["stitle/66",[19,0.806,66,2.465,102,1.209]],["pname/67",[102,1.332]],["ptitle/67",[102,1.173,103,2.153]],["sname/67",[42,0.661,102,1.181]],["stitle/67",[42,0.677,66,2.465,102,1.209]],["pname/68",[10,1.773]],["ptitle/68",[10,2.045]],["sname/68",[10,2.053]],["stitle/68",[10,2.313]],["pname/69",[10,1.773]],["ptitle/69",[10,2.045]],["sname/69",[10,1.571,100,2.963]],["stitle/69",[10,1.898,42,0.798]],["pname/70",[10,1.773]],["ptitle/70",[10,2.045]],["sname/70",[10,1.571,106,3.265]],["stitle/70",[10,1.609,42,0.677,106,3.343]],["pname/71",[64,1.604]],["ptitle/71",[64,1.85]],["sname/71",[0,0.661,64,1.421]],["stitle/71",[0,0.798,64,1.717]],["pname/72",[64,1.604]],["ptitle/72",[64,1.85]],["sname/72",[0,0.661,107,3.265]],["stitle/72",[0,0.677,64,1.455,107,3.343]],["pname/73",[64,1.604]],["ptitle/73",[64,1.85]],["sname/73",[1,2.407,19,0.788]],["stitle/73",[19,0.806,64,1.455,108,3.812]],["pname/74",[64,1.604]],["ptitle/74",[64,1.85]],["sname/74",[42,0.661,64,1.421]],["stitle/74",[42,0.798,64,1.717]],["pname/75",[64,1.604]],["ptitle/75",[64,1.85]],["sname/75",[65,3.872]],["stitle/75",[7,2.901,8,2.901,64,1.263,65,2.633]],["pname/76",[109,3.089]],["ptitle/76",[109,2.72,110,3.244]],["sname/76",[47,2.963,111,3.265]],["stitle/76",[47,3.579,111,3.944]],["pname/77",[109,3.089]],["ptitle/77",[109,2.72,110,3.244]],["sname/77",[112,4.267]],["stitle/77",[42,0.798,112,3.944]],["pname/78",[113,1.415]],["ptitle/78",[0,0.657,113,1.246]],["sname/78",[114,4.267]],["stitle/78",[113,1.514,114,3.944]],["pname/79",[113,1.415]],["ptitle/79",[0,0.657,113,1.246]],["sname/79",[115,4.267]],["stitle/79",[113,1.514,115,3.944]],["pname/80",[113,1.415]],["ptitle/80",[0,0.657,113,1.246]],["sname/80",[116,4.267]],["stitle/80",[113,1.514,116,3.944]],["pname/81",[113,1.415]],["ptitle/81",[0,0.657,113,1.246]],["sname/81",[117,4.267]],["stitle/81",[113,1.514,117,3.944]],["pname/82",[113,1.415]],["ptitle/82",[0,0.657,113,1.246]],["sname/82",[118,4.267]],["stitle/82",[113,1.514,118,3.944]],["pname/83",[113,1.415]],["ptitle/83",[0,0.657,113,1.246]],["sname/83",[119,4.267]],["stitle/83",[113,1.514,119,3.944]],["pname/84",[113,1.415]],["ptitle/84",[0,0.657,113,1.246]],["sname/84",[23,2.737,24,2.737]],["stitle/84",[23,2.803,24,2.803,113,1.284]],["pname/85",[0,0.532,120,1.664]],["ptitle/85",[0,0.657,120,2.053]],["sname/85",[121,4.267]],["stitle/85",[120,1.836,121,4.258,122,2.901]],["pname/86",[0,0.532,120,1.664]],["ptitle/86",[0,0.657,120,2.053]],["sname/86",[123,4.267]],["stitle/86",[120,1.836,122,2.901,123,4.258]],["pname/87",[0,0.532,120,1.664]],["ptitle/87",[0,0.657,120,2.053]],["sname/87",[124,4.267]],["stitle/87",[42,0.587,120,1.836,124,4.258]],["pname/88",[125,2.716]],["ptitle/88",[125,2.392,126,2.392]],["sname/88",[113,1.639]],["stitle/88",[113,1.514,127,3.579]],["pname/89",[125,2.716]],["ptitle/89",[125,2.392,126,2.392]],["sname/89",[90,1.372]],["stitle/89",[90,1.075,91,1.94,127,3.034]],["pname/90",[125,2.716]],["ptitle/90",[125,2.392,126,2.392]],["sname/90",[128,4.267]],["stitle/90",[127,3.579,128,3.944]],["pname/91",[129,2.716]],["ptitle/91",[19,0.783,126,2.392]],["sname/91",[19,1.029]],["stitle/91",[129,3.545]],["pname/92",[129,2.716]],["ptitle/92",[19,0.783,126,2.392]],["sname/92",[130,4.267]],["stitle/92",[129,2.908,130,3.944]],["pname/93",[129,2.716]],["ptitle/93",[19,0.783,126,2.392]],["sname/93",[10,2.053]],["stitle/93",[10,1.898,129,2.908]]],"invertedIndex":[["3d",{"_index":17,"pname":{"9":{}},"ptitle":{"9":{}},"sname":{},"stitle":{"9":{}}}],["add",{"_index":21,"pname":{},"ptitle":{},"sname":{"10":{}},"stitle":{"10":{}}}],["anim",{"_index":10,"pname":{"68":{},"69":{},"70":{}},"ptitle":{"68":{},"69":{},"70":{}},"sname":{"5":{},"68":{},"69":{},"70":{},"93":{}},"stitle":{"5":{},"68":{},"69":{},"70":{},"93":{}}}],["arcgi",{"_index":45,"pname":{},"ptitle":{},"sname":{"20":{}},"stitle":{"20":{}}}],["area",{"_index":123,"pname":{},"ptitle":{},"sname":{"86":{}},"stitle":{"86":{}}}],["attribut",{"_index":116,"pname":{},"ptitle":{},"sname":{"80":{}},"stitle":{"80":{}}}],["back",{"_index":30,"pname":{},"ptitle":{},"sname":{"13":{}},"stitle":{"13":{}}}],["boundari",{"_index":35,"pname":{},"ptitle":{},"sname":{},"stitle":{"16":{}}}],["bring",{"_index":28,"pname":{},"ptitle":{},"sname":{"13":{}},"stitle":{"13":{}}}],["canva",{"_index":2,"pname":{},"ptitle":{"47":{},"48":{},"49":{}},"sname":{"1":{}},"stitle":{"1":{}}}],["canvaslay",{"_index":86,"pname":{},"ptitle":{},"sname":{"47":{}},"stitle":{"47":{}}}],["canvastilelay",{"_index":89,"pname":{},"ptitle":{},"sname":{"49":{}},"stitle":{"49":{}}}],["capabl",{"_index":9,"pname":{},"ptitle":{},"sname":{},"stitle":{"4":{}}}],["chang",{"_index":18,"pname":{},"ptitle":{},"sname":{},"stitle":{"9":{}}}],["collect",{"_index":53,"pname":{},"ptitle":{},"sname":{"23":{}},"stitle":{}}],["common",{"_index":20,"pname":{},"ptitle":{"10":{},"11":{},"12":{},"13":{},"14":{},"15":{},"16":{},"17":{},"18":{},"19":{},"20":{}},"sname":{},"stitle":{}}],["compon",{"_index":91,"pname":{},"ptitle":{"50":{},"51":{},"52":{},"53":{},"54":{},"55":{},"56":{},"57":{},"58":{},"59":{}},"sname":{},"stitle":{"89":{}}}],["composit",{"_index":84,"pname":{},"ptitle":{},"sname":{"46":{}},"stitle":{"46":{}}}],["comput",{"_index":110,"pname":{},"ptitle":{"76":{},"77":{}},"sname":{},"stitle":{}}],["connector",{"_index":60,"pname":{},"ptitle":{},"sname":{"27":{}},"stitle":{"27":{}}}],["contain",{"_index":111,"pname":{},"ptitle":{},"sname":{"76":{}},"stitle":{"76":{}}}],["context",{"_index":97,"pname":{},"ptitle":{},"sname":{},"stitle":{"54":{},"56":{},"58":{}}}],["control",{"_index":113,"pname":{"78":{},"79":{},"80":{},"81":{},"82":{},"83":{},"84":{}},"ptitle":{"78":{},"79":{},"80":{},"81":{},"82":{},"83":{},"84":{}},"sname":{"88":{}},"stitle":{"78":{},"79":{},"80":{},"81":{},"82":{},"83":{},"84":{},"88":{}}}],["convers",{"_index":16,"pname":{},"ptitle":{},"sname":{},"stitle":{"8":{}}}],["coodin",{"_index":15,"pname":{},"ptitle":{},"sname":{},"stitle":{"8":{}}}],["coordin",{"_index":14,"pname":{},"ptitle":{},"sname":{"8":{}},"stitle":{}}],["copi",{"_index":66,"pname":{},"ptitle":{},"sname":{"33":{},"65":{}},"stitle":{"33":{},"65":{},"66":{},"67":{}}}],["curv",{"_index":55,"pname":{},"ptitle":{},"sname":{"24":{}},"stitle":{"24":{}}}],["custom",{"_index":13,"pname":{},"ptitle":{},"sname":{"7":{},"58":{},"59":{}},"stitle":{"7":{},"58":{},"59":{}}}],["d3",{"_index":95,"pname":{},"ptitle":{},"sname":{"53":{}},"stitle":{"53":{}}}],["dasharray",{"_index":75,"pname":{},"ptitle":{},"sname":{"39":{}},"stitle":{"39":{}}}],["develop",{"_index":126,"pname":{},"ptitle":{"88":{},"89":{},"90":{},"91":{},"92":{},"93":{}},"sname":{},"stitle":{}}],["distanc",{"_index":121,"pname":{},"ptitle":{},"sname":{"85":{}},"stitle":{"85":{}}}],["drag",{"_index":62,"pname":{},"ptitle":{},"sname":{"30":{}},"stitle":{"30":{}}}],["draw",{"_index":124,"pname":{},"ptitle":{},"sname":{"87":{}},"stitle":{"87":{}}}],["drawoninteract",{"_index":130,"pname":{},"ptitle":{},"sname":{"92":{}},"stitle":{"92":{}}}],["dynam",{"_index":82,"pname":{},"ptitle":{},"sname":{},"stitle":{"45":{}}}],["echart",{"_index":93,"pname":{},"ptitle":{},"sname":{"51":{}},"stitle":{"51":{}}}],["edit",{"_index":58,"pname":{},"ptitle":{},"sname":{"26":{}},"stitle":{"26":{}}}],["event",{"_index":64,"pname":{"71":{},"72":{},"73":{},"74":{},"75":{}},"ptitle":{"71":{},"72":{},"73":{},"74":{},"75":{}},"sname":{"32":{},"71":{},"74":{}},"stitle":{"32":{},"71":{},"72":{},"73":{},"74":{},"75":{}}}],["exampl",{"_index":87,"pname":{},"ptitle":{},"sname":{},"stitle":{"47":{},"48":{},"49":{}}}],["ext",{"_index":51,"pname":{},"ptitle":{},"sname":{"22":{}},"stitle":{}}],["featur",{"_index":40,"pname":{},"ptitle":{},"sname":{"18":{}},"stitle":{}}],["file",{"_index":67,"pname":{},"ptitle":{},"sname":{"34":{}},"stitle":{"34":{}}}],["fill",{"_index":74,"pname":{},"ptitle":{},"sname":{},"stitle":{"38":{},"40":{},"41":{},"42":{},"43":{},"44":{}}}],["filter",{"_index":41,"pname":{},"ptitle":{},"sname":{"18":{}},"stitle":{"18":{}}}],["flash",{"_index":63,"pname":{},"ptitle":{},"sname":{"31":{}},"stitle":{"31":{}}}],["front",{"_index":29,"pname":{},"ptitle":{},"sname":{"13":{}},"stitle":{"13":{}}}],["function",{"_index":80,"pname":{},"ptitle":{},"sname":{"45":{}},"stitle":{"45":{}}}],["geo",{"_index":100,"pname":{},"ptitle":{},"sname":{"56":{},"57":{},"69":{}},"stitle":{}}],["geojson",{"_index":104,"pname":{},"ptitle":{},"sname":{"60":{},"61":{},"62":{}},"stitle":{"60":{},"61":{}}}],["geojsonlay",{"_index":105,"pname":{},"ptitle":{},"sname":{},"stitle":{"62":{}}}],["geometri",{"_index":42,"pname":{"21":{},"22":{},"23":{},"24":{},"25":{},"26":{},"27":{},"28":{},"29":{},"30":{},"31":{},"32":{},"33":{}},"ptitle":{"21":{},"22":{},"23":{},"24":{},"25":{},"26":{},"27":{},"28":{},"29":{},"30":{},"31":{},"32":{},"33":{}},"sname":{"60":{},"61":{},"67":{},"74":{}},"stitle":{"18":{},"28":{},"29":{},"30":{},"31":{},"32":{},"33":{},"60":{},"61":{},"67":{},"69":{},"70":{},"74":{},"77":{},"87":{}}}],["geometry'",{"_index":101,"pname":{},"ptitle":{},"sname":{},"stitle":{"56":{},"57":{}}}],["geometrycollect",{"_index":54,"pname":{},"ptitle":{},"sname":{},"stitle":{"23":{}}}],["gradient",{"_index":78,"pname":{},"ptitle":{},"sname":{"42":{},"43":{},"44":{}},"stitle":{"42":{},"43":{}}}],["hellolay",{"_index":129,"pname":{"91":{},"92":{},"93":{}},"ptitle":{},"sname":{},"stitle":{"91":{},"92":{},"93":{}}}],["hide",{"_index":24,"pname":{},"ptitle":{},"sname":{"11":{},"84":{}},"stitle":{"11":{},"84":{}}}],["highchart",{"_index":94,"pname":{},"ptitle":{},"sname":{"52":{}},"stitle":{"52":{}}}],["id",{"_index":61,"pname":{},"ptitle":{},"sname":{"28":{}},"stitle":{"28":{}}}],["identifi",{"_index":112,"pname":{},"ptitle":{},"sname":{"77":{}},"stitle":{"77":{}}}],["imag",{"_index":69,"pname":{},"ptitle":{},"sname":{},"stitle":{"34":{}}}],["infowindow",{"_index":99,"pname":{},"ptitle":{},"sname":{},"stitle":{"55":{},"57":{},"59":{}}}],["infownd",{"_index":98,"pname":{},"ptitle":{},"sname":{"55":{},"57":{},"59":{}},"stitle":{}}],["json",{"_index":102,"pname":{"60":{},"61":{},"62":{},"63":{},"64":{},"65":{},"66":{},"67":{}},"ptitle":{"60":{},"61":{},"62":{},"63":{},"64":{},"65":{},"66":{},"67":{}},"sname":{"63":{},"64":{},"66":{},"67":{}},"stitle":{"63":{},"64":{},"65":{},"66":{},"67":{}}}],["label",{"_index":56,"pname":{},"ptitle":{},"sname":{"25":{},"26":{}},"stitle":{"25":{}}}],["label'",{"_index":59,"pname":{},"ptitle":{},"sname":{},"stitle":{"26":{}}}],["layer",{"_index":19,"pname":{"10":{},"11":{},"12":{},"13":{},"14":{},"15":{},"16":{},"17":{},"18":{},"19":{},"20":{}},"ptitle":{"10":{},"11":{},"12":{},"13":{},"14":{},"15":{},"16":{},"17":{},"18":{},"19":{},"20":{},"47":{},"48":{},"49":{},"91":{},"92":{},"93":{}},"sname":{"66":{},"73":{},"91":{}},"stitle":{"10":{},"11":{},"13":{},"14":{},"15":{},"16":{},"66":{},"73":{}}}],["layer'",{"_index":27,"pname":{},"ptitle":{},"sname":{},"stitle":{"12":{}}}],["layerload",{"_index":108,"pname":{},"ptitle":{},"sname":{},"stitle":{"73":{}}}],["limit",{"_index":5,"pname":{},"ptitle":{},"sname":{"3":{}},"stitle":{"3":{}}}],["line",{"_index":48,"pname":{},"ptitle":{},"sname":{"21":{},"27":{},"38":{},"39":{},"42":{}},"stitle":{"24":{},"27":{},"39":{}}}],["line'",{"_index":73,"pname":{},"ptitle":{},"sname":{},"stitle":{"38":{},"42":{}}}],["listen",{"_index":65,"pname":{},"ptitle":{},"sname":{"75":{}},"stitle":{"32":{},"75":{}}}],["load",{"_index":1,"pname":{},"ptitle":{},"sname":{"0":{},"62":{},"73":{}},"stitle":{"0":{},"1":{},"20":{}}}],["map",{"_index":0,"pname":{"0":{},"1":{},"2":{},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{},"85":{},"86":{},"87":{}},"ptitle":{"0":{},"1":{},"2":{},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{},"78":{},"79":{},"80":{},"81":{},"82":{},"83":{},"84":{},"85":{},"86":{},"87":{}},"sname":{"54":{},"55":{},"63":{},"64":{},"65":{},"71":{},"72":{}},"stitle":{"0":{},"4":{},"63":{},"64":{},"65":{},"71":{},"72":{}}}],["map'",{"_index":4,"pname":{},"ptitle":{},"sname":{},"stitle":{"2":{},"3":{},"54":{},"55":{}}}],["maptool",{"_index":128,"pname":{},"ptitle":{},"sname":{"90":{}},"stitle":{"90":{}}}],["marker",{"_index":68,"pname":{},"ptitle":{},"sname":{"34":{},"35":{},"36":{},"37":{}},"stitle":{"34":{},"35":{},"36":{},"37":{},"50":{},"51":{},"52":{},"53":{}}}],["marker'",{"_index":77,"pname":{},"ptitle":{},"sname":{},"stitle":{"41":{},"44":{}}}],["mask",{"_index":32,"pname":{},"ptitle":{},"sname":{"15":{}},"stitle":{"15":{},"16":{}}}],["mask2",{"_index":33,"pname":{},"ptitle":{},"sname":{"16":{}},"stitle":{}}],["measur",{"_index":122,"pname":{},"ptitle":{},"sname":{},"stitle":{"85":{},"86":{}}}],["menu",{"_index":96,"pname":{},"ptitle":{},"sname":{"54":{},"56":{},"58":{}},"stitle":{"54":{},"56":{},"58":{}}}],["move",{"_index":106,"pname":{},"ptitle":{},"sname":{"70":{}},"stitle":{"70":{}}}],["new",{"_index":127,"pname":{},"ptitle":{},"sname":{},"stitle":{"88":{},"89":{},"90":{}}}],["on/off",{"_index":8,"pname":{},"ptitle":{},"sname":{},"stitle":{"4":{},"75":{}}}],["opac",{"_index":25,"pname":{},"ptitle":{},"sname":{"12":{}},"stitle":{"12":{}}}],["otherlay",{"_index":85,"pname":{"47":{},"48":{},"49":{}},"ptitle":{},"sname":{},"stitle":{}}],["overview",{"_index":118,"pname":{},"ptitle":{},"sname":{"82":{}},"stitle":{"82":{}}}],["panel",{"_index":119,"pname":{},"ptitle":{},"sname":{"83":{}},"stitle":{"83":{}}}],["particlelay",{"_index":88,"pname":{},"ptitle":{},"sname":{"48":{}},"stitle":{"48":{}}}],["path",{"_index":71,"pname":{},"ptitle":{},"sname":{"37":{}},"stitle":{"37":{}}}],["pattern",{"_index":72,"pname":{},"ptitle":{},"sname":{"38":{},"40":{},"41":{}},"stitle":{"38":{},"40":{},"41":{}}}],["plugin",{"_index":125,"pname":{"88":{},"89":{},"90":{}},"ptitle":{"88":{},"89":{},"90":{}},"sname":{},"stitle":{}}],["point",{"_index":47,"pname":{},"ptitle":{},"sname":{"21":{},"76":{}},"stitle":{"76":{}}}],["point/linestring/polygon",{"_index":50,"pname":{},"ptitle":{},"sname":{},"stitle":{"21":{}}}],["polygon",{"_index":49,"pname":{},"ptitle":{},"sname":{"21":{},"22":{},"40":{},"43":{}},"stitle":{}}],["polygon'",{"_index":76,"pname":{},"ptitle":{},"sname":{},"stitle":{"40":{},"43":{}}}],["pradient",{"_index":79,"pname":{},"ptitle":{},"sname":{},"stitle":{"44":{}}}],["predefin",{"_index":12,"pname":{},"ptitle":{},"sname":{},"stitle":{"6":{}}}],["project",{"_index":11,"pname":{},"ptitle":{},"sname":{"6":{},"7":{}},"stitle":{"6":{},"7":{}}}],["rectangle/circle/ellipse/sector",{"_index":52,"pname":{},"ptitle":{},"sname":{},"stitle":{"22":{}}}],["remov",{"_index":22,"pname":{},"ptitle":{},"sname":{"10":{}},"stitle":{"10":{}}}],["render",{"_index":37,"pname":{},"ptitle":{},"sname":{"17":{}},"stitle":{"17":{}}}],["scale",{"_index":115,"pname":{},"ptitle":{},"sname":{"79":{}},"stitle":{"79":{}}}],["serial",{"_index":103,"pname":{},"ptitle":{"60":{},"61":{},"62":{},"63":{},"64":{},"65":{},"66":{},"67":{}},"sname":{},"stitle":{}}],["servic",{"_index":46,"pname":{},"ptitle":{},"sname":{},"stitle":{"20":{}}}],["set",{"_index":26,"pname":{},"ptitle":{},"sname":{},"stitle":{"12":{},"19":{}}}],["show",{"_index":23,"pname":{},"ptitle":{},"sname":{"11":{},"84":{}},"stitle":{"11":{},"84":{}}}],["sort",{"_index":31,"pname":{},"ptitle":{},"sname":{"14":{},"29":{}},"stitle":{"14":{},"29":{}}}],["spatial",{"_index":109,"pname":{"76":{},"77":{}},"ptitle":{"76":{},"77":{}},"sname":{},"stitle":{}}],["statu",{"_index":3,"pname":{},"ptitle":{},"sname":{"2":{}},"stitle":{"2":{}}}],["style",{"_index":43,"pname":{"34":{},"35":{},"36":{},"37":{},"38":{},"39":{},"40":{},"41":{},"42":{},"43":{},"44":{},"45":{},"46":{}},"ptitle":{"34":{},"35":{},"36":{},"37":{},"38":{},"39":{},"40":{},"41":{},"42":{},"43":{},"44":{},"45":{},"46":{}},"sname":{"19":{}},"stitle":{"19":{}}}],["svg",{"_index":70,"pname":{},"ptitle":{},"sname":{"37":{}},"stitle":{"37":{}}}],["symbol",{"_index":83,"pname":{},"ptitle":{},"sname":{"46":{}},"stitle":{"45":{},"46":{}}}],["sync",{"_index":107,"pname":{},"ptitle":{},"sname":{"72":{}},"stitle":{"72":{}}}],["text",{"_index":57,"pname":{},"ptitle":{},"sname":{"35":{}},"stitle":{"25":{},"26":{},"35":{}}}],["tile",{"_index":36,"pname":{},"ptitle":{},"sname":{"17":{},"20":{}},"stitle":{"20":{}}}],["tilelay",{"_index":38,"pname":{},"ptitle":{},"sname":{},"stitle":{"17":{}}}],["tool",{"_index":120,"pname":{"85":{},"86":{},"87":{}},"ptitle":{"85":{},"86":{},"87":{}},"sname":{},"stitle":{"85":{},"86":{},"87":{}}}],["toolbar",{"_index":117,"pname":{},"ptitle":{},"sname":{"81":{}},"stitle":{"81":{}}}],["turn",{"_index":7,"pname":{},"ptitle":{},"sname":{},"stitle":{"4":{},"75":{}}}],["type",{"_index":81,"pname":{},"ptitle":{},"sname":{"45":{}},"stitle":{"45":{}}}],["ui",{"_index":90,"pname":{"50":{},"51":{},"52":{},"53":{},"54":{},"55":{},"56":{},"57":{},"58":{},"59":{}},"ptitle":{"50":{},"51":{},"52":{},"53":{},"54":{},"55":{},"56":{},"57":{},"58":{},"59":{}},"sname":{"51":{},"52":{},"53":{},"89":{}},"stitle":{"50":{},"51":{},"52":{},"53":{},"89":{}}}],["uimark",{"_index":92,"pname":{},"ptitle":{},"sname":{"50":{}},"stitle":{}}],["us",{"_index":34,"pname":{},"ptitle":{},"sname":{},"stitle":{"16":{}}}],["vector",{"_index":39,"pname":{},"ptitle":{},"sname":{"18":{},"19":{},"36":{},"41":{},"44":{}},"stitle":{"36":{},"37":{},"41":{},"44":{}}}],["vectorlay",{"_index":44,"pname":{},"ptitle":{},"sname":{},"stitle":{"19":{}}}],["view",{"_index":6,"pname":{},"ptitle":{"9":{}},"sname":{"9":{}},"stitle":{"3":{},"9":{}}}],["zoom",{"_index":114,"pname":{},"ptitle":{},"sname":{"78":{}},"stitle":{"78":{}}}]],"pipeline":["stemmer"]}</script>
+  <script type="text/javascript" src="https://cdn.bootcss.com/lunr.js/2.1.2/lunr.min.js"></script>
+  <script type="text/javascript" src="/examples/js/main.6fb012.js"></script>
 
   <script>
     PR.prettyPrint();
@@ -647,12 +651,6 @@ body {
     function edit() {
       document.getElementById('editor').submit();
     }
-
-    var clipboard = new Clipboard('#action-link-copy');
-    clipboard.on('success', function (e) {
-      e.clearSelection();
-      showTooltip(e.trigger, 'Copied!');
-    });
   </script>
 
 </body>
