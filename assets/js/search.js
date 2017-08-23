@@ -3,6 +3,7 @@ var classlist = require('./classlist');
 
 var elements = document.getElementsByClassName('example');
 var $input = document.getElementById('example-search-input');
+var $button = document.getElementById('example-search-button');
 var elementLen = elements.length;
 var index = lunr.Index.load(window.SEARCH_INDEX);
 
@@ -31,13 +32,27 @@ function displayAll() {
   }
 }
 
-$input.addEventListener('input', function () {
-  var value = this.value;
+function buildSearchHandler(doSearch) {
+  function searchHandler() {
+    var value = $input.value;
 
-  if (!value) {
-    displayAll();
-    return;
+    if (!value) {
+      displayAll();
+      return;
+    }
+
+    if (doSearch) {
+      search(value);
+    }
   }
+  return searchHandler;
+}
 
-  search(value);
+$input.addEventListener('input', buildSearchHandler(false));
+$input.addEventListener('keyup', function (event) {
+  if (event.keyCode === 13) {
+    buildSearchHandler(true)();
+  }
 });
+
+$button.addEventListener('click', buildSearchHandler(true));
