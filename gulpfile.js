@@ -11,6 +11,7 @@ var webpack = require('ms-webpack');
 var debug = require('metalsmith-debug');
 var multimatch = require('multimatch');
 var marked = require('marked');
+var CleanCSS = require('clean-css');
 var helpers = require('./lib/helpers');
 var i18n = require('./lib/plugins/i18n');
 
@@ -84,6 +85,11 @@ function readExamplesInfo() {
 
 var examplesInfo = readExamplesInfo();
 
+var cleanCSS = new CleanCSS({
+  level: 0,
+  format: 'keep-breaks'
+});
+
 function processSingleFile(file, files) {
   var basename = path.basename(file);
   var match = basename.match(markupRegex);
@@ -119,9 +125,11 @@ function processSingleFile(file, files) {
 
   var css = path.join(dirname, id + '.css');
   if (css in files) {
+    var contents = files[css].contents.toString();
+    var output = cleanCSS.minify(contents);
     data.css = {
       basename: id + '.css',
-      source: files[css].contents.toString()
+      source: output.styles
     };
     delete files[css];
   }
