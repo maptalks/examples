@@ -46,7 +46,7 @@
             <ul class="list">
               {{#each examples}}
               <li class="list-tile example on">
-                <a href="{{ @root.site.baseurl }}/{{ @root.locale }}/{{../name}}/{{name}}/">{{../index}}.{{index}} {{title}}</a>
+                <a id="{{name}}@{{../name}}" href="{{ @root.site.baseurl }}/{{ @root.locale }}/{{../name}}/{{name}}/#{{name}}@{{../name}}">{{../index}}.{{index}} {{title}}</a>
               </li>
               {{/each}}
             </ul>

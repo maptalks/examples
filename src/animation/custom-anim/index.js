@@ -33,7 +33,8 @@ var targetStyles = {
 var player = maptalks.animation.Animation.animate(
   targetStyles,
   {
-    duration : 1000
+    duration : 1000,
+    easing : 'out'
   },
   function step(frame) {
     if (frame.state.playState === 'running') {

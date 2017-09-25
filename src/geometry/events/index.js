@@ -10,7 +10,7 @@ var map = new maptalks.Map('map', {
     subdomains: $(subdomains)
   })
 });
-//<<<<<<<< prepare data
+
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
 var marker = new maptalks.Marker(map.getCenter(), {
@@ -28,7 +28,6 @@ var marker = new maptalks.Marker(map.getCenter(), {
   ]
 })
 .addTo(layer);
-//>>>>>>>>
 
 //mousemove and touchmove is annoying, so not listening to it.
 marker.on('mousedown mouseup click dblclick contextmenu touchstart touchend', onEvent);
