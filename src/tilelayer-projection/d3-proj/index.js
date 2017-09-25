@@ -35,7 +35,7 @@ d3.json('world-50m.json', function (error, world) {
   var map = new maptalks.Map('map', {
     center:     [0, 0],
     centerCross : true,
-    zoom:  3,
+    zoom:  2,
     spatialReference:{
       'projection': proj,
       'resolutions': (function () {
@@ -58,8 +58,7 @@ d3.json('world-50m.json', function (error, world) {
   };
   new maptalks.VectorLayer('v', geometries, { 'geometryEvents':false, 'enableSimplify':false })
     .forEach(function (geo) {
-      geo.config('antiMeridian', 'split')
-       .setSymbol(symbol);
+      geo.setSymbol(symbol);
     })
     .addTo(map);
 });

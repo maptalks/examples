@@ -6,7 +6,7 @@ body {
     width: 100%;
 }
 
-#map {
+.container {
     float:left;
     width: 100%;
     height: 100%;

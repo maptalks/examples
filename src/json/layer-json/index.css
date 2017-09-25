@@ -5,7 +5,7 @@ body {
     width: 100%;
 }
 
-#map {
+.container {
     width: calc(50% - 2px);
     height: calc(100% - 2px);
     float: left;

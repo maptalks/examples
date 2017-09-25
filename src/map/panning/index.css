@@ -6,7 +6,7 @@ body {
   width: 100%;
 }
 
-#map {
+.container {
   font: 15px "microsoft yahei",Arial,Helvetica;
   float: left;
   width: 100%;
