@@ -26,6 +26,7 @@
       "name" : "tilelayer-projection",
       "title" : {"cn" : "瓦片图层与地理投影", "en" : "TileLayer and Geo-Projections"},
       "examples" : [
+        {"name" : "canvas-renderer", "title" : {"cn" : "Canvas渲染方式的瓦片图层", "en" : "TilerLayer with Canvas renderer"}},
         {"name" : "multi-tilelayer", "title" : {"cn" : "添加多个瓦片图层", "en" : "Add multiple TileLayers"}},
         {"name" : "wms", "title" : {"cn" : "WMS瓦片图层", "en" : "Add a WMS TileLayer"}},
         {"name" : "vector-tile", "title" : {"cn" : "Vector-Tile图层", "en" : "Add a mapbox vector-tile Layer"}},
@@ -34,10 +35,10 @@
         {"name" : "tile-opacity", "title" : {"cn" : "设置瓦片图层透明度", "en" : "Set TileLayer's opacity"}},
         {"name" : "fragment-shader", "title" : {"cn" : "Fragment Shader", "en" : "Replace default fragment shader"}},
         {"name" : "tile-mask", "title" : {"cn" : "只显示指定范围内的瓦片", "en" : "Set a boundary mask to TileLayer"}},
-        {"name" : "EPSG4326", "title" : {"cn" : "4326投影底图", "en" : "TileLayer of EPSG:4326 projection"}},
+        {"name" : "epsg4326", "title" : {"cn" : "4326投影底图", "en" : "TileLayer of EPSG:4326 projection"}},
         {"name" : "identity", "title" : {"cn" : "IDENTITY投影底图", "en" : "TileLayer of IDENTITY projection"}},
-        {"name" : "proj4js", "title" : {"cn" : "Proj4js自定义投影底图", "en" : "TileLayer of custom projection by proj4js"}},
         {"name" : "baidu", "title" : {"cn" : "百度投影底图", "en" : "TileLayer of Baidu Projection"}},
+        {"name" : "proj4js", "title" : {"cn" : "Proj4js自定义投影底图", "en" : "TileLayer of custom projection by proj4js"}},
         {"name" : "d3-proj", "title" : {"cn" : "D3投影", "en" : "D3 geo projection"}}
       ]
     },
@@ -66,6 +67,18 @@
     },
 
     {
+      "name" : "3d",
+      "title" : {"cn" : "三维", "en" : "3D"},
+      "examples" : [
+        {"name" : "marker-altitude", "title" : {"cn" : "有高度的Marker", "en" : "Marker with altitude"}},
+        {"name" : "marker-draw-altitude", "title" : {"cn" : "绘制Marker的高度线", "en" : "Draw marker's altitude"}},
+        {"name" : "line-altitude", "title" : {"cn" : "有高度的线", "en" : "LineString with altitude"}},
+        {"name" : "line-draw-altitude", "title" : {"cn" : "绘制Line的高度面", "en" : "Draw line's altitude wall"}},
+        {"name" : "polygon-altitude", "title" : {"cn" : "有高度的多边形", "en" : "Polygon with altitude"}}
+      ]
+    },
+
+    {
       "name" : "style",
       "title" : {"cn" : "图形样式", "en" : "Geometry Styles"},
       "examples" : [
@@ -77,14 +90,14 @@
         {"name" : "svg-path-marker", "title" : {"cn" : "SVG矢量标注", "en" : "SVG vector marker"}},
         {"name" : "rotate-marker", "title" : {"cn" : "旋转标注", "en" : "Rotate a marker"}},
         {"name" : "text-marker", "title" : {"cn" : "文字标注", "en" : "Text marker"}},
-        {"name" : "rotate-text-marker", "title" : {"cn" : "旋转文字标注", "en" : "Rotate a text marker"}},
+        {"name" : "rotate-text", "title" : {"cn" : "旋转文字标注", "en" : "Rotate a text marker"}},
         {"name" : "image-text-marker", "title" : {"cn" : "带文字的图片标注", "en" : "Image marker with texts"}},
         {"name" : "line-symbol", "title" : {"cn" : "线样式", "en" : "Line symbol"}},
         {"name" : "line-pattern", "title" : {"cn" : "线的模式填充", "en" : "Line pattern fill"}},
         {"name" : "line-gradient", "title" : {"cn" : "线的渐变填充", "en" : "Line gradient fill"}},
         {"name" : "line-arrow", "title" : {"cn" : "带箭头的线", "en" : "Line with arrows"}},
         {"name" : "line-text", "title" : {"cn" : "带文字的线", "en" : "Line with texts"}},
-        {"name" : "polygon-text", "title" : {"cn" : "面样式", "en" : "Polygon symbol"}},
+        {"name" : "polygon-symbol", "title" : {"cn" : "面样式", "en" : "Polygon symbol"}},
         {"name" : "polygon-pattern", "title" : {"cn" : "面的模式填充", "en" : "Polygon pattern fill"}},
         {"name" : "polygon-gradient", "title" : {"cn" : "面的渐变填充", "en" : "Polygon gradient fill"}},
         {"name" : "polygon-vertex-marker", "title" : {"cn" : "面的端点样式", "en" : "Polygon with vetex markers"}},
@@ -136,9 +149,7 @@
         {"name" : "edit-marker", "title" : {"cn" : "编辑标注", "en" : "Edit marker"}},
         {"name" : "edit-line", "title" : {"cn" : "编辑线", "en" : "Edit LineString"}},
         {"name" : "edit-polygon", "title" : {"cn" : "编辑多边形", "en" : "Edit Polygon"}},
-        {"name" : "edit-rectangle", "title" : {"cn" : "编辑矩形", "en" : "Edit Rectangle"}},
-        {"name" : "edit-circle", "title" : {"cn" : "编辑圆形", "en" : "Edit Circle"}},
-        {"name" : "edit-ellipse", "title" : {"cn" : "编辑椭圆", "en" : "Edit Ellipse"}},
+        {"name" : "edit-rectangle-circle-ellipse", "title" : {"cn" : "编辑矩形/圆形/椭圆", "en" : "Edit Rectangle/Circle/Elliipse"}},
         {"name" : "edit-textbox", "title" : {"cn" : "编辑文本框", "en" : "Edit TextBox's shape"}},
         {"name" : "edit-label", "title" : {"cn" : "编辑文本内容", "en" : "Edit Label and TextBox's content"}},
         {"name" : "mouse-identify", "title" : {"cn" : "鼠标点选图形", "en" : "Identify geometries by mouse click"}},
@@ -153,21 +164,11 @@
       "examples" : [
         {"name" : "map-flyto", "title" : {"cn" : "地图飞行到指定位置", "en" : "Fly map's camera to a location"}},
         {"name" : "marker-anim", "title" : {"cn" : "Marker的变形动画", "en" : "Marker's shape animation"}},
+        {"name" : "move-along", "title" : {"cn" : "点的沿线动画", "en" : "Marker animation along a line"}},
         {"name" : "geometry-anim", "title" : {"cn" : "Geometry.animate方法", "en" : "Geometry.animate method"}},
         {"name" : "line-animateshow", "title" : {"cn" : "线的动画展现", "en" : "LineString's animateShow"}},
         {"name" : "polygon-animateshow", "title" : {"cn" : "面的动画展现", "en" : "Polygon's animateShow"}},
-        {"name" : "move-along", "title" : {"cn" : "点的沿线动画", "en" : "Marker animation along a line"}},
         {"name" : "custom-anim", "title" : {"cn" : "自定义动画", "en" : "Custom animation"}}
-      ]
-    },
-
-    {
-      "name" : "3d",
-      "title" : {"cn" : "三维", "en" : "3D"},
-      "examples" : [
-        {"name" : "marker-altitude", "title" : {"cn" : "有高度的Marker", "en" : "Marker with altitude"}},
-        {"name" : "line-altitude", "title" : {"cn" : "有高度的线", "en" : "LineString with altitude"}},
-        {"name" : "polygon-altitude", "title" : {"cn" : "有高度的多边形", "en" : "Polygon with altitude"}},
       ]
     },
 
@@ -182,13 +183,13 @@
         {"name" : "ui-geo-infownd", "title" : {"cn" : "图形信息框", "en" : "Geometry's InfoWindow"}},
         {"name" : "ui-custom-infownd", "title" : {"cn" : "自定义信息框", "en" : "Custom InfoWindow"}},
 
-        {"name" : "toolbar", "title" : {"cn" : "Toolbar控件", "en" : "Toolbar Control"}},
-        {"name" : "panel", "title" : {"cn" : "Panel控件", "en" : "Panel Control"}},
-        {"name" : "overview", "title" : {"cn" : "鹰眼控件", "en" : "Overview Control"}},
-        {"name" : "zoom", "title" : {"cn" : "Zoom控件", "en" : "Zoom Control"}},
-        {"name" : "scale", "title" : {"cn" : "Scale控件", "en" : "Scale Control"}},
-        {"name" : "attribution", "title" : {"cn" : "Attribution控件", "en" : "Attribution Control"}},
-        {"name" : "show-hide", "title" : {"cn" : "控件显示与隐藏", "en" : "Show and hide controls"}}
+        {"name" : "control-toolbar", "title" : {"cn" : "Toolbar控件", "en" : "Toolbar Control"}},
+        {"name" : "control-panel", "title" : {"cn" : "Panel控件", "en" : "Panel Control"}},
+        {"name" : "control-overview", "title" : {"cn" : "鹰眼控件", "en" : "Overview Control"}},
+        {"name" : "control-zoom", "title" : {"cn" : "Zoom控件", "en" : "Zoom Control"}},
+        {"name" : "control-scale", "title" : {"cn" : "Scale控件", "en" : "Scale Control"}},
+        {"name" : "control-attribution", "title" : {"cn" : "Attribution控件", "en" : "Attribution Control"}},
+        {"name" : "control-show-hide", "title" : {"cn" : "控件显示与隐藏", "en" : "Show and hide controls"}}
       ]
     },
 

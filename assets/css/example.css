@@ -1019,6 +1019,11 @@ p {
   background: #f8f8f8;
   white-space: pre-wrap;
 }
+.demo-viewer .demo-panel .content-area .md {
+  margin-top : 16px;
+  padding : 0px 16px 0px 16px;
+  border: 1px solid #ddd;
+}
 .demo-viewer .demo-panel .content-area .md > h1 {
   font-size: 30px;
   line-height: 40px;

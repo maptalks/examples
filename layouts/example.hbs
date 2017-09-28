@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>{{ category }} - {{ title }}</title>
+  <title>maptalks - {{ title }}</title>
   <link rel="stylesheet" href="{{ site.baseurl }}/{{ webpack.assets.[main.css] }}" />
   <link rel="stylesheet" href="{{ site.baseurl }}/code-prettify/prettify.css" />
   <script type="text/javascript" src="{{ site.baseurl }}/code-prettify/prettify.js"></script>
@@ -46,7 +46,7 @@
             <ul class="list">
               {{#each examples}}
               <li class="list-tile example on">
-                <a id="{{name}}@{{../name}}" href="{{ @root.site.baseurl }}/{{ @root.locale }}/{{../name}}/{{name}}/#{{name}}@{{../name}}">{{../index}}.{{index}} {{title}}</a>
+                <a id="{{../name}}_{{name}}" href="{{ @root.site.baseurl }}/{{ @root.locale }}/{{../name}}/{{name}}/#{{../name}}_{{name}}">{{../index}}.{{index}} {{title}}</a>
               </li>
               {{/each}}
             </ul>
@@ -89,11 +89,12 @@
       <div class="content-area scroll-block">
 
         <div class="map-viewer">
-          <iframe class="map-view" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
+          <iframe class="map-view" sandbox="allow-modals allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/{{ basename }}"></iframe>
         </div>
 
         <div class="readme md">
         {{#if readme.contents}}
+          <br>
           {{{ readme.contents }}}
         {{/if}}
         </div>
