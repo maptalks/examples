@@ -26,18 +26,21 @@ var areaTool = new maptalks.AreaTool({
     'markerHeight'      : 10
   },
   'labelOptions' : {
-    'symbol': {
+    'textSymbol': {
       'textFaceName': 'monospace',
       'textFill' : '#fff',
       'textLineSpacing': 1,
       'textHorizontalAlignment': 'right',
-      'textDx': 15,
-      'markerLineColor': '#b4b3b3',
-      'markerFill' : '#000'
+      'textDx': 15
     },
-    'boxPadding': {
-      'width': 6,
-      'height': 4
+    'boxStyle' : {
+      'padding' : [6, 2],
+      'symbol' : {
+        'markerType' : 'square',
+        'markerFill' : '#000',
+        'markerFillOpacity' : 0.9,
+        'markerLineColor' : '#b4b3b3'
+      }
     }
   },
   'clearButtonSymbol' :[{
@@ -47,13 +50,13 @@ var areaTool = new maptalks.AreaTool({
     'markerLineWidth': 2,
     'markerWidth': 15,
     'markerHeight': 15,
-    'markerDx': 20
+    'markerDx': 22
   }, {
     'markerType': 'x',
     'markerWidth': 10,
     'markerHeight': 10,
     'markerLineColor' : '#fff',
-    'markerDx': 20
+    'markerDx': 22
   }],
   language: ''
 }).addTo(map);

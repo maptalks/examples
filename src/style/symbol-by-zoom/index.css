@@ -11,9 +11,13 @@ body {
     height: 100%;
 }
 
-.attr {
-  background-color: #34495e;
-  color : #fff;
-  padding:0px 4px;
-  font : 16px sans-serif;
+.pane {
+  background: #34495e;
+  padding : 10px;
+  line-height: 28px;
+  color: #fff;
+  z-index : 10;
+  position: absolute;
+  top : 20px;
+  right : 20px;
 }

@@ -19,11 +19,11 @@ d3.addTo(map).show();
 
 // copy right d3js.org
 function createD3Dom() {
-  var width = 960,
-    height = 500;
+  var width = 600,
+    height = 300;
 
   var dom = document.createElement('div');
-  dom.style.cssText = 'width:' + 960 + 'px; height:' + 500 + 'px;';
+  dom.style.cssText = 'width:' + 600 + 'px; height:' + 300 + 'px;';
 
   var data = d3.range(5000).map(function () {
     return [Math.random() * width, Math.random() * width];

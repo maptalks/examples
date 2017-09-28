@@ -14,35 +14,29 @@ var map = new maptalks.Map('map', {
 var layer = new maptalks.VectorLayer('v').addTo(map);
 
 var label = new maptalks.Label('label with box', [-0.117, 51.496], {
-  'box'          :   true,
-  'boxAutoSize'  :   true,
-  'boxMinWidth'  :   0,
-  'boxMinHeight' :   0,
-  'boxPadding'   :   { 'width' : 26, 'height' : 8 },
-  'boxTextAlign' :   'middle', //left, middle, right
-  'symbol': {
-    'markerLineColor': '#34495e',
-    'markerFill' : '#34495e',
+  'textSymbol': {
     'textFaceName' : 'sans-serif',
     'textFill' : '#fff',
     'textSize' : 18
+  },
+  'boxStyle' : {
+    'padding' : [12, 8],
+    'symbol' : {
+      'markerType' : 'square',
+      'markerFillOpacity' : 0.9,
+      'markerLineColor': '#34495e',
+      'markerFill' : '#34495e',
+      'markerLineWidth' : 1
+    }
   }
 }).addTo(layer);
 
+startEdit();
 
-var actionBar = new maptalks.control.Toolbar({
-  items: [
-    {
-      item: 'Edit Text',
-      click: function () {
-        label.startEditText();
-      }
-    },
-    {
-      item: 'End Edit',
-      click: function () {
-        label.endEditText();
-      }
-    }
-  ]
-}).addTo(map);
+function startEdit() {
+  label.startEditText();
+}
+
+function endEdit() {
+  label.endEditText();
+}

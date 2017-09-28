@@ -38,5 +38,5 @@ var polygon = new maptalks.Polygon([
 
 var collection = new maptalks.GeometryCollection([marker, line, polygon]);
 
-var layer = new maptalks.VectorLayer('vector', collection)
+new maptalks.VectorLayer('vector', collection)
     .addTo(map);

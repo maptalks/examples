@@ -9,20 +9,10 @@ var map = new maptalks.Map('map', {
     subdomains: $(subdomains)
   })
 });
-function toolbar(text) {
-  var toolbar = new maptalks.control.Toolbar({
-    position: 'top-right',
-    items: [{
-      item: text,
-      click: function () {}
-    }]
-  });
-  return toolbar;
-}
-toolbar('<div class="attr">Click around the square<br>Right click to clear</div>').addTo(map);
-//<<<<<<<< prepare data
-var layer = new maptalks.VectorLayer('v').addTo(map),
-  markerLayer = new maptalks.VectorLayer('markers').addTo(map);
+
+var layer = new maptalks.VectorLayer('v').addTo(map);
+var markerLayer = new maptalks.VectorLayer('markers').addTo(map);
+// the square
 var polygon = new maptalks.Polygon([
     [-0.103049, 51.508568],
     [-0.116049, 51.508568],
@@ -34,7 +24,10 @@ var polygon = new maptalks.Polygon([
     'lineColor' : '#223548'
   }
 }).addTo(layer);
-//>>>>>>>>
+
+// add markers on map
+// set to green if inside the square
+// set to red if outside the square
 map.on('click', function (e) {
   var marker = new maptalks.Marker(e.coordinate);
   if (polygon.containsPoint(e.containerPoint)) {
@@ -45,6 +38,7 @@ map.on('click', function (e) {
   marker.addTo(markerLayer);
 });
 
+//clear markers when right click
 map.on('contextmenu', function () {
   markerLayer.clear();
 });

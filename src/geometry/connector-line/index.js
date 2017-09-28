@@ -1,6 +1,5 @@
-var c = new maptalks.Coordinate(-0.113049,51.498568);
 var map = new maptalks.Map('map', {
-  center: c,
+  center: [-0.113049,51.498568],
   zoom: 14,
   attribution: {
     content: '$(attribution)'
@@ -13,8 +12,9 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
+// blue circle
 var src = new maptalks.Marker(
-  c.add(-0.0154, 0.005),
+  [-0.128449,51.503568],
   {
     symbol: {
       'markerType' : 'ellipse',
@@ -28,8 +28,9 @@ var src = new maptalks.Marker(
   }
 );
 
+// red circle
 var dst = new maptalks.Marker(
-  c.add(0.0109, 0.005),
+  [-0.102149,51.503568],
   {
     'draggable' : true,
     'symbol': [
@@ -52,10 +53,11 @@ var dst = new maptalks.Marker(
   }
 );
 
+// connector line
 var line = new maptalks.ConnectorLine(src, dst, {
   showOn : 'always', //'moving', 'click', 'mouseover', 'always'
   arrowStyle : 'classic',
-  arrowPlacement : null,// 'vertex-last', //vertex-first, vertex-last, vertex-firstlast, point
+  arrowPlacement : 'vertex-last',// 'vertex-last', //vertex-first, vertex-last, vertex-firstlast, point
   symbol: {
     lineColor: '#34495e',
     lineWidth: 2
@@ -64,14 +66,12 @@ var line = new maptalks.ConnectorLine(src, dst, {
 
 layer.addGeometry(src, dst, line);
 
-// Arc Connector Line
 var src2 = src.copy().translate(0, -0.01);
 var dst2 = dst.copy().translate(0, -0.01);
+// Arc Connector Line
 var line2 = new maptalks.ArcConnectorLine(src2, dst2, {
   arcDegree : 90,
   showOn : 'always',
-  arrowStyle : 'classic',
-  arrowPlacement : null,
   symbol: {
     lineColor: '#34495e',
     lineWidth: 2

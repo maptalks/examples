@@ -24,8 +24,9 @@ var distanceTool = new maptalks.DistanceTool({
     'markerWidth'       : 10,
     'markerHeight'      : 10
   },
+
   'labelOptions' : {
-    'symbol': {
+    'textSymbol': {
       'textFaceName': 'monospace',
       'textFill' : '#fff',
       'textLineSpacing': 1,
@@ -34,9 +35,14 @@ var distanceTool = new maptalks.DistanceTool({
       'markerLineColor': '#b4b3b3',
       'markerFill' : '#000'
     },
-    'boxPadding': {
-      'width': 6,
-      'height': 4
+    'boxStyle' : {
+      'padding' : [6, 2],
+      'symbol' : {
+        'markerType' : 'square',
+        'markerFill' : '#000',
+        'markerFillOpacity' : 0.9,
+        'markerLineColor' : '#b4b3b3'
+      }
     }
   },
   'clearButtonSymbol' :[{

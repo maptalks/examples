@@ -1,6 +1,5 @@
-var c = new maptalks.Coordinate(-0.11305,51.4985);
 var map = new maptalks.Map('map', {
-  center: c.sub(0.02, 0),
+  center: [-0.11505,51.4985],
   zoom: 14,
   attribution: {
     content: '$(attribution)'
@@ -10,6 +9,8 @@ var map = new maptalks.Map('map', {
     subdomains: $(subdomains)
   })
 });
+
+var c = new maptalks.Coordinate(-0.11305,51.4985);
 
 var arc = new maptalks.ArcCurve([
   c.add(-0.0202, 0.0081),

@@ -53,12 +53,3 @@ for (var i = 0; i < 3; i++) {
     ]
   }).addTo(layer);
 }
-
-new maptalks.control.Toolbar({
-  items: [
-    {
-      item: 'Select those >= 200',
-      click: filter
-    }
-  ]
-}).addTo(map);

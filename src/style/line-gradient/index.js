@@ -1,6 +1,5 @@
-var c = new maptalks.Coordinate(-0.113049,51.49856);
 var map = new maptalks.Map('map', {
-  center: c,
+  center: [-0.113049, 51.49856],
   zoom: 14,
   attribution: {
     content: '$(attribution)'
@@ -13,10 +12,13 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
+var c = map.getCenter();
+
 var line = new maptalks.LineString(
   [c.sub(0.01, 0), c],
   {
     symbol:{
+      // linear gradient
       'lineColor' : {
         'type' : 'linear',
         'colorStops' : [
@@ -35,6 +37,7 @@ var line1 = new maptalks.LineString(
   [c.sub(0.015, 0.005), c.sub(0, 0.005)],
   {
     symbol:{
+      // radial gradient
       'lineColor' : {
         'type' : 'radial',
         'colorStops' : [

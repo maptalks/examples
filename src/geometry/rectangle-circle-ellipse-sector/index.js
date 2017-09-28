@@ -1,6 +1,5 @@
-var center = new maptalks.Coordinate(-0.113049,51.498568);
 var map = new maptalks.Map('map', {
-  center: center,
+  center: [-0.113049,51.498568],
   zoom: 14,
   attribution: {
     content: '$(attribution)'
@@ -10,6 +9,8 @@ var map = new maptalks.Map('map', {
     subdomains: $(subdomains)
   })
 });
+
+var center = map.getCenter();
 
 var rectangle = new maptalks.Rectangle(center.add(-0.018,0.012), 800, 700, {
   symbol: {
@@ -45,6 +46,6 @@ var ellipse = new maptalks.Ellipse(center.add(0.003,-0.005), 1000, 600, {
   }
 });
 
-var layer = new maptalks.VectorLayer('vector')
-    .addGeometry([rectangle, circle, sector, ellipse])
-    .addTo(map);
+new maptalks.VectorLayer('vector')
+  .addGeometry([rectangle, circle, sector, ellipse])
+  .addTo(map);

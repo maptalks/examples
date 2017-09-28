@@ -11,18 +11,6 @@ var map = new maptalks.Map('map', {
   })
 });
 
-function toolbar(text) {
-  var toolbar = new maptalks.control.Toolbar({
-    position: 'top-right',
-    items: [{
-      item: text,
-      click: function () {}
-    }]
-  });
-  return toolbar;
-}
-toolbar('<div class="attr">click on circles to identify</div>').addTo(map);
-
 var layer = new maptalks.VectorLayer('v').addTo(map);
 
 map.on('click', function (e) {

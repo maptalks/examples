@@ -1,6 +1,5 @@
-var c = new maptalks.Coordinate(-0.113049,51.49856);
 var map = new maptalks.Map('map', {
-  center: c,
+  center: [-0.113049,51.49856],
   zoom: 13,
   attribution: {
     content: '$(attribution)'
@@ -13,7 +12,9 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-var marker3 = new maptalks.Marker(
+var c = map.getCenter();
+
+var marker0 = new maptalks.Marker(
   c.sub(0.02, -0.01),
   {
     'symbol' : {
@@ -26,7 +27,7 @@ var marker3 = new maptalks.Marker(
   }
 ).addTo(layer);
 
-var marker4 = new maptalks.Marker(
+var marker1 = new maptalks.Marker(
   c.sub(0.015, 0.01),
   {
     'symbol' : {
@@ -39,7 +40,7 @@ var marker4 = new maptalks.Marker(
   }
 ).addTo(layer);
 
-var marker5 = new maptalks.Marker(
+var marker2 = new maptalks.Marker(
   c,
   {
     'symbol' : {
@@ -53,7 +54,7 @@ var marker5 = new maptalks.Marker(
 ).addTo(layer);
 
 
-var marker6 = new maptalks.Marker(
+var marker3 = new maptalks.Marker(
   c.add(0.015, 0),
   {
     'symbol' : {

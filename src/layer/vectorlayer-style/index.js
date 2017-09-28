@@ -19,7 +19,8 @@ var layer = new maptalks.VectorLayer('vector')
       })
       .addTo(map);
 
-function setStyle() {
+// set style to layer
+function styleLayer() {
   layer.setStyle([
     {
       'filter': ['==', 'count', 100],
@@ -65,12 +66,3 @@ function getSymbol(color) {
     }
   ];
 }
-
-var toolbar = new maptalks.control.Toolbar({
-  items: [
-    {
-      item: 'Set style to layer',
-      click: setStyle
-    }
-  ]
-}).addTo(map);

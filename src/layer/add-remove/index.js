@@ -27,19 +27,10 @@ var marker = new maptalks.Marker(
 var layer = new maptalks.VectorLayer('vector', [marker])
   .addTo(map);
 
-var toolbar = new maptalks.control.Toolbar({
-  items: [
-    {
-      item: 'Add Layer',
-      click: function () {
-        map.addLayer(layer);
-      }
-    },
-    {
-      item: 'Remove Layer',
-      click: function () {
-        map.removeLayer(layer);
-      }
-    }
-  ]
-}).addTo(map);
+function add() {
+  map.addLayer(layer);
+}
+
+function remove() {
+  map.removeLayer(layer);
+}

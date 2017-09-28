@@ -11,6 +11,16 @@ var map = new maptalks.Map('map', {
   })
 });
 
+// sort to 3,2,1
+function sort1() {
+  map.sortLayers(['1', '2', '3']);
+}
+
+// sort to 1,2,3
+function sort2() {
+  map.sortLayers(['3', '2', '1']);
+}
+
 var rect3 = new maptalks.Rectangle(
   map.getCenter().sub(0.025, 0.0035),
   1600,
@@ -46,20 +56,3 @@ map.addLayer([
   new maptalks.VectorLayer('2', [rect2]),
   new maptalks.VectorLayer('1', [rect1])
 ]);
-
-new maptalks.control.Toolbar({
-  items: [
-    {
-      item: 'Sort to 3, 2, 1',
-      click: function () {
-        map.sortLayers(['1', '2', '3']);
-      }
-    },
-    {
-      item: 'Sort to 1, 2, 3',
-      click: function () {
-        map.sortLayers(['3', '2', '1']);
-      }
-    }
-  ]
-}).addTo(map);

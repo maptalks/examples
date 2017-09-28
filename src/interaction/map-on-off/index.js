@@ -41,20 +41,13 @@ function dblClickOn() {
 function dblClickOff() {
   map.config('doubleClickZoom', false);
 }
-function borderPanOn() {
-  map.config('autoBorderPanning', true);
-}
-function borderPanOff() {
-  map.config('autoBorderPanning', false);
-}
 
 var items = [
   ['Drag', dragOn, dragOff],
   ['Zoom', zoomOn, zoomOff],
   ['ScrollWheel', scrollOn, scrollOff],
   ['TouchZoom', touchZoomOn, touchZoomOff],
-  ['DblClick', dblClickOn, dblClickOff],
-  ['BorderPan', borderPanOn, borderPanOff]
+  ['DblClick', dblClickOn, dblClickOff]
 ].map(function (value) {
   return {
     item: value[0],
@@ -71,6 +64,6 @@ var items = [
   };
 });
 
-var toolbar = new maptalks.control.Toolbar({
+new maptalks.control.Toolbar({
   items: items
 }).addTo(map);

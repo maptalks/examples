@@ -14,24 +14,15 @@ var map = new maptalks.Map('map', {
   ]
 });
 
-var toolbar = new maptalks.control.Toolbar({
-  items: [
-    {
-      item: 'Bring 1 to front',
-      click: function () {
-        //bringToFront
-        map.getLayer('1').bringToFront();
-      }
-    },
-    {
-      item: 'Send 1 to back',
-      //bringToBack
-      click: function () {
-        map.getLayer('1').bringToBack();
-      }
-    }
-  ]
-}).addTo(map);
+function bringToFront() {
+  //bringToFront
+  map.getLayer('1').bringToFront();
+}
+
+function sendToBack() {
+  //bringToBack
+  map.getLayer('1').bringToBack();
+}
 
 var rect2 = new maptalks.Rectangle(
   map.getCenter().add(-0.02, 0),

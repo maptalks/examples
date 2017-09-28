@@ -30,12 +30,14 @@ var targetStyles = {
   }
 };
 
+// animate by maptalks.animation.Animation
 var player = maptalks.animation.Animation.animate(
   targetStyles,
   {
     duration : 1000,
     easing : 'out'
   },
+  // callback of each frame
   function step(frame) {
     if (frame.state.playState === 'running') {
       marker.updateSymbol(frame.styles.symbol);

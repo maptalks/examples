@@ -17,7 +17,7 @@ map.on('mousemove', function (e) {
   if (!layer.getMask()) {
     layer.setMask(new maptalks.Marker(e.coordinate, {
       'symbol': {
-        'markerType': 'square',
+        'markerType': 'ellipse',
         'markerWidth': 200,
         'markerHeight': 200
       }
@@ -27,7 +27,6 @@ map.on('mousemove', function (e) {
   }
 });
 
-//<<<<<<<< prepare data
 var extent = map.getExtent(),
   min = extent.getMin(),
   w = extent.getWidth(),
@@ -37,4 +36,3 @@ for (var i = 0; i < 100; i++) {
   markers.push(new maptalks.Marker([min.x + Math.random() * w, min.y + Math.random() * h]));
 }
 layer.addGeometry(markers);
-//>>>>>>>>

@@ -13,20 +13,10 @@ var map = new maptalks.Map('map', {
   })
 });
 
-function toolbar(text) {
-  var toolbar = new maptalks.control.Toolbar({
-    position: 'top-right',
-    items: [{
-      item: text,
-      click: function () {}
-    }]
-  });
-  return toolbar;
-}
-toolbar('<div class="attr">Size changes with zoom</div>').addTo(map);
-
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
+// based on function=type v0.18.0 plus support of identity
+// https://www.mapbox.com/mapbox-gl-js/style-spec/#types-function
 var marker = new maptalks.Marker([-0.113049, 51.49856], {
   symbol : [
     {

@@ -13,6 +13,7 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
+//composite symbol, the latter is on the top
 var marker = new maptalks.Marker(
   map.getCenter(),
   {

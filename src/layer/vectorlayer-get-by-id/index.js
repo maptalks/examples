@@ -14,11 +14,20 @@ var map = new maptalks.Map('map', {
 var layer = new maptalks.VectorLayer('vector')
     .addTo(map);
 
+// get id of 100
+function get100() {
+  getById(100);
+}
+
+// get id of 200
+function get200() {
+  getById(200);
+}
+
 function getById(id) {
   layer.getGeometryById(id).updateSymbol([{ 'polygonFill': '#f00' }]);
 }
 
-//<<<<<<<< prepare data
 for (var i = 0; i < 3; i++) {
   new maptalks.Polygon(
     [
@@ -48,20 +57,3 @@ for (var i = 0; i < 3; i++) {
     }
   ).addTo(layer);
 }
-//>>>>>>>>
-var actionBar = new maptalks.control.Toolbar({
-  items: [
-    {
-      item: 'Get ID of 100',
-      click: function () {
-        getById(100);
-      }
-    },
-    {
-      item: 'Get ID of 200',
-      click: function () {
-        getById(200);
-      }
-    }
-  ]
-}).addTo(map);
