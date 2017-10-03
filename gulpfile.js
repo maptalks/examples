@@ -63,6 +63,7 @@ function readExamplesInfo() {
         };
         subExamples.push({
           index: j + 1,
+          url: subItems[j].url,
           name: subItems[j].name,
           title: title
         });
