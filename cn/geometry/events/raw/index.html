@@ -2,18 +2,22 @@
 <html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>图形 - 事件响应</title>
+  <title>图形 - 监听图形事件</title>
   <style type="text/css">
     html,body{margin:0px;height:100%;width:100%}
-    #map{width:100%;height:100%}
-    #events{position:fixed;background-color:rgba(13, 13, 13, 0.5);padding:10px 10px 10px 10px;font:13px bold sans-serif;color:#fff;left:0px;top:0px;width:100%;height:140px;overflow:hidden}
+    .container{width:100%;height:100%}
+    .events{position:fixed;background-color:rgba(13, 13, 13, 0.5);padding:10px 10px 10px 10px;font:13px bold sans-serif;color:#fff;left:0px;top:0px;width:100%;height:140px;overflow:hidden}
+    .events div{overflow:hidden;height:130px}
+    .pane{background:#34495e;line-height:28px;color:#fff;z-index:10;position:absolute;bottom:20px;right:20px}
+    .pane a{display:block;color:#fff;text-align:left;padding:0 10px;min-width:28px;min-height:28px;float:left}
   </style>
-  <link rel="stylesheet" href="https://maptalks.org/api/maptalks.css">
-  <script type="text/javascript" src="https://maptalks.org/api/maptalks.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
   <body>
 
-    <div id="map"></div>
-    <div id="events"></div>
+    <div id="map" class="container"></div>
+    <div class="events"><div id="events"></div></div>
+    <div class="pane"><a href="javascript:addListen();">Listen</a><a href="javascript:removeListen();">Unlisten</a></div>
 
     <script>
 
@@ -21,14 +25,14 @@
         center: [-0.113049,51.498568],
         zoom: 14,
         attribution: {
-          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          content: '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
         },
         baseLayer: new maptalks.TileLayer('base', {
           urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
           subdomains: ["a","b","c","d","e"]
         })
       });
-      //<<<<<<<< prepare data
+
       var layer = new maptalks.VectorLayer('vector').addTo(map);
 
       var marker = new maptalks.Marker(map.getCenter(), {
@@ -46,10 +50,17 @@
         ]
       })
       .addTo(layer);
-      //>>>>>>>>
 
-      //mousemove and touchmove is annoying, so not listening to it.
-      marker.on('mousedown mouseup click dblclick contextmenu touchstart touchend', onEvent);
+      addListen();
+
+      function addListen() {
+        //mousemove and touchmove is annoying, so not listening to it.
+        marker.on('mousedown mouseup click dblclick contextmenu touchstart touchend', onEvent);
+      }
+      function removeListen() {
+        //mousemove and touchmove is annoying, so not listening to it.
+        marker.off('mousedown mouseup click dblclick contextmenu touchstart touchend', onEvent);
+      }
 
       var events = [];
 

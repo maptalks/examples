@@ -5,14 +5,14 @@
   <title>JSON序列化 - 用JSON复制Layer</title>
   <style type="text/css">
     html,body{margin:0px;height:100%;width:100%}
-    #map{width:calc(50% - 2px);height:calc(100% - 2px);float:left;border:1px solid}
+    .container{width:calc(50% - 2px);height:calc(100% - 2px);float:left;border:1px solid}
     #map1{width:calc(50% - 2px);height:calc(100% - 2px);float:right;border:1px solid}
   </style>
-  <link rel="stylesheet" href="https://maptalks.org/api/maptalks.css">
-  <script type="text/javascript" src="https://maptalks.org/api/maptalks.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
   <body>
 
-    <div id="map"></div>
+    <div id="map" class="container"></div>
     <div id="map1"></div>
 
     <script>
@@ -21,7 +21,7 @@
         center: c,
         zoom: 13,
         attribution: {
-          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          content: '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
         },
         baseLayer: new maptalks.TileLayer('base', {
           urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
@@ -41,7 +41,7 @@
         center: c,
         zoom: 13,
         attribution: {
-          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          content: '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
         },
         baseLayer: new maptalks.TileLayer('base1', {
           urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',

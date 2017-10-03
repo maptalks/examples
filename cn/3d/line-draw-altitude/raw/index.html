@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>三维 - 绘制Line的高度面</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+  <body>
+
+    <div id="map" class="container"></div>
+
+    <script>
+      var map = new maptalks.Map('map', {
+        center: [-0.113049, 51.498568],
+        zoom: 14,
+        pitch : 60,
+        bearing : 60,
+        attribution: {
+          content: '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+        },
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      var line = new maptalks.LineString([
+        [-0.131049, 51.498568],
+        [-0.107049, 51.498568],
+        [-0.101049, 51.498568]
+      ], {
+        symbol: {
+          'lineColor' : '#1bbc9b',
+          'lineWidth' : 3
+        },
+        properties : {
+          'altitude' : [100, 400, 1200]
+        }
+      });
+
+      // same line without alitutde
+      var line0 = new maptalks.LineString([
+        [-0.131049, 51.498568],
+        [-0.107049, 51.498568]
+      ], {
+        symbol: {
+          'lineColor' : '#000',
+          'lineDasharray' : [10, 5, 5],
+          'lineWidth' : 3
+        }
+      });
+
+      new maptalks.VectorLayer('vector', [line], { enableAltitude : true, drawAltitude : {
+        polygonFill : '#1bbc9b',
+        polygonOpacity : 0.3,
+        lineWidth : 0
+      }}).addTo(map);
+
+    </script>
+  </body>
+</html>

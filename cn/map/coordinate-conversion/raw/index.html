@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>地图 - 屏幕坐标转换</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+    #coordinate{position:fixed;left:0px;top:0px;width:100%;height:95px;overflow:hidden}
+    #coordinate div{background-color:rgba(13, 13, 13, 0.5);width:100%;height:100%;padding:10px 10px 10px 10px;font:13px bold sans-serif;color:#fff}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+  <body>
+
+    <div id="map" class="container"></div>
+    <div id="coordinate"></div>
+
+    <script>
+
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        attribution: {
+          content: '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+        },
+        centerCross : true,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      map.on('moving moveend zoomend', update);
+
+      update();
+
+      function update() {
+        var projection = map.getProjection();
+        var center = map.getCenter(),
+          prj = projection.project(center),
+          containerPoint = map.coordinateToContainerPoint(center).round();
+
+        document.getElementById('coordinate').innerHTML = '<div>' + [
+          'Center : [' + center.x.toFixed(5) + ', ' + center.y.toFixed(5) + ']',
+          'Projected Coordinate : [' + prj.x.toFixed(5) + ', ' + prj.y.toFixed(5) + ']',
+          'ContainerPoint is the screen position in px from northwest of the map container.',
+          'ContainerPoint : [' + containerPoint.x + ', ' + containerPoint.y + ']'
+        ].join('<br>') + '</div>';
+      }
+
+    </script>
+  </body>
+</html>

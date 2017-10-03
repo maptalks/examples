@@ -2,23 +2,26 @@
 <html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Common Layers - Bring layers to front or back</title>
+  <title>Layer - Bring layers to front or back</title>
   <style type="text/css">
     html,body{margin:0px;height:100%;width:100%}
-    #map{width:100%;height:100%}
+    .container{width:100%;height:100%}
+    .pane{background:#34495e;line-height:28px;color:#fff;z-index:10;position:absolute;top:20px;right:20px}
+    .pane a{display:block;color:#fff;text-align:left;padding:0 10px;min-width:28px;min-height:28px;float:left}
   </style>
-  <link rel="stylesheet" href="https://maptalks.org/api/maptalks.css">
-  <script type="text/javascript" src="https://maptalks.org/api/maptalks.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
   <body>
 
-    <div id="map"></div>
+    <div id="map" class="container"></div>
+    <div class="pane"><a href="javascript:bringToFront();">Bring layer 1 to front</a><a href="javascript:sendToBack();">Send layer 1 to back</a></div>
 
     <script>
       var map = new maptalks.Map('map', {
         center: [-0.113049,51.498568],
         zoom: 14,
         attribution: {
-          content: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          content: '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
         },
         baseLayer: new maptalks.TileLayer('base', {
           urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
@@ -30,24 +33,15 @@
         ]
       });
 
-      var toolbar = new maptalks.control.Toolbar({
-        items: [
-          {
-            item: 'Bring 1 to front',
-            click: function () {
-              //bringToFront
-              map.getLayer('1').bringToFront();
-            }
-          },
-          {
-            item: 'Send 1 to back',
-            //bringToBack
-            click: function () {
-              map.getLayer('1').bringToBack();
-            }
-          }
-        ]
-      }).addTo(map);
+      function bringToFront() {
+        //bringToFront
+        map.getLayer('1').bringToFront();
+      }
+
+      function sendToBack() {
+        //bringToBack
+        map.getLayer('1').bringToBack();
+      }
 
       var rect2 = new maptalks.Rectangle(
         map.getCenter().add(-0.02, 0),

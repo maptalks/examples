@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>图层 - ParticleLayer: 粒子图层示例</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+  <body>
+    <div id="map" class="container"></div>
+
+    <script>
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        attribution: {
+          content: '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+        },
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        }),
+        layers : [
+          new maptalks.VectorLayer('v')
+        ]
+      });
+
+      // An animated particle circle
+      var particles = new maptalks.ParticleLayer('c', {
+        'renderOnMoving' : true
+      });
+
+      var center = map.getCenter();
+      // circle's radius in meters
+      var radius = 1000;
+
+      particles.getParticles = function (t) {
+        var point = map.coordinateToContainerPoint(center);
+        // particle's angle at current time
+        var angle = (t / 16 % 360) * Math.PI / 180;
+        // convert distance in meter to pixel length
+        var pxLen = map.distanceToPixel(radius, radius);
+        var r = pxLen.width;
+        // caculate pixel offset from circle's center
+        var x = r * Math.cos(angle),
+          y = r * Math.sin(angle);
+        return [
+          {
+            point : point.add(x, y),
+            r : 4,
+            color : 'rgb(135,196,240)'
+          }
+        ];
+      };
+
+      map.addLayer(particles);
+
+      new maptalks.Marker(center, {
+        symbol : {
+          markerType : 'cross',
+          markerWidth : 10,
+          markerHeight : 10,
+          markerLineWidth : 2
+        }
+      })
+      .addTo(map.getLayer('v'));
+
+      new maptalks.Circle(center, 1000, {
+        symbol : {
+          lineColor : '#fff',
+          lineWidth : 6,
+          lineOpacity : 0.2,
+          polygonOpacity : 0
+        }
+      })
+      .addTo(map.getLayer('v'));
+
+    </script>
+  </body>
+</html>

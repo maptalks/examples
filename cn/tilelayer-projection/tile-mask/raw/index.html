@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>瓦片图层与地理投影 - 只显示指定范围内的瓦片</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+  <body>
+    <script type="text/javascript" src="boundary.js"></script>
+    <div id="map" class="container"></div>
+
+    <script>
+      var map = new maptalks.Map('map', {
+        center:     [114.26529, 30.60545],
+        zoom:  13,
+        pitch : 60,
+        attribution: {
+          content: '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+        },
+        baseLayer : new maptalks.TileLayer('base',{
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      //Jianghan district's boundary, from boundary.js
+      var mask = new maptalks.Polygon(boundary, {
+        'symbol' : [
+          {
+            'lineColor' : '#ccc',
+            'lineWidth' : 8,
+            'polygonFillOpacity' : 0
+          },
+          {
+            'lineColor' : '#404040',
+            'lineWidth' : 6,
+            'polygonFillOpacity' : 0
+          }
+        ]
+      });
+
+      //Copy the mask to add as mask's outline
+      var outline = mask.copy();
+
+      var maskedLayer = new maptalks.TileLayer('masked', {
+        'urlTemplate' : 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+        'subdomains'  : ['a','b','c','d','e']
+      })
+      .setMask(mask) // set boundary as the mask to the tilelayer
+      .addTo(map);
+
+      //District's name
+      var title = new maptalks.Marker(mask.getCenter(), {
+        'symbol' : {
+          'textName' : 'JiangHan District',
+          'textFaceName' : 'sans-serif',
+          'textSize' : 32,
+          'textFill' : '#1bbc9b',
+          'textHaloFill' : '#fff',
+          'textHaloRadius' : 5,
+          'textDx' : -30
+        }
+      });
+      new maptalks.VectorLayer('v', [outline, title]).addTo(map);
+
+    </script>
+  </body>
+</html>

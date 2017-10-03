@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>三维 - 有高度的多边形</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+  <body>
+
+    <div id="map" class="container"></div>
+
+    <script>
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        pitch : 60,
+        attribution: {
+          content: '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+        },
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      var center = map.getCenter();
+
+      var rectangle = new maptalks.Rectangle(center.add(-0.018,0.012), 800, 700, {
+        symbol: {
+          lineColor: '#34495e',
+          lineWidth: 2,
+          polygonFill: '#34495e',
+          polygonOpacity: 0.4
+        },
+        properties : {
+          altitude : 100
+        }
+      });
+
+      var circle = new maptalks.Circle(center.add(0.002,0.008), 500,{
+        symbol: {
+          lineColor: '#34495e',
+          lineWidth: 2,
+          polygonFill: '#1bbc9b',
+          polygonOpacity: 0.4
+        },
+        properties : {
+          altitude : 800
+        }
+      });
+      var sector = new maptalks.Sector(center.add(-0.013,-0.001), 900, 240, 300, {
+        symbol: {
+          lineColor: '#34495e',
+          lineWidth: 2,
+          polygonFill: 'rgb(135,196,240)',
+          polygonOpacity: 0.4
+        },
+        properties : {
+          altitude : 600
+        }
+      });
+
+      var ellipse = new maptalks.Ellipse(center.add(0.003,-0.005), 1000, 600, {
+        symbol: {
+          lineColor: '#34495e',
+          lineWidth: 2,
+          polygonFill: 'rgb(216,115,149)',
+          polygonOpacity: 0.4
+        },
+        properties : {
+          altitude : 400
+        }
+      });
+
+      var layer = new maptalks.VectorLayer('vector', { enableAltitude : true })
+        .addGeometry([rectangle, circle, sector, ellipse])
+        .addTo(map);
+
+      // draw shadows
+      var shadowSymbol = {
+        lineColor: '#bbb',
+        lineDasharray : [10, 5, 5],
+        lineWidth: 2,
+        polygonFill: '#bbb',
+        polygonOpacity: 0.4
+      };
+      var shadows = [];
+      layer.forEach(function (geo) {
+        shadows.push(geo.copy().setSymbol(shadowSymbol));
+      });
+      new maptalks.VectorLayer('shadows', shadows).addTo(map).bringToBack();
+
+    </script>
+  </body>
+</html>

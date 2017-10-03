@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Map - Sync map by events</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    #map0{width:calc(50% - 2px);height:calc(100% - 2px);float:left;border:1px solid}
+    #map1{width:calc(50% - 2px);height:calc(100% - 2px);float:right;border:1px solid}
+    .attr{background-color:#34495e;color:#fff;padding:0px 4px;font:16px sans-serif}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+  <body>
+    <div id="map0"></div>
+    <div id="map1"></div>
+
+    <script>
+      var map0 = new maptalks.Map('map0', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        attribution: {
+          content: '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+        },
+        zoomControl : true,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+
+      var map1 = new maptalks.Map('map1', {
+        center: map0.getCenter(),
+        zoom: map0.getZoom(),
+        draggable : false,        // disable draggble
+        scrollWheelZoom : false,  // disable scroll wheel zoom
+        dblClickZoom : false,     // disable doubleclick
+        attribution: {
+          content: '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+        },
+        baseLayer: new maptalks.TileLayer('base1', {
+          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+          subdomains: ["a","b","c","d","e"]
+        })
+      });
+
+      map0.on('moving', function (e) {
+        map1.setCenter(e.target.getCenter());
+      });
+
+      map0.on('zoomend', function (e) {
+        map1.setCenterAndZoom(e.target.getCenter(), e.target.getZoom());
+      });
+
+      map0.on('pitch', function (e) {
+        map1.setPitch(e.target.getPitch());
+      });
+
+      map0.on('rotate', function (e) {
+        map1.setBearing(e.target.getBearing());
+      });
+
+      new maptalks.control.Toolbar({
+        'position': 'top-right',
+        'items': [{
+          item: 'move me',
+          click: function () {}
+        }]
+      })
+      .addTo(map0);
+
+    </script>
+  </body>
+</html>

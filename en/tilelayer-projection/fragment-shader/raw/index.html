@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TileLayer and Geo-Projections - Replace default fragment shader</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    #map0{width:calc(50% - 2px);height:calc(100% - 2px);float:left;border:1px solid}
+    #map1{width:calc(50% - 2px);height:calc(100% - 2px);float:right;border:1px solid}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+  <body>
+    <div id="map0"></div>
+    <div id="map1"></div>
+
+
+    <script>
+      var tileLayer = new maptalks.TileLayer('carto',{
+        urlTemplate : 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        subdomains  : ['a','b','c'],
+        // fragment shader from webglfundamentals.org
+        // https://webglfundamentals.org/webgl/lessons/webgl-image-processing.html
+        fragmentShader: [
+          'precision mediump float;' +
+          'uniform sampler2D u_image;' +
+          'uniform vec2 u_textureSize;' +
+          'uniform float u_kernel[9];' +
+          'uniform float u_opacity;' +
+          'uniform float u_kernelWeight;' +
+
+          'varying vec2 v_texCoord;' +
+
+          'void main() {' +
+             'vec2 onePixel = vec2(1.0, 1.0) / u_textureSize;' +
+             'vec4 colorSum =' +
+                 'texture2D(u_image, v_texCoord + onePixel * vec2(-1, -1)) * u_kernel[0] +' +
+                 'texture2D(u_image, v_texCoord + onePixel * vec2( 0, -1)) * u_kernel[1] +' +
+                 'texture2D(u_image, v_texCoord + onePixel * vec2( 1, -1)) * u_kernel[2] +' +
+                 'texture2D(u_image, v_texCoord + onePixel * vec2(-1,  0)) * u_kernel[3] +' +
+                 'texture2D(u_image, v_texCoord + onePixel * vec2( 0,  0)) * u_kernel[4] +' +
+                 'texture2D(u_image, v_texCoord + onePixel * vec2( 1,  0)) * u_kernel[5] +' +
+                 'texture2D(u_image, v_texCoord + onePixel * vec2(-1,  1)) * u_kernel[6] +' +
+                 'texture2D(u_image, v_texCoord + onePixel * vec2( 0,  1)) * u_kernel[7] +' +
+                 'texture2D(u_image, v_texCoord + onePixel * vec2( 1,  1)) * u_kernel[8] ;' +
+
+             'gl_FragColor = vec4((colorSum / u_kernelWeight).rgb, 1) * u_opacity;' +
+          '}'
+        ].join('\n')
+      });
+
+      tileLayer.on('canvascreate', function (e) {
+        // set uniform values in shader
+        var gl = e.gl;
+        var program = gl.program;
+        var textureSizeLocation = gl.getUniformLocation(program, 'u_textureSize');
+        var kernelLocation = gl.getUniformLocation(program, 'u_kernel[0]');
+        var kernelWeightLocation = gl.getUniformLocation(program, 'u_kernelWeight');
+        //kernels of sobelVertical in the original example
+        var kernels = [
+          1,  0, -1,
+          2,  0, -2,
+          1,  0, -1
+        ];
+        gl.uniform2f(textureSizeLocation, 256, 256);
+        gl.uniform1fv(kernelLocation, new Float32Array(kernels));
+        gl.uniform1f(kernelWeightLocation, computeKernelWeight(kernels));
+      });
+
+      var map1 = new maptalks.Map('map1', {
+        center:     [-0.113049,51.498568],
+        zoom:  4,
+        attribution: {
+          content: '&copy OpenStreetMap'
+        },
+        baseLayer : tileLayer
+      });
+
+      function computeKernelWeight(kernel) {
+        var weight = kernel.reduce(function (prev, curr) {
+          return prev + curr;
+        });
+        return weight <= 0 ? 1 : weight;
+      }
+
+      // original
+      var map0 = new maptalks.Map('map0', {
+        center:     [-0.113049,51.498568],
+        zoom:  4,
+        attribution: {
+          content: '&copy OpenStreetMap'
+        },
+        baseLayer : new maptalks.TileLayer('base',{
+          urlTemplate : 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          subdomains  : ['a','b','c']
+        })
+      });
+
+    </script>
+  </body>
+</html>

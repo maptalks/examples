@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>瓦片图层与地理投影 - ArcGIS瓦片图层</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+  <body>
+
+    <div id="map" class="container"></div>
+
+    <script>
+      var arcUrl = 'https://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer';
+
+      maptalks.SpatialReference.loadArcgis(arcUrl + '?f=pjson', function (err, conf) {
+        if (err) {
+          throw new Error(err);
+        }
+        var ref = conf.spatialReference;
+        ref.projection = 'EPSG:4326';
+
+        var map = new maptalks.Map('map', {
+          center: [121, 0],
+          zoom: 0,
+          maxZoom : 16,
+          spatialReference : ref,
+          baseLayer: new maptalks.TileLayer('base', {
+            'tileSystem' : conf.tileSystem,
+            'tileSize' : conf.tileSize, // [512, 512]
+            'urlTemplate' : arcUrl + '/tile/{z}/{y}/{x}'
+          }),
+          attribution : {
+            content : '&copy; <a target="_blank" href="' + arcUrl + '"">ArcGIS</a>'
+          }
+        });
+      });
+
+
+    </script>
+  </body>
+</html>
