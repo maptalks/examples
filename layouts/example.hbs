@@ -22,8 +22,11 @@
           <a href="https://maptalks.org/" class="logo">
           </a>
           <div class="lang-switch">
-              <div class="lang-option lang-en">EN</div>
-              <div class="lang-option lang-cn">中文</div>
+            {{#ifCond locale 'en'}}
+              <div class="lang-option"><a href="{{ @root.site.baseurl }}/cn/{{ path }}">中文</a></div>
+            {{else}}
+              <div class="lang-option"><a href="{{ @root.site.baseurl }}/en/{{ path }}">EN</a></div>
+            {{/ifCond}}
           </div>
       </div>
 
@@ -46,7 +49,11 @@
             <ul class="list">
               {{#each examples}}
               <li class="list-tile example on">
-                <a id="{{../name}}_{{name}}" href="{{ @root.site.baseurl }}/{{ @root.locale }}/{{../name}}/{{name}}/#{{../name}}_{{name}}">{{../index}}.{{index}} {{title}}</a>
+                {{#if url}}
+                  <a id="{{../name}}_{{name}}" href="{{url}}" target="_blank">{{../index}}.{{index}} {{title}} <img title="external link" src="../../../resource/image/external-url.png"/></a>
+                {{^}}
+                  <a id="{{../name}}_{{name}}" href="{{ @root.site.baseurl }}/{{ @root.locale }}/{{../name}}/{{name}}/#{{../name}}_{{name}}">{{../index}}.{{index}} {{title}}</a>
+                {{/if}}
               </li>
               {{/each}}
             </ul>

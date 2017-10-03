@@ -29,6 +29,8 @@ var marker = new maptalks.Marker(map.getCenter(), {
 })
 .addTo(layer);
 
+addListen();
+
 function addListen() {
   //mousemove and touchmove is annoying, so not listening to it.
   marker.on('mousedown mouseup click dblclick contextmenu touchstart touchend', onEvent);

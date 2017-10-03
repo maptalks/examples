@@ -747,7 +747,8 @@ p {
 .demo-viewer .sidebar .logo-area .lang-switch {
   margin-left: 8px;
 }
-.demo-viewer .sidebar .logo-area .lang-switch .lang-option {
+.demo-viewer .sidebar .logo-area .lang-switch .lang-option a {
+  display: block;
   height: 18px;
   font-size: 10px;
   text-align: center;
@@ -758,22 +759,11 @@ p {
   border: 1px solid #42526e;
   border-radius: 4px;
   transition: all 0.2s;
+  text-decoration: none;
 }
-.demo-viewer .sidebar .logo-area .lang-switch .lang-option:hover {
+.demo-viewer .sidebar .logo-area .lang-switch .lang-option a:hover {
   color: #48B1FC;
   border: 1px solid #48B1FC;
-}
-.demo-viewer .sidebar .logo-area .lang-switch .lang-en {
-  display: block;
-}
-.demo-viewer .sidebar .logo-area .lang-switch .lang-cn {
-  display: none;
-}
-.demo-viewer .sidebar .logo-area .lang-switch.-en .lang-cn {
-  display: block;
-}
-.demo-viewer .sidebar .logo-area .lang-switch.-en .lang-en {
-  display: none;
 }
 .demo-viewer .sidebar .logo {
   cursor: pointer;

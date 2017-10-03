@@ -29,11 +29,7 @@ var point0 = new maptalks.Marker(
   markerFill : '#bbb'
 });
 
-new maptalks.VectorLayer('vector', [point], {
+new maptalks.VectorLayer('vector', [point0, point], {
   enableAltitude : true,        // enable altitude
-  altitudeProperty : 'altitude', // altitude property in properties, default by 'altitude'
-  drawAltitude : {
-    lineWidth : 1,
-    lineColor : '#000'
-  }
+  altitudeProperty : 'altitude' // altitude property in properties, default by 'altitude'
 }).addTo(map);

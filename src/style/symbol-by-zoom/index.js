@@ -15,7 +15,7 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-// based on function=type v0.18.0 plus support of identity
+// based on function-type v0.18.0 plus support of identity
 // https://www.mapbox.com/mapbox-gl-js/style-spec/#types-function
 var marker = new maptalks.Marker([-0.113049, 51.49856], {
   symbol : [

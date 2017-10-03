@@ -14,7 +14,7 @@ var layer = new maptalks.VectorLayer('v').addTo(map);
 
 var c = map.getCenter();
 
-// based on function=type v0.18.0 plus support of identity
+// based on function-type v0.18.0 plus support of identity
 // https://www.mapbox.com/mapbox-gl-js/style-spec/#types-function
 var symbol = {
   'markerType': 'ellipse',

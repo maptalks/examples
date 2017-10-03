@@ -1,0 +1,1 @@
+Besides geometries, ConnectorLine can also connect with [UIMarker](https://maptalks.github.io/maptalks.js/api/0.x/ui.UIMarker.html) and [Panel](https://maptalks.github.io/maptalks.js/api/0.x/control.Panel.html)

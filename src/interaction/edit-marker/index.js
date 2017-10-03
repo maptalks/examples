@@ -25,7 +25,6 @@ var point = new maptalks.Marker(
       'textFaceName' : 'sans-serif',
       'textName' : 'MapTalks',
       'textFill' : '#34495e',
-      'textHorizontalAlignment' : 'right',
       'textSize' : 40
     }
   }

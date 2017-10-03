@@ -29,7 +29,7 @@
         {"name" : "canvas-renderer", "title" : {"cn" : "Canvas渲染方式的瓦片图层", "en" : "TilerLayer with Canvas renderer"}},
         {"name" : "multi-tilelayer", "title" : {"cn" : "添加多个瓦片图层", "en" : "Add multiple TileLayers"}},
         {"name" : "wms", "title" : {"cn" : "WMS瓦片图层", "en" : "Add a WMS TileLayer"}},
-        {"name" : "vector-tile", "title" : {"cn" : "Vector-Tile图层", "en" : "Add a mapbox vector-tile Layer"}},
+        {"name" : "vector-tile", "title" : {"cn" : "Vector-Tile图层", "en" : "Add a mapbox vector-tile Layer"}, "url" : "https://github.com/maptalks/maptalks.mapboxgl"},
         {"name" : "arcgis-tile", "title" : {"cn" : "ArcGIS瓦片图层", "en" : "Add an ArcGIS TileLayer"}},
         {"name" : "custom-tile", "title" : {"cn" : "LOD和自定义瓦片图层", "en" : "LOD and custom TileLayer"}},
         {"name" : "tile-opacity", "title" : {"cn" : "设置瓦片图层透明度", "en" : "Set TileLayer's opacity"}},
@@ -50,7 +50,7 @@
         {"name" : "marker", "title" : {"cn" : "Marker", "en" : "Marker"}},
         {"name" : "linestring", "title" : {"cn" : "LineString", "en" : "LineString"}},
         {"name" : "polygon", "title" : {"cn" : "Polygon", "en" : "Polygon"}},
-        {"name" : "geometrycollection", "title" : {"cn" : "GeometryCollection", "en" : "GeometryCollection"}},
+        {"name" : "collection", "title" : {"cn" : "GeometryCollection", "en" : "GeometryCollection"}},
         {"name" : "multipoint", "title" : {"cn" : "MultiPoint", "en" : "MultiPoint"}},
         {"name" : "multilinestring", "title" : {"cn" : "MultiLineString", "en" : "MultiLineString"}},
         {"name" : "multipolygon", "title" : {"cn" : "MultiPolygon", "en" : "MultiPolygon"}},
@@ -122,17 +122,15 @@
         {"name" : "bring-front-back", "title" : {"cn" : "图层置顶或置底", "en" : "Bring layers to front or back"}},
         {"name" : "sort", "title" : {"cn" : "改变图层叠加顺序", "en" : "Sort layers"}},
         {"name" : "mask", "title" : {"cn" : "用鼠标设置图层遮罩", "en" : "Set layer mask as mouse event"}},
-        {"name" : "globalCompositeOperation", "title" : {"cn" : "globalCompositeOperation", "en" : "Layer's globalCompositeOperation"}},
+        {"name" : "globalcompositeoperation", "title" : {"cn" : "globalCompositeOperation", "en" : "Layer's globalCompositeOperation"}},
         {"name" : "vectorlayer-batch-add", "title" : {"cn" : "VectorLayer: 批量添加图形", "en" : "VectorLayer: Batch add geometries"}},
-        {"name" : "vectorlayer-get-by-id", "title" : {"cn" : "VectorLayer: 根据ID获取图形", "en" : "VectorLayer: Get geometry by ID"}},
+        {"name" : "vectorlayer-get-by-id", "title" : {"cn" : "VectorLayer:根据 ID 获取图形", "en" : "VectorLayer: Get geometry by ID"}},
         {"name" : "vectorlayer-filter", "title" : {"cn" : "VectorLayer: 根据属性条件筛选图形", "en" : "VectorLayer: Filter geometries by property condition"}},
         {"name" : "vectorlayer-style", "title" : {"cn" : "VectorLayer: 批量设置图形样式", "en" : "VectorLayer: Batch style geometries"}},
         {"name" : "vectorlayer-sort", "title" : {"cn" : "VectorLayer: 设置图形的z-index", "en" : "VectorLayer: Set geomtries' z-index"}},
         {"name" : "canvaslayer", "title" : {"cn" : "CanvasLayer: 画板图层示例", "en" : "CanvasLayer: an example"}},
         {"name" : "particlelayer", "title" : {"cn" : "ParticleLayer: 粒子图层示例", "en" : "ParticleLayer: an example"}},
-        {"name" : "canvastilelayer", "title" : {"cn" : "CanvasTileLayer: 画板瓦片图层示例", "en" : "CanvasTileLayer: an example"}},
-        {"name" : "heatmaplayer", "title" : {"cn" : "HeatLayer: 热力图层示例", "en" : "HeatLayer: an heatmap example"}},
-        {"name" : "clusterlayer", "title" : {"cn" : "ClusterLayer: 点聚合图层示例", "en" : "ClusterLayer: an example"}}
+        {"name" : "canvastilelayer", "title" : {"cn" : "CanvasTileLayer: 画板瓦片图层示例", "en" : "CanvasTileLayer: an example"}}
       ]
     },
 
@@ -204,6 +202,18 @@
         {"name" : "copy-map", "title" : {"cn" : "用JSON复制地图", "en" : "Copy map by JSON"}},
         {"name" : "layer-json", "title" : {"cn" : "用JSON复制Layer", "en" : "Copy layer by JSON"}},
         {"name" : "geometry-json", "title" : {"cn" : "用JSON复制Geometry", "en" : "Copy geometry by JSON"}}
+      ]
+    },
+
+    {
+      "name" : "plugin",
+      "title" : {"cn" : "常用插件", "en" : "Common Plugins"},
+      "examples" : [
+        {"name" : "mapboxgl", "title" : {"cn" : "Mapbox gl 图层", "en" : "Mapbox gl Layer"}, "url" : "https://github.com/maptalks/maptalks.mapboxgl"},
+        {"name" : "heatmaplayer", "title" : {"cn" : "HeatLayer: 热力图层示例", "en" : "Heatmap Layer"}, "url" : "https://github.com/maptalks/maptalks.heatmap"},
+        {"name" : "clusterlayer", "title" : {"cn" : "ClusterLayer: 点聚合图层示例", "en" : "Marker Cluster Layer"}, "url" : "https://github.com/maptalks/maptalks.markercluster"},
+        {"name" : "three", "title" : {"cn" : "Three.js 图层", "en" : "THREE.js Layer"}, "url" : "https://github.com/maptalks/maptalks.three"},
+        {"name" : "echarts", "title" : {"cn" : "Echarts 图层", "en" : "Echarts Layer"}, "url" : "https://github.com/maptalks/maptalks.e3"}
       ]
     },
 

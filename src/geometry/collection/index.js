@@ -11,7 +11,15 @@ var map = new maptalks.Map('map', {
   })
 });
 
-var marker = new maptalks.Marker(c.add(-0.018,0.007));
+var marker = new maptalks.Marker(c.add(-0.018,0.007), {
+  symbol : {
+    'textFaceName' : 'sans-serif',
+    'textName' : 'MapTalks',
+    'textFill' : '#34495e',
+    'textHorizontalAlignment' : 'right',
+    'textSize' : 40
+  }
+});
 var line = new maptalks.LineString([
   c.add(-0.018,0.005),
   c.add(0.006,0.005)
