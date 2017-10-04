@@ -37,7 +37,7 @@
         center:     [-0.113049, 51.498568],
         zoom:  13,
         attribution: {
-          content: '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+          content: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
         },
         // spatial reference definition
         spatialReference : {
@@ -72,8 +72,8 @@
           }
         },
         baseLayer : new maptalks.TileLayer('base',{
-          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-          subdomains: ["a","b","c","d","e"]
+          urlTemplate: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+          subdomains: ['a','b','c','d']
         })
       });
 

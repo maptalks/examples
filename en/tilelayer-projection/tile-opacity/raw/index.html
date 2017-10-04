@@ -17,7 +17,7 @@
         center:     [-0.113049,51.498568],
         zoom:  11,
         attribution: {
-          content: '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>, &copy ESRI'
+          content: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>, &copy ESRI'
         },
         baseLayer : new maptalks.TileLayer('base',{
           urlTemplate: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.jpg'
@@ -26,8 +26,8 @@
 
       map.addLayer(new maptalks.TileLayer('carto',{
         opacity : 0.6, // TileLayer's opacity, 0-1
-        urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
-        subdomains: ["a","b","c","d","e"]
+        urlTemplate: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+        subdomains: ['a','b','c','d']
       }));
 
     </script>

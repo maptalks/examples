@@ -604,7 +604,7 @@
         center:     [-0.113049,51.498568],
         zoom:  11,
         attribution: {
-          content: &#x27;&amp;copy; OpenStreetMap contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;, &amp;copy ESRI&#x27;
+          content: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;, &amp;copy ESRI&#x27;
         },
         baseLayer : new maptalks.TileLayer(&#x27;base&#x27;,{
           urlTemplate: &#x27;https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.jpg&#x27;
@@ -613,8 +613,8 @@
 
       map.addLayer(new maptalks.TileLayer(&#x27;carto&#x27;,{
         opacity : 0.6, // TileLayer&#x27;s opacity, 0-1
-        urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png&#x27;,
-        subdomains: [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;]
+        urlTemplate: &#x27;https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png&#x27;,
+        subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
       }));
 
     &lt;/script&gt;
@@ -643,7 +643,7 @@ var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
   center:     [-0.113049,51.498568],
   zoom:  11,
   attribution: {
-    content: &#x27;&amp;copy; OpenStreetMap contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;, &amp;copy ESRI&#x27;
+    content: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;, &amp;copy ESRI&#x27;
   },
   baseLayer : new maptalks.TileLayer(&#x27;base&#x27;,{
     urlTemplate: &#x27;https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.jpg&#x27;
@@ -652,8 +652,8 @@ var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
 
 map.addLayer(new maptalks.TileLayer(&#x27;carto&#x27;,{
   opacity : 0.6, // TileLayer&#x27;s opacity, 0-1
-  urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png&#x27;,
-  subdomains: [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;]
+  urlTemplate: &#x27;https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png&#x27;,
+  subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
 }));
 
       </textarea>
