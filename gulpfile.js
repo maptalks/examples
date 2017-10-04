@@ -24,20 +24,24 @@ var siteInfo = {
 
 var mapParams = {
   'cn': {
-    // 'urlTemplate' : 'http://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
-    // 'subdomains': '[1, 2, 3, 4]'
-    'urlTemplate': 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-    // 'urlTemplate' : 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png',
-    'subdomains': '["a","b","c","d","e"]',
-    'attribution': '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+    // 'urlTemplate' : 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    // 'subdomains'  : '[\'a\',\'b\',\'c\']',
+    // 'attribution': '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a> contributors'
+
+
+    'urlTemplate' : 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+    'subdomains': '[\'a\',\'b\',\'c\',\'d\']',
+    'attribution': '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
   },
   'en': {
     // 'urlTemplate': 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-    // 'subdomains': '["a","b","c"]'
-    'urlTemplate': 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
-    // 'urlTemplate' : 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png',
-    'subdomains': '["a","b","c","d","e"]',
-    'attribution': '&copy; OpenStreetMap contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+    // 'urlTemplate' : 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    // 'subdomains'  : '[\'a\',\'b\',\'c\']',
+    // 'attribution': '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a> contributors'
+
+    'urlTemplate' : 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+    'subdomains': '[\'a\',\'b\',\'c\',\'d\']',
+    'attribution': '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
   }
 };
 
