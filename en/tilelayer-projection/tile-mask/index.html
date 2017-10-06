@@ -634,8 +634,8 @@
       var outline &#x3D; mask.copy();
 
       var maskedLayer &#x3D; new maptalks.TileLayer(&#x27;masked&#x27;, {
-        &#x27;urlTemplate&#x27; : &#x27;http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png&#x27;,
-        &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;,&#x27;e&#x27;]
+        &#x27;urlTemplate&#x27; : &#x27;https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png&#x27;,
+        &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
       })
       .setMask(mask) // set boundary as the mask to the tilelayer
       .addTo(map);
@@ -710,8 +710,8 @@ var mask &#x3D; new maptalks.Polygon(boundary, {
 var outline &#x3D; mask.copy();
 
 var maskedLayer &#x3D; new maptalks.TileLayer(&#x27;masked&#x27;, {
-  &#x27;urlTemplate&#x27; : &#x27;http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png&#x27;,
-  &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;,&#x27;e&#x27;]
+  &#x27;urlTemplate&#x27; : &#x27;https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png&#x27;,
+  &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
 })
 .setMask(mask) // set boundary as the mask to the tilelayer
 .addTo(map);
