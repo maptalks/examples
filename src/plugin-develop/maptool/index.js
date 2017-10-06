@@ -38,7 +38,7 @@ class CustomTool extends maptalks.MapTool {
   getEvents() {
     return {
       'click': this._onClick,
-      'contextmenu': this._onRighClick
+      'contextmenu': this._onRightClick
     };
   }
 
@@ -46,7 +46,7 @@ class CustomTool extends maptalks.MapTool {
     this._markerLayer.addGeometry(new maptalks.Marker(param.coordinate));
   }
 
-  _onRighClick(param) {
+  _onRightClick(param) {
     this._markerLayer.clear();
   }
 }
