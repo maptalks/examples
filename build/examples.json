@@ -28,6 +28,7 @@
       "examples" : [
         {"name" : "canvas-renderer", "title" : {"cn" : "Canvas渲染方式的瓦片图层", "en" : "TilerLayer with Canvas renderer"}},
         {"name" : "multi-tilelayer", "title" : {"cn" : "添加多个瓦片图层", "en" : "Add multiple TileLayers"}},
+        {"name" : "grouptilelayer", "title" : {"cn" : "添加瓦片图层组", "en" : "Add GroupTileLayer"}},
         {"name" : "wms", "title" : {"cn" : "WMS瓦片图层", "en" : "Add a WMS TileLayer"}},
         {"name" : "vector-tile", "title" : {"cn" : "Vector-Tile图层", "en" : "Add a mapbox vector-tile Layer"}, "url" : "https://github.com/maptalks/maptalks.mapboxgl"},
         {"name" : "arcgis-tile", "title" : {"cn" : "ArcGIS瓦片图层", "en" : "Add an ArcGIS TileLayer"}},
