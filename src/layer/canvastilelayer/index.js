@@ -18,13 +18,13 @@ canvasTile.drawTile = function (canvas, tileContext, onComplete) {
         onComplete(null);
       }
     }
+    var mapzenStyle = getMapZenStyle();
     //prepare a VectorLayer per mapzen's layer
     for (var i = 0, l = layerOrder.length; i < l; i++) {
       var name = layerOrder[i];
       if (!data[name]) {
         continue;
       }
-      // mapzenStyle is the layer style defined in ./style.js
       var style = mapzenStyle[name];
       layers.push(
         new maptalks.VectorLayer(name, maptalks.GeoJSON.toGeometry(data[name]), {
@@ -35,7 +35,7 @@ canvasTile.drawTile = function (canvas, tileContext, onComplete) {
       );
     }
     //create a map instance on tile's canvas
-    var tileMap = new maptalks.Map(canvas,{
+    new maptalks.Map(canvas,{
       center : tileContext.center,
       zoom   :  tileContext.z,
       layers : layers
@@ -51,3 +51,108 @@ var map = new maptalks.Map('map',{
     content : '&copy; <a href="https://mapzen.com/" target="_blank">mapzen</a>'
   }
 });
+
+function getMapZenStyle() {
+  return {
+    'roads' : [
+      {
+        filter : ['==', 'kind', 'highway'],
+        symbol : [
+          {
+            'lineColor' : 'grey',
+            'lineWidth' : 7
+          },
+          {
+            'lineColor' : '#cc6666',
+            'lineWidth' : 4
+          }
+        ]
+      },
+      {
+        filter : ['==', 'kind', 'minor_road'],
+        symbol : {
+          'lineColor' : 'lightgrey',
+          'lineWidth' : 3
+        }
+      },
+      {
+        filter : true,
+        symbol : {
+          'lineColor' : 'lightgrey',
+          'lineWidth' : 2
+        }
+      }
+    ],
+
+    'buildings' : [
+      {
+        filter : true,
+        symbol : {
+          'lineColor' : '#000',
+          'polygonFill' : '#fff'
+        }
+      }
+    ],
+
+    'water' : [
+      {
+        filter : ['==', '$type', 'Point'],
+        symbol : {
+          'markerOpacity' : 0,
+          'markerType' : 'ellipse',
+          'markerFill' : '#88bbee',
+          'markerWidth' : 4,
+          'markerHeight' : 4
+        }
+      },
+
+      {
+        filter : true,
+        symbol : {
+          'lineColor' : '#88bbee',
+          'polygonFill' : '#88bbee'
+        }
+      }
+    ],
+
+    'earth' : [
+      {
+        filter : ['==', '$type', 'Point'],
+        symbol : {
+          'markerOpacity' : 0,
+          'markerType' : 'ellipse',
+          'markerFill' : '#ddeeee',
+          'markerWidth' : 4,
+          'markerHeight' : 4
+        }
+      },
+      {
+        filter : true,
+        symbol : {
+          'lineColor' : '#ddeeee',
+          'polygonFill' : '#ddeeee'
+        }
+      }
+    ],
+
+    'landuse' : [
+      {
+        filter : ['==', '$type', 'Point'],
+        symbol : {
+          'markerOpacity' : 0,
+          'markerType' : 'ellipse',
+          'markerFill' : '#aaffaa',
+          'markerWidth' : 4,
+          'markerHeight' : 4
+        }
+      },
+      {
+        filter : true,
+        symbol : {
+          'lineColor' : '#aaffaa',
+          'polygonFill' : '#aaffaa'
+        }
+      }
+    ]
+  };
+}
