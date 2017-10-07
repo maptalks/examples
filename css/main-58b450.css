@@ -836,7 +836,9 @@ p {
   background-repeat: no-repeat;
   background-size: 100%;
 }
-.demo-viewer .sidebar .menu-area .action-bar .all-download-button {
+.demo-viewer .sidebar .menu-area .action-bar .all-download-button a{
+  display:block;
+  text-decoration: none;
   margin-left: 8px;
   padding: 0 6px;
   height: 26px;
@@ -848,7 +850,7 @@ p {
   border-radius: 3px;
   transition: all 0.2s;
 }
-.demo-viewer .sidebar .menu-area .action-bar .all-download-button:hover {
+.demo-viewer .sidebar .menu-area .action-bar .all-download-button a:hover {
   color: #48B1FC;
   border-color: #48B1FC;
 }
