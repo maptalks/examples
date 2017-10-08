@@ -654,7 +654,8 @@
 
         draw() {
           const colors &#x3D; this.layer.options.color;
-          const rndIdx &#x3D; Math.round(Math.random() * (colors.length - 1)),
+          const now &#x3D; Date.now();
+          const rndIdx &#x3D; Math.round(now / 300 % colors.length),
             color &#x3D; colors[rndIdx];
           const drawn &#x3D; this._drawData(this.layer.getData(), color);
           this._drawnData &#x3D; drawn;
@@ -666,7 +667,8 @@
             return;
           }
           const colors &#x3D; this.layer.options.color;
-          const rndIdx &#x3D; Math.round(Math.random() * (colors.length - 1)),
+          const now &#x3D; Date.now();
+          const rndIdx &#x3D; Math.round(now / 300 % colors.length),
             color &#x3D; colors[rndIdx];
           this._drawData(this._drawnData, color);
         }
@@ -807,7 +809,8 @@ class HelloLayerRenderer extends maptalks.renderer.CanvasRenderer {
 
   draw() {
     const colors &#x3D; this.layer.options.color;
-    const rndIdx &#x3D; Math.round(Math.random() * (colors.length - 1)),
+    const now &#x3D; Date.now();
+    const rndIdx &#x3D; Math.round(now / 300 % colors.length),
       color &#x3D; colors[rndIdx];
     const drawn &#x3D; this._drawData(this.layer.getData(), color);
     this._drawnData &#x3D; drawn;
@@ -819,7 +822,8 @@ class HelloLayerRenderer extends maptalks.renderer.CanvasRenderer {
       return;
     }
     const colors &#x3D; this.layer.options.color;
-    const rndIdx &#x3D; Math.round(Math.random() * (colors.length - 1)),
+    const now &#x3D; Date.now();
+    const rndIdx &#x3D; Math.round(now / 300 % colors.length),
       color &#x3D; colors[rndIdx];
     this._drawData(this._drawnData, color);
   }
