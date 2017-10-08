@@ -48,7 +48,8 @@ class HelloLayerRenderer extends maptalks.renderer.CanvasRenderer {
 
   draw() {
     const colors = this.layer.options.color;
-    const rndIdx = Math.round(Math.random() * (colors.length - 1)),
+    const now = Date.now();
+    const rndIdx = Math.round(now / 300 % colors.length),
       color = colors[rndIdx];
     const drawn = this._drawData(this.layer.getData(), color);
     this._drawnData = drawn;
@@ -60,7 +61,8 @@ class HelloLayerRenderer extends maptalks.renderer.CanvasRenderer {
       return;
     }
     const colors = this.layer.options.color;
-    const rndIdx = Math.round(Math.random() * (colors.length - 1)),
+    const now = Date.now();
+    const rndIdx = Math.round(now / 300 % colors.length),
       color = colors[rndIdx];
     this._drawData(this._drawnData, color);
   }
