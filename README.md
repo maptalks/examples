@@ -8,12 +8,12 @@ Source repository of [maptalks.js's examples](https://maptalks.github.io/example
 
 ```bash
 .
-|- assets/              assets, CSS/images
-|- build/examples.json  examples index json file
-|- dist/                distribution folder, root for master branch
-|- layouts/             templates
-|- locales/             i18n configs
-|- src/                 examples sources
+|- assets/              # assets, CSS/images
+|- build/examples.json  # examples index json file
+|- dist/                # distribution folder, root for gh-pages branch
+|- layouts/             # templates
+|- locales/             # i18n configs
+|- src/                 # examples sources
 ```
 
 ## Setup
@@ -41,6 +41,6 @@ gulp
 
 ## Contribute and Publish
 
-Sources files are stored in `source` branch. Once `source` branch is updated with new commits, examples will be compiled and published to `master` branch automatically.
+Sources files are stored in `master` branch. Once `master` branch is updated with new commits, examples will be compiled and published to `gh-pages` branch automatically.
 
-Any form of contribution is warmly welcomed any time, please submit your pull request to `source` branch (NOT `master` branch). 
+Any form of contribution is warmly welcomed any time, please submit your pull request to `master` branch (NOT `gh-pages` branch). 
