@@ -31,13 +31,13 @@ gulp
 ```
 
 * copy `assets` to `dist/`
-* Compile sources in `src`, generate html files in `dist`
-* Start http-connet on port 20001, watch file update to rebuild
+* Compile sources in `src`, generate html files to `dist`
+* Start gulp-connet on port 20001, begin to watch file changes to rebuild
 
 3. Open the browser at
 
-* [http://localhost:20001/examples/en/](http://localhost:20001/examples/en/)
-* [http://localhost:20001/examples/cn/](http://localhost:20001/examples/cn/)
+* english : [http://localhost:20001/examples/en/](http://localhost:20001/examples/en/)
+* chinese: [http://localhost:20001/examples/cn/](http://localhost:20001/examples/cn/)
 
 ## Contribute and Publish
 
