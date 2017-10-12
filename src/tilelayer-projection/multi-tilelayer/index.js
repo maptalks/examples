@@ -6,13 +6,14 @@ var map = new maptalks.Map('map', {
     content: '$(attribution)'
   },
   baseLayer : new maptalks.TileLayer('base',{
-    urlTemplate: 'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',
-    'subdomains': ['a','b']
+    'urlTemplate': 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_nolabels/{z}/{x}/{y}.png',
+    'subdomains'  : ['a','b','c','d']
   }),
   // additional TileLayers in create options
   layers : [
     new maptalks.TileLayer('boudaries',{
-      urlTemplate: 'http://korona.geog.uni-heidelberg.de/tiles/adminb/x={x}&y={y}&z={z}'
+      'urlTemplate': 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_only_labels/{z}/{x}/{y}.png',
+      'subdomains'  : ['a','b','c','d']
     })
   ]
 });
