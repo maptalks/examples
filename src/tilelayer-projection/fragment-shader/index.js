@@ -1,5 +1,5 @@
 var tileLayer = new maptalks.TileLayer('carto',{
-  urlTemplate : 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  urlTemplate : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   subdomains  : ['a','b','c'],
   // fragment shader from webglfundamentals.org
   // https://webglfundamentals.org/webgl/lessons/webgl-image-processing.html
@@ -73,7 +73,7 @@ var map0 = new maptalks.Map('map0', {
     content: '&copy OpenStreetMap'
   },
   baseLayer : new maptalks.TileLayer('base',{
-    urlTemplate : 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    urlTemplate : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     subdomains  : ['a','b','c']
   })
 });
