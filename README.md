@@ -2,41 +2,47 @@
 
 [![Circle CI](https://circleci.com/gh/maptalks/examples/tree/master.svg?style=shield)](https://circleci.com/gh/maptalks/examples/tree/master)
 
-Examples of [maptalks.js](https://github.com/maptalks/maptalks.js)
+Source repository of [maptalks.js's examples](https://maptalks.github.io/examples/en/map/load/).
 
-## 目录说明
+## Folder
 
 ```bash
 .
-|- assets/              全局资源文件, 页面css/图片
-|- build/examples.json  examples的索引文件, gulp根据索引合成页面
-|- dist/                生成目录, 编译好的demo页面都会生成在这里, 也是connect http服务的根目录
-|- layouts/             模板文件
-|- locales/             国际化(i18n)文件
-|- src/                 examples的源代码
+|- assets/              assets, CSS/images
+|- build/examples.json  examples index json file
+|- dist/                distribution folder, root for master branch
+|- layouts/             templates
+|- locales/             i18n configs
+|- src/                 examples sources
 ```
 
 ## Setup
 
-1. 命令行中进入项目根目录, 运行
+1. At root directory
 
 ```bash
 npm install
 ```
 
-2. npm依赖包安装完毕后, 运行
+2. run
 
 ```bash
 gulp
 ```
 
-gulp脚本会自动运行以下任务
+gulp will"
 
-* 将`assets`下的资源文件拷贝到`dist/`中
-* 编译`src`下的demo源代码, 在`dist`中生成编译好的demo页面
-* 在20001端口上启动connect服务, 并监听文件修改, 随时重复自动构建
+* copy `assets` to `dist/`
+* Compile sources in `src`, generate html files in `dist`
+* Start http-connet on port 20001, watch file update to rebuild
 
-3. 用浏览器打开以下地址
+3. Open the browser at
 
 * [http://localhost:20001/examples/en/](http://localhost:20001/examples/en/)
 * [http://localhost:20001/examples/cn/](http://localhost:20001/examples/cn/)
+
+## Contribute and Publish
+
+Sources files are stored in `source` branch. Once `source` branch is updated with new commits, examples will be compiled and published to `master` branch automatically.
+
+Any form of contribution is warmly welcomed any time, please submit your pull request to `source` branch (NOT `master` branch). 
