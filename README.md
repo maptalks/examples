@@ -30,8 +30,6 @@ npm install
 gulp
 ```
 
-gulp will"
-
 * copy `assets` to `dist/`
 * Compile sources in `src`, generate html files in `dist`
 * Start http-connet on port 20001, watch file update to rebuild
