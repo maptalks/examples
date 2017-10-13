@@ -13,10 +13,6 @@ var map = new maptalks.Map('map', {
   })
 });
 
-new maptalks.VectorLayer('v', new maptalks.Marker(map.getCenter()))
-.addTo(map);
-
-
 var mousePosition = null;
 
 map.on('mousemove', function (e) {
