@@ -20,8 +20,7 @@ var map = new maptalks.Map('map', {
       'version' : '1.3.0',
       'format': 'image/png',
       'transparent' : true,
-      'uppercase' : true,
-      'opacity' : 0.5
+      'uppercase' : true
     })
   ])
 });
