@@ -32,7 +32,6 @@
         {"name" : "wms", "title" : {"cn" : "WMS瓦片图层", "en" : "Add a WMS TileLayer"}},
         {"name" : "vector-tile", "title" : {"cn" : "Vector-Tile图层", "en" : "Add a mapbox vector-tile Layer"}, "url" : "https://github.com/maptalks/maptalks.mapboxgl"},
         {"name" : "arcgis-tile", "title" : {"cn" : "ArcGIS瓦片图层", "en" : "Add an ArcGIS TileLayer"}},
-        {"name" : "arcgis-4490", "title" : {"cn" : "ArcGIS 4490投影底图", "en" : "Load ArcGIS TileLayer with EPSG:4490"}},
         {"name" : "custom-tile", "title" : {"cn" : "LOD和自定义瓦片图层", "en" : "LOD and custom TileLayer"}},
         {"name" : "tile-opacity", "title" : {"cn" : "设置瓦片图层透明度", "en" : "Set TileLayer's opacity"}},
         {"name" : "fragment-shader", "title" : {"cn" : "Fragment Shader", "en" : "Replace default fragment shader"}},
