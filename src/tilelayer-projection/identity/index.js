@@ -7,9 +7,9 @@ var map = new maptalks.Map('map', {
       32, 16, 8, 4, 2, 1
     ],
     fullExtent : {
-      'top': -10000,
+      'top': 10000,
       'left': -10000,
-      'bottom': 10000,
+      'bottom': -10000,
       'right': 10000
     }
   }
