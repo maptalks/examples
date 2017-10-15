@@ -17,7 +17,7 @@ var map = new maptalks.Map('map', {
 
 var soccerField = [
   // field
-  new maptalks.Rectangle([-400, -260], 800, 520, {
+  new maptalks.Rectangle([-400, 260], 800, 520, {
     symbol : {
       lineWidth : 2,
       lineColor : '#fff',
@@ -58,7 +58,7 @@ var soccerField = [
   }),
 
   // penalty area
-  new maptalks.Rectangle([-400, -155], 120, 310, {
+  new maptalks.Rectangle([-400, 155], 120, 310, {
     symbol : {
       lineColor : '#fff',
       lineWidth : 2,
@@ -67,7 +67,7 @@ var soccerField = [
   }),
 
   // penalty area
-  new maptalks.Rectangle([400 - 120, -155], 120, 310, {
+  new maptalks.Rectangle([400 - 120, 155], 120, 310, {
     symbol : {
       lineColor : '#fff',
       lineWidth : 2,
@@ -76,7 +76,7 @@ var soccerField = [
   }),
 
   // goal area
-  new maptalks.Rectangle([-400, -68], 42, 136, {
+  new maptalks.Rectangle([-400, 68], 42, 136, {
     symbol : {
       lineColor : '#fff',
       lineWidth : 2
@@ -84,7 +84,7 @@ var soccerField = [
   }),
 
   // goal area
-  new maptalks.Rectangle([400 - 42, -68], 42, 136, {
+  new maptalks.Rectangle([400 - 42, 68], 42, 136, {
     symbol : {
       lineColor : '#fff',
       lineWidth : 2
