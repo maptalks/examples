@@ -36,6 +36,7 @@
         {"name" : "tile-opacity", "title" : {"cn" : "设置瓦片图层透明度", "en" : "Set TileLayer's opacity"}},
         {"name" : "fragment-shader", "title" : {"cn" : "Fragment Shader", "en" : "Replace default fragment shader"}},
         {"name" : "tile-mask", "title" : {"cn" : "只显示指定范围内的瓦片", "en" : "Set a boundary mask to TileLayer"}},
+        {"name" : "epsg4326", "title" : {"cn" : "4326投影底图", "en" : "TileLayer of EPSG:4326 projection"}},
         {"name" : "identity", "title" : {"cn" : "IDENTITY投影底图", "en" : "TileLayer of IDENTITY projection"}},
         {"name" : "baidu", "title" : {"cn" : "百度投影底图", "en" : "TileLayer of Baidu Projection"}},
         {"name" : "proj4js", "title" : {"cn" : "Proj4js自定义投影底图", "en" : "TileLayer of custom projection by proj4js"}},
