@@ -131,7 +131,8 @@
         {"name" : "vectorlayer-sort", "title" : {"cn" : "VectorLayer: 设置图形的z-index", "en" : "VectorLayer: Set geomtries' z-index"}},
         {"name" : "canvaslayer", "title" : {"cn" : "CanvasLayer: 画板图层示例", "en" : "CanvasLayer: an example"}},
         {"name" : "particlelayer", "title" : {"cn" : "ParticleLayer: 粒子图层示例", "en" : "ParticleLayer: an example"}},
-        {"name" : "canvastilelayer", "title" : {"cn" : "CanvasTileLayer: 画板瓦片图层示例", "en" : "CanvasTileLayer: an example"}}
+        {"name" : "canvastilelayer", "title" : {"cn" : "CanvasTileLayer: 画板瓦片图层示例", "en" : "CanvasTileLayer: an example"}},
+        {"name" : "swipe", "title" : {"cn" : "图层卷帘效果", "en" : "Layer swipe effect"}}
       ]
     },
 
