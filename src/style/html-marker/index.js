@@ -14,6 +14,6 @@ var map = new maptalks.Map('map', {
 var marker = new maptalks.ui.UIMarker([-0.113049,51.49856], {
   'draggable'     : true,
   'single'        : false,
-  'content'       : '<div class="text_marker">UI Marker</div>'
+  'content'       : '<div class="text_marker">HTML Marker</div>'
 });
 marker.addTo(map).show();
