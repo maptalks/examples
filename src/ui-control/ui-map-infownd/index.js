@@ -13,10 +13,13 @@ var map = new maptalks.Map('map', {
 var options = {
   'title'     : 'Map\' InfoWindow',
   'content'   : 'Click on map to reopen'
+
+  // 'autoPan': true,
+  // 'width': 300,
+  // 'minHeight': 120,
+  // 'custom': false,
+  //'autoOpenOn' : 'click',  //set to null if not to open window when clicking on map
+  //'autoCloseOn' : 'click'
 };
 var infoWindow = new maptalks.ui.InfoWindow(options);
 infoWindow.addTo(map).show();
-
-map.on('click', function (e) {
-  infoWindow.show(e.coordinate);
-});

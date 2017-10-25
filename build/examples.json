@@ -33,6 +33,7 @@
         {"name" : "vector-tile", "title" : {"cn" : "Vector-Tile图层", "en" : "Add a mapbox vector-tile Layer"}, "url" : "https://github.com/maptalks/maptalks.mapboxgl"},
         {"name" : "arcgis-tile", "title" : {"cn" : "ArcGIS瓦片图层", "en" : "Add an ArcGIS TileLayer"}},
         {"name" : "custom-tile", "title" : {"cn" : "LOD和自定义瓦片图层", "en" : "LOD and custom TileLayer"}},
+        {"name" : "base64", "title" : {"cn" : "用base64编码载入瓦片", "en" : "Load tiles with base64 encoding"}},
         {"name" : "tile-opacity", "title" : {"cn" : "设置瓦片图层透明度", "en" : "Set TileLayer's opacity"}},
         {"name" : "fragment-shader", "title" : {"cn" : "Fragment Shader", "en" : "Replace default fragment shader"}},
         {"name" : "tile-mask", "title" : {"cn" : "只显示指定范围内的瓦片", "en" : "Set a boundary mask to TileLayer"}},
