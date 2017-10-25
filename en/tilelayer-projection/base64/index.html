@@ -589,6 +589,17 @@
         </div>
 
         <div class="readme md">
+          <br>
+          <p>The example of load tile images by BASE64 encoding, a very common way to load offline tiles in mobiles.</p>
+<p>You can save tile images in sqlite database, and load them as following:</p>
+<ul>
+<li>Override TileLayer&#39;s getTileUrl method, return sqlite url with given x,y,z</li>
+<li>Override TileLayer renderer&#39;s getTileImage method, fetch image base64 from sqlite, and set it to Image.src</li>
+</ul>
+<blockquote>
+<p>Recommend <a href="https://github.com/mapbox/mbtiles-spec">mbtiles</a>, a great spec to store tiles in sqlite database.</p>
+</blockquote>
+
         </div>
 
         <div class="code-viewer">
@@ -614,7 +625,17 @@
         subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
       });
 
+      //generate tile url
+      baseLayer.getTileUrl &#x3D; function (x, y, z) {
+        //replace with your own
+        //e.g. return a url pointing to your sqlite database
+        return maptalks.TileLayer.prototype.getTileUrl.call(this, x, y, z);
+      };
+
       baseLayer.on(&#x27;renderercreate&#x27;, function (e) {
+        //load tile image
+        //   img(Image): an Image object
+        //   url(String): the url of the tile
         e.renderer.loadTileImage &#x3D; function (img, url) {
           //mocking getting image&#x27;s base64
           //replace it by your own, e.g. load from sqlite database
@@ -678,7 +699,17 @@ var baseLayer &#x3D; new maptalks.TileLayer(&#x27;base&#x27;,{
   subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
 });
 
+//generate tile url
+baseLayer.getTileUrl &#x3D; function (x, y, z) {
+  //replace with your own
+  //e.g. return a url pointing to your sqlite database
+  return maptalks.TileLayer.prototype.getTileUrl.call(this, x, y, z);
+};
+
 baseLayer.on(&#x27;renderercreate&#x27;, function (e) {
+  //load tile image
+  //   img(Image): an Image object
+  //   url(String): the url of the tile
   e.renderer.loadTileImage &#x3D; function (img, url) {
     //mocking getting image&#x27;s base64
     //replace it by your own, e.g. load from sqlite database

@@ -18,7 +18,17 @@
         subdomains: ['a','b','c','d']
       });
 
+      //generate tile url
+      baseLayer.getTileUrl = function (x, y, z) {
+        //replace with your own
+        //e.g. return a url pointing to your sqlite database
+        return maptalks.TileLayer.prototype.getTileUrl.call(this, x, y, z);
+      };
+
       baseLayer.on('renderercreate', function (e) {
+        //load tile image
+        //   img(Image): an Image object
+        //   url(String): the url of the tile
         e.renderer.loadTileImage = function (img, url) {
           //mocking getting image's base64
           //replace it by your own, e.g. load from sqlite database
