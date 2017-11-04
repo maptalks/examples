@@ -19,7 +19,7 @@
     <div class="sidebar">
 
       <div class="logo-area">
-          <a href="http://maptalks.org/" class="logo">
+          <a href="http://maptalks.org/" title="maptalks.org" class="logo">
           </a>
           <div class="lang-switch">
               <div class="lang-option"><a href="/examples/en/animation/map-flyto">EN</a></div>
@@ -613,14 +613,11 @@
         center: [-74.08087539941407, 40.636167734187026],
         zoom: 14,
         attribution: {
-          content: &#x27;&amp;copy; BAIDU&#x27;
-        },
-        spatialReference : {
-          projection : &#x27;baidu&#x27;
+          content: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
         },
         baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-          urlTemplate : &#x27;https://gss{s}.bdstatic.com/8bo_dTSlRsgBo1vgoIiO_jowehsv/tile/?qt&#x3D;tile&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;z&#x3D;{z}&amp;styles&#x3D;pl&amp;scaler&#x3D;1&amp;udt&#x3D;20170927&#x27;,
-          subdomains:[0, 1, 2, 3]
+          urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
+          subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
         })
       });
 
@@ -673,14 +670,11 @@ var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
   center: [-74.08087539941407, 40.636167734187026],
   zoom: 14,
   attribution: {
-    content: &#x27;&amp;copy; BAIDU&#x27;
-  },
-  spatialReference : {
-    projection : &#x27;baidu&#x27;
+    content: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
   },
   baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate : &#x27;https://gss{s}.bdstatic.com/8bo_dTSlRsgBo1vgoIiO_jowehsv/tile/?qt&#x3D;tile&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;z&#x3D;{z}&amp;styles&#x3D;pl&amp;scaler&#x3D;1&amp;udt&#x3D;20170927&#x27;,
-    subdomains:[0, 1, 2, 3]
+    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
+    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
   })
 });
 

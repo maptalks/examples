@@ -19,7 +19,7 @@
     <div class="sidebar">
 
       <div class="logo-area">
-          <a href="http://maptalks.org/" class="logo">
+          <a href="http://maptalks.org/" title="maptalks.org" class="logo">
           </a>
           <div class="lang-switch">
               <div class="lang-option"><a href="/examples/en/tilelayer-projection/multi-tilelayer">EN</a></div>
@@ -617,13 +617,13 @@
           content: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
         },
         baseLayer : new maptalks.TileLayer(&#x27;base&#x27;,{
-          &#x27;urlTemplate&#x27;: &#x27;https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_nolabels/{z}/{x}/{y}.png&#x27;,
+          &#x27;urlTemplate&#x27;: &#x27;http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png&#x27;,
           &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
         }),
         // additional TileLayers in create options
         layers : [
           new maptalks.TileLayer(&#x27;boudaries&#x27;,{
-            &#x27;urlTemplate&#x27;: &#x27;https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_only_labels/{z}/{x}/{y}.png&#x27;,
+            &#x27;urlTemplate&#x27;: &#x27;http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png&#x27;,
             &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
           })
         ]
@@ -659,13 +659,13 @@ var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
     content: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
   },
   baseLayer : new maptalks.TileLayer(&#x27;base&#x27;,{
-    &#x27;urlTemplate&#x27;: &#x27;https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_nolabels/{z}/{x}/{y}.png&#x27;,
+    &#x27;urlTemplate&#x27;: &#x27;http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png&#x27;,
     &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
   }),
   // additional TileLayers in create options
   layers : [
     new maptalks.TileLayer(&#x27;boudaries&#x27;,{
-      &#x27;urlTemplate&#x27;: &#x27;https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_only_labels/{z}/{x}/{y}.png&#x27;,
+      &#x27;urlTemplate&#x27;: &#x27;http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png&#x27;,
       &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
     })
   ]

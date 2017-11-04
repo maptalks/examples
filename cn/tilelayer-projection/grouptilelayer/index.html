@@ -19,7 +19,7 @@
     <div class="sidebar">
 
       <div class="logo-area">
-          <a href="http://maptalks.org/" class="logo">
+          <a href="http://maptalks.org/" title="maptalks.org" class="logo">
           </a>
           <div class="lang-switch">
               <div class="lang-option"><a href="/examples/en/tilelayer-projection/grouptilelayer">EN</a></div>
@@ -623,7 +623,7 @@
         // add 2 TileLayers with a GroupTileLayer
         baseLayer : new maptalks.GroupTileLayer(&#x27;base&#x27;, [
           new maptalks.TileLayer(&#x27;tile2&#x27;, {
-            urlTemplate: &#x27;https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_nolabels/{z}/{x}/{y}.png&#x27;,
+            urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png&#x27;,
             subdomains  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
           }),
 
@@ -672,7 +672,7 @@ var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
   // add 2 TileLayers with a GroupTileLayer
   baseLayer : new maptalks.GroupTileLayer(&#x27;base&#x27;, [
     new maptalks.TileLayer(&#x27;tile2&#x27;, {
-      urlTemplate: &#x27;https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_nolabels/{z}/{x}/{y}.png&#x27;,
+      urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png&#x27;,
       subdomains  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
     }),
 

@@ -19,7 +19,7 @@
     <div class="sidebar">
 
       <div class="logo-area">
-          <a href="http://maptalks.org/" class="logo">
+          <a href="http://maptalks.org/" title="maptalks.org" class="logo">
           </a>
           <div class="lang-switch">
               <div class="lang-option"><a href="/examples/en/tilelayer-projection/epsg4326">EN</a></div>
@@ -619,12 +619,12 @@
         },
         baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
           tileSystem : [1, -1, -180, 90],
-          urlTemplate:&#x27;https://t{s}.tianditu.com/DataServer?T&#x3D;vec_c&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;l&#x3D;{z}&#x27;,
+          urlTemplate:&#x27;http://t{s}.tianditu.com/DataServer?T&#x3D;vec_c&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;l&#x3D;{z}&#x27;,
           subdomains:[&#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;]
         }),
         layers : [
           new maptalks.TileLayer(&#x27;road&#x27;, {
-            urlTemplate:&#x27;https://t{s}.tianditu.com/DataServer?T&#x3D;cva_c&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;l&#x3D;{z}&#x27;,
+            urlTemplate:&#x27;http://t{s}.tianditu.com/DataServer?T&#x3D;cva_c&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;l&#x3D;{z}&#x27;,
             subdomains:[&#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;],
             opacity:1
           })
@@ -666,12 +666,12 @@ var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
   },
   baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
     tileSystem : [1, -1, -180, 90],
-    urlTemplate:&#x27;https://t{s}.tianditu.com/DataServer?T&#x3D;vec_c&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;l&#x3D;{z}&#x27;,
+    urlTemplate:&#x27;http://t{s}.tianditu.com/DataServer?T&#x3D;vec_c&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;l&#x3D;{z}&#x27;,
     subdomains:[&#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;]
   }),
   layers : [
     new maptalks.TileLayer(&#x27;road&#x27;, {
-      urlTemplate:&#x27;https://t{s}.tianditu.com/DataServer?T&#x3D;cva_c&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;l&#x3D;{z}&#x27;,
+      urlTemplate:&#x27;http://t{s}.tianditu.com/DataServer?T&#x3D;cva_c&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;l&#x3D;{z}&#x27;,
       subdomains:[&#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;],
       opacity:1
     })
