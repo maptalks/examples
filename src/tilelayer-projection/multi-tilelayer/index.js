@@ -6,13 +6,13 @@ var map = new maptalks.Map('map', {
     content: '$(attribution)'
   },
   baseLayer : new maptalks.TileLayer('base',{
-    'urlTemplate': 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_nolabels/{z}/{x}/{y}.png',
+    'urlTemplate': 'http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png',
     'subdomains'  : ['a','b','c','d']
   }),
   // additional TileLayers in create options
   layers : [
     new maptalks.TileLayer('boudaries',{
-      'urlTemplate': 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_only_labels/{z}/{x}/{y}.png',
+      'urlTemplate': 'http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png',
       'subdomains'  : ['a','b','c','d']
     })
   ]

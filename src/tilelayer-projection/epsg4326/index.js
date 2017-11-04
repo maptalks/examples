@@ -8,12 +8,12 @@ var map = new maptalks.Map('map', {
   },
   baseLayer: new maptalks.TileLayer('base', {
     tileSystem : [1, -1, -180, 90],
-    urlTemplate:'https://t{s}.tianditu.com/DataServer?T=vec_c&x={x}&y={y}&l={z}',
+    urlTemplate:'http://t{s}.tianditu.com/DataServer?T=vec_c&x={x}&y={y}&l={z}',
     subdomains:['1', '2', '3', '4', '5']
   }),
   layers : [
     new maptalks.TileLayer('road', {
-      urlTemplate:'https://t{s}.tianditu.com/DataServer?T=cva_c&x={x}&y={y}&l={z}',
+      urlTemplate:'http://t{s}.tianditu.com/DataServer?T=cva_c&x={x}&y={y}&l={z}',
       subdomains:['1', '2', '3', '4', '5'],
       opacity:1
     })

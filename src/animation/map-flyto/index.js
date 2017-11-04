@@ -2,14 +2,11 @@ var map = new maptalks.Map('map', {
   center: [-74.08087539941407, 40.636167734187026],
   zoom: 14,
   attribution: {
-    content: '&copy; BAIDU'
-  },
-  spatialReference : {
-    projection : 'baidu'
+    content: '$(attribution)'
   },
   baseLayer: new maptalks.TileLayer('base', {
-    urlTemplate : 'https://gss{s}.bdstatic.com/8bo_dTSlRsgBo1vgoIiO_jowehsv/tile/?qt=tile&x={x}&y={y}&z={z}&styles=pl&scaler=1&udt=20170927',
-    subdomains:[0, 1, 2, 3]
+    urlTemplate: '$(urlTemplate)',
+    subdomains: $(subdomains)
   })
 });
 

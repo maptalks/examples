@@ -31,7 +31,7 @@ var mask = new maptalks.Polygon(boundary, {
 var outline = mask.copy();
 
 var maskedLayer = new maptalks.TileLayer('masked', {
-  'urlTemplate' : 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png',
+  'urlTemplate' : 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
   'subdomains'  : ['a','b','c','d']
 })
 .setMask(mask) // set boundary as the mask to the tilelayer

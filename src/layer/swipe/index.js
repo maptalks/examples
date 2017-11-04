@@ -1,6 +1,6 @@
 var layer = new maptalks.TileLayer('light', {
-  'urlTemplate': 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-  'subdomains'  : ['a','b','c','d'],
+  urlTemplate: '$(urlTemplate)',
+  subdomains: $(subdomains),
   // force layer to render when map is zooming and moving
   'forceRenderOnMoving' : true,
   'forceRenderOnZooming' : true
@@ -13,7 +13,7 @@ var map = new maptalks.Map('map', {
     content: '$(attribution)'
   },
   baseLayer : new maptalks.TileLayer('base',{
-    'urlTemplate': 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png',
+    'urlTemplate': 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
     'subdomains'  : ['a','b','c','d']
   }),
   layers : [layer]
