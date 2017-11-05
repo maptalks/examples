@@ -8,7 +8,7 @@ var map = new maptalks.Map('map', {
   // add 2 TileLayers with a GroupTileLayer
   baseLayer : new maptalks.GroupTileLayer('base', [
     new maptalks.TileLayer('tile2', {
-      urlTemplate: 'http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png',
+      urlTemplate: 'http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png',
       subdomains  : ['a','b','c','d']
     }),
 
