@@ -630,6 +630,7 @@
       var coordinate &#x3D; map.getCenter().toFixed(3);
 
       var options &#x3D; {
+        //&#x27;autoOpenOn&#x27; : &#x27;click&#x27;,  //set to null if not to open window when clicking on map
         &#x27;single&#x27; : false,
         &#x27;width&#x27;  : 183,
         &#x27;height&#x27; : 105,
@@ -646,10 +647,6 @@
       };
       var infoWindow &#x3D; new maptalks.ui.InfoWindow(options);
       infoWindow.addTo(map).show(coordinate);
-
-      map.on(&#x27;click&#x27;, function (e) {
-        infoWindow.show(e.coordinate);
-      });
 
     &lt;/script&gt;
   &lt;/body&gt;
@@ -688,6 +685,7 @@ var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
 var coordinate &#x3D; map.getCenter().toFixed(3);
 
 var options &#x3D; {
+  //&#x27;autoOpenOn&#x27; : &#x27;click&#x27;,  //set to null if not to open window when clicking on map
   &#x27;single&#x27; : false,
   &#x27;width&#x27;  : 183,
   &#x27;height&#x27; : 105,
@@ -704,10 +702,6 @@ var options &#x3D; {
 };
 var infoWindow &#x3D; new maptalks.ui.InfoWindow(options);
 infoWindow.addTo(map).show(coordinate);
-
-map.on(&#x27;click&#x27;, function (e) {
-  infoWindow.show(e.coordinate);
-});
 
       </textarea>
       <textarea name="css">
