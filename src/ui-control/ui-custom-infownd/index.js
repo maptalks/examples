@@ -13,6 +13,7 @@ var map = new maptalks.Map('map', {
 var coordinate = map.getCenter().toFixed(3);
 
 var options = {
+  //'autoOpenOn' : 'click',  //set to null if not to open window when clicking on map
   'single' : false,
   'width'  : 183,
   'height' : 105,
@@ -29,7 +30,3 @@ var options = {
 };
 var infoWindow = new maptalks.ui.InfoWindow(options);
 infoWindow.addTo(map).show(coordinate);
-
-map.on('click', function (e) {
-  infoWindow.show(e.coordinate);
-});
