@@ -190,7 +190,8 @@
         {"name" : "control-zoom", "title" : {"cn" : "Zoom控件", "en" : "Zoom Control"}},
         {"name" : "control-scale", "title" : {"cn" : "Scale控件", "en" : "Scale Control"}},
         {"name" : "control-attribution", "title" : {"cn" : "Attribution控件", "en" : "Attribution Control"}},
-        {"name" : "control-show-hide", "title" : {"cn" : "控件显示与隐藏", "en" : "Show and hide controls"}}
+        {"name" : "control-show-hide", "title" : {"cn" : "控件显示与隐藏", "en" : "Show and hide controls"}},
+        {"name" : "control-layer-switcher", "title" : {"cn" : "图层选择控件", "en" : "Layer Switcher"}}
       ]
     },
 
