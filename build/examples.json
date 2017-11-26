@@ -90,6 +90,7 @@
         {"name" : "vector-pattern", "title" : {"cn" : "矢量标注模式填充", "en" : "Vector marker with pattern fill"}},
         {"name" : "vector-gradient", "title" : {"cn" : "矢量标注渐变填充", "en" : "Vector marker with gradient fill"}},
         {"name" : "svg-path-marker", "title" : {"cn" : "SVG矢量标注", "en" : "SVG vector marker"}},
+        {"name" : "marker-alignment", "title" : {"cn" : "标注水平和垂直对齐", "en" : "Marker's horizontal and vertical alignment"}},
         {"name" : "rotate-marker", "title" : {"cn" : "旋转标注", "en" : "Rotate a marker"}},
         {"name" : "text-marker", "title" : {"cn" : "文字标注", "en" : "Text marker"}},
         {"name" : "rotate-text", "title" : {"cn" : "旋转文字标注", "en" : "Rotate a text marker"}},
