@@ -11,8 +11,8 @@ var map = new maptalks.Map('map', {
 });
 
 var canvasLayer = new maptalks.CanvasLayer('c', {
-  'renderOnMoving' : true,
-  'renderOnZooming' : true
+  'forceRenderOnMoving' : true,
+  'forceRenderOnZooming' : true
 });
 
 canvasLayer.prepareToDraw = function (context) {

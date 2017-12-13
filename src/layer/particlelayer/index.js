@@ -15,7 +15,7 @@ var map = new maptalks.Map('map', {
 
 // An animated particle circle
 var particles = new maptalks.ParticleLayer('c', {
-  'renderOnMoving' : true
+  'forceRenderOnMoving' : true
 });
 
 var center = map.getCenter();
