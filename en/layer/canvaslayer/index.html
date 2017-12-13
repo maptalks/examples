@@ -651,6 +651,11 @@
         this.completeRender();
       };
 
+      //draw when map is interacting
+      canvasLayer.drawOnInteracting &#x3D; function (context, view, param1, param2) {
+        this.draw(context, view, param1, param2);
+      };
+
       map.addLayer(canvasLayer);
 
     &lt;/script&gt;
@@ -706,6 +711,11 @@ canvasLayer.draw &#x3D; function (context, view, param1, param2) {
   var len &#x3D; context.measureText(str);
   context.fillText(str, size.width / 2 - len.width / 2, size.height / 2);
   this.completeRender();
+};
+
+//draw when map is interacting
+canvasLayer.drawOnInteracting &#x3D; function (context, view, param1, param2) {
+  this.draw(context, view, param1, param2);
 };
 
 map.addLayer(canvasLayer);
