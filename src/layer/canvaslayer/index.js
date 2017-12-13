@@ -30,4 +30,9 @@ canvasLayer.draw = function (context, view, param1, param2) {
   this.completeRender();
 };
 
+//draw when map is interacting
+canvasLayer.drawOnInteracting = function (context, view, param1, param2) {
+  this.draw(context, view, param1, param2);
+};
+
 map.addLayer(canvasLayer);
