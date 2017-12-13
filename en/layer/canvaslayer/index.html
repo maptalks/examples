@@ -632,8 +632,8 @@
       });
 
       var canvasLayer &#x3D; new maptalks.CanvasLayer(&#x27;c&#x27;, {
-        &#x27;renderOnMoving&#x27; : true,
-        &#x27;renderOnZooming&#x27; : true
+        &#x27;forceRenderOnMoving&#x27; : true,
+        &#x27;forceRenderOnZooming&#x27; : true
       });
 
       canvasLayer.prepareToDraw &#x3D; function (context) {
@@ -689,8 +689,8 @@ var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
 });
 
 var canvasLayer &#x3D; new maptalks.CanvasLayer(&#x27;c&#x27;, {
-  &#x27;renderOnMoving&#x27; : true,
-  &#x27;renderOnZooming&#x27; : true
+  &#x27;forceRenderOnMoving&#x27; : true,
+  &#x27;forceRenderOnZooming&#x27; : true
 });
 
 canvasLayer.prepareToDraw &#x3D; function (context) {
