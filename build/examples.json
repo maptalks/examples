@@ -27,7 +27,7 @@
       "name" : "tilelayer-projection",
       "title" : {"cn" : "瓦片图层与地理投影", "en" : "TileLayer and Geo-Projections"},
       "examples" : [
-        {"name" : "canvas-renderer", "title" : {"cn" : "Canvas渲染方式的瓦片图层", "en" : "TilerLayer with Canvas renderer"}},
+        {"name" : "canvas-renderer", "title" : {"cn" : "Canvas渲染方式的瓦片图层", "en" : "TileLayer with Canvas renderer"}},
         {"name" : "multi-tilelayer", "title" : {"cn" : "添加多个瓦片图层", "en" : "Add multiple TileLayers"}},
         {"name" : "grouptilelayer", "title" : {"cn" : "添加瓦片图层组", "en" : "Add GroupTileLayer"}},
         {"name" : "wms", "title" : {"cn" : "WMS瓦片图层", "en" : "Add a WMS TileLayer"}},
