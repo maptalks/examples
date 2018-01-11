@@ -3,7 +3,8 @@ var layerOrder = [
 ];
 // draw mapzen's geojson vector tile with CanvasTileLayer
 var canvasTile = new maptalks.CanvasTileLayer('tile',{
-  urlTemplate : 'https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.json?api_key=mapzen-cGRKZj'
+  urlTemplate : 'https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.json?api_key=mapzen-cGRKZj',
+  attribution : '&copy; <a href="https://mapzen.com/" target="_blank">mapzen</a>'
 });
 canvasTile.drawTile = function (canvas, tileContext, onComplete) {
   maptalks.Ajax.getJSON(tileContext.url, function (err, data) {
@@ -46,10 +47,7 @@ var map = new maptalks.Map('map',{
   center:      [-122.12258202067433, 38.080679835385574],
   zoom:  9,
   centerCross : true,
-  baseLayer : canvasTile,
-  attribution : {
-    content : '&copy; <a href="https://mapzen.com/" target="_blank">mapzen</a>'
-  }
+  baseLayer : canvasTile
 });
 
 function getMapZenStyle() {

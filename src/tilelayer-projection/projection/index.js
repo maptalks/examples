@@ -8,10 +8,7 @@ var map3857 = new maptalks.Map('map-3857', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains),
     attribution: '$(attribution)'
-  }),
-  attribution : {
-    content : '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a> contributors'
-  }
+  })
 });
 
 var mapBD = new maptalks.Map('map-bd09', {
@@ -24,11 +21,9 @@ var mapBD = new maptalks.Map('map-bd09', {
   },
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate:'http://online{s}.map.bdimg.com/tile/?qt=tile&x={x}&y={y}&z={z}&styles=pl',
-    subdomains:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-  }),
-  attribution : {
-    content : '&copy; <a target="_blank" href="http://map.baidu.com">Baidu</a>'
-  }
+    subdomains:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    attribution : '&copy; <a target="_blank" href="http://map.baidu.com">Baidu</a>'
+  })
 });
 
 var map4326 = new maptalks.Map('map-4326', {
@@ -43,7 +38,8 @@ var map4326 = new maptalks.Map('map-4326', {
     tileSystem : [1, -1, -180, 90],
     crossOrigin:'Anonymous',
     urlTemplate:'http://t{s}.tianditu.com/DataServer?T=vec_c&x={x}&y={y}&l={z}',
-    subdomains:['1', '2', '3', '4', '5']
+    subdomains:['1', '2', '3', '4', '5'],
+    attribution : '&copy; <a target="_blank" href="http://www.tianditu.cn">Tianditu</a>'
   }),
   layers : [
     new maptalks.TileLayer('road', {
@@ -52,8 +48,5 @@ var map4326 = new maptalks.Map('map-4326', {
       subdomains:['1', '2', '3', '4', '5'],
       opacity:1
     })
-  ],
-  attribution : {
-    content : '&copy; <a target="_blank" href="http://www.tianditu.cn">Tianditu</a>'
-  }
+  ]
 });

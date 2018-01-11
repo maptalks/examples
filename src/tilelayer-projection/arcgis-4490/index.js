@@ -14,10 +14,8 @@ maptalks.SpatialReference.loadArcgis(arcUrl + '?f=pjson', function (err, conf) {
       'renderer' : 'canvas',
       'tileSystem' : conf.tileSystem,
       'tileSize' : conf.tileSize, // [256, 256]
-      'urlTemplate' : arcUrl + '/tile/{z}/{y}/{x}'
-    }),
-    attribution : {
-      content : '&copy; <a target="_blank" href="http://www.digitalwuhan.gov.cn/map/">天地图.武汉</a>'
-    }
+      'urlTemplate' : arcUrl + '/tile/{z}/{y}/{x}',
+      'attribution' : '&copy; <a target="_blank" href="http://www.digitalwuhan.gov.cn/map/">天地图.武汉</a>'
+    })
   });
 });
