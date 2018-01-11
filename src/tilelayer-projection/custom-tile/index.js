@@ -2,7 +2,6 @@
 var map = new maptalks.Map('map', {
   center:     [-0.113049,51.498568],
   zoom:  13,
-  attribution: true,
   // a custom version of default web-mercator spatial reference
   // map's spatial reference definition
   spatialReference : {

@@ -3,7 +3,6 @@ var map = new maptalks.Map('map', {
   zoom: 14,
   minZoom : 14, // set map's min zoom to 14
   maxZoom : 14, // set map's max zoom to 14
-  attribution: true,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains),

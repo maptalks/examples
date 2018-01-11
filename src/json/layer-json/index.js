@@ -2,7 +2,6 @@ var c = [-0.113049,51.498568];
 var map = new maptalks.Map('map', {
   center: c,
   zoom: 13,
-  attribution: true,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains),
@@ -21,7 +20,6 @@ var map = new maptalks.Map('map', {
 var map1 = new maptalks.Map('map1', {
   center: c,
   zoom: 13,
-  attribution: true,
   baseLayer: new maptalks.TileLayer('base1', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains),

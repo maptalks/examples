@@ -1,7 +1,6 @@
 var map0 = new maptalks.Map('map0', {
   center: [-0.113049,51.498568],
   zoom: 14,
-  attribution: true,
   zoomControl : true,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
@@ -17,7 +16,6 @@ var map1 = new maptalks.Map('map1', {
   draggable : false,        // disable draggble
   scrollWheelZoom : false,  // disable scroll wheel zoom
   dblClickZoom : false,     // disable doubleclick
-  attribution: true,
   baseLayer: new maptalks.TileLayer('base1', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains),
