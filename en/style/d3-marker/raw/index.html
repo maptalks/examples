@@ -12,8 +12,8 @@
     .node{fill:none;stroke:#ccc;shape-rendering:crispEdges}
     .brush .extent{stroke:#fff;fill-opacity:.125;shape-rendering:crispEdges}
   </style>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks@0.36.2/dist/maptalks.css">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.36.2/dist/maptalks.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.min.js"></script>
   <body>
 
     <script type="text/javascript" src="d3.v3.min.js"></script>
@@ -23,12 +23,10 @@
       var map = new maptalks.Map('map', {
         center: [-0.113049,51.49856],
         zoom: 14,
-        attribution: {
-          content: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
-        },
         baseLayer: new maptalks.TileLayer('base', {
           urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-          subdomains: ['a','b','c','d']
+          subdomains: ['a','b','c','d'],
+          attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
         })
       });
 

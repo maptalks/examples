@@ -8,8 +8,8 @@
     .container{width:calc(50% - 2px);height:calc(100% - 2px);float:left;border:1px solid}
     #map1{width:calc(50% - 2px);height:calc(100% - 2px);float:right;border:1px solid}
   </style>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks@0.36.2/dist/maptalks.css">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.36.2/dist/maptalks.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.min.js"></script>
   <body>
 
     <div id="map" class="container"></div>
@@ -20,12 +20,10 @@
       var map = new maptalks.Map('map', {
         center: c,
         zoom: 13,
-        attribution: {
-          content: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
-        },
         baseLayer: new maptalks.TileLayer('base', {
           urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-          subdomains: ['a','b','c','d']
+          subdomains: ['a','b','c','d'],
+          attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
         }),
         layers : [
           new maptalks.VectorLayer('v')
@@ -41,7 +39,8 @@
         zoom: 13,
         baseLayer: new maptalks.TileLayer('base', {
           urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-          subdomains: ['a','b','c','d']
+          subdomains: ['a','b','c','d'],
+          attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
         })
       });
       var newLayer = new maptalks.VectorLayer('v').addTo(map1);

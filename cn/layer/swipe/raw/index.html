@@ -8,8 +8,8 @@
     #map{width:100%;height:800px}
     #swipe{background-color:transparent;width:100%;border:none;height:10px;cursor:col-resize;margin-bottom:20px}
   </style>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks@0.36.2/dist/maptalks.css">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.36.2/dist/maptalks.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.min.js"></script>
   <body>
     <input type="range" id="swipe"/>
     <div id="map"></div>
@@ -18,6 +18,7 @@
       var layer = new maptalks.TileLayer('light', {
         urlTemplate: 'http://www.google.cn/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i342009817!3m9!2sen-US!3sCN!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0&token=32965',
         subdomains: ['a','b','c','d'],
+        attribution: '&copy; Google Maps',
         // force layer to render when map is zooming and moving
         'forceRenderOnMoving' : true,
         'forceRenderOnZooming' : true
@@ -26,9 +27,6 @@
       var map = new maptalks.Map('map', {
         center: [121.4,37.5],
         zoom: 13,
-        attribution: {
-          content: '&copy; Google Maps'
-        },
         baseLayer : new maptalks.TileLayer('base',{
           'urlTemplate': 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
           'subdomains'  : ['a','b','c','d']

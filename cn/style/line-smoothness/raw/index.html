@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>图形样式 - 线的曲线平滑</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.min.js"></script>
+  <body>
+
+    <div id="map" class="container"></div>
+    <script>
+
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.49856],
+        zoom: 13,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'http://www.google.cn/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i342009817!3m9!2sen-US!3sCN!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0&token=32965',
+          subdomains: ['a','b','c','d'],
+          attribution: '&copy; Google Maps'
+        })
+      });
+
+      var layer = new maptalks.VectorLayer('vector').addTo(map);
+
+      var c = map.getCenter();
+
+      //background red polygon
+      new maptalks.Polygon([
+        c.add(-0.0302, 0.0081),
+        c.add(-0.0369, 0.0069),
+        c.add(-0.0469, 0.0032),
+        c.add(-0.0414, -0.003),
+        c.add(-0.0378, -0.008),
+        c.add(-0.0320, -0.009)
+      ], {
+        'symbol' : {
+          'lineColor' : '#f00',
+          'shadowBlur' : 10,
+          'shadowOffsetX' : 10,
+          'shadowOffsetY' : 10
+        }
+      }).addTo(layer);
+
+      new maptalks.Polygon([
+        c.add(-0.0302, 0.0081),
+        c.add(-0.0369, 0.0069),
+        c.add(-0.0469, 0.0032),
+        c.add(-0.0414, -0.003),
+        c.add(-0.0378, -0.008),
+        c.add(-0.0320, -0.009)
+      ], {
+        smoothness : 0.5,
+        'symbol' : getSymbol()
+      }).addTo(layer);
+
+      //background red line
+      new maptalks.LineString([
+        c.add(-0.0202, 0.0081),
+        c.add(-0.0269, 0.0069),
+        c.add(-0.0369, 0.0032),
+        c.add(-0.0314, -0.003),
+        c.add(-0.0278, -0.008),
+        c.add(-0.0220, -0.009)
+      ], {
+        smoothness : 0.5,
+        'symbol' : {
+          'lineColor' : '#f00',
+          'shadowBlur' : 10,
+          'shadowOffsetX' : 10,
+          'shadowOffsetY' : 10
+        }
+      }).translate(0.04, 0).addTo(layer);
+
+      new maptalks.LineString([
+        c.add(-0.0202, 0.0081),
+        c.add(-0.0269, 0.0069),
+        c.add(-0.0369, 0.0032),
+        c.add(-0.0314, -0.003),
+        c.add(-0.0278, -0.008),
+        c.add(-0.0220, -0.009)
+      ], {
+        smoothness : 0.5,
+        'symbol' : getSymbol()
+      }).translate(0.04, 0).addTo(layer);
+
+
+      function getSymbol() {
+        return [
+          {
+            lineColor: '#34495e',
+            lineWidth: 3
+          },
+          {
+            markerType : 'ellipse',
+            markerWidth : 8,
+            markerHeight : 8,
+            markerFill : '#f00',
+            markerPlacement : 'vertex'
+          }
+        ];
+      }
+
+    </script>
+  </body>
+</html>

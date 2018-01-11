@@ -7,8 +7,8 @@
     html,body{margin:0px;height:100%;width:100%}
     .container{font:15px "microsoft yahei",Arial,Helvetica;float:left;width:100%;height:100%}
   </style>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks@0.36.2/dist/maptalks.css">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.36.2/dist/maptalks.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.min.js"></script>
   <body>
 
     <div id="map" class="container"></div>
@@ -17,12 +17,10 @@
       var map = new maptalks.Map('map', {
         center: [-0.113049,51.498568],
         zoom: 14,
-        attribution: {
-          content: '&copy; Google Maps'
-        },
         baseLayer: new maptalks.TileLayer('base', {
           urlTemplate: 'http://www.google.cn/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i342009817!3m9!2sen-US!3sCN!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0&token=32965',
-          subdomains: ['a','b','c','d']
+          subdomains: ['a','b','c','d'],
+          attribution: '&copy; Google Maps'
         }),
         layers : [
           new maptalks.VectorLayer('v')

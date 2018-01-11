@@ -9,8 +9,8 @@
     #map1{width:calc(50% - 2px);height:calc(100% - 2px);float:right;border:1px solid}
     .attr{background-color:#34495e;color:#fff;padding:0px 4px;font:16px sans-serif}
   </style>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks@0.36.2/dist/maptalks.css">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.36.2/dist/maptalks.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.min.js"></script>
   <body>
     <div id="map0"></div>
     <div id="map1"></div>
@@ -19,13 +19,11 @@
       var map0 = new maptalks.Map('map0', {
         center: [-0.113049,51.498568],
         zoom: 14,
-        attribution: {
-          content: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
-        },
         zoomControl : true,
         baseLayer: new maptalks.TileLayer('base', {
           urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-          subdomains: ['a','b','c','d']
+          subdomains: ['a','b','c','d'],
+          attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
         })
       });
 
@@ -36,12 +34,10 @@
         draggable : false,        // disable draggble
         scrollWheelZoom : false,  // disable scroll wheel zoom
         dblClickZoom : false,     // disable doubleclick
-        attribution: {
-          content: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
-        },
         baseLayer: new maptalks.TileLayer('base1', {
           urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-          subdomains: ['a','b','c','d']
+          subdomains: ['a','b','c','d'],
+          attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
         })
       });
 

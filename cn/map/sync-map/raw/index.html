@@ -9,8 +9,8 @@
     #map1{width:calc(50% - 2px);height:calc(100% - 2px);float:right;border:1px solid}
     .attr{background-color:#34495e;color:#fff;padding:0px 4px;font:16px sans-serif}
   </style>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks@0.36.2/dist/maptalks.css">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.36.2/dist/maptalks.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.37.0/dist/maptalks.min.js"></script>
   <body>
     <div id="map0"></div>
     <div id="map1"></div>
@@ -19,13 +19,11 @@
       var map0 = new maptalks.Map('map0', {
         center: [-0.113049,51.498568],
         zoom: 14,
-        attribution: {
-          content: '&copy; Google Maps'
-        },
         zoomControl : true,
         baseLayer: new maptalks.TileLayer('base', {
           urlTemplate: 'http://www.google.cn/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i342009817!3m9!2sen-US!3sCN!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0&token=32965',
-          subdomains: ['a','b','c','d']
+          subdomains: ['a','b','c','d'],
+          attribution: '&copy; Google Maps'
         })
       });
 
@@ -36,12 +34,10 @@
         draggable : false,        // disable draggble
         scrollWheelZoom : false,  // disable scroll wheel zoom
         dblClickZoom : false,     // disable doubleclick
-        attribution: {
-          content: '&copy; Google Maps'
-        },
         baseLayer: new maptalks.TileLayer('base1', {
           urlTemplate: 'http://www.google.cn/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i342009817!3m9!2sen-US!3sCN!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0&token=32965',
-          subdomains: ['a','b','c','d']
+          subdomains: ['a','b','c','d'],
+          attribution: '&copy; Google Maps'
         })
       });
 
