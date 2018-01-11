@@ -12,5 +12,6 @@ var map = new maptalks.Map('map', {
 map.addLayer(new maptalks.TileLayer('carto',{
   opacity : 0.6, // TileLayer's opacity, 0-1
   urlTemplate: '$(urlTemplate)',
-  subdomains: $(subdomains)
+  subdomains: $(subdomains),
+    attribution: '$(attribution)'
 }));

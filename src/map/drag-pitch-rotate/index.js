@@ -7,12 +7,11 @@ var map = new maptalks.Map('map', {
   dragRotate : true,
   //enable map to drag pitching and rotating at the same time, false by default
   dragRotatePitch : true,
-  attribution: {
-    content: '$(attribution)'
-  },
+  attribution: true,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
-    subdomains: $(subdomains)
+    subdomains: $(subdomains),
+    attribution: '$(attribution)'
   }),
   layers: [
     new maptalks.VectorLayer('v')

@@ -1,6 +1,7 @@
 var layer = new maptalks.TileLayer('light', {
   urlTemplate: '$(urlTemplate)',
   subdomains: $(subdomains),
+    attribution: '$(attribution)',
   // force layer to render when map is zooming and moving
   'forceRenderOnMoving' : true,
   'forceRenderOnZooming' : true
@@ -9,9 +10,7 @@ var layer = new maptalks.TileLayer('light', {
 var map = new maptalks.Map('map', {
   center: [121.4,37.5],
   zoom: 13,
-  attribution: {
-    content: '$(attribution)'
-  },
+  attribution: true,
   baseLayer : new maptalks.TileLayer('base',{
     'urlTemplate': 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
     'subdomains'  : ['a','b','c','d']

@@ -2,9 +2,7 @@
 var map = new maptalks.Map('map', {
   center:     [-0.113049,51.498568],
   zoom:  13,
-  attribution: {
-    content: '$(attribution)'
-  },
+  attribution: true,
   // a custom version of default web-mercator spatial reference
   // map's spatial reference definition
   spatialReference : {
@@ -41,6 +39,7 @@ var map = new maptalks.Map('map', {
   baseLayer : new maptalks.TileLayer('base',{
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains),
+    attribution: '$(attribution)',
     tileSystem : [1, -1, -20037508.34, 20037508.34], // tile system
     minZoom : 1,
     maxZoom : 20

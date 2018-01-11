@@ -2,12 +2,11 @@ var c = [-0.113049,51.498568];
 var map = new maptalks.Map('map', {
   center: c,
   zoom: 13,
-  attribution: {
-    content: '$(attribution)'
-  },
+  attribution: true,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
-    subdomains: $(subdomains)
+    subdomains: $(subdomains),
+    attribution: '$(attribution)'
   }),
   layers : [
     new maptalks.VectorLayer('v')
@@ -23,7 +22,8 @@ var map1 = new maptalks.Map('map1', {
   zoom: 13,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
-    subdomains: $(subdomains)
+    subdomains: $(subdomains),
+    attribution: '$(attribution)'
   })
 });
 var newLayer = new maptalks.VectorLayer('v').addTo(map1);

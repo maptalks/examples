@@ -1,12 +1,11 @@
 var map = new maptalks.Map('map', {
   center: [-0.113049,51.498568],
-  attribution: {
-    content: '$(attribution)'
-  },
+  attribution: true,
   zoom: 14,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
-    subdomains: $(subdomains)
+    subdomains: $(subdomains),
+    attribution: '$(attribution)'
   })
 });
 

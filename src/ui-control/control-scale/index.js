@@ -2,9 +2,7 @@
 var map = new maptalks.Map('map', {
   center: [-0.113049,51.498568],
   zoom: 14,
-  attribution: {
-    content: '$(attribution)'
-  },
+  attribution: true,
   scaleControl: {
     'position'  : 'top-left',
     'maxWidth': 100,
@@ -13,7 +11,8 @@ var map = new maptalks.Map('map', {
   },
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
-    subdomains: $(subdomains)
+    subdomains: $(subdomains),
+    attribution: '$(attribution)'
   })
 });
 

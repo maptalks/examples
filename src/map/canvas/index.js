@@ -15,6 +15,7 @@ var map = new maptalks.Map('map', {
   scaleControl : true, // ignored in a canvas container
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
-    subdomains: $(subdomains)
+    subdomains: $(subdomains),
+    attribution: '$(attribution)'
   })
 });

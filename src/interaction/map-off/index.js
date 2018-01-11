@@ -8,11 +8,10 @@ var map = new maptalks.Map('map', {
   scrollWheelZoom : false,  //disable wheel zoom
   touchZoom : false,        //disable touchzoom
   doubleClickZoom : false,  //disable doubleclick zoom
-  attribution: {
-    content: '$(attribution)'
-  },
+  attribution: true,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
-    subdomains: $(subdomains)
+    subdomains: $(subdomains),
+    attribution: '$(attribution)'
   })
 });

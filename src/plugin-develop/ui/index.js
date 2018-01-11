@@ -51,12 +51,11 @@ MyUI.mergeOptions(options);
 var map = new maptalks.Map('map', {
   center: [-0.113049,51.49856],
   zoom: 14,
-  attribution: {
-    content: '$(attribution)'
-  },
+  attribution: true,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
-    subdomains: $(subdomains)
+    subdomains: $(subdomains),
+    attribution: '$(attribution)'
   })
 });
 

@@ -6,7 +6,8 @@ var map3857 = new maptalks.Map('map-3857', {
   zoom: 4,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
-    subdomains: $(subdomains)
+    subdomains: $(subdomains),
+    attribution: '$(attribution)'
   }),
   attribution : {
     content : '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a> contributors'

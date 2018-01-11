@@ -1,21 +1,19 @@
 var map = new maptalks.Map('map', {
   center: [-0.113049, 51.498568],
   zoom: 14,
-  attribution: {
-    position: 'top-right',
-    content: '$(attribution)'
-  },
+  attribution: true,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
-    subdomains: $(subdomains)
+    subdomains: $(subdomains),
+    attribution: '$(attribution)'
   })
 });
 
 var attribution = new maptalks.control.Attribution({
+  // change default position
   position: {
     bottom: 20,
     right: 75
-  },
-  content: '$(attribution)'
+  }
 });
 map.addControl(attribution);
