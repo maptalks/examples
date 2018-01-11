@@ -51,7 +51,6 @@ new maptalks.LineString([
   c.add(-0.0278, -0.008),
   c.add(-0.0220, -0.009)
 ], {
-  smoothness : 0.5,
   'symbol' : {
     'lineColor' : '#f00',
     'shadowBlur' : 10,
