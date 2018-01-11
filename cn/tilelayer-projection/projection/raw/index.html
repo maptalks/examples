@@ -36,10 +36,7 @@
           urlTemplate: 'http://www.google.cn/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i342009817!3m9!2sen-US!3sCN!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0&token=32965',
           subdomains: ['a','b','c','d'],
           attribution: '&copy; Google Maps'
-        }),
-        attribution : {
-          content : '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a> contributors'
-        }
+        })
       });
 
       var mapBD = new maptalks.Map('map-bd09', {
@@ -52,11 +49,9 @@
         },
         baseLayer: new maptalks.TileLayer('base', {
           urlTemplate:'http://online{s}.map.bdimg.com/tile/?qt=tile&x={x}&y={y}&z={z}&styles=pl',
-          subdomains:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        }),
-        attribution : {
-          content : '&copy; <a target="_blank" href="http://map.baidu.com">Baidu</a>'
-        }
+          subdomains:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          attribution : '&copy; <a target="_blank" href="http://map.baidu.com">Baidu</a>'
+        })
       });
 
       var map4326 = new maptalks.Map('map-4326', {
@@ -71,7 +66,8 @@
           tileSystem : [1, -1, -180, 90],
           crossOrigin:'Anonymous',
           urlTemplate:'http://t{s}.tianditu.com/DataServer?T=vec_c&x={x}&y={y}&l={z}',
-          subdomains:['1', '2', '3', '4', '5']
+          subdomains:['1', '2', '3', '4', '5'],
+          attribution : '&copy; <a target="_blank" href="http://www.tianditu.cn">Tianditu</a>'
         }),
         layers : [
           new maptalks.TileLayer('road', {
@@ -80,10 +76,7 @@
             subdomains:['1', '2', '3', '4', '5'],
             opacity:1
           })
-        ],
-        attribution : {
-          content : '&copy; <a target="_blank" href="http://www.tianditu.cn">Tianditu</a>'
-        }
+        ]
       });
 
     </script>
