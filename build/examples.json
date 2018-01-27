@@ -102,6 +102,7 @@
         {"name" : "line-gradient", "title" : {"cn" : "线的渐变填充", "en" : "Line gradient fill"}},
         {"name" : "line-arrow", "title" : {"cn" : "带箭头的线", "en" : "Line with arrows"}},
         {"name" : "line-text", "title" : {"cn" : "带文字的线", "en" : "Line with texts"}},
+        {"name" : "line-marker", "title" : {"cn" : "端点沿线自动旋转Marker", "en" : "Line of vertex marker with auto rotation"}},
         {"name" : "line-smoothness", "title" : {"cn" : "线的曲线平滑", "en" : "Smooth line with curve"}},
         {"name" : "polygon-symbol", "title" : {"cn" : "面样式", "en" : "Polygon symbol"}},
         {"name" : "polygon-pattern", "title" : {"cn" : "面的模式填充", "en" : "Polygon pattern fill"}},

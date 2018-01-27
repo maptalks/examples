@@ -20,10 +20,11 @@ var point = new maptalks.Marker(
     dragShadow : false, // display a shadow during dragging
     drawOnAxis : null,  // force dragging stick on a axis, can be: x, y
     symbol : {
-      'textFaceName' : 'sans-serif',
-      'textName' : 'MapTalks',
-      'textFill' : '#34495e',
-      'textSize' : 40
+      'markerType' : 'ellipse',
+      'markerWidth' : 40,
+      'markerHeight' : 40,
+      'markerFill' : 'rgb(216,115,149)',
+      'markerLineColo' : '#fff'
     }
   }
 );
