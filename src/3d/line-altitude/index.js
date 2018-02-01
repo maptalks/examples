@@ -1,7 +1,7 @@
 var map = new maptalks.Map('map', {
   center: [-0.113049, 51.503568],
   zoom: 14,
-  pitch : 60,
+  pitch : 56,
   bearing : 30,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
