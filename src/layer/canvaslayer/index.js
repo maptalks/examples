@@ -13,9 +13,7 @@ var canvasLayer = new maptalks.CanvasLayer('c', {
   'forceRenderOnZooming' : true
 });
 
-canvasLayer.prepareToDraw = function (context) {
-  context.fillStyle = '#f00';
-  context.font = 'bolder 50px sans-serif';
+canvasLayer.prepareToDraw = function (/* context */) {
   return ['foo', 'bar'];
 };
 
@@ -23,6 +21,8 @@ canvasLayer.prepareToDraw = function (context) {
 canvasLayer.draw = function (context, view, param1, param2) {
   var size = map.getSize();
   var str = param1 + ',' + param2;
+  context.fillStyle = '#f00';
+  context.font = 'bolder 50px sans-serif';
   var len = context.measureText(str);
   context.fillText(str, size.width / 2 - len.width / 2, size.height / 2);
   this.completeRender();
