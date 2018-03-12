@@ -643,9 +643,7 @@
         &#x27;forceRenderOnZooming&#x27; : true
       });
 
-      canvasLayer.prepareToDraw &#x3D; function (context) {
-        context.fillStyle &#x3D; &#x27;#f00&#x27;;
-        context.font &#x3D; &#x27;bolder 50px sans-serif&#x27;;
+      canvasLayer.prepareToDraw &#x3D; function (/* context */) {
         return [&#x27;foo&#x27;, &#x27;bar&#x27;];
       };
 
@@ -653,6 +651,8 @@
       canvasLayer.draw &#x3D; function (context, view, param1, param2) {
         var size &#x3D; map.getSize();
         var str &#x3D; param1 + &#x27;,&#x27; + param2;
+        context.fillStyle &#x3D; &#x27;#f00&#x27;;
+        context.font &#x3D; &#x27;bolder 50px sans-serif&#x27;;
         var len &#x3D; context.measureText(str);
         context.fillText(str, size.width / 2 - len.width / 2, size.height / 2);
         this.completeRender();
@@ -703,9 +703,7 @@ var canvasLayer &#x3D; new maptalks.CanvasLayer(&#x27;c&#x27;, {
   &#x27;forceRenderOnZooming&#x27; : true
 });
 
-canvasLayer.prepareToDraw &#x3D; function (context) {
-  context.fillStyle &#x3D; &#x27;#f00&#x27;;
-  context.font &#x3D; &#x27;bolder 50px sans-serif&#x27;;
+canvasLayer.prepareToDraw &#x3D; function (/* context */) {
   return [&#x27;foo&#x27;, &#x27;bar&#x27;];
 };
 
@@ -713,6 +711,8 @@ canvasLayer.prepareToDraw &#x3D; function (context) {
 canvasLayer.draw &#x3D; function (context, view, param1, param2) {
   var size &#x3D; map.getSize();
   var str &#x3D; param1 + &#x27;,&#x27; + param2;
+  context.fillStyle &#x3D; &#x27;#f00&#x27;;
+  context.font &#x3D; &#x27;bolder 50px sans-serif&#x27;;
   var len &#x3D; context.measureText(str);
   context.fillText(str, size.width / 2 - len.width / 2, size.height / 2);
   this.completeRender();
