@@ -655,11 +655,11 @@
         })
       });
 
-      map0.on(&#x27;moving&#x27;, function (e) {
+      map0.on(&#x27;moving moveend&#x27;, function (e) {
         map1.setCenter(e.target.getCenter());
       });
 
-      map0.on(&#x27;zoomend&#x27;, function (e) {
+      map0.on(&#x27;zooming zoomend&#x27;, function (e) {
         map1.setCenterAndZoom(e.target.getCenter(), e.target.getZoom());
       });
 
@@ -728,11 +728,11 @@ var map1 &#x3D; new maptalks.Map(&#x27;map1&#x27;, {
   })
 });
 
-map0.on(&#x27;moving&#x27;, function (e) {
+map0.on(&#x27;moving moveend&#x27;, function (e) {
   map1.setCenter(e.target.getCenter());
 });
 
-map0.on(&#x27;zoomend&#x27;, function (e) {
+map0.on(&#x27;zooming zoomend&#x27;, function (e) {
   map1.setCenterAndZoom(e.target.getCenter(), e.target.getZoom());
 });
 
