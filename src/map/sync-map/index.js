@@ -23,11 +23,11 @@ var map1 = new maptalks.Map('map1', {
   })
 });
 
-map0.on('moving', function (e) {
+map0.on('moving moveend', function (e) {
   map1.setCenter(e.target.getCenter());
 });
 
-map0.on('zoomend', function (e) {
+map0.on('zooming zoomend', function (e) {
   map1.setCenterAndZoom(e.target.getCenter(), e.target.getZoom());
 });
 
