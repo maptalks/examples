@@ -100,7 +100,7 @@
         {"name" : "image-text-marker", "title" : {"cn" : "带文字的图片标注", "en" : "Image marker with texts"}},
         {"name" : "line-symbol", "title" : {"cn" : "线样式", "en" : "Line symbol"}},
         {"name" : "line-pattern", "title" : {"cn" : "线的模式填充", "en" : "Line pattern fill"}},
-        {"name" : "line-pattern-animation", "title" : {"cn" : "线的模式填充动画", "en" : "Animation of line pattern fill"}, "marker" : "new"},
+        {"name" : "line-pattern-animation", "title" : {"cn" : "线的模式填充动画", "en" : "Animation of line pattern fill"}, "mark" : "new"},
         {"name" : "line-gradient", "title" : {"cn" : "线的渐变填充", "en" : "Line gradient fill"}},
         {"name" : "line-arrow", "title" : {"cn" : "带箭头的线", "en" : "Line with arrows"}},
         {"name" : "line-text", "title" : {"cn" : "带文字的线", "en" : "Line with texts"}},
