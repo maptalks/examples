@@ -69,6 +69,7 @@ function readExamplesInfo() {
           index: j + 1,
           url: subItems[j].url,
           name: subItems[j].name,
+          mark : subItems[j].mark || '',
           title: title
         });
       }
@@ -265,8 +266,9 @@ gulp.task('watch', ['build'], function () {
 
 gulp.task('connect', ['watch'], function () {
   connect.server({
-    base: '/examples',
-    root: 'dist',
+    name : 'maptalks examples',
+    base : '/examples',
+    root: './dist',
     livereload: true,
     port: 20001
   });

@@ -20,7 +20,7 @@ drawTool.on('drawend', function (param) {
   layer.addGeometry(param.geometry);
 });
 
-var items = ['Point', 'LineString', 'Polygon', 'Circle', 'Ellipse', 'Rectangle'].map(function (value) {
+var items = ['Point', 'LineString', 'Polygon', 'Circle', 'Ellipse', 'Rectangle', 'FreeHandLineString', 'FreeHandPolygon'].map(function (value) {
   return {
     item: value,
     click: function () {

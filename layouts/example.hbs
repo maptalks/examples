@@ -48,11 +48,16 @@
             <div class="list-title">{{index}} {{category}}</div>
             <ul class="list">
               {{#each examples}}
-              <li class="list-tile example on">
-                {{#if url}}
-                  <a id="{{../name}}_{{name}}" href="{{url}}" target="_blank">{{../index}}.{{index}} {{title}} <img title="external link" src="../../../resource/image/external-url.png"/></a>
+                <li class="list-tile example on">
+                {{#if mark}}
+                <a style="color:red"
                 {{^}}
-                  <a id="{{../name}}_{{name}}" href="{{ @root.site.baseurl }}/{{ @root.locale }}/{{../name}}/{{name}}/#{{../name}}_{{name}}">{{../index}}.{{index}} {{title}}</a>
+                <a
+                {{/if}}
+                {{#if url}}
+                  id="{{../name}}_{{name}}" href="{{url}}" target="_blank">{{../index}}.{{index}} {{title}} <img title="external link" src="../../../resource/image/external-url.png"/></a>
+                {{^}}
+                  class="{{mark}}" id="{{../name}}_{{name}}" href="{{ @root.site.baseurl }}/{{ @root.locale }}/{{../name}}/{{name}}/#{{../name}}_{{name}}">{{../index}}.{{index}} {{title}}</a>
                 {{/if}}
               </li>
               {{/each}}
