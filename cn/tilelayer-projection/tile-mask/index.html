@@ -787,8 +787,8 @@
     html,body{margin:0px;height:100%;width:100%}
     .container{width:100%;height:100%}
   &lt;/style&gt;
-  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https://cdn.jsdelivr.net/npm/maptalks@0.40.3/dist/maptalks.css&quot;&gt;
-  &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;https://cdn.jsdelivr.net/npm/maptalks@0.40.3/dist/maptalks.min.js&quot;&gt;&lt;/script&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https://cdn.jsdelivr.net/npm/maptalks@0.40.5/dist/maptalks.css&quot;&gt;
+  &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;https://cdn.jsdelivr.net/npm/maptalks@0.40.5/dist/maptalks.min.js&quot;&gt;&lt;/script&gt;
   &lt;body&gt;
     &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;boundary.js&quot;&gt;&lt;/script&gt;
     &lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
@@ -799,9 +799,9 @@
         zoom:  13,
         pitch : 56,
         baseLayer : new maptalks.TileLayer(&#x27;base&#x27;,{
-          urlTemplate: &#x27;http://www.google.cn/maps/vt?pb&#x3D;!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i342009817!3m9!2sen-US!3sCN!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0&amp;token&#x3D;32965&#x27;,
-          subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-          attribution: &#x27;&amp;copy; Google Maps&#x27;
+          urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
+          subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
+          attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
         })
       });
 
@@ -873,9 +873,9 @@ var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
   zoom:  13,
   pitch : 56,
   baseLayer : new maptalks.TileLayer(&#x27;base&#x27;,{
-    urlTemplate: &#x27;http://www.google.cn/maps/vt?pb&#x3D;!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i342009817!3m9!2sen-US!3sCN!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0&amp;token&#x3D;32965&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; Google Maps&#x27;
+    urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
+    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
+    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
   })
 });
 
