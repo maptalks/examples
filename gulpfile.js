@@ -24,13 +24,15 @@ var siteInfo = {
 
 var mapParams = {
   'cn': {
-    // 'urlTemplate' : 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    // 'subdomains'  : '[\'a\',\'b\',\'c\']',
-    // 'attribution': '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a> contributors'
+    'urlTemplate' : 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    'subdomains'  : '[\'a\',\'b\',\'c\']',
+    'attribution': '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a> contributors'
     // 'urlTemplate' : 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-    'urlTemplate' : 'http://www.google.cn/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i342009817!3m9!2sen-US!3sCN!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0&token=32965',
-    'subdomains': '[\'a\',\'b\',\'c\',\'d\']',
-    'attribution': '&copy; Google Maps'
+
+    // 'urlTemplate' : 'http://www.google.cn/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i342009817!3m9!2sen-US!3sCN!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0&token=32965',
+    // 'subdomains': '[\'a\',\'b\',\'c\',\'d\']',
+    // 'attribution': '&copy; Google Maps'
+
   },
   'en': {
     // 'urlTemplate': 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
