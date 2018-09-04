@@ -10,7 +10,7 @@
         {"name" : "panning", "title" : {"cn" : "移动地图", "en" : "Map panning"}},
         {"name" : "common-control", "title" : {"cn" : "添加常用控件", "en" : "Add common controls"}},
         {"name" : "status", "title" : {"cn" : "获取地图状态", "en" : "Get map's status"}},
-        {"name" : "fit-extent", "title" : {"cn" : "自动适配区域", "en" : "Add common controls"}},
+        {"name" : "fit-extent", "title" : {"cn" : "自动适配区域", "en" : "Fit to extent"}},
         {"name" : "limit-extent", "title" : {"cn" : "限制地图区域", "en" : "Limit map's extent"}},
         {"name" : "limit-zoom", "title" : {"cn" : "限制缩放级别", "en" : "Limit map's zoom"}},
         {"name" : "fractional-zoom", "title" : {"cn" : "细微缩放(Fractional Zoom)", "en" : "Fractional zoom"}},
