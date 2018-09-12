@@ -10,7 +10,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: npm install -g yarn
+      - run: sudo npm install -g yarn
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
