@@ -276,7 +276,7 @@ gulp.task('connect', ['watch'], function () {
   });
 });
 
-gulp.task('deploy', ['build'], function () {
+gulp.task('deploy', function () {
   return gulp.src('dist/**/*')
     .pipe(ghPages({
       message: 'Deploy to GitHub pages [ci skip]'
