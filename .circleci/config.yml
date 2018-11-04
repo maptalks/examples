@@ -1,0 +1,43 @@
+version: 2
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:8.11.4
+
+jobs:
+  build-and-deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Install yarn
+          command: sudo npm install -g yarn
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run:
+          name: Install dependencies
+          command: yarn
+      - run:
+          name: Build
+          command: yarn run build
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: git config --global user.email "$GH_EMAIL"
+      - run: git config --global user.name "$GH_NAME"
+      - run:
+          name: Deploy
+          command: yarn run deploy
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build-and-deploy:
+          filters:
+            branches:
+              only: master

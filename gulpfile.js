@@ -2,7 +2,7 @@
 var path = require('path');
 var gulp = require('gulp');
 var connect = require('gulp-connect-ex');
-var ghPages = require('gulp-gh-pages');
+var ghPages = require('@justeat/gulp-gh-pages');
 var Metalsmith = require('metalsmith');
 var branch = require('metalsmith-branch');
 var layouts = require('metalsmith-layouts');
@@ -276,7 +276,7 @@ gulp.task('connect', ['watch'], function () {
   });
 });
 
-gulp.task('deploy', ['build'], function () {
+gulp.task('deploy', function () {
   return gulp.src('dist/**/*')
     .pipe(ghPages({
       message: 'Deploy to GitHub pages [ci skip]'
