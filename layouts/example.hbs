@@ -125,21 +125,19 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
 {{ contents }}
-      </textarea>
-      <textarea name="js">
+    </textarea>
+    <textarea id="js-data" name="js">
 {{ js.source }}
-      </textarea>
-      <textarea name="css">
+    </textarea>
+    <textarea id="css-data" name="css">
 {{ css.source }}
-      </textarea>
-      <input type="text" name="title" value="{{ title }}">
-      <textarea name="description">{{ category }} - {{ title }}</textarea>
-      <input type="text" name="wrap" value="l">
+    </textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -155,6 +153,21 @@
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "{{{ title }}}",
+        description: "{{{ category }}} - {{{ title }}}",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>
