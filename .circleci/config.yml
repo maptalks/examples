@@ -34,6 +34,7 @@ jobs:
   deploy:
     <<: *defaults
     steps:
+      - add_ssh_keys:
       - attach_workspace:
           at: .
       - run: git config --global user.email "$GH_EMAIL"
