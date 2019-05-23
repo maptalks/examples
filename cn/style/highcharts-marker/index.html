@@ -892,78 +892,75 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;highcharts.js&quot;&gt;&lt;/script&gt;
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.49856],
+<script type="text/javascript" src="highcharts.js"></script>
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.49856],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c'],
+    attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors'
   })
 });
 
-var highChartsUI &#x3D; new maptalks.ui.UIMarker([-0.113049, 51.49856], {
-  &#x27;draggable&#x27;     : true,
-  &#x27;content&#x27;       : createBar()
+var highChartsUI = new maptalks.ui.UIMarker([-0.113049, 51.49856], {
+  'draggable': true,
+  'content': createBar()
 }).addTo(map).show();
 
 function createBar() {
-  var dom &#x3D; document.createElement(&#x27;div&#x27;);
-  dom.style.cssText &#x3D; &#x27;min-width: 300px; height: 300px; margin: 0 auto;&#x27;;
+  var dom = document.createElement('div');
+  dom.style.cssText = 'min-width: 300px; height: 300px; margin: 0 auto;';
   new Highcharts.Chart({
     chart: {
       renderTo: dom,
-      backgroundColor: &#x27;rgba(255, 255, 255, 0.8)&#x27;,
-      type: &#x27;area&#x27;,
+      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+      type: 'area',
       spacingBottom: 30
     },
     title: {
-      text: &#x27;Fruit consumption *&#x27;
+      text: 'Fruit consumption *'
     },
     subtitle: {
-      text: &#x27;* Jane\&#x27;s banana consumption is unknown&#x27;,
+      text: '* Jane\'s banana consumption is unknown',
       floating: true,
-      align: &#x27;right&#x27;,
-      verticalAlign: &#x27;bottom&#x27;,
+      align: 'right',
+      verticalAlign: 'bottom',
       y: 15
     },
     legend: {
-      layout: &#x27;vertical&#x27;,
-      align: &#x27;left&#x27;,
-      verticalAlign: &#x27;top&#x27;,
+      layout: 'vertical',
+      align: 'left',
+      verticalAlign: 'top',
       x: 150,
       y: 100,
       floating: true,
       borderWidth: 1,
-      backgroundColor: (Highcharts.theme &amp;&amp; Highcharts.theme.legendBackgroundColor) || &#x27;#FFFFFF&#x27;
+      backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
     },
     xAxis: {
-      categories: [&#x27;Apples&#x27;, &#x27;Pears&#x27;, &#x27;Oranges&#x27;, &#x27;Bananas&#x27;, &#x27;Grapes&#x27;, &#x27;Plums&#x27;, &#x27;Strawberries&#x27;, &#x27;Raspberries&#x27;]
+      categories: ['Apples', 'Pears', 'Oranges', 'Bananas', 'Grapes', 'Plums', 'Strawberries', 'Raspberries']
     },
     yAxis: {
       title: {
-        text: &#x27;Y-Axis&#x27;
+        text: 'Y-Axis'
       },
       labels: {
-        formatter: function () {
+        formatter: function() {
           return this.value;
         }
       }
     },
     tooltip: {
-      formatter: function () {
-        return &#x27;&lt;b&gt;&#x27; + this.series.name + &#x27;&lt;/b&gt;&lt;br/&gt;&#x27; +
-                  this.x + &#x27;: &#x27; + this.y;
+      formatter: function() {
+        return '<b>' + this.series.name + '</b><br/>' +
+          this.x + ': ' + this.y;
       }
     },
     plotOptions: {
@@ -975,24 +972,27 @@ function createBar() {
       enabled: false
     },
     series: [{
-      name: &#x27;John&#x27;,
+      name: 'John',
       data: [0, 1, 4, 4, 5, 2, 3, 7]
     }, {
-      name: &#x27;Jane&#x27;,
+      name: 'Jane',
       data: [1, 0, 3, null, 3, 1, 2, 1]
     }]
   });
   return dom;
+}</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
 }
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="Highcharts图表样式">
-      <textarea name="description">图形样式 - Highcharts图表样式</textarea>
-      <input type="text" name="wrap" value="l">
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -1008,6 +1008,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "Highcharts图表样式",
+        description: "图形样式 - Highcharts图表样式",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

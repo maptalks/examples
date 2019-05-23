@@ -851,66 +851,79 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-&lt;div id&#x3D;&quot;status&quot;&gt;&lt;/div&gt;
-      </textarea>
-      <textarea name="js">
-
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.498568],
+<div id="map" class="container"></div>
+<div id="status"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.498568],
   zoom: 14,
   centerCross: true,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
   })
 });
 
-map.on(&#x27;zoomend moving moveend&#x27;, getStatus);
+map.on('zoomend moving moveend', getStatus);
 
 getStatus();
 
 function getStatus() {
-  var extent &#x3D; map.getExtent(),
-    ex &#x3D; [
-      &#x27;{&#x27;,
-      &#x27;xmin:&#x27; + extent.xmin.toFixed(5),
-      &#x27;, ymin:&#x27; + extent.ymin.toFixed(5),
-      &#x27;, xmax:&#x27; + extent.xmax.toFixed(5),
-      &#x27;, ymax:&#x27; + extent.xmax.toFixed(5),
-      &#x27;}&#x27;
-    ].join(&#x27;&#x27;);
-  var center &#x3D; map.getCenter();
-  var mapStatus &#x3D; [
-    &#x27;Center : [&#x27; + [center.x.toFixed(5), center.y.toFixed(5)].join() + &#x27;]&#x27;,
-    &#x27;Extent : &#x27; + ex,
-    &#x27;Size : &#x27; + map.getSize().toArray().join(),
-    &#x27;Zoom : &#x27;   + map.getZoom(),
-    &#x27;MinZoom : &#x27; + map.getMinZoom(),
-    &#x27;MaxZoom : &#x27; + map.getMaxZoom(),
-    &#x27;Projection : &#x27; + map.getProjection().code
+  var extent = map.getExtent(),
+    ex = [
+      '{',
+      'xmin:' + extent.xmin.toFixed(5),
+      ', ymin:' + extent.ymin.toFixed(5),
+      ', xmax:' + extent.xmax.toFixed(5),
+      ', ymax:' + extent.xmax.toFixed(5),
+      '}'
+    ].join('');
+  var center = map.getCenter();
+  var mapStatus = [
+    'Center : [' + [center.x.toFixed(5), center.y.toFixed(5)].join() + ']',
+    'Extent : ' + ex,
+    'Size : ' + map.getSize().toArray().join(),
+    'Zoom : ' + map.getZoom(),
+    'MinZoom : ' + map.getMinZoom(),
+    'MaxZoom : ' + map.getMaxZoom(),
+    'Projection : ' + map.getProjection().code
   ];
 
-  document.getElementById(&#x27;status&#x27;).innerHTML &#x3D; &#x27;&lt;div&gt;&#x27; + mapStatus.join(&#x27;&lt;br&gt;&#x27;) + &#x27;&lt;/div&gt;&#x27;;
+  document.getElementById('status').innerHTML = '<div>' + mapStatus.join('<br>') + '</div>';
+}</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
 }
-
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-#status{position:fixed;left:0px;top:0px;width:100%;height:140px;overflow:hidden}
-#status div{background-color:rgba(13, 13, 13, 0.5);width:100%;height:100%;padding:10px 10px 10px 10px;font:13px bold sans-serif;color:#fff}
-      </textarea>
-      <input type="text" name="title" value="Get map&#x27;s status">
-      <textarea name="description">Map - Get map&#x27;s status</textarea>
-      <input type="text" name="wrap" value="l">
+.container {
+  width:100%;
+  height:100%
+}
+#status {
+  position:fixed;
+  left:0px;
+  top:0px;
+  width:100%;
+  height:140px;
+  overflow:hidden
+}
+#status div {
+  background-color:rgba(13, 13, 13, 0.5);
+  width:100%;
+  height:100%;
+  padding:10px 10px 10px 10px;
+  font:13px bold sans-serif;
+  color:#fff
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -926,6 +939,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "Get map's status",
+        description: "Map - Get map's status",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

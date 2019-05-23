@@ -938,153 +938,143 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.49856],
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.49856],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;tile&#x27;, {
-    urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
+  baseLayer: new maptalks.TileLayer('tile', {
+    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c'],
+    attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors'
   })
 });
 
-var layer &#x3D; new maptalks.VectorLayer(&#x27;v&#x27;).addTo(map);
+var layer = new maptalks.VectorLayer('v').addTo(map);
 
-var c &#x3D; map.getCenter();
+var c = map.getCenter();
 
 // based on function-type v0.18.0 plus support of identity
 // https://www.mapbox.com/mapbox-gl-js/style-spec/#types-function
-var symbol &#x3D; {
-  &#x27;markerType&#x27;: &#x27;ellipse&#x27;,
-  &#x27;markerFill&#x27;: &#x27;rgb(216,115,149)&#x27;,
-  &#x27;markerFillOpacity&#x27;: { // use heat value in property
-    &#x27;property&#x27;: &#x27;heat&#x27;,
-    &#x27;type&#x27; : &#x27;identity&#x27;
+var symbol = {
+  'markerType': 'ellipse',
+  'markerFill': 'rgb(216,115,149)',
+  'markerFillOpacity': { // use heat value in property
+    'property': 'heat',
+    'type': 'identity'
   },
-  &#x27;markerLineWidth&#x27;: 0,
-  &#x27;markerLineOpacity&#x27;: 1,
-  &#x27;markerWidth&#x27;: 40,
-  &#x27;markerHeight&#x27;: 40
+  'markerLineWidth': 0,
+  'markerLineOpacity': 1,
+  'markerWidth': 40,
+  'markerHeight': 40
 };
 
-var marker1 &#x3D; new maptalks.Marker(
-  c.sub(0.020, 0),
-  {
-    &#x27;symbol&#x27; : symbol,
-    &#x27;properties&#x27; : {
-      &#x27;heat&#x27; : 1
+var marker1 = new maptalks.Marker(
+  c.sub(0.020, 0), {
+    'symbol': symbol,
+    'properties': {
+      'heat': 1
     }
   }
 ).addTo(layer);
 
-var marker2 &#x3D; new maptalks.Marker(
-  c.sub(0.015, 0),
-  {
-    &#x27;symbol&#x27; : symbol,
-    &#x27;properties&#x27; : {
-      &#x27;heat&#x27; : 0.9
+var marker2 = new maptalks.Marker(
+  c.sub(0.015, 0), {
+    'symbol': symbol,
+    'properties': {
+      'heat': 0.9
     }
   }
 ).addTo(layer);
 
-var marker3 &#x3D; new maptalks.Marker(
-  c.sub(0.010, 0),
-  {
-    &#x27;symbol&#x27; : symbol,
-    &#x27;properties&#x27; : {
-      &#x27;heat&#x27; : 0.8
+var marker3 = new maptalks.Marker(
+  c.sub(0.010, 0), {
+    'symbol': symbol,
+    'properties': {
+      'heat': 0.8
     }
   }
 ).addTo(layer);
 
-var marker4 &#x3D; new maptalks.Marker(
-  c.sub(0.005, 0),
-  {
-    &#x27;symbol&#x27; : symbol,
-    &#x27;properties&#x27; : {
-      &#x27;heat&#x27; : 0.7
+var marker4 = new maptalks.Marker(
+  c.sub(0.005, 0), {
+    'symbol': symbol,
+    'properties': {
+      'heat': 0.7
     }
   }
 ).addTo(layer);
 
-var marker5 &#x3D; new maptalks.Marker(
-  c,
-  {
-    &#x27;symbol&#x27; : symbol,
-    &#x27;properties&#x27; : {
-      &#x27;heat&#x27; : 0.6
+var marker5 = new maptalks.Marker(
+  c, {
+    'symbol': symbol,
+    'properties': {
+      'heat': 0.6
     }
   }
 ).addTo(layer);
 
 
-var marker6 &#x3D; new maptalks.Marker(
-  c.add(0.005, 0),
-  {
-    &#x27;symbol&#x27; : symbol,
-    &#x27;properties&#x27; : {
-      &#x27;heat&#x27; : 0.5
+var marker6 = new maptalks.Marker(
+  c.add(0.005, 0), {
+    'symbol': symbol,
+    'properties': {
+      'heat': 0.5
     }
   }
 ).addTo(layer);
 
-var marker7 &#x3D; new maptalks.Marker(
-  c.add(0.010, 0),
-  {
-    &#x27;symbol&#x27; : symbol,
-    &#x27;properties&#x27; : {
-      &#x27;heat&#x27; : 0.4
+var marker7 = new maptalks.Marker(
+  c.add(0.010, 0), {
+    'symbol': symbol,
+    'properties': {
+      'heat': 0.4
     }
   }
 ).addTo(layer);
 
-var marker8 &#x3D; new maptalks.Marker(
-  c.add(0.015, 0),
-  {
-    &#x27;symbol&#x27; : symbol,
-    &#x27;properties&#x27; : {
-      &#x27;heat&#x27; : 0.3
+var marker8 = new maptalks.Marker(
+  c.add(0.015, 0), {
+    'symbol': symbol,
+    'properties': {
+      'heat': 0.3
     }
   }
 ).addTo(layer);
 
-var marker9 &#x3D; new maptalks.Marker(
-  c.add(0.020, 0),
-  {
-    &#x27;symbol&#x27; : symbol,
-    &#x27;properties&#x27; : {
-      &#x27;heat&#x27; : 0.2
+var marker9 = new maptalks.Marker(
+  c.add(0.020, 0), {
+    'symbol': symbol,
+    'properties': {
+      'heat': 0.2
     }
   }
 ).addTo(layer);
 
-var marker10 &#x3D; new maptalks.Marker(
-  c.add(0.025, 0),
-  {
-    &#x27;symbol&#x27; : symbol,
-    &#x27;properties&#x27; : {
-      &#x27;heat&#x27; : 0.1
+var marker10 = new maptalks.Marker(
+  c.add(0.025, 0), {
+    'symbol': symbol,
+    'properties': {
+      'heat': 0.1
     }
   }
-).addTo(layer);
-
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="根据属性数据设置样式">
-      <textarea name="description">图形样式 - 根据属性数据设置样式</textarea>
-      <input type="text" name="wrap" value="l">
+).addTo(layer);</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -1100,6 +1090,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "根据属性数据设置样式",
+        description: "图形样式 - 根据属性数据设置样式",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

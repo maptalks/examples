@@ -841,56 +841,56 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
   center: [2.3039431874999536, 50.97239313116968],
   zoom: 7,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c'],
+    attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors'
   })
 });
 
-var layer &#x3D; new maptalks.VectorLayer(&#x27;vector&#x27;).addTo(map);
+var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-var line &#x3D; new maptalks.LineString(
+var line = new maptalks.LineString(
   [
     [4.460010082031204, 50.41204897711654],
     [3.7129397695312036, 51.05869036408862],
     [3.2295413320312036, 51.20347195727524],
     [1.0872073476562036, 51.27225609350862],
     [-0.15424773046879636, 51.5053534272480]
-  ],
-  {
-    symbol:{
-      &#x27;lineColor&#x27; : &#x27;#1bbc9b&#x27;,
-      &#x27;lineWidth&#x27; : 3,
-      &#x27;lineDasharray&#x27; : [10, 10],
-      &#x27;markerFile&#x27;  : &#x27;plane.png&#x27;,
-      &#x27;markerPlacement&#x27; : &#x27;vertex&#x27;, //vertex, point, vertex-first, vertex-last, center
-      &#x27;markerVerticalAlignment&#x27; : &#x27;middle&#x27;,
-      &#x27;markerWidth&#x27;  : 30,
-      &#x27;markerHeight&#x27; : 30
+  ], {
+    symbol: {
+      'lineColor': '#1bbc9b',
+      'lineWidth': 3,
+      'lineDasharray': [10, 10],
+      'markerFile': 'plane.png',
+      'markerPlacement': 'vertex', //vertex, point, vertex-first, vertex-last, center
+      'markerVerticalAlignment': 'middle',
+      'markerWidth': 30,
+      'markerHeight': 30
     }
   }
-).addTo(layer);
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="端点沿线自动旋转Marker">
-      <textarea name="description">图形样式 - 端点沿线自动旋转Marker</textarea>
-      <input type="text" name="wrap" value="l">
+).addTo(layer);</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -906,6 +906,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "端点沿线自动旋转Marker",
+        description: "图形样式 - 端点沿线自动旋转Marker",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

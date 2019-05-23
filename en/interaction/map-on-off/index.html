@@ -876,91 +876,97 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.498568],
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.498568],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
   })
 });
 
 function dragOn() {
-  map.config(&#x27;draggable&#x27;, true);
-}
-function dragOff() {
-  map.config(&#x27;draggable&#x27;, false);
-}
-function zoomOn() {
-  map.config(&#x27;zoomable&#x27;, true);
-}
-function zoomOff() {
-  map.config(&#x27;zoomable&#x27;, false);
-}
-function scrollOn() {
-  map.config(&#x27;scrollWheelZoom&#x27;, true);
-}
-function scrollOff() {
-  map.config(&#x27;scrollWheelZoom&#x27;, false);
-}
-function touchZoomOn() {
-  map.config(&#x27;touchZoom&#x27;, true);
-}
-function touchZoomOff() {
-  map.config(&#x27;touchZoom&#x27;, false);
-}
-function dblClickOn() {
-  map.config(&#x27;doubleClickZoom&#x27;, true);
-}
-function dblClickOff() {
-  map.config(&#x27;doubleClickZoom&#x27;, false);
+  map.config('draggable', true);
 }
 
-var items &#x3D; [
-  [&#x27;Drag&#x27;, dragOn, dragOff],
-  [&#x27;Zoom&#x27;, zoomOn, zoomOff],
-  [&#x27;ScrollWheel&#x27;, scrollOn, scrollOff],
-  [&#x27;TouchZoom&#x27;, touchZoomOn, touchZoomOff],
-  [&#x27;DblClick&#x27;, dblClickOn, dblClickOff]
-].map(function (value) {
+function dragOff() {
+  map.config('draggable', false);
+}
+
+function zoomOn() {
+  map.config('zoomable', true);
+}
+
+function zoomOff() {
+  map.config('zoomable', false);
+}
+
+function scrollOn() {
+  map.config('scrollWheelZoom', true);
+}
+
+function scrollOff() {
+  map.config('scrollWheelZoom', false);
+}
+
+function touchZoomOn() {
+  map.config('touchZoom', true);
+}
+
+function touchZoomOff() {
+  map.config('touchZoom', false);
+}
+
+function dblClickOn() {
+  map.config('doubleClickZoom', true);
+}
+
+function dblClickOff() {
+  map.config('doubleClickZoom', false);
+}
+
+var items = [
+  ['Drag', dragOn, dragOff],
+  ['Zoom', zoomOn, zoomOff],
+  ['ScrollWheel', scrollOn, scrollOff],
+  ['TouchZoom', touchZoomOn, touchZoomOff],
+  ['DblClick', dblClickOn, dblClickOff]
+].map(function(value) {
   return {
     item: value[0],
-    children: [
-      {
-        item: &#x27;ON&#x27;,
-        click: value[1]
-      },
-      {
-        item: &#x27;OFF&#x27;,
-        click: value[2]
-      }
-    ]
+    children: [{
+      item: 'ON',
+      click: value[1]
+    }, {
+      item: 'OFF',
+      click: value[2]
+    }]
   };
 });
 
 new maptalks.control.Toolbar({
   items: items
-}).addTo(map);
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{float:left;width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="Turn on/off map interaction capabilities">
-      <textarea name="description">User Interactions - Turn on/off map interaction capabilities</textarea>
-      <input type="text" name="wrap" value="l">
+}).addTo(map);</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  float:left;
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -976,6 +982,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "Turn on/off map interaction capabilities",
+        description: "User Interactions - Turn on/off map interaction capabilities",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

@@ -875,32 +875,28 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;loading data...&lt;/div&gt;
-&lt;script src&#x3D;&quot;https://d3js.org/d3.v4.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src&#x3D;&quot;https://d3js.org/topojson.v2.min.js&quot;&gt;&lt;/script&gt;
-
-      </textarea>
-      <textarea name="js">
-
+<div id="map" class="container">loading data...</div>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
+</textarea>
+    <textarea id="js-data" name="js">
 //Versor Dragging projection from D3
 //https://bl.ocks.org/mbostock/7ea1dde508cec6d2d95306f92642bc42
-var projection &#x3D;  d3.geoOrthographic()
-                    .scale(148)
-                    .precision(.1);
+var projection = d3.geoOrthographic()
+  .scale(148)
+  .precision(.1);
 
 //convert to a maptalks projection object
-var proj &#x3D; {
-  project : function (c) {
-    var pc &#x3D; projection([c.x, c.y]);
+var proj = {
+  project: function(c) {
+    var pc = projection([c.x, c.y]);
     return new maptalks.Coordinate(pc[0], pc[1]);
   },
-  unproject : function (pc) {
-    var c &#x3D; projection.invert([pc.x, (pc.y)]);
+  unproject: function(pc) {
+    var c = projection.invert([pc.x, (pc.y)]);
     if (!c || isNaN(c[0]) || isNaN(c[1])) {
       return null;
     }
@@ -908,57 +904,63 @@ var proj &#x3D; {
   }
 };
 
-var min &#x3D; proj.project(new maptalks.Coordinate(-180, -90)),
-  max &#x3D; proj.project(new maptalks.Coordinate(180, 90)),
-  fullExtent &#x3D; {
-    &#x27;top&#x27;   : max.y,
-    &#x27;left&#x27;  : min.x,
-    &#x27;right&#x27; : max.x,
-    &#x27;bottom&#x27; : min.y
+var min = proj.project(new maptalks.Coordinate(-180, -90)),
+  max = proj.project(new maptalks.Coordinate(180, 90)),
+  fullExtent = {
+    'top': max.y,
+    'left': min.x,
+    'right': max.x,
+    'bottom': min.y
   };
 
-d3.json(&#x27;world-50m.json&#x27;, function (error, world) {
+d3.json('world-50m.json', function(error, world) {
   if (error) throw error;
   //initialize map with a customized projection
-  var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-    center:     [0, 0],
-    centerCross : true,
-    zoom:  2,
-    spatialReference:{
-      &#x27;projection&#x27;: proj,
-      &#x27;resolutions&#x27;: (function () {
-        var resolutions &#x3D; [];
-        for (var i &#x3D; 0; i &lt; 10; i++) {
-          resolutions[i] &#x3D; 4 / Math.pow(2, i);
+  var map = new maptalks.Map('map', {
+    center: [0, 0],
+    centerCross: true,
+    zoom: 2,
+    spatialReference: {
+      'projection': proj,
+      'resolutions': (function() {
+        var resolutions = [];
+        for (var i = 0; i < 10; i++) {
+          resolutions[i] = 4 / Math.pow(2, i);
         }
         return resolutions;
       })(),
-      &#x27;fullExtent&#x27;: fullExtent
+      'fullExtent': fullExtent
     }
   });
-  var featureCollection &#x3D; topojson.feature(world, world.objects.countries),
-    geometries &#x3D; maptalks.GeoJSON.toGeometry(featureCollection);
-  var symbol &#x3D; {
-    &#x27;lineColor&#x27; : &#x27;#fff&#x27;,
-    &#x27;lineWidth&#x27; : 0.5,
-    &#x27;polygonOpacity&#x27; : 1,
-    &#x27;polygonFill&#x27;    : &#x27;#747474&#x27;
+  var featureCollection = topojson.feature(world, world.objects.countries),
+    geometries = maptalks.GeoJSON.toGeometry(featureCollection);
+  var symbol = {
+    'lineColor': '#fff',
+    'lineWidth': 0.5,
+    'polygonOpacity': 1,
+    'polygonFill': '#747474'
   };
-  new maptalks.VectorLayer(&#x27;v&#x27;, geometries, { &#x27;geometryEvents&#x27;:false, &#x27;enableSimplify&#x27;:false })
-    .forEach(function (geo) {
+  new maptalks.VectorLayer('v', geometries, {
+    'geometryEvents': false,
+    'enableSimplify': false
+  })
+    .forEach(function(geo) {
       geo.setSymbol(symbol);
     })
     .addTo(map);
-});
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="D3 geo projection">
-      <textarea name="description">TileLayer and Geo-Projections - D3 geo projection</textarea>
-      <input type="text" name="wrap" value="l">
+});</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -974,6 +976,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "D3 geo projection",
+        description: "TileLayer and Geo-Projections - D3 geo projection",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

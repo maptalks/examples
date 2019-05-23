@@ -964,179 +964,165 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var layerOrder &#x3D; [
-  &#x27;earth&#x27;, &#x27;landuse&#x27;, &#x27;water&#x27;, &#x27;roads&#x27;, &#x27;building&#x27;
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var layerOrder = [
+  'earth', 'landuse', 'water', 'roads', 'building'
 ];
-// draw mapzen&#x27;s geojson vector tile with CanvasTileLayer
-var canvasTile &#x3D; new maptalks.CanvasTileLayer(&#x27;tile&#x27;,{
-  urlTemplate : &#x27;https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.json?api_key&#x3D;mapzen-cGRKZj&#x27;,
-  attribution : &#x27;&amp;copy; &lt;a href&#x3D;&quot;https://mapzen.com/&quot; target&#x3D;&quot;_blank&quot;&gt;mapzen&lt;/a&gt;&#x27;
+// draw mapzen's geojson vector tile with CanvasTileLayer
+var canvasTile = new maptalks.CanvasTileLayer('tile', {
+  urlTemplate: 'https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.json?api_key=mapzen-cGRKZj',
+  attribution: '&copy; <a href="https://mapzen.com/" target="_blank">mapzen</a> '
 });
-canvasTile.drawTile &#x3D; function (canvas, tileContext, onComplete) {
-  maptalks.Ajax.getJSON(tileContext.url, function (err, data) {
+canvasTile.drawTile = function(canvas, tileContext, onComplete) {
+  maptalks.Ajax.getJSON(tileContext.url, function(err, data) {
     if (err) {
       throw err;
     }
-    var layers &#x3D; [];
-    var loaded &#x3D; 0;
+    var layers = [];
+    var loaded = 0;
+
     function onLayerLoaded() {
       loaded++;
-      if (loaded &#x3D;&#x3D;&#x3D; layers.length) {
+      if (loaded === layers.length) {
         onComplete(null);
       }
     }
-    var mapzenStyle &#x3D; getMapZenStyle();
-    //prepare a VectorLayer per mapzen&#x27;s layer
-    for (var i &#x3D; 0, l &#x3D; layerOrder.length; i &lt; l; i++) {
-      var name &#x3D; layerOrder[i];
+    var mapzenStyle = getMapZenStyle();
+    //prepare a VectorLayer per mapzen's layer
+    for (var i = 0, l = layerOrder.length; i < l; i++) {
+      var name = layerOrder[i];
       if (!data[name]) {
         continue;
       }
-      var style &#x3D; mapzenStyle[name];
+      var style = mapzenStyle[name];
       layers.push(
         new maptalks.VectorLayer(name, maptalks.GeoJSON.toGeometry(data[name]), {
-          &#x27;style&#x27; : style,
-          &#x27;enableSimplify&#x27; : false,
-          &#x27;geometryEvents&#x27; : false
-        }).on(&#x27;layerload&#x27;, onLayerLoaded)
+          'style': style,
+          'enableSimplify': false,
+          'geometryEvents': false
+        }).on('layerload', onLayerLoaded)
       );
     }
-    //create a map instance on tile&#x27;s canvas
-    new maptalks.Map(canvas,{
-      center : tileContext.center,
-      zoom   :  tileContext.z,
-      layers : layers
+    //create a map instance on tile's canvas
+    new maptalks.Map(canvas, {
+      center: tileContext.center,
+      zoom: tileContext.z,
+      layers: layers
     });
   });
 };
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;,{
-  center:      [-122.12258202067433, 38.080679835385574],
-  zoom:  9,
-  centerCross : true,
-  baseLayer : canvasTile
+var map = new maptalks.Map('map', {
+  center: [-122.12258202067433, 38.080679835385574],
+  zoom: 9,
+  centerCross: true,
+  baseLayer: canvasTile
 });
 
 function getMapZenStyle() {
   return {
-    &#x27;roads&#x27; : [
-      {
-        filter : [&#x27;&#x3D;&#x3D;&#x27;, &#x27;kind&#x27;, &#x27;highway&#x27;],
-        symbol : [
-          {
-            &#x27;lineColor&#x27; : &#x27;grey&#x27;,
-            &#x27;lineWidth&#x27; : 7
-          },
-          {
-            &#x27;lineColor&#x27; : &#x27;#cc6666&#x27;,
-            &#x27;lineWidth&#x27; : 4
-          }
-        ]
-      },
-      {
-        filter : [&#x27;&#x3D;&#x3D;&#x27;, &#x27;kind&#x27;, &#x27;minor_road&#x27;],
-        symbol : {
-          &#x27;lineColor&#x27; : &#x27;lightgrey&#x27;,
-          &#x27;lineWidth&#x27; : 3
+    'roads': [{
+      filter: ['==', 'kind', 'highway'],
+      symbol: [{
+        'lineColor': 'grey',
+        'lineWidth': 7
+      }, {
+        'lineColor': '#cc6666',
+        'lineWidth': 4
+      }]
+    }, {
+      filter: ['==', 'kind', 'minor_road'],
+      symbol: {
+        'lineColor': 'lightgrey',
+        'lineWidth': 3
+      }
+    }, {
+      filter: true,
+      symbol: {
+        'lineColor': 'lightgrey',
+        'lineWidth': 2
+      }
+    }],
+
+    'buildings': [{
+      filter: true,
+      symbol: {
+        'lineColor': '#000',
+        'polygonFill': '#fff'
+      }
+    }],
+
+    'water': [{
+        filter: ['==', '$type', 'Point'],
+        symbol: {
+          'markerOpacity': 0,
+          'markerType': 'ellipse',
+          'markerFill': '#88bbee',
+          'markerWidth': 4,
+          'markerHeight': 4
         }
       },
+
       {
-        filter : true,
-        symbol : {
-          &#x27;lineColor&#x27; : &#x27;lightgrey&#x27;,
-          &#x27;lineWidth&#x27; : 2
+        filter: true,
+        symbol: {
+          'lineColor': '#88bbee',
+          'polygonFill': '#88bbee'
         }
       }
     ],
 
-    &#x27;buildings&#x27; : [
-      {
-        filter : true,
-        symbol : {
-          &#x27;lineColor&#x27; : &#x27;#000&#x27;,
-          &#x27;polygonFill&#x27; : &#x27;#fff&#x27;
-        }
+    'earth': [{
+      filter: ['==', '$type', 'Point'],
+      symbol: {
+        'markerOpacity': 0,
+        'markerType': 'ellipse',
+        'markerFill': '#ddeeee',
+        'markerWidth': 4,
+        'markerHeight': 4
       }
-    ],
-
-    &#x27;water&#x27; : [
-      {
-        filter : [&#x27;&#x3D;&#x3D;&#x27;, &#x27;$type&#x27;, &#x27;Point&#x27;],
-        symbol : {
-          &#x27;markerOpacity&#x27; : 0,
-          &#x27;markerType&#x27; : &#x27;ellipse&#x27;,
-          &#x27;markerFill&#x27; : &#x27;#88bbee&#x27;,
-          &#x27;markerWidth&#x27; : 4,
-          &#x27;markerHeight&#x27; : 4
-        }
-      },
-
-      {
-        filter : true,
-        symbol : {
-          &#x27;lineColor&#x27; : &#x27;#88bbee&#x27;,
-          &#x27;polygonFill&#x27; : &#x27;#88bbee&#x27;
-        }
+    }, {
+      filter: true,
+      symbol: {
+        'lineColor': '#ddeeee',
+        'polygonFill': '#ddeeee'
       }
-    ],
+    }],
 
-    &#x27;earth&#x27; : [
-      {
-        filter : [&#x27;&#x3D;&#x3D;&#x27;, &#x27;$type&#x27;, &#x27;Point&#x27;],
-        symbol : {
-          &#x27;markerOpacity&#x27; : 0,
-          &#x27;markerType&#x27; : &#x27;ellipse&#x27;,
-          &#x27;markerFill&#x27; : &#x27;#ddeeee&#x27;,
-          &#x27;markerWidth&#x27; : 4,
-          &#x27;markerHeight&#x27; : 4
-        }
-      },
-      {
-        filter : true,
-        symbol : {
-          &#x27;lineColor&#x27; : &#x27;#ddeeee&#x27;,
-          &#x27;polygonFill&#x27; : &#x27;#ddeeee&#x27;
-        }
+    'landuse': [{
+      filter: ['==', '$type', 'Point'],
+      symbol: {
+        'markerOpacity': 0,
+        'markerType': 'ellipse',
+        'markerFill': '#aaffaa',
+        'markerWidth': 4,
+        'markerHeight': 4
       }
-    ],
-
-    &#x27;landuse&#x27; : [
-      {
-        filter : [&#x27;&#x3D;&#x3D;&#x27;, &#x27;$type&#x27;, &#x27;Point&#x27;],
-        symbol : {
-          &#x27;markerOpacity&#x27; : 0,
-          &#x27;markerType&#x27; : &#x27;ellipse&#x27;,
-          &#x27;markerFill&#x27; : &#x27;#aaffaa&#x27;,
-          &#x27;markerWidth&#x27; : 4,
-          &#x27;markerHeight&#x27; : 4
-        }
-      },
-      {
-        filter : true,
-        symbol : {
-          &#x27;lineColor&#x27; : &#x27;#aaffaa&#x27;,
-          &#x27;polygonFill&#x27; : &#x27;#aaffaa&#x27;
-        }
+    }, {
+      filter: true,
+      symbol: {
+        'lineColor': '#aaffaa',
+        'polygonFill': '#aaffaa'
       }
-    ]
+    }]
   };
+}</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
 }
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="CanvasTileLayer: an example">
-      <textarea name="description">Layer - CanvasTileLayer: an example</textarea>
-      <input type="text" name="wrap" value="l">
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -1152,6 +1138,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "CanvasTileLayer: an example",
+        description: "Layer - CanvasTileLayer: an example",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

@@ -880,28 +880,25 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.11505,51.4985],
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.11505, 51.4985],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
   })
 });
 
-var c &#x3D; new maptalks.Coordinate(-0.11305,51.4985);
+var c = new maptalks.Coordinate(-0.11305, 51.4985);
 
-var arc &#x3D; new maptalks.ArcCurve([
+var arc = new maptalks.ArcCurve([
   c.add(-0.0202, 0.0081),
   c.add(-0.0269, 0.0069),
   c.add(-0.0369, 0.0032),
@@ -909,10 +906,10 @@ var arc &#x3D; new maptalks.ArcCurve([
   c.add(-0.0278, -0.008),
   c.add(-0.0220, -0.009)
 ], {
-  &#x27;symbol&#x27; : getSymbol(&#x27;Arc&#x27;)
+  'symbol': getSymbol('Arc')
 });
 
-var quad &#x3D; new maptalks.QuadBezierCurve([
+var quad = new maptalks.QuadBezierCurve([
   c.add(-0.0102, 0.0081),
   c.add(-0.0169, 0.0069),
   c.add(-0.0211, 0.0032),
@@ -920,10 +917,10 @@ var quad &#x3D; new maptalks.QuadBezierCurve([
   c.add(-0.0178, -0.0086),
   c.add(-0.0120, -0.0095)
 ], {
-  &#x27;symbol&#x27; : getSymbol(&#x27;Quadratic\nBézier&#x27;)
+  'symbol': getSymbol('Quadratic\nBézier')
 });
 
-var cubic &#x3D; new maptalks.CubicBezierCurve([
+var cubic = new maptalks.CubicBezierCurve([
   c.add(-0.0002, 0.0081),
   c.add(-0.0069, 0.0069),
   c.add(-0.0069, 0.0032),
@@ -931,44 +928,43 @@ var cubic &#x3D; new maptalks.CubicBezierCurve([
   c.add(-0.0078, -0.0086),
   c.add(-0.0020, -0.0095)
 ], {
-  &#x27;symbol&#x27; : getSymbol(&#x27;Cubic\nBézier&#x27;)
+  'symbol': getSymbol('Cubic\nBézier')
 });
 
-new maptalks.VectorLayer(&#x27;vector&#x27;, [arc, quad, cubic]).addTo(map);
+new maptalks.VectorLayer('vector', [arc, quad, cubic]).addTo(map);
 
 function getSymbol(title) {
-  return [
-    {
-      lineColor: &#x27;#34495e&#x27;,
-      lineWidth: 3
-    },
-    {
-      markerType : &#x27;ellipse&#x27;,
-      markerWidth : 8,
-      markerHeight : 8,
-      markerFill : &#x27;#f00&#x27;,
-      markerPlacement : &#x27;vertex&#x27;
-    },
-    {
-      textName : title,
-      textFill : &#x27;#f00&#x27;,
-      textWeight : &#x27;bold&#x27;,
-      textHaloColor : &#x27;#fff&#x27;,
-      textHaloRadius : 3,
-      textSize : 20,
-      textWrapCharacter : &#x27;\n&#x27;
-    }
-  ];
+  return [{
+    lineColor: '#34495e',
+    lineWidth: 3
+  }, {
+    markerType: 'ellipse',
+    markerWidth: 8,
+    markerHeight: 8,
+    markerFill: '#f00',
+    markerPlacement: 'vertex'
+  }, {
+    textName: title,
+    textFill: '#f00',
+    textWeight: 'bold',
+    textHaloColor: '#fff',
+    textHaloRadius: 3,
+    textSize: 20,
+    textWrapCharacter: '\n'
+  }];
+}</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
 }
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="Arc and Bezier Curves">
-      <textarea name="description">Geometry - Arc and Bezier Curves</textarea>
-      <input type="text" name="wrap" value="l">
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -984,6 +980,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "Arc and Bezier Curves",
+        description: "Geometry - Arc and Bezier Curves",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

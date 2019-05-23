@@ -830,45 +830,46 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
   center: [105.08052356963802, 36.04231948670001],
   zoom: 4,
-  minZoom:1,
-  maxZoom:18,
-  spatialReference:{
-    projection:&#x27;EPSG:4326&#x27;
+  minZoom: 1,
+  maxZoom: 18,
+  spatialReference: {
+    projection: 'EPSG:4326'
   },
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    tileSystem : [1, -1, -180, 90],
-    urlTemplate:&#x27;http://t{s}.tianditu.com/DataServer?T&#x3D;vec_c&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;l&#x3D;{z}&amp;tk&#x3D;de0dc270a51aaca3dd4e64d4f8c81ff6&#x27;,
-    subdomains:[&#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;],
-    attribution : &#x27;&amp;copy; &lt;a target&#x3D;&quot;_blank&quot; href&#x3D;&quot;http://www.tianditu.cn&quot;&gt;Tianditu&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    tileSystem: [1, -1, -180, 90],
+    urlTemplate: 'http://t{s}.tianditu.com/DataServer?T=vec_c&x={x}&y={y}&l={z}&tk=de0dc270a51aaca3dd4e64d4f8c81ff6',
+    subdomains: ['1', '2', '3', '4', '5'],
+    attribution: '&copy; <a target="_blank" href="http://www.tianditu.cn">Tianditu</a> '
   }),
-  layers : [
-    new maptalks.TileLayer(&#x27;road&#x27;, {
-      urlTemplate:&#x27;http://t{s}.tianditu.com/DataServer?T&#x3D;cva_c&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;l&#x3D;{z}&amp;tk&#x3D;de0dc270a51aaca3dd4e64d4f8c81ff6&#x27;,
-      subdomains:[&#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;],
-      opacity:1
+  layers: [
+    new maptalks.TileLayer('road', {
+      urlTemplate: 'http://t{s}.tianditu.com/DataServer?T=cva_c&x={x}&y={y}&l={z}&tk=de0dc270a51aaca3dd4e64d4f8c81ff6',
+      subdomains: ['1', '2', '3', '4', '5'],
+      opacity: 1
     })
   ]
-});
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="4326投影底图">
-      <textarea name="description">瓦片图层与地理投影 - 4326投影底图</textarea>
-      <input type="text" name="wrap" value="l">
+});</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -884,6 +885,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "4326投影底图",
+        description: "瓦片图层与地理投影 - 4326投影底图",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

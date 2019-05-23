@@ -836,51 +836,50 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-      </textarea>
-      <textarea name="js">
-
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.49856],
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.49856],
   zoom: 13,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c'],
+    attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors'
   })
 });
 
-var layer &#x3D; new maptalks.VectorLayer(&#x27;vector&#x27;).addTo(map);
+var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-var rect &#x3D; new maptalks.Rectangle(
-  [-0.143049,51.50856], 4250, 3000,
-  {
-    symbol:{
-      &#x27;polygonFill&#x27; : &#x27;rgb(135,196,240)&#x27;,
-      &#x27;polygonOpacity&#x27; : 1,
-      &#x27;lineColor&#x27; : &#x27;#1bbc9b&#x27;,
-      &#x27;lineWidth&#x27; : 6,
-      &#x27;lineJoin&#x27;  : &#x27;round&#x27;, //miter, round, bevel
-      &#x27;lineCap&#x27;   : &#x27;round&#x27;, //butt, round, square
-      &#x27;lineDasharray&#x27; : null,//dasharray, e.g. [10, 5, 5]
-      &#x27;lineOpacity &#x27; : 1
+var rect = new maptalks.Rectangle(
+  [-0.143049, 51.50856], 4250, 3000, {
+    symbol: {
+      'polygonFill': 'rgb(135,196,240)',
+      'polygonOpacity': 1,
+      'lineColor': '#1bbc9b',
+      'lineWidth': 6,
+      'lineJoin': 'round', //miter, round, bevel
+      'lineCap': 'round', //butt, round, square
+      'lineDasharray': null, //dasharray, e.g. [10, 5, 5]
+      'lineOpacity ': 1
     }
   }
-).addTo(layer);
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="面样式">
-      <textarea name="description">图形样式 - 面样式</textarea>
-      <input type="text" name="wrap" value="l">
+).addTo(layer);</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -896,6 +895,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "面样式",
+        description: "图形样式 - 面样式",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

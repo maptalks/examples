@@ -853,68 +853,78 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-&lt;div class&#x3D;&quot;pane&quot;&gt;Click around the square &lt;br&gt; Right click to clear&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.498568],
+<div id="map" class="container"></div>
+<div class="pane">Click around the square
+  <br>Right click to clear</div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.498568],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c'],
+    attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors'
   })
 });
 
-var layer &#x3D; new maptalks.VectorLayer(&#x27;v&#x27;).addTo(map);
-var markerLayer &#x3D; new maptalks.VectorLayer(&#x27;markers&#x27;).addTo(map);
+var layer = new maptalks.VectorLayer('v').addTo(map);
+var markerLayer = new maptalks.VectorLayer('markers').addTo(map);
 // the square
-var polygon &#x3D; new maptalks.Polygon([
-    [-0.103049, 51.508568],
-    [-0.116049, 51.508568],
-    [-0.116049, 51.493568],
-    [-0.103049, 51.493568]
+var polygon = new maptalks.Polygon([
+  [-0.103049, 51.508568],
+  [-0.116049, 51.508568],
+  [-0.116049, 51.493568],
+  [-0.103049, 51.493568]
 ], {
-  symbol : {
-    &#x27;lineWidth&#x27; : 3,
-    &#x27;lineColor&#x27; : &#x27;#223548&#x27;
+  symbol: {
+    'lineWidth': 3,
+    'lineColor': '#223548'
   }
 }).addTo(layer);
 
 // add markers on map
 // set to green if inside the square
 // set to red if outside the square
-map.on(&#x27;click&#x27;, function (e) {
-  var marker &#x3D; new maptalks.Marker(e.coordinate);
+map.on('click', function(e) {
+  var marker = new maptalks.Marker(e.coordinate);
   if (polygon.containsPoint(e.containerPoint)) {
     marker.updateSymbol({
-      markerFill : &#x27;#0e595e&#x27;
+      markerFill: '#0e595e'
     });
   }
   marker.addTo(markerLayer);
 });
 
 //clear markers when right click
-map.on(&#x27;contextmenu&#x27;, function () {
+map.on('contextmenu', function() {
   markerLayer.clear();
-});
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-.pane{background:#34495e;line-height:28px;color:#fff;z-index:10;padding:10px;position:absolute;top:20px;right:20px}
-      </textarea>
-      <input type="text" name="title" value="鼠标与图形的空间关系">
-      <textarea name="description">交互 - 鼠标与图形的空间关系</textarea>
-      <input type="text" name="wrap" value="l">
+});</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}
+.pane {
+  background:#34495e;
+  line-height:28px;
+  color:#fff;
+  z-index:10;
+  padding:10px;
+  position:absolute;
+  top:20px;
+  right:20px
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -930,6 +940,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "鼠标与图形的空间关系",
+        description: "交互 - 鼠标与图形的空间关系",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

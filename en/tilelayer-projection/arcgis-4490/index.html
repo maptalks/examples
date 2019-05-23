@@ -830,45 +830,45 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var arcUrl = 'http://116.211.137.33:8010/ServiceAdapter/MAP/%E7%94%B5%E5%AD%90%E5%9C%B0%E5%9B%BE/07769b53b5243b7d6aea9df803f471c1';
 
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var arcUrl &#x3D; &#x27;http://116.211.137.33:8010/ServiceAdapter/MAP/%E7%94%B5%E5%AD%90%E5%9C%B0%E5%9B%BE/07769b53b5243b7d6aea9df803f471c1&#x27;;
-
-maptalks.SpatialReference.loadArcgis(arcUrl + &#x27;?f&#x3D;pjson&#x27;, function (err, conf) {
+maptalks.SpatialReference.loadArcgis(arcUrl + '?f=pjson', function(err, conf) {
   if (err) {
     throw new Error(err);
   }
-  var ref &#x3D; conf.spatialReference;
-  ref.projection &#x3D; &#x27;EPSG:4490&#x27;;
-  var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+  var ref = conf.spatialReference;
+  ref.projection = 'EPSG:4490';
+  var map = new maptalks.Map('map', {
     center: [114.2802000833099, 30.57662124451251],
     zoom: 0,
-    spatialReference : ref,
-    baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-      &#x27;renderer&#x27; : &#x27;canvas&#x27;,
-      &#x27;tileSystem&#x27; : conf.tileSystem,
-      &#x27;tileSize&#x27; : conf.tileSize, // [256, 256]
-      &#x27;urlTemplate&#x27; : arcUrl + &#x27;/tile/{z}/{y}/{x}&#x27;,
-      &#x27;attribution&#x27; : &#x27;&amp;copy; &lt;a target&#x3D;&quot;_blank&quot; href&#x3D;&quot;http://www.digitalwuhan.gov.cn/map/&quot;&gt;天地图.武汉&lt;/a&gt;&#x27;
+    spatialReference: ref,
+    baseLayer: new maptalks.TileLayer('base', {
+      'renderer': 'canvas',
+      'tileSystem': conf.tileSystem,
+      'tileSize': conf.tileSize, // [256, 256]
+      'urlTemplate': arcUrl + '/tile/{z}/{y}/{x}',
+      'attribution': '&copy; <a target="_blank" href="http://www.digitalwuhan.gov.cn/map/">天地图.武汉</a> '
     })
   });
-});
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="">
-      <textarea name="description"> - </textarea>
-      <input type="text" name="wrap" value="l">
+});</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -884,6 +884,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "",
+        description: " - ",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

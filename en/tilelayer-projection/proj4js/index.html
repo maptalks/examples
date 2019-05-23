@@ -875,41 +875,39 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-&lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;proj4.js&quot;&gt;&lt;/script&gt;
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-// EPSG:3857&#x27;s proj definition
-var proj3857 &#x3D; &#x27;+proj&#x3D;merc +a&#x3D;6378137 +b&#x3D;6378137 +lat_ts&#x3D;0.0 +lon_0&#x3D;0.0 +x_0&#x3D;0.0 +y_0&#x3D;0 +k&#x3D;1.0 +units&#x3D;m +nadgrids&#x3D;@null +wktext  +no_defs&#x27;;
-var proj4 &#x3D; proj4(&#x27;WGS84&#x27;, proj3857);
+<script type="text/javascript" src="proj4.js"></script>
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+// EPSG:3857's proj definition
+var proj3857 = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs';
+var proj4 = proj4('WGS84', proj3857);
 
 // define a custom projection object
-var projection &#x3D; {
-  code : &#x27;proj4-merc&#x27;,  // code of the projection
+var projection = {
+  code: 'proj4-merc', // code of the projection
 
-  project : function (c) { // from wgs84 to EPSG3857
-    var pc &#x3D; proj4.forward(c.toArray());
+  project: function(c) { // from wgs84 to EPSG3857
+    var pc = proj4.forward(c.toArray());
     return new maptalks.Coordinate(pc);
   },
 
-  unproject : function (pc) { // from EPSG3857 to wgs84
-    var c &#x3D; proj4.inverse(pc.toArray());
+  unproject: function(pc) { // from EPSG3857 to wgs84
+    var c = proj4.inverse(pc.toArray());
     return new maptalks.Coordinate(c);
   }
 };
 
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center:     [-0.113049, 51.498568],
-  zoom:  13,
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.498568],
+  zoom: 13,
   // spatial reference definition
-  spatialReference : {
-    projection : projection,        // geo projection, defined by proj4js
-    resolutions : [           // map&#x27;s zoom levels and resolutions
+  spatialReference: {
+    projection: projection, // geo projection, defined by proj4js
+    resolutions: [ // map's zoom levels and resolutions
       156543.03392804097,
       78271.51696402048,
       9135.75848201024,
@@ -931,28 +929,31 @@ var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
       0.5971642834779395,
       0.29858214173896974
     ],
-    fullExtent : {         // map&#x27;s full extent
-      &#x27;top&#x27;: 6378137 * Math.PI,
-      &#x27;left&#x27;: -6378137 * Math.PI,
-      &#x27;bottom&#x27;: -6378137 * Math.PI,
-      &#x27;right&#x27;: 6378137 * Math.PI
+    fullExtent: { // map's full extent
+      'top': 6378137 * Math.PI,
+      'left': -6378137 * Math.PI,
+      'bottom': -6378137 * Math.PI,
+      'right': 6378137 * Math.PI
     }
   },
-  baseLayer : new maptalks.TileLayer(&#x27;base&#x27;,{
-    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
   })
-});
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="TileLayer of custom projection by proj4js">
-      <textarea name="description">TileLayer and Geo-Projections - TileLayer of custom projection by proj4js</textarea>
-      <input type="text" name="wrap" value="l">
+});</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -968,6 +969,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "TileLayer of custom projection by proj4js",
+        description: "TileLayer and Geo-Projections - TileLayer of custom projection by proj4js",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

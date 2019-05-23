@@ -900,82 +900,79 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
 // This work is submitted by @1dent1ty https://github.com/1dent1ty
 // Inspired by openlayers https://openlayers.org/en/latest/examples/magnify.html
 
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.498568],
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.498568],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c'],
+    attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors'
   })
 });
 
-var mousePosition &#x3D; null;
+var mousePosition = null;
 
-map.on(&#x27;mousemove&#x27;, function (e) {
-  mousePosition &#x3D; e.containerPoint;
+map.on('mousemove', function(e) {
+  mousePosition = e.containerPoint;
   map.getRenderer().setToRedraw();
 });
 
-map.on(&#x27;mouseout&#x27;, function () {
-  mousePosition &#x3D; null;
+map.on('mouseout', function() {
+  mousePosition = null;
   map.getRenderer().setToRedraw();
 });
 
-map.on(&#x27;renderend&#x27;, function (e) {
+map.on('renderend', function(e) {
   if (!mousePosition) {
     return;
   }
-  // map&#x27;s canvas context
-  var ctx &#x3D; e.context;
+  // map's canvas context
+  var ctx = e.context;
   // radius of magnifier
-  var radius &#x3D; 150;
-  var pixelRatio &#x3D; (window.devicePixelRatio || (window.screen.deviceXDPI / window.screen.logicalXDPI));
-  radius *&#x3D; (pixelRatio &gt; 1 ? 2 : 1);
-  var centerX &#x3D; mousePosition.x * pixelRatio,
-    centerY &#x3D; mousePosition.y * pixelRatio;
-  var originX &#x3D; centerX - radius,
-    originY &#x3D; centerY - radius;
-  var size &#x3D; 2 * radius + 2;
+  var radius = 150;
+  var pixelRatio = (window.devicePixelRatio || (window.screen.deviceXDPI / window.screen.logicalXDPI));
+  radius *= (pixelRatio > 1 ? 2 : 1);
+  var centerX = mousePosition.x * pixelRatio,
+    centerY = mousePosition.y * pixelRatio;
+  var originX = centerX - radius,
+    originY = centerY - radius;
+  var size = 2 * radius + 2;
   // manipulate pixel values to magnify
-  var sourceData &#x3D; ctx.getImageData(originX, originY, size, size).data;
-  var dest &#x3D; ctx.createImageData(size, size);
-  var destData &#x3D; dest.data;
-  for (var j &#x3D; 0; j &lt; size; ++j) {
-    for (var i &#x3D; 0; i &lt; size; ++i) {
-      var dI &#x3D; i - radius;
-      var dJ &#x3D; j - radius;
-      var dist &#x3D; Math.sqrt(dI * dI + dJ * dJ);
-      var sourceI &#x3D; i;
-      var sourceJ &#x3D; j;
-      if (dist &lt; radius) {
-        sourceI &#x3D; Math.round(radius + dI / 2);
-        sourceJ &#x3D; Math.round(radius + dJ / 2);
+  var sourceData = ctx.getImageData(originX, originY, size, size).data;
+  var dest = ctx.createImageData(size, size);
+  var destData = dest.data;
+  for (var j = 0; j < size; ++j) {
+    for (var i = 0; i < size; ++i) {
+      var dI = i - radius;
+      var dJ = j - radius;
+      var dist = Math.sqrt(dI * dI + dJ * dJ);
+      var sourceI = i;
+      var sourceJ = j;
+      if (dist < radius) {
+        sourceI = Math.round(radius + dI / 2);
+        sourceJ = Math.round(radius + dJ / 2);
       }
-      var destOffset &#x3D; (j * size + i) * 4;
-      var sourceOffset &#x3D; (sourceJ * size + sourceI) * 4;
-      destData[destOffset] &#x3D; sourceData[sourceOffset];
-      destData[destOffset + 1] &#x3D; sourceData[sourceOffset + 1];
-      destData[destOffset + 2] &#x3D; sourceData[sourceOffset + 2];
-      destData[destOffset + 3] &#x3D; sourceData[sourceOffset + 3];
+      var destOffset = (j * size + i) * 4;
+      var sourceOffset = (sourceJ * size + sourceI) * 4;
+      destData[destOffset] = sourceData[sourceOffset];
+      destData[destOffset + 1] = sourceData[sourceOffset + 1];
+      destData[destOffset + 2] = sourceData[sourceOffset + 2];
+      destData[destOffset + 3] = sourceData[sourceOffset + 3];
     }
   }
-  // draw magnifier&#x27;s outline
+  // draw magnifier's outline
   ctx.beginPath();
-  ctx.strokeStyle &#x3D; &#x27;#bbb&#x27;;
-  ctx.lineWidth &#x3D; 2;
+  ctx.strokeStyle = '#bbb';
+  ctx.lineWidth = 2;
   ctx.arc(centerX, centerY, radius + 2, 0, 2 * Math.PI);
   ctx.stroke();
   ctx.closePath();
@@ -985,30 +982,34 @@ map.on(&#x27;renderend&#x27;, function (e) {
 });
 
 //draw image data into a canvas, and clip it by a circle with diameter of size
+
 function createMagCircle(imageData, size) {
-  var magImg &#x3D; document.createElement(&#x27;canvas&#x27;);
-  var magCircle &#x3D; document.createElement(&#x27;canvas&#x27;);
+  var magImg = document.createElement('canvas');
+  var magCircle = document.createElement('canvas');
 
-  magImg.width &#x3D; magImg.height &#x3D; magCircle.width &#x3D; magCircle.height &#x3D; size;
-  magImg.getContext(&#x27;2d&#x27;).putImageData(imageData, 0, 0);
+  magImg.width = magImg.height = magCircle.width = magCircle.height = size;
+  magImg.getContext('2d').putImageData(imageData, 0, 0);
 
-  var ctx &#x3D; magCircle.getContext(&#x27;2d&#x27;);
+  var ctx = magCircle.getContext('2d');
   ctx.beginPath();
   ctx.arc(size / 2, size / 2, size / 2, 0, 2 * Math.PI);
   // clip canvas
   ctx.clip();
   ctx.drawImage(magImg, 0, 0);
   return magCircle;
+}</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
 }
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="地图放大镜">
-      <textarea name="description">地图 - 地图放大镜</textarea>
-      <input type="text" name="wrap" value="l">
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -1024,6 +1025,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "地图放大镜",
+        description: "地图 - 地图放大镜",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

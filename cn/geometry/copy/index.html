@@ -850,65 +850,84 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-&lt;div class&#x3D;&quot;pane&quot;&gt;&lt;a href&#x3D;&quot;javascript:copy();&quot;&gt;Copy&lt;/a&gt;&lt;a href&#x3D;&quot;javascript:clear();&quot;&gt;Clear&lt;/a&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.49856],
+<div id="map" class="container"></div>
+<div class="pane">
+  <a href="javascript:copy();">Copy</a> 
+  <a href="javascript:clear();">Clear</a> 
+</div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.49856],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c'],
+    attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors'
   })
 });
 
-var layer &#x3D; new maptalks.VectorLayer(&#x27;vector&#x27;).addTo(map);
-var copyLayer &#x3D; new maptalks.VectorLayer(&#x27;copy&#x27;).addTo(map);
+var layer = new maptalks.VectorLayer('vector').addTo(map);
+var copyLayer = new maptalks.VectorLayer('copy').addTo(map);
 
-var rect &#x3D; new maptalks.Rectangle(
+var rect = new maptalks.Rectangle(
   [-0.121049, 51.50656],
-  800, 600,
-  {
-    &#x27;symbol&#x27;: {
-      &#x27;lineColor&#x27;: &#x27;#fff&#x27;,
-      &#x27;lineWidth&#x27;: 2,
-      &#x27;polygonFill&#x27;: &#x27;rgb(216,115,149)&#x27;,
-      &#x27;polygonOpacity&#x27;: 0.7
+  800, 600, {
+    'symbol': {
+      'lineColor': '#fff',
+      'lineWidth': 2,
+      'polygonFill': 'rgb(216,115,149)',
+      'polygonOpacity': 0.7
     }
   }).addTo(layer);
 
-var counter &#x3D; 1;
+var counter = 1;
+
 function copy() {
   // copy with translation of [0.003, -0.003]
   rect.copy()
-  .translate(0.003 * counter, -0.003 * counter)
-  .addTo(copyLayer);
+    .translate(0.003 * counter, -0.003 * counter)
+    .addTo(copyLayer);
   counter++;
 }
 
 function clear() {
-  counter &#x3D; 1;
+  counter = 1;
   copyLayer.clear();
+}</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
 }
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-.pane{background:#34495e;line-height:28px;color:#fff;z-index:10;position:absolute;top:20px;right:20px}
-.pane a{display:block;color:#fff;text-align:left;padding:0 10px;min-width:28px;min-height:28px;float:left}
-      </textarea>
-      <input type="text" name="title" value="克隆">
-      <textarea name="description">图形 - 克隆</textarea>
-      <input type="text" name="wrap" value="l">
+.container {
+  width:100%;
+  height:100%
+}
+.pane {
+  background:#34495e;
+  line-height:28px;
+  color:#fff;
+  z-index:10;
+  position:absolute;
+  top:20px;
+  right:20px
+}
+.pane a {
+  display:block;
+  color:#fff;
+  text-align:left;
+  padding:0 10px;
+  min-width:28px;
+  min-height:28px;
+  float:left
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -924,6 +943,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "克隆",
+        description: "图形 - 克隆",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

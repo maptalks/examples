@@ -873,88 +873,105 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+<div class="title left">EPSG:3857</div>
+<div class="title right">baidu</div>
+<div id="map-3857" class="left"></div>
+<div id="map-bd09" class="right"></div>
+<div class="title left">EPSG:4326</div>
+<div class="title right">identity</div>
+<div id="map-4326" class="left"></div>
+<div id="map-identity" class="right"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var center = [105.08052356963802, 36.04231948670001];
 
-&lt;div class&#x3D;&quot;title left&quot;&gt;EPSG:3857&lt;/div&gt;
-&lt;div class&#x3D;&quot;title right&quot;&gt;baidu&lt;/div&gt;
-&lt;div id&#x3D;&quot;map-3857&quot; class&#x3D;&quot;left&quot;&gt;&lt;/div&gt;
-&lt;div id&#x3D;&quot;map-bd09&quot; class&#x3D;&quot;right&quot;&gt;&lt;/div&gt;
-&lt;div class&#x3D;&quot;title left&quot;&gt;EPSG:4326&lt;/div&gt;
-&lt;div class&#x3D;&quot;title right&quot;&gt;identity&lt;/div&gt;
-&lt;div id&#x3D;&quot;map-4326&quot; class&#x3D;&quot;left&quot;&gt;&lt;/div&gt;
-&lt;div id&#x3D;&quot;map-identity&quot; class&#x3D;&quot;right&quot;&gt;&lt;/div&gt;
-      </textarea>
-      <textarea name="js">
-
-var center &#x3D; [105.08052356963802, 36.04231948670001];
-
-var map3857 &#x3D; new maptalks.Map(&#x27;map-3857&#x27;, {
+var map3857 = new maptalks.Map('map-3857', {
   center: center,
   zoom: 4,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
   })
 });
 
-var mapBD &#x3D; new maptalks.Map(&#x27;map-bd09&#x27;, {
+var mapBD = new maptalks.Map('map-bd09', {
   center: center,
   zoom: 4,
-  minZoom:1,
-  maxZoom:19,
-  spatialReference:{
-    projection : &#x27;baidu&#x27;
+  minZoom: 1,
+  maxZoom: 19,
+  spatialReference: {
+    projection: 'baidu'
   },
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate:&#x27;http://online{s}.map.bdimg.com/tile/?qt&#x3D;tile&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;z&#x3D;{z}&amp;styles&#x3D;pl&#x27;,
-    subdomains:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-    attribution : &#x27;&amp;copy; &lt;a target&#x3D;&quot;_blank&quot; href&#x3D;&quot;http://map.baidu.com&quot;&gt;Baidu&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://online{s}.map.bdimg.com/tile/?qt=tile&x={x}&y={y}&z={z}&styles=pl',
+    subdomains: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    attribution: '&copy; <a target="_blank" href="http://map.baidu.com">Baidu</a> '
   })
 });
 
-var map4326 &#x3D; new maptalks.Map(&#x27;map-4326&#x27;, {
+var map4326 = new maptalks.Map('map-4326', {
   center: center,
   zoom: 4,
-  minZoom:1,
-  maxZoom:18,
-  spatialReference:{
-    projection:&#x27;EPSG:4326&#x27;
+  minZoom: 1,
+  maxZoom: 18,
+  spatialReference: {
+    projection: 'EPSG:4326'
   },
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    tileSystem : [1, -1, -180, 90],
-    crossOrigin:&#x27;Anonymous&#x27;,
-    urlTemplate:&#x27;http://t{s}.tianditu.com/DataServer?T&#x3D;vec_c&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;l&#x3D;{z}&#x27;,
-    subdomains:[&#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;],
-    attribution : &#x27;&amp;copy; &lt;a target&#x3D;&quot;_blank&quot; href&#x3D;&quot;http://www.tianditu.cn&quot;&gt;Tianditu&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    tileSystem: [1, -1, -180, 90],
+    crossOrigin: 'Anonymous',
+    urlTemplate: 'http://t{s}.tianditu.com/DataServer?T=vec_c&x={x}&y={y}&l={z}',
+    subdomains: ['1', '2', '3', '4', '5'],
+    attribution: '&copy; <a target="_blank" href="http://www.tianditu.cn">Tianditu</a> '
   }),
-  layers : [
-    new maptalks.TileLayer(&#x27;road&#x27;, {
-      crossOrigin:&#x27;Anonymous&#x27;,
-      urlTemplate:&#x27;http://t{s}.tianditu.com/DataServer?T&#x3D;cva_c&amp;x&#x3D;{x}&amp;y&#x3D;{y}&amp;l&#x3D;{z}&#x27;,
-      subdomains:[&#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;],
-      opacity:1
+  layers: [
+    new maptalks.TileLayer('road', {
+      crossOrigin: 'Anonymous',
+      urlTemplate: 'http://t{s}.tianditu.com/DataServer?T=cva_c&x={x}&y={y}&l={z}',
+      subdomains: ['1', '2', '3', '4', '5'],
+      opacity: 1
     })
   ]
-});
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.left{float:left;width:50%}
-.right{float:right;width:50%}
-.title{color:#fff;background-color:#34495e;text-align:center;height:15px;line-height:15px}
-#map-3857{height:45%}
-#map-bd09{height:45%}
-#map-4326{height:45%}
-#map-identity{height:45%}
-      </textarea>
-      <input type="text" name="title" value="">
-      <textarea name="description"> - </textarea>
-      <input type="text" name="wrap" value="l">
+});</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.left {
+  float:left;
+  width:50%
+}
+.right {
+  float:right;
+  width:50%
+}
+.title {
+  color:#fff;
+  background-color:#34495e;
+  text-align:center;
+  height:15px;
+  line-height:15px
+}
+#map-3857 {
+  height:45%
+}
+#map-bd09 {
+  height:45%
+}
+#map-4326 {
+  height:45%
+}
+#map-identity {
+  height:45%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -970,6 +987,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "",
+        description: " - ",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

@@ -864,58 +864,58 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-&lt;div class&#x3D;&quot;pane&quot;&gt;&lt;a href&#x3D;&quot;javascript:startEdit();&quot;&gt;Start edit&lt;/a&gt;&lt;a href&#x3D;&quot;javascript:endEdit();&quot;&gt;End edit&lt;/a&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+<div id="map" class="container"></div>
+<div class="pane">
+  <a href="javascript:startEdit();">Start edit</a> 
+  <a href="javascript:endEdit();">End edit</a> 
+</div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
   center: [-0.113049, 51.498568],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
   })
 });
 
-var textbox &#x3D; new maptalks.TextBox(
-  &#x27;This is a textbox, with very long content&#x27;, // content
-  [-0.113049, 51.498568],  // coordinate
-  200,                 // width
-  90,                  // height
+var textbox = new maptalks.TextBox(
+  'This is a textbox, with very long content', // content
+  [-0.113049, 51.498568], // coordinate
+  200, // width
+  90, // height
   {
-    &#x27;draggable&#x27; : true,
-    &#x27;textStyle&#x27; : {
-      &#x27;wrap&#x27; : true,          // auto wrap text
-      &#x27;padding&#x27; : [12, 8],    // padding of textbox
-      &#x27;verticalAlignment&#x27; : &#x27;top&#x27;,
-      &#x27;horizontalAlignment&#x27; : &#x27;right&#x27;,
-      &#x27;symbol&#x27; : {
-        &#x27;textFaceName&#x27; : &#x27;monospace&#x27;,
-        &#x27;textFill&#x27; : &#x27;#34495e&#x27;,
-        &#x27;textHaloFill&#x27; : &#x27;#fff&#x27;,
-        &#x27;textHaloRadius&#x27; : 4,
-        &#x27;textSize&#x27; : 18,
-        &#x27;textWeight&#x27; : &#x27;bold&#x27;
+    'draggable': true,
+    'textStyle': {
+      'wrap': true, // auto wrap text
+      'padding': [12, 8], // padding of textbox
+      'verticalAlignment': 'top',
+      'horizontalAlignment': 'right',
+      'symbol': {
+        'textFaceName': 'monospace',
+        'textFill': '#34495e',
+        'textHaloFill': '#fff',
+        'textHaloRadius': 4,
+        'textSize': 18,
+        'textWeight': 'bold'
       }
     },
-    &#x27;boxSymbol&#x27;: {
-      // box&#x27;s symbol
-      &#x27;markerType&#x27; : &#x27;square&#x27;,
-      &#x27;markerFill&#x27; : &#x27;rgb(135,196,240)&#x27;,
-      &#x27;markerFillOpacity&#x27; : 0.9,
-      &#x27;markerLineColor&#x27; : &#x27;#34495e&#x27;,
-      &#x27;markerLineWidth&#x27; : 1
+    'boxSymbol': {
+      // box's symbol
+      'markerType': 'square',
+      'markerFill': 'rgb(135,196,240)',
+      'markerFillOpacity': 0.9,
+      'markerLineColor': '#34495e',
+      'markerLineWidth': 1
     }
   });
 
-new maptalks.VectorLayer(&#x27;vector&#x27;, textbox).addTo(map);
+new maptalks.VectorLayer('vector', textbox).addTo(map);
 
 startEdit();
 
@@ -925,18 +925,37 @@ function startEdit() {
 
 function endEdit() {
   textbox.endEdit();
+}</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
 }
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-.pane{background:#34495e;line-height:28px;color:#fff;z-index:10;position:absolute;top:20px;right:20px}
-.pane a{display:block;color:#fff;text-align:left;padding:0 10px;min-width:28px;min-height:28px;float:left}
-      </textarea>
-      <input type="text" name="title" value="Edit TextBox&#x27;s shape">
-      <textarea name="description">User Interactions - Edit TextBox&#x27;s shape</textarea>
-      <input type="text" name="wrap" value="l">
+.container {
+  width:100%;
+  height:100%
+}
+.pane {
+  background:#34495e;
+  line-height:28px;
+  color:#fff;
+  z-index:10;
+  position:absolute;
+  top:20px;
+  right:20px
+}
+.pane a {
+  display:block;
+  color:#fff;
+  text-align:left;
+  padding:0 10px;
+  min-width:28px;
+  min-height:28px;
+  float:left
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -952,6 +971,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "Edit TextBox's shape",
+        description: "User Interactions - Edit TextBox's shape",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

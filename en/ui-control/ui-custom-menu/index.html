@@ -843,58 +843,80 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-&lt;div id&#x3D;&quot;info&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.49856],
+<div id="map" class="container"></div>
+<div id="info"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.49856],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
   })
 });
 
-var options &#x3D; {
-  &#x27;custom&#x27;: true,
-  &#x27;items&#x27;  : &#x27;&lt;ul class&#x3D;&quot;custom_menu&quot;&gt;&#x27; +
-    &#x27;&lt;li onclick&#x3D;&quot;clickItem(this);&quot;&gt;Locate&lt;/li&gt;&#x27; +
-    &#x27;&lt;li onclick&#x3D;&quot;clickItem(this);&quot;&gt;Mark&lt;/li&gt;&#x27; +
-    &#x27;&lt;li onclick&#x3D;&quot;clickItem(this);&quot;&gt;Identify&lt;/li&gt;&#x27; +
-    &#x27;&lt;li onclick&#x3D;&quot;clickItem(this);&quot;&gt;About&lt;/li&gt;&#x27; +
-    &#x27;&lt;/ul&gt;&#x27;
+var options = {
+  'custom': true,
+  'items': '<ul class="custom_menu">' + '<li onclick="clickItem(this);">Locate</li>' + '<li onclick="clickItem(this);">Mark</li>' + '<li onclick="clickItem(this);">Identify</li>' + '<li onclick="clickItem(this);">About</li>' + '</ul>'
 };
 map.setMenu(options).openMenu();
 
-map.on(&#x27;contextmenu&#x27;, function (e) {
+map.on('contextmenu', function(e) {
   map.openMenu(e.coordinate);
 });
 
 function clickItem(dom) {
-  document.getElementById(&#x27;info&#x27;).innerHTML &#x3D; dom.innerText + &#x27; clicked&#x27;;
+  document.getElementById('info').innerHTML = dom.innerText + ' clicked';
+}</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
 }
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-#info{position:fixed;background-color:rgba(13, 13, 13, 0.5);padding:10px 10px 10px 10px;font:13px bold sans-serif;color:#fff;right:20px;top:20px;width:100px;height:40px;overflow:hidden}
-.custom_menu{width:90px;color:#fff;background-color:#051127;border:1px solid #0c2c45;list-style:none;padding:0}
-.custom_menu li{padding:0 8px;font-size:12px;line-height:24px}
-.custom_menu li:hover{background:#0e595e;cursor:pointer}
-.custom_menu li+li{border-top:1px solid #bbb}
-      </textarea>
-      <input type="text" name="title" value="Custom context menu">
-      <textarea name="description">Control and UIComponents - Custom context menu</textarea>
-      <input type="text" name="wrap" value="l">
+.container {
+  width:100%;
+  height:100%
+}
+#info {
+  position:fixed;
+  background-color:rgba(13, 13, 13, 0.5);
+  padding:10px 10px 10px 10px;
+  font:13px bold sans-serif;
+  color:#fff;
+  right:20px;
+  top:20px;
+  width:100px;
+  height:40px;
+  overflow:hidden
+}
+.custom_menu {
+  width:90px;
+  color:#fff;
+  background-color:#051127;
+  border:1px solid #0c2c45;
+  list-style:none;
+  padding:0
+}
+.custom_menu li {
+  padding:0 8px;
+  font-size:12px;
+  line-height:24px
+}
+.custom_menu li:hover {
+  background:#0e595e;
+  cursor:pointer
+}
+.custom_menu li+li {
+  border-top:1px solid #bbb
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -910,6 +932,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "Custom context menu",
+        description: "Control and UIComponents - Custom context menu",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

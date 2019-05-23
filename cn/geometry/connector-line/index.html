@@ -891,103 +891,98 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.498568],
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.498568],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c'],
+    attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors'
   })
 });
 
-var layer &#x3D; new maptalks.VectorLayer(&#x27;vector&#x27;).addTo(map);
+var layer = new maptalks.VectorLayer('vector').addTo(map);
 
 // blue circle
-var src &#x3D; new maptalks.Marker(
-  [-0.128449,51.503568],
-  {
+var src = new maptalks.Marker(
+  [-0.128449, 51.503568], {
     symbol: {
-      &#x27;markerType&#x27; : &#x27;ellipse&#x27;,
-      &#x27;markerFill&#x27; : &#x27;rgb(135,196,240)&#x27;,
-      &#x27;markerFillOpacity&#x27; : 0.8,
-      &#x27;markerLineColor&#x27; : &#x27;#fff&#x27;,
-      &#x27;markerLineWidth&#x27; : 3,
-      &#x27;markerWidth&#x27; : 120,
-      &#x27;markerHeight&#x27; : 120
+      'markerType': 'ellipse',
+      'markerFill': 'rgb(135,196,240)',
+      'markerFillOpacity': 0.8,
+      'markerLineColor': '#fff',
+      'markerLineWidth': 3,
+      'markerWidth': 120,
+      'markerHeight': 120
     }
   }
 );
 
 // red circle
-var dst &#x3D; new maptalks.Marker(
-  [-0.102149,51.503568],
-  {
-    &#x27;draggable&#x27; : true,
-    &#x27;symbol&#x27;: [
-      {
-        &#x27;markerType&#x27; : &#x27;ellipse&#x27;,
-        &#x27;markerFill&#x27; : &#x27;rgb(216,115,149)&#x27;,
-        &#x27;markerFillOpacity&#x27; : 0.8,
-        &#x27;markerLineColor&#x27; : &#x27;#fff&#x27;,
-        &#x27;markerLineWidth&#x27; : 3,
-        &#x27;markerWidth&#x27; : 70,
-        &#x27;markerHeight&#x27; : 70
-      },
-      {
-        &#x27;textName&#x27; : &#x27;Drag\nMe&#x27;,
-        &#x27;textSize&#x27; : 18,
-        &#x27;textFill&#x27; : &#x27;#fff&#x27;,
-        &#x27;textWrapCharacter&#x27; : &#x27;\n&#x27;
-      }
-    ]
+var dst = new maptalks.Marker(
+  [-0.102149, 51.503568], {
+    'draggable': true,
+    'symbol': [{
+      'markerType': 'ellipse',
+      'markerFill': 'rgb(216,115,149)',
+      'markerFillOpacity': 0.8,
+      'markerLineColor': '#fff',
+      'markerLineWidth': 3,
+      'markerWidth': 70,
+      'markerHeight': 70
+    }, {
+      'textName': 'Drag\nMe',
+      'textSize': 18,
+      'textFill': '#fff',
+      'textWrapCharacter': '\n'
+    }]
   }
 );
 
 // connector line
-var line &#x3D; new maptalks.ConnectorLine(src, dst, {
-  showOn : &#x27;always&#x27;, //&#x27;moving&#x27;, &#x27;click&#x27;, &#x27;mouseover&#x27;, &#x27;always&#x27;
-  arrowStyle : &#x27;classic&#x27;,
-  arrowPlacement : &#x27;vertex-last&#x27;,// &#x27;vertex-last&#x27;, //vertex-first, vertex-last, vertex-firstlast, point
+var line = new maptalks.ConnectorLine(src, dst, {
+  showOn: 'always', //'moving', 'click', 'mouseover', 'always'
+  arrowStyle: 'classic',
+  arrowPlacement: 'vertex-last', // 'vertex-last', //vertex-first, vertex-last, vertex-firstlast, point
   symbol: {
-    lineColor: &#x27;#34495e&#x27;,
+    lineColor: '#34495e',
     lineWidth: 2
   }
 });
 
 layer.addGeometry(src, dst, line);
 
-var src2 &#x3D; src.copy().translate(0, -0.01);
-var dst2 &#x3D; dst.copy().translate(0, -0.01);
+var src2 = src.copy().translate(0, -0.01);
+var dst2 = dst.copy().translate(0, -0.01);
 // Arc Connector Line
-var line2 &#x3D; new maptalks.ArcConnectorLine(src2, dst2, {
-  arcDegree : 90,
-  showOn : &#x27;always&#x27;,
+var line2 = new maptalks.ArcConnectorLine(src2, dst2, {
+  arcDegree: 90,
+  showOn: 'always',
   symbol: {
-    lineColor: &#x27;#34495e&#x27;,
+    lineColor: '#34495e',
     lineWidth: 2
   }
 });
 
-layer.addGeometry(src2, dst2, line2);
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="连接线">
-      <textarea name="description">图形 - 连接线</textarea>
-      <input type="text" name="wrap" value="l">
+layer.addGeometry(src2, dst2, line2);</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -1003,6 +998,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "连接线",
+        description: "图形 - 连接线",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

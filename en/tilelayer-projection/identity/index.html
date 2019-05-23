@@ -925,140 +925,144 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center:     [0, 0],
-  zoom:  4,
-  spatialReference : {
-    projection : &#x27;identity&#x27;,
-    resolutions : [
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [0, 0],
+  zoom: 4,
+  spatialReference: {
+    projection: 'identity',
+    resolutions: [
       32, 16, 8, 4, 2, 1
     ],
-    fullExtent : {
-      &#x27;top&#x27;: 10000,
-      &#x27;left&#x27;: -10000,
-      &#x27;bottom&#x27;: -10000,
-      &#x27;right&#x27;: 10000
+    fullExtent: {
+      'top': 10000,
+      'left': -10000,
+      'bottom': -10000,
+      'right': 10000
     }
   }
 });
 
-var soccerField &#x3D; [
+var soccerField = [
   // field
   new maptalks.Rectangle([-400, 260], 800, 520, {
-    symbol : {
-      lineWidth : 2,
-      lineColor : &#x27;#fff&#x27;,
-      polygonFill : &#x27;rgb(0, 129, 0)&#x27;
+    symbol: {
+      lineWidth: 2,
+      lineColor: '#fff',
+      polygonFill: 'rgb(0, 129, 0)'
     }
   }),
 
   // halfway line
-  new maptalks.LineString([[0, -260], [0, 260]], {
-    symbol : {
-      lineColor : &#x27;#fff&#x27;,
-      lineWidth : 2
+  new maptalks.LineString([
+    [0, -260],
+    [0, 260]
+  ], {
+    symbol: {
+      lineColor: '#fff',
+      lineWidth: 2
     }
   }),
 
   // center circle
   new maptalks.Circle([0, 0], 70, {
-    symbol : {
-      lineColor : &#x27;#fff&#x27;,
-      lineWidth : 2
+    symbol: {
+      lineColor: '#fff',
+      lineWidth: 2
     }
   }),
 
   // penalty arc
   new maptalks.Sector([-315, 0], 60, -60, 60, {
-    symbol : {
-      lineColor : &#x27;#fff&#x27;,
-      lineWidth : 2
+    symbol: {
+      lineColor: '#fff',
+      lineWidth: 2
     }
   }),
 
   // penalty arc
   new maptalks.Sector([315, 0], 60, 120, 240, {
-    symbol : {
-      lineColor : &#x27;#fff&#x27;,
-      lineWidth : 2
+    symbol: {
+      lineColor: '#fff',
+      lineWidth: 2
     }
   }),
 
   // penalty area
   new maptalks.Rectangle([-400, 155], 120, 310, {
-    symbol : {
-      lineColor : &#x27;#fff&#x27;,
-      lineWidth : 2,
-      polygonFill : &#x27;rgb(0, 129, 0)&#x27;
+    symbol: {
+      lineColor: '#fff',
+      lineWidth: 2,
+      polygonFill: 'rgb(0, 129, 0)'
     }
   }),
 
   // penalty area
   new maptalks.Rectangle([400 - 120, 155], 120, 310, {
-    symbol : {
-      lineColor : &#x27;#fff&#x27;,
-      lineWidth : 2,
-      polygonFill : &#x27;rgb(0, 129, 0)&#x27;
+    symbol: {
+      lineColor: '#fff',
+      lineWidth: 2,
+      polygonFill: 'rgb(0, 129, 0)'
     }
   }),
 
   // goal area
   new maptalks.Rectangle([-400, 68], 42, 136, {
-    symbol : {
-      lineColor : &#x27;#fff&#x27;,
-      lineWidth : 2
+    symbol: {
+      lineColor: '#fff',
+      lineWidth: 2
     }
   }),
 
   // goal area
   new maptalks.Rectangle([400 - 42, 68], 42, 136, {
-    symbol : {
-      lineColor : &#x27;#fff&#x27;,
-      lineWidth : 2
+    symbol: {
+      lineColor: '#fff',
+      lineWidth: 2
     }
   }),
 
   // penalty mark
   new maptalks.Marker([315, 0], {
-    symbol : {
-      markerType : &#x27;ellipse&#x27;,
-      markerWidth : 2,
-      markerHeight : 2,
-      markerFill : &#x27;#fff&#x27;,
-      markerLineColor : &#x27;#fff&#x27;
+    symbol: {
+      markerType: 'ellipse',
+      markerWidth: 2,
+      markerHeight: 2,
+      markerFill: '#fff',
+      markerLineColor: '#fff'
     }
   }),
 
   // penalty mark
   new maptalks.Marker([-315, 0], {
-    symbol : {
-      markerType : &#x27;ellipse&#x27;,
-      markerWidth : 2,
-      markerHeight : 2,
-      markerFill : &#x27;#fff&#x27;,
-      markerLineColor : &#x27;#fff&#x27;
+    symbol: {
+      markerType: 'ellipse',
+      markerWidth: 2,
+      markerHeight: 2,
+      markerFill: '#fff',
+      markerLineColor: '#fff'
     }
   })
 ];
 
-new maptalks.VectorLayer(&#x27;field&#x27;, soccerField).addTo(map);
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="TileLayer of IDENTITY projection">
-      <textarea name="description">TileLayer and Geo-Projections - TileLayer of IDENTITY projection</textarea>
-      <input type="text" name="wrap" value="l">
+new maptalks.VectorLayer('field', soccerField).addTo(map);</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -1074,6 +1078,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "TileLayer of IDENTITY projection",
+        description: "TileLayer and Geo-Projections - TileLayer of IDENTITY projection",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

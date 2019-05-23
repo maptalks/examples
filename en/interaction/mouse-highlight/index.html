@@ -856,71 +856,81 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-&lt;div class&#x3D;&quot;pane&quot;&gt;move on circles to highlight&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.498568],
+<div id="map" class="container"></div>
+<div class="pane">move on circles to highlight</div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.498568],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
   })
 });
 
-var layer &#x3D; new maptalks.VectorLayer(&#x27;v&#x27;).addTo(map);
+var layer = new maptalks.VectorLayer('v').addTo(map);
 
-var center &#x3D; map.getCenter(), width &#x3D; 0.055, height &#x3D; 0.03,
-  markers &#x3D; [];
-for (var i &#x3D; 65; i &lt;&#x3D; 90; i++) {
-  var x &#x3D; center.x + (Math.random() - 0.5) * width;
-  var y &#x3D; center.y + (Math.random() - 0.5) * height;
-  var marker &#x3D; new maptalks.Marker([x, y], {
-    &#x27;symbol&#x27; : {
-      &#x27;textName&#x27; : String.fromCharCode(i),
-      &#x27;textSize&#x27; : 30,
-      &#x27;textFill&#x27; : &#x27;White&#x27;,
-      &#x27;markerType&#x27; : &#x27;ellipse&#x27;,
-      &#x27;markerFill&#x27; : &#x27;#0e595e&#x27;,
-      &#x27;markerFillOpacity&#x27; : 0.4,
-      &#x27;markerLineWidth&#x27; : 2,
-      &#x27;markerLineColor&#x27; : &#x27;white&#x27;,
-      &#x27;markerWidth&#x27; : 70,
-      &#x27;markerHeight&#x27; : 70
+var center = map.getCenter(),
+  width = 0.055,
+  height = 0.03,
+  markers = [];
+for (var i = 65; i <= 90; i++) {
+  var x = center.x + (Math.random() - 0.5) * width;
+  var y = center.y + (Math.random() - 0.5) * height;
+  var marker = new maptalks.Marker([x, y], {
+    'symbol': {
+      'textName': String.fromCharCode(i),
+      'textSize': 30,
+      'textFill': 'White',
+      'markerType': 'ellipse',
+      'markerFill': '#0e595e',
+      'markerFillOpacity': 0.4,
+      'markerLineWidth': 2,
+      'markerLineColor': 'white',
+      'markerWidth': 70,
+      'markerHeight': 70
     }
-  }).on(&#x27;mouseenter&#x27;, function (e) {
+  }).on('mouseenter', function(e) {
     //update markerFill to highlight
     e.target.updateSymbol({
-      &#x27;markerFill&#x27; : &#x27;#f00&#x27;
+      'markerFill': '#f00'
     });
-  }).on(&#x27;mouseout&#x27;, function (e) {
+  }).on('mouseout', function(e) {
     //reset color
     e.target.updateSymbol({
-      &#x27;markerFill&#x27; : &#x27;#0e595e&#x27;
+      'markerFill': '#0e595e'
     });
   });
   markers.push(marker);
 }
-layer.addGeometry(markers);
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-.pane{background:#34495e;line-height:28px;color:#fff;z-index:10;padding:10px;position:absolute;top:20px;right:20px}
-      </textarea>
-      <input type="text" name="title" value="Highlight a geometry by mouseover">
-      <textarea name="description">User Interactions - Highlight a geometry by mouseover</textarea>
-      <input type="text" name="wrap" value="l">
+layer.addGeometry(markers);</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}
+.pane {
+  background:#34495e;
+  line-height:28px;
+  color:#fff;
+  z-index:10;
+  padding:10px;
+  position:absolute;
+  top:20px;
+  right:20px
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -936,6 +946,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "Highlight a geometry by mouseover",
+        description: "User Interactions - Highlight a geometry by mouseover",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

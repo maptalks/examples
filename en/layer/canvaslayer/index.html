@@ -845,60 +845,60 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.498568],
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.498568],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
   })
 });
 
-var canvasLayer &#x3D; new maptalks.CanvasLayer(&#x27;c&#x27;, {
-  &#x27;forceRenderOnMoving&#x27; : true,
-  &#x27;forceRenderOnZooming&#x27; : true
+var canvasLayer = new maptalks.CanvasLayer('c', {
+  'forceRenderOnMoving': true,
+  'forceRenderOnZooming': true
 });
 
-canvasLayer.prepareToDraw &#x3D; function (/* context */) {
-  return [&#x27;foo&#x27;, &#x27;bar&#x27;];
+canvasLayer.prepareToDraw = function( /* context */ ) {
+  return ['foo', 'bar'];
 };
 
-// param1 and param2 are prepareToDraw&#x27;s return values.
-canvasLayer.draw &#x3D; function (context, view, param1, param2) {
-  var size &#x3D; map.getSize();
-  var str &#x3D; param1 + &#x27;,&#x27; + param2;
-  context.fillStyle &#x3D; &#x27;#f00&#x27;;
-  context.font &#x3D; &#x27;bolder 50px sans-serif&#x27;;
-  var len &#x3D; context.measureText(str);
+// param1 and param2 are prepareToDraw's return values.
+canvasLayer.draw = function(context, view, param1, param2) {
+  var size = map.getSize();
+  var str = param1 + ',' + param2;
+  context.fillStyle = '#f00';
+  context.font = 'bolder 50px sans-serif';
+  var len = context.measureText(str);
   context.fillText(str, size.width / 2 - len.width / 2, size.height / 2);
   this.completeRender();
 };
 
 //draw when map is interacting
-canvasLayer.drawOnInteracting &#x3D; function (context, view, param1, param2) {
+canvasLayer.drawOnInteracting = function(context, view, param1, param2) {
   this.draw(context, view, param1, param2);
 };
 
-map.addLayer(canvasLayer);
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="CanvasLayer: an example">
-      <textarea name="description">Layer - CanvasLayer: an example</textarea>
-      <input type="text" name="wrap" value="l">
+map.addLayer(canvasLayer);</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -914,6 +914,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "CanvasLayer: an example",
+        description: "Layer - CanvasLayer: an example",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

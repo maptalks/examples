@@ -892,51 +892,50 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-&lt;div class&#x3D;&quot;pane&quot;&gt;&lt;a href&#x3D;&quot;javascript:filter();&quot;&gt;filter &quot;foo &#x3D;&#x3D; polygon&quot;&lt;/a&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+<div id="map" class="container"></div>
+<div class="pane">
+  <a href="javascript:filter();">filter "foo == polygon"</a> 
+</div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
   center: [-0.113049, 51.498568],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
   })
 });
 
-var point &#x3D; new maptalks.Marker([-0.113049 - 0.018, 51.498568 + 0.003],{
-  symbol : {
-    &#x27;textFaceName&#x27; : &#x27;sans-serif&#x27;,
-    &#x27;textName&#x27; : &#x27;MapTalks&#x27;,
-    &#x27;textFill&#x27; : &#x27;#34495e&#x27;,
-    &#x27;textHorizontalAlignment&#x27; : &#x27;right&#x27;,
-    &#x27;textSize&#x27; : 40
+var point = new maptalks.Marker([-0.113049 - 0.018, 51.498568 + 0.003], {
+  symbol: {
+    'textFaceName': 'sans-serif',
+    'textName': 'MapTalks',
+    'textFill': '#34495e',
+    'textHorizontalAlignment': 'right',
+    'textSize': 40
   },
-  properties : {
-    &#x27;foo&#x27; : &#x27;marker&#x27;
+  properties: {
+    'foo': 'marker'
   }
 });
-var line &#x3D; new maptalks.LineString([
+var line = new maptalks.LineString([
   [-0.131049, 51.499568],
   [-0.107049, 51.499568]
-],{
+], {
   symbol: {
-    &#x27;lineColor&#x27; : &#x27;#1bbc9b&#x27;,
-    &#x27;lineWidth&#x27; : 3
+    'lineColor': '#1bbc9b',
+    'lineWidth': 3
   },
-  properties : {
-    &#x27;foo&#x27; : &#x27;linestring&#x27;
+  properties: {
+    'foo': 'linestring'
   }
 });
-var polygon &#x3D; new maptalks.Polygon([
+var polygon = new maptalks.Polygon([
   [-0.131049, 51.498568],
   [-0.107049, 51.498568],
   [-0.107049, 51.493568],
@@ -944,51 +943,71 @@ var polygon &#x3D; new maptalks.Polygon([
   [-0.131049, 51.498568]
 ], {
   symbol: {
-    &#x27;lineColor&#x27; : &#x27;#34495e&#x27;,
-    &#x27;lineWidth&#x27; : 2,
-    &#x27;polygonFill&#x27; : &#x27;rgb(135,196,240)&#x27;,
-    &#x27;polygonOpacity&#x27; : 0.6
+    'lineColor': '#34495e',
+    'lineWidth': 2,
+    'polygonFill': 'rgb(135,196,240)',
+    'polygonOpacity': 0.6
   },
-  properties : {
-    &#x27;foo&#x27; : &#x27;polygon&#x27;
+  properties: {
+    'foo': 'polygon'
   }
 });
 
-var collection &#x3D; new maptalks.GeometryCollection([line, polygon, point], {
-  visible : true,
-  editable : true,
-  cursor : null,
-  shadowBlur : 0,
-  shadowColor : &#x27;black&#x27;,
-  draggable : false,
-  dragShadow : false,
-  drawOnAxis : null
+var collection = new maptalks.GeometryCollection([line, polygon, point], {
+  visible: true,
+  editable: true,
+  cursor: null,
+  shadowBlur: 0,
+  shadowColor: 'black',
+  draggable: false,
+  dragShadow: false,
+  drawOnAxis: null
 });
 
-new maptalks.VectorLayer(&#x27;vector&#x27;, collection)
-    .addTo(map);
+new maptalks.VectorLayer('vector', collection)
+  .addTo(map);
 
 // filter
+
 function filter() {
   // condition can be a mapbox filter or a function
-  var filtered &#x3D; collection.filter([&#x27;&#x3D;&#x3D;&#x27;, &#x27;foo&#x27;, &#x27;polygon&#x27;]);
-  filtered.forEach(function (polygon) {
+  var filtered = collection.filter(['==', 'foo', 'polygon']);
+  filtered.forEach(function(polygon) {
     polygon.updateSymbol({
-      &#x27;polygonFill&#x27; : &#x27;#f00&#x27;
+      'polygonFill': '#f00'
     });
   });
+}</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
 }
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-.pane{background:#34495e;line-height:28px;color:#fff;z-index:10;position:absolute;top:20px;right:20px}
-.pane a{display:block;color:#fff;text-align:left;padding:0 10px;min-width:28px;min-height:28px;float:left}
-      </textarea>
-      <input type="text" name="title" value="Filter GeometryCollection by condition">
-      <textarea name="description">Geometry - Filter GeometryCollection by condition</textarea>
-      <input type="text" name="wrap" value="l">
+.container {
+  width:100%;
+  height:100%
+}
+.pane {
+  background:#34495e;
+  line-height:28px;
+  color:#fff;
+  z-index:10;
+  position:absolute;
+  top:20px;
+  right:20px
+}
+.pane a {
+  display:block;
+  color:#fff;
+  text-align:left;
+  padding:0 10px;
+  min-width:28px;
+  min-height:28px;
+  float:left
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -1004,6 +1023,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "Filter GeometryCollection by condition",
+        description: "Geometry - Filter GeometryCollection by condition",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

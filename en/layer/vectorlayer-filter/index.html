@@ -865,80 +865,94 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-&lt;div class&#x3D;&quot;pane&quot;&gt;&lt;a href&#x3D;&quot;javascript:filter();&quot;&gt;Select &gt;&#x3D; 200&lt;/a&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.498568],
+<div id="map" class="container"></div>
+<div class="pane">
+  <a href="javascript:filter();">Select >= 200</a> 
+</div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.498568],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
   }),
-  layers : [
-    new maptalks.VectorLayer(&#x27;v&#x27;)
+  layers: [
+    new maptalks.VectorLayer('v')
   ]
 });
 
-var layer &#x3D; map.getLayer(&#x27;v&#x27;);
+var layer = map.getLayer('v');
 
 // select features and update symbol
+
 function filter() {
-  layer.filter([&#x27;&gt;&#x3D;&#x27;, &#x27;count&#x27;, 200])
-    .forEach(function (feature) {
-      feature.updateSymbol([
-        {
-          &#x27;polygonFill&#x27;: &#x27;rgb(216,115,149)&#x27;
-        }
-      ]);
+  layer.filter(['>=', 'count', 200])
+    .forEach(function(feature) {
+      feature.updateSymbol([{
+        'polygonFill': 'rgb(216,115,149)'
+      }]);
     });
 }
 
 //prepare data
-for (var i &#x3D; 0; i &lt; 3; i++) {
+for (var i = 0; i < 3; i++) {
   new maptalks.Polygon([
     [-0.123049 + 0.02 * i, 51.503568],
     [-0.136049 + 0.02 * i, 51.503568],
     [-0.136049 + 0.02 * i, 51.488568],
     [-0.123049 + 0.02 * i, 51.488568]
   ], {
-    &#x27;properties&#x27;: {
-      &#x27;count&#x27;: (i + 1) * 100
+    'properties': {
+      'count': (i + 1) * 100
     },
-    &#x27;symbol&#x27;: [
-      {
-        &#x27;polygonFill&#x27;: &#x27;#747474&#x27;,
-        &#x27;polygonOpacity&#x27;: 0.5,
-        &#x27;lineColor&#x27;: &#x27;#000&#x27;,
-        &#x27;lineWidth&#x27;: 2
-      },
-      {
-        &#x27;textName&#x27; : &#x27;{count}&#x27;,
-        &#x27;textSize&#x27; : 40,
-        &#x27;textFill&#x27; : &#x27;#fff&#x27;
-      }
-    ]
+    'symbol': [{
+      'polygonFill': '#747474',
+      'polygonOpacity': 0.5,
+      'lineColor': '#000',
+      'lineWidth': 2
+    }, {
+      'textName': '{count}',
+      'textSize': 40,
+      'textFill': '#fff'
+    }]
   }).addTo(layer);
+}</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
 }
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-.pane{background:#34495e;line-height:28px;color:#fff;z-index:10;position:absolute;top:20px;right:20px}
-.pane a{display:block;color:#fff;text-align:left;padding:0 10px;min-width:28px;min-height:28px;float:left}
-      </textarea>
-      <input type="text" name="title" value="VectorLayer: Filter geometries by property condition">
-      <textarea name="description">Layer - VectorLayer: Filter geometries by property condition</textarea>
-      <input type="text" name="wrap" value="l">
+.container {
+  width:100%;
+  height:100%
+}
+.pane {
+  background:#34495e;
+  line-height:28px;
+  color:#fff;
+  z-index:10;
+  position:absolute;
+  top:20px;
+  right:20px
+}
+.pane a {
+  display:block;
+  color:#fff;
+  text-align:left;
+  padding:0 10px;
+  min-width:28px;
+  min-height:28px;
+  float:left
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -954,6 +968,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "VectorLayer: Filter geometries by property condition",
+        description: "Layer - VectorLayer: Filter geometries by property condition",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

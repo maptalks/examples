@@ -880,95 +880,118 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;echarts.simple.min.js&quot;&gt;&lt;/script&gt;
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.49856],
+<script type="text/javascript" src="echarts.simple.min.js"></script>
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.49856],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c'],
+    attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors'
   })
 });
-var chartDom &#x3D; document.createElement(&#x27;div&#x27;);
-chartDom.style.cssText &#x3D; &#x27;width:650px; height:300px;&#x27;;
+var chartDom = document.createElement('div');
+chartDom.style.cssText = 'width:650px; height:300px;';
 createChart(chartDom);
 
-var echartsUI &#x3D; new maptalks.ui.UIMarker([-0.113049,51.49856], {
-  &#x27;draggable&#x27;     : true,
-  &#x27;content&#x27;       : chartDom
+var echartsUI = new maptalks.ui.UIMarker([-0.113049, 51.49856], {
+  'draggable': true,
+  'content': chartDom
 }).addTo(map).show();
 
-// ECharts&#x27;s chart creation
+// ECharts's chart creation
+
 function createChart(dom) {
-  var myChart &#x3D; echarts.init(dom);
-  var option &#x3D; {
-    title : {
-      x:&#x27;center&#x27;
+  var myChart = echarts.init(dom);
+  var option = {
+    title: {
+      x: 'center'
     },
-    tooltip : {
-      trigger: &#x27;item&#x27;,
-      formatter: &#x27;{a} &lt;br/&gt;{b} : {c} ({d}%)&#x27;
+    tooltip: {
+      trigger: 'item',
+      formatter: '{a} <br/>{b} : {c} ({d}%)'
     },
     legend: {
-      x : &#x27;center&#x27;,
-      y : &#x27;bottom&#x27;,
-      data:[&#x27;rose1&#x27;, &#x27;rose2&#x27;, &#x27;rose3&#x27;, &#x27;rose4&#x27;, &#x27;rose5&#x27;, &#x27;rose6&#x27;, &#x27;rose7&#x27;, &#x27;rose8&#x27;]
+      x: 'center',
+      y: 'bottom',
+      data: ['rose1', 'rose2', 'rose3', 'rose4', 'rose5', 'rose6', 'rose7', 'rose8']
     },
     toolbox: {
-      show : true,
-      feature : {
-        mark : { show: true },
-        dataView : { show: true, readOnly: false },
-        magicType : {
-          show: true,
-          type: [&#x27;pie&#x27;, &#x27;funnel&#x27;]
+      show: true,
+      feature: {
+        mark: {
+          show: true
         },
-        restore : { show: true },
-        saveAsImage : { show: true }
+        dataView: {
+          show: true,
+          readOnly: false
+        },
+        magicType: {
+          show: true,
+          type: ['pie', 'funnel']
+        },
+        restore: {
+          show: true
+        },
+        saveAsImage: {
+          show: true
+        }
       }
     },
-    calculable : true,
-    series : [
-      {
-        name:&#x27;Area mode&#x27;,
-        type:&#x27;pie&#x27;,
-        radius : [30, 110],
-        center : [&#x27;50%&#x27;, &#x27;50%&#x27;],
-        roseType : &#x27;area&#x27;,
-        data:[
-          { value:10, name:&#x27;rose1&#x27; },
-          { value:5, name:&#x27;rose2&#x27; },
-          { value:15, name:&#x27;rose3&#x27; },
-          { value:25, name:&#x27;rose4&#x27; },
-          { value:20, name:&#x27;rose5&#x27; },
-          { value:35, name:&#x27;rose6&#x27; },
-          { value:30, name:&#x27;rose7&#x27; },
-          { value:40, name:&#x27;rose8&#x27; }
-        ]
-      }
-    ]
+    calculable: true,
+    series: [{
+      name: 'Area mode',
+      type: 'pie',
+      radius: [30, 110],
+      center: ['50%', '50%'],
+      roseType: 'area',
+      data: [{
+        value: 10,
+        name: 'rose1'
+      }, {
+        value: 5,
+        name: 'rose2'
+      }, {
+        value: 15,
+        name: 'rose3'
+      }, {
+        value: 25,
+        name: 'rose4'
+      }, {
+        value: 20,
+        name: 'rose5'
+      }, {
+        value: 35,
+        name: 'rose6'
+      }, {
+        value: 30,
+        name: 'rose7'
+      }, {
+        value: 40,
+        name: 'rose8'
+      }]
+    }]
   };
   myChart.setOption(option);
+}</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
 }
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="Echarts图表样式">
-      <textarea name="description">图形样式 - Echarts图表样式</textarea>
-      <input type="text" name="wrap" value="l">
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -984,6 +1007,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "Echarts图表样式",
+        description: "图形样式 - Echarts图表样式",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

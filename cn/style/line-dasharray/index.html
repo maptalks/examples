@@ -836,51 +836,48 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-      </textarea>
-      <textarea name="js">
-var c &#x3D; new maptalks.Coordinate(-0.113049,51.49856);
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var c = new maptalks.Coordinate(-0.113049, 51.49856);
+var map = new maptalks.Map('map', {
   center: c,
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c'],
+    attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors'
   })
 });
 
-var layer &#x3D; new maptalks.VectorLayer(&#x27;vector&#x27;).addTo(map);
+var layer = new maptalks.VectorLayer('vector').addTo(map);
 
-var line &#x3D; new maptalks.LineString(
-  [c.sub(0.01, 0), c],
-  {
-    symbol: [
-      {
-        &#x27;lineColor&#x27; : &#x27;#fff&#x27;,
-        &#x27;lineWidth&#x27; : 10
-      },
-      {
-        &#x27;lineColor&#x27; : &#x27;#000&#x27;,
-        &#x27;lineWidth&#x27; : 8,
-        &#x27;lineDasharray&#x27; : [10, 5, 10, 5]
-      }
-    ]
-  }).addTo(layer);
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="">
-      <textarea name="description"> - </textarea>
-      <input type="text" name="wrap" value="l">
+var line = new maptalks.LineString(
+  [c.sub(0.01, 0), c], {
+    symbol: [{
+      'lineColor': '#fff',
+      'lineWidth': 10
+    }, {
+      'lineColor': '#000',
+      'lineWidth': 8,
+      'lineDasharray': [10, 5, 10, 5]
+    }]
+  }).addTo(layer);</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -896,6 +893,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "",
+        description: " - ",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

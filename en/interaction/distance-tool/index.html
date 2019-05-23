@@ -870,85 +870,85 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-      </textarea>
-      <textarea name="js">
-
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [-0.113049,51.498568],
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [-0.113049, 51.498568],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
   })
 });
 
-var distanceTool &#x3D; new maptalks.DistanceTool({
-  &#x27;symbol&#x27;: {
-    &#x27;lineColor&#x27; : &#x27;#34495e&#x27;,
-    &#x27;lineWidth&#x27; : 2
+var distanceTool = new maptalks.DistanceTool({
+  'symbol': {
+    'lineColor': '#34495e',
+    'lineWidth': 2
   },
-  &#x27;vertexSymbol&#x27; : {
-    &#x27;markerType&#x27;        : &#x27;ellipse&#x27;,
-    &#x27;markerFill&#x27;        : &#x27;#1bbc9b&#x27;,
-    &#x27;markerLineColor&#x27;   : &#x27;#000&#x27;,
-    &#x27;markerLineWidth&#x27;   : 3,
-    &#x27;markerWidth&#x27;       : 10,
-    &#x27;markerHeight&#x27;      : 10
+  'vertexSymbol': {
+    'markerType': 'ellipse',
+    'markerFill': '#1bbc9b',
+    'markerLineColor': '#000',
+    'markerLineWidth': 3,
+    'markerWidth': 10,
+    'markerHeight': 10
   },
 
-  &#x27;labelOptions&#x27; : {
-    &#x27;textSymbol&#x27;: {
-      &#x27;textFaceName&#x27;: &#x27;monospace&#x27;,
-      &#x27;textFill&#x27; : &#x27;#fff&#x27;,
-      &#x27;textLineSpacing&#x27;: 1,
-      &#x27;textHorizontalAlignment&#x27;: &#x27;right&#x27;,
-      &#x27;textDx&#x27;: 15,
-      &#x27;markerLineColor&#x27;: &#x27;#b4b3b3&#x27;,
-      &#x27;markerFill&#x27; : &#x27;#000&#x27;
+  'labelOptions': {
+    'textSymbol': {
+      'textFaceName': 'monospace',
+      'textFill': '#fff',
+      'textLineSpacing': 1,
+      'textHorizontalAlignment': 'right',
+      'textDx': 15,
+      'markerLineColor': '#b4b3b3',
+      'markerFill': '#000'
     },
-    &#x27;boxStyle&#x27; : {
-      &#x27;padding&#x27; : [6, 2],
-      &#x27;symbol&#x27; : {
-        &#x27;markerType&#x27; : &#x27;square&#x27;,
-        &#x27;markerFill&#x27; : &#x27;#000&#x27;,
-        &#x27;markerFillOpacity&#x27; : 0.9,
-        &#x27;markerLineColor&#x27; : &#x27;#b4b3b3&#x27;
+    'boxStyle': {
+      'padding': [6, 2],
+      'symbol': {
+        'markerType': 'square',
+        'markerFill': '#000',
+        'markerFillOpacity': 0.9,
+        'markerLineColor': '#b4b3b3'
       }
     }
   },
-  &#x27;clearButtonSymbol&#x27; :[{
-    &#x27;markerType&#x27;: &#x27;square&#x27;,
-    &#x27;markerFill&#x27;: &#x27;#000&#x27;,
-    &#x27;markerLineColor&#x27;: &#x27;#b4b3b3&#x27;,
-    &#x27;markerLineWidth&#x27;: 2,
-    &#x27;markerWidth&#x27;: 15,
-    &#x27;markerHeight&#x27;: 15,
-    &#x27;markerDx&#x27;: 20
+  'clearButtonSymbol': [{
+    'markerType': 'square',
+    'markerFill': '#000',
+    'markerLineColor': '#b4b3b3',
+    'markerLineWidth': 2,
+    'markerWidth': 15,
+    'markerHeight': 15,
+    'markerDx': 20
   }, {
-    &#x27;markerType&#x27;: &#x27;x&#x27;,
-    &#x27;markerWidth&#x27;: 10,
-    &#x27;markerHeight&#x27;: 10,
-    &#x27;markerLineColor&#x27; : &#x27;#fff&#x27;,
-    &#x27;markerDx&#x27;: 20
+    'markerType': 'x',
+    'markerWidth': 10,
+    'markerHeight': 10,
+    'markerLineColor': '#fff',
+    'markerDx': 20
   }],
-  &#x27;language&#x27; : &#x27;en-US&#x27;
-}).addTo(map);
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="Distance tool to measure distance">
-      <textarea name="description">User Interactions - Distance tool to measure distance</textarea>
-      <input type="text" name="wrap" value="l">
+  'language': 'en-US'
+}).addTo(map);</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -964,6 +964,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "Distance tool to measure distance",
+        description: "User Interactions - Distance tool to measure distance",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

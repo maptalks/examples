@@ -868,54 +868,52 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-&lt;input type&#x3D;&quot;range&quot; id&#x3D;&quot;swipe&quot;/&gt;
-&lt;div id&#x3D;&quot;map&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var layer &#x3D; new maptalks.TileLayer(&#x27;light&#x27;, {
-  urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
-  subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
-  attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;,
+<input type="range" id="swipe" />
+<div id="map"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var layer = new maptalks.TileLayer('light', {
+  urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  subdomains: ['a', 'b', 'c'],
+  attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors',
   // force layer to render when map is zooming and moving
-  &#x27;forceRenderOnMoving&#x27; : true,
-  &#x27;forceRenderOnZooming&#x27; : true
+  'forceRenderOnMoving': true,
+  'forceRenderOnZooming': true
 });
 
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center: [121.4,37.5],
+var map = new maptalks.Map('map', {
+  center: [121.4, 37.5],
   zoom: 13,
-  baseLayer : new maptalks.TileLayer(&#x27;base&#x27;,{
-    &#x27;urlTemplate&#x27;: &#x27;http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png&#x27;,
-    &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
+  baseLayer: new maptalks.TileLayer('base', {
+    'urlTemplate': 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+    'subdomains': ['a', 'b', 'c', 'd']
   }),
-  layers : [layer]
+  layers: [layer]
 });
 
-var swipe &#x3D; document.getElementById(&#x27;swipe&#x27;);
+var swipe = document.getElementById('swipe');
 
-var renderer &#x3D; layer.getRenderer();
-var canvasGetter &#x3D; renderer.getCanvasImage;
-//override renderer&#x27;s default method to get layer canvas image
-renderer.getCanvasImage &#x3D; function () {
+var renderer = layer.getRenderer();
+var canvasGetter = renderer.getCanvasImage;
+//override renderer's default method to get layer canvas image
+renderer.getCanvasImage = function() {
   //original layer canvas image
-  var layerImage &#x3D; canvasGetter.call(renderer);
+  var layerImage = canvasGetter.call(renderer);
   if (!layerImage || !layerImage.image) {
     return layerImage;
   }
   //drawn width after layer is erased by swipper
-  var width &#x3D; renderer.canvas.width * (swipe.value / 100);
-  var ctx &#x3D; renderer.context;
+  var width = renderer.canvas.width * (swipe.value / 100);
+  var ctx = renderer.context;
 
   //copy drawn rect of original layer canvas
-  var drawnRect &#x3D; document.createElement(&#x27;canvas&#x27;);
-  drawnRect.width &#x3D; width;
-  drawnRect.height &#x3D; ctx.canvas.height;
-  drawnRect.getContext(&#x27;2d&#x27;).drawImage(ctx.canvas, 0, 0);
+  var drawnRect = document.createElement('canvas');
+  drawnRect.width = width;
+  drawnRect.height = ctx.canvas.height;
+  drawnRect.getContext('2d').drawImage(ctx.canvas, 0, 0);
 
   //clear the erased part
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -923,28 +921,38 @@ renderer.getCanvasImage &#x3D; function () {
   //draw a white background to cover the bottom layers when zooming
   ctx.beginPath();
   ctx.rect(0, 0, drawnRect.width, ctx.canvas.height);
-  ctx.fillStyle &#x3D; &#x27;#fff&#x27;;
+  ctx.fillStyle = '#fff';
   ctx.fill();
 
-  //draw the drawn part on layer&#x27;s canvas
+  //draw the drawn part on layer's canvas
   ctx.drawImage(drawnRect, 0, 0);
   return layerImage;
 };
 
-swipe.addEventListener(&#x27;input&#x27;, function () {
+swipe.addEventListener('input', function() {
   //let layer redraw self in the next frame
   layer.getRenderer().setToRedraw();
-});
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-#map{width:100%;height:800px}
-#swipe{background-color:transparent;width:100%;border:none;height:10px;cursor:col-resize;margin-bottom:20px}
-      </textarea>
-      <input type="text" name="title" value="图层卷帘效果">
-      <textarea name="description">图层 - 图层卷帘效果</textarea>
-      <input type="text" name="wrap" value="l">
+});</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+#map {
+  width:100%;
+  height:800px
+}
+#swipe {
+  background-color:transparent;
+  width:100%;
+  border:none;
+  height:10px;
+  cursor:col-resize;
+  margin-bottom:20px
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -960,6 +968,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "图层卷帘效果",
+        description: "图层 - 图层卷帘效果",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

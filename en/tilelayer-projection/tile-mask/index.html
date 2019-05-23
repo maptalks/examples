@@ -859,74 +859,72 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-&lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;boundary.js&quot;&gt;&lt;/script&gt;
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-  center:     [114.26529, 30.60545],
-  zoom:  13,
-  pitch : 56,
-  baseLayer : new maptalks.TileLayer(&#x27;base&#x27;,{
-    urlTemplate: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+<script type="text/javascript" src="boundary.js"></script>
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var map = new maptalks.Map('map', {
+  center: [114.26529, 30.60545],
+  zoom: 13,
+  pitch: 56,
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
   })
 });
 
-//Jianghan district&#x27;s boundary, from boundary.js
-var mask &#x3D; new maptalks.Polygon(boundary, {
-  &#x27;symbol&#x27; : [
-    {
-      &#x27;lineColor&#x27; : &#x27;#ccc&#x27;,
-      &#x27;lineWidth&#x27; : 8,
-      &#x27;polygonFillOpacity&#x27; : 0
-    },
-    {
-      &#x27;lineColor&#x27; : &#x27;#404040&#x27;,
-      &#x27;lineWidth&#x27; : 6,
-      &#x27;polygonFillOpacity&#x27; : 0
-    }
-  ]
+//Jianghan district's boundary, from boundary.js
+var mask = new maptalks.Polygon(boundary, {
+  'symbol': [{
+    'lineColor': '#ccc',
+    'lineWidth': 8,
+    'polygonFillOpacity': 0
+  }, {
+    'lineColor': '#404040',
+    'lineWidth': 6,
+    'polygonFillOpacity': 0
+  }]
 });
 
-//Copy the mask to add as mask&#x27;s outline
-var outline &#x3D; mask.copy();
+//Copy the mask to add as mask's outline
+var outline = mask.copy();
 
-var maskedLayer &#x3D; new maptalks.TileLayer(&#x27;masked&#x27;, {
-  &#x27;urlTemplate&#x27; : &#x27;http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png&#x27;,
-  &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
+var maskedLayer = new maptalks.TileLayer('masked', {
+  'urlTemplate': 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+  'subdomains': ['a', 'b', 'c', 'd']
 })
-.setMask(mask) // set boundary as the mask to the tilelayer
+  .setMask(mask) // set boundary as the mask to the tilelayer
 .addTo(map);
 
-//District&#x27;s name
-var title &#x3D; new maptalks.Marker(mask.getCenter(), {
-  &#x27;symbol&#x27; : {
-    &#x27;textName&#x27; : &#x27;JiangHan District&#x27;,
-    &#x27;textFaceName&#x27; : &#x27;sans-serif&#x27;,
-    &#x27;textSize&#x27; : 32,
-    &#x27;textFill&#x27; : &#x27;#1bbc9b&#x27;,
-    &#x27;textHaloFill&#x27; : &#x27;#fff&#x27;,
-    &#x27;textHaloRadius&#x27; : 5,
-    &#x27;textDx&#x27; : -30
+//District's name
+var title = new maptalks.Marker(mask.getCenter(), {
+  'symbol': {
+    'textName': 'JiangHan District',
+    'textFaceName': 'sans-serif',
+    'textSize': 32,
+    'textFill': '#1bbc9b',
+    'textHaloFill': '#fff',
+    'textHaloRadius': 5,
+    'textDx': -30
   }
 });
-new maptalks.VectorLayer(&#x27;v&#x27;, [outline, title]).addTo(map);
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:100%;height:100%}
-      </textarea>
-      <input type="text" name="title" value="Set a boundary mask to TileLayer">
-      <textarea name="description">TileLayer and Geo-Projections - Set a boundary mask to TileLayer</textarea>
-      <input type="text" name="wrap" value="l">
+new maptalks.VectorLayer('v', [outline, title]).addTo(map);</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -942,6 +940,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "Set a boundary mask to TileLayer",
+        description: "TileLayer and Geo-Projections - Set a boundary mask to TileLayer",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>

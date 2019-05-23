@@ -841,56 +841,63 @@
   </div>
 
   <div style="display:none;">
-    <form method="post" action="http://jsfiddle.net/api/post/library/pure/" id="editor" target="_blanks">
-      <textarea name="html">
+    <textarea id="html-data" name="html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-
-&lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
-&lt;div id&#x3D;&quot;map1&quot;&gt;&lt;/div&gt;
-
-      </textarea>
-      <textarea name="js">
-var c &#x3D; [-0.113049,51.498568];
-var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+<div id="map" class="container"></div>
+<div id="map1"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var c = [-0.113049, 51.498568];
+var map = new maptalks.Map('map', {
   center: c,
   zoom: 13,
-  baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
-    urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c'],
+    attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors'
   }),
-  layers : [
-    new maptalks.VectorLayer(&#x27;v0&#x27;, [
+  layers: [
+    new maptalks.VectorLayer('v0', [
       new maptalks.Marker(c)
     ]),
-    new maptalks.VectorLayer(&#x27;v1&#x27;, [
+    new maptalks.VectorLayer('v1', [
       new maptalks.Rectangle(c, 1000, 800)
     ])
   ]
 });
 
-var map1 &#x3D; new maptalks.Map(&#x27;map1&#x27;, {
+var map1 = new maptalks.Map('map1', {
   center: c,
   zoom: 13,
-  baseLayer: new maptalks.TileLayer(&#x27;base1&#x27;, {
-    urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
-    subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
-    attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
+  baseLayer: new maptalks.TileLayer('base1', {
+    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c'],
+    attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors'
   })
 });
 // copy layer by JSON
-maptalks.Layer.fromJSON(map.getLayer(&#x27;v0&#x27;).toJSON()).addTo(map1);
-
-      </textarea>
-      <textarea name="css">
-html,body{margin:0px;height:100%;width:100%}
-.container{width:calc(50% - 2px);height:calc(100% - 2px);float:left;border:1px solid}
-#map1{width:calc(50% - 2px);height:calc(100% - 2px);float:right;border:1px solid}
-      </textarea>
-      <input type="text" name="title" value="用JSON复制Layer">
-      <textarea name="description">JSON序列化 - 用JSON复制Layer</textarea>
-      <input type="text" name="wrap" value="l">
+maptalks.Layer.fromJSON(map.getLayer('v0').toJSON()).addTo(map1);</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:calc(50% - 2px);
+  height:calc(100% - 2px);
+  float:left;
+  border:1px solid
+}
+#map1 {
+  width:calc(50% - 2px);
+  height:calc(100% - 2px);
+  float:right;
+  border:1px solid
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
   </div>
 
@@ -906,6 +913,21 @@ html,body{margin:0px;height:100%;width:100%}
     PR.prettyPrint();
 
     function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "用JSON复制Layer",
+        description: "JSON序列化 - 用JSON复制Layer",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
       document.getElementById('editor').submit();
     }
   </script>
