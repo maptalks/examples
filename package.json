@@ -24,7 +24,8 @@
     "metalsmith-debug": "^1.1.0",
     "metalsmith-layouts": "^1.6.5",
     "ms-webpack": "^1.0.2",
-    "multimatch": "^2.1.0"
+    "multimatch": "^2.1.0",
+    "prettify": "^0.1.7"
   },
   "scripts": {
     "dev": "gulp connect",
