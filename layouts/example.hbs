@@ -126,16 +126,19 @@
 
   <div style="display:none;">
     <textarea id="html-data" name="html">
+{{#prettify mode="html"}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-{{ contents }}
-    </textarea>
+{{{ contents }}}
+{{/prettify}}</textarea>
     <textarea id="js-data" name="js">
-{{ js.source }}
-    </textarea>
+{{#prettify mode="js"}}
+{{{ js.source }}}
+{{/prettify}}</textarea>
     <textarea id="css-data" name="css">
-{{ css.source }}
-    </textarea>
+{{#prettify mode="css"}}
+{{{ css.source }}}
+{{/prettify}}</textarea>
     <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
       <input type="hidden" id="editor-data" name="data" value=""></input>
     </form>
