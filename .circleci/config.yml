@@ -36,7 +36,6 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            -
       - attach_workspace:
           at: .
       - run: git config --global user.email "$GH_EMAIL"
