@@ -2517,6 +2517,19 @@ lru-cache@2:
   version "2.7.3"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-2.7.3.tgz#6d4524e8b955f95d4f5b58851ce21dd72fb4e952"
 
+lunr-chinese@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/lunr-chinese/-/lunr-chinese-1.2.0.tgz#2a9db0096f4db8340659342935c5e42b9160e4d8"
+  integrity sha1-Kp2wCW9NuDQGWTQpNcXkK5Fg5Ng=
+  dependencies:
+    lunr "0.7.2"
+    nodejieba "^2.2.5"
+
+lunr@0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/lunr/-/lunr-0.7.2.tgz#79a30e932e216cba163541ee37a3607c12cd7281"
+  integrity sha1-eaMOky4hbLoWNUHuN6NgfBLNcoE=
+
 lunr@^2.1.2:
   version "2.1.2"
   resolved "http://registry.npm.taobao.org/lunr/download/lunr-2.1.2.tgz#6b6306e04238fb09c04cfab28e45ae550226c479"
@@ -2780,6 +2793,11 @@ nan@^2.3.0:
   version "2.6.2"
   resolved "http://registry.npm.taobao.org/nan/download/nan-2.6.2.tgz#e4ff34e6c95fdfb5aecc08de6596f43605a7db45"
 
+nan@~2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
+  integrity sha512-bAdJv7fBLhWC+/Bls0Oza+mvTaNQtP+1RyhhhvD95pgUJz6XM5IzgmxOkItJ9tkoCiplvAnXI1tNmmUD/eScyA==
+
 natives@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/natives/-/natives-1.1.0.tgz#e9ff841418a6b2ec7a495e939984f78f163e6e31"
@@ -2833,6 +2851,13 @@ node-pre-gyp@^0.6.36:
     semver "^5.3.0"
     tar "^2.2.1"
     tar-pack "^3.4.0"
+
+nodejieba@^2.2.5:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/nodejieba/-/nodejieba-2.3.0.tgz#ba6934b949ce486c6a57e4cb7df9f4a5fb3336c4"
+  integrity sha512-ZzLsVuNDlrmcBQa/b8G/yegdXje2iFmktYmPksk6qLha1brKEANYqg4XPiBspF1D0y7Npho91KTmvKFcDr0UdA==
+  dependencies:
+    nan "~2.10.0"
 
 nopt@^4.0.1:
   version "4.0.1"
