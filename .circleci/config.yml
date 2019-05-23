@@ -6,7 +6,7 @@ defaults: &defaults
     - image: circleci/node:8.15.1
 
 jobs:
-  build:
+  build-and-deploy:
     <<: *defaults
     steps:
       - checkout
@@ -27,17 +27,6 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-  deploy:
-    <<: *defaults
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-      - attach_workspace:
-          at: .
       - run: git config --global user.email "$GH_EMAIL"
       - run: git config --global user.name "$GH_NAME"
       - run:
@@ -48,13 +37,7 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build:
-          filters:
-            branches:
-              ignore: gh-pages
-      - deploy:
-          requires:
-            - build
+      - build-and-deploy:
           filters:
             branches:
               only:
