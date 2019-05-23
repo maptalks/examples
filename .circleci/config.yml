@@ -27,9 +27,15 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
   deploy:
     <<: *defaults
     steps:
+      - attach_workspace:
+          at: .
       - run: git config --global user.email "$GH_EMAIL"
       - run: git config --global user.name "$GH_NAME"
       - run:
