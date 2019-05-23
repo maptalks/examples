@@ -6,13 +6,13 @@ defaults: &defaults
     - image: circleci/node:8.11.4
 
 jobs:
-  build-and-deploy:
+  build:
     <<: *defaults
     steps:
       - checkout
       - run:
           name: Install yarn
-          command: sudo apt get update && sudo apt get install yarn
+          command: sudo apt update && sudo apt install yarn
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
@@ -27,6 +27,9 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+  deploy:
+    <<: *defaults
+    steps:
       - run: git config --global user.email "$GH_EMAIL"
       - run: git config --global user.name "$GH_NAME"
       - run:
@@ -37,7 +40,13 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build-and-deploy:
+      - build:
+          filters:
+            branches:
+              ignore: gh-pages
+      - deploy:
+          requires:
+            - build
           filters:
             branches:
               only: master
