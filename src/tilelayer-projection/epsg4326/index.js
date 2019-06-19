@@ -8,13 +8,13 @@ var map = new maptalks.Map('map', {
   },
   baseLayer: new maptalks.TileLayer('base', {
     tileSystem : [1, -1, -180, 90],
-    urlTemplate:'http://t{s}.tianditu.com/DataServer?T=vec_c&x={x}&y={y}&l={z}',
+    urlTemplate:'http://t{s}.tianditu.com/DataServer?T=vec_c&x={x}&y={y}&l={z}&tk=de0dc270a51aaca3dd4e64d4f8c81ff6',
     subdomains:['1', '2', '3', '4', '5'],
     attribution : '&copy; <a target="_blank" href="http://www.tianditu.cn">Tianditu</a>'
   }),
   layers : [
     new maptalks.TileLayer('road', {
-      urlTemplate:'http://t{s}.tianditu.com/DataServer?T=cva_c&x={x}&y={y}&l={z}',
+      urlTemplate:'http://t{s}.tianditu.com/DataServer?T=cva_c&x={x}&y={y}&l={z}&tk=de0dc270a51aaca3dd4e64d4f8c81ff6',
       subdomains:['1', '2', '3', '4', '5'],
       opacity:1
     })

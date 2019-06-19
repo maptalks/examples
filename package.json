@@ -4,6 +4,7 @@
   "description": "examples for maptalks.js",
   "dependencies": {},
   "devDependencies": {
+    "@justeat/gulp-gh-pages": "^1.0.3",
     "clean-css": "^4.1.7",
     "css-loader": "^0.28.5",
     "eslint": "^2.13.1",
@@ -11,11 +12,11 @@
     "extract-text-webpack-plugin": "1.0.1",
     "gulp": "^3.9.1",
     "gulp-connect-ex": "^5.0.2",
-    "@justeat/gulp-gh-pages": "^1.0.3",
     "handlebars": "^4.0.5",
     "i18next": "^8.4.3",
     "i18next-sync-fs-backend": "^1.0.0",
     "lunr": "^2.1.2",
+    "lunr-chinese": "^1.2.0",
     "marked": "^0.3.6",
     "metalsmith": "^2.1.0",
     "metalsmith-assets-ex": "^0.1.0",
@@ -23,7 +24,8 @@
     "metalsmith-debug": "^1.1.0",
     "metalsmith-layouts": "^1.6.5",
     "ms-webpack": "^1.0.2",
-    "multimatch": "^2.1.0"
+    "multimatch": "^2.1.0",
+    "prettify": "^0.1.7"
   },
   "scripts": {
     "dev": "gulp connect",

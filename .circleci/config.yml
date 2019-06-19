@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/node:8.11.4
+    - image: circleci/node:8.15.1
 
 jobs:
   build-and-deploy:
@@ -12,11 +12,11 @@ jobs:
       - checkout
       - run:
           name: Install yarn
-          command: sudo npm install -g yarn
+          command: sudo apt update && sudo apt install yarn
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
+          # - v1-dependencies-
       - run:
           name: Install dependencies
           command: yarn
@@ -40,4 +40,6 @@ workflows:
       - build-and-deploy:
           filters:
             branches:
-              only: master
+              only:
+                - master
+                - /fix-ci-.*/
