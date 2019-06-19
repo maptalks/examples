@@ -19,7 +19,7 @@
         zoom:  13,
         pitch : 56,
         baseLayer : new maptalks.TileLayer('base',{
-          urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
           subdomains: ['a','b','c','d'],
           attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
         })
@@ -45,7 +45,7 @@
       var outline = mask.copy();
 
       var maskedLayer = new maptalks.TileLayer('masked', {
-        'urlTemplate' : 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+        'urlTemplate' : 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
         'subdomains'  : ['a','b','c','d']
       })
       .setMask(mask) // set boundary as the mask to the tilelayer

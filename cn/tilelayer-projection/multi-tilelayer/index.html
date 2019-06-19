@@ -798,13 +798,13 @@
         zoom:  6,
         pitch : 40,
         baseLayer : new maptalks.TileLayer(&#x27;base&#x27;,{
-          &#x27;urlTemplate&#x27;: &#x27;http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png&#x27;,
+          &#x27;urlTemplate&#x27;: &#x27;https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png&#x27;,
           &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
         }),
         // additional TileLayers in create options
         layers : [
           new maptalks.TileLayer(&#x27;boudaries&#x27;,{
-            &#x27;urlTemplate&#x27;: &#x27;http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png&#x27;,
+            &#x27;urlTemplate&#x27;: &#x27;https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png&#x27;,
             &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
           })
         ]
@@ -835,13 +835,13 @@ var map = new maptalks.Map('map', {
   zoom: 6,
   pitch: 40,
   baseLayer: new maptalks.TileLayer('base', {
-    'urlTemplate': 'http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png',
+    'urlTemplate': 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png',
     'subdomains': ['a', 'b', 'c', 'd']
   }),
   // additional TileLayers in create options
   layers: [
     new maptalks.TileLayer('boudaries', {
-      'urlTemplate': 'http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png',
+      'urlTemplate': 'https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png',
       'subdomains': ['a', 'b', 'c', 'd']
     })
   ]

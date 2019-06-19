@@ -814,7 +814,7 @@
 
     &lt;script&gt;
       var tileLayer &#x3D; new maptalks.TileLayer(&#x27;carto&#x27;,{
-        urlTemplate : &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
+        urlTemplate : &#x27;https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
         subdomains  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
         // fragment shader from webglfundamentals.org
         // https://webglfundamentals.org/webgl/lessons/webgl-image-processing.html
@@ -888,7 +888,7 @@
           content: &#x27;&amp;copy OpenStreetMap&#x27;
         },
         baseLayer : new maptalks.TileLayer(&#x27;base&#x27;,{
-          urlTemplate : &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
+          urlTemplate : &#x27;https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
           subdomains  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;]
         })
       });
@@ -915,7 +915,7 @@
 </textarea>
     <textarea id="js-data" name="js">
 var tileLayer = new maptalks.TileLayer('carto', {
-  urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   subdomains: ['a', 'b', 'c'],
   // fragment shader from webglfundamentals.org
   // https://webglfundamentals.org/webgl/lessons/webgl-image-processing.html
@@ -989,7 +989,7 @@ var map0 = new maptalks.Map('map0', {
     content: '&copy OpenStreetMap'
   },
   baseLayer: new maptalks.TileLayer('base', {
-    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     subdomains: ['a', 'b', 'c']
   })
 });</textarea>

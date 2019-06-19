@@ -16,7 +16,7 @@
 
     <script>
       var layer = new maptalks.TileLayer('light', {
-        urlTemplate: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
         subdomains: ['a','b','c','d'],
         attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>',
         // force layer to render when map is zooming and moving
@@ -28,7 +28,7 @@
         center: [121.4,37.5],
         zoom: 13,
         baseLayer : new maptalks.TileLayer('base',{
-          'urlTemplate': 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+          'urlTemplate': 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
           'subdomains'  : ['a','b','c','d']
         }),
         layers : [layer]

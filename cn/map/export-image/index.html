@@ -803,7 +803,7 @@
         baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
           // crossOrigin : &#x27;anonymous&#x27;, // required if renderer is canvas
           // renderer : &#x27;canvas&#x27;,
-          urlTemplate: &#x27;http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
+          urlTemplate: &#x27;https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;,
           subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;],
           attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.osm.org&quot; target&#x3D;&quot;_blank&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&#x27;
         })
@@ -851,7 +851,7 @@ var map = new maptalks.Map('map', {
   baseLayer: new maptalks.TileLayer('base', {
     // crossOrigin : 'anonymous', // required if renderer is canvas
     // renderer : 'canvas',
-    urlTemplate: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     subdomains: ['a', 'b', 'c'],
     attribution: '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a>  contributors'
   })

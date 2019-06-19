@@ -817,12 +817,12 @@
         },
         baseLayer: new maptalks.GroupTileLayer(&#x27;Base TileLayer&#x27;, [
           new maptalks.TileLayer(&#x27;Carto light&#x27;,{
-            &#x27;urlTemplate&#x27;: &#x27;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
+            &#x27;urlTemplate&#x27;: &#x27;https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
             &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
           }),
           new maptalks.TileLayer(&#x27;Carto dark&#x27;,{
             &#x27;visible&#x27; : false,
-            &#x27;urlTemplate&#x27;: &#x27;http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png&#x27;,
+            &#x27;urlTemplate&#x27;: &#x27;https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png&#x27;,
             &#x27;subdomains&#x27;  : [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]
           })
         ])
@@ -889,12 +889,12 @@ var map = new maptalks.Map('map', {
   },
   baseLayer: new maptalks.GroupTileLayer('Base TileLayer', [
     new maptalks.TileLayer('Carto light', {
-      'urlTemplate': 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+      'urlTemplate': 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
       'subdomains': ['a', 'b', 'c', 'd']
     }),
     new maptalks.TileLayer('Carto dark', {
       'visible': false,
-      'urlTemplate': 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+      'urlTemplate': 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
       'subdomains': ['a', 'b', 'c', 'd']
     })
   ])
