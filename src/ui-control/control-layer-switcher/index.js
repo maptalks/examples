@@ -14,12 +14,12 @@ var map = new maptalks.Map('map', {
   },
   baseLayer: new maptalks.GroupTileLayer('Base TileLayer', [
     new maptalks.TileLayer('Carto light',{
-      'urlTemplate': 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+      'urlTemplate': 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
       'subdomains'  : ['a','b','c','d']
     }),
     new maptalks.TileLayer('Carto dark',{
       'visible' : false,
-      'urlTemplate': 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+      'urlTemplate': 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
       'subdomains'  : ['a','b','c','d']
     })
   ])
