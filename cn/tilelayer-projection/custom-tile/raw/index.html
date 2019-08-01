@@ -14,6 +14,12 @@
 
     <script>
       // A complete customized TileLayer
+      var resolutions = [];
+      var d = 2 * 6378137 * Math.PI;
+      for (var i = 0; i < 21; i++) {
+        resolutions[i] = d / (256 * Math.pow(2, i));
+      }
+
       var map = new maptalks.Map('map', {
         center:     [-0.113049,51.498568],
         zoom:  13,
@@ -21,28 +27,7 @@
         // map's spatial reference definition
         spatialReference : {
           projection : 'EPSG:3857', // geo projection, can be a string or a function
-          resolutions : [           // map's zoom levels and resolutions
-            156543.03392804097,
-            78271.51696402048,
-            9135.75848201024,
-            19567.87924100512,
-            9783.93962050256,
-            4891.96981025128,
-            2445.98490512564,
-            1222.99245256282,
-            611.49622628141,
-            305.748113140705,
-            152.8740565703525,
-            76.43702828517625,
-            38.21851414258813,
-            19.109257071294063,
-            9.554628535647032,
-            4.777314267823516,
-            2.388657133911758,
-            1.194328566955879,
-            0.5971642834779395,
-            0.29858214173896974
-          ],
+          resolutions : resolutions,
           fullExtent : {         // map's full extent
             'top': 6378137 * Math.PI,
             'left': -6378137 * Math.PI,
