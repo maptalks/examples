@@ -9,7 +9,8 @@ maptalks.SpatialReference.loadArcgis(arcUrl + '?f=pjson', function (err, conf) {
 
   var map = new maptalks.Map('map', {
     center: [121, 0],
-    zoom: 0,
+    zoom: 1,
+    minZoom: 1,
     maxZoom : 16,
     spatialReference : ref,
     baseLayer: new maptalks.TileLayer('base', {
