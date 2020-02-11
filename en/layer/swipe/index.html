@@ -833,7 +833,7 @@
         var drawnRect &#x3D; document.createElement(&#x27;canvas&#x27;);
         drawnRect.width &#x3D; width;
         drawnRect.height &#x3D; ctx.canvas.height;
-        drawnRect.getContext(&#x27;2d&#x27;).drawImage(ctx.canvas, 0, 0);
+        drawnRect.getContext(&#x27;2d&#x27;).drawImage(layerImage.image, 0, 0);
 
         //clear the erased part
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -846,6 +846,7 @@
 
         //draw the drawn part on layer&#x27;s canvas
         ctx.drawImage(drawnRect, 0, 0);
+        layerImage.image &#x3D; ctx.canvas;
         return layerImage;
       };
 
@@ -913,7 +914,7 @@ renderer.getCanvasImage = function() {
   var drawnRect = document.createElement('canvas');
   drawnRect.width = width;
   drawnRect.height = ctx.canvas.height;
-  drawnRect.getContext('2d').drawImage(ctx.canvas, 0, 0);
+  drawnRect.getContext('2d').drawImage(layerImage.image, 0, 0);
 
   //clear the erased part
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -926,6 +927,7 @@ renderer.getCanvasImage = function() {
 
   //draw the drawn part on layer's canvas
   ctx.drawImage(drawnRect, 0, 0);
+  layerImage.image = ctx.canvas;
   return layerImage;
 };
 

@@ -53,7 +53,7 @@
         var drawnRect = document.createElement('canvas');
         drawnRect.width = width;
         drawnRect.height = ctx.canvas.height;
-        drawnRect.getContext('2d').drawImage(ctx.canvas, 0, 0);
+        drawnRect.getContext('2d').drawImage(layerImage.image, 0, 0);
 
         //clear the erased part
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -66,6 +66,7 @@
 
         //draw the drawn part on layer's canvas
         ctx.drawImage(drawnRect, 0, 0);
+        layerImage.image = ctx.canvas;
         return layerImage;
       };
 
