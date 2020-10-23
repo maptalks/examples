@@ -1,6 +1,8 @@
 bak/
 dist/
 .publish/
+.changed.json
+package-lock.json
 
 # Logs
 logs
