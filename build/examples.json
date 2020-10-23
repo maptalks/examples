@@ -33,6 +33,7 @@
         {"name" : "wms", "title" : {"cn" : "WMS瓦片图层", "en" : "Add a WMS TileLayer"}},
         {"name" : "vector-tile", "title" : {"cn" : "Vector-Tile图层", "en" : "Add a mapbox vector-tile Layer"}, "url" : "https://github.com/maptalks/maptalks.mapboxgl"},
         {"name" : "arcgis-tile", "title" : {"cn" : "ArcGIS瓦片图层", "en" : "Add an ArcGIS TileLayer"}},
+        {"name" : "wmts-tile", "title" : {"cn" : "WMTS瓦片图层", "en" : "Add a WMTS TileLayer"}, "mark" : "new"},
         {"name" : "custom-tile", "title" : {"cn" : "LOD和自定义瓦片图层", "en" : "LOD and custom TileLayer"}},
         {"name" : "base64", "title" : {"cn" : "用base64编码载入瓦片", "en" : "Load tiles with base64 encoding"}},
         {"name" : "tile-opacity", "title" : {"cn" : "设置瓦片图层透明度", "en" : "Set TileLayer's opacity"}},
@@ -44,7 +45,7 @@
         {"name" : "proj4js", "title" : {"cn" : "Proj4js自定义投影底图", "en" : "TileLayer of custom projection by proj4js"}},
         {"name" : "d3-proj", "title" : {"cn" : "D3投影", "en" : "D3 geo projection"}},
         {"name" : "different-projection", "title" : {"cn" : "载入不同投影的TileLayer", "en" : "Load tilelayer with different projection"}},
-        {"name" : "filter", "title" : {"cn" : "底图风格滤镜", "en" : "TileLayer's CSS filter"}, "mark" : "new"}
+        {"name" : "filter", "title" : {"cn" : "底图风格滤镜", "en" : "TileLayer's CSS filter"}}
       ]
     },
 
@@ -100,7 +101,7 @@
         {"name" : "image-text-marker", "title" : {"cn" : "带文字的图片标注", "en" : "Image marker with texts"}},
         {"name" : "line-symbol", "title" : {"cn" : "线样式", "en" : "Line symbol"}},
         {"name" : "line-pattern", "title" : {"cn" : "线的模式填充", "en" : "Line pattern fill"}},
-        {"name" : "line-pattern-animation", "title" : {"cn" : "线的模式填充动画", "en" : "Animation of line pattern fill"}, "mark" : "new"},
+        {"name" : "line-pattern-animation", "title" : {"cn" : "线的模式填充动画", "en" : "Animation of line pattern fill"}},
         {"name" : "line-gradient", "title" : {"cn" : "线的渐变填充", "en" : "Line gradient fill"}},
         {"name" : "line-arrow", "title" : {"cn" : "带箭头的线", "en" : "Line with arrows"}},
         {"name" : "line-text", "title" : {"cn" : "带文字的线", "en" : "Line with texts"}},
@@ -141,7 +142,7 @@
         {"name" : "particlelayer", "title" : {"cn" : "ParticleLayer: 粒子图层示例", "en" : "ParticleLayer: an example"}},
         {"name" : "canvastilelayer", "title" : {"cn" : "CanvasTileLayer: 画板瓦片图层示例", "en" : "CanvasTileLayer: an example"}},
         {"name" : "swipe", "title" : {"cn" : "图层卷帘效果", "en" : "Layer swipe effect"}},
-        {"name" : "imagelayer", "title" : {"cn" : "ImageLayer: 图片图层示例", "en" : "ImageLayer: an example"}, "mark" : "new"}
+        {"name" : "imagelayer", "title" : {"cn" : "ImageLayer: 图片图层示例", "en" : "ImageLayer: an example"}}
       ]
     },
 
