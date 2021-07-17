@@ -1,30 +1,30 @@
 // A complete customized TileLayer
 var Unit = {
-  /**  米 */
+  /**  METER */
   METER: 'METER',
-  /**  千米 */
+  /**  KILOMETER */
   KILOMETER: 'KILOMETER',
-  /**  英里 */
+  /**  MILE */
   MILE: 'MILE',
-  /**  码 */
+  /**  YARD */
   YARD: 'YARD',
-  /**  度 */
+  /**  DEGREE */
   DEGREE: 'DEGREE',
-  /**  毫米 */
+  /**  MILLIMETER */
   MILLIMETER: 'MILLIMETER',
-  /**  厘米 */
+  /**  CENTIMETER */
   CENTIMETER: 'CENTIMETER',
-  /**  英寸 */
+  /**  INCH */
   INCH: 'INCH',
-  /**  分米 */
+  /**  DECIMETER */
   DECIMETER: 'DECIMETER',
-  /**  英尺 */
+  /**  FOOT */
   FOOT: 'FOOT',
-  /**  秒 */
+  /**  SECOND */
   SECOND: 'SECOND',
-  /**  分 */
+  /**  MINUTE */
   MINUTE: 'MINUTE',
-  /**  弧度 */
+  /**  RADIAN */
   RADIAN: 'RADIAN'
 };
 
@@ -38,7 +38,7 @@ function replaceURL(url, x, y, scale) {
 
 function resolutionToScale(resolution, dpi, mapUnit) {
   var inchPerMeter = 1 / 0.0254;
-  // 地球半径。
+  // Radius of the earth
   var meterPerMapUnit = getMeterPerMapUnit(mapUnit);
   var scale = resolution * dpi * inchPerMeter * meterPerMapUnit;
   scale = 1 / scale;
@@ -51,7 +51,7 @@ function getMeterPerMapUnit(mapUnit) {
   if (mapUnit === Unit.METER) {
     meterPerMapUnit = 1;
   } else if (mapUnit === Unit.DEGREE) {
-    // 每度表示多少米。
+    // How many meters per degree。
     meterPerMapUnit = (Math.PI * 2 * earchRadiusInMeters) / 360;
   } else if (mapUnit === Unit.KILOMETER) {
     meterPerMapUnit = 1.0e-3;
@@ -96,6 +96,7 @@ var tileLayer = new maptalks.TileLayer('base', {
   tileSystem: [1, -1].concat(parmas.origin) // tile system
 });
 
+// custom tilelayer getTileUrl
 tileLayer.getTileUrl = function (x, y, z) {
   this.scales = this.scales || {};
   if (this.scales[z]) {
