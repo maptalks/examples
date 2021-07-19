@@ -56,7 +56,7 @@ tileLayer.getTileUrl = function (x, y, z) {
   if (this.scales[z]) {
     return replaceURL(this.options.urlTemplate, x, y, this.scales[z]);
   }
-  var crs = this.getMap().getSpatialReference()._projection;
+  var crs = this.getMap().getSpatialReference().getProjection();
   var bounds = this._getTileExtent(x, y, z);
   var min = bounds.getMin(),
     max = bounds.getMax();
