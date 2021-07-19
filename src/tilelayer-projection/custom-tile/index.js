@@ -1,32 +1,8 @@
 // A complete customized TileLayer
-var Unit = {
-  /**  METER */
-  METER: 'METER',
-  /**  KILOMETER */
-  KILOMETER: 'KILOMETER',
-  /**  MILE */
-  MILE: 'MILE',
-  /**  YARD */
-  YARD: 'YARD',
-  /**  DEGREE */
-  DEGREE: 'DEGREE',
-  /**  MILLIMETER */
-  MILLIMETER: 'MILLIMETER',
-  /**  CENTIMETER */
-  CENTIMETER: 'CENTIMETER',
-  /**  INCH */
-  INCH: 'INCH',
-  /**  DECIMETER */
-  DECIMETER: 'DECIMETER',
-  /**  FOOT */
-  FOOT: 'FOOT',
-  /**  SECOND */
-  SECOND: 'SECOND',
-  /**  MINUTE */
-  MINUTE: 'MINUTE',
-  /**  RADIAN */
-  RADIAN: 'RADIAN'
-};
+// Radius of the earth
+var earchRadiusInMeters = 6378137;
+var inchPerMeter = 1 / 0.0254;
+var meterPerMapUnit = (Math.PI * 2 * earchRadiusInMeters) / 360;
 
 function replaceURL(url, x, y, scale) {
   var str = ['x', x, 'y', y, 'scale', scale];
@@ -36,34 +12,12 @@ function replaceURL(url, x, y, scale) {
   return url;
 }
 
-function resolutionToScale(resolution, dpi, mapUnit) {
-  var inchPerMeter = 1 / 0.0254;
-  // Radius of the earth
-  var meterPerMapUnit = getMeterPerMapUnit(mapUnit);
+function resolutionToScale(resolution, dpi) {
   var scale = resolution * dpi * inchPerMeter * meterPerMapUnit;
   scale = 1 / scale;
   return scale;
 }
 
-function getMeterPerMapUnit(mapUnit) {
-  var earchRadiusInMeters = 6378137;
-  var meterPerMapUnit;
-  if (mapUnit === Unit.METER) {
-    meterPerMapUnit = 1;
-  } else if (mapUnit === Unit.DEGREE) {
-    // How many meters per degree。
-    meterPerMapUnit = (Math.PI * 2 * earchRadiusInMeters) / 360;
-  } else if (mapUnit === Unit.KILOMETER) {
-    meterPerMapUnit = 1.0e-3;
-  } else if (mapUnit === Unit.INCH) {
-    meterPerMapUnit = 1 / 2.5399999918e-2;
-  } else if (mapUnit === Unit.FOOT) {
-    meterPerMapUnit = 0.3048;
-  } else {
-    return meterPerMapUnit;
-  }
-  return meterPerMapUnit;
-}
 
 var parmas = {
   zooms: 5,
@@ -113,7 +67,7 @@ tileLayer.getTileUrl = function (x, y, z) {
     Math.abs(ne.x - sw.x) / tileSize,
     Math.abs(ne.y - sw.y) / tileSize
   );
-  var scale = resolutionToScale(resolution, 96, Unit.DEGREE);
+  var scale = resolutionToScale(resolution, 96);
   this.scales[z] = scale;
   return replaceURL(this.options.urlTemplate, x, y, this.scales[z]);
 };
@@ -127,12 +81,9 @@ tileLayer._getTileExtent = function (x, y, z) {
 };
 
 var map = new maptalks.Map('map', {
-  center: [39.79, 116.85].reverse(),
+  center: [116.85, 39.79],
   // pitch:40,
-  overviewControl: true,
-
   zoom: 0,
   spatialReference: crs,
   baseLayer: tileLayer
 });
-
