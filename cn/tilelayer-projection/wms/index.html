@@ -798,23 +798,25 @@
 
     &lt;script&gt;
       var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-        center:     [-0.113049,51.498568],
-        zoom:  6,
-        baseLayer : new maptalks.WMSTileLayer(&#x27;wms&#x27;, {
-          &#x27;urlTemplate&#x27; : &#x27;https://demo.boundlessgeo.com/geoserver/ows&#x27;,
-          &#x27;crs&#x27; : &#x27;EPSG:3857&#x27;,
-          &#x27;layers&#x27; : &#x27;ne:ne&#x27;,
-          &#x27;styles&#x27; : &#x27;&#x27;,
-          &#x27;version&#x27; : &#x27;1.3.0&#x27;,
+        center: [-0.113049, 51.498568],
+        zoom: 6,
+        spatialReference: {
+          projection: &#x27;EPSG:4326&#x27;
+        },
+        baseLayer: new maptalks.WMSTileLayer(&#x27;wms&#x27;, {
+          &#x27;urlTemplate&#x27;: &#x27;https://ows.terrestris.de/osm/service&#x27;,
+          &#x27;crs&#x27;: &#x27;EPSG:4326&#x27;,
+          &#x27;layers&#x27;: &#x27;OSM-WMS&#x27;,
+          &#x27;styles&#x27;: &#x27;&#x27;,
+          &#x27;version&#x27;: &#x27;1.3.0&#x27;,
           &#x27;format&#x27;: &#x27;image/png&#x27;,
-          &#x27;transparent&#x27; : true,
-          &#x27;uppercase&#x27; : true
+          &#x27;transparent&#x27;: true,
+          &#x27;uppercase&#x27;: true
         }),
         attribution: {
-          content: &#x27;&amp;copy BoudlessGeo&#x27;
+          content: &#x27;&amp;copy ows.terrestris.de&#x27;
         }
       });
-
     &lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;
@@ -838,10 +840,13 @@
 var map = new maptalks.Map('map', {
   center: [-0.113049, 51.498568],
   zoom: 6,
+  spatialReference: {
+    projection: 'EPSG:4326'
+  },
   baseLayer: new maptalks.WMSTileLayer('wms', {
-    'urlTemplate': 'https://demo.boundlessgeo.com/geoserver/ows',
-    'crs': 'EPSG:3857',
-    'layers': 'ne:ne',
+    'urlTemplate': 'https://ows.terrestris.de/osm/service',
+    'crs': 'EPSG:4326',
+    'layers': 'OSM-WMS',
     'styles': '',
     'version': '1.3.0',
     'format': 'image/png',
@@ -849,7 +854,7 @@ var map = new maptalks.Map('map', {
     'uppercase': true
   }),
   attribution: {
-    content: '&copy BoudlessGeo'
+    content: '&copy ows.terrestris.de'
   }
 });</textarea>
     <textarea id="css-data" name="css">

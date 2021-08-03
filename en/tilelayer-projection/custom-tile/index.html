@@ -802,37 +802,94 @@
 
     &lt;script&gt;
       // A complete customized TileLayer
-      var resolutions &#x3D; [];
-      var d &#x3D; 2 * 6378137 * Math.PI;
-      for (var i &#x3D; 0; i &lt; 21; i++) {
-        resolutions[i] &#x3D; d / (256 * Math.pow(2, i));
+      // Radius of the earth
+      var earchRadiusInMeters &#x3D; 6378137;
+      var inchPerMeter &#x3D; 1 / 0.0254;
+      var meterPerMapUnit &#x3D; (Math.PI * 2 * earchRadiusInMeters) / 360;
+
+      function replaceURL(url, x, y, scale) {
+        var str &#x3D; [&#x27;x&#x27;, x, &#x27;y&#x27;, y, &#x27;scale&#x27;, scale];
+        for (var i &#x3D; 0, len &#x3D; str.length; i &lt; len; i +&#x3D; 2) {
+          url &#x3D; url.replace(&#x27;{&#x27; + str[i] + &#x27;}&#x27;, str[i + 1]);
+        }
+        return url;
       }
 
-      var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
-        center:     [-0.113049,51.498568],
-        zoom:  13,
-        // a custom version of default web-mercator spatial reference
-        // map&#x27;s spatial reference definition
-        spatialReference : {
-          projection : &#x27;EPSG:3857&#x27;, // geo projection, can be a string or a function
-          resolutions : resolutions,
-          fullExtent : {         // map&#x27;s full extent
-            &#x27;top&#x27;: 6378137 * Math.PI,
-            &#x27;left&#x27;: -6378137 * Math.PI,
-            &#x27;bottom&#x27;: -6378137 * Math.PI,
-            &#x27;right&#x27;: 6378137 * Math.PI
-          }
-        },
-        baseLayer : new maptalks.TileLayer(&#x27;base&#x27;,{
-          urlTemplate: &#x27;https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
-          subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
-          attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;,
-          tileSystem : [1, -1, -20037508.34, 20037508.34], // tile system
-          minZoom : 1,
-          maxZoom : 20
-        })
+      function resolutionToScale(resolution, dpi) {
+        var scale &#x3D; resolution * dpi * inchPerMeter * meterPerMapUnit;
+        scale &#x3D; 1 / scale;
+        return scale;
+      }
+
+
+      var parmas &#x3D; {
+        zooms: 5,
+        firstRes: 0.009507170090264933,
+        origin: [114.59, 42.31],
+        maxBounds: [
+          [-180, -90],
+          [180, 90]
+        ]
+      };
+
+      var url &#x3D;
+        &#x27;https://iserver.supermap.io/iserver/services/map-jingjin/rest/maps/%E4%BA%AC%E6%B4%A5%E5%9C%B0%E5%8C%BA%E5%9C%B0%E5%9B%BE/tileImage.png?width&#x3D;256&amp;height&#x3D;256&amp;redirect&#x3D;false&amp;transparent&#x3D;true&amp;cacheEnabled&#x3D;true&amp;origin&#x3D;%7B%22x%22%3A114.59%2C%22y%22%3A42.31%7D&amp;overlapDisplayed&#x3D;false&amp;scale&#x3D;{scale}&amp;x&#x3D;{x}&amp;y&#x3D;{y}&#x27;;
+      var res &#x3D; [];
+      for (var i &#x3D; 0; i &lt;&#x3D; parmas.zooms; i++) {
+        res.push(parmas.firstRes / Math.pow(2, i));
+      }
+      var crs &#x3D; {
+        projection: &#x27;EPSG:4326&#x27;,
+        resolutions: res
+      };
+
+      var tileLayer &#x3D; new maptalks.TileLayer(&#x27;base&#x27;, {
+        repeatWorld: false,
+        urlTemplate: url,
+        spatialReference: crs,
+        subdomains: [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;],
+        attribution:
+          &#x27;&amp;copy; &lt;a href&#x3D;&quot;https://www.supermap.com/cn/&quot;&gt;supermap&lt;/a&gt; contributors&#x27;,
+        tileSystem: [1, -1].concat(parmas.origin) // tile system
       });
 
+      // custom tilelayer getTileUrl
+      tileLayer.getTileUrl &#x3D; function (x, y, z) {
+        this.scales &#x3D; this.scales || {};
+        if (this.scales[z]) {
+          return replaceURL(this.options.urlTemplate, x, y, this.scales[z]);
+        }
+        var crs &#x3D; this.getMap().getSpatialReference().getProjection();
+        var bounds &#x3D; this._getTileExtent(x, y, z);
+        var min &#x3D; bounds.getMin(),
+          max &#x3D; bounds.getMax();
+        var ne &#x3D; crs.project(max);
+        var sw &#x3D; crs.project(min);
+        var tileSize &#x3D; this.options.tileSize[0];
+        var resolution &#x3D; Math.max(
+          Math.abs(ne.x - sw.x) / tileSize,
+          Math.abs(ne.y - sw.y) / tileSize
+        );
+        var scale &#x3D; resolutionToScale(resolution, 96);
+        this.scales[z] &#x3D; scale;
+        return replaceURL(this.options.urlTemplate, x, y, this.scales[z]);
+      };
+
+      tileLayer._getTileExtent &#x3D; function (x, y, z) {
+        var map &#x3D; this.getMap(),
+          res &#x3D; map._getResolution(z),
+          tileConfig &#x3D; this._getTileConfig(),
+          tileExtent &#x3D; tileConfig.getTilePrjExtent(x, y, res);
+        return tileExtent;
+      };
+
+      var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+        center: [116.85, 39.79],
+        // pitch:40,
+        zoom: 0,
+        spatialReference: crs,
+        baseLayer: tileLayer
+      });
     &lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;
@@ -854,35 +911,92 @@
 </textarea>
     <textarea id="js-data" name="js">
 // A complete customized TileLayer
-var resolutions = [];
-var d = 2 * 6378137 * Math.PI;
-for (var i = 0; i < 21; i++) {
-  resolutions[i] = d / (256 * Math.pow(2, i));
+// Radius of the earth
+var earchRadiusInMeters = 6378137;
+var inchPerMeter = 1 / 0.0254;
+var meterPerMapUnit = (Math.PI * 2 * earchRadiusInMeters) / 360;
+
+function replaceURL(url, x, y, scale) {
+  var str = ['x', x, 'y', y, 'scale', scale];
+  for (var i = 0, len = str.length; i < len; i += 2) {
+    url = url.replace('{' + str[i] + '}', str[i + 1]);
+  }
+  return url;
 }
 
+function resolutionToScale(resolution, dpi) {
+  var scale = resolution * dpi * inchPerMeter * meterPerMapUnit;
+  scale = 1 / scale;
+  return scale;
+}
+
+
+var parmas = {
+  zooms: 5,
+  firstRes: 0.009507170090264933,
+  origin: [114.59, 42.31],
+  maxBounds: [
+    [-180, -90],
+    [180, 90]
+  ]
+};
+
+var url =
+  'https://iserver.supermap.io/iserver/services/map-jingjin/rest/maps/%E4%BA%AC%E6%B4%A5%E5%9C%B0%E5%8C%BA%E5%9C%B0%E5%9B%BE/tileImage.png?width=256&height=256&redirect=false&transparent=true&cacheEnabled=true&origin=%7B%22x%22%3A114.59%2C%22y%22%3A42.31%7D&overlapDisplayed=false&scale={scale}&x={x}&y={y}';
+var res = [];
+for (var i = 0; i <= parmas.zooms; i++) {
+  res.push(parmas.firstRes / Math.pow(2, i));
+}
+var crs = {
+  projection: 'EPSG:4326',
+  resolutions: res
+};
+
+var tileLayer = new maptalks.TileLayer('base', {
+  repeatWorld: false,
+  urlTemplate: url,
+  spatialReference: crs,
+  subdomains: ['a', 'b', 'c', 'd'],
+  attribution: '&copy; <a href="https://www.supermap.com/cn/">supermap</a>  contributors',
+  tileSystem: [1, -1].concat(parmas.origin) // tile system
+});
+
+// custom tilelayer getTileUrl
+tileLayer.getTileUrl = function(x, y, z) {
+  this.scales = this.scales || {};
+  if (this.scales[z]) {
+    return replaceURL(this.options.urlTemplate, x, y, this.scales[z]);
+  }
+  var crs = this.getMap().getSpatialReference().getProjection();
+  var bounds = this._getTileExtent(x, y, z);
+  var min = bounds.getMin(),
+    max = bounds.getMax();
+  var ne = crs.project(max);
+  var sw = crs.project(min);
+  var tileSize = this.options.tileSize[0];
+  var resolution = Math.max(
+    Math.abs(ne.x - sw.x) / tileSize,
+    Math.abs(ne.y - sw.y) / tileSize
+  );
+  var scale = resolutionToScale(resolution, 96);
+  this.scales[z] = scale;
+  return replaceURL(this.options.urlTemplate, x, y, this.scales[z]);
+};
+
+tileLayer._getTileExtent = function(x, y, z) {
+  var map = this.getMap(),
+    res = map._getResolution(z),
+    tileConfig = this._getTileConfig(),
+    tileExtent = tileConfig.getTilePrjExtent(x, y, res);
+  return tileExtent;
+};
+
 var map = new maptalks.Map('map', {
-  center: [-0.113049, 51.498568],
-  zoom: 13,
-  // a custom version of default web-mercator spatial reference
-  // map's spatial reference definition
-  spatialReference: {
-    projection: 'EPSG:3857', // geo projection, can be a string or a function
-    resolutions: resolutions,
-    fullExtent: { // map's full extent
-      'top': 6378137 * Math.PI,
-      'left': -6378137 * Math.PI,
-      'bottom': -6378137 * Math.PI,
-      'right': 6378137 * Math.PI
-    }
-  },
-  baseLayer: new maptalks.TileLayer('base', {
-    urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-    subdomains: ['a', 'b', 'c', 'd'],
-    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> ',
-    tileSystem: [1, -1, -20037508.34, 20037508.34], // tile system
-    minZoom: 1,
-    maxZoom: 20
-  })
+  center: [116.85, 39.79],
+  // pitch:40,
+  zoom: 0,
+  spatialReference: crs,
+  baseLayer: tileLayer
 });</textarea>
     <textarea id="css-data" name="css">
 html, body {
