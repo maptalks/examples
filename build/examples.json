@@ -37,7 +37,6 @@
         {"name" : "custom-tile", "title" : {"cn" : "LOD和自定义瓦片图层", "en" : "LOD and custom TileLayer"}},
         {"name" : "base64", "title" : {"cn" : "用base64编码载入瓦片", "en" : "Load tiles with base64 encoding"}},
         {"name" : "tile-opacity", "title" : {"cn" : "设置瓦片图层透明度", "en" : "Set TileLayer's opacity"}},
-        {"name" : "fragment-shader", "title" : {"cn" : "Fragment Shader", "en" : "Replace default fragment shader"}},
         {"name" : "tile-mask", "title" : {"cn" : "只显示指定范围内的瓦片", "en" : "Set a boundary mask to TileLayer"}},
         {"name" : "epsg4326", "title" : {"cn" : "4326投影底图", "en" : "TileLayer of EPSG:4326 projection"}},
         {"name" : "identity", "title" : {"cn" : "IDENTITY投影底图", "en" : "TileLayer of IDENTITY projection"}},
