@@ -794,14 +794,14 @@
     &lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
 
     &lt;script&gt;
-      var url &#x3D; &#x27;https://t0.tianditu.gov.cn/vec_c/wmts?request&#x3D;GetCapabilities&amp;service&#x3D;wmts&amp;tk&#x3D;de0dc270a51aaca3dd4e64d4f8c81ff6&#x27;;
+      var url &#x3D; &#x27;https://t0.tianditu.gov.cn/vec_c/wmts?request&#x3D;GetCapabilities&amp;service&#x3D;wmts&amp;tk&#x3D;6901643c38b65f1f9770196343cf72b2&#x27;;
 
       maptalks.SpatialReference.loadWMTS(url, function (err, conf) {
         if (err) {
           throw new Error(err);
         }
         var params &#x3D; conf[0];
-        params.urlTemplate +&#x3D; &#x27;&amp;tk&#x3D;de0dc270a51aaca3dd4e64d4f8c81ff6&#x27;;
+        params.urlTemplate +&#x3D; &#x27;&amp;tk&#x3D;6901643c38b65f1f9770196343cf72b2&#x27;;
         var spatialReference &#x3D; params.spatialReference;
         var tileLayer &#x3D; new maptalks.TileLayer(&#x27;tilelayer&#x27;, params);
         var spatialReference &#x3D; params.spatialReference;
@@ -835,14 +835,14 @@
 <div id="map" class="container"></div>
 </textarea>
     <textarea id="js-data" name="js">
-var url = 'https://t0.tianditu.gov.cn/vec_c/wmts?request=GetCapabilities&service=wmts&tk=de0dc270a51aaca3dd4e64d4f8c81ff6';
+var url = 'https://t0.tianditu.gov.cn/vec_c/wmts?request=GetCapabilities&service=wmts&tk=6901643c38b65f1f9770196343cf72b2';
 
 maptalks.SpatialReference.loadWMTS(url, function(err, conf) {
   if (err) {
     throw new Error(err);
   }
   var params = conf[0];
-  params.urlTemplate += '&tk=de0dc270a51aaca3dd4e64d4f8c81ff6';
+  params.urlTemplate += '&tk=6901643c38b65f1f9770196343cf72b2';
   var spatialReference = params.spatialReference;
   var tileLayer = new maptalks.TileLayer('tilelayer', params);
   var spatialReference = params.spatialReference;
