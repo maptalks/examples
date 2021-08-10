@@ -836,11 +836,17 @@
       }
       var crs &#x3D; {
         projection: &#x27;EPSG:4326&#x27;,
-        resolutions: res
+        resolutions: res,
+        fullExtent: {
+          top: 42.31,
+          left: 114.59,
+          bottom: 37.44232891378436,
+          right:  119.45767108621564
+        }
       };
 
       var tileLayer &#x3D; new maptalks.TileLayer(&#x27;base&#x27;, {
-        repeatWorld: false,
+        repeatWorld: true,
         urlTemplate: url,
         spatialReference: crs,
         subdomains: [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;],
@@ -886,6 +892,7 @@
         spatialReference: crs,
         baseLayer: tileLayer
       });
+
     &lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;
@@ -945,11 +952,17 @@ for (var i = 0; i <= parmas.zooms; i++) {
 }
 var crs = {
   projection: 'EPSG:4326',
-  resolutions: res
+  resolutions: res,
+  fullExtent: {
+    top: 42.31,
+    left: 114.59,
+    bottom: 37.44232891378436,
+    right: 119.45767108621564
+  }
 };
 
 var tileLayer = new maptalks.TileLayer('base', {
-  repeatWorld: false,
+  repeatWorld: true,
   urlTemplate: url,
   spatialReference: crs,
   subdomains: ['a', 'b', 'c', 'd'],
