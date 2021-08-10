@@ -2618,6 +2618,13 @@ metalsmith-layouts@^1.6.5:
     lodash.omit "^4.0.2"
     multimatch "^2.0.0"
 
+metalsmith-timer@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/metalsmith-timer/-/metalsmith-timer-0.0.2.tgz#7babbfae0ca5a1f1026620ef8fd70cbeb1fb24e9"
+  integrity sha1-e6u/rgylofECZiDvj9cMvrH7JOk=
+  dependencies:
+    debug "^2.2.0"
+
 metalsmith@^2.1.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/metalsmith/-/metalsmith-2.3.0.tgz#833afbb5a2a6385e2d9ae3d935e39e33eaea5231"
@@ -3060,8 +3067,9 @@ path-is-inside@^1.0.1:
   resolved "https://registry.yarnpkg.com/path-is-inside/-/path-is-inside-1.0.2.tgz#365417dede44430d1c11af61027facf074bdfc53"
 
 path-parse@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.5.tgz#3c1adf871ea9cd6c9431b6ea2bd74a0ff055c4c1"
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
+  integrity sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==
 
 path-root-regex@^0.1.0:
   version "0.1.2"
