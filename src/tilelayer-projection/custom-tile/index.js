@@ -37,11 +37,17 @@ for (var i = 0; i <= parmas.zooms; i++) {
 }
 var crs = {
   projection: 'EPSG:4326',
-  resolutions: res
+  resolutions: res,
+  fullExtent: {
+    top: 42.31,
+    left: 114.59,
+    bottom: 37.44232891378436,
+    right:  119.45767108621564
+  }
 };
 
 var tileLayer = new maptalks.TileLayer('base', {
-  repeatWorld: false,
+  repeatWorld: true,
   urlTemplate: url,
   spatialReference: crs,
   subdomains: ['a', 'b', 'c', 'd'],
