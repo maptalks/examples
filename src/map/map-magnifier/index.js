@@ -13,17 +13,17 @@ var map = new maptalks.Map('map', {
 
 var mousePosition = null;
 
-map.on('mousemove', function (e) {
+function onMouseMove(e) {
   mousePosition = e.containerPoint;
   map.getRenderer().setToRedraw();
-});
+}
 
-map.on('mouseout', function () {
+function onMouseOut() {
   mousePosition = null;
   map.getRenderer().setToRedraw();
-});
+}
 
-map.on('renderend', function (e) {
+function onRenderEnd(e) {
   if (!mousePosition) {
     return;
   }
@@ -71,7 +71,13 @@ map.on('renderend', function (e) {
 
   // draw magnified image and clip it by circle
   ctx.drawImage(createMagCircle(dest, size), centerX - size / 2, centerY - size / 2);
-});
+}
+
+map.on('mousemove', onMouseMove);
+
+map.on('mouseout', onMouseOut);
+
+map.on('renderend', onRenderEnd);
 
 //draw image data into a canvas, and clip it by a circle with diameter of size
 function createMagCircle(imageData, size) {
