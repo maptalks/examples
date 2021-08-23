@@ -5,6 +5,7 @@ var map = new maptalks.Map('map', {
     projection: 'EPSG:4326'
   },
   baseLayer: new maptalks.WMSTileLayer('wms', {
+    'tileSystem': [1, -1, -180, 90],
     'urlTemplate': 'https://ows.terrestris.de/osm/service',
     'crs': 'EPSG:4326',
     'layers': 'OSM-WMS',
