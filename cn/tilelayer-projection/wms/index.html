@@ -800,6 +800,7 @@
           projection: &#x27;EPSG:4326&#x27;
         },
         baseLayer: new maptalks.WMSTileLayer(&#x27;wms&#x27;, {
+          &#x27;tileSystem&#x27;: [1, -1, -180, 90],
           &#x27;urlTemplate&#x27;: &#x27;https://ows.terrestris.de/osm/service&#x27;,
           &#x27;crs&#x27;: &#x27;EPSG:4326&#x27;,
           &#x27;layers&#x27;: &#x27;OSM-WMS&#x27;,
@@ -813,6 +814,7 @@
           content: &#x27;&amp;copy ows.terrestris.de&#x27;
         }
       });
+
     &lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;
@@ -840,6 +842,7 @@ var map = new maptalks.Map('map', {
     projection: 'EPSG:4326'
   },
   baseLayer: new maptalks.WMSTileLayer('wms', {
+    'tileSystem': [1, -1, -180, 90],
     'urlTemplate': 'https://ows.terrestris.de/osm/service',
     'crs': 'EPSG:4326',
     'layers': 'OSM-WMS',
