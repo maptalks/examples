@@ -20,7 +20,7 @@
         {"name" : "coordinate-conversion", "title" : {"cn" : "屏幕坐标转换", "en" : "Convert to screen points"}},
         {"name" : "export-image", "title" : {"cn" : "导出为图片", "en" : "Export map as images"}},
         {"name" : "map-magnifier", "title" : {"cn" : "地图放大镜", "en" : "Map's magnifier"}},
-        {"name" : "custom-resolutions", "title" : {"cn" : "自定义地图LOD", "en" : "Customize map's resolutions"}},
+        {"name" : "custom-resolutions", "title" : {"cn" : "自定义地图LOD", "en" : "Customize map's resolutions"}}
       ]
     },
 
