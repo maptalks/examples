@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>maptalks - Larger maxZoom of spatialReference</title>
+  <link rel="stylesheet" href="/examples/css/main-58b450.css" />
+  <link rel="stylesheet" href="/examples/code-prettify/prettify.css" />
+  <script type="text/javascript" src="/examples/code-prettify/prettify.js"></script>
+  <script type="text/javascript" src="/examples/lib/clipboard.min.js"></script>
+</head>
+
+<body>
+
+  <div class="demo-viewer">
+
+    <div class="sidebar">
+
+      <div class="logo-area">
+          <a href="http://maptalks.org/" title="maptalks.org" class="logo">
+          </a>
+          <div class="lang-switch">
+              <div class="lang-option"><a href="/examples/cn/tilelayer-projection/max-zoom">中文</a></div>
+          </div>
+      </div>
+
+      <div class="menu-button"></div>
+
+      <div class="menu-area">
+
+        <div class="action-bar">
+          <div class="search-bar">
+            <input type="text" class="search-field" id="example-search-input">
+            <div class="search-button" id="example-search-button"></div>
+          </div>
+          <div class="all-download-button"><a href="https://github.com/maptalks/examples/archive/gh-pages.zip">Download All</a></div>
+        </div>
+
+        <ul class="menu scroll-block">
+          <li class="list-tile">
+            <div class="list-title">1 Map</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_load" href="/examples/en/map/load/#map_load">1.1 Display a map</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_pitch-rotate" href="/examples/en/map/pitch-rotate/#map_pitch-rotate">1.2 Pitch and rotate</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_drag-pitch-rotate" href="/examples/en/map/drag-pitch-rotate/#map_drag-pitch-rotate">1.3 Drag to pitch and rotate</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_panning" href="/examples/en/map/panning/#map_panning">1.4 Map panning</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_common-control" href="/examples/en/map/common-control/#map_common-control">1.5 Add common controls</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_status" href="/examples/en/map/status/#map_status">1.6 Get map&#x27;s status</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_fit-extent" href="/examples/en/map/fit-extent/#map_fit-extent">1.7 Fit to extent</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_limit-extent" href="/examples/en/map/limit-extent/#map_limit-extent">1.8 Limit map&#x27;s extent</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_limit-zoom" href="/examples/en/map/limit-zoom/#map_limit-zoom">1.9 Limit map&#x27;s zoom</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_fractional-zoom" href="/examples/en/map/fractional-zoom/#map_fractional-zoom">1.10 Fractional zoom</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_canvas" href="/examples/en/map/canvas/#map_canvas">1.11 Load on Canvas</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_map-events" href="/examples/en/map/map-events/#map_map-events">1.12 Listen map events</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_sync-map" href="/examples/en/map/sync-map/#map_sync-map">1.13 Sync map by events</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_coordinate-conversion" href="/examples/en/map/coordinate-conversion/#map_coordinate-conversion">1.14 Convert to screen points</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_export-image" href="/examples/en/map/export-image/#map_export-image">1.15 Export map as images</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_map-magnifier" href="/examples/en/map/map-magnifier/#map_map-magnifier">1.16 Map&#x27;s magnifier</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_custom-resolutions" href="/examples/en/map/custom-resolutions/#map_custom-resolutions">1.17 Customize map&#x27;s resolutions</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">2 TileLayer and Geo-Projections</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_canvas-renderer" href="/examples/en/tilelayer-projection/canvas-renderer/#tilelayer-projection_canvas-renderer">2.1 TileLayer with Canvas renderer</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_multi-tilelayer" href="/examples/en/tilelayer-projection/multi-tilelayer/#tilelayer-projection_multi-tilelayer">2.2 Add multiple TileLayers</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_grouptilelayer" href="/examples/en/tilelayer-projection/grouptilelayer/#tilelayer-projection_grouptilelayer">2.3 Add GroupTileLayer</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_wms" href="/examples/en/tilelayer-projection/wms/#tilelayer-projection_wms">2.4 Add a WMS TileLayer</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  id="tilelayer-projection_vector-tile" href="https://github.com/maptalks/maptalks.mapboxgl" target="_blank">2.5 Add a mapbox vector-tile Layer <img title="external link" src="../../../resource/image/external-url.png"/></a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_arcgis-tile" href="/examples/en/tilelayer-projection/arcgis-tile/#tilelayer-projection_arcgis-tile">2.6 Add an ArcGIS TileLayer</a>
+              </li>
+                <li class="list-tile example on">
+                <a style="color:red"
+                  class="new" id="tilelayer-projection_wmts-tile" href="/examples/en/tilelayer-projection/wmts-tile/#tilelayer-projection_wmts-tile">2.7 Add a WMTS TileLayer</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_custom-tile" href="/examples/en/tilelayer-projection/custom-tile/#tilelayer-projection_custom-tile">2.8 LOD and custom TileLayer</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_base64" href="/examples/en/tilelayer-projection/base64/#tilelayer-projection_base64">2.9 Load tiles with base64 encoding</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_tile-opacity" href="/examples/en/tilelayer-projection/tile-opacity/#tilelayer-projection_tile-opacity">2.10 Set TileLayer&#x27;s opacity</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_tile-mask" href="/examples/en/tilelayer-projection/tile-mask/#tilelayer-projection_tile-mask">2.11 Set a boundary mask to TileLayer</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_epsg4326" href="/examples/en/tilelayer-projection/epsg4326/#tilelayer-projection_epsg4326">2.12 TileLayer of EPSG:4326 projection</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_identity" href="/examples/en/tilelayer-projection/identity/#tilelayer-projection_identity">2.13 TileLayer of IDENTITY projection</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_baidu" href="/examples/en/tilelayer-projection/baidu/#tilelayer-projection_baidu">2.14 TileLayer of Baidu Projection</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_proj4js" href="/examples/en/tilelayer-projection/proj4js/#tilelayer-projection_proj4js">2.15 TileLayer of custom projection by proj4js</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_d3-proj" href="/examples/en/tilelayer-projection/d3-proj/#tilelayer-projection_d3-proj">2.16 D3 geo projection</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_different-projection" href="/examples/en/tilelayer-projection/different-projection/#tilelayer-projection_different-projection">2.17 Load tilelayer with different projection</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_filter" href="/examples/en/tilelayer-projection/filter/#tilelayer-projection_filter">2.18 TileLayer&#x27;s CSS filter</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_max-zoom" href="/examples/en/tilelayer-projection/max-zoom/#tilelayer-projection_max-zoom">2.19 Larger maxZoom of spatialReference</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">3 Geometry</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_marker" href="/examples/en/geometry/marker/#geometry_marker">3.1 Marker</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_linestring" href="/examples/en/geometry/linestring/#geometry_linestring">3.2 LineString</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_polygon" href="/examples/en/geometry/polygon/#geometry_polygon">3.3 Polygon</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_collection" href="/examples/en/geometry/collection/#geometry_collection">3.4 GeometryCollection</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_multipoint" href="/examples/en/geometry/multipoint/#geometry_multipoint">3.5 MultiPoint</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_multilinestring" href="/examples/en/geometry/multilinestring/#geometry_multilinestring">3.6 MultiLineString</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_multipolygon" href="/examples/en/geometry/multipolygon/#geometry_multipolygon">3.7 MultiPolygon</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_rectangle-circle-ellipse-sector" href="/examples/en/geometry/rectangle-circle-ellipse-sector/#geometry_rectangle-circle-ellipse-sector">3.8 Rectangle, Circle, Ellipse and Sector</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_curve" href="/examples/en/geometry/curve/#geometry_curve">3.9 Arc and Bezier Curves</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_label" href="/examples/en/geometry/label/#geometry_label">3.10 Label</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_textbox" href="/examples/en/geometry/textbox/#geometry_textbox">3.11 TextBox</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_connector-line" href="/examples/en/geometry/connector-line/#geometry_connector-line">3.12 Connector Lines</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_copy" href="/examples/en/geometry/copy/#geometry_copy">3.13 Copy a geometry</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_events" href="/examples/en/geometry/events/#geometry_events">3.14 Listen geometry events</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_flash-geometry" href="/examples/en/geometry/flash-geometry/#geometry_flash-geometry">3.15 Flash a geometry</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_collection-filter" href="/examples/en/geometry/collection-filter/#geometry_collection-filter">3.16 Filter GeometryCollection by condition</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">4 3D</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="3d_marker-altitude" href="/examples/en/3d/marker-altitude/#3d_marker-altitude">4.1 Marker with altitude</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="3d_marker-draw-altitude" href="/examples/en/3d/marker-draw-altitude/#3d_marker-draw-altitude">4.2 Draw marker&#x27;s altitude</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="3d_line-altitude" href="/examples/en/3d/line-altitude/#3d_line-altitude">4.3 LineString with altitude</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="3d_line-draw-altitude" href="/examples/en/3d/line-draw-altitude/#3d_line-draw-altitude">4.4 Draw line&#x27;s altitude wall</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="3d_polygon-altitude" href="/examples/en/3d/polygon-altitude/#3d_polygon-altitude">4.5 Polygon with altitude</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">5 Geometry Styles</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_image-marker" href="/examples/en/style/image-marker/#style_image-marker">5.1 Image marker</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_multi-image-marker" href="/examples/en/style/multi-image-marker/#style_multi-image-marker">5.2 Multiple-image marker</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_vector-marker" href="/examples/en/style/vector-marker/#style_vector-marker">5.3 Vector marker</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_vector-pattern" href="/examples/en/style/vector-pattern/#style_vector-pattern">5.4 Vector marker with pattern fill</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_vector-gradient" href="/examples/en/style/vector-gradient/#style_vector-gradient">5.5 Vector marker with gradient fill</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_svg-path-marker" href="/examples/en/style/svg-path-marker/#style_svg-path-marker">5.6 SVG vector marker</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_marker-alignment" href="/examples/en/style/marker-alignment/#style_marker-alignment">5.7 Marker&#x27;s horizontal and vertical alignment</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_rotate-marker" href="/examples/en/style/rotate-marker/#style_rotate-marker">5.8 Rotate a marker</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_text-marker" href="/examples/en/style/text-marker/#style_text-marker">5.9 Text marker</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_rotate-text" href="/examples/en/style/rotate-text/#style_rotate-text">5.10 Rotate a text marker</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_image-text-marker" href="/examples/en/style/image-text-marker/#style_image-text-marker">5.11 Image marker with texts</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-symbol" href="/examples/en/style/line-symbol/#style_line-symbol">5.12 Line symbol</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-pattern" href="/examples/en/style/line-pattern/#style_line-pattern">5.13 Line pattern fill</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-pattern-animation" href="/examples/en/style/line-pattern-animation/#style_line-pattern-animation">5.14 Animation of line pattern fill</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-gradient" href="/examples/en/style/line-gradient/#style_line-gradient">5.15 Line gradient fill</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-arrow" href="/examples/en/style/line-arrow/#style_line-arrow">5.16 Line with arrows</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-text" href="/examples/en/style/line-text/#style_line-text">5.17 Line with texts</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-marker" href="/examples/en/style/line-marker/#style_line-marker">5.18 Line of vertex marker with auto rotation</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-smoothness" href="/examples/en/style/line-smoothness/#style_line-smoothness">5.19 Smooth line with curve</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_polygon-symbol" href="/examples/en/style/polygon-symbol/#style_polygon-symbol">5.20 Polygon symbol</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_polygon-pattern" href="/examples/en/style/polygon-pattern/#style_polygon-pattern">5.21 Polygon pattern fill</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_polygon-gradient" href="/examples/en/style/polygon-gradient/#style_polygon-gradient">5.22 Polygon gradient fill</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_polygon-vertex-marker" href="/examples/en/style/polygon-vertex-marker/#style_polygon-vertex-marker">5.23 Polygon with vetex markers</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_composite-symbol" href="/examples/en/style/composite-symbol/#style_composite-symbol">5.24 Composite symbol</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_update-symbol" href="/examples/en/style/update-symbol/#style_update-symbol">5.25 Update part of symbol</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_symbol-by-zoom" href="/examples/en/style/symbol-by-zoom/#style_symbol-by-zoom">5.26 Symbol by map zoom</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_symbol-by-prop" href="/examples/en/style/symbol-by-prop/#style_symbol-by-prop">5.27 Symbol by geometry properties</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_html-marker" href="/examples/en/style/html-marker/#style_html-marker">5.28 Marker with HTML content</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_d3-marker" href="/examples/en/style/d3-marker/#style_d3-marker">5.29 Marker with D3 chart</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_echarts-marker" href="/examples/en/style/echarts-marker/#style_echarts-marker">5.30 Marker with echarts</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_highcharts-marker" href="/examples/en/style/highcharts-marker/#style_highcharts-marker">5.31 Marker with highcharts</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">6 Layer</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_add-remove" href="/examples/en/layer/add-remove/#layer_add-remove">6.1 Add and remove layers</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_show-hide" href="/examples/en/layer/show-hide/#layer_show-hide">6.2 Show and hide layers</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_opacity" href="/examples/en/layer/opacity/#layer_opacity">6.3 Set layer&#x27;s opacity</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_bring-front-back" href="/examples/en/layer/bring-front-back/#layer_bring-front-back">6.4 Bring layers to front or back</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_sort" href="/examples/en/layer/sort/#layer_sort">6.5 Sort layers</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_mask" href="/examples/en/layer/mask/#layer_mask">6.6 Set layer mask as mouse event</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_globalcompositeoperation" href="/examples/en/layer/globalcompositeoperation/#layer_globalcompositeoperation">6.7 Layer&#x27;s globalCompositeOperation</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_vectorlayer-batch-add" href="/examples/en/layer/vectorlayer-batch-add/#layer_vectorlayer-batch-add">6.8 VectorLayer: Batch add geometries</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_vectorlayer-get-by-id" href="/examples/en/layer/vectorlayer-get-by-id/#layer_vectorlayer-get-by-id">6.9 VectorLayer: Get geometry by ID</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_vectorlayer-filter" href="/examples/en/layer/vectorlayer-filter/#layer_vectorlayer-filter">6.10 VectorLayer: Filter geometries by property condition</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_vectorlayer-style" href="/examples/en/layer/vectorlayer-style/#layer_vectorlayer-style">6.11 VectorLayer: Batch style geometries</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_vectorlayer-sort" href="/examples/en/layer/vectorlayer-sort/#layer_vectorlayer-sort">6.12 VectorLayer: Set geomtries&#x27; z-index</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_canvaslayer" href="/examples/en/layer/canvaslayer/#layer_canvaslayer">6.13 CanvasLayer: an example</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_particlelayer" href="/examples/en/layer/particlelayer/#layer_particlelayer">6.14 ParticleLayer: an example</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_canvastilelayer" href="/examples/en/layer/canvastilelayer/#layer_canvastilelayer">6.15 CanvasTileLayer: an example</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_swipe" href="/examples/en/layer/swipe/#layer_swipe">6.16 Layer swipe effect</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_imagelayer" href="/examples/en/layer/imagelayer/#layer_imagelayer">6.17 ImageLayer: an example</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">7 User Interactions</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_map-off" href="/examples/en/interaction/map-off/#interaction_map-off">7.1 Disable map&#x27;s interaction</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_map-on-off" href="/examples/en/interaction/map-on-off/#interaction_map-on-off">7.2 Turn on/off map interaction capabilities</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_distance-tool" href="/examples/en/interaction/distance-tool/#interaction_distance-tool">7.3 Distance tool to measure distance</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_area-tool" href="/examples/en/interaction/area-tool/#interaction_area-tool">7.4 Area tool to measure area</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_draw-tool" href="/examples/en/interaction/draw-tool/#interaction_draw-tool">7.5 Draw tool to draw geometries</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_drag-geometries" href="/examples/en/interaction/drag-geometries/#interaction_drag-geometries">7.6 Drag geometries</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_edit-marker" href="/examples/en/interaction/edit-marker/#interaction_edit-marker">7.7 Edit marker</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_edit-line" href="/examples/en/interaction/edit-line/#interaction_edit-line">7.8 Edit LineString</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_edit-polygon" href="/examples/en/interaction/edit-polygon/#interaction_edit-polygon">7.9 Edit Polygon</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_edit-rectangle-circle-ellipse" href="/examples/en/interaction/edit-rectangle-circle-ellipse/#interaction_edit-rectangle-circle-ellipse">7.10 Edit Rectangle/Circle/Elliipse</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_edit-textbox" href="/examples/en/interaction/edit-textbox/#interaction_edit-textbox">7.11 Edit TextBox&#x27;s shape</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_edit-label" href="/examples/en/interaction/edit-label/#interaction_edit-label">7.12 Edit Label and TextBox&#x27;s content</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_mouse-identify" href="/examples/en/interaction/mouse-identify/#interaction_mouse-identify">7.13 Identify geometries by mouse click</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_mouse-highlight" href="/examples/en/interaction/mouse-highlight/#interaction_mouse-highlight">7.14 Highlight a geometry by mouseover</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_mouse-contains" href="/examples/en/interaction/mouse-contains/#interaction_mouse-contains">7.15 Spatial relation between mouse and geometries</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">8 Animation</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_map-flyto" href="/examples/en/animation/map-flyto/#animation_map-flyto">8.1 Fly map&#x27;s camera to a location</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_marker-anim" href="/examples/en/animation/marker-anim/#animation_marker-anim">8.2 Marker&#x27;s shape animation</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_move-along" href="/examples/en/animation/move-along/#animation_move-along">8.3 Marker animation along a line</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_geometry-anim" href="/examples/en/animation/geometry-anim/#animation_geometry-anim">8.4 Geometry.animate method</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_line-animateshow" href="/examples/en/animation/line-animateshow/#animation_line-animateshow">8.5 LineString&#x27;s animateShow</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_polygon-animateshow" href="/examples/en/animation/polygon-animateshow/#animation_polygon-animateshow">8.6 Polygon&#x27;s animateShow</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_custom-anim" href="/examples/en/animation/custom-anim/#animation_custom-anim">8.7 Custom animation</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">9 Control and UIComponents</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_ui-map-menu" href="/examples/en/ui-control/ui-map-menu/#ui-control_ui-map-menu">9.1 Map&#x27;s context menu</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_ui-geo-menu" href="/examples/en/ui-control/ui-geo-menu/#ui-control_ui-geo-menu">9.2 Geometry&#x27;s context menu</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_ui-custom-menu" href="/examples/en/ui-control/ui-custom-menu/#ui-control_ui-custom-menu">9.3 Custom context menu</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_ui-map-infownd" href="/examples/en/ui-control/ui-map-infownd/#ui-control_ui-map-infownd">9.4 Map&#x27;s InfoWindow</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_ui-geo-infownd" href="/examples/en/ui-control/ui-geo-infownd/#ui-control_ui-geo-infownd">9.5 Geometry&#x27;s InfoWindow</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_ui-custom-infownd" href="/examples/en/ui-control/ui-custom-infownd/#ui-control_ui-custom-infownd">9.6 Custom InfoWindow</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-toolbar" href="/examples/en/ui-control/control-toolbar/#ui-control_control-toolbar">9.7 Toolbar Control</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-panel" href="/examples/en/ui-control/control-panel/#ui-control_control-panel">9.8 Panel Control</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-overview" href="/examples/en/ui-control/control-overview/#ui-control_control-overview">9.9 Overview Control</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-zoom" href="/examples/en/ui-control/control-zoom/#ui-control_control-zoom">9.10 Zoom Control</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-scale" href="/examples/en/ui-control/control-scale/#ui-control_control-scale">9.11 Scale Control</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-attribution" href="/examples/en/ui-control/control-attribution/#ui-control_control-attribution">9.12 Attribution Control</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-show-hide" href="/examples/en/ui-control/control-show-hide/#ui-control_control-show-hide">9.13 Show and hide controls</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-layer-switcher" href="/examples/en/ui-control/control-layer-switcher/#ui-control_control-layer-switcher">9.14 Layer Switcher</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">10 JSON Serialization</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_geojson-to-geometry" href="/examples/en/json/geojson-to-geometry/#json_geojson-to-geometry">10.1 GeoJSON to geometries</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_geometry-to-geojson" href="/examples/en/json/geometry-to-geojson/#json_geometry-to-geojson">10.2 Geometries to GeoJSON</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_map-to-json" href="/examples/en/json/map-to-json/#json_map-to-json">10.3 Map to JSON</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_json-to-map" href="/examples/en/json/json-to-map/#json_json-to-map">10.4 Map from JSON</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_copy-map" href="/examples/en/json/copy-map/#json_copy-map">10.5 Copy map by JSON</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_layer-json" href="/examples/en/json/layer-json/#json_layer-json">10.6 Copy layer by JSON</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_geometry-json" href="/examples/en/json/geometry-json/#json_geometry-json">10.7 Copy geometry by JSON</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">11 Common Plugins</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  id="plugin_mapboxgl" href="https://github.com/maptalks/maptalks.mapboxgl" target="_blank">11.1 Mapbox gl Layer <img title="external link" src="../../../resource/image/external-url.png"/></a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  id="plugin_heatmaplayer" href="https://github.com/maptalks/maptalks.heatmap" target="_blank">11.2 Heatmap Layer <img title="external link" src="../../../resource/image/external-url.png"/></a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  id="plugin_clusterlayer" href="https://github.com/maptalks/maptalks.markercluster" target="_blank">11.3 Marker Cluster Layer <img title="external link" src="../../../resource/image/external-url.png"/></a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  id="plugin_three" href="https://github.com/maptalks/maptalks.three" target="_blank">11.4 THREE.js Layer <img title="external link" src="../../../resource/image/external-url.png"/></a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  id="plugin_echarts" href="https://github.com/maptalks/maptalks.e3" target="_blank">11.5 Echarts Layer <img title="external link" src="../../../resource/image/external-url.png"/></a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">12 Plugin development</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="plugin-develop_control" href="/examples/en/plugin-develop/control/#plugin-develop_control">12.1 New control</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="plugin-develop_ui" href="/examples/en/plugin-develop/ui/#plugin-develop_ui">12.2 New UI Component</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="plugin-develop_maptool" href="/examples/en/plugin-develop/maptool/#plugin-develop_maptool">12.3 New MapTool</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">13 Layer development</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="hellolayer_layer" href="/examples/en/hellolayer/layer/#hellolayer_layer">13.1 HelloLayer</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="hellolayer_drawoninteracting" href="/examples/en/hellolayer/drawoninteracting/#hellolayer_drawoninteracting">13.2 HelloLayer with drawOnInteracting</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="hellolayer_animation" href="/examples/en/hellolayer/animation/#hellolayer_animation">13.3 HelloLayer with animation</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="demo-panel">
+
+      <div class="title-area">
+        <div class="title">Larger maxZoom of spatialReference</div>
+        <div class="action-area">
+          <a class="action-link" href="https://github.com/maptalks/examples/tree/master/src/tilelayer-projection/max-zoom" target="_blank">
+            <div class="action-button button">
+              <i class="icon source"></i>Source
+            </div>
+          </a>
+          <a class="action-link" href="raw/index.html" target="_blank">
+            <div class="action-button button">
+              <i class="icon open"></i>Open
+            </div>
+          </a>
+          <a class="action-link" href="javascript:edit();">
+            <div class="action-button button">
+              <i class="icon edit"></i>Edit
+            </div>
+          </a>
+          <a class="action-link" href="javascript:;" id="action-link-copy" data-clipboard-target="#source">
+            <div class="action-button button">
+              <i class="icon copy"></i>Copy
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="content-area scroll-block">
+
+        <div class="map-viewer">
+          <iframe class="map-view" sandbox="allow-modals allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/index.html"></iframe>
+        </div>
+
+        <div class="readme md">
+        </div>
+
+        <div class="code-viewer">
+          <div class="code-snippet html">
+            <div class="code-title">index.html</div>
+            <pre id="source" class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+  &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;
+  &lt;title&gt;TileLayer and Geo-Projections - Larger maxZoom of spatialReference&lt;/title&gt;
+  &lt;style type&#x3D;&quot;text/css&quot;&gt;
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+  &lt;/style&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css&quot;&gt;
+  &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js&quot;&gt;&lt;/script&gt;
+  &lt;body&gt;
+    &lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+      var center &#x3D; [105.08052356963802, 36.04231948670001];
+
+      // set maxNativeZoom to 24
+      var MAX_ZOOM &#x3D; 25;
+      var spatialReference &#x3D; {
+        &#x27;projection&#x27;: &#x27;EPSG:3857&#x27;,
+        &#x27;resolutions&#x27;: (function () {
+            const resolutions &#x3D; [];
+            const d &#x3D; 2 * 6378137 * Math.PI;
+            for (let i &#x3D; 0; i &lt; MAX_ZOOM; i++) {
+                resolutions[i] &#x3D; d / (256 * Math.pow(2, i));
+            }
+            return resolutions;
+        })(),
+      };
+
+      var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+        center: center,
+        spatialReference,
+        zoom: 4,
+        baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
+          urlTemplate: &#x27;https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
+          subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
+          attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+        })
+      });
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div style="display:none;">
+    <textarea id="html-data" name="html">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var center = [105.08052356963802, 36.04231948670001];
+
+// set maxNativeZoom to 24
+var MAX_ZOOM = 25;
+var spatialReference = {
+  'projection': 'EPSG:3857',
+  'resolutions': (function() {
+    const resolutions = [];
+    const d = 2 * 6378137 * Math.PI;
+    for (let i = 0; i < MAX_ZOOM; i++) {
+      resolutions[i] = d / (256 * Math.pow(2, i));
+    }
+    return resolutions;
+  })(),
+};
+
+var map = new maptalks.Map('map', {
+  center: center,
+  spatialReference,
+  zoom: 4,
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
+  })
+});</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
+    </form>
+  </div>
+
+  <div style="display:none;">
+    <span id="text-message-copied">Copied!</span>
+  </div>
+
+  <script>window.SEARCH_INDEX = {"version":"0.7.2","fields":[{"name":"pname","boost":1},{"name":"ptitle","boost":1},{"name":"sname","boost":1},{"name":"stitle","boost":1}],"ref":"id","tokenizer":"default","documentStore":{"store":{"0":["display","load","map"],"1":["map","pitch","rotat"],"2":["drag","map","pitch","rotat"],"3":["map","pan"],"4":["add","common","control","map"],"5":["map","map'","statu"],"6":["extent","fit","map"],"7":["extent","limit","map","map'"],"8":["limit","map","map'","zoom"],"9":["fraction","map","zoom"],"10":["canva","load","map"],"11":["event","listen","map"],"12":["event","map","sync"],"13":["convers","convert","coordin","map","point","screen"],"14":["export","imag","map"],"15":["magnifi","map","map'"],"16":["custom","map","map'","resolut"],"17":["canva","geo","project","render","tilelay"],"18":["add","geo","multi","multipl","project","tilelay"],"19":["add","geo","grouptilelay","project","tilelay"],"20":["add","geo","project","tilelay","wm"],"21":["add","geo","layer","mapbox","project","tile","tilelay","vector"],"22":["add","arcgi","geo","project","tile","tilelay"],"23":["add","geo","project","tile","tilelay","wmt"],"24":["custom","geo","lod","project","tile","tilelay"],"25":["base64","encod","geo","load","project","tile","tilelay"],"26":["geo","opac","project","set","tile","tilelay","tilelayer'"],"27":["boundari","geo","mask","project","set","tile","tilelay"],"28":["epsg4326","epsg:4326","geo","project","tilelay"],"29":["geo","ident","project","tilelay"],"30":["baidu","geo","project","tilelay"],"31":["custom","geo","proj4j","project","tilelay"],"32":["d3","geo","proj","project","tilelay"],"33":["differ","geo","load","project","tilelay"],"34":["css","filter","geo","project","tilelay","tilelayer'"],"35":["geo","larger","max","maxzoom","project","spatialrefer","tilelay","zoom"],"36":["geometri","marker"],"37":["geometri","linestr"],"38":["geometri","polygon"],"39":["collect","geometri","geometrycollect"],"40":["geometri","multipoint"],"41":["geometri","multilinestr"],"42":["geometri","multipolygon"],"43":["circl","circle,","ellips","geometri","rectangl","rectangle,","sector"],"44":["arc","bezier","curv","geometri"],"45":["geometri","label"],"46":["geometri","textbox"],"47":["connector","geometri","line"],"48":["copi","geometri"],"49":["event","geometri","listen"],"50":["flash","geometri"],"51":["collect","condit","filter","geometri","geometrycollect"],"52":["3d","altitud","marker"],"53":["3d","altitud","draw","marker","marker'"],"54":["3d","altitud","line","linestr"],"55":["3d","altitud","draw","line","line'","wall"],"56":["3d","altitud","polygon"],"57":["geometri","imag","marker","style"],"58":["geometri","imag","marker","multi","multipl","style"],"59":["geometri","marker","style","vector"],"60":["fill","geometri","marker","pattern","style","vector"],"61":["fill","geometri","gradient","marker","style","vector"],"62":["geometri","marker","path","style","svg","vector"],"63":["align","geometri","horizont","marker","marker'","style","vertic"],"64":["geometri","marker","rotat","style"],"65":["geometri","marker","style","text"],"66":["geometri","marker","rotat","style","text"],"67":["geometri","imag","marker","style","text"],"68":["geometri","line","style","symbol"],"69":["fill","geometri","line","pattern","style"],"70":["anim","fill","geometri","line","pattern","style"],"71":["fill","geometri","gradient","line","style"],"72":["arrow","geometri","line","style"],"73":["geometri","line","style","text"],"74":["auto","geometri","line","marker","rotat","style","vertex"],"75":["curv","geometri","line","smooth","style"],"76":["geometri","polygon","style","symbol"],"77":["fill","geometri","pattern","polygon","style"],"78":["fill","geometri","gradient","polygon","style"],"79":["geometri","marker","polygon","style","vertex","vetex"],"80":["composit","geometri","style","symbol"],"81":["geometri","part","style","symbol","updat"],"82":["geometri","map","style","symbol","zoom"],"83":["geometri","prop","properti","style","symbol"],"84":["content","geometri","html","marker","style"],"85":["chart","d3","geometri","marker","style"],"86":["echart","geometri","marker","style"],"87":["geometri","highchart","marker","style"],"88":["add","layer","remov"],"89":["hide","layer","show"],"90":["layer","layer'","opac","set"],"91":["back","bring","front","layer"],"92":["layer","sort"],"93":["event","layer","mask","mous","set"],"94":["globalcompositeoper","layer","layer'"],"95":["add","batch","geometri","layer","vectorlay","vectorlayer:"],"96":["geometri","id","layer","vectorlay","vectorlayer:"],"97":["condit","filter","geometri","layer","properti","vectorlay","vectorlayer:"],"98":["batch","geometri","layer","style","vectorlay","vectorlayer:"],"99":["geomtries'","index","layer","set","sort","vectorlay","vectorlayer:","z"],"100":["canvaslay","canvaslayer:","exampl","layer"],"101":["exampl","layer","particlelay","particlelayer:"],"102":["canvastilelay","canvastilelayer:","exampl","layer"],"103":["effect","layer","swipe"],"104":["exampl","imagelay","imagelayer:","layer"],"105":["disabl","interact","map","map'","user"],"106":["capabl","interact","map","on/off","turn","user"],"107":["distanc","interact","measur","tool","user"],"108":["area","interact","measur","tool","user"],"109":["draw","geometri","interact","tool","user"],"110":["drag","geometri","interact","user"],"111":["edit","interact","marker","user"],"112":["edit","interact","line","linestr","user"],"113":["edit","interact","polygon","user"],"114":["circl","edit","ellips","interact","rectangl","rectangle/circle/elliips","user"],"115":["edit","interact","shape","textbox","textbox'","user"],"116":["content","edit","interact","label","textbox'","user"],"117":["click","geometri","identifi","interact","mous","user"],"118":["geometri","highlight","interact","mous","mouseov","user"],"119":["between","contain","geometri","interact","mous","relat","spatial","user"],"120":["anim","camera","fli","flyto","locat","map","map'"],"121":["anim","marker","marker'","shape"],"122":["along","anim","line","marker","move"],"123":["anim","geometri","geometry.anim","method"],"124":["anim","animateshow","line","linestring'"],"125":["anim","animateshow","polygon","polygon'"],"126":["anim","custom"],"127":["context","control","map","map'","menu","ui","uicompon"],"128":["context","control","geo","geometry'","menu","ui","uicompon"],"129":["context","control","custom","menu","ui","uicompon"],"130":["control","infowindow","infownd","map","map'","ui","uicompon"],"131":["control","geo","geometry'","infowindow","infownd","ui","uicompon"],"132":["control","custom","infowindow","infownd","ui","uicompon"],"133":["control","toolbar","ui","uicompon"],"134":["control","panel","ui","uicompon"],"135":["control","overview","ui","uicompon"],"136":["control","ui","uicompon","zoom"],"137":["control","scale","ui","uicompon"],"138":["attribut","control","ui","uicompon"],"139":["control","hide","show","ui","uicompon"],"140":["control","layer","switcher","ui","uicompon"],"141":["geojson","geometri","json","serial"],"142":["geojson","geometri","json","serial"],"143":["json","map","serial"],"144":["json","map","serial"],"145":["copi","json","map","serial"],"146":["copi","json","layer","serial"],"147":["copi","geometri","json","serial"],"148":["common","gl","layer","mapbox","mapboxgl","plugin"],"149":["common","heatmap","heatmaplay","layer","plugin"],"150":["cluster","clusterlay","common","layer","marker","plugin"],"151":["common","layer","plugin","three","three.j"],"152":["common","echart","layer","plugin"],"153":["control","develop","new","plugin"],"154":["compon","develop","new","plugin","ui"],"155":["develop","maptool","new","plugin"],"156":["develop","hellolay","layer"],"157":["develop","drawoninteract","hellolay","layer"],"158":["anim","develop","hellolay","layer"]},"length":159},"tokenStore":{"root":{"3":{"docs":{},"d":{"docs":{"52":{"ref":52,"tf":2},"53":{"ref":53,"tf":2},"54":{"ref":54,"tf":2},"55":{"ref":55,"tf":2},"56":{"ref":56,"tf":2}}}},"docs":{},"d":{"3":{"docs":{"32":{"ref":32,"tf":0.8333333333333333},"85":{"ref":85,"tf":0.8333333333333333}}},"docs":{},"i":{"docs":{},"s":{"docs":{},"p":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"0":{"ref":0,"tf":0.5}}}}}},"a":{"docs":{},"b":{"docs":{},"l":{"docs":{"105":{"ref":105,"tf":0.3333333333333333}}}}},"t":{"docs":{},"a":{"docs":{},"n":{"docs":{},"c":{"docs":{"107":{"ref":107,"tf":1}}}}}}},"f":{"docs":{},"f":{"docs":{},"e":{"docs":{},"r":{"docs":{"33":{"ref":33,"tf":0.75}}}}}}},"r":{"docs":{},"a":{"docs":{},"g":{"docs":{"2":{"ref":2,"tf":0.6666666666666666},"110":{"ref":110,"tf":1}}},"w":{"docs":{"53":{"ref":53,"tf":0.6666666666666666},"55":{"ref":55,"tf":0.5833333333333333},"109":{"ref":109,"tf":1}},"o":{"docs":{},"n":{"docs":{},"i":{"docs":{},"n":{"docs":{},"t":{"docs":{},"e":{"docs":{},"r":{"docs":{},"a":{"docs":{},"c":{"docs":{},"t":{"docs":{"157":{"ref":157,"tf":1.5}}}}}}}}}}}}}}},"e":{"docs":{},"v":{"docs":{},"e":{"docs":{},"l":{"docs":{},"o":{"docs":{},"p":{"docs":{"153":{"ref":153,"tf":1},"154":{"ref":154,"tf":1},"155":{"ref":155,"tf":1},"156":{"ref":156,"tf":0.5},"157":{"ref":157,"tf":0.5},"158":{"ref":158,"tf":0.5}}}}}}}}},"l":{"docs":{},"o":{"docs":{},"a":{"docs":{},"d":{"docs":{"0":{"ref":0,"tf":1},"10":{"ref":10,"tf":0.5},"25":{"ref":25,"tf":0.25},"33":{"ref":33,"tf":0.25}}}},"d":{"docs":{"24":{"ref":24,"tf":0.3333333333333333}}},"c":{"docs":{},"a":{"docs":{},"t":{"docs":{"120":{"ref":120,"tf":0.25}}}}}},"i":{"docs":{},"m":{"docs":{},"i":{"docs":{},"t":{"docs":{"7":{"ref":7,"tf":0.8333333333333333},"8":{"ref":8,"tf":0.8333333333333333}}}}},"s":{"docs":{},"t":{"docs":{},"e":{"docs":{},"n":{"docs":{"11":{"ref":11,"tf":0.3333333333333333},"49":{"ref":49,"tf":0.3333333333333333}}}}}},"n":{"docs":{},"e":{"docs":{"47":{"ref":47,"tf":1},"54":{"ref":54,"tf":0.5},"55":{"ref":55,"tf":0.3333333333333333},"68":{"ref":68,"tf":1},"69":{"ref":69,"tf":0.8333333333333333},"70":{"ref":70,"tf":0.5833333333333333},"71":{"ref":71,"tf":0.8333333333333333},"72":{"ref":72,"tf":1},"73":{"ref":73,"tf":1},"74":{"ref":74,"tf":0.7},"75":{"ref":75,"tf":0.8333333333333333},"112":{"ref":112,"tf":0.5},"122":{"ref":122,"tf":0.25},"124":{"ref":124,"tf":0.5}},"s":{"docs":{},"t":{"docs":{},"r":{"docs":{"37":{"ref":37,"tf":2},"54":{"ref":54,"tf":0.5},"112":{"ref":112,"tf":0.5}},"i":{"docs":{},"n":{"docs":{},"g":{"docs":{},"'":{"docs":{"124":{"ref":124,"tf":0.5}}}}}}}}},"'":{"docs":{"55":{"ref":55,"tf":0.25}}}}}},"a":{"docs":{},"y":{"docs":{},"e":{"docs":{},"r":{"docs":{"21":{"ref":21,"tf":0.2},"88":{"ref":88,"tf":2.3333333333333335},"89":{"ref":89,"tf":2.3333333333333335},"90":{"ref":90,"tf":2},"91":{"ref":91,"tf":2.25},"92":{"ref":92,"tf":2.5},"93":{"ref":93,"tf":2.2},"94":{"ref":94,"tf":2},"95":{"ref":95,"tf":2},"96":{"ref":96,"tf":2},"97":{"ref":97,"tf":2},"98":{"ref":98,"tf":2},"99":{"ref":99,"tf":2},"100":{"ref":100,"tf":2},"101":{"ref":101,"tf":2},"102":{"ref":102,"tf":2},"103":{"ref":103,"tf":2.3333333333333335},"104":{"ref":104,"tf":2},"140":{"ref":140,"tf":0.8333333333333333},"146":{"ref":146,"tf":0.8333333333333333},"148":{"ref":148,"tf":0.3333333333333333},"149":{"ref":149,"tf":0.5},"150":{"ref":150,"tf":0.3333333333333333},"151":{"ref":151,"tf":0.5},"152":{"ref":152,"tf":0.5},"156":{"ref":156,"tf":1.5},"157":{"ref":157,"tf":0.5},"158":{"ref":158,"tf":0.5}},"'":{"docs":{"90":{"ref":90,"tf":0.3333333333333333},"94":{"ref":94,"tf":0.5}}}}}},"r":{"docs":{},"g":{"docs":{},"e":{"docs":{},"r":{"docs":{"35":{"ref":35,"tf":0.3333333333333333}}}}}},"b":{"docs":{},"e":{"docs":{},"l":{"docs":{"45":{"ref":45,"tf":2},"116":{"ref":116,"tf":0.75}}}}}}},"m":{"docs":{},"a":{"docs":{},"p":{"docs":{"0":{"ref":0,"tf":2.5},"1":{"ref":1,"tf":2},"2":{"ref":2,"tf":2},"3":{"ref":3,"tf":2.5},"4":{"ref":4,"tf":2},"5":{"ref":5,"tf":2},"6":{"ref":6,"tf":2},"7":{"ref":7,"tf":2},"8":{"ref":8,"tf":2},"9":{"ref":9,"tf":2},"10":{"ref":10,"tf":2},"11":{"ref":11,"tf":2.8333333333333335},"12":{"ref":12,"tf":2.8333333333333335},"13":{"ref":13,"tf":2},"14":{"ref":14,"tf":2.3333333333333335},"15":{"ref":15,"tf":2.5},"16":{"ref":16,"tf":2},"82":{"ref":82,"tf":0.3333333333333333},"105":{"ref":105,"tf":1},"106":{"ref":106,"tf":1.2},"120":{"ref":120,"tf":0.5},"127":{"ref":127,"tf":0.3333333333333333},"130":{"ref":130,"tf":0.3333333333333333},"143":{"ref":143,"tf":1},"144":{"ref":144,"tf":1},"145":{"ref":145,"tf":0.8333333333333333}},"'":{"docs":{"5":{"ref":5,"tf":0.5},"7":{"ref":7,"tf":0.3333333333333333},"8":{"ref":8,"tf":0.3333333333333333},"15":{"ref":15,"tf":0.5},"16":{"ref":16,"tf":0.3333333333333333},"105":{"ref":105,"tf":0.3333333333333333},"120":{"ref":120,"tf":0.25},"127":{"ref":127,"tf":0.3333333333333333},"130":{"ref":130,"tf":0.5}}},"b":{"docs":{},"o":{"docs":{},"x":{"docs":{"21":{"ref":21,"tf":0.2},"148":{"ref":148,"tf":0.3333333333333333}},"g":{"docs":{},"l":{"docs":{"148":{"ref":148,"tf":1}}}}}}},"t":{"docs":{},"o":{"docs":{},"o":{"docs":{},"l":{"docs":{"155":{"ref":155,"tf":1.5}}}}}}},"g":{"docs":{},"n":{"docs":{},"i":{"docs":{},"f":{"docs":{},"i":{"docs":{"15":{"ref":15,"tf":1}}}}}}},"s":{"docs":{},"k":{"docs":{"27":{"ref":27,"tf":0.75},"93":{"ref":93,"tf":1.2}}}},"x":{"docs":{"35":{"ref":35,"tf":0.5}},"z":{"docs":{},"o":{"docs":{},"o":{"docs":{},"m":{"docs":{"35":{"ref":35,"tf":0.3333333333333333}}}}}}},"r":{"docs":{},"k":{"docs":{},"e":{"docs":{},"r":{"docs":{"36":{"ref":36,"tf":2},"52":{"ref":52,"tf":1},"53":{"ref":53,"tf":0.3333333333333333},"57":{"ref":57,"tf":1},"58":{"ref":58,"tf":0.6666666666666666},"59":{"ref":59,"tf":1},"60":{"ref":60,"tf":0.25},"61":{"ref":61,"tf":0.25},"62":{"ref":62,"tf":0.6666666666666666},"63":{"ref":63,"tf":0.5},"64":{"ref":64,"tf":1},"65":{"ref":65,"tf":1},"66":{"ref":66,"tf":0.3333333333333333},"67":{"ref":67,"tf":0.6666666666666666},"74":{"ref":74,"tf":0.7},"79":{"ref":79,"tf":0.6666666666666666},"84":{"ref":84,"tf":0.8333333333333333},"85":{"ref":85,"tf":0.8333333333333333},"86":{"ref":86,"tf":1},"87":{"ref":87,"tf":1},"111":{"ref":111,"tf":1},"121":{"ref":121,"tf":0.5},"122":{"ref":122,"tf":0.25},"150":{"ref":150,"tf":0.3333333333333333}},"'":{"docs":{"53":{"ref":53,"tf":0.3333333333333333},"63":{"ref":63,"tf":0.25},"121":{"ref":121,"tf":0.3333333333333333}}}}}}}},"u":{"docs":{},"l":{"docs":{},"t":{"docs":{},"i":{"docs":{"18":{"ref":18,"tf":0.5},"58":{"ref":58,"tf":0.3333333333333333}},"p":{"docs":{},"l":{"docs":{"18":{"ref":18,"tf":0.3333333333333333},"58":{"ref":58,"tf":0.3333333333333333}}},"o":{"docs":{},"i":{"docs":{},"n":{"docs":{},"t":{"docs":{"40":{"ref":40,"tf":2}}}}},"l":{"docs":{},"y":{"docs":{},"g":{"docs":{},"o":{"docs":{},"n":{"docs":{"42":{"ref":42,"tf":2}}}}}}}}},"l":{"docs":{},"i":{"docs":{},"n":{"docs":{},"e":{"docs":{},"s":{"docs":{},"t":{"docs":{},"r":{"docs":{"41":{"ref":41,"tf":2}}}}}}}}}}}}},"o":{"docs":{},"u":{"docs":{},"s":{"docs":{"93":{"ref":93,"tf":0.2},"117":{"ref":117,"tf":0.75},"118":{"ref":118,"tf":0.5},"119":{"ref":119,"tf":0.7}},"e":{"docs":{},"o":{"docs":{},"v":{"docs":{"118":{"ref":118,"tf":0.3333333333333333}}}}}}},"v":{"docs":{},"e":{"docs":{"122":{"ref":122,"tf":0.5}}}}},"e":{"docs":{},"a":{"docs":{},"s":{"docs":{},"u":{"docs":{},"r":{"docs":{"107":{"ref":107,"tf":0.25},"108":{"ref":108,"tf":0.25}}}}}},"t":{"docs":{},"h":{"docs":{},"o":{"docs":{},"d":{"docs":{"123":{"ref":123,"tf":0.5}}}}}},"n":{"docs":{},"u":{"docs":{"127":{"ref":127,"tf":0.6666666666666666},"128":{"ref":128,"tf":0.6666666666666666},"129":{"ref":129,"tf":0.6666666666666666}}}}}},"p":{"docs":{},"i":{"docs":{},"t":{"docs":{},"c":{"docs":{},"h":{"docs":{"1":{"ref":1,"tf":1},"2":{"ref":2,"tf":0.6666666666666666}}}}}},"a":{"docs":{},"n":{"docs":{"3":{"ref":3,"tf":1.5}},"e":{"docs":{},"l":{"docs":{"134":{"ref":134,"tf":1}}}}},"t":{"docs":{},"t":{"docs":{},"e":{"docs":{},"r":{"docs":{},"n":{"docs":{"60":{"ref":60,"tf":0.75},"69":{"ref":69,"tf":0.8333333333333333},"70":{"ref":70,"tf":0.5833333333333333},"77":{"ref":77,"tf":0.8333333333333333}}}}}},"h":{"docs":{"62":{"ref":62,"tf":0.3333333333333333}}}},"r":{"docs":{},"t":{"docs":{"81":{"ref":81,"tf":0.3333333333333333}},"i":{"docs":{},"c":{"docs":{},"l":{"docs":{},"e":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"101":{"ref":101,"tf":1}},"e":{"docs":{},"r":{"docs":{},":":{"docs":{"101":{"ref":101,"tf":0.5}}}}}}}}}}}}}}},"o":{"docs":{},"i":{"docs":{},"n":{"docs":{},"t":{"docs":{"13":{"ref":13,"tf":0.3333333333333333}}}}},"l":{"docs":{},"y":{"docs":{},"g":{"docs":{},"o":{"docs":{},"n":{"docs":{"38":{"ref":38,"tf":2},"56":{"ref":56,"tf":1},"76":{"ref":76,"tf":1},"77":{"ref":77,"tf":0.8333333333333333},"78":{"ref":78,"tf":0.8333333333333333},"79":{"ref":79,"tf":0.6666666666666666},"113":{"ref":113,"tf":1},"125":{"ref":125,"tf":0.5}},"'":{"docs":{"125":{"ref":125,"tf":0.5}}}}}}}}},"r":{"docs":{},"o":{"docs":{},"j":{"4":{"docs":{},"j":{"docs":{"31":{"ref":31,"tf":1.25}}}},"docs":{"32":{"ref":32,"tf":0.5}},"e":{"docs":{},"c":{"docs":{},"t":{"docs":{"17":{"ref":17,"tf":0.8333333333333333},"18":{"ref":18,"tf":0.8333333333333333},"19":{"ref":19,"tf":0.8333333333333333},"20":{"ref":20,"tf":0.8333333333333333},"21":{"ref":21,"tf":0.8333333333333333},"22":{"ref":22,"tf":0.8333333333333333},"23":{"ref":23,"tf":0.8333333333333333},"24":{"ref":24,"tf":0.8333333333333333},"25":{"ref":25,"tf":0.8333333333333333},"26":{"ref":26,"tf":0.8333333333333333},"27":{"ref":27,"tf":0.8333333333333333},"28":{"ref":28,"tf":1.1666666666666665},"29":{"ref":29,"tf":1.1666666666666665},"30":{"ref":30,"tf":1.1666666666666665},"31":{"ref":31,"tf":1.0833333333333333},"32":{"ref":32,"tf":1.1666666666666665},"33":{"ref":33,"tf":1.5833333333333333},"34":{"ref":34,"tf":0.8333333333333333},"35":{"ref":35,"tf":0.8333333333333333}}}}}},"p":{"docs":{"83":{"ref":83,"tf":0.5}},"e":{"docs":{},"r":{"docs":{},"t":{"docs":{},"i":{"docs":{"83":{"ref":83,"tf":0.3333333333333333},"97":{"ref":97,"tf":0.2}}}}}}}}},"l":{"docs":{},"u":{"docs":{},"g":{"docs":{},"i":{"docs":{},"n":{"docs":{"148":{"ref":148,"tf":1.5},"149":{"ref":149,"tf":1.5},"150":{"ref":150,"tf":1.5},"151":{"ref":151,"tf":1.5},"152":{"ref":152,"tf":1.5},"153":{"ref":153,"tf":1},"154":{"ref":154,"tf":1},"155":{"ref":155,"tf":1}}}}}}}},"r":{"docs":{},"o":{"docs":{},"t":{"docs":{},"a":{"docs":{},"t":{"docs":{"1":{"ref":1,"tf":1},"2":{"ref":2,"tf":0.6666666666666666},"64":{"ref":64,"tf":1},"66":{"ref":66,"tf":0.8333333333333333},"74":{"ref":74,"tf":0.2}}}}}},"e":{"docs":{},"s":{"docs":{},"o":{"docs":{},"l":{"docs":{},"u":{"docs":{},"t":{"docs":{"16":{"ref":16,"tf":0.8333333333333333}}}}}}},"n":{"docs":{},"d":{"docs":{},"e":{"docs":{},"r":{"docs":{"17":{"ref":17,"tf":0.8333333333333333}}}}}},"c":{"docs":{},"t":{"docs":{},"a":{"docs":{},"n":{"docs":{},"g":{"docs":{},"l":{"docs":{"43":{"ref":43,"tf":0.25},"114":{"ref":114,"tf":0.25}},"e":{"docs":{},",":{"docs":{"43":{"ref":43,"tf":0.25}}},"/":{"docs":{},"c":{"docs":{},"i":{"docs":{},"r":{"docs":{},"c":{"docs":{},"l":{"docs":{},"e":{"docs":{},"/":{"docs":{},"e":{"docs":{},"l":{"docs":{},"l":{"docs":{},"i":{"docs":{},"i":{"docs":{},"p":{"docs":{},"s":{"docs":{"114":{"ref":114,"tf":0.5}}}}}}}}}}}}}}}}}}}}}}}},"m":{"docs":{},"o":{"docs":{},"v":{"docs":{"88":{"ref":88,"tf":0.8333333333333333}}}}},"l":{"docs":{},"a":{"docs":{},"t":{"docs":{"119":{"ref":119,"tf":0.2}}}}}}},"a":{"docs":{},"d":{"docs":{},"d":{"docs":{"4":{"ref":4,"tf":0.3333333333333333},"18":{"ref":18,"tf":0.3333333333333333},"19":{"ref":19,"tf":0.5},"20":{"ref":20,"tf":0.3333333333333333},"21":{"ref":21,"tf":0.2},"22":{"ref":22,"tf":0.3333333333333333},"23":{"ref":23,"tf":0.3333333333333333},"88":{"ref":88,"tf":0.8333333333333333},"95":{"ref":95,"tf":0.5833333333333333}}}},"r":{"docs":{},"c":{"docs":{"44":{"ref":44,"tf":0.3333333333333333}},"g":{"docs":{},"i":{"docs":{"22":{"ref":22,"tf":0.8333333333333333}}}}},"r":{"docs":{},"o":{"docs":{},"w":{"docs":{"72":{"ref":72,"tf":1}}}}},"e":{"docs":{},"a":{"docs":{"108":{"ref":108,"tf":1}}}}},"l":{"docs":{},"t":{"docs":{},"i":{"docs":{},"t":{"docs":{},"u":{"docs":{},"d":{"docs":{"52":{"ref":52,"tf":1},"53":{"ref":53,"tf":0.6666666666666666},"54":{"ref":54,"tf":1},"55":{"ref":55,"tf":0.5833333333333333},"56":{"ref":56,"tf":1}}}}}}},"i":{"docs":{},"g":{"docs":{},"n":{"docs":{"63":{"ref":63,"tf":0.75}}}}},"o":{"docs":{},"n":{"docs":{},"g":{"docs":{"122":{"ref":122,"tf":0.75}}}}}},"n":{"docs":{},"i":{"docs":{},"m":{"docs":{"70":{"ref":70,"tf":0.5833333333333333},"120":{"ref":120,"tf":2},"121":{"ref":121,"tf":2.8333333333333335},"122":{"ref":122,"tf":2.25},"123":{"ref":123,"tf":2.5},"124":{"ref":124,"tf":2},"125":{"ref":125,"tf":2},"126":{"ref":126,"tf":3},"158":{"ref":158,"tf":1.5}},"a":{"docs":{},"t":{"docs":{},"e":{"docs":{},"s":{"docs":{},"h":{"docs":{},"o":{"docs":{},"w":{"docs":{"124":{"ref":124,"tf":1},"125":{"ref":125,"tf":1}}}}}}}}}}}},"u":{"docs":{},"t":{"docs":{},"o":{"docs":{"74":{"ref":74,"tf":0.2}}}}},"t":{"docs":{},"t":{"docs":{},"r":{"docs":{},"i":{"docs":{},"b":{"docs":{},"u":{"docs":{},"t":{"docs":{"138":{"ref":138,"tf":1}}}}}}}}}},"c":{"docs":{},"o":{"docs":{},"m":{"docs":{},"m":{"docs":{},"o":{"docs":{},"n":{"docs":{"4":{"ref":4,"tf":0.8333333333333333},"148":{"ref":148,"tf":0.5},"149":{"ref":149,"tf":0.5},"150":{"ref":150,"tf":0.5},"151":{"ref":151,"tf":0.5},"152":{"ref":152,"tf":0.5}}}}},"p":{"docs":{},"o":{"docs":{},"s":{"docs":{},"i":{"docs":{},"t":{"docs":{"80":{"ref":80,"tf":1}}}}},"n":{"docs":{"154":{"ref":154,"tf":0.3333333333333333}}}}}},"n":{"docs":{},"t":{"docs":{},"r":{"docs":{},"o":{"docs":{},"l":{"docs":{"4":{"ref":4,"tf":0.8333333333333333},"127":{"ref":127,"tf":1},"128":{"ref":128,"tf":1},"129":{"ref":129,"tf":1},"130":{"ref":130,"tf":1},"131":{"ref":131,"tf":1},"132":{"ref":132,"tf":1},"133":{"ref":133,"tf":2},"134":{"ref":134,"tf":2},"135":{"ref":135,"tf":2},"136":{"ref":136,"tf":2},"137":{"ref":137,"tf":2},"138":{"ref":138,"tf":2},"139":{"ref":139,"tf":1.6666666666666665},"140":{"ref":140,"tf":1.3333333333333333},"153":{"ref":153,"tf":1.5}}}}},"e":{"docs":{},"n":{"docs":{},"t":{"docs":{"84":{"ref":84,"tf":0.3333333333333333},"116":{"ref":116,"tf":0.25}}}},"x":{"docs":{},"t":{"docs":{"127":{"ref":127,"tf":0.3333333333333333},"128":{"ref":128,"tf":0.3333333333333333},"129":{"ref":129,"tf":0.3333333333333333}}}}},"a":{"docs":{},"i":{"docs":{},"n":{"docs":{"119":{"ref":119,"tf":0.5}}}}}},"v":{"docs":{},"e":{"docs":{},"r":{"docs":{},"s":{"docs":{"13":{"ref":13,"tf":0.5}}},"t":{"docs":{"13":{"ref":13,"tf":0.3333333333333333}}}}}},"n":{"docs":{},"e":{"docs":{},"c":{"docs":{},"t":{"docs":{},"o":{"docs":{},"r":{"docs":{"47":{"ref":47,"tf":1}}}}}}}},"d":{"docs":{},"i":{"docs":{},"t":{"docs":{"51":{"ref":51,"tf":0.3333333333333333},"97":{"ref":97,"tf":0.2}}}}}},"o":{"docs":{},"r":{"docs":{},"d":{"docs":{},"i":{"docs":{},"n":{"docs":{"13":{"ref":13,"tf":0.5}}}}}}},"l":{"docs":{},"l":{"docs":{},"e":{"docs":{},"c":{"docs":{},"t":{"docs":{"39":{"ref":39,"tf":1},"51":{"ref":51,"tf":0.5}}}}}}},"p":{"docs":{},"i":{"docs":{"48":{"ref":48,"tf":1.5},"145":{"ref":145,"tf":0.8333333333333333},"146":{"ref":146,"tf":0.3333333333333333},"147":{"ref":147,"tf":0.3333333333333333}}}}},"a":{"docs":{},"n":{"docs":{},"v":{"docs":{},"a":{"docs":{"10":{"ref":10,"tf":1.5},"17":{"ref":17,"tf":0.8333333333333333}},"s":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"100":{"ref":100,"tf":1}},"e":{"docs":{},"r":{"docs":{},":":{"docs":{"100":{"ref":100,"tf":0.5}}}}}}}},"t":{"docs":{},"i":{"docs":{},"l":{"docs":{},"e":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"102":{"ref":102,"tf":1}},"e":{"docs":{},"r":{"docs":{},":":{"docs":{"102":{"ref":102,"tf":0.5}}}}}}}}}}}}}}}},"p":{"docs":{},"a":{"docs":{},"b":{"docs":{},"l":{"docs":{"106":{"ref":106,"tf":0.2}}}}}},"m":{"docs":{},"e":{"docs":{},"r":{"docs":{},"a":{"docs":{"120":{"ref":120,"tf":0.25}}}}}}},"u":{"docs":{},"s":{"docs":{},"t":{"docs":{},"o":{"docs":{},"m":{"docs":{"16":{"ref":16,"tf":0.8333333333333333},"24":{"ref":24,"tf":0.8333333333333333},"31":{"ref":31,"tf":0.25},"126":{"ref":126,"tf":1},"129":{"ref":129,"tf":0.6666666666666666},"132":{"ref":132,"tf":0.8333333333333333}}}}}},"r":{"docs":{},"v":{"docs":{"44":{"ref":44,"tf":1.3333333333333333},"75":{"ref":75,"tf":0.3333333333333333}}}}},"s":{"docs":{},"s":{"docs":{"34":{"ref":34,"tf":0.3333333333333333}}}},"i":{"docs":{},"r":{"docs":{},"c":{"docs":{},"l":{"docs":{"43":{"ref":43,"tf":0.25},"114":{"ref":114,"tf":0.25}},"e":{"docs":{},",":{"docs":{"43":{"ref":43,"tf":0.25}}}}}}}},"h":{"docs":{},"a":{"docs":{},"r":{"docs":{},"t":{"docs":{"85":{"ref":85,"tf":0.3333333333333333}}}}}},"l":{"docs":{},"i":{"docs":{},"c":{"docs":{},"k":{"docs":{"117":{"ref":117,"tf":0.25}}}}},"u":{"docs":{},"s":{"docs":{},"t":{"docs":{},"e":{"docs":{},"r":{"docs":{"150":{"ref":150,"tf":0.3333333333333333}},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"150":{"ref":150,"tf":1}}}}}}}}}}}},"s":{"docs":{},"t":{"docs":{},"a":{"docs":{},"t":{"docs":{},"u":{"docs":{"5":{"ref":5,"tf":1.5}}}}},"y":{"docs":{},"l":{"docs":{},"e":{"docs":{"57":{"ref":57,"tf":1.5},"58":{"ref":58,"tf":1.5},"59":{"ref":59,"tf":1.5},"60":{"ref":60,"tf":1.5},"61":{"ref":61,"tf":1.5},"62":{"ref":62,"tf":1.5},"63":{"ref":63,"tf":1.5},"64":{"ref":64,"tf":1.5},"65":{"ref":65,"tf":1.5},"66":{"ref":66,"tf":1.5},"67":{"ref":67,"tf":1.5},"68":{"ref":68,"tf":1.5},"69":{"ref":69,"tf":1.5},"70":{"ref":70,"tf":1.5},"71":{"ref":71,"tf":1.5},"72":{"ref":72,"tf":1.5},"73":{"ref":73,"tf":1.5},"74":{"ref":74,"tf":1.5},"75":{"ref":75,"tf":1.5},"76":{"ref":76,"tf":1.5},"77":{"ref":77,"tf":1.5},"78":{"ref":78,"tf":1.5},"79":{"ref":79,"tf":1.5},"80":{"ref":80,"tf":1.5},"81":{"ref":81,"tf":1.5},"82":{"ref":82,"tf":1.5},"83":{"ref":83,"tf":1.5},"84":{"ref":84,"tf":1.5},"85":{"ref":85,"tf":1.5},"86":{"ref":86,"tf":1.5},"87":{"ref":87,"tf":1.5},"98":{"ref":98,"tf":0.75}}}}}},"y":{"docs":{},"n":{"docs":{},"c":{"docs":{"12":{"ref":12,"tf":0.8333333333333333}}}},"m":{"docs":{},"b":{"docs":{},"o":{"docs":{},"l":{"docs":{"68":{"ref":68,"tf":1},"76":{"ref":76,"tf":1},"80":{"ref":80,"tf":1},"81":{"ref":81,"tf":0.8333333333333333},"82":{"ref":82,"tf":0.8333333333333333},"83":{"ref":83,"tf":0.8333333333333333}}}}}}},"c":{"docs":{},"r":{"docs":{},"e":{"docs":{},"e":{"docs":{},"n":{"docs":{"13":{"ref":13,"tf":0.3333333333333333}}}}}},"a":{"docs":{},"l":{"docs":{},"e":{"docs":{"137":{"ref":137,"tf":1}}}}}},"e":{"docs":{},"t":{"docs":{"26":{"ref":26,"tf":0.3333333333333333},"27":{"ref":27,"tf":0.25},"90":{"ref":90,"tf":0.3333333333333333},"93":{"ref":93,"tf":0.2},"99":{"ref":99,"tf":0.2}}},"c":{"docs":{},"t":{"docs":{},"o":{"docs":{},"r":{"docs":{"43":{"ref":43,"tf":0.5}}}}}},"r":{"docs":{},"i":{"docs":{},"a":{"docs":{},"l":{"docs":{"141":{"ref":141,"tf":0.5},"142":{"ref":142,"tf":0.5},"143":{"ref":143,"tf":0.5},"144":{"ref":144,"tf":0.5},"145":{"ref":145,"tf":0.5},"146":{"ref":146,"tf":0.5},"147":{"ref":147,"tf":0.5}}}}}}},"p":{"docs":{},"a":{"docs":{},"t":{"docs":{},"i":{"docs":{},"a":{"docs":{},"l":{"docs":{"119":{"ref":119,"tf":0.2}},"r":{"docs":{},"e":{"docs":{},"f":{"docs":{},"e":{"docs":{},"r":{"docs":{"35":{"ref":35,"tf":0.3333333333333333}}}}}}}}}}}}},"v":{"docs":{},"g":{"docs":{"62":{"ref":62,"tf":0.6666666666666666}}}},"m":{"docs":{},"o":{"docs":{},"o":{"docs":{},"t":{"docs":{},"h":{"docs":{"75":{"ref":75,"tf":0.8333333333333333}}}}}}},"h":{"docs":{},"o":{"docs":{},"w":{"docs":{"89":{"ref":89,"tf":0.8333333333333333},"139":{"ref":139,"tf":0.6666666666666666}}}},"a":{"docs":{},"p":{"docs":{},"e":{"docs":{"115":{"ref":115,"tf":0.3333333333333333},"121":{"ref":121,"tf":0.3333333333333333}}}}}},"o":{"docs":{},"r":{"docs":{},"t":{"docs":{"92":{"ref":92,"tf":1.5},"99":{"ref":99,"tf":0.5}}}}},"w":{"docs":{},"i":{"docs":{},"p":{"docs":{},"e":{"docs":{"103":{"ref":103,"tf":1.3333333333333333}}}},"t":{"docs":{},"c":{"docs":{},"h":{"docs":{},"e":{"docs":{},"r":{"docs":{"140":{"ref":140,"tf":0.8333333333333333}}}}}}}}}},"e":{"docs":{},"x":{"docs":{},"t":{"docs":{},"e":{"docs":{},"n":{"docs":{},"t":{"docs":{"6":{"ref":6,"tf":1},"7":{"ref":7,"tf":0.8333333333333333}}}}}},"p":{"docs":{},"o":{"docs":{},"r":{"docs":{},"t":{"docs":{"14":{"ref":14,"tf":0.8333333333333333}}}}}},"a":{"docs":{},"m":{"docs":{},"p":{"docs":{},"l":{"docs":{"100":{"ref":100,"tf":0.5},"101":{"ref":101,"tf":0.5},"102":{"ref":102,"tf":0.5},"104":{"ref":104,"tf":0.5}}}}}}},"v":{"docs":{},"e":{"docs":{},"n":{"docs":{},"t":{"docs":{"11":{"ref":11,"tf":0.8333333333333333},"12":{"ref":12,"tf":0.3333333333333333},"49":{"ref":49,"tf":1.3333333333333333},"93":{"ref":93,"tf":0.2}}}}}},"n":{"docs":{},"c":{"docs":{},"o":{"docs":{},"d":{"docs":{"25":{"ref":25,"tf":0.25}}}}}},"p":{"docs":{},"s":{"docs":{},"g":{"4":{"3":{"2":{"6":{"docs":{"28":{"ref":28,"tf":1}}},"docs":{}},"docs":{}},"docs":{}},"docs":{},":":{"4":{"3":{"2":{"6":{"docs":{"28":{"ref":28,"tf":0.3333333333333333}}},"docs":{}},"docs":{}},"docs":{}},"docs":{}}}}},"l":{"docs":{},"l":{"docs":{},"i":{"docs":{},"p":{"docs":{},"s":{"docs":{"43":{"ref":43,"tf":0.5},"114":{"ref":114,"tf":0.25}}}}}}},"c":{"docs":{},"h":{"docs":{},"a":{"docs":{},"r":{"docs":{},"t":{"docs":{"86":{"ref":86,"tf":1},"152":{"ref":152,"tf":1.5}}}}}}},"f":{"docs":{},"f":{"docs":{},"e":{"docs":{},"c":{"docs":{},"t":{"docs":{"103":{"ref":103,"tf":0.3333333333333333}}}}}}},"d":{"docs":{},"i":{"docs":{},"t":{"docs":{"111":{"ref":111,"tf":1},"112":{"ref":112,"tf":1},"113":{"ref":113,"tf":1},"114":{"ref":114,"tf":0.75},"115":{"ref":115,"tf":0.8333333333333333},"116":{"ref":116,"tf":0.75}}}}}},"f":{"docs":{},"i":{"docs":{},"t":{"docs":{"6":{"ref":6,"tf":1}}},"l":{"docs":{},"t":{"docs":{},"e":{"docs":{},"r":{"docs":{"34":{"ref":34,"tf":1.3333333333333333},"51":{"ref":51,"tf":0.8333333333333333},"97":{"ref":97,"tf":0.7}}}}},"l":{"docs":{"60":{"ref":60,"tf":0.25},"61":{"ref":61,"tf":0.25},"69":{"ref":69,"tf":0.3333333333333333},"70":{"ref":70,"tf":0.25},"71":{"ref":71,"tf":0.3333333333333333},"77":{"ref":77,"tf":0.3333333333333333},"78":{"ref":78,"tf":0.3333333333333333}}}}},"r":{"docs":{},"a":{"docs":{},"c":{"docs":{},"t":{"docs":{},"i":{"docs":{},"o":{"docs":{},"n":{"docs":{"9":{"ref":9,"tf":1}}}}}}}},"o":{"docs":{},"n":{"docs":{},"t":{"docs":{"91":{"ref":91,"tf":0.5833333333333333}}}}}},"l":{"docs":{},"a":{"docs":{},"s":{"docs":{},"h":{"docs":{"50":{"ref":50,"tf":1}}}}},"i":{"docs":{"120":{"ref":120,"tf":0.25}}},"y":{"docs":{},"t":{"docs":{},"o":{"docs":{"120":{"ref":120,"tf":0.5}}}}}}},"z":{"docs":{"99":{"ref":99,"tf":0.2}},"o":{"docs":{},"o":{"docs":{},"m":{"docs":{"8":{"ref":8,"tf":0.8333333333333333},"9":{"ref":9,"tf":1},"35":{"ref":35,"tf":0.5},"82":{"ref":82,"tf":0.8333333333333333},"136":{"ref":136,"tf":1}}}}}},"i":{"docs":{},"m":{"docs":{},"a":{"docs":{},"g":{"docs":{"14":{"ref":14,"tf":0.8333333333333333},"57":{"ref":57,"tf":1},"58":{"ref":58,"tf":0.6666666666666666},"67":{"ref":67,"tf":0.6666666666666666}},"e":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"104":{"ref":104,"tf":1}},"e":{"docs":{},"r":{"docs":{},":":{"docs":{"104":{"ref":104,"tf":0.5}}}}}}}}}}}},"d":{"docs":{"96":{"ref":96,"tf":0.8333333333333333}},"e":{"docs":{},"n":{"docs":{},"t":{"docs":{"29":{"ref":29,"tf":1.3333333333333333}},"i":{"docs":{},"f":{"docs":{},"i":{"docs":{"117":{"ref":117,"tf":0.75}}}}}}}}},"n":{"docs":{},"d":{"docs":{},"e":{"docs":{},"x":{"docs":{"99":{"ref":99,"tf":0.2}}}}},"t":{"docs":{},"e":{"docs":{},"r":{"docs":{},"a":{"docs":{},"c":{"docs":{},"t":{"docs":{"105":{"ref":105,"tf":1.8333333333333333},"106":{"ref":106,"tf":1.7},"107":{"ref":107,"tf":1.5},"108":{"ref":108,"tf":1.5},"109":{"ref":109,"tf":1.5},"110":{"ref":110,"tf":1.5},"111":{"ref":111,"tf":1.5},"112":{"ref":112,"tf":1.5},"113":{"ref":113,"tf":1.5},"114":{"ref":114,"tf":1.5},"115":{"ref":115,"tf":1.5},"116":{"ref":116,"tf":1.5},"117":{"ref":117,"tf":1.5},"118":{"ref":118,"tf":1.5},"119":{"ref":119,"tf":1.5}}}}}}}},"f":{"docs":{},"o":{"docs":{},"w":{"docs":{},"i":{"docs":{},"n":{"docs":{},"d":{"docs":{},"o":{"docs":{},"w":{"docs":{"130":{"ref":130,"tf":0.5},"131":{"ref":131,"tf":0.5},"132":{"ref":132,"tf":0.5}}}}}}},"n":{"docs":{},"d":{"docs":{"130":{"ref":130,"tf":0.3333333333333333},"131":{"ref":131,"tf":0.3333333333333333},"132":{"ref":132,"tf":0.3333333333333333}}}}}}}}},"g":{"docs":{},"e":{"docs":{},"o":{"docs":{"17":{"ref":17,"tf":0.3333333333333333},"18":{"ref":18,"tf":0.3333333333333333},"19":{"ref":19,"tf":0.3333333333333333},"20":{"ref":20,"tf":0.3333333333333333},"21":{"ref":21,"tf":0.3333333333333333},"22":{"ref":22,"tf":0.3333333333333333},"23":{"ref":23,"tf":0.3333333333333333},"24":{"ref":24,"tf":0.3333333333333333},"25":{"ref":25,"tf":0.3333333333333333},"26":{"ref":26,"tf":0.3333333333333333},"27":{"ref":27,"tf":0.3333333333333333},"28":{"ref":28,"tf":0.3333333333333333},"29":{"ref":29,"tf":0.3333333333333333},"30":{"ref":30,"tf":0.3333333333333333},"31":{"ref":31,"tf":0.3333333333333333},"32":{"ref":32,"tf":0.6666666666666666},"33":{"ref":33,"tf":0.3333333333333333},"34":{"ref":34,"tf":0.3333333333333333},"35":{"ref":35,"tf":0.3333333333333333},"128":{"ref":128,"tf":0.3333333333333333},"131":{"ref":131,"tf":0.3333333333333333}},"m":{"docs":{},"e":{"docs":{},"t":{"docs":{},"r":{"docs":{},"i":{"docs":{"36":{"ref":36,"tf":2},"37":{"ref":37,"tf":2},"38":{"ref":38,"tf":2},"39":{"ref":39,"tf":2},"40":{"ref":40,"tf":2},"41":{"ref":41,"tf":2},"42":{"ref":42,"tf":2},"43":{"ref":43,"tf":2},"44":{"ref":44,"tf":2},"45":{"ref":45,"tf":2},"46":{"ref":46,"tf":2},"47":{"ref":47,"tf":2},"48":{"ref":48,"tf":2.5},"49":{"ref":49,"tf":2.3333333333333335},"50":{"ref":50,"tf":3},"51":{"ref":51,"tf":2},"57":{"ref":57,"tf":0.5},"58":{"ref":58,"tf":0.5},"59":{"ref":59,"tf":0.5},"60":{"ref":60,"tf":0.5},"61":{"ref":61,"tf":0.5},"62":{"ref":62,"tf":0.5},"63":{"ref":63,"tf":0.5},"64":{"ref":64,"tf":0.5},"65":{"ref":65,"tf":0.5},"66":{"ref":66,"tf":0.5},"67":{"ref":67,"tf":0.5},"68":{"ref":68,"tf":0.5},"69":{"ref":69,"tf":0.5},"70":{"ref":70,"tf":0.5},"71":{"ref":71,"tf":0.5},"72":{"ref":72,"tf":0.5},"73":{"ref":73,"tf":0.5},"74":{"ref":74,"tf":0.5},"75":{"ref":75,"tf":0.5},"76":{"ref":76,"tf":0.5},"77":{"ref":77,"tf":0.5},"78":{"ref":78,"tf":0.5},"79":{"ref":79,"tf":0.5},"80":{"ref":80,"tf":0.5},"81":{"ref":81,"tf":0.5},"82":{"ref":82,"tf":0.5},"83":{"ref":83,"tf":0.8333333333333333},"84":{"ref":84,"tf":0.5},"85":{"ref":85,"tf":0.5},"86":{"ref":86,"tf":0.5},"87":{"ref":87,"tf":0.5},"95":{"ref":95,"tf":0.25},"96":{"ref":96,"tf":0.3333333333333333},"97":{"ref":97,"tf":0.2},"98":{"ref":98,"tf":0.25},"109":{"ref":109,"tf":0.25},"110":{"ref":110,"tf":1},"117":{"ref":117,"tf":0.25},"118":{"ref":118,"tf":0.3333333333333333},"119":{"ref":119,"tf":0.2},"123":{"ref":123,"tf":0.5},"141":{"ref":141,"tf":1},"142":{"ref":142,"tf":1},"147":{"ref":147,"tf":0.8333333333333333}}},"y":{"docs":{},"c":{"docs":{},"o":{"docs":{},"l":{"docs":{},"l":{"docs":{},"e":{"docs":{},"c":{"docs":{},"t":{"docs":{"39":{"ref":39,"tf":1},"51":{"ref":51,"tf":0.3333333333333333}}}}}}}}},".":{"docs":{},"a":{"docs":{},"n":{"docs":{},"i":{"docs":{},"m":{"docs":{"123":{"ref":123,"tf":0.5}}}}}}},"'":{"docs":{"128":{"ref":128,"tf":0.3333333333333333},"131":{"ref":131,"tf":0.5}}}}}}},"t":{"docs":{},"r":{"docs":{},"i":{"docs":{},"e":{"docs":{},"s":{"docs":{},"'":{"docs":{"99":{"ref":99,"tf":0.2}}}}}}}}},"j":{"docs":{},"s":{"docs":{},"o":{"docs":{},"n":{"docs":{"141":{"ref":141,"tf":1},"142":{"ref":142,"tf":1}}}}}}}},"r":{"docs":{},"o":{"docs":{},"u":{"docs":{},"p":{"docs":{},"t":{"docs":{},"i":{"docs":{},"l":{"docs":{},"e":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"19":{"ref":19,"tf":1.5}}}}}}}}}}}},"a":{"docs":{},"d":{"docs":{},"i":{"docs":{},"e":{"docs":{},"n":{"docs":{},"t":{"docs":{"61":{"ref":61,"tf":0.75},"71":{"ref":71,"tf":0.8333333333333333},"78":{"ref":78,"tf":0.8333333333333333}}}}}}}}},"l":{"docs":{"148":{"ref":148,"tf":0.3333333333333333}},"o":{"docs":{},"b":{"docs":{},"a":{"docs":{},"l":{"docs":{},"c":{"docs":{},"o":{"docs":{},"m":{"docs":{},"p":{"docs":{},"o":{"docs":{},"s":{"docs":{},"i":{"docs":{},"t":{"docs":{},"e":{"docs":{},"o":{"docs":{},"p":{"docs":{},"e":{"docs":{},"r":{"docs":{"94":{"ref":94,"tf":1.5}}}}}}}}}}}}}}}}}}}}},"t":{"docs":{},"i":{"docs":{},"l":{"docs":{},"e":{"docs":{"21":{"ref":21,"tf":0.7},"22":{"ref":22,"tf":0.5},"23":{"ref":23,"tf":0.5},"24":{"ref":24,"tf":0.5},"25":{"ref":25,"tf":0.25},"26":{"ref":26,"tf":0.5},"27":{"ref":27,"tf":0.5}},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"17":{"ref":17,"tf":1.1666666666666665},"18":{"ref":18,"tf":1.6666666666666665},"19":{"ref":19,"tf":0.8333333333333333},"20":{"ref":20,"tf":1.1666666666666665},"21":{"ref":21,"tf":0.8333333333333333},"22":{"ref":22,"tf":1.1666666666666665},"23":{"ref":23,"tf":1.1666666666666665},"24":{"ref":24,"tf":1.1666666666666665},"25":{"ref":25,"tf":0.8333333333333333},"26":{"ref":26,"tf":0.8333333333333333},"27":{"ref":27,"tf":1.0833333333333333},"28":{"ref":28,"tf":1.1666666666666665},"29":{"ref":29,"tf":1.1666666666666665},"30":{"ref":30,"tf":1.1666666666666665},"31":{"ref":31,"tf":1.0833333333333333},"32":{"ref":32,"tf":0.8333333333333333},"33":{"ref":33,"tf":1.0833333333333333},"34":{"ref":34,"tf":0.8333333333333333},"35":{"ref":35,"tf":0.8333333333333333}},"e":{"docs":{},"r":{"docs":{},"'":{"docs":{"26":{"ref":26,"tf":0.3333333333333333},"34":{"ref":34,"tf":0.3333333333333333}}}}}}}}}}},"e":{"docs":{},"x":{"docs":{},"t":{"docs":{"65":{"ref":65,"tf":1},"66":{"ref":66,"tf":0.8333333333333333},"67":{"ref":67,"tf":0.6666666666666666},"73":{"ref":73,"tf":1}},"b":{"docs":{},"o":{"docs":{},"x":{"docs":{"46":{"ref":46,"tf":2},"115":{"ref":115,"tf":0.5}},"'":{"docs":{"115":{"ref":115,"tf":0.3333333333333333},"116":{"ref":116,"tf":0.25}}}}}}}}},"u":{"docs":{},"r":{"docs":{},"n":{"docs":{"106":{"ref":106,"tf":0.2}}}}},"o":{"docs":{},"o":{"docs":{},"l":{"docs":{"107":{"ref":107,"tf":0.75},"108":{"ref":108,"tf":0.75},"109":{"ref":109,"tf":0.75}},"b":{"docs":{},"a":{"docs":{},"r":{"docs":{"133":{"ref":133,"tf":1}}}}}}}},"h":{"docs":{},"r":{"docs":{},"e":{"docs":{},"e":{"docs":{"151":{"ref":151,"tf":1}},".":{"docs":{},"j":{"docs":{"151":{"ref":151,"tf":0.5}}}}}}}}},"w":{"docs":{},"m":{"docs":{"20":{"ref":20,"tf":1.3333333333333333}},"t":{"docs":{"23":{"ref":23,"tf":0.8333333333333333}}}},"a":{"docs":{},"l":{"docs":{},"l":{"docs":{"55":{"ref":55,"tf":0.25}}}}}},"v":{"docs":{},"e":{"docs":{},"c":{"docs":{},"t":{"docs":{},"o":{"docs":{},"r":{"docs":{"21":{"ref":21,"tf":0.7},"59":{"ref":59,"tf":1},"60":{"ref":60,"tf":0.75},"61":{"ref":61,"tf":0.75},"62":{"ref":62,"tf":0.3333333333333333}},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"95":{"ref":95,"tf":0.3333333333333333},"96":{"ref":96,"tf":0.5},"97":{"ref":97,"tf":0.5},"98":{"ref":98,"tf":0.5},"99":{"ref":99,"tf":0.5}},"e":{"docs":{},"r":{"docs":{},":":{"docs":{"95":{"ref":95,"tf":0.25},"96":{"ref":96,"tf":0.3333333333333333},"97":{"ref":97,"tf":0.2},"98":{"ref":98,"tf":0.25},"99":{"ref":99,"tf":0.2}}}}}}}}}}}},"r":{"docs":{},"t":{"docs":{},"i":{"docs":{},"c":{"docs":{"63":{"ref":63,"tf":0.25}}}},"e":{"docs":{},"x":{"docs":{"74":{"ref":74,"tf":0.2},"79":{"ref":79,"tf":0.3333333333333333}}}}}},"t":{"docs":{},"e":{"docs":{},"x":{"docs":{"79":{"ref":79,"tf":0.3333333333333333}}}}}}},"b":{"docs":{},"a":{"docs":{},"s":{"docs":{},"e":{"6":{"4":{"docs":{"25":{"ref":25,"tf":1.25}}},"docs":{}},"docs":{}}},"i":{"docs":{},"d":{"docs":{},"u":{"docs":{"30":{"ref":30,"tf":1.3333333333333333}}}}},"c":{"docs":{},"k":{"docs":{"91":{"ref":91,"tf":0.5833333333333333}}}},"t":{"docs":{},"c":{"docs":{},"h":{"docs":{"95":{"ref":95,"tf":0.5833333333333333},"98":{"ref":98,"tf":0.25}}}}}},"o":{"docs":{},"u":{"docs":{},"n":{"docs":{},"d":{"docs":{},"a":{"docs":{},"r":{"docs":{},"i":{"docs":{"27":{"ref":27,"tf":0.25}}}}}}}}},"e":{"docs":{},"z":{"docs":{},"i":{"docs":{},"e":{"docs":{},"r":{"docs":{"44":{"ref":44,"tf":0.3333333333333333}}}}}},"t":{"docs":{},"w":{"docs":{},"e":{"docs":{},"e":{"docs":{},"n":{"docs":{"119":{"ref":119,"tf":0.2}}}}}}}},"r":{"docs":{},"i":{"docs":{},"n":{"docs":{},"g":{"docs":{"91":{"ref":91,"tf":0.5833333333333333}}}}}}},"o":{"docs":{},"p":{"docs":{},"a":{"docs":{},"c":{"docs":{"26":{"ref":26,"tf":0.8333333333333333},"90":{"ref":90,"tf":1.3333333333333333}}}}},"n":{"docs":{},"/":{"docs":{},"o":{"docs":{},"f":{"docs":{},"f":{"docs":{"106":{"ref":106,"tf":0.2}}}}}}},"v":{"docs":{},"e":{"docs":{},"r":{"docs":{},"v":{"docs":{},"i":{"docs":{},"e":{"docs":{},"w":{"docs":{"135":{"ref":135,"tf":1}}}}}}}}}},"h":{"docs":{},"o":{"docs":{},"r":{"docs":{},"i":{"docs":{},"z":{"docs":{},"o":{"docs":{},"n":{"docs":{},"t":{"docs":{"63":{"ref":63,"tf":0.25}}}}}}}}},"t":{"docs":{},"m":{"docs":{},"l":{"docs":{"84":{"ref":84,"tf":0.8333333333333333}}}}},"i":{"docs":{},"g":{"docs":{},"h":{"docs":{},"c":{"docs":{},"h":{"docs":{},"a":{"docs":{},"r":{"docs":{},"t":{"docs":{"87":{"ref":87,"tf":1}}}}}}},"l":{"docs":{},"i":{"docs":{},"g":{"docs":{},"h":{"docs":{},"t":{"docs":{"118":{"ref":118,"tf":0.8333333333333333}}}}}}}}},"d":{"docs":{},"e":{"docs":{"89":{"ref":89,"tf":0.8333333333333333},"139":{"ref":139,"tf":0.6666666666666666}}}}},"e":{"docs":{},"a":{"docs":{},"t":{"docs":{},"m":{"docs":{},"a":{"docs":{},"p":{"docs":{"149":{"ref":149,"tf":0.5}},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"149":{"ref":149,"tf":1}}}}}}}}}},"l":{"docs":{},"l":{"docs":{},"o":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"156":{"ref":156,"tf":2},"157":{"ref":157,"tf":1.5},"158":{"ref":158,"tf":1.5}}}}}}}}}},"u":{"docs":{},"p":{"docs":{},"d":{"docs":{},"a":{"docs":{},"t":{"docs":{"81":{"ref":81,"tf":0.8333333333333333}}}}}},"s":{"docs":{},"e":{"docs":{},"r":{"docs":{"105":{"ref":105,"tf":0.5},"106":{"ref":106,"tf":0.5},"107":{"ref":107,"tf":0.5},"108":{"ref":108,"tf":0.5},"109":{"ref":109,"tf":0.5},"110":{"ref":110,"tf":0.5},"111":{"ref":111,"tf":0.5},"112":{"ref":112,"tf":0.5},"113":{"ref":113,"tf":0.5},"114":{"ref":114,"tf":0.5},"115":{"ref":115,"tf":0.5},"116":{"ref":116,"tf":0.5},"117":{"ref":117,"tf":0.5},"118":{"ref":118,"tf":0.5},"119":{"ref":119,"tf":0.5}}}}},"i":{"docs":{"127":{"ref":127,"tf":0.8333333333333333},"128":{"ref":128,"tf":0.8333333333333333},"129":{"ref":129,"tf":0.8333333333333333},"130":{"ref":130,"tf":0.8333333333333333},"131":{"ref":131,"tf":0.8333333333333333},"132":{"ref":132,"tf":0.8333333333333333},"133":{"ref":133,"tf":0.5},"134":{"ref":134,"tf":0.5},"135":{"ref":135,"tf":0.5},"136":{"ref":136,"tf":0.5},"137":{"ref":137,"tf":0.5},"138":{"ref":138,"tf":0.5},"139":{"ref":139,"tf":0.5},"140":{"ref":140,"tf":0.5},"154":{"ref":154,"tf":1.3333333333333333}},"c":{"docs":{},"o":{"docs":{},"m":{"docs":{},"p":{"docs":{},"o":{"docs":{},"n":{"docs":{"127":{"ref":127,"tf":0.5},"128":{"ref":128,"tf":0.5},"129":{"ref":129,"tf":0.5},"130":{"ref":130,"tf":0.5},"131":{"ref":131,"tf":0.5},"132":{"ref":132,"tf":0.5},"133":{"ref":133,"tf":0.5},"134":{"ref":134,"tf":0.5},"135":{"ref":135,"tf":0.5},"136":{"ref":136,"tf":0.5},"137":{"ref":137,"tf":0.5},"138":{"ref":138,"tf":0.5},"139":{"ref":139,"tf":0.5},"140":{"ref":140,"tf":0.5}}}}}}}}}},"j":{"docs":{},"s":{"docs":{},"o":{"docs":{},"n":{"docs":{"141":{"ref":141,"tf":1.5},"142":{"ref":142,"tf":1.5},"143":{"ref":143,"tf":2.5},"144":{"ref":144,"tf":2.5},"145":{"ref":145,"tf":1.8333333333333333},"146":{"ref":146,"tf":2.3333333333333335},"147":{"ref":147,"tf":2.3333333333333335}}}}}},"n":{"docs":{},"e":{"docs":{},"w":{"docs":{"153":{"ref":153,"tf":0.5},"154":{"ref":154,"tf":0.3333333333333333},"155":{"ref":155,"tf":0.5}}}}}},"length":725},"corpusTokens":["3d","add","align","along","altitud","anim","animateshow","arc","arcgi","area","arrow","attribut","auto","back","baidu","base64","batch","between","bezier","boundari","bring","camera","canva","canvaslay","canvaslayer:","canvastilelay","canvastilelayer:","capabl","chart","circl","circle,","click","cluster","clusterlay","collect","common","compon","composit","condit","connector","contain","content","context","control","convers","convert","coordin","copi","css","curv","custom","d3","develop","differ","disabl","display","distanc","drag","draw","drawoninteract","echart","edit","effect","ellips","encod","epsg4326","epsg:4326","event","exampl","export","extent","fill","filter","fit","flash","fli","flyto","fraction","front","geo","geojson","geometri","geometry'","geometry.anim","geometrycollect","geomtries'","gl","globalcompositeoper","gradient","grouptilelay","heatmap","heatmaplay","hellolay","hide","highchart","highlight","horizont","html","id","ident","identifi","imag","imagelay","imagelayer:","index","infowindow","infownd","interact","json","label","larger","layer","layer'","limit","line","line'","linestr","linestring'","listen","load","locat","lod","magnifi","map","map'","mapbox","mapboxgl","maptool","marker","marker'","mask","max","maxzoom","measur","menu","method","mous","mouseov","move","multi","multilinestr","multipl","multipoint","multipolygon","new","on/off","opac","overview","pan","panel","part","particlelay","particlelayer:","path","pattern","pitch","plugin","point","polygon","polygon'","proj","proj4j","project","prop","properti","rectangl","rectangle,","rectangle/circle/elliips","relat","remov","render","resolut","rotat","scale","screen","sector","serial","set","shape","show","smooth","sort","spatial","spatialrefer","statu","style","svg","swipe","switcher","symbol","sync","text","textbox","textbox'","three","three.j","tile","tilelay","tilelayer'","tool","toolbar","turn","ui","uicompon","updat","user","vector","vectorlay","vectorlayer:","vertex","vertic","vetex","wall","wm","wmt","z","zoom"],"pipeline":["trimmer","stopWordFilter","stemmer"]}</script>
+  <script type="text/javascript" src="/examples/lib/lunr-chinese.min.js"></script>
+  <script type="text/javascript" src="/examples/js/main.8d0536.js"></script>
+
+  <script>
+    PR.prettyPrint();
+
+    function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "Larger maxZoom of spatialReference",
+        description: "TileLayer and Geo-Projections - Larger maxZoom of spatialReference",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
+      document.getElementById('editor').submit();
+    }
+  </script>
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-103005498-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
+
+</html>

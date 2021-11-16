@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>瓦片图层与地理投影 - 增大空间参考的maxZoom</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+  <body>
+    <div id="map" class="container"></div>
+
+    <script>
+      var center = [105.08052356963802, 36.04231948670001];
+
+      // set maxNativeZoom to 24
+      var MAX_ZOOM = 25;
+      var spatialReference = {
+        'projection': 'EPSG:3857',
+        'resolutions': (function () {
+            const resolutions = [];
+            const d = 2 * 6378137 * Math.PI;
+            for (let i = 0; i < MAX_ZOOM; i++) {
+                resolutions[i] = d / (256 * Math.pow(2, i));
+            }
+            return resolutions;
+        })(),
+      };
+
+      var map = new maptalks.Map('map', {
+        center: center,
+        spatialReference,
+        zoom: 4,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ['a','b','c','d'],
+          attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+        })
+      });
+
+    </script>
+  </body>
+</html>

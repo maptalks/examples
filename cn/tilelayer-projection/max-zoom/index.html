@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>maptalks - 增大空间参考的maxZoom</title>
+  <link rel="stylesheet" href="/examples/css/main-58b450.css" />
+  <link rel="stylesheet" href="/examples/code-prettify/prettify.css" />
+  <script type="text/javascript" src="/examples/code-prettify/prettify.js"></script>
+  <script type="text/javascript" src="/examples/lib/clipboard.min.js"></script>
+</head>
+
+<body>
+
+  <div class="demo-viewer">
+
+    <div class="sidebar">
+
+      <div class="logo-area">
+          <a href="http://maptalks.org/" title="maptalks.org" class="logo">
+          </a>
+          <div class="lang-switch">
+              <div class="lang-option"><a href="/examples/en/tilelayer-projection/max-zoom">EN</a></div>
+          </div>
+      </div>
+
+      <div class="menu-button"></div>
+
+      <div class="menu-area">
+
+        <div class="action-bar">
+          <div class="search-bar">
+            <input type="text" class="search-field" id="example-search-input">
+            <div class="search-button" id="example-search-button"></div>
+          </div>
+          <div class="all-download-button"><a href="https://github.com/maptalks/examples/archive/gh-pages.zip">全部下载</a></div>
+        </div>
+
+        <ul class="menu scroll-block">
+          <li class="list-tile">
+            <div class="list-title">1 地图</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_load" href="/examples/cn/map/load/#map_load">1.1 显示</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_pitch-rotate" href="/examples/cn/map/pitch-rotate/#map_pitch-rotate">1.2 倾斜与旋转</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_drag-pitch-rotate" href="/examples/cn/map/drag-pitch-rotate/#map_drag-pitch-rotate">1.3 拖动倾斜与旋转</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_panning" href="/examples/cn/map/panning/#map_panning">1.4 移动地图</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_common-control" href="/examples/cn/map/common-control/#map_common-control">1.5 添加常用控件</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_status" href="/examples/cn/map/status/#map_status">1.6 获取地图状态</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_fit-extent" href="/examples/cn/map/fit-extent/#map_fit-extent">1.7 自动适配区域</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_limit-extent" href="/examples/cn/map/limit-extent/#map_limit-extent">1.8 限制地图区域</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_limit-zoom" href="/examples/cn/map/limit-zoom/#map_limit-zoom">1.9 限制缩放级别</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_fractional-zoom" href="/examples/cn/map/fractional-zoom/#map_fractional-zoom">1.10 细微缩放(Fractional Zoom)</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_canvas" href="/examples/cn/map/canvas/#map_canvas">1.11 在Canvas容器中加载</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_map-events" href="/examples/cn/map/map-events/#map_map-events">1.12 监听地图事件</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_sync-map" href="/examples/cn/map/sync-map/#map_sync-map">1.13 同步地图</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_coordinate-conversion" href="/examples/cn/map/coordinate-conversion/#map_coordinate-conversion">1.14 屏幕坐标转换</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_export-image" href="/examples/cn/map/export-image/#map_export-image">1.15 导出为图片</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_map-magnifier" href="/examples/cn/map/map-magnifier/#map_map-magnifier">1.16 地图放大镜</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="map_custom-resolutions" href="/examples/cn/map/custom-resolutions/#map_custom-resolutions">1.17 自定义地图LOD</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">2 瓦片图层与地理投影</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_canvas-renderer" href="/examples/cn/tilelayer-projection/canvas-renderer/#tilelayer-projection_canvas-renderer">2.1 Canvas渲染方式的瓦片图层</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_multi-tilelayer" href="/examples/cn/tilelayer-projection/multi-tilelayer/#tilelayer-projection_multi-tilelayer">2.2 添加多个瓦片图层</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_grouptilelayer" href="/examples/cn/tilelayer-projection/grouptilelayer/#tilelayer-projection_grouptilelayer">2.3 添加瓦片图层组</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_wms" href="/examples/cn/tilelayer-projection/wms/#tilelayer-projection_wms">2.4 WMS瓦片图层</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  id="tilelayer-projection_vector-tile" href="https://github.com/maptalks/maptalks.mapboxgl" target="_blank">2.5 Vector-Tile图层 <img title="external link" src="../../../resource/image/external-url.png"/></a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_arcgis-tile" href="/examples/cn/tilelayer-projection/arcgis-tile/#tilelayer-projection_arcgis-tile">2.6 ArcGIS瓦片图层</a>
+              </li>
+                <li class="list-tile example on">
+                <a style="color:red"
+                  class="new" id="tilelayer-projection_wmts-tile" href="/examples/cn/tilelayer-projection/wmts-tile/#tilelayer-projection_wmts-tile">2.7 WMTS瓦片图层</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_custom-tile" href="/examples/cn/tilelayer-projection/custom-tile/#tilelayer-projection_custom-tile">2.8 LOD和自定义瓦片图层</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_base64" href="/examples/cn/tilelayer-projection/base64/#tilelayer-projection_base64">2.9 用base64编码载入瓦片</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_tile-opacity" href="/examples/cn/tilelayer-projection/tile-opacity/#tilelayer-projection_tile-opacity">2.10 设置瓦片图层透明度</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_tile-mask" href="/examples/cn/tilelayer-projection/tile-mask/#tilelayer-projection_tile-mask">2.11 只显示指定范围内的瓦片</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_epsg4326" href="/examples/cn/tilelayer-projection/epsg4326/#tilelayer-projection_epsg4326">2.12 4326投影底图</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_identity" href="/examples/cn/tilelayer-projection/identity/#tilelayer-projection_identity">2.13 IDENTITY投影底图</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_baidu" href="/examples/cn/tilelayer-projection/baidu/#tilelayer-projection_baidu">2.14 百度投影底图</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_proj4js" href="/examples/cn/tilelayer-projection/proj4js/#tilelayer-projection_proj4js">2.15 Proj4js自定义投影底图</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_d3-proj" href="/examples/cn/tilelayer-projection/d3-proj/#tilelayer-projection_d3-proj">2.16 D3投影</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_different-projection" href="/examples/cn/tilelayer-projection/different-projection/#tilelayer-projection_different-projection">2.17 载入不同投影的TileLayer</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_filter" href="/examples/cn/tilelayer-projection/filter/#tilelayer-projection_filter">2.18 底图风格滤镜</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="tilelayer-projection_max-zoom" href="/examples/cn/tilelayer-projection/max-zoom/#tilelayer-projection_max-zoom">2.19 增大空间参考的maxZoom</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">3 图形</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_marker" href="/examples/cn/geometry/marker/#geometry_marker">3.1 Marker</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_linestring" href="/examples/cn/geometry/linestring/#geometry_linestring">3.2 LineString</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_polygon" href="/examples/cn/geometry/polygon/#geometry_polygon">3.3 Polygon</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_collection" href="/examples/cn/geometry/collection/#geometry_collection">3.4 GeometryCollection</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_multipoint" href="/examples/cn/geometry/multipoint/#geometry_multipoint">3.5 MultiPoint</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_multilinestring" href="/examples/cn/geometry/multilinestring/#geometry_multilinestring">3.6 MultiLineString</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_multipolygon" href="/examples/cn/geometry/multipolygon/#geometry_multipolygon">3.7 MultiPolygon</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_rectangle-circle-ellipse-sector" href="/examples/cn/geometry/rectangle-circle-ellipse-sector/#geometry_rectangle-circle-ellipse-sector">3.8 矩形, 圆形, 椭圆和扇形</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_curve" href="/examples/cn/geometry/curve/#geometry_curve">3.9 圆弧和贝塞尔曲线</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_label" href="/examples/cn/geometry/label/#geometry_label">3.10 文字标签(Label)</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_textbox" href="/examples/cn/geometry/textbox/#geometry_textbox">3.11 文本框(TextBox)</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_connector-line" href="/examples/cn/geometry/connector-line/#geometry_connector-line">3.12 连接线</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_copy" href="/examples/cn/geometry/copy/#geometry_copy">3.13 克隆</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_events" href="/examples/cn/geometry/events/#geometry_events">3.14 监听图形事件</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_flash-geometry" href="/examples/cn/geometry/flash-geometry/#geometry_flash-geometry">3.15 闪烁</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="geometry_collection-filter" href="/examples/cn/geometry/collection-filter/#geometry_collection-filter">3.16 GeometryCollection的条件查询</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">4 三维</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="3d_marker-altitude" href="/examples/cn/3d/marker-altitude/#3d_marker-altitude">4.1 有高度的Marker</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="3d_marker-draw-altitude" href="/examples/cn/3d/marker-draw-altitude/#3d_marker-draw-altitude">4.2 绘制Marker的高度线</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="3d_line-altitude" href="/examples/cn/3d/line-altitude/#3d_line-altitude">4.3 有高度的线</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="3d_line-draw-altitude" href="/examples/cn/3d/line-draw-altitude/#3d_line-draw-altitude">4.4 绘制Line的高度面</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="3d_polygon-altitude" href="/examples/cn/3d/polygon-altitude/#3d_polygon-altitude">4.5 有高度的多边形</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">5 图形样式</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_image-marker" href="/examples/cn/style/image-marker/#style_image-marker">5.1 图片标注</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_multi-image-marker" href="/examples/cn/style/multi-image-marker/#style_multi-image-marker">5.2 多图片标注</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_vector-marker" href="/examples/cn/style/vector-marker/#style_vector-marker">5.3 矢量标注</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_vector-pattern" href="/examples/cn/style/vector-pattern/#style_vector-pattern">5.4 矢量标注模式填充</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_vector-gradient" href="/examples/cn/style/vector-gradient/#style_vector-gradient">5.5 矢量标注渐变填充</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_svg-path-marker" href="/examples/cn/style/svg-path-marker/#style_svg-path-marker">5.6 SVG矢量标注</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_marker-alignment" href="/examples/cn/style/marker-alignment/#style_marker-alignment">5.7 标注水平和垂直对齐</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_rotate-marker" href="/examples/cn/style/rotate-marker/#style_rotate-marker">5.8 旋转标注</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_text-marker" href="/examples/cn/style/text-marker/#style_text-marker">5.9 文字标注</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_rotate-text" href="/examples/cn/style/rotate-text/#style_rotate-text">5.10 旋转文字标注</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_image-text-marker" href="/examples/cn/style/image-text-marker/#style_image-text-marker">5.11 带文字的图片标注</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-symbol" href="/examples/cn/style/line-symbol/#style_line-symbol">5.12 线样式</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-pattern" href="/examples/cn/style/line-pattern/#style_line-pattern">5.13 线的模式填充</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-pattern-animation" href="/examples/cn/style/line-pattern-animation/#style_line-pattern-animation">5.14 线的模式填充动画</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-gradient" href="/examples/cn/style/line-gradient/#style_line-gradient">5.15 线的渐变填充</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-arrow" href="/examples/cn/style/line-arrow/#style_line-arrow">5.16 带箭头的线</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-text" href="/examples/cn/style/line-text/#style_line-text">5.17 带文字的线</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-marker" href="/examples/cn/style/line-marker/#style_line-marker">5.18 端点沿线自动旋转Marker</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_line-smoothness" href="/examples/cn/style/line-smoothness/#style_line-smoothness">5.19 线的曲线平滑</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_polygon-symbol" href="/examples/cn/style/polygon-symbol/#style_polygon-symbol">5.20 面样式</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_polygon-pattern" href="/examples/cn/style/polygon-pattern/#style_polygon-pattern">5.21 面的模式填充</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_polygon-gradient" href="/examples/cn/style/polygon-gradient/#style_polygon-gradient">5.22 面的渐变填充</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_polygon-vertex-marker" href="/examples/cn/style/polygon-vertex-marker/#style_polygon-vertex-marker">5.23 面的端点样式</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_composite-symbol" href="/examples/cn/style/composite-symbol/#style_composite-symbol">5.24 组合样式</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_update-symbol" href="/examples/cn/style/update-symbol/#style_update-symbol">5.25 样式的部分更新</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_symbol-by-zoom" href="/examples/cn/style/symbol-by-zoom/#style_symbol-by-zoom">5.26 根据zoom设置样式</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_symbol-by-prop" href="/examples/cn/style/symbol-by-prop/#style_symbol-by-prop">5.27 根据属性数据设置样式</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_html-marker" href="/examples/cn/style/html-marker/#style_html-marker">5.28 HTML自定义标注</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_d3-marker" href="/examples/cn/style/d3-marker/#style_d3-marker">5.29 D3图表样式</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_echarts-marker" href="/examples/cn/style/echarts-marker/#style_echarts-marker">5.30 Echarts图表样式</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="style_highcharts-marker" href="/examples/cn/style/highcharts-marker/#style_highcharts-marker">5.31 Highcharts图表样式</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">6 图层</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_add-remove" href="/examples/cn/layer/add-remove/#layer_add-remove">6.1 添加图层和移除图层</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_show-hide" href="/examples/cn/layer/show-hide/#layer_show-hide">6.2 隐藏显示图层</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_opacity" href="/examples/cn/layer/opacity/#layer_opacity">6.3 设置图层透明度</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_bring-front-back" href="/examples/cn/layer/bring-front-back/#layer_bring-front-back">6.4 图层置顶或置底</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_sort" href="/examples/cn/layer/sort/#layer_sort">6.5 改变图层叠加顺序</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_mask" href="/examples/cn/layer/mask/#layer_mask">6.6 用鼠标设置图层遮罩</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_globalcompositeoperation" href="/examples/cn/layer/globalcompositeoperation/#layer_globalcompositeoperation">6.7 globalCompositeOperation</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_vectorlayer-batch-add" href="/examples/cn/layer/vectorlayer-batch-add/#layer_vectorlayer-batch-add">6.8 VectorLayer: 批量添加图形</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_vectorlayer-get-by-id" href="/examples/cn/layer/vectorlayer-get-by-id/#layer_vectorlayer-get-by-id">6.9 VectorLayer:根据 ID 获取图形</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_vectorlayer-filter" href="/examples/cn/layer/vectorlayer-filter/#layer_vectorlayer-filter">6.10 VectorLayer: 根据属性条件筛选图形</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_vectorlayer-style" href="/examples/cn/layer/vectorlayer-style/#layer_vectorlayer-style">6.11 VectorLayer: 批量设置图形样式</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_vectorlayer-sort" href="/examples/cn/layer/vectorlayer-sort/#layer_vectorlayer-sort">6.12 VectorLayer: 设置图形的z-index</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_canvaslayer" href="/examples/cn/layer/canvaslayer/#layer_canvaslayer">6.13 CanvasLayer: 画板图层示例</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_particlelayer" href="/examples/cn/layer/particlelayer/#layer_particlelayer">6.14 ParticleLayer: 粒子图层示例</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_canvastilelayer" href="/examples/cn/layer/canvastilelayer/#layer_canvastilelayer">6.15 CanvasTileLayer: 画板瓦片图层示例</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_swipe" href="/examples/cn/layer/swipe/#layer_swipe">6.16 图层卷帘效果</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="layer_imagelayer" href="/examples/cn/layer/imagelayer/#layer_imagelayer">6.17 ImageLayer: 图片图层示例</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">7 交互</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_map-off" href="/examples/cn/interaction/map-off/#interaction_map-off">7.1 禁用所有交互</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_map-on-off" href="/examples/cn/interaction/map-on-off/#interaction_map-on-off">7.2 地图功能开关</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_distance-tool" href="/examples/cn/interaction/distance-tool/#interaction_distance-tool">7.3 测距工具</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_area-tool" href="/examples/cn/interaction/area-tool/#interaction_area-tool">7.4 测面工具</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_draw-tool" href="/examples/cn/interaction/draw-tool/#interaction_draw-tool">7.5 绘制工具</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_drag-geometries" href="/examples/cn/interaction/drag-geometries/#interaction_drag-geometries">7.6 拖拽图形</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_edit-marker" href="/examples/cn/interaction/edit-marker/#interaction_edit-marker">7.7 编辑标注</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_edit-line" href="/examples/cn/interaction/edit-line/#interaction_edit-line">7.8 编辑线</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_edit-polygon" href="/examples/cn/interaction/edit-polygon/#interaction_edit-polygon">7.9 编辑多边形</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_edit-rectangle-circle-ellipse" href="/examples/cn/interaction/edit-rectangle-circle-ellipse/#interaction_edit-rectangle-circle-ellipse">7.10 编辑矩形/圆形/椭圆</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_edit-textbox" href="/examples/cn/interaction/edit-textbox/#interaction_edit-textbox">7.11 编辑文本框</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_edit-label" href="/examples/cn/interaction/edit-label/#interaction_edit-label">7.12 编辑文本内容</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_mouse-identify" href="/examples/cn/interaction/mouse-identify/#interaction_mouse-identify">7.13 鼠标点选图形</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_mouse-highlight" href="/examples/cn/interaction/mouse-highlight/#interaction_mouse-highlight">7.14 鼠标悬停高亮图形</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="interaction_mouse-contains" href="/examples/cn/interaction/mouse-contains/#interaction_mouse-contains">7.15 鼠标与图形的空间关系</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">8 动画</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_map-flyto" href="/examples/cn/animation/map-flyto/#animation_map-flyto">8.1 地图飞行到指定位置</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_marker-anim" href="/examples/cn/animation/marker-anim/#animation_marker-anim">8.2 Marker的变形动画</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_move-along" href="/examples/cn/animation/move-along/#animation_move-along">8.3 点的沿线动画</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_geometry-anim" href="/examples/cn/animation/geometry-anim/#animation_geometry-anim">8.4 Geometry.animate方法</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_line-animateshow" href="/examples/cn/animation/line-animateshow/#animation_line-animateshow">8.5 线的动画展现</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_polygon-animateshow" href="/examples/cn/animation/polygon-animateshow/#animation_polygon-animateshow">8.6 面的动画展现</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="animation_custom-anim" href="/examples/cn/animation/custom-anim/#animation_custom-anim">8.7 自定义动画</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">9 空间与UI组件</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_ui-map-menu" href="/examples/cn/ui-control/ui-map-menu/#ui-control_ui-map-menu">9.1 地图右键菜单</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_ui-geo-menu" href="/examples/cn/ui-control/ui-geo-menu/#ui-control_ui-geo-menu">9.2 图形右键菜单</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_ui-custom-menu" href="/examples/cn/ui-control/ui-custom-menu/#ui-control_ui-custom-menu">9.3 自定义右键菜单</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_ui-map-infownd" href="/examples/cn/ui-control/ui-map-infownd/#ui-control_ui-map-infownd">9.4 地图信息框</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_ui-geo-infownd" href="/examples/cn/ui-control/ui-geo-infownd/#ui-control_ui-geo-infownd">9.5 图形信息框</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_ui-custom-infownd" href="/examples/cn/ui-control/ui-custom-infownd/#ui-control_ui-custom-infownd">9.6 自定义信息框</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-toolbar" href="/examples/cn/ui-control/control-toolbar/#ui-control_control-toolbar">9.7 Toolbar控件</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-panel" href="/examples/cn/ui-control/control-panel/#ui-control_control-panel">9.8 Panel控件</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-overview" href="/examples/cn/ui-control/control-overview/#ui-control_control-overview">9.9 鹰眼控件</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-zoom" href="/examples/cn/ui-control/control-zoom/#ui-control_control-zoom">9.10 Zoom控件</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-scale" href="/examples/cn/ui-control/control-scale/#ui-control_control-scale">9.11 Scale控件</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-attribution" href="/examples/cn/ui-control/control-attribution/#ui-control_control-attribution">9.12 Attribution控件</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-show-hide" href="/examples/cn/ui-control/control-show-hide/#ui-control_control-show-hide">9.13 控件显示与隐藏</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="ui-control_control-layer-switcher" href="/examples/cn/ui-control/control-layer-switcher/#ui-control_control-layer-switcher">9.14 图层选择控件</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">10 JSON序列化</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_geojson-to-geometry" href="/examples/cn/json/geojson-to-geometry/#json_geojson-to-geometry">10.1 GeoJSON转化为Geometry</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_geometry-to-geojson" href="/examples/cn/json/geometry-to-geojson/#json_geometry-to-geojson">10.2 Geometry转化为GeoJSON</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_map-to-json" href="/examples/cn/json/map-to-json/#json_map-to-json">10.3 地图转化为JSON</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_json-to-map" href="/examples/cn/json/json-to-map/#json_json-to-map">10.4 用JSON载入地图</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_copy-map" href="/examples/cn/json/copy-map/#json_copy-map">10.5 用JSON复制地图</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_layer-json" href="/examples/cn/json/layer-json/#json_layer-json">10.6 用JSON复制Layer</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="json_geometry-json" href="/examples/cn/json/geometry-json/#json_geometry-json">10.7 用JSON复制Geometry</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">11 常用插件</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  id="plugin_mapboxgl" href="https://github.com/maptalks/maptalks.mapboxgl" target="_blank">11.1 Mapbox gl 图层 <img title="external link" src="../../../resource/image/external-url.png"/></a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  id="plugin_heatmaplayer" href="https://github.com/maptalks/maptalks.heatmap" target="_blank">11.2 HeatLayer: 热力图层示例 <img title="external link" src="../../../resource/image/external-url.png"/></a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  id="plugin_clusterlayer" href="https://github.com/maptalks/maptalks.markercluster" target="_blank">11.3 ClusterLayer: 点聚合图层示例 <img title="external link" src="../../../resource/image/external-url.png"/></a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  id="plugin_three" href="https://github.com/maptalks/maptalks.three" target="_blank">11.4 Three.js 图层 <img title="external link" src="../../../resource/image/external-url.png"/></a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  id="plugin_echarts" href="https://github.com/maptalks/maptalks.e3" target="_blank">11.5 Echarts 图层 <img title="external link" src="../../../resource/image/external-url.png"/></a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">12 插件开发示例</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="plugin-develop_control" href="/examples/cn/plugin-develop/control/#plugin-develop_control">12.1 创建新的控件</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="plugin-develop_ui" href="/examples/cn/plugin-develop/ui/#plugin-develop_ui">12.2 创建新的UI组件</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="plugin-develop_maptool" href="/examples/cn/plugin-develop/maptool/#plugin-develop_maptool">12.3 创建地图工具</a>
+              </li>
+            </ul>
+          </li>
+          <li class="list-tile">
+            <div class="list-title">13 图层开发示例</div>
+            <ul class="list">
+                <li class="list-tile example on">
+                <a
+                  class="" id="hellolayer_layer" href="/examples/cn/hellolayer/layer/#hellolayer_layer">13.1 HelloLayer</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="hellolayer_drawoninteracting" href="/examples/cn/hellolayer/drawoninteracting/#hellolayer_drawoninteracting">13.2 HelloLayer交互绘制</a>
+              </li>
+                <li class="list-tile example on">
+                <a
+                  class="" id="hellolayer_animation" href="/examples/cn/hellolayer/animation/#hellolayer_animation">13.3 HelloLayer动画图层</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="demo-panel">
+
+      <div class="title-area">
+        <div class="title">增大空间参考的maxZoom</div>
+        <div class="action-area">
+          <a class="action-link" href="https://github.com/maptalks/examples/tree/master/src/tilelayer-projection/max-zoom" target="_blank">
+            <div class="action-button button">
+              <i class="icon source"></i>源码
+            </div>
+          </a>
+          <a class="action-link" href="raw/index.html" target="_blank">
+            <div class="action-button button">
+              <i class="icon open"></i>打开
+            </div>
+          </a>
+          <a class="action-link" href="javascript:edit();">
+            <div class="action-button button">
+              <i class="icon edit"></i>编辑
+            </div>
+          </a>
+          <a class="action-link" href="javascript:;" id="action-link-copy" data-clipboard-target="#source">
+            <div class="action-button button">
+              <i class="icon copy"></i>复制
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="content-area scroll-block">
+
+        <div class="map-viewer">
+          <iframe class="map-view" sandbox="allow-modals allow-popups allow-scripts allow-forms allow-same-origin" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="raw/index.html"></iframe>
+        </div>
+
+        <div class="readme md">
+        </div>
+
+        <div class="code-viewer">
+          <div class="code-snippet html">
+            <div class="code-title">index.html</div>
+            <pre id="source" class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+  &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;
+  &lt;title&gt;瓦片图层与地理投影 - 增大空间参考的maxZoom&lt;/title&gt;
+  &lt;style type&#x3D;&quot;text/css&quot;&gt;
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+  &lt;/style&gt;
+  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css&quot;&gt;
+  &lt;script type&#x3D;&quot;text/javascript&quot; src&#x3D;&quot;https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js&quot;&gt;&lt;/script&gt;
+  &lt;body&gt;
+    &lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+      var center &#x3D; [105.08052356963802, 36.04231948670001];
+
+      // set maxNativeZoom to 24
+      var MAX_ZOOM &#x3D; 25;
+      var spatialReference &#x3D; {
+        &#x27;projection&#x27;: &#x27;EPSG:3857&#x27;,
+        &#x27;resolutions&#x27;: (function () {
+            const resolutions &#x3D; [];
+            const d &#x3D; 2 * 6378137 * Math.PI;
+            for (let i &#x3D; 0; i &lt; MAX_ZOOM; i++) {
+                resolutions[i] &#x3D; d / (256 * Math.pow(2, i));
+            }
+            return resolutions;
+        })(),
+      };
+
+      var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
+        center: center,
+        spatialReference,
+        zoom: 4,
+        baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
+          urlTemplate: &#x27;https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&#x27;,
+          subdomains: [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;],
+          attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://osm.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href&#x3D;&quot;https://carto.com/&quot;&gt;CARTO&lt;/a&gt;&#x27;
+        })
+      });
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div style="display:none;">
+    <textarea id="html-data" name="html">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+<div id="map" class="container"></div>
+</textarea>
+    <textarea id="js-data" name="js">
+var center = [105.08052356963802, 36.04231948670001];
+
+// set maxNativeZoom to 24
+var MAX_ZOOM = 25;
+var spatialReference = {
+  'projection': 'EPSG:3857',
+  'resolutions': (function() {
+    const resolutions = [];
+    const d = 2 * 6378137 * Math.PI;
+    for (let i = 0; i < MAX_ZOOM; i++) {
+      resolutions[i] = d / (256 * Math.pow(2, i));
+    }
+    return resolutions;
+  })(),
+};
+
+var map = new maptalks.Map('map', {
+  center: center,
+  spatialReference,
+  zoom: 4,
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    subdomains: ['a', 'b', 'c', 'd'],
+    attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a>  contributors, &copy; <a href="https://carto.com/">CARTO</a> '
+  })
+});</textarea>
+    <textarea id="css-data" name="css">
+html, body {
+  margin:0px;
+  height:100%;
+  width:100%
+}
+.container {
+  width:100%;
+  height:100%
+}</textarea>
+    <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
+      <input type="hidden" id="editor-data" name="data" value=""></input>
+    </form>
+  </div>
+
+  <div style="display:none;">
+    <span id="text-message-copied">已复制！</span>
+  </div>
+
+  <script>window.SEARCH_INDEX = {"version":"0.7.2","fields":[{"name":"pname","boost":1},{"name":"ptitle","boost":1},{"name":"sname","boost":1},{"name":"stitle","boost":1}],"ref":"id","tokenizer":"default","documentStore":{"store":{"0":["load","map","地图","显示"],"1":["map","pitch","rotat","与","倾斜","地图","旋转"],"2":["drag","map","pitch","rotat","与","倾斜","地图","拖动","旋转"],"3":["map","pan","地图","移动"],"4":["common","control","map","地图","常用","控件","添加"],"5":["map","statu","地图","状态","获取"],"6":["extent","fit","map","区域","地图","自动","适配"],"7":["extent","limit","map","区域","地图","限制"],"8":["limit","map","zoom","地图","级别","缩放","限制"],"9":["(",")","fraction","map","zoom","地图","细微","缩放"],"10":["canva","map","中","加载","在","地图","容器"],"11":["event","map","事件","地图","监听"],"12":["map","sync","同步","地图"],"13":["convers","coordin","map","地图","坐标","屏幕","转换"],"14":["export","imag","map","为","图片","地图","导出"],"15":["magnifi","map","地图","放大镜"],"16":["custom","lod","map","resolut","地图","自定义"],"17":["canva","project","render","tilelay","与","图层","地理","投影","方式","渲染","瓦片","的"],"18":["multi","project","tilelay","与","图层","地理","多个","投影","添加","瓦片"],"19":["grouptilelay","project","tilelay","与","图层","地理","投影","添加","瓦片","组"],"20":["project","tilelay","wm","与","图层","地理","投影","瓦片"],"21":["-","project","tile","tilelay","vector","与","图层","地理","投影","瓦片"],"22":["arcgi","project","tile","tilelay","与","图层","地理","投影","瓦片"],"23":["project","tile","tilelay","wmt","与","图层","地理","投影","瓦片"],"24":["custom","lod","project","tile","tilelay","与","和","图层","地理","投影","瓦片","自定义"],"25":["base64","project","tilelay","与","图层","地理","投影","瓦片","用","编码","载入"],"26":["opac","project","tile","tilelay","与","图层","地理","投影","瓦片","设置","透明度"],"27":["mask","project","tile","tilelay","与","内","只","图层","地理","投影","指定","显示","瓦片","的","范围"],"28":["4326","epsg4326","project","tilelay","与","图层","地理","底图","投影","瓦片"],"29":["ident","project","tilelay","与","图层","地理","底图","投影","瓦片"],"30":["baidu","project","tilelay","与","图层","地理","底图","投影","瓦片","百度"],"31":["proj4j","project","tilelay","与","图层","地理","底图","投影","瓦片","自定义"],"32":["d3","proj","project","tilelay","与","图层","地理","投影","瓦片"],"33":["differ","project","tilelay","不同","与","图层","地理","投影","瓦片","的","载入"],"34":["filter","project","tilelay","与","图层","地理","底图","投影","滤镜","瓦片","风格"],"35":["max","maxzoom","project","tilelay","zoom","与","参考","图层","地理","增大","投影","瓦片","的","空间"],"36":["geometri","marker","图形"],"37":["geometri","linestr","图形"],"38":["geometri","polygon","图形"],"39":["collect","geometri","geometrycollect","图形"],"40":["geometri","multipoint","图形"],"41":["geometri","multilinestr","图形"],"42":["geometri","multipolygon","图形"],"43":[",","circl","ellips","geometri","rectangl","sector","和","图形","圆形","扇形","椭圆","矩形"],"44":["curv","geometri","和","图形","圆弧","曲线","贝塞尔"],"45":["(",")","geometri","label","图形","文字","标签"],"46":["(",")","geometri","textbox","图形","文本框"],"47":["connector","geometri","line","图形","连接线"],"48":["copi","geometri","克隆","图形"],"49":["event","geometri","事件","图形","监听"],"50":["flash","geometri","图形","闪烁"],"51":["collect","filter","geometri","geometrycollect","图形","条件","查询","的"],"52":["3d","altitud","marker","三维","有","的","高度"],"53":["3d","altitud","draw","marker","三维","的","线","绘制","高度"],"54":["3d","altitud","line","三维","有","的","线","高度"],"55":["3d","altitud","draw","line","三维","的","绘制","面","高度"],"56":["3d","altitud","polygon","三维","多边形","有","的","高度"],"57":["imag","marker","style","图形","图片","标注","样式"],"58":["imag","marker","multi","style","图形","图片","多","标注","样式"],"59":["marker","style","vector","图形","标注","样式","矢量"],"60":["pattern","style","vector","图形","填充","标注","样式","模式","矢量"],"61":["gradient","style","vector","图形","填充","标注","样式","渐变","矢量"],"62":["marker","path","style","svg","图形","标注","样式","矢量"],"63":["align","marker","style","和","图形","垂直","对齐","标注","样式","水平"],"64":["marker","rotat","style","图形","旋转","标注","样式"],"65":["marker","style","text","图形","文字","标注","样式"],"66":["rotat","style","text","图形","文字","旋转","标注","样式"],"67":["imag","marker","style","text","图形","图片","带","文字","标注","样式","的"],"68":["line","style","symbol","图形","样式","线"],"69":["line","pattern","style","图形","填充","样式","模式","的","线"],"70":["anim","line","pattern","style","动画","图形","填充","样式","模式","的","线"],"71":["gradient","line","style","图形","填充","样式","渐变","的","线"],"72":["arrow","line","style","图形","带","样式","的","箭头","线"],"73":["line","style","text","图形","带","文字","样式","的","线"],"74":["line","marker","style","图形","旋转","样式","沿线","端点","自动"],"75":["line","smooth","style","图形","平滑","曲线","样式","的","线"],"76":["polygon","style","symbol","图形","样式","面"],"77":["pattern","polygon","style","图形","填充","样式","模式","的","面"],"78":["gradient","polygon","style","图形","填充","样式","渐变","的","面"],"79":["marker","polygon","style","vertex","图形","样式","的","端点","面"],"80":["composit","style","symbol","图形","样式","组合"],"81":["style","symbol","updat","图形","更新","样式","的","部分"],"82":["style","symbol","zoom","图形","样式","根据","设置"],"83":["prop","style","symbol","图形","属性数据","样式","根据","设置"],"84":["html","marker","style","图形","标注","样式","自定义"],"85":["d3","marker","style","图形","图表","样式"],"86":["echart","marker","style","图形","图表","样式"],"87":["highchart","marker","style","图形","图表","样式"],"88":["add","layer","remov","和","图层","添加","移除"],"89":["hide","layer","show","图层","显示","隐藏"],"90":["layer","opac","图层","设置","透明度"],"91":["back","bring","front","layer","图层","底","或置","置顶"],"92":["layer","sort","叠加","图层","改变","顺序"],"93":["layer","mask","图层","用","设置","遮罩","鼠标"],"94":["globalcompositeoper","layer","图层"],"95":[":","add","batch","layer","vectorlay","图层","图形","批量","添加"],"96":[":","id","layer","vectorlay","图层","图形","根据","获取"],"97":[":","filter","layer","vectorlay","图层","图形","属性","条件","根据","筛选"],"98":[":","layer","style","vectorlay","图层","图形","批量","样式","设置"],"99":["-",":","index","layer","sort","vectorlay","z","图层","图形","的","设置"],"100":[":","canvaslay","layer","图层","画板","示例"],"101":[":","layer","particlelay","图层","示例","粒子"],"102":[":","canvastilelay","layer","图层","瓦片","画板","示例"],"103":["layer","swipe","卷帘","图层","效果"],"104":[":","imagelay","layer","图层","图片","示例"],"105":["interact","map","交互","所有","禁用"],"106":["interact","map","交互","地图功能","开关"],"107":["distanc","interact","tool","交互","工具","测距"],"108":["area","interact","tool","交互","工具","测面"],"109":["draw","interact","tool","交互","工具","绘制"],"110":["drag","geometri","interact","交互","图形","拖拽"],"111":["edit","interact","marker","交互","标注","编辑"],"112":["edit","interact","line","交互","线","编辑"],"113":["edit","interact","polygon","交互","多边形","编辑"],"114":["/","circl","edit","ellips","interact","rectangl","交互","圆形","椭圆","矩形","编辑"],"115":["edit","interact","textbox","交互","文本框","编辑"],"116":["edit","interact","label","交互","内容","文本","编辑"],"117":["identifi","interact","mous","交互","图形","点选","鼠标"],"118":["highlight","interact","mous","交互","图形","高亮","鼠标悬停"],"119":["contain","interact","mous","与","交互","关系","图形","的","空间","鼠标"],"120":["anim","flyto","map","位置","到","动画","地图","指定","飞行"],"121":["anim","marker","动画","变形","的"],"122":["along","anim","move","动画","沿线","点","的"],"123":[".","anim","geometri","动画","方法"],"124":["anim","animateshow","line","动画","展现","的","线"],"125":["anim","animateshow","polygon","动画","展现","的","面"],"126":["anim","custom","动画","自定义"],"127":["control","map","menu","ui","与","右键","地图","空间","组件","菜单"],"128":["control","geo","menu","ui","与","右键","图形","空间","组件","菜单"],"129":["control","custom","menu","ui","与","右键","空间","组件","自定义","菜单"],"130":["control","infownd","map","ui","与","地图信息","框","空间","组件"],"131":["control","geo","infownd","ui","与","信息","图形","框","空间","组件"],"132":["control","custom","infownd","ui","与","信息","框","空间","组件","自定义"],"133":["control","toolbar","ui","与","控件","空间","组件"],"134":["control","panel","ui","与","控件","空间","组件"],"135":["control","overview","ui","与","控件","空间","组件","鹰眼"],"136":["control","ui","zoom","与","控件","空间","组件"],"137":["control","scale","ui","与","控件","空间","组件"],"138":["attribut","control","ui","与","控件","空间","组件"],"139":["control","hide","show","ui","与","控件","显示","空间","组件","隐藏"],"140":["control","layer","switcher","ui","与","图层","控件","空间","组件","选择"],"141":["geojson","geometri","json","为","序列化","转化"],"142":["geojson","geometri","json","为","序列化","转化"],"143":["json","map","为","地图","序列化","转化"],"144":["json","map","地图","序列化","用","载入"],"145":["copi","json","map","地图","复制","序列化","用"],"146":["json","layer","复制","序列化","用"],"147":["geometri","json","复制","序列化","用"],"148":["gl","mapbox","mapboxgl","plugin","图层","常用","插件"],"149":[":","heatlay","heatmaplay","plugin","力图","层","常用","插件","热","示例"],"150":[":","clusterlay","plugin","图层","常用","插件","点","示例","聚合"],"151":[".","js","plugin","three","图层","常用","插件"],"152":["echart","plugin","图层","常用","插件"],"153":["control","develop","plugin","创建","开发","控件","插件","新","的","示例"],"154":["develop","plugin","ui","创建","开发","插件","新","的","示例","组件"],"155":["develop","maptool","plugin","创建","地图","工具","开发","插件","示例"],"156":["hellolay","layer","图层","开发","示例"],"157":["drawoninteract","hellolay","交互","图层","开发","示例","绘制"],"158":["anim","hellolay","动画图","图层","层","开发","示例"]},"length":159},"tokenStore":{"root":{"3":{"docs":{},"d":{"docs":{"52":{"ref":52,"tf":1},"53":{"ref":53,"tf":1},"54":{"ref":54,"tf":1},"55":{"ref":55,"tf":1},"56":{"ref":56,"tf":1}}}},"4":{"3":{"2":{"6":{"docs":{"28":{"ref":28,"tf":0.3333333333333333}}},"docs":{}},"docs":{}},"docs":{}},"docs":{},"l":{"docs":{},"o":{"docs":{},"a":{"docs":{},"d":{"docs":{"0":{"ref":0,"tf":1}}}},"d":{"docs":{"16":{"ref":16,"tf":0.3333333333333333},"24":{"ref":24,"tf":0.2}}}},"i":{"docs":{},"m":{"docs":{},"i":{"docs":{},"t":{"docs":{"7":{"ref":7,"tf":0.5},"8":{"ref":8,"tf":0.5}}}}},"n":{"docs":{},"e":{"docs":{"47":{"ref":47,"tf":0.5},"54":{"ref":54,"tf":0.5},"55":{"ref":55,"tf":0.5333333333333333},"68":{"ref":68,"tf":0.5},"69":{"ref":69,"tf":0.5},"70":{"ref":70,"tf":0.3333333333333333},"71":{"ref":71,"tf":0.5},"72":{"ref":72,"tf":0.5},"73":{"ref":73,"tf":0.5},"74":{"ref":74,"tf":0.5},"75":{"ref":75,"tf":0.5},"112":{"ref":112,"tf":0.5},"124":{"ref":124,"tf":0.5}},"s":{"docs":{},"t":{"docs":{},"r":{"docs":{"37":{"ref":37,"tf":2}}}}}}}},"a":{"docs":{},"b":{"docs":{},"e":{"docs":{},"l":{"docs":{"45":{"ref":45,"tf":1.2},"116":{"ref":116,"tf":0.5}}}}},"y":{"docs":{},"e":{"docs":{},"r":{"docs":{"88":{"ref":88,"tf":1},"89":{"ref":89,"tf":1},"90":{"ref":90,"tf":1},"91":{"ref":91,"tf":1},"92":{"ref":92,"tf":1},"93":{"ref":93,"tf":1},"94":{"ref":94,"tf":1},"95":{"ref":95,"tf":1},"96":{"ref":96,"tf":1},"97":{"ref":97,"tf":1},"98":{"ref":98,"tf":1},"99":{"ref":99,"tf":1},"100":{"ref":100,"tf":1},"101":{"ref":101,"tf":1},"102":{"ref":102,"tf":1},"103":{"ref":103,"tf":1},"104":{"ref":104,"tf":1},"140":{"ref":140,"tf":0.3333333333333333},"146":{"ref":146,"tf":0.75},"156":{"ref":156,"tf":1}}}}}}},"m":{"docs":{},"a":{"docs":{},"p":{"docs":{"0":{"ref":0,"tf":1},"1":{"ref":1,"tf":1},"2":{"ref":2,"tf":1},"3":{"ref":3,"tf":1},"4":{"ref":4,"tf":1},"5":{"ref":5,"tf":1},"6":{"ref":6,"tf":1},"7":{"ref":7,"tf":1},"8":{"ref":8,"tf":1},"9":{"ref":9,"tf":1},"10":{"ref":10,"tf":1},"11":{"ref":11,"tf":1.5},"12":{"ref":12,"tf":1.5},"13":{"ref":13,"tf":1},"14":{"ref":14,"tf":1},"15":{"ref":15,"tf":1.5},"16":{"ref":16,"tf":1},"105":{"ref":105,"tf":1},"106":{"ref":106,"tf":1},"120":{"ref":120,"tf":0.5},"127":{"ref":127,"tf":0.3333333333333333},"130":{"ref":130,"tf":0.3333333333333333},"143":{"ref":143,"tf":0.5},"144":{"ref":144,"tf":0.5},"145":{"ref":145,"tf":0.5}},"b":{"docs":{},"o":{"docs":{},"x":{"docs":{"148":{"ref":148,"tf":0.3333333333333333}},"g":{"docs":{},"l":{"docs":{"148":{"ref":148,"tf":1}}}}}}},"t":{"docs":{},"o":{"docs":{},"o":{"docs":{},"l":{"docs":{"155":{"ref":155,"tf":1}}}}}}},"g":{"docs":{},"n":{"docs":{},"i":{"docs":{},"f":{"docs":{},"i":{"docs":{"15":{"ref":15,"tf":0.5}}}}}}},"s":{"docs":{},"k":{"docs":{"27":{"ref":27,"tf":0.5},"93":{"ref":93,"tf":1}}}},"x":{"docs":{"35":{"ref":35,"tf":0.5}},"z":{"docs":{},"o":{"docs":{},"o":{"docs":{},"m":{"docs":{"35":{"ref":35,"tf":0.2}}}}}}},"r":{"docs":{},"k":{"docs":{},"e":{"docs":{},"r":{"docs":{"36":{"ref":36,"tf":2},"52":{"ref":52,"tf":0.75},"53":{"ref":53,"tf":0.5333333333333333},"57":{"ref":57,"tf":0.5},"58":{"ref":58,"tf":0.3333333333333333},"59":{"ref":59,"tf":0.5},"62":{"ref":62,"tf":0.3333333333333333},"63":{"ref":63,"tf":0.5},"64":{"ref":64,"tf":0.5},"65":{"ref":65,"tf":0.5},"67":{"ref":67,"tf":0.3333333333333333},"74":{"ref":74,"tf":0.7},"79":{"ref":79,"tf":0.3333333333333333},"84":{"ref":84,"tf":0.5},"85":{"ref":85,"tf":0.5},"86":{"ref":86,"tf":0.5},"87":{"ref":87,"tf":0.5},"111":{"ref":111,"tf":0.5},"121":{"ref":121,"tf":0.75}}}}}}},"u":{"docs":{},"l":{"docs":{},"t":{"docs":{},"i":{"docs":{"18":{"ref":18,"tf":0.5},"58":{"ref":58,"tf":0.3333333333333333}},"p":{"docs":{},"o":{"docs":{},"i":{"docs":{},"n":{"docs":{},"t":{"docs":{"40":{"ref":40,"tf":2}}}}},"l":{"docs":{},"y":{"docs":{},"g":{"docs":{},"o":{"docs":{},"n":{"docs":{"42":{"ref":42,"tf":2}}}}}}}}},"l":{"docs":{},"i":{"docs":{},"n":{"docs":{},"e":{"docs":{},"s":{"docs":{},"t":{"docs":{},"r":{"docs":{"41":{"ref":41,"tf":2}}}}}}}}}}}}},"o":{"docs":{},"u":{"docs":{},"s":{"docs":{"117":{"ref":117,"tf":0.5},"118":{"ref":118,"tf":0.5},"119":{"ref":119,"tf":0.5}}}},"v":{"docs":{},"e":{"docs":{"122":{"ref":122,"tf":0.5}}}}},"e":{"docs":{},"n":{"docs":{},"u":{"docs":{"127":{"ref":127,"tf":0.3333333333333333},"128":{"ref":128,"tf":0.3333333333333333},"129":{"ref":129,"tf":0.3333333333333333}}}}}},"地":{"docs":{},"图":{"docs":{"0":{"ref":0,"tf":1},"1":{"ref":1,"tf":1},"2":{"ref":2,"tf":1},"3":{"ref":3,"tf":1.5},"4":{"ref":4,"tf":1},"5":{"ref":5,"tf":1.3333333333333333},"6":{"ref":6,"tf":1},"7":{"ref":7,"tf":1.3333333333333333},"8":{"ref":8,"tf":1},"9":{"ref":9,"tf":1},"10":{"ref":10,"tf":1},"11":{"ref":11,"tf":1.3333333333333333},"12":{"ref":12,"tf":1.5},"13":{"ref":13,"tf":1},"14":{"ref":14,"tf":1},"15":{"ref":15,"tf":1.5},"16":{"ref":16,"tf":1.3333333333333333},"120":{"ref":120,"tf":0.2},"127":{"ref":127,"tf":0.3333333333333333},"143":{"ref":143,"tf":0.25},"144":{"ref":144,"tf":0.25},"145":{"ref":145,"tf":0.25},"155":{"ref":155,"tf":0.3333333333333333}},"功":{"docs":{},"能":{"docs":{"106":{"ref":106,"tf":0.5}}}},"信":{"docs":{},"息":{"docs":{"130":{"ref":130,"tf":0.5}}}}},"理":{"docs":{"17":{"ref":17,"tf":0.2},"18":{"ref":18,"tf":0.2},"19":{"ref":19,"tf":0.2},"20":{"ref":20,"tf":0.2},"21":{"ref":21,"tf":0.2},"22":{"ref":22,"tf":0.2},"23":{"ref":23,"tf":0.2},"24":{"ref":24,"tf":0.2},"25":{"ref":25,"tf":0.2},"26":{"ref":26,"tf":0.2},"27":{"ref":27,"tf":0.2},"28":{"ref":28,"tf":0.2},"29":{"ref":29,"tf":0.2},"30":{"ref":30,"tf":0.2},"31":{"ref":31,"tf":0.2},"32":{"ref":32,"tf":0.2},"33":{"ref":33,"tf":0.2},"34":{"ref":34,"tf":0.2},"35":{"ref":35,"tf":0.2}}}},"显":{"docs":{},"示":{"docs":{"0":{"ref":0,"tf":1},"27":{"ref":27,"tf":0.14285714285714285},"89":{"ref":89,"tf":0.3333333333333333},"139":{"ref":139,"tf":0.25}}}},"p":{"docs":{},"i":{"docs":{},"t":{"docs":{},"c":{"docs":{},"h":{"docs":{"1":{"ref":1,"tf":0.5},"2":{"ref":2,"tf":0.3333333333333333}}}}}},"a":{"docs":{},"n":{"docs":{"3":{"ref":3,"tf":1}},"e":{"docs":{},"l":{"docs":{"134":{"ref":134,"tf":1}}}}},"t":{"docs":{},"t":{"docs":{},"e":{"docs":{},"r":{"docs":{},"n":{"docs":{"60":{"ref":60,"tf":0.5},"69":{"ref":69,"tf":0.5},"70":{"ref":70,"tf":0.3333333333333333},"77":{"ref":77,"tf":0.5}}}}}},"h":{"docs":{"62":{"ref":62,"tf":0.3333333333333333}}}},"r":{"docs":{},"t":{"docs":{},"i":{"docs":{},"c":{"docs":{},"l":{"docs":{},"e":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"101":{"ref":101,"tf":1.2}}}}}}}}}}}},"r":{"docs":{},"o":{"docs":{},"j":{"4":{"docs":{},"j":{"docs":{"31":{"ref":31,"tf":1.25}}}},"docs":{"32":{"ref":32,"tf":0.5}},"e":{"docs":{},"c":{"docs":{},"t":{"docs":{"17":{"ref":17,"tf":0.5},"18":{"ref":18,"tf":0.5},"19":{"ref":19,"tf":0.5},"20":{"ref":20,"tf":0.5},"21":{"ref":21,"tf":0.5},"22":{"ref":22,"tf":0.5},"23":{"ref":23,"tf":0.5},"24":{"ref":24,"tf":0.5},"25":{"ref":25,"tf":0.5},"26":{"ref":26,"tf":0.5},"27":{"ref":27,"tf":0.5},"28":{"ref":28,"tf":0.5},"29":{"ref":29,"tf":0.5},"30":{"ref":30,"tf":0.5},"31":{"ref":31,"tf":0.5},"32":{"ref":32,"tf":0.5},"33":{"ref":33,"tf":1},"34":{"ref":34,"tf":0.5},"35":{"ref":35,"tf":0.5}}}}}},"p":{"docs":{"83":{"ref":83,"tf":0.5}}}}},"o":{"docs":{},"l":{"docs":{},"y":{"docs":{},"g":{"docs":{},"o":{"docs":{},"n":{"docs":{"38":{"ref":38,"tf":2},"56":{"ref":56,"tf":0.5},"76":{"ref":76,"tf":0.5},"77":{"ref":77,"tf":0.5},"78":{"ref":78,"tf":0.5},"79":{"ref":79,"tf":0.3333333333333333},"113":{"ref":113,"tf":0.5},"125":{"ref":125,"tf":0.5}}}}}}}},"l":{"docs":{},"u":{"docs":{},"g":{"docs":{},"i":{"docs":{},"n":{"docs":{"148":{"ref":148,"tf":1},"149":{"ref":149,"tf":1},"150":{"ref":150,"tf":1},"151":{"ref":151,"tf":1},"152":{"ref":152,"tf":1},"153":{"ref":153,"tf":0.5},"154":{"ref":154,"tf":0.5},"155":{"ref":155,"tf":0.5}}}}}}}},"r":{"docs":{},"o":{"docs":{},"t":{"docs":{},"a":{"docs":{},"t":{"docs":{"1":{"ref":1,"tf":0.5},"2":{"ref":2,"tf":0.3333333333333333},"64":{"ref":64,"tf":0.5},"66":{"ref":66,"tf":0.5}}}}}},"e":{"docs":{},"s":{"docs":{},"o":{"docs":{},"l":{"docs":{},"u":{"docs":{},"t":{"docs":{"16":{"ref":16,"tf":0.5}}}}}}},"n":{"docs":{},"d":{"docs":{},"e":{"docs":{},"r":{"docs":{"17":{"ref":17,"tf":0.5}}}}}},"c":{"docs":{},"t":{"docs":{},"a":{"docs":{},"n":{"docs":{},"g":{"docs":{},"l":{"docs":{"43":{"ref":43,"tf":0.25},"114":{"ref":114,"tf":0.25}}}}}}}},"m":{"docs":{},"o":{"docs":{},"v":{"docs":{"88":{"ref":88,"tf":0.5}}}}}}},"与":{"docs":{"1":{"ref":1,"tf":0.3333333333333333},"2":{"ref":2,"tf":0.25},"17":{"ref":17,"tf":0.2},"18":{"ref":18,"tf":0.2},"19":{"ref":19,"tf":0.2},"20":{"ref":20,"tf":0.2},"21":{"ref":21,"tf":0.2},"22":{"ref":22,"tf":0.2},"23":{"ref":23,"tf":0.2},"24":{"ref":24,"tf":0.2},"25":{"ref":25,"tf":0.2},"26":{"ref":26,"tf":0.2},"27":{"ref":27,"tf":0.2},"28":{"ref":28,"tf":0.2},"29":{"ref":29,"tf":0.2},"30":{"ref":30,"tf":0.2},"31":{"ref":31,"tf":0.2},"32":{"ref":32,"tf":0.2},"33":{"ref":33,"tf":0.2},"34":{"ref":34,"tf":0.2},"35":{"ref":35,"tf":0.2},"119":{"ref":119,"tf":0.16666666666666666},"127":{"ref":127,"tf":0.25},"128":{"ref":128,"tf":0.25},"129":{"ref":129,"tf":0.25},"130":{"ref":130,"tf":0.25},"131":{"ref":131,"tf":0.25},"132":{"ref":132,"tf":0.25},"133":{"ref":133,"tf":0.25},"134":{"ref":134,"tf":0.25},"135":{"ref":135,"tf":0.25},"136":{"ref":136,"tf":0.25},"137":{"ref":137,"tf":0.25},"138":{"ref":138,"tf":0.25},"139":{"ref":139,"tf":0.5},"140":{"ref":140,"tf":0.25}}},"倾":{"docs":{},"斜":{"docs":{"1":{"ref":1,"tf":0.3333333333333333},"2":{"ref":2,"tf":0.25}}}},"旋":{"docs":{},"转":{"docs":{"1":{"ref":1,"tf":0.3333333333333333},"2":{"ref":2,"tf":0.25},"64":{"ref":64,"tf":0.5},"66":{"ref":66,"tf":0.3333333333333333},"74":{"ref":74,"tf":0.2}}}},"d":{"3":{"docs":{"32":{"ref":32,"tf":1},"85":{"ref":85,"tf":0.8333333333333333}}},"docs":{},"r":{"docs":{},"a":{"docs":{},"g":{"docs":{"2":{"ref":2,"tf":0.3333333333333333},"110":{"ref":110,"tf":0.5}}},"w":{"docs":{"53":{"ref":53,"tf":0.3333333333333333},"55":{"ref":55,"tf":0.3333333333333333},"109":{"ref":109,"tf":0.5}},"o":{"docs":{},"n":{"docs":{},"i":{"docs":{},"n":{"docs":{},"t":{"docs":{},"e":{"docs":{},"r":{"docs":{},"a":{"docs":{},"c":{"docs":{},"t":{"docs":{"157":{"ref":157,"tf":1}}}}}}}}}}}}}}},"i":{"docs":{},"f":{"docs":{},"f":{"docs":{},"e":{"docs":{},"r":{"docs":{"33":{"ref":33,"tf":0.5}}}}}},"s":{"docs":{},"t":{"docs":{},"a":{"docs":{},"n":{"docs":{},"c":{"docs":{"107":{"ref":107,"tf":0.5}}}}}}}},"e":{"docs":{},"v":{"docs":{},"e":{"docs":{},"l":{"docs":{},"o":{"docs":{},"p":{"docs":{"153":{"ref":153,"tf":0.5},"154":{"ref":154,"tf":0.5},"155":{"ref":155,"tf":0.5}}}}}}}}},"拖":{"docs":{},"动":{"docs":{"2":{"ref":2,"tf":0.25}}},"拽":{"docs":{"110":{"ref":110,"tf":0.5}}}},"移":{"docs":{},"动":{"docs":{"3":{"ref":3,"tf":0.5}}},"除":{"docs":{"88":{"ref":88,"tf":0.2}}}},"c":{"docs":{},"o":{"docs":{},"m":{"docs":{},"m":{"docs":{},"o":{"docs":{},"n":{"docs":{"4":{"ref":4,"tf":0.5}}}}},"p":{"docs":{},"o":{"docs":{},"s":{"docs":{},"i":{"docs":{},"t":{"docs":{"80":{"ref":80,"tf":0.5}}}}}}}},"n":{"docs":{},"t":{"docs":{},"r":{"docs":{},"o":{"docs":{},"l":{"docs":{"4":{"ref":4,"tf":0.5},"127":{"ref":127,"tf":0.5},"128":{"ref":128,"tf":0.5},"129":{"ref":129,"tf":0.5},"130":{"ref":130,"tf":0.5},"131":{"ref":131,"tf":0.5},"132":{"ref":132,"tf":0.5},"133":{"ref":133,"tf":1},"134":{"ref":134,"tf":1},"135":{"ref":135,"tf":1},"136":{"ref":136,"tf":1},"137":{"ref":137,"tf":1},"138":{"ref":138,"tf":1},"139":{"ref":139,"tf":0.8333333333333333},"140":{"ref":140,"tf":0.8333333333333333},"153":{"ref":153,"tf":1}}}}},"a":{"docs":{},"i":{"docs":{},"n":{"docs":{"119":{"ref":119,"tf":0.5}}}}}},"v":{"docs":{},"e":{"docs":{},"r":{"docs":{},"s":{"docs":{"13":{"ref":13,"tf":0.5}}}}}},"n":{"docs":{},"e":{"docs":{},"c":{"docs":{},"t":{"docs":{},"o":{"docs":{},"r":{"docs":{"47":{"ref":47,"tf":0.5}}}}}}}}},"o":{"docs":{},"r":{"docs":{},"d":{"docs":{},"i":{"docs":{},"n":{"docs":{"13":{"ref":13,"tf":0.5}}}}}}},"l":{"docs":{},"l":{"docs":{},"e":{"docs":{},"c":{"docs":{},"t":{"docs":{"39":{"ref":39,"tf":1},"51":{"ref":51,"tf":0.5}}}}}}},"p":{"docs":{},"i":{"docs":{"48":{"ref":48,"tf":1},"145":{"ref":145,"tf":0.5}}}}},"a":{"docs":{},"n":{"docs":{},"v":{"docs":{},"a":{"docs":{"10":{"ref":10,"tf":1.2},"17":{"ref":17,"tf":0.6666666666666666}},"s":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"100":{"ref":100,"tf":1.2}}}}},"t":{"docs":{},"i":{"docs":{},"l":{"docs":{},"e":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"102":{"ref":102,"tf":1.1666666666666667}}}}}}}}}}}}}},"u":{"docs":{},"s":{"docs":{},"t":{"docs":{},"o":{"docs":{},"m":{"docs":{"16":{"ref":16,"tf":0.5},"24":{"ref":24,"tf":0.5},"126":{"ref":126,"tf":0.5},"129":{"ref":129,"tf":0.3333333333333333},"132":{"ref":132,"tf":0.3333333333333333}}}}}},"r":{"docs":{},"v":{"docs":{"44":{"ref":44,"tf":1}}}}},"i":{"docs":{},"r":{"docs":{},"c":{"docs":{},"l":{"docs":{"43":{"ref":43,"tf":0.25},"114":{"ref":114,"tf":0.25}}}}}},"l":{"docs":{},"u":{"docs":{},"s":{"docs":{},"t":{"docs":{},"e":{"docs":{},"r":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"150":{"ref":150,"tf":1.1666666666666667}}}}}}}}}}}},"常":{"docs":{},"用":{"docs":{"4":{"ref":4,"tf":0.3333333333333333},"148":{"ref":148,"tf":0.5},"149":{"ref":149,"tf":0.5},"150":{"ref":150,"tf":0.5},"151":{"ref":151,"tf":0.5},"152":{"ref":152,"tf":0.5}}}},"控":{"docs":{},"件":{"docs":{"4":{"ref":4,"tf":0.3333333333333333},"133":{"ref":133,"tf":0.5},"134":{"ref":134,"tf":0.5},"135":{"ref":135,"tf":0.5},"136":{"ref":136,"tf":0.5},"137":{"ref":137,"tf":0.5},"138":{"ref":138,"tf":0.5},"139":{"ref":139,"tf":0.25},"140":{"ref":140,"tf":0.3333333333333333},"153":{"ref":153,"tf":0.25}}}},"添":{"docs":{},"加":{"docs":{"4":{"ref":4,"tf":0.3333333333333333},"18":{"ref":18,"tf":0.25},"19":{"ref":19,"tf":0.25},"88":{"ref":88,"tf":0.2},"95":{"ref":95,"tf":0.2}}}},"s":{"docs":{},"t":{"docs":{},"a":{"docs":{},"t":{"docs":{},"u":{"docs":{"5":{"ref":5,"tf":1}}}}},"y":{"docs":{},"l":{"docs":{},"e":{"docs":{"57":{"ref":57,"tf":1},"58":{"ref":58,"tf":1},"59":{"ref":59,"tf":1},"60":{"ref":60,"tf":1},"61":{"ref":61,"tf":1},"62":{"ref":62,"tf":1},"63":{"ref":63,"tf":1},"64":{"ref":64,"tf":1},"65":{"ref":65,"tf":1},"66":{"ref":66,"tf":1},"67":{"ref":67,"tf":1},"68":{"ref":68,"tf":1},"69":{"ref":69,"tf":1},"70":{"ref":70,"tf":1},"71":{"ref":71,"tf":1},"72":{"ref":72,"tf":1},"73":{"ref":73,"tf":1},"74":{"ref":74,"tf":1},"75":{"ref":75,"tf":1},"76":{"ref":76,"tf":1},"77":{"ref":77,"tf":1},"78":{"ref":78,"tf":1},"79":{"ref":79,"tf":1},"80":{"ref":80,"tf":1},"81":{"ref":81,"tf":1},"82":{"ref":82,"tf":1},"83":{"ref":83,"tf":1},"84":{"ref":84,"tf":1},"85":{"ref":85,"tf":1},"86":{"ref":86,"tf":1},"87":{"ref":87,"tf":1},"98":{"ref":98,"tf":0.5}}}}}},"y":{"docs":{},"n":{"docs":{},"c":{"docs":{"12":{"ref":12,"tf":0.5}}}},"m":{"docs":{},"b":{"docs":{},"o":{"docs":{},"l":{"docs":{"68":{"ref":68,"tf":0.5},"76":{"ref":76,"tf":0.5},"80":{"ref":80,"tf":0.5},"81":{"ref":81,"tf":0.5},"82":{"ref":82,"tf":0.5},"83":{"ref":83,"tf":0.5}}}}}}},"e":{"docs":{},"c":{"docs":{},"t":{"docs":{},"o":{"docs":{},"r":{"docs":{"43":{"ref":43,"tf":0.25}}}}}}},"v":{"docs":{},"g":{"docs":{"62":{"ref":62,"tf":0.6666666666666666}}}},"m":{"docs":{},"o":{"docs":{},"o":{"docs":{},"t":{"docs":{},"h":{"docs":{"75":{"ref":75,"tf":0.5}}}}}}},"h":{"docs":{},"o":{"docs":{},"w":{"docs":{"89":{"ref":89,"tf":0.5},"139":{"ref":139,"tf":0.3333333333333333}}}}},"o":{"docs":{},"r":{"docs":{},"t":{"docs":{"92":{"ref":92,"tf":1},"99":{"ref":99,"tf":0.5}}}}},"w":{"docs":{},"i":{"docs":{},"p":{"docs":{},"e":{"docs":{"103":{"ref":103,"tf":1}}}},"t":{"docs":{},"c":{"docs":{},"h":{"docs":{},"e":{"docs":{},"r":{"docs":{"140":{"ref":140,"tf":0.3333333333333333}}}}}}}}},"c":{"docs":{},"a":{"docs":{},"l":{"docs":{},"e":{"docs":{"137":{"ref":137,"tf":1}}}}}}},"状":{"docs":{},"态":{"docs":{"5":{"ref":5,"tf":0.3333333333333333}}}},"获":{"docs":{},"取":{"docs":{"5":{"ref":5,"tf":0.3333333333333333},"96":{"ref":96,"tf":0.16666666666666666}}}},"e":{"docs":{},"x":{"docs":{},"t":{"docs":{},"e":{"docs":{},"n":{"docs":{},"t":{"docs":{"6":{"ref":6,"tf":0.5},"7":{"ref":7,"tf":0.5}}}}}},"p":{"docs":{},"o":{"docs":{},"r":{"docs":{},"t":{"docs":{"14":{"ref":14,"tf":0.5}}}}}}},"v":{"docs":{},"e":{"docs":{},"n":{"docs":{},"t":{"docs":{"11":{"ref":11,"tf":0.5},"49":{"ref":49,"tf":1}}}}}},"p":{"docs":{},"s":{"docs":{},"g":{"4":{"3":{"2":{"6":{"docs":{"28":{"ref":28,"tf":1}}},"docs":{}},"docs":{}},"docs":{}},"docs":{}}}},"l":{"docs":{},"l":{"docs":{},"i":{"docs":{},"p":{"docs":{},"s":{"docs":{"43":{"ref":43,"tf":0.25},"114":{"ref":114,"tf":0.25}}}}}}},"c":{"docs":{},"h":{"docs":{},"a":{"docs":{},"r":{"docs":{},"t":{"docs":{"86":{"ref":86,"tf":0.8333333333333333},"152":{"ref":152,"tf":1.5}}}}}}},"d":{"docs":{},"i":{"docs":{},"t":{"docs":{"111":{"ref":111,"tf":0.5},"112":{"ref":112,"tf":0.5},"113":{"ref":113,"tf":0.5},"114":{"ref":114,"tf":0.25},"115":{"ref":115,"tf":0.5},"116":{"ref":116,"tf":0.5}}}}}},"f":{"docs":{},"i":{"docs":{},"t":{"docs":{"6":{"ref":6,"tf":0.5}}},"l":{"docs":{},"t":{"docs":{},"e":{"docs":{},"r":{"docs":{"34":{"ref":34,"tf":1},"51":{"ref":51,"tf":0.5},"97":{"ref":97,"tf":0.5}}}}}}},"r":{"docs":{},"a":{"docs":{},"c":{"docs":{},"t":{"docs":{},"i":{"docs":{},"o":{"docs":{},"n":{"docs":{"9":{"ref":9,"tf":0.6666666666666666}}}}}}}},"o":{"docs":{},"n":{"docs":{},"t":{"docs":{"91":{"ref":91,"tf":0.3333333333333333}}}}}},"l":{"docs":{},"a":{"docs":{},"s":{"docs":{},"h":{"docs":{"50":{"ref":50,"tf":0.5}}}}},"y":{"docs":{},"t":{"docs":{},"o":{"docs":{"120":{"ref":120,"tf":0.5}}}}}}},"区":{"docs":{},"域":{"docs":{"6":{"ref":6,"tf":0.3333333333333333},"7":{"ref":7,"tf":0.3333333333333333}}}},"自":{"docs":{},"动":{"docs":{"6":{"ref":6,"tf":0.3333333333333333},"74":{"ref":74,"tf":0.2}}},"定":{"docs":{},"义":{"docs":{"16":{"ref":16,"tf":0.3333333333333333},"24":{"ref":24,"tf":0.2},"31":{"ref":31,"tf":0.25},"84":{"ref":84,"tf":0.3333333333333333},"126":{"ref":126,"tf":0.5},"129":{"ref":129,"tf":0.3333333333333333},"132":{"ref":132,"tf":0.3333333333333333}}}}},"适":{"docs":{},"配":{"docs":{"6":{"ref":6,"tf":0.3333333333333333}}}},"限":{"docs":{},"制":{"docs":{"7":{"ref":7,"tf":0.3333333333333333},"8":{"ref":8,"tf":0.3333333333333333}}}},"z":{"docs":{"99":{"ref":99,"tf":0.125}},"o":{"docs":{},"o":{"docs":{},"m":{"docs":{"8":{"ref":8,"tf":0.5},"9":{"ref":9,"tf":0.6666666666666666},"35":{"ref":35,"tf":0.5},"82":{"ref":82,"tf":0.75},"136":{"ref":136,"tf":1}}}}}},"级":{"docs":{},"别":{"docs":{"8":{"ref":8,"tf":0.3333333333333333}}}},"缩":{"docs":{},"放":{"docs":{"8":{"ref":8,"tf":0.3333333333333333},"9":{"ref":9,"tf":0.16666666666666666}}}},"(":{"docs":{"9":{"ref":9,"tf":0.16666666666666666},"45":{"ref":45,"tf":0.2},"46":{"ref":46,"tf":0.25}}},")":{"docs":{"9":{"ref":9,"tf":0.16666666666666666},"45":{"ref":45,"tf":0.2},"46":{"ref":46,"tf":0.25}}},"细":{"docs":{},"微":{"docs":{"9":{"ref":9,"tf":0.16666666666666666}}}},"中":{"docs":{"10":{"ref":10,"tf":0.2}}},"加":{"docs":{},"载":{"docs":{"10":{"ref":10,"tf":0.2}}}},"在":{"docs":{"10":{"ref":10,"tf":0.2}}},"容":{"docs":{},"器":{"docs":{"10":{"ref":10,"tf":0.2}}}},"事":{"docs":{},"件":{"docs":{"11":{"ref":11,"tf":0.3333333333333333},"49":{"ref":49,"tf":0.3333333333333333}}}},"监":{"docs":{},"听":{"docs":{"11":{"ref":11,"tf":0.3333333333333333},"49":{"ref":49,"tf":0.3333333333333333}}}},"同":{"docs":{},"步":{"docs":{"12":{"ref":12,"tf":0.5}}}},"坐":{"docs":{},"标":{"docs":{"13":{"ref":13,"tf":0.3333333333333333}}}},"屏":{"docs":{},"幕":{"docs":{"13":{"ref":13,"tf":0.3333333333333333}}}},"转":{"docs":{},"换":{"docs":{"13":{"ref":13,"tf":0.3333333333333333}}},"化":{"docs":{"141":{"ref":141,"tf":0.25},"142":{"ref":142,"tf":0.25},"143":{"ref":143,"tf":0.25}}}},"i":{"docs":{},"m":{"docs":{},"a":{"docs":{},"g":{"docs":{"14":{"ref":14,"tf":0.5},"57":{"ref":57,"tf":0.5},"58":{"ref":58,"tf":0.3333333333333333},"67":{"ref":67,"tf":0.3333333333333333}},"e":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"104":{"ref":104,"tf":1.2}}}}}}}}},"d":{"docs":{"96":{"ref":96,"tf":0.6666666666666666}},"e":{"docs":{},"n":{"docs":{},"t":{"docs":{"29":{"ref":29,"tf":1.3333333333333333}},"i":{"docs":{},"f":{"docs":{},"i":{"docs":{"117":{"ref":117,"tf":0.5}}}}}}}}},"n":{"docs":{},"d":{"docs":{},"e":{"docs":{},"x":{"docs":{"99":{"ref":99,"tf":0.125}}}}},"t":{"docs":{},"e":{"docs":{},"r":{"docs":{},"a":{"docs":{},"c":{"docs":{},"t":{"docs":{"105":{"ref":105,"tf":1},"106":{"ref":106,"tf":1},"107":{"ref":107,"tf":1},"108":{"ref":108,"tf":1},"109":{"ref":109,"tf":1},"110":{"ref":110,"tf":1},"111":{"ref":111,"tf":1},"112":{"ref":112,"tf":1},"113":{"ref":113,"tf":1},"114":{"ref":114,"tf":1},"115":{"ref":115,"tf":1},"116":{"ref":116,"tf":1},"117":{"ref":117,"tf":1},"118":{"ref":118,"tf":1},"119":{"ref":119,"tf":1}}}}}}}},"f":{"docs":{},"o":{"docs":{},"w":{"docs":{},"n":{"docs":{},"d":{"docs":{"130":{"ref":130,"tf":0.3333333333333333},"131":{"ref":131,"tf":0.3333333333333333},"132":{"ref":132,"tf":0.3333333333333333}}}}}}}}},"为":{"docs":{"14":{"ref":14,"tf":0.3333333333333333},"141":{"ref":141,"tf":0.25},"142":{"ref":142,"tf":0.25},"143":{"ref":143,"tf":0.25}}},"图":{"docs":{},"片":{"docs":{"14":{"ref":14,"tf":0.3333333333333333},"57":{"ref":57,"tf":0.5},"58":{"ref":58,"tf":0.3333333333333333},"67":{"ref":67,"tf":0.2},"104":{"ref":104,"tf":0.2}}},"层":{"docs":{"17":{"ref":17,"tf":0.3666666666666667},"18":{"ref":18,"tf":0.45},"19":{"ref":19,"tf":0.45},"20":{"ref":20,"tf":0.5333333333333333},"21":{"ref":21,"tf":0.45},"22":{"ref":22,"tf":0.5333333333333333},"23":{"ref":23,"tf":0.5333333333333333},"24":{"ref":24,"tf":0.4},"25":{"ref":25,"tf":0.2},"26":{"ref":26,"tf":0.45},"27":{"ref":27,"tf":0.2},"28":{"ref":28,"tf":0.2},"29":{"ref":29,"tf":0.2},"30":{"ref":30,"tf":0.2},"31":{"ref":31,"tf":0.2},"32":{"ref":32,"tf":0.2},"33":{"ref":33,"tf":0.2},"34":{"ref":34,"tf":0.2},"35":{"ref":35,"tf":0.2},"88":{"ref":88,"tf":1.4},"89":{"ref":89,"tf":1.3333333333333333},"90":{"ref":90,"tf":1.3333333333333333},"91":{"ref":91,"tf":1.25},"92":{"ref":92,"tf":1.25},"93":{"ref":93,"tf":1.2},"94":{"ref":94,"tf":1},"95":{"ref":95,"tf":1},"96":{"ref":96,"tf":1},"97":{"ref":97,"tf":1},"98":{"ref":98,"tf":1},"99":{"ref":99,"tf":1},"100":{"ref":100,"tf":1.2},"101":{"ref":101,"tf":1.2},"102":{"ref":102,"tf":1.1666666666666667},"103":{"ref":103,"tf":1.3333333333333333},"104":{"ref":104,"tf":1.2},"140":{"ref":140,"tf":0.3333333333333333},"148":{"ref":148,"tf":0.3333333333333333},"150":{"ref":150,"tf":0.16666666666666666},"151":{"ref":151,"tf":0.25},"152":{"ref":152,"tf":0.5},"156":{"ref":156,"tf":0.3333333333333333},"157":{"ref":157,"tf":0.3333333333333333},"158":{"ref":158,"tf":0.3333333333333333}}},"形":{"docs":{"36":{"ref":36,"tf":1},"37":{"ref":37,"tf":1},"38":{"ref":38,"tf":1},"39":{"ref":39,"tf":1},"40":{"ref":40,"tf":1},"41":{"ref":41,"tf":1},"42":{"ref":42,"tf":1},"43":{"ref":43,"tf":1},"44":{"ref":44,"tf":1},"45":{"ref":45,"tf":1},"46":{"ref":46,"tf":1},"47":{"ref":47,"tf":1},"48":{"ref":48,"tf":1},"49":{"ref":49,"tf":1.3333333333333333},"50":{"ref":50,"tf":1},"51":{"ref":51,"tf":1},"57":{"ref":57,"tf":0.5},"58":{"ref":58,"tf":0.5},"59":{"ref":59,"tf":0.5},"60":{"ref":60,"tf":0.5},"61":{"ref":61,"tf":0.5},"62":{"ref":62,"tf":0.5},"63":{"ref":63,"tf":0.5},"64":{"ref":64,"tf":0.5},"65":{"ref":65,"tf":0.5},"66":{"ref":66,"tf":0.5},"67":{"ref":67,"tf":0.5},"68":{"ref":68,"tf":0.5},"69":{"ref":69,"tf":0.5},"70":{"ref":70,"tf":0.5},"71":{"ref":71,"tf":0.5},"72":{"ref":72,"tf":0.5},"73":{"ref":73,"tf":0.5},"74":{"ref":74,"tf":0.5},"75":{"ref":75,"tf":0.5},"76":{"ref":76,"tf":0.5},"77":{"ref":77,"tf":0.5},"78":{"ref":78,"tf":0.5},"79":{"ref":79,"tf":0.5},"80":{"ref":80,"tf":0.5},"81":{"ref":81,"tf":0.5},"82":{"ref":82,"tf":0.5},"83":{"ref":83,"tf":0.5},"84":{"ref":84,"tf":0.5},"85":{"ref":85,"tf":0.5},"86":{"ref":86,"tf":0.5},"87":{"ref":87,"tf":0.5},"95":{"ref":95,"tf":0.2},"96":{"ref":96,"tf":0.16666666666666666},"97":{"ref":97,"tf":0.14285714285714285},"98":{"ref":98,"tf":0.16666666666666666},"99":{"ref":99,"tf":0.125},"110":{"ref":110,"tf":0.5},"117":{"ref":117,"tf":0.3333333333333333},"118":{"ref":118,"tf":0.3333333333333333},"119":{"ref":119,"tf":0.16666666666666666},"128":{"ref":128,"tf":0.3333333333333333},"131":{"ref":131,"tf":0.3333333333333333}}},"表":{"docs":{"85":{"ref":85,"tf":0.3333333333333333},"86":{"ref":86,"tf":0.3333333333333333},"87":{"ref":87,"tf":0.3333333333333333}}}},"导":{"docs":{},"出":{"docs":{"14":{"ref":14,"tf":0.3333333333333333}}}},"放":{"docs":{},"大":{"docs":{},"镜":{"docs":{"15":{"ref":15,"tf":0.5}}}}},"t":{"docs":{},"i":{"docs":{},"l":{"docs":{},"e":{"docs":{"21":{"ref":21,"tf":0.75},"22":{"ref":22,"tf":0.5},"23":{"ref":23,"tf":0.5},"24":{"ref":24,"tf":0.5},"26":{"ref":26,"tf":0.5},"27":{"ref":27,"tf":0.5}},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"17":{"ref":17,"tf":0.5},"18":{"ref":18,"tf":1},"19":{"ref":19,"tf":0.5},"20":{"ref":20,"tf":0.5},"21":{"ref":21,"tf":0.5},"22":{"ref":22,"tf":0.5},"23":{"ref":23,"tf":0.5},"24":{"ref":24,"tf":0.5},"25":{"ref":25,"tf":0.5},"26":{"ref":26,"tf":0.5},"27":{"ref":27,"tf":0.5},"28":{"ref":28,"tf":0.5},"29":{"ref":29,"tf":0.5},"30":{"ref":30,"tf":0.5},"31":{"ref":31,"tf":0.5},"32":{"ref":32,"tf":0.5},"33":{"ref":33,"tf":0.7},"34":{"ref":34,"tf":0.5},"35":{"ref":35,"tf":0.5}}}}}}}},"e":{"docs":{},"x":{"docs":{},"t":{"docs":{"65":{"ref":65,"tf":0.5},"66":{"ref":66,"tf":0.5},"67":{"ref":67,"tf":0.3333333333333333},"73":{"ref":73,"tf":0.5}},"b":{"docs":{},"o":{"docs":{},"x":{"docs":{"46":{"ref":46,"tf":1.25},"115":{"ref":115,"tf":0.5}}}}}}}},"o":{"docs":{},"o":{"docs":{},"l":{"docs":{"107":{"ref":107,"tf":0.5},"108":{"ref":108,"tf":0.5},"109":{"ref":109,"tf":0.5}},"b":{"docs":{},"a":{"docs":{},"r":{"docs":{"133":{"ref":133,"tf":1}}}}}}}},"h":{"docs":{},"r":{"docs":{},"e":{"docs":{},"e":{"docs":{"151":{"ref":151,"tf":1.25}}}}}}},"投":{"docs":{},"影":{"docs":{"17":{"ref":17,"tf":0.2},"18":{"ref":18,"tf":0.2},"19":{"ref":19,"tf":0.2},"20":{"ref":20,"tf":0.2},"21":{"ref":21,"tf":0.2},"22":{"ref":22,"tf":0.2},"23":{"ref":23,"tf":0.2},"24":{"ref":24,"tf":0.2},"25":{"ref":25,"tf":0.2},"26":{"ref":26,"tf":0.2},"27":{"ref":27,"tf":0.2},"28":{"ref":28,"tf":0.5333333333333333},"29":{"ref":29,"tf":0.5333333333333333},"30":{"ref":30,"tf":0.5333333333333333},"31":{"ref":31,"tf":0.45},"32":{"ref":32,"tf":0.7},"33":{"ref":33,"tf":0.4},"34":{"ref":34,"tf":0.2},"35":{"ref":35,"tf":0.2}}}},"方":{"docs":{},"式":{"docs":{"17":{"ref":17,"tf":0.16666666666666666}}},"法":{"docs":{"123":{"ref":123,"tf":0.25}}}},"渲":{"docs":{},"染":{"docs":{"17":{"ref":17,"tf":0.16666666666666666}}}},"瓦":{"docs":{},"片":{"docs":{"17":{"ref":17,"tf":0.3666666666666667},"18":{"ref":18,"tf":0.45},"19":{"ref":19,"tf":0.45},"20":{"ref":20,"tf":0.5333333333333333},"21":{"ref":21,"tf":0.2},"22":{"ref":22,"tf":0.5333333333333333},"23":{"ref":23,"tf":0.5333333333333333},"24":{"ref":24,"tf":0.4},"25":{"ref":25,"tf":0.4},"26":{"ref":26,"tf":0.45},"27":{"ref":27,"tf":0.34285714285714286},"28":{"ref":28,"tf":0.2},"29":{"ref":29,"tf":0.2},"30":{"ref":30,"tf":0.2},"31":{"ref":31,"tf":0.2},"32":{"ref":32,"tf":0.2},"33":{"ref":33,"tf":0.2},"34":{"ref":34,"tf":0.2},"35":{"ref":35,"tf":0.2},"102":{"ref":102,"tf":0.16666666666666666}}}},"的":{"docs":{"17":{"ref":17,"tf":0.16666666666666666},"27":{"ref":27,"tf":0.14285714285714285},"33":{"ref":33,"tf":0.2},"35":{"ref":35,"tf":0.2},"51":{"ref":51,"tf":0.25},"52":{"ref":52,"tf":0.25},"53":{"ref":53,"tf":0.2},"54":{"ref":54,"tf":0.25},"55":{"ref":55,"tf":0.2},"56":{"ref":56,"tf":0.25},"67":{"ref":67,"tf":0.2},"69":{"ref":69,"tf":0.25},"70":{"ref":70,"tf":0.2},"71":{"ref":71,"tf":0.25},"72":{"ref":72,"tf":0.25},"73":{"ref":73,"tf":0.25},"75":{"ref":75,"tf":0.25},"77":{"ref":77,"tf":0.25},"78":{"ref":78,"tf":0.25},"79":{"ref":79,"tf":0.25},"81":{"ref":81,"tf":0.25},"99":{"ref":99,"tf":0.125},"119":{"ref":119,"tf":0.16666666666666666},"121":{"ref":121,"tf":0.25},"122":{"ref":122,"tf":0.25},"124":{"ref":124,"tf":0.25},"125":{"ref":125,"tf":0.25},"153":{"ref":153,"tf":0.25},"154":{"ref":154,"tf":0.2}}},"多":{"docs":{"58":{"ref":58,"tf":0.3333333333333333}},"个":{"docs":{"18":{"ref":18,"tf":0.25}}},"边":{"docs":{},"形":{"docs":{"56":{"ref":56,"tf":0.25},"113":{"ref":113,"tf":0.5}}}}},"g":{"docs":{},"r":{"docs":{},"o":{"docs":{},"u":{"docs":{},"p":{"docs":{},"t":{"docs":{},"i":{"docs":{},"l":{"docs":{},"e":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"19":{"ref":19,"tf":1}}}}}}}}}}}},"a":{"docs":{},"d":{"docs":{},"i":{"docs":{},"e":{"docs":{},"n":{"docs":{},"t":{"docs":{"61":{"ref":61,"tf":0.5},"71":{"ref":71,"tf":0.5},"78":{"ref":78,"tf":0.5}}}}}}}}},"e":{"docs":{},"o":{"docs":{"128":{"ref":128,"tf":0.3333333333333333},"131":{"ref":131,"tf":0.3333333333333333}},"m":{"docs":{},"e":{"docs":{},"t":{"docs":{},"r":{"docs":{},"i":{"docs":{"36":{"ref":36,"tf":1},"37":{"ref":37,"tf":1},"38":{"ref":38,"tf":1},"39":{"ref":39,"tf":1},"40":{"ref":40,"tf":1},"41":{"ref":41,"tf":1},"42":{"ref":42,"tf":1},"43":{"ref":43,"tf":1},"44":{"ref":44,"tf":1},"45":{"ref":45,"tf":1},"46":{"ref":46,"tf":1},"47":{"ref":47,"tf":1},"48":{"ref":48,"tf":1},"49":{"ref":49,"tf":1},"50":{"ref":50,"tf":1.5},"51":{"ref":51,"tf":1},"110":{"ref":110,"tf":0.5},"123":{"ref":123,"tf":0.75},"141":{"ref":141,"tf":0.75},"142":{"ref":142,"tf":0.75},"147":{"ref":147,"tf":0.75}}},"y":{"docs":{},"c":{"docs":{},"o":{"docs":{},"l":{"docs":{},"l":{"docs":{},"e":{"docs":{},"c":{"docs":{},"t":{"docs":{"39":{"ref":39,"tf":1},"51":{"ref":51,"tf":0.25}}}}}}}}}}}}}},"j":{"docs":{},"s":{"docs":{},"o":{"docs":{},"n":{"docs":{"141":{"ref":141,"tf":0.75},"142":{"ref":142,"tf":0.75}}}}}}}},"l":{"docs":{"148":{"ref":148,"tf":0.3333333333333333}},"o":{"docs":{},"b":{"docs":{},"a":{"docs":{},"l":{"docs":{},"c":{"docs":{},"o":{"docs":{},"m":{"docs":{},"p":{"docs":{},"o":{"docs":{},"s":{"docs":{},"i":{"docs":{},"t":{"docs":{},"e":{"docs":{},"o":{"docs":{},"p":{"docs":{},"e":{"docs":{},"r":{"docs":{"94":{"ref":94,"tf":2}}}}}}}}}}}}}}}}}}}}},"组":{"docs":{"19":{"ref":19,"tf":0.25}},"合":{"docs":{"80":{"ref":80,"tf":0.5}}},"件":{"docs":{"127":{"ref":127,"tf":0.25},"128":{"ref":128,"tf":0.25},"129":{"ref":129,"tf":0.25},"130":{"ref":130,"tf":0.25},"131":{"ref":131,"tf":0.25},"132":{"ref":132,"tf":0.25},"133":{"ref":133,"tf":0.25},"134":{"ref":134,"tf":0.25},"135":{"ref":135,"tf":0.25},"136":{"ref":136,"tf":0.25},"137":{"ref":137,"tf":0.25},"138":{"ref":138,"tf":0.25},"139":{"ref":139,"tf":0.25},"140":{"ref":140,"tf":0.25},"154":{"ref":154,"tf":0.2}}}},"w":{"docs":{},"m":{"docs":{"20":{"ref":20,"tf":1.3333333333333333}},"t":{"docs":{"23":{"ref":23,"tf":0.8333333333333333}}}}},"-":{"docs":{"21":{"ref":21,"tf":0.25},"99":{"ref":99,"tf":0.125}}},"v":{"docs":{},"e":{"docs":{},"c":{"docs":{},"t":{"docs":{},"o":{"docs":{},"r":{"docs":{"21":{"ref":21,"tf":0.75},"59":{"ref":59,"tf":0.5},"60":{"ref":60,"tf":0.5},"61":{"ref":61,"tf":0.5}},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"95":{"ref":95,"tf":0.5333333333333333},"96":{"ref":96,"tf":0.6666666666666666},"97":{"ref":97,"tf":0.6428571428571428},"98":{"ref":98,"tf":0.6666666666666666},"99":{"ref":99,"tf":0.625}}}}}}}}},"r":{"docs":{},"t":{"docs":{},"e":{"docs":{},"x":{"docs":{"79":{"ref":79,"tf":0.3333333333333333}}}}}}}},"a":{"docs":{},"r":{"docs":{},"c":{"docs":{},"g":{"docs":{},"i":{"docs":{"22":{"ref":22,"tf":0.8333333333333333}}}}},"r":{"docs":{},"o":{"docs":{},"w":{"docs":{"72":{"ref":72,"tf":0.5}}}}},"e":{"docs":{},"a":{"docs":{"108":{"ref":108,"tf":0.5}}}}},"l":{"docs":{},"t":{"docs":{},"i":{"docs":{},"t":{"docs":{},"u":{"docs":{},"d":{"docs":{"52":{"ref":52,"tf":0.5},"53":{"ref":53,"tf":0.3333333333333333},"54":{"ref":54,"tf":0.5},"55":{"ref":55,"tf":0.3333333333333333},"56":{"ref":56,"tf":0.5}}}}}}},"i":{"docs":{},"g":{"docs":{},"n":{"docs":{"63":{"ref":63,"tf":0.5}}}}},"o":{"docs":{},"n":{"docs":{},"g":{"docs":{"122":{"ref":122,"tf":0.5}}}}}},"n":{"docs":{},"i":{"docs":{},"m":{"docs":{"70":{"ref":70,"tf":0.3333333333333333},"120":{"ref":120,"tf":1},"121":{"ref":121,"tf":1.5},"122":{"ref":122,"tf":1},"123":{"ref":123,"tf":1.75},"124":{"ref":124,"tf":1},"125":{"ref":125,"tf":1},"126":{"ref":126,"tf":1.5},"158":{"ref":158,"tf":1}},"a":{"docs":{},"t":{"docs":{},"e":{"docs":{},"s":{"docs":{},"h":{"docs":{},"o":{"docs":{},"w":{"docs":{"124":{"ref":124,"tf":0.5},"125":{"ref":125,"tf":0.5}}}}}}}}}}}},"d":{"docs":{},"d":{"docs":{"88":{"ref":88,"tf":0.5},"95":{"ref":95,"tf":0.3333333333333333}}}},"t":{"docs":{},"t":{"docs":{},"r":{"docs":{},"i":{"docs":{},"b":{"docs":{},"u":{"docs":{},"t":{"docs":{"138":{"ref":138,"tf":1}}}}}}}}}},"和":{"docs":{"24":{"ref":24,"tf":0.2},"43":{"ref":43,"tf":0.14285714285714285},"44":{"ref":44,"tf":0.25},"63":{"ref":63,"tf":0.2},"88":{"ref":88,"tf":0.2}}},"b":{"docs":{},"a":{"docs":{},"s":{"docs":{},"e":{"6":{"4":{"docs":{"25":{"ref":25,"tf":1.2}}},"docs":{}},"docs":{}}},"i":{"docs":{},"d":{"docs":{},"u":{"docs":{"30":{"ref":30,"tf":1}}}}},"c":{"docs":{},"k":{"docs":{"91":{"ref":91,"tf":0.3333333333333333}}}},"t":{"docs":{},"c":{"docs":{},"h":{"docs":{"95":{"ref":95,"tf":0.3333333333333333}}}}}},"r":{"docs":{},"i":{"docs":{},"n":{"docs":{},"g":{"docs":{"91":{"ref":91,"tf":0.3333333333333333}}}}}}},"用":{"docs":{"25":{"ref":25,"tf":0.2},"93":{"ref":93,"tf":0.2},"144":{"ref":144,"tf":0.25},"145":{"ref":145,"tf":0.25},"146":{"ref":146,"tf":0.25},"147":{"ref":147,"tf":0.25}}},"编":{"docs":{},"码":{"docs":{"25":{"ref":25,"tf":0.2}}},"辑":{"docs":{"111":{"ref":111,"tf":0.5},"112":{"ref":112,"tf":0.5},"113":{"ref":113,"tf":0.5},"114":{"ref":114,"tf":0.16666666666666666},"115":{"ref":115,"tf":0.5},"116":{"ref":116,"tf":0.3333333333333333}}}},"载":{"docs":{},"入":{"docs":{"25":{"ref":25,"tf":0.2},"33":{"ref":33,"tf":0.2},"144":{"ref":144,"tf":0.25}}}},"o":{"docs":{},"p":{"docs":{},"a":{"docs":{},"c":{"docs":{"26":{"ref":26,"tf":0.5},"90":{"ref":90,"tf":1}}}}},"v":{"docs":{},"e":{"docs":{},"r":{"docs":{},"v":{"docs":{},"i":{"docs":{},"e":{"docs":{},"w":{"docs":{"135":{"ref":135,"tf":0.5}}}}}}}}}},"设":{"docs":{},"置":{"docs":{"26":{"ref":26,"tf":0.25},"82":{"ref":82,"tf":0.25},"83":{"ref":83,"tf":0.25},"90":{"ref":90,"tf":0.3333333333333333},"93":{"ref":93,"tf":0.2},"98":{"ref":98,"tf":0.16666666666666666},"99":{"ref":99,"tf":0.125}}}},"透":{"docs":{},"明":{"docs":{},"度":{"docs":{"26":{"ref":26,"tf":0.25},"90":{"ref":90,"tf":0.3333333333333333}}}}},"内":{"docs":{"27":{"ref":27,"tf":0.14285714285714285}},"容":{"docs":{"116":{"ref":116,"tf":0.3333333333333333}}}},"只":{"docs":{"27":{"ref":27,"tf":0.14285714285714285}}},"指":{"docs":{},"定":{"docs":{"27":{"ref":27,"tf":0.14285714285714285},"120":{"ref":120,"tf":0.2}}}},"范":{"docs":{},"围":{"docs":{"27":{"ref":27,"tf":0.14285714285714285}}}},"底":{"docs":{"91":{"ref":91,"tf":0.25}},"图":{"docs":{"28":{"ref":28,"tf":0.3333333333333333},"29":{"ref":29,"tf":0.3333333333333333},"30":{"ref":30,"tf":0.3333333333333333},"31":{"ref":31,"tf":0.25},"34":{"ref":34,"tf":0.3333333333333333}}}},"百":{"docs":{},"度":{"docs":{"30":{"ref":30,"tf":0.3333333333333333}}}},"不":{"docs":{},"同":{"docs":{"33":{"ref":33,"tf":0.2}}}},"滤":{"docs":{},"镜":{"docs":{"34":{"ref":34,"tf":0.3333333333333333}}}},"风":{"docs":{},"格":{"docs":{"34":{"ref":34,"tf":0.3333333333333333}}}},"参":{"docs":{},"考":{"docs":{"35":{"ref":35,"tf":0.2}}}},"增":{"docs":{},"大":{"docs":{"35":{"ref":35,"tf":0.2}}}},"空":{"docs":{},"间":{"docs":{"35":{"ref":35,"tf":0.2},"119":{"ref":119,"tf":0.16666666666666666},"127":{"ref":127,"tf":0.25},"128":{"ref":128,"tf":0.25},"129":{"ref":129,"tf":0.25},"130":{"ref":130,"tf":0.25},"131":{"ref":131,"tf":0.25},"132":{"ref":132,"tf":0.25},"133":{"ref":133,"tf":0.25},"134":{"ref":134,"tf":0.25},"135":{"ref":135,"tf":0.25},"136":{"ref":136,"tf":0.25},"137":{"ref":137,"tf":0.25},"138":{"ref":138,"tf":0.25},"139":{"ref":139,"tf":0.25},"140":{"ref":140,"tf":0.25}}}},",":{"docs":{"43":{"ref":43,"tf":0.2857142857142857}}},"圆":{"docs":{},"形":{"docs":{"43":{"ref":43,"tf":0.14285714285714285},"114":{"ref":114,"tf":0.16666666666666666}}},"弧":{"docs":{"44":{"ref":44,"tf":0.25}}}},"扇":{"docs":{},"形":{"docs":{"43":{"ref":43,"tf":0.14285714285714285}}}},"椭":{"docs":{},"圆":{"docs":{"43":{"ref":43,"tf":0.14285714285714285},"114":{"ref":114,"tf":0.16666666666666666}}}},"矩":{"docs":{},"形":{"docs":{"43":{"ref":43,"tf":0.14285714285714285},"114":{"ref":114,"tf":0.16666666666666666}}}},"曲":{"docs":{},"线":{"docs":{"44":{"ref":44,"tf":0.25},"75":{"ref":75,"tf":0.25}}}},"贝":{"docs":{},"塞":{"docs":{},"尔":{"docs":{"44":{"ref":44,"tf":0.25}}}}},"文":{"docs":{},"字":{"docs":{"45":{"ref":45,"tf":0.2},"65":{"ref":65,"tf":0.5},"66":{"ref":66,"tf":0.3333333333333333},"67":{"ref":67,"tf":0.2},"73":{"ref":73,"tf":0.25}}},"本":{"docs":{"116":{"ref":116,"tf":0.3333333333333333}},"框":{"docs":{"46":{"ref":46,"tf":0.25},"115":{"ref":115,"tf":0.5}}}}},"标":{"docs":{},"签":{"docs":{"45":{"ref":45,"tf":0.2}}},"注":{"docs":{"57":{"ref":57,"tf":0.5},"58":{"ref":58,"tf":0.3333333333333333},"59":{"ref":59,"tf":0.5},"60":{"ref":60,"tf":0.25},"61":{"ref":61,"tf":0.25},"62":{"ref":62,"tf":0.3333333333333333},"63":{"ref":63,"tf":0.2},"64":{"ref":64,"tf":0.5},"65":{"ref":65,"tf":0.5},"66":{"ref":66,"tf":0.3333333333333333},"67":{"ref":67,"tf":0.2},"84":{"ref":84,"tf":0.3333333333333333},"111":{"ref":111,"tf":0.5}}}},"连":{"docs":{},"接":{"docs":{},"线":{"docs":{"47":{"ref":47,"tf":1}}}}},"克":{"docs":{},"隆":{"docs":{"48":{"ref":48,"tf":1}}}},"闪":{"docs":{},"烁":{"docs":{"50":{"ref":50,"tf":1}}}},"条":{"docs":{},"件":{"docs":{"51":{"ref":51,"tf":0.25},"97":{"ref":97,"tf":0.14285714285714285}}}},"查":{"docs":{},"询":{"docs":{"51":{"ref":51,"tf":0.25}}}},"三":{"docs":{},"维":{"docs":{"52":{"ref":52,"tf":1},"53":{"ref":53,"tf":1},"54":{"ref":54,"tf":1},"55":{"ref":55,"tf":1},"56":{"ref":56,"tf":1}}}},"有":{"docs":{"52":{"ref":52,"tf":0.25},"54":{"ref":54,"tf":0.25},"56":{"ref":56,"tf":0.25}}},"高":{"docs":{},"度":{"docs":{"52":{"ref":52,"tf":0.25},"53":{"ref":53,"tf":0.2},"54":{"ref":54,"tf":0.25},"55":{"ref":55,"tf":0.2},"56":{"ref":56,"tf":0.25}}},"亮":{"docs":{"118":{"ref":118,"tf":0.3333333333333333}}}},"线":{"docs":{"53":{"ref":53,"tf":0.2},"54":{"ref":54,"tf":0.25},"68":{"ref":68,"tf":0.5},"69":{"ref":69,"tf":0.25},"70":{"ref":70,"tf":0.2},"71":{"ref":71,"tf":0.25},"72":{"ref":72,"tf":0.25},"73":{"ref":73,"tf":0.25},"75":{"ref":75,"tf":0.25},"112":{"ref":112,"tf":0.5},"124":{"ref":124,"tf":0.25}}},"绘":{"docs":{},"制":{"docs":{"53":{"ref":53,"tf":0.2},"55":{"ref":55,"tf":0.2},"109":{"ref":109,"tf":0.5},"157":{"ref":157,"tf":0.3333333333333333}}}},"面":{"docs":{"55":{"ref":55,"tf":0.2},"76":{"ref":76,"tf":0.5},"77":{"ref":77,"tf":0.25},"78":{"ref":78,"tf":0.25},"79":{"ref":79,"tf":0.25},"125":{"ref":125,"tf":0.25}}},"样":{"docs":{},"式":{"docs":{"57":{"ref":57,"tf":0.5},"58":{"ref":58,"tf":0.5},"59":{"ref":59,"tf":0.5},"60":{"ref":60,"tf":0.5},"61":{"ref":61,"tf":0.5},"62":{"ref":62,"tf":0.5},"63":{"ref":63,"tf":0.5},"64":{"ref":64,"tf":0.5},"65":{"ref":65,"tf":0.5},"66":{"ref":66,"tf":0.5},"67":{"ref":67,"tf":0.5},"68":{"ref":68,"tf":1},"69":{"ref":69,"tf":0.5},"70":{"ref":70,"tf":0.5},"71":{"ref":71,"tf":0.5},"72":{"ref":72,"tf":0.5},"73":{"ref":73,"tf":0.5},"74":{"ref":74,"tf":0.5},"75":{"ref":75,"tf":0.5},"76":{"ref":76,"tf":1},"77":{"ref":77,"tf":0.5},"78":{"ref":78,"tf":0.5},"79":{"ref":79,"tf":0.75},"80":{"ref":80,"tf":1},"81":{"ref":81,"tf":0.75},"82":{"ref":82,"tf":0.75},"83":{"ref":83,"tf":0.75},"84":{"ref":84,"tf":0.5},"85":{"ref":85,"tf":0.8333333333333333},"86":{"ref":86,"tf":0.8333333333333333},"87":{"ref":87,"tf":0.8333333333333333},"98":{"ref":98,"tf":0.16666666666666666}}}},"矢":{"docs":{},"量":{"docs":{"59":{"ref":59,"tf":0.5},"60":{"ref":60,"tf":0.25},"61":{"ref":61,"tf":0.25},"62":{"ref":62,"tf":0.3333333333333333}}}},"填":{"docs":{},"充":{"docs":{"60":{"ref":60,"tf":0.25},"61":{"ref":61,"tf":0.25},"69":{"ref":69,"tf":0.25},"70":{"ref":70,"tf":0.2},"71":{"ref":71,"tf":0.25},"77":{"ref":77,"tf":0.25},"78":{"ref":78,"tf":0.25}}}},"模":{"docs":{},"式":{"docs":{"60":{"ref":60,"tf":0.25},"69":{"ref":69,"tf":0.25},"70":{"ref":70,"tf":0.2},"77":{"ref":77,"tf":0.25}}}},"渐":{"docs":{},"变":{"docs":{"61":{"ref":61,"tf":0.25},"71":{"ref":71,"tf":0.25},"78":{"ref":78,"tf":0.25}}}},"垂":{"docs":{},"直":{"docs":{"63":{"ref":63,"tf":0.2}}}},"对":{"docs":{},"齐":{"docs":{"63":{"ref":63,"tf":0.2}}}},"水":{"docs":{},"平":{"docs":{"63":{"ref":63,"tf":0.2}}}},"带":{"docs":{"67":{"ref":67,"tf":0.2},"72":{"ref":72,"tf":0.25},"73":{"ref":73,"tf":0.25}}},"动":{"docs":{},"画":{"docs":{"70":{"ref":70,"tf":0.2},"120":{"ref":120,"tf":1},"121":{"ref":121,"tf":1.25},"122":{"ref":122,"tf":1.25},"123":{"ref":123,"tf":1},"124":{"ref":124,"tf":1.25},"125":{"ref":125,"tf":1.25},"126":{"ref":126,"tf":1.5}},"图":{"docs":{"158":{"ref":158,"tf":0.3333333333333333}}}}},"箭":{"docs":{},"头":{"docs":{"72":{"ref":72,"tf":0.25}}}},"沿":{"docs":{},"线":{"docs":{"74":{"ref":74,"tf":0.2},"122":{"ref":122,"tf":0.25}}}},"端":{"docs":{},"点":{"docs":{"74":{"ref":74,"tf":0.2},"79":{"ref":79,"tf":0.25}}}},"平":{"docs":{},"滑":{"docs":{"75":{"ref":75,"tf":0.25}}}},"u":{"docs":{},"p":{"docs":{},"d":{"docs":{},"a":{"docs":{},"t":{"docs":{"81":{"ref":81,"tf":0.5}}}}}},"i":{"docs":{"127":{"ref":127,"tf":1.0833333333333333},"128":{"ref":128,"tf":1.0833333333333333},"129":{"ref":129,"tf":1.0833333333333333},"130":{"ref":130,"tf":1.0833333333333333},"131":{"ref":131,"tf":1.0833333333333333},"132":{"ref":132,"tf":1.0833333333333333},"133":{"ref":133,"tf":0.75},"134":{"ref":134,"tf":0.75},"135":{"ref":135,"tf":0.75},"136":{"ref":136,"tf":0.75},"137":{"ref":137,"tf":0.75},"138":{"ref":138,"tf":0.75},"139":{"ref":139,"tf":0.75},"140":{"ref":140,"tf":0.75},"154":{"ref":154,"tf":1.2}}}},"更":{"docs":{},"新":{"docs":{"81":{"ref":81,"tf":0.25}}}},"部":{"docs":{},"分":{"docs":{"81":{"ref":81,"tf":0.25}}}},"根":{"docs":{},"据":{"docs":{"82":{"ref":82,"tf":0.25},"83":{"ref":83,"tf":0.25},"96":{"ref":96,"tf":0.16666666666666666},"97":{"ref":97,"tf":0.14285714285714285}}}},"属":{"docs":{},"性":{"docs":{"97":{"ref":97,"tf":0.14285714285714285}},"数":{"docs":{},"据":{"docs":{"83":{"ref":83,"tf":0.25}}}}}},"h":{"docs":{},"t":{"docs":{},"m":{"docs":{},"l":{"docs":{"84":{"ref":84,"tf":0.8333333333333333}}}}},"i":{"docs":{},"g":{"docs":{},"h":{"docs":{},"c":{"docs":{},"h":{"docs":{},"a":{"docs":{},"r":{"docs":{},"t":{"docs":{"87":{"ref":87,"tf":0.8333333333333333}}}}}}},"l":{"docs":{},"i":{"docs":{},"g":{"docs":{},"h":{"docs":{},"t":{"docs":{"118":{"ref":118,"tf":0.5}}}}}}}}},"d":{"docs":{},"e":{"docs":{"89":{"ref":89,"tf":0.5},"139":{"ref":139,"tf":0.3333333333333333}}}}},"e":{"docs":{},"a":{"docs":{},"t":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"149":{"ref":149,"tf":0.16666666666666666}}}}},"m":{"docs":{},"a":{"docs":{},"p":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"149":{"ref":149,"tf":1}}}}}}}}}},"l":{"docs":{},"l":{"docs":{},"o":{"docs":{},"l":{"docs":{},"a":{"docs":{},"y":{"docs":{"156":{"ref":156,"tf":2},"157":{"ref":157,"tf":1.3333333333333333},"158":{"ref":158,"tf":1.3333333333333333}}}}}}}}}},"隐":{"docs":{},"藏":{"docs":{"89":{"ref":89,"tf":0.3333333333333333},"139":{"ref":139,"tf":0.25}}}},"或":{"docs":{},"置":{"docs":{"91":{"ref":91,"tf":0.25}}}},"置":{"docs":{},"顶":{"docs":{"91":{"ref":91,"tf":0.25}}}},"叠":{"docs":{},"加":{"docs":{"92":{"ref":92,"tf":0.25}}}},"改":{"docs":{},"变":{"docs":{"92":{"ref":92,"tf":0.25}}}},"顺":{"docs":{},"序":{"docs":{"92":{"ref":92,"tf":0.25}}}},"遮":{"docs":{},"罩":{"docs":{"93":{"ref":93,"tf":0.2}}}},"鼠":{"docs":{},"标":{"docs":{"93":{"ref":93,"tf":0.2},"117":{"ref":117,"tf":0.3333333333333333},"119":{"ref":119,"tf":0.16666666666666666}},"悬":{"docs":{},"停":{"docs":{"118":{"ref":118,"tf":0.3333333333333333}}}}}},":":{"docs":{"95":{"ref":95,"tf":0.2},"96":{"ref":96,"tf":0.16666666666666666},"97":{"ref":97,"tf":0.14285714285714285},"98":{"ref":98,"tf":0.16666666666666666},"99":{"ref":99,"tf":0.125},"100":{"ref":100,"tf":0.2},"101":{"ref":101,"tf":0.2},"102":{"ref":102,"tf":0.16666666666666666},"104":{"ref":104,"tf":0.2},"149":{"ref":149,"tf":0.16666666666666666},"150":{"ref":150,"tf":0.16666666666666666}}},"批":{"docs":{},"量":{"docs":{"95":{"ref":95,"tf":0.2},"98":{"ref":98,"tf":0.16666666666666666}}}},"筛":{"docs":{},"选":{"docs":{"97":{"ref":97,"tf":0.14285714285714285}}}},"画":{"docs":{},"板":{"docs":{"100":{"ref":100,"tf":0.2},"102":{"ref":102,"tf":0.16666666666666666}}}},"示":{"docs":{},"例":{"docs":{"100":{"ref":100,"tf":0.2},"101":{"ref":101,"tf":0.2},"102":{"ref":102,"tf":0.16666666666666666},"104":{"ref":104,"tf":0.2},"149":{"ref":149,"tf":0.16666666666666666},"150":{"ref":150,"tf":0.16666666666666666},"153":{"ref":153,"tf":0.3333333333333333},"154":{"ref":154,"tf":0.3333333333333333},"155":{"ref":155,"tf":0.3333333333333333},"156":{"ref":156,"tf":0.3333333333333333},"157":{"ref":157,"tf":0.3333333333333333},"158":{"ref":158,"tf":0.3333333333333333}}}},"粒":{"docs":{},"子":{"docs":{"101":{"ref":101,"tf":0.2}}}},"卷":{"docs":{},"帘":{"docs":{"103":{"ref":103,"tf":0.3333333333333333}}}},"效":{"docs":{},"果":{"docs":{"103":{"ref":103,"tf":0.3333333333333333}}}},"交":{"docs":{},"互":{"docs":{"105":{"ref":105,"tf":1.3333333333333333},"106":{"ref":106,"tf":1},"107":{"ref":107,"tf":1},"108":{"ref":108,"tf":1},"109":{"ref":109,"tf":1},"110":{"ref":110,"tf":1},"111":{"ref":111,"tf":1},"112":{"ref":112,"tf":1},"113":{"ref":113,"tf":1},"114":{"ref":114,"tf":1},"115":{"ref":115,"tf":1},"116":{"ref":116,"tf":1},"117":{"ref":117,"tf":1},"118":{"ref":118,"tf":1},"119":{"ref":119,"tf":1},"157":{"ref":157,"tf":0.3333333333333333}}}},"所":{"docs":{},"有":{"docs":{"105":{"ref":105,"tf":0.3333333333333333}}}},"禁":{"docs":{},"用":{"docs":{"105":{"ref":105,"tf":0.3333333333333333}}}},"开":{"docs":{},"关":{"docs":{"106":{"ref":106,"tf":0.5}}},"发":{"docs":{"153":{"ref":153,"tf":0.3333333333333333},"154":{"ref":154,"tf":0.3333333333333333},"155":{"ref":155,"tf":0.3333333333333333},"156":{"ref":156,"tf":0.3333333333333333},"157":{"ref":157,"tf":0.3333333333333333},"158":{"ref":158,"tf":0.3333333333333333}}}},"工":{"docs":{},"具":{"docs":{"107":{"ref":107,"tf":0.5},"108":{"ref":108,"tf":0.5},"109":{"ref":109,"tf":0.5},"155":{"ref":155,"tf":0.3333333333333333}}}},"测":{"docs":{},"距":{"docs":{"107":{"ref":107,"tf":0.5}}},"面":{"docs":{"108":{"ref":108,"tf":0.5}}}},"/":{"docs":{"114":{"ref":114,"tf":0.3333333333333333}}},"点":{"docs":{"122":{"ref":122,"tf":0.25},"150":{"ref":150,"tf":0.16666666666666666}},"选":{"docs":{"117":{"ref":117,"tf":0.3333333333333333}}}},"关":{"docs":{},"系":{"docs":{"119":{"ref":119,"tf":0.16666666666666666}}}},"位":{"docs":{},"置":{"docs":{"120":{"ref":120,"tf":0.2}}}},"到":{"docs":{"120":{"ref":120,"tf":0.2}}},"飞":{"docs":{},"行":{"docs":{"120":{"ref":120,"tf":0.2}}}},"变":{"docs":{},"形":{"docs":{"121":{"ref":121,"tf":0.25}}}},".":{"docs":{"123":{"ref":123,"tf":0.25},"151":{"ref":151,"tf":0.25}}},"展":{"docs":{},"现":{"docs":{"124":{"ref":124,"tf":0.25},"125":{"ref":125,"tf":0.25}}}},"右":{"docs":{},"键":{"docs":{"127":{"ref":127,"tf":0.3333333333333333},"128":{"ref":128,"tf":0.3333333333333333},"129":{"ref":129,"tf":0.3333333333333333}}}},"菜":{"docs":{},"单":{"docs":{"127":{"ref":127,"tf":0.3333333333333333},"128":{"ref":128,"tf":0.3333333333333333},"129":{"ref":129,"tf":0.3333333333333333}}}},"框":{"docs":{"130":{"ref":130,"tf":0.5},"131":{"ref":131,"tf":0.3333333333333333},"132":{"ref":132,"tf":0.3333333333333333}}},"信":{"docs":{},"息":{"docs":{"131":{"ref":131,"tf":0.3333333333333333},"132":{"ref":132,"tf":0.3333333333333333}}}},"鹰":{"docs":{},"眼":{"docs":{"135":{"ref":135,"tf":0.5}}}},"选":{"docs":{},"择":{"docs":{"140":{"ref":140,"tf":0.3333333333333333}}}},"j":{"docs":{},"s":{"docs":{"151":{"ref":151,"tf":0.25}},"o":{"docs":{},"n":{"docs":{"141":{"ref":141,"tf":1.5},"142":{"ref":142,"tf":1.5},"143":{"ref":143,"tf":2.25},"144":{"ref":144,"tf":2.25},"145":{"ref":145,"tf":1.75},"146":{"ref":146,"tf":2.25},"147":{"ref":147,"tf":2.25}}}}}},"序":{"docs":{},"列":{"docs":{},"化":{"docs":{"141":{"ref":141,"tf":0.5},"142":{"ref":142,"tf":0.5},"143":{"ref":143,"tf":0.5},"144":{"ref":144,"tf":0.5},"145":{"ref":145,"tf":0.5},"146":{"ref":146,"tf":0.5},"147":{"ref":147,"tf":0.5}}}}},"复":{"docs":{},"制":{"docs":{"145":{"ref":145,"tf":0.25},"146":{"ref":146,"tf":0.25},"147":{"ref":147,"tf":0.25}}}},"插":{"docs":{},"件":{"docs":{"148":{"ref":148,"tf":0.5},"149":{"ref":149,"tf":0.5},"150":{"ref":150,"tf":0.5},"151":{"ref":151,"tf":0.5},"152":{"ref":152,"tf":0.5},"153":{"ref":153,"tf":0.3333333333333333},"154":{"ref":154,"tf":0.3333333333333333},"155":{"ref":155,"tf":0.3333333333333333}}}},"力":{"docs":{},"图":{"docs":{"149":{"ref":149,"tf":0.16666666666666666}}}},"层":{"docs":{"149":{"ref":149,"tf":0.16666666666666666},"158":{"ref":158,"tf":0.3333333333333333}}},"热":{"docs":{"149":{"ref":149,"tf":0.16666666666666666}}},"聚":{"docs":{},"合":{"docs":{"150":{"ref":150,"tf":0.16666666666666666}}}},"创":{"docs":{},"建":{"docs":{"153":{"ref":153,"tf":0.25},"154":{"ref":154,"tf":0.2},"155":{"ref":155,"tf":0.3333333333333333}}}},"新":{"docs":{"153":{"ref":153,"tf":0.25},"154":{"ref":154,"tf":0.2}}}},"length":1188},"corpusTokens":["(",")",",","-",".","/","3d","4326",":","add","align","along","altitud","anim","animateshow","arcgi","area","arrow","attribut","back","baidu","base64","batch","bring","canva","canvaslay","canvastilelay","circl","clusterlay","collect","common","composit","connector","contain","control","convers","coordin","copi","curv","custom","d3","develop","differ","distanc","drag","draw","drawoninteract","echart","edit","ellips","epsg4326","event","export","extent","filter","fit","flash","flyto","fraction","front","geo","geojson","geometri","geometrycollect","gl","globalcompositeoper","gradient","grouptilelay","heatlay","heatmaplay","hellolay","hide","highchart","highlight","html","id","ident","identifi","imag","imagelay","index","infownd","interact","js","json","label","layer","limit","line","linestr","load","lod","magnifi","map","mapbox","mapboxgl","maptool","marker","mask","max","maxzoom","menu","mous","move","multi","multilinestr","multipoint","multipolygon","opac","overview","pan","panel","particlelay","path","pattern","pitch","plugin","polygon","proj","proj4j","project","prop","rectangl","remov","render","resolut","rotat","scale","sector","show","smooth","sort","statu","style","svg","swipe","switcher","symbol","sync","text","textbox","three","tile","tilelay","tool","toolbar","ui","updat","vector","vectorlay","vertex","wm","wmt","z","zoom","三维","不同","与","中","为","事件","交互","位置","信息","倾斜","克隆","关系","内","内容","创建","到","力图","加载","动画","动画图","区域","卷帘","参考","变形","叠加","只","右键","同步","和","图层","图形","图片","图表","圆弧","圆形","在","地图","地图信息","地图功能","地理","坐标","垂直","填充","增大","复制","多","多个","多边形","容器","对齐","导出","层","屏幕","展现","属性","属性数据","工具","带","常用","平滑","序列化","底","底图","开关","开发","或置","所有","扇形","批量","投影","拖动","拖拽","指定","控件","插件","改变","放大镜","效果","文字","文本","文本框","新","方式","方法","旋转","显示","曲线","更新","有","条件","查询","标注","标签","样式","根据","框","椭圆","模式","水平","沿线","测距","测面","添加","渐变","渲染","滤镜","点","点选","热","状态","瓦片","用","画板","百度","的","监听","矢量","矩形","示例","禁用","移动","移除","空间","端点","筛选","箭头","粒子","级别","线","组","组件","组合","细微","绘制","编码","编辑","缩放","置顶","聚合","自动","自定义","范围","获取","菜单","设置","贝塞尔","转化","转换","载入","连接线","适配","选择","透明度","遮罩","部分","闪烁","限制","隐藏","面","顺序","风格","飞行","高亮","高度","鹰眼","鼠标","鼠标悬停"],"pipeline":["trimmer","stopWordFilter","stemmer"]}</script>
+  <script type="text/javascript" src="/examples/lib/lunr-chinese.min.js"></script>
+  <script type="text/javascript" src="/examples/js/main.8d0536.js"></script>
+
+  <script>
+    PR.prettyPrint();
+
+    function edit() {
+      var htmlDataNode = document.getElementById('html-data');
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data');
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data');
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "增大空间参考的maxZoom",
+        description: "瓦片图层与地理投影 - 增大空间参考的maxZoom",
+      };
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data');
+      dataNode.value = JSON.stringify(data);
+      document.getElementById('editor').submit();
+    }
+  </script>
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-103005498-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
+
+</html>
