@@ -19,6 +19,7 @@ var map = new maptalks.Map('map', {
   spatialReference,
   zoom: 4,
   baseLayer: new maptalks.TileLayer('base', {
+    maxAvailableZoom: 22,
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains),
     attribution: '$(attribution)'
