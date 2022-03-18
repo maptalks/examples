@@ -14,7 +14,12 @@ var projection = {
   unproject : function (pc) { // from EPSG3857 to wgs84
     var c = proj4.inverse(pc.toArray());
     return new maptalks.Coordinate(c);
-  }
+  },
+
+  // tell projection how to measure
+  // for cartesian coordinates change this to:
+  // measure: 'identity'
+  measure: 'EPSG:4326'
 };
 
 var map = new maptalks.Map('map', {
