@@ -3,6 +3,7 @@ dist/
 .publish/
 .changed.json
 package-lock.json
+scripts/go/pkg/
 
 # Logs
 logs
