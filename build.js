@@ -267,7 +267,7 @@ function build(done) {
   }
   Metalsmith(__dirname)
     .source('src')
-    .destination('dist')
+    .destination('dist/examples')
     .clean(false)
     .metadata({
       site: siteInfo
@@ -327,7 +327,7 @@ function build(done) {
     .use(debug())
     .build(function(err, files) {
       if (err) {
-        console.log(files);
+        console.log('number of files: ', files.keys().length);
         done(err);
         return;
       }
@@ -336,7 +336,4 @@ function build(done) {
     });
 }
 
-exports.build = build;
-
-// FIXME: node build.js works. fuck gulp
-// build(function () {});
+module.exports = build;

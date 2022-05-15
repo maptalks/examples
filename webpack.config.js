@@ -6,7 +6,7 @@ module.exports = {
     main: ['./js/main.js', './css/main.css']
   },
   output: {
-    path: './dist',
+    path: './dist/examples',
     filename: 'js/[name].[chunkhash:6].js'
   },
   module: {

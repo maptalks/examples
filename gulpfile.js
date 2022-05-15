@@ -1,6 +1,6 @@
 /* eslint global-require: 0 */
 var gulp = require('gulp');
-var connect = require('gulp-connect-ex');
+var connect = require('gulp-connect');
 var ghPages = require('@justeat/gulp-gh-pages');
 var build = require('./build');
 
@@ -8,29 +8,32 @@ gulp.task('build', function(done) {
   build(done);
 });
 
-gulp.task('watch', ['build'], function() {
+gulp.task('watch', function(done) {
   gulp.watch(
     ['src/**/*', 'assets/**/*', 'layouts/**/*', 'static/**/*'],
-    ['build']
+    { ignoreInitial: false },
+    build
   );
+  done();
 });
 
-gulp.task('connect', ['watch'], function() {
+// FIXME: livereload seems not working
+gulp.task('devserver', function(done) {
   connect.server({
     name: 'maptalks examples',
-    base: '/examples',
     root: './dist',
     livereload: true,
     port: 20001
   });
+  done();
 });
 
+gulp.task('dev', gulp.parallel('watch', 'devserver'));
+
 gulp.task('deploy', function() {
-  return gulp.src('dist/**/*').pipe(
+  return gulp.src('dist/examples/**/*').pipe(
     ghPages({
       message: 'Deploy to GitHub pages [ci skip]'
     })
   );
 });
-
-gulp.task('default', ['connect']);

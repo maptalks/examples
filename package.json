@@ -10,8 +10,8 @@
     "eslint": "^2.13.1",
     "eslint-config-maptalks": "^0.2.1",
     "extract-text-webpack-plugin": "1.0.1",
-    "gulp": "^3.9.1",
-    "gulp-connect-ex": "^5.0.2",
+    "gulp": "^4.0.2",
+    "gulp-connect": "^5.7.0",
     "handlebars": "^4.0.5",
     "i18next": "^8.4.3",
     "i18next-sync-fs-backend": "^1.0.0",
@@ -30,7 +30,7 @@
     "prettify": "^0.1.7"
   },
   "scripts": {
-    "dev": "gulp connect",
+    "dev": "gulp dev",
     "build": "gulp build",
     "deploy": "gulp deploy"
   },
