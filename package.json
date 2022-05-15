@@ -17,7 +17,7 @@
     "i18next-sync-fs-backend": "^1.0.0",
     "lunr": "^2.1.2",
     "lunr-chinese": "^1.2.0",
-    "marked": "^0.3.6",
+    "marked": "^4.0.10",
     "metalsmith": "^2.1.0",
     "metalsmith-assets-ex": "^0.1.0",
     "metalsmith-branch": "^0.0.5",
