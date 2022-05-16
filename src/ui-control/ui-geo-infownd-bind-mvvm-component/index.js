@@ -19,7 +19,7 @@ var vm = new window.Vue({
     var map = this.map = new maptalks.Map(this.$refs.map, {
       center: [-0.113049, 51.498568],
       zoom: 14,
-      devicePixelRatio: 2,
+      // devicePixelRatio: 2,
       baseLayer: new maptalks.TileLayer('base', {
         urlTemplate: '$(urlTemplate)',
         subdomains: $(subdomains),
