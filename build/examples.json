@@ -179,7 +179,8 @@
         {"name" : "geometry-anim", "title" : {"cn" : "Geometry.animate方法", "en" : "Geometry.animate method"}},
         {"name" : "line-animateshow", "title" : {"cn" : "线的动画展现", "en" : "LineString's animateShow"}},
         {"name" : "polygon-animateshow", "title" : {"cn" : "面的动画展现", "en" : "Polygon's animateShow"}},
-        {"name" : "custom-anim", "title" : {"cn" : "自定义动画", "en" : "Custom animation"}}
+        {"name" : "custom-anim", "title" : {"cn" : "自定义动画", "en" : "Custom animation"}},
+        {"name" : "map-view-follow", "title" : {"cn" : "地图跟随动画", "en" : "map-view-follow animation"}}
       ]
     },
 
