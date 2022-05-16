@@ -195,6 +195,7 @@
         {"name" : "ui-map-infownd", "title" : {"cn" : "地图信息框", "en" : "Map's InfoWindow"}},
         {"name" : "ui-geo-infownd", "title" : {"cn" : "图形信息框", "en" : "Geometry's InfoWindow"}},
         {"name" : "ui-custom-infownd", "title" : {"cn" : "自定义信息框", "en" : "Custom InfoWindow"}},
+        {"name" : "ui-geo-infownd-bind-mvvm-component", "title" : {"cn" : "信息框绑定MVVM组件", "en" : "InfoWindow bind MVVM component"}},
 
         {"name" : "control-toolbar", "title" : {"cn" : "Toolbar控件", "en" : "Toolbar Control"}},
         {"name" : "control-panel", "title" : {"cn" : "Panel控件", "en" : "Panel Control"}},
