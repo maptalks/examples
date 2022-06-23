@@ -814,7 +814,7 @@
     &lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
 
     &lt;script&gt;
-      var arcUrl &#x3D; &#x27;http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer&#x27;;
+      var arcUrl &#x3D; &#x27;https://server.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer&#x27;;
 
       maptalks.SpatialReference.loadArcgis(arcUrl + &#x27;?f&#x3D;pjson&#x27;, function (err, conf) {
         if (err) {
@@ -859,7 +859,7 @@
 <div id="map" class="container"></div>
 </textarea>
     <textarea id="js-data" name="js">
-var arcUrl = 'http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer';
+var arcUrl = 'https://server.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer';
 
 maptalks.SpatialReference.loadArcgis(arcUrl + '?f=pjson', function(err, conf) {
   if (err) {
