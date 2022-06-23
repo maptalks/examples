@@ -831,7 +831,7 @@
           spatialReference : ref,
           baseLayer: new maptalks.TileLayer(&#x27;base&#x27;, {
             &#x27;tileSystem&#x27; : conf.tileSystem,
-            &#x27;tileSize&#x27; : conf.tileSize, // [512, 512]
+            &#x27;tileSize&#x27; : conf.tileSize,
             &#x27;urlTemplate&#x27; : arcUrl + &#x27;/tile/{z}/{y}/{x}&#x27;,
             &#x27;attribution&#x27; : &#x27;&amp;copy; &lt;a target&#x3D;&quot;_blank&quot; href&#x3D;&quot;&#x27; + arcUrl + &#x27;&quot;&quot;&gt;ArcGIS&lt;/a&gt;&#x27;
           })
@@ -876,7 +876,7 @@ maptalks.SpatialReference.loadArcgis(arcUrl + '?f=pjson', function(err, conf) {
     spatialReference: ref,
     baseLayer: new maptalks.TileLayer('base', {
       'tileSystem': conf.tileSystem,
-      'tileSize': conf.tileSize, // [512, 512]
+      'tileSize': conf.tileSize,
       'urlTemplate': arcUrl + '/tile/{z}/{y}/{x}',
       'attribution': '&copy; <a target="_blank" href="' + arcUrl + '"">ArcGIS</a> '
     })
