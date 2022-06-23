@@ -814,14 +814,14 @@
     &lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;container&quot;&gt;&lt;/div&gt;
 
     &lt;script&gt;
-      var arcUrl &#x3D; &#x27;https://server.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer&#x27;;
+      var arcUrl &#x3D; &#x27;https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer&#x27;;
 
       maptalks.SpatialReference.loadArcgis(arcUrl + &#x27;?f&#x3D;pjson&#x27;, function (err, conf) {
         if (err) {
           throw new Error(err);
         }
         var ref &#x3D; conf.spatialReference;
-        ref.projection &#x3D; &#x27;EPSG:4326&#x27;;
+        ref.projection &#x3D; &#x27;EPSG:3857&#x27;;
 
         var map &#x3D; new maptalks.Map(&#x27;map&#x27;, {
           center: [121, 0],
@@ -859,14 +859,14 @@
 <div id="map" class="container"></div>
 </textarea>
     <textarea id="js-data" name="js">
-var arcUrl = 'https://server.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer';
+var arcUrl = 'https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer';
 
 maptalks.SpatialReference.loadArcgis(arcUrl + '?f=pjson', function(err, conf) {
   if (err) {
     throw new Error(err);
   }
   var ref = conf.spatialReference;
-  ref.projection = 'EPSG:4326';
+  ref.projection = 'EPSG:3857';
 
   var map = new maptalks.Map('map', {
     center: [121, 0],
