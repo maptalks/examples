@@ -6,7 +6,7 @@ maptalks.SpatialReference.loadArcgis(arcUrl + '?f=pjson', function (err, conf) {
   }
   var ref = conf.spatialReference;
   ref.projection = 'EPSG:3857';
-
+  ref.fullExtent = null;
   var map = new maptalks.Map('map', {
     center: [121, 0],
     zoom: 1,
