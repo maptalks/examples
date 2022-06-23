@@ -1,4 +1,4 @@
-var arcUrl = 'https://services.arcgisonline.com/arcgis/rest/services/ESRI_Imagery_World_2D/MapServer';
+var arcUrl = 'http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer';
 
 maptalks.SpatialReference.loadArcgis(arcUrl + '?f=pjson', function (err, conf) {
   if (err) {

@@ -5,7 +5,7 @@ var map = new maptalks.Map('map', {
     content: '$(attribution), &copy ESRI'
   },
   baseLayer : new maptalks.TileLayer('base',{
-    urlTemplate: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.jpg'
+    urlTemplate: 'http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer/tile/{z}/{y}/{x}.jpg'
   })
 });
 
