@@ -271,8 +271,8 @@ function build(done) {
     .metadata({
       site: siteInfo,
     })
-    .use(timer('changed'))
-    .use(changed(examplesInfo[locales[0]]))
+    // .use(timer('changed'))
+    // .use(changed(examplesInfo[locales[0]]))
     .use(timer('i18n'))
     .use(
       i18n({
