@@ -1,256 +1,905 @@
 {
-  "examples" : [
+  "examples": [
     {
-      "name" : "map",
-      "title" : {"cn" : "地图", "en":"Map"},
-      "examples" : [
-        {"name" : "load", "title" : {"cn" : "显示", "en" : "Display a map"}},
-        {"name" : "pitch-rotate", "title" : {"cn" : "倾斜与旋转", "en" : "Pitch and rotate"}},
-        {"name" : "drag-pitch-rotate", "title" : {"cn" : "拖动倾斜与旋转", "en" : "Drag to pitch and rotate"}},
-        {"name" : "panning", "title" : {"cn" : "移动地图", "en" : "Map panning"}},
-        {"name" : "common-control", "title" : {"cn" : "添加常用控件", "en" : "Add common controls"}},
-        {"name" : "status", "title" : {"cn" : "获取地图状态", "en" : "Get map's status"}},
-        {"name" : "fit-extent", "title" : {"cn" : "自动适配区域", "en" : "Fit to extent"}},
-        {"name" : "limit-extent", "title" : {"cn" : "限制地图区域", "en" : "Limit map's extent"}},
-        {"name" : "limit-zoom", "title" : {"cn" : "限制缩放级别", "en" : "Limit map's zoom"}},
-        {"name" : "fractional-zoom", "title" : {"cn" : "细微缩放(Fractional Zoom)", "en" : "Fractional zoom"}},
-        {"name" : "canvas", "title" : {"cn" : "在Canvas容器中加载", "en" : "Load on Canvas"}},
-        {"name" : "map-events", "title" : {"cn" : "监听地图事件", "en" : "Listen map events"}},
-        {"name" : "sync-map", "title" : {"cn" : "同步地图", "en" : "Sync map by events"}},
-        {"name" : "coordinate-conversion", "title" : {"cn" : "屏幕坐标转换", "en" : "Convert to screen points"}},
-        {"name" : "export-image", "title" : {"cn" : "导出为图片", "en" : "Export map as images"}},
-        {"name" : "map-magnifier", "title" : {"cn" : "地图放大镜", "en" : "Map's magnifier"}},
-        {"name" : "custom-resolutions", "title" : {"cn" : "自定义地图LOD", "en" : "Customize map's resolutions"}},
-        {"name" : "map-scale-container", "title" : {"cn" : "缩放地图容器解决高分辨率地图卡顿", "en" : "scale container for high resolution"}}
+      "name": "map",
+      "title": { "cn": "地图", "en": "Map" },
+      "examples": [
+        { "name": "load", "title": { "cn": "显示", "en": "Display a map" } },
+        {
+          "name": "pitch-rotate",
+          "title": { "cn": "倾斜与旋转", "en": "Pitch and rotate" }
+        },
+        {
+          "name": "drag-pitch-rotate",
+          "title": { "cn": "拖动倾斜与旋转", "en": "Drag to pitch and rotate" }
+        },
+        {
+          "name": "panning",
+          "title": { "cn": "移动地图", "en": "Map panning" }
+        },
+        {
+          "name": "common-control",
+          "title": { "cn": "添加常用控件", "en": "Add common controls" }
+        },
+        {
+          "name": "status",
+          "title": { "cn": "获取地图状态", "en": "Get map's status" }
+        },
+        {
+          "name": "fit-extent",
+          "title": { "cn": "自动适配区域", "en": "Fit to extent" }
+        },
+        {
+          "name": "limit-extent",
+          "title": { "cn": "限制地图区域", "en": "Limit map's extent" }
+        },
+        {
+          "name": "limit-zoom",
+          "title": { "cn": "限制缩放级别", "en": "Limit map's zoom" }
+        },
+        {
+          "name": "fractional-zoom",
+          "title": {
+            "cn": "细微缩放(Fractional Zoom)",
+            "en": "Fractional zoom"
+          }
+        },
+        {
+          "name": "canvas",
+          "title": { "cn": "在Canvas容器中加载", "en": "Load on Canvas" }
+        },
+        {
+          "name": "map-events",
+          "title": { "cn": "监听地图事件", "en": "Listen map events" }
+        },
+        {
+          "name": "sync-map",
+          "title": { "cn": "同步地图", "en": "Sync map by events" }
+        },
+        {
+          "name": "coordinate-conversion",
+          "title": { "cn": "屏幕坐标转换", "en": "Convert to screen points" }
+        },
+        {
+          "name": "export-image",
+          "title": { "cn": "导出为图片", "en": "Export map as images" }
+        },
+        {
+          "name": "map-magnifier",
+          "title": { "cn": "地图放大镜", "en": "Map's magnifier" }
+        },
+        {
+          "name": "custom-resolutions",
+          "title": {
+            "cn": "自定义地图LOD",
+            "en": "Customize map's resolutions"
+          }
+        },
+        {
+          "name": "map-scale-container",
+          "title": {
+            "cn": "缩放地图容器解决高分辨率地图卡顿",
+            "en": "scale container for high resolution"
+          }
+        }
       ]
     },
 
     {
-      "name" : "tilelayer-projection",
-      "title" : {"cn" : "瓦片图层与地理投影", "en" : "TileLayer and Geo-Projections"},
-      "examples" : [
-        {"name" : "canvas-renderer", "title" : {"cn" : "Canvas渲染方式的瓦片图层", "en" : "TileLayer with Canvas renderer"}},
-        {"name" : "multi-tilelayer", "title" : {"cn" : "添加多个瓦片图层", "en" : "Add multiple TileLayers"}},
-        {"name" : "grouptilelayer", "title" : {"cn" : "添加瓦片图层组", "en" : "Add GroupTileLayer"}},
-        {"name" : "wms", "title" : {"cn" : "WMS瓦片图层", "en" : "Add a WMS TileLayer"}},
-        {"name" : "vector-tile", "title" : {"cn" : "Vector-Tile图层", "en" : "Add a mapbox vector-tile Layer"}, "url" : "https://github.com/maptalks/maptalks.mapboxgl"},
-        {"name" : "arcgis-tile", "title" : {"cn" : "ArcGIS瓦片图层", "en" : "Add an ArcGIS TileLayer"}},
-        {"name" : "wmts-tile", "title" : {"cn" : "WMTS瓦片图层", "en" : "Add a WMTS TileLayer"}, "mark" : "new"},
-        {"name" : "custom-tile", "title" : {"cn" : "LOD和自定义瓦片图层", "en" : "LOD and custom TileLayer"}},
-        {"name" : "base64", "title" : {"cn" : "用base64编码载入瓦片", "en" : "Load tiles with base64 encoding"}},
-        {"name" : "tile-opacity", "title" : {"cn" : "设置瓦片图层透明度", "en" : "Set TileLayer's opacity"}},
-        {"name" : "tile-mask", "title" : {"cn" : "只显示指定范围内的瓦片", "en" : "Set a boundary mask to TileLayer"}},
-        {"name" : "epsg4326", "title" : {"cn" : "4326投影底图", "en" : "TileLayer of EPSG:4326 projection"}},
-        {"name" : "identity", "title" : {"cn" : "IDENTITY投影底图", "en" : "TileLayer of IDENTITY projection"}},
-        {"name" : "baidu", "title" : {"cn" : "百度投影底图", "en" : "TileLayer of Baidu Projection"}},
-        {"name" : "proj4js", "title" : {"cn" : "Proj4js自定义投影底图", "en" : "TileLayer of custom projection by proj4js"}},
-        {"name" : "d3-proj", "title" : {"cn" : "D3投影", "en" : "D3 geo projection"}},
-        {"name" : "different-projection", "title" : {"cn" : "载入不同投影的TileLayer", "en" : "Load tilelayer with different projection"}},
-        {"name" : "filter", "title" : {"cn" : "底图风格滤镜", "en" : "TileLayer's CSS filter"}},
-        {"name" : "max-zoom", "title" : {"cn" : "增大空间参考的maxZoom", "en" : "Larger maxZoom of spatialReference"}}
+      "name": "tilelayer-projection",
+      "title": {
+        "cn": "瓦片图层与地理投影",
+        "en": "TileLayer and Geo-Projections"
+      },
+      "examples": [
+        {
+          "name": "canvas-renderer",
+          "title": {
+            "cn": "Canvas渲染方式的瓦片图层",
+            "en": "TileLayer with Canvas renderer"
+          }
+        },
+        {
+          "name": "multi-tilelayer",
+          "title": { "cn": "添加多个瓦片图层", "en": "Add multiple TileLayers" }
+        },
+        {
+          "name": "grouptilelayer",
+          "title": { "cn": "添加瓦片图层组", "en": "Add GroupTileLayer" }
+        },
+        {
+          "name": "wms",
+          "title": { "cn": "WMS瓦片图层", "en": "Add a WMS TileLayer" }
+        },
+        {
+          "name": "vector-tile",
+          "title": {
+            "cn": "Vector-Tile图层",
+            "en": "Add a mapbox vector-tile Layer"
+          },
+          "url": "https://github.com/maptalks/maptalks.mapboxgl"
+        },
+        {
+          "name": "arcgis-tile",
+          "title": { "cn": "ArcGIS瓦片图层", "en": "Add an ArcGIS TileLayer" }
+        },
+        {
+          "name": "wmts-tile",
+          "title": { "cn": "WMTS瓦片图层", "en": "Add a WMTS TileLayer" },
+          "mark": "new"
+        },
+        {
+          "name": "custom-tile",
+          "title": {
+            "cn": "LOD和自定义瓦片图层",
+            "en": "LOD and custom TileLayer"
+          }
+        },
+        {
+          "name": "base64",
+          "title": {
+            "cn": "用base64编码载入瓦片",
+            "en": "Load tiles with base64 encoding"
+          }
+        },
+        {
+          "name": "tile-opacity",
+          "title": {
+            "cn": "设置瓦片图层透明度",
+            "en": "Set TileLayer's opacity"
+          }
+        },
+        {
+          "name": "tile-mask",
+          "title": {
+            "cn": "只显示指定范围内的瓦片",
+            "en": "Set a boundary mask to TileLayer"
+          }
+        },
+        {
+          "name": "epsg4326",
+          "title": {
+            "cn": "4326投影底图",
+            "en": "TileLayer of EPSG:4326 projection"
+          }
+        },
+        {
+          "name": "identity",
+          "title": {
+            "cn": "IDENTITY投影底图",
+            "en": "TileLayer of IDENTITY projection"
+          }
+        },
+        {
+          "name": "baidu",
+          "title": {
+            "cn": "百度投影底图",
+            "en": "TileLayer of Baidu Projection"
+          }
+        },
+        {
+          "name": "proj4js",
+          "title": {
+            "cn": "Proj4js自定义投影底图",
+            "en": "TileLayer of custom projection by proj4js"
+          }
+        },
+        {
+          "name": "d3-proj",
+          "title": { "cn": "D3投影", "en": "D3 geo projection" }
+        },
+        {
+          "name": "different-projection",
+          "title": {
+            "cn": "载入不同投影的TileLayer",
+            "en": "Load tilelayer with different projection"
+          }
+        },
+        {
+          "name": "filter",
+          "title": { "cn": "底图风格滤镜", "en": "TileLayer's CSS filter" }
+        },
+        {
+          "name": "max-zoom",
+          "title": {
+            "cn": "增大空间参考的maxZoom",
+            "en": "Larger maxZoom of spatialReference"
+          }
+        }
       ]
     },
 
     {
-      "name" : "geometry",
-      "title" : {"cn" : "图形", "en" : "Geometry"},
-      "examples" : [
-        {"name" : "marker", "title" : {"cn" : "Marker", "en" : "Marker"}},
-        {"name" : "linestring", "title" : {"cn" : "LineString", "en" : "LineString"}},
-        {"name" : "polygon", "title" : {"cn" : "Polygon", "en" : "Polygon"}},
-        {"name" : "collection", "title" : {"cn" : "GeometryCollection", "en" : "GeometryCollection"}},
-        {"name" : "multipoint", "title" : {"cn" : "MultiPoint", "en" : "MultiPoint"}},
-        {"name" : "multilinestring", "title" : {"cn" : "MultiLineString", "en" : "MultiLineString"}},
-        {"name" : "multipolygon", "title" : {"cn" : "MultiPolygon", "en" : "MultiPolygon"}},
-        {"name" : "rectangle-circle-ellipse-sector", "title" : {"cn" : "矩形, 圆形, 椭圆和扇形", "en" : "Rectangle, Circle, Ellipse and Sector"}},
-        {"name" : "curve", "title" : {"cn" : "圆弧和贝塞尔曲线", "en" : "Arc and Bezier Curves"}},
-        {"name" : "label", "title" : {"cn" : "文字标签(Label)", "en" : "Label"}},
-        {"name" : "textbox", "title" : {"cn" : "文本框(TextBox)", "en" : "TextBox"}},
-        {"name" : "connector-line", "title" : {"cn" : "连接线", "en" : "Connector Lines"}},
-        {"name" : "copy", "title" : {"cn" : "克隆", "en" : "Copy a geometry"}},
-        {"name" : "events", "title" : {"cn" : "监听图形事件", "en" : "Listen geometry events"}},
-        {"name" : "flash-geometry", "title" : {"cn" : "闪烁", "en" : "Flash a geometry"}},
-        {"name" : "collection-filter", "title" : {"cn" : "GeometryCollection的条件查询", "en" : "Filter GeometryCollection by condition"}}
+      "name": "geometry",
+      "title": { "cn": "图形", "en": "Geometry" },
+      "examples": [
+        { "name": "marker", "title": { "cn": "Marker", "en": "Marker" } },
+        {
+          "name": "linestring",
+          "title": { "cn": "LineString", "en": "LineString" }
+        },
+        { "name": "polygon", "title": { "cn": "Polygon", "en": "Polygon" } },
+        {
+          "name": "collection",
+          "title": { "cn": "GeometryCollection", "en": "GeometryCollection" }
+        },
+        {
+          "name": "multipoint",
+          "title": { "cn": "MultiPoint", "en": "MultiPoint" }
+        },
+        {
+          "name": "multilinestring",
+          "title": { "cn": "MultiLineString", "en": "MultiLineString" }
+        },
+        {
+          "name": "multipolygon",
+          "title": { "cn": "MultiPolygon", "en": "MultiPolygon" }
+        },
+        {
+          "name": "rectangle-circle-ellipse-sector",
+          "title": {
+            "cn": "矩形, 圆形, 椭圆和扇形",
+            "en": "Rectangle, Circle, Ellipse and Sector"
+          }
+        },
+        {
+          "name": "curve",
+          "title": { "cn": "圆弧和贝塞尔曲线", "en": "Arc and Bezier Curves" }
+        },
+        {
+          "name": "label",
+          "title": { "cn": "文字标签(Label)", "en": "Label" }
+        },
+        {
+          "name": "textbox",
+          "title": { "cn": "文本框(TextBox)", "en": "TextBox" }
+        },
+        {
+          "name": "connector-line",
+          "title": { "cn": "连接线", "en": "Connector Lines" }
+        },
+        { "name": "copy", "title": { "cn": "克隆", "en": "Copy a geometry" } },
+        {
+          "name": "events",
+          "title": { "cn": "监听图形事件", "en": "Listen geometry events" }
+        },
+        {
+          "name": "flash-geometry",
+          "title": { "cn": "闪烁", "en": "Flash a geometry" }
+        },
+        {
+          "name": "collection-filter",
+          "title": {
+            "cn": "GeometryCollection的条件查询",
+            "en": "Filter GeometryCollection by condition"
+          }
+        }
       ]
     },
 
     {
-      "name" : "3d",
-      "title" : {"cn" : "三维", "en" : "3D"},
-      "examples" : [
-        {"name" : "marker-altitude", "title" : {"cn" : "有高度的Marker", "en" : "Marker with altitude"}},
-        {"name" : "marker-draw-altitude", "title" : {"cn" : "绘制Marker的高度线", "en" : "Draw marker's altitude"}},
-        {"name" : "line-altitude", "title" : {"cn" : "有高度的线", "en" : "LineString with altitude"}},
-        {"name" : "line-draw-altitude", "title" : {"cn" : "绘制Line的高度面", "en" : "Draw line's altitude wall"}},
-        {"name" : "polygon-altitude", "title" : {"cn" : "有高度的多边形", "en" : "Polygon with altitude"}}
+      "name": "3d",
+      "title": { "cn": "三维", "en": "3D" },
+      "examples": [
+        {
+          "name": "marker-altitude",
+          "title": { "cn": "有高度的Marker", "en": "Marker with altitude" }
+        },
+        {
+          "name": "marker-draw-altitude",
+          "title": {
+            "cn": "绘制Marker的高度线",
+            "en": "Draw marker's altitude"
+          }
+        },
+        {
+          "name": "line-altitude",
+          "title": { "cn": "有高度的线", "en": "LineString with altitude" }
+        },
+        {
+          "name": "line-draw-altitude",
+          "title": {
+            "cn": "绘制Line的高度面",
+            "en": "Draw line's altitude wall"
+          }
+        },
+        {
+          "name": "polygon-altitude",
+          "title": { "cn": "有高度的多边形", "en": "Polygon with altitude" }
+        }
       ]
     },
 
     {
-      "name" : "style",
-      "title" : {"cn" : "图形样式", "en" : "Geometry Styles"},
-      "examples" : [
-        {"name" : "image-marker", "title" : {"cn" : "图片标注", "en" : "Image marker"}},
-        {"name" : "multi-image-marker", "title" : {"cn" : "多图片标注", "en" : "Multiple-image marker"}},
-        {"name" : "vector-marker", "title" : {"cn" : "矢量标注", "en" : "Vector marker"}},
-        {"name" : "vector-pattern", "title" : {"cn" : "矢量标注模式填充", "en" : "Vector marker with pattern fill"}},
-        {"name" : "vector-gradient", "title" : {"cn" : "矢量标注渐变填充", "en" : "Vector marker with gradient fill"}},
-        {"name" : "svg-path-marker", "title" : {"cn" : "SVG矢量标注", "en" : "SVG vector marker"}},
-        {"name" : "marker-alignment", "title" : {"cn" : "标注水平和垂直对齐", "en" : "Marker's horizontal and vertical alignment"}},
-        {"name" : "rotate-marker", "title" : {"cn" : "旋转标注", "en" : "Rotate a marker"}},
-        {"name" : "text-marker", "title" : {"cn" : "文字标注", "en" : "Text marker"}},
-        {"name" : "rotate-text", "title" : {"cn" : "旋转文字标注", "en" : "Rotate a text marker"}},
-        {"name" : "image-text-marker", "title" : {"cn" : "带文字的图片标注", "en" : "Image marker with texts"}},
-        {"name" : "line-symbol", "title" : {"cn" : "线样式", "en" : "Line symbol"}},
-        {"name" : "line-pattern", "title" : {"cn" : "线的模式填充", "en" : "Line pattern fill"}},
-        {"name" : "line-pattern-animation", "title" : {"cn" : "线的模式填充动画", "en" : "Animation of line pattern fill"}},
-        {"name" : "line-gradient", "title" : {"cn" : "线的渐变填充", "en" : "Line gradient fill"}},
-        {"name" : "line-arrow", "title" : {"cn" : "带箭头的线", "en" : "Line with arrows"}},
-        {"name" : "line-text", "title" : {"cn" : "带文字的线", "en" : "Line with texts"}},
-        {"name" : "line-marker", "title" : {"cn" : "端点沿线自动旋转Marker", "en" : "Line of vertex marker with auto rotation"}},
-        {"name" : "line-smoothness", "title" : {"cn" : "线的曲线平滑", "en" : "Smooth line with curve"}},
-        {"name" : "polygon-symbol", "title" : {"cn" : "面样式", "en" : "Polygon symbol"}},
-        {"name" : "polygon-pattern", "title" : {"cn" : "面的模式填充", "en" : "Polygon pattern fill"}},
-        {"name" : "polygon-gradient", "title" : {"cn" : "面的渐变填充", "en" : "Polygon gradient fill"}},
-        {"name" : "polygon-vertex-marker", "title" : {"cn" : "面的端点样式", "en" : "Polygon with vetex markers"}},
-        {"name" : "composite-symbol", "title" : {"cn" : "组合样式", "en" : "Composite symbol"}},
-        {"name" : "update-symbol", "title" : {"cn" : "样式的部分更新", "en" : "Update part of symbol"}},
-        {"name" : "symbol-by-zoom", "title" : {"cn" : "根据zoom设置样式", "en" : "Symbol by map zoom"}},
-        {"name" : "symbol-by-prop", "title" : {"cn" : "根据属性数据设置样式", "en" : "Symbol by geometry properties"}},
-        {"name" : "html-marker", "title" : {"cn" : "HTML自定义标注", "en" : "Marker with HTML content"}},
-        {"name" : "d3-marker", "title" : {"cn" : "D3图表样式", "en" : "Marker with D3 chart"}},
-        {"name" : "echarts-marker", "title" : {"cn" : "Echarts图表样式", "en" : "Marker with echarts"}},
-        {"name" : "highcharts-marker", "title" : {"cn" : "Highcharts图表样式", "en" : "Marker with highcharts"}}
+      "name": "style",
+      "title": { "cn": "图形样式", "en": "Geometry Styles" },
+      "examples": [
+        {
+          "name": "image-marker",
+          "title": { "cn": "图片标注", "en": "Image marker" }
+        },
+        {
+          "name": "multi-image-marker",
+          "title": { "cn": "多图片标注", "en": "Multiple-image marker" }
+        },
+        {
+          "name": "vector-marker",
+          "title": { "cn": "矢量标注", "en": "Vector marker" }
+        },
+        {
+          "name": "vector-pattern",
+          "title": {
+            "cn": "矢量标注模式填充",
+            "en": "Vector marker with pattern fill"
+          }
+        },
+        {
+          "name": "vector-gradient",
+          "title": {
+            "cn": "矢量标注渐变填充",
+            "en": "Vector marker with gradient fill"
+          }
+        },
+        {
+          "name": "svg-path-marker",
+          "title": { "cn": "SVG矢量标注", "en": "SVG vector marker" }
+        },
+        {
+          "name": "marker-alignment",
+          "title": {
+            "cn": "标注水平和垂直对齐",
+            "en": "Marker's horizontal and vertical alignment"
+          }
+        },
+        {
+          "name": "rotate-marker",
+          "title": { "cn": "旋转标注", "en": "Rotate a marker" }
+        },
+        {
+          "name": "text-marker",
+          "title": { "cn": "文字标注", "en": "Text marker" }
+        },
+        {
+          "name": "rotate-text",
+          "title": { "cn": "旋转文字标注", "en": "Rotate a text marker" }
+        },
+        {
+          "name": "image-text-marker",
+          "title": { "cn": "带文字的图片标注", "en": "Image marker with texts" }
+        },
+        {
+          "name": "line-symbol",
+          "title": { "cn": "线样式", "en": "Line symbol" }
+        },
+        {
+          "name": "line-pattern",
+          "title": { "cn": "线的模式填充", "en": "Line pattern fill" }
+        },
+        {
+          "name": "line-pattern-animation",
+          "title": {
+            "cn": "线的模式填充动画",
+            "en": "Animation of line pattern fill"
+          }
+        },
+        {
+          "name": "line-gradient",
+          "title": { "cn": "线的渐变填充", "en": "Line gradient fill" }
+        },
+        {
+          "name": "line-arrow",
+          "title": { "cn": "带箭头的线", "en": "Line with arrows" }
+        },
+        {
+          "name": "line-text",
+          "title": { "cn": "带文字的线", "en": "Line with texts" }
+        },
+        {
+          "name": "line-marker",
+          "title": {
+            "cn": "端点沿线自动旋转Marker",
+            "en": "Line of vertex marker with auto rotation"
+          }
+        },
+        {
+          "name": "line-smoothness",
+          "title": { "cn": "线的曲线平滑", "en": "Smooth line with curve" }
+        },
+        {
+          "name": "polygon-symbol",
+          "title": { "cn": "面样式", "en": "Polygon symbol" }
+        },
+        {
+          "name": "polygon-pattern",
+          "title": { "cn": "面的模式填充", "en": "Polygon pattern fill" }
+        },
+        {
+          "name": "polygon-gradient",
+          "title": { "cn": "面的渐变填充", "en": "Polygon gradient fill" }
+        },
+        {
+          "name": "polygon-vertex-marker",
+          "title": { "cn": "面的端点样式", "en": "Polygon with vetex markers" }
+        },
+        {
+          "name": "composite-symbol",
+          "title": { "cn": "组合样式", "en": "Composite symbol" }
+        },
+        {
+          "name": "update-symbol",
+          "title": { "cn": "样式的部分更新", "en": "Update part of symbol" }
+        },
+        {
+          "name": "symbol-by-zoom",
+          "title": { "cn": "根据zoom设置样式", "en": "Symbol by map zoom" }
+        },
+        {
+          "name": "symbol-by-prop",
+          "title": {
+            "cn": "根据属性数据设置样式",
+            "en": "Symbol by geometry properties"
+          }
+        },
+        {
+          "name": "html-marker",
+          "title": { "cn": "HTML自定义标注", "en": "Marker with HTML content" }
+        },
+        {
+          "name": "d3-marker",
+          "title": { "cn": "D3图表样式", "en": "Marker with D3 chart" }
+        },
+        {
+          "name": "echarts-marker",
+          "title": { "cn": "Echarts图表样式", "en": "Marker with echarts" }
+        },
+        {
+          "name": "highcharts-marker",
+          "title": {
+            "cn": "Highcharts图表样式",
+            "en": "Marker with highcharts"
+          }
+        }
       ]
     },
 
     {
-      "name" : "layer",
-      "title" : {"cn" : "图层", "en" : "Layer"},
-      "examples" : [
-        {"name" : "add-remove", "title" : {"cn" : "添加图层和移除图层", "en" : "Add and remove layers"}},
-        {"name" : "show-hide", "title" : {"cn" : "隐藏显示图层", "en" : "Show and hide layers"}},
-        {"name" : "opacity", "title" : {"cn" : "设置图层透明度", "en" : "Set layer's opacity"}},
-        {"name" : "bring-front-back", "title" : {"cn" : "图层置顶或置底", "en" : "Bring layers to front or back"}},
-        {"name" : "sort", "title" : {"cn" : "改变图层叠加顺序", "en" : "Sort layers"}},
-        {"name" : "mask", "title" : {"cn" : "用鼠标设置图层遮罩", "en" : "Set layer mask as mouse event"}},
-        {"name" : "globalcompositeoperation", "title" : {"cn" : "globalCompositeOperation", "en" : "Layer's globalCompositeOperation"}},
-        {"name" : "vectorlayer-batch-add", "title" : {"cn" : "VectorLayer: 批量添加图形", "en" : "VectorLayer: Batch add geometries"}},
-        {"name" : "vectorlayer-get-by-id", "title" : {"cn" : "VectorLayer:根据 ID 获取图形", "en" : "VectorLayer: Get geometry by ID"}},
-        {"name" : "vectorlayer-filter", "title" : {"cn" : "VectorLayer: 根据属性条件筛选图形", "en" : "VectorLayer: Filter geometries by property condition"}},
-        {"name" : "vectorlayer-style", "title" : {"cn" : "VectorLayer: 批量设置图形样式", "en" : "VectorLayer: Batch style geometries"}},
-        {"name" : "vectorlayer-sort", "title" : {"cn" : "VectorLayer: 设置图形的z-index", "en" : "VectorLayer: Set geomtries' z-index"}},
-        {"name" : "canvaslayer", "title" : {"cn" : "CanvasLayer: 画板图层示例", "en" : "CanvasLayer: an example"}},
-        {"name" : "particlelayer", "title" : {"cn" : "ParticleLayer: 粒子图层示例", "en" : "ParticleLayer: an example"}},
-        {"name" : "canvastilelayer", "title" : {"cn" : "CanvasTileLayer: 画板瓦片图层示例", "en" : "CanvasTileLayer: an example"}},
-        {"name" : "swipe", "title" : {"cn" : "图层卷帘效果", "en" : "Layer swipe effect"}},
-        {"name" : "imagelayer", "title" : {"cn" : "ImageLayer: 图片图层示例", "en" : "ImageLayer: an example"}}
+      "name": "layer",
+      "title": { "cn": "图层", "en": "Layer" },
+      "examples": [
+        {
+          "name": "add-remove",
+          "title": { "cn": "添加图层和移除图层", "en": "Add and remove layers" }
+        },
+        {
+          "name": "show-hide",
+          "title": { "cn": "隐藏显示图层", "en": "Show and hide layers" }
+        },
+        {
+          "name": "opacity",
+          "title": { "cn": "设置图层透明度", "en": "Set layer's opacity" }
+        },
+        {
+          "name": "bring-front-back",
+          "title": {
+            "cn": "图层置顶或置底",
+            "en": "Bring layers to front or back"
+          }
+        },
+        {
+          "name": "sort",
+          "title": { "cn": "改变图层叠加顺序", "en": "Sort layers" }
+        },
+        {
+          "name": "mask",
+          "title": {
+            "cn": "用鼠标设置图层遮罩",
+            "en": "Set layer mask as mouse event"
+          }
+        },
+        {
+          "name": "globalcompositeoperation",
+          "title": {
+            "cn": "globalCompositeOperation",
+            "en": "Layer's globalCompositeOperation"
+          }
+        },
+        {
+          "name": "vectorlayer-batch-add",
+          "title": {
+            "cn": "VectorLayer: 批量添加图形",
+            "en": "VectorLayer: Batch add geometries"
+          }
+        },
+        {
+          "name": "vectorlayer-get-by-id",
+          "title": {
+            "cn": "VectorLayer:根据 ID 获取图形",
+            "en": "VectorLayer: Get geometry by ID"
+          }
+        },
+        {
+          "name": "vectorlayer-filter",
+          "title": {
+            "cn": "VectorLayer: 根据属性条件筛选图形",
+            "en": "VectorLayer: Filter geometries by property condition"
+          }
+        },
+        {
+          "name": "vectorlayer-style",
+          "title": {
+            "cn": "VectorLayer: 批量设置图形样式",
+            "en": "VectorLayer: Batch style geometries"
+          }
+        },
+        {
+          "name": "vectorlayer-sort",
+          "title": {
+            "cn": "VectorLayer: 设置图形的z-index",
+            "en": "VectorLayer: Set geomtries' z-index"
+          }
+        },
+        {
+          "name": "canvaslayer",
+          "title": {
+            "cn": "CanvasLayer: 画板图层示例",
+            "en": "CanvasLayer: an example"
+          }
+        },
+        {
+          "name": "particlelayer",
+          "title": {
+            "cn": "ParticleLayer: 粒子图层示例",
+            "en": "ParticleLayer: an example"
+          }
+        },
+        {
+          "name": "canvastilelayer",
+          "title": {
+            "cn": "CanvasTileLayer: 画板瓦片图层示例",
+            "en": "CanvasTileLayer: an example"
+          }
+        },
+        {
+          "name": "swipe",
+          "title": { "cn": "图层卷帘效果", "en": "Layer swipe effect" }
+        },
+        {
+          "name": "imagelayer",
+          "title": {
+            "cn": "ImageLayer: 图片图层示例",
+            "en": "ImageLayer: an example"
+          }
+        }
       ]
     },
 
     {
-      "name" : "interaction",
-      "title" : {"cn" : "交互", "en" : "User Interactions"},
-      "examples" : [
-        {"name" : "map-off", "title" : {"cn" : "禁用所有交互", "en" : "Disable map's interaction"}},
-        {"name" : "map-on-off", "title" : {"cn" : "地图功能开关", "en" : "Turn on/off map interaction capabilities"}},
-        {"name" : "distance-tool", "title" : {"cn" : "测距工具", "en" : "Distance tool to measure distance"}},
-        {"name" : "area-tool", "title" : {"cn" : "测面工具", "en" : "Area tool to measure area"}},
-        {"name" : "draw-tool", "title" : {"cn" : "绘制工具", "en" : "Draw tool to draw geometries"}},
-        {"name" : "drag-geometries", "title" : {"cn" : "拖拽图形", "en" : "Drag geometries"}},
-        {"name" : "edit-marker", "title" : {"cn" : "编辑标注", "en" : "Edit marker"}},
-        {"name" : "edit-line", "title" : {"cn" : "编辑线", "en" : "Edit LineString"}},
-        {"name" : "edit-polygon", "title" : {"cn" : "编辑多边形", "en" : "Edit Polygon"}},
-        {"name" : "edit-rectangle-circle-ellipse", "title" : {"cn" : "编辑矩形/圆形/椭圆", "en" : "Edit Rectangle/Circle/Elliipse"}},
-        {"name" : "edit-textbox", "title" : {"cn" : "编辑文本框", "en" : "Edit TextBox's shape"}},
-        {"name" : "edit-label", "title" : {"cn" : "编辑文本内容", "en" : "Edit Label and TextBox's content"}},
-        {"name" : "mouse-identify", "title" : {"cn" : "鼠标点选图形", "en" : "Identify geometries by mouse click"}},
-        {"name" : "mouse-highlight", "title" : {"cn" : "鼠标悬停高亮图形", "en" : "Highlight a geometry by mouseover"}},
-        {"name" : "mouse-contains", "title" : {"cn" : "鼠标与图形的空间关系", "en" : "Spatial relation between mouse and geometries"}}
+      "name": "interaction",
+      "title": { "cn": "交互", "en": "User Interactions" },
+      "examples": [
+        {
+          "name": "map-off",
+          "title": { "cn": "禁用所有交互", "en": "Disable map's interaction" }
+        },
+        {
+          "name": "map-on-off",
+          "title": {
+            "cn": "地图功能开关",
+            "en": "Turn on/off map interaction capabilities"
+          }
+        },
+        {
+          "name": "distance-tool",
+          "title": {
+            "cn": "测距工具",
+            "en": "Distance tool to measure distance"
+          }
+        },
+        {
+          "name": "area-tool",
+          "title": { "cn": "测面工具", "en": "Area tool to measure area" }
+        },
+        {
+          "name": "draw-tool",
+          "title": { "cn": "绘制工具", "en": "Draw tool to draw geometries" }
+        },
+        {
+          "name": "drag-geometries",
+          "title": { "cn": "拖拽图形", "en": "Drag geometries" }
+        },
+        {
+          "name": "edit-marker",
+          "title": { "cn": "编辑标注", "en": "Edit marker" }
+        },
+        {
+          "name": "edit-line",
+          "title": { "cn": "编辑线", "en": "Edit LineString" }
+        },
+        {
+          "name": "edit-polygon",
+          "title": { "cn": "编辑多边形", "en": "Edit Polygon" }
+        },
+        {
+          "name": "edit-rectangle-circle-ellipse",
+          "title": {
+            "cn": "编辑矩形/圆形/椭圆",
+            "en": "Edit Rectangle/Circle/Elliipse"
+          }
+        },
+        {
+          "name": "edit-textbox",
+          "title": { "cn": "编辑文本框", "en": "Edit TextBox's shape" }
+        },
+        {
+          "name": "edit-label",
+          "title": {
+            "cn": "编辑文本内容",
+            "en": "Edit Label and TextBox's content"
+          }
+        },
+        {
+          "name": "mouse-identify",
+          "title": {
+            "cn": "鼠标点选图形",
+            "en": "Identify geometries by mouse click"
+          }
+        },
+        {
+          "name": "mouse-highlight",
+          "title": {
+            "cn": "鼠标悬停高亮图形",
+            "en": "Highlight a geometry by mouseover"
+          }
+        },
+        {
+          "name": "mouse-contains",
+          "title": {
+            "cn": "鼠标与图形的空间关系",
+            "en": "Spatial relation between mouse and geometries"
+          }
+        }
       ]
     },
 
     {
-      "name" : "animation",
-      "title" : {"cn" : "动画", "en" : "Animation"},
-      "examples" : [
-        {"name" : "map-flyto", "title" : {"cn" : "地图飞行到指定位置", "en" : "Fly map's camera to a location"}},
-        {"name" : "marker-anim", "title" : {"cn" : "Marker的变形动画", "en" : "Marker's shape animation"}},
-        {"name" : "move-along", "title" : {"cn" : "点的沿线动画", "en" : "Marker animation along a line"}},
-        {"name" : "geometry-anim", "title" : {"cn" : "Geometry.animate方法", "en" : "Geometry.animate method"}},
-        {"name" : "line-animateshow", "title" : {"cn" : "线的动画展现", "en" : "LineString's animateShow"}},
-        {"name" : "polygon-animateshow", "title" : {"cn" : "面的动画展现", "en" : "Polygon's animateShow"}},
-        {"name" : "custom-anim", "title" : {"cn" : "自定义动画", "en" : "Custom animation"}},
-        {"name" : "map-view-follow", "title" : {"cn" : "地图跟随动画", "en" : "map-view-follow animation"}}
+      "name": "animation",
+      "title": { "cn": "动画", "en": "Animation" },
+      "examples": [
+        {
+          "name": "map-flyto",
+          "title": {
+            "cn": "地图飞行到指定位置",
+            "en": "Fly map's camera to a location"
+          }
+        },
+        {
+          "name": "marker-anim",
+          "title": {
+            "cn": "Marker的变形动画",
+            "en": "Marker's shape animation"
+          }
+        },
+        {
+          "name": "move-along",
+          "title": {
+            "cn": "点的沿线动画",
+            "en": "Marker animation along a line"
+          }
+        },
+        {
+          "name": "geometry-anim",
+          "title": {
+            "cn": "Geometry.animate方法",
+            "en": "Geometry.animate method"
+          }
+        },
+        {
+          "name": "line-animateshow",
+          "title": { "cn": "线的动画展现", "en": "LineString's animateShow" }
+        },
+        {
+          "name": "polygon-animateshow",
+          "title": { "cn": "面的动画展现", "en": "Polygon's animateShow" }
+        },
+        {
+          "name": "custom-anim",
+          "title": { "cn": "自定义动画", "en": "Custom animation" }
+        },
+        {
+          "name": "map-view-follow",
+          "title": { "cn": "地图跟随动画", "en": "map-view-follow animation" }
+        }
       ]
     },
 
     {
-      "name" : "ui-control",
-      "title" : {"cn" : "空间与UI组件", "en" : "Control and UIComponents"},
-      "examples" : [
-        {"name" : "ui-map-menu", "title" : {"cn" : "地图右键菜单", "en" : "Map's context menu"}},
-        {"name" : "ui-geo-menu", "title" : {"cn" : "图形右键菜单",  "en" : "Geometry's context menu"}},
-        {"name" : "ui-custom-menu", "title" : {"cn" : "自定义右键菜单", "en" : "Custom context menu"}},
-        {"name" : "ui-map-infownd", "title" : {"cn" : "地图信息框", "en" : "Map's InfoWindow"}},
-        {"name" : "ui-geo-infownd", "title" : {"cn" : "图形信息框", "en" : "Geometry's InfoWindow"}},
-        {"name" : "ui-custom-infownd", "title" : {"cn" : "自定义信息框", "en" : "Custom InfoWindow"}},
-        {"name" : "ui-geo-infownd-bind-mvvm-component", "title" : {"cn" : "信息框绑定MVVM组件", "en" : "InfoWindow bind MVVM component"}},
+      "name": "ui-control",
+      "title": { "cn": "空间与UI组件", "en": "Control and UIComponents" },
+      "examples": [
+        {
+          "name": "ui-map-menu",
+          "title": { "cn": "地图右键菜单", "en": "Map's context menu" }
+        },
+        {
+          "name": "ui-geo-menu",
+          "title": { "cn": "图形右键菜单", "en": "Geometry's context menu" }
+        },
+        {
+          "name": "ui-custom-menu",
+          "title": { "cn": "自定义右键菜单", "en": "Custom context menu" }
+        },
+        {
+          "name": "ui-map-infownd",
+          "title": { "cn": "地图信息框", "en": "Map's InfoWindow" }
+        },
+        {
+          "name": "ui-geo-infownd",
+          "title": { "cn": "图形信息框", "en": "Geometry's InfoWindow" }
+        },
+        {
+          "name": "ui-custom-infownd",
+          "title": { "cn": "自定义信息框", "en": "Custom InfoWindow" }
+        },
+        {
+          "name": "ui-geo-infownd-bind-mvvm-component",
+          "title": {
+            "cn": "信息框绑定MVVM组件",
+            "en": "InfoWindow bind MVVM component"
+          }
+        },
 
-        {"name" : "control-toolbar", "title" : {"cn" : "Toolbar控件", "en" : "Toolbar Control"}},
-        {"name" : "control-panel", "title" : {"cn" : "Panel控件", "en" : "Panel Control"}},
-        {"name" : "control-overview", "title" : {"cn" : "鹰眼控件", "en" : "Overview Control"}},
-        {"name" : "control-zoom", "title" : {"cn" : "Zoom控件", "en" : "Zoom Control"}},
-        {"name" : "control-scale", "title" : {"cn" : "Scale控件", "en" : "Scale Control"}},
-        {"name" : "control-attribution", "title" : {"cn" : "Attribution控件", "en" : "Attribution Control"}},
-        {"name" : "control-show-hide", "title" : {"cn" : "控件显示与隐藏", "en" : "Show and hide controls"}},
-        {"name" : "control-layer-switcher", "title" : {"cn" : "图层选择控件", "en" : "Layer Switcher"}}
+        {
+          "name": "control-toolbar",
+          "title": { "cn": "Toolbar控件", "en": "Toolbar Control" }
+        },
+        {
+          "name": "control-panel",
+          "title": { "cn": "Panel控件", "en": "Panel Control" }
+        },
+        {
+          "name": "control-overview",
+          "title": { "cn": "鹰眼控件", "en": "Overview Control" }
+        },
+        {
+          "name": "control-zoom",
+          "title": { "cn": "Zoom控件", "en": "Zoom Control" }
+        },
+        {
+          "name": "control-scale",
+          "title": { "cn": "Scale控件", "en": "Scale Control" }
+        },
+        {
+          "name": "control-attribution",
+          "title": { "cn": "Attribution控件", "en": "Attribution Control" }
+        },
+        {
+          "name": "control-show-hide",
+          "title": { "cn": "控件显示与隐藏", "en": "Show and hide controls" }
+        },
+        {
+          "name": "control-layer-switcher",
+          "title": { "cn": "图层选择控件", "en": "Layer Switcher" }
+        }
       ]
     },
 
     {
-      "name" : "json",
-      "title" : {"cn" : "JSON序列化", "en" : "JSON Serialization"},
-      "examples" : [
-        {"name" : "geojson-to-geometry", "title" : {"cn" : "GeoJSON转化为Geometry", "en" : "GeoJSON to geometries"}},
-        {"name" : "geometry-to-geojson", "title" : {"cn" : "Geometry转化为GeoJSON", "en" : "Geometries to GeoJSON"}},
-        {"name" : "map-to-json", "title" : {"cn" : "地图转化为JSON", "en" : "Map to JSON"}},
-        {"name" : "json-to-map", "title" : {"cn" : "用JSON载入地图", "en" : "Map from JSON"}},
-        {"name" : "copy-map", "title" : {"cn" : "用JSON复制地图", "en" : "Copy map by JSON"}},
-        {"name" : "layer-json", "title" : {"cn" : "用JSON复制Layer", "en" : "Copy layer by JSON"}},
-        {"name" : "geometry-json", "title" : {"cn" : "用JSON复制Geometry", "en" : "Copy geometry by JSON"}}
+      "name": "json",
+      "title": { "cn": "JSON序列化", "en": "JSON Serialization" },
+      "examples": [
+        {
+          "name": "geojson-to-geometry",
+          "title": {
+            "cn": "GeoJSON转化为Geometry",
+            "en": "GeoJSON to geometries"
+          }
+        },
+        {
+          "name": "geometry-to-geojson",
+          "title": {
+            "cn": "Geometry转化为GeoJSON",
+            "en": "Geometries to GeoJSON"
+          }
+        },
+        {
+          "name": "map-to-json",
+          "title": { "cn": "地图转化为JSON", "en": "Map to JSON" }
+        },
+        {
+          "name": "json-to-map",
+          "title": { "cn": "用JSON载入地图", "en": "Map from JSON" }
+        },
+        {
+          "name": "copy-map",
+          "title": { "cn": "用JSON复制地图", "en": "Copy map by JSON" }
+        },
+        {
+          "name": "layer-json",
+          "title": { "cn": "用JSON复制Layer", "en": "Copy layer by JSON" }
+        },
+        {
+          "name": "geometry-json",
+          "title": { "cn": "用JSON复制Geometry", "en": "Copy geometry by JSON" }
+        }
       ]
     },
 
     {
-      "name" : "plugin",
-      "title" : {"cn" : "常用插件", "en" : "Common Plugins"},
-      "examples" : [
-        {"name" : "mapboxgl", "title" : {"cn" : "Mapbox gl 图层", "en" : "Mapbox gl Layer"}, "url" : "https://github.com/maptalks/maptalks.mapboxgl"},
-        {"name" : "heatmaplayer", "title" : {"cn" : "HeatLayer: 热力图层示例", "en" : "Heatmap Layer"}, "url" : "https://github.com/maptalks/maptalks.heatmap"},
-        {"name" : "clusterlayer", "title" : {"cn" : "ClusterLayer: 点聚合图层示例", "en" : "Marker Cluster Layer"}, "url" : "https://github.com/maptalks/maptalks.markercluster"},
-        {"name" : "three", "title" : {"cn" : "Three.js 图层", "en" : "THREE.js Layer"}, "url" : "https://github.com/maptalks/maptalks.three"},
-        {"name" : "echarts", "title" : {"cn" : "Echarts 图层", "en" : "Echarts Layer"}, "url" : "https://github.com/maptalks/maptalks.e3"}
+      "name": "plugin",
+      "title": { "cn": "常用插件", "en": "Common Plugins" },
+      "examples": [
+        {
+          "name": "mapboxgl",
+          "title": { "cn": "Mapbox gl 图层", "en": "Mapbox gl Layer" },
+          "url": "https://github.com/maptalks/maptalks.mapboxgl"
+        },
+        {
+          "name": "heatmaplayer",
+          "title": { "cn": "HeatLayer: 热力图层示例", "en": "Heatmap Layer" },
+          "url": "https://github.com/maptalks/maptalks.heatmap"
+        },
+        {
+          "name": "clusterlayer",
+          "title": {
+            "cn": "ClusterLayer: 点聚合图层示例",
+            "en": "Marker Cluster Layer"
+          },
+          "url": "https://github.com/maptalks/maptalks.markercluster"
+        },
+        {
+          "name": "three",
+          "title": { "cn": "Three.js 图层", "en": "THREE.js Layer" },
+          "url": "https://github.com/maptalks/maptalks.three"
+        },
+        {
+          "name": "echarts",
+          "title": { "cn": "Echarts 图层", "en": "Echarts Layer" },
+          "url": "https://github.com/maptalks/maptalks.e3"
+        }
       ]
     },
 
     {
-      "name" : "plugin-develop",
-      "title" : {"cn" : "插件开发示例", "en" : "Plugin development"},
-      "examples" : [
-          {"name" : "control", "title" : {"cn" : "创建新的控件", "en" : "New control"}},
-          {"name" : "ui", "title" : {"cn" : "创建新的UI组件", "en" : "New UI Component"}},
-          {"name" : "maptool", "title" : {"cn" : "创建地图工具", "en" : "New MapTool"}}
+      "name": "plugin-develop",
+      "title": { "cn": "插件开发示例", "en": "Plugin development" },
+      "examples": [
+        {
+          "name": "control",
+          "title": { "cn": "创建新的控件", "en": "New control" }
+        },
+        {
+          "name": "ui",
+          "title": { "cn": "创建新的UI组件", "en": "New UI Component" }
+        },
+        {
+          "name": "maptool",
+          "title": { "cn": "创建地图工具", "en": "New MapTool" }
+        }
       ]
     },
 
     {
-      "name" : "hellolayer",
-      "title" : {"cn" : "图层开发示例", "en" : "Layer development"},
-      "examples" : [
-          {"name" : "layer", "title" : {"cn" : "HelloLayer", "en" : "HelloLayer"}},
-          {"name" : "drawoninteracting", "title" : {"cn" : "HelloLayer交互绘制", "en" : "HelloLayer with drawOnInteracting"}},
-          {"name" : "animation", "title" : {"cn" : "HelloLayer动画图层", "en" : "HelloLayer with animation"}}
+      "name": "hellolayer",
+      "title": { "cn": "图层开发示例", "en": "Layer development" },
+      "examples": [
+        {
+          "name": "layer",
+          "title": { "cn": "HelloLayer", "en": "HelloLayer" }
+        },
+        {
+          "name": "drawoninteracting",
+          "title": {
+            "cn": "HelloLayer交互绘制",
+            "en": "HelloLayer with drawOnInteracting"
+          }
+        },
+        {
+          "name": "animation",
+          "title": {
+            "cn": "HelloLayer动画图层",
+            "en": "HelloLayer with animation"
+          }
+        }
       ]
     }
   ]

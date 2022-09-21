@@ -14,20 +14,19 @@ var CleanCSS = require('clean-css');
 var helpers = require('./lib/helpers');
 var i18n = require('./lib/plugins/i18n');
 
-
 var markupRegex = /([^\/^\.]*)\.html$/;
 var locales = ['en', 'cn'];
 
 var siteInfo = {
-  baseurl: '/examples'
+  baseurl: '/examples',
 };
 
 var mapParams = {
   cn: {
     urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-    subdomains: '[\'a\',\'b\',\'c\',\'d\']',
+    subdomains: "['a','b','c','d']",
     attribution:
-      '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+      '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>',
     // 'urlTemplate' : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     // 'subdomains'  : '[\'a\',\'b\',\'c\']',
     // 'attribution': '&copy; <a href="http://www.osm.org" target="_blank">OpenStreetMap</a> contributors'
@@ -47,8 +46,8 @@ var mapParams = {
     urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
     subdomains: '["a","b","c","d"]',
     attribution:
-      '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
-  }
+      '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>',
+  },
 };
 
 function readExamplesInfo() {
@@ -69,29 +68,29 @@ function readExamplesInfo() {
         var key = path.join(items[i].name, subItems[j].name);
         metadata[key] = {
           category: category,
-          title: title
+          title: title,
         };
         subExamples.push({
           index: j + 1,
           url: subItems[j].url,
           name: subItems[j].name,
           mark: subItems[j].mark || '',
-          title: title
+          title: title,
         });
       }
       examples.push({
         index: i + 1,
         name: items[i].name,
         category: category,
-        examples: subExamples
+        examples: subExamples,
       });
     }
     return {
       examples: examples,
-      metadata: metadata
+      metadata: metadata,
     };
   }
-  return locales.reduce(function(memo, locale) {
+  return locales.reduce(function (memo, locale) {
     memo[locale] = buildLocalizedInfo(locale);
     return memo;
   }, {});
@@ -101,7 +100,7 @@ var examplesInfo = readExamplesInfo();
 
 var cleanCSS = new CleanCSS({
   level: 0,
-  format: 'keep-breaks'
+  format: 'keep-breaks',
 });
 
 function changed(info) {
@@ -111,14 +110,14 @@ function changed(info) {
   } else {
     changed = {};
   }
-  return function(files, metalsmith, done) {
-    var dirs = Object.keys(info.metadata).map(function(key) {
+  return function (files, metalsmith, done) {
+    var dirs = Object.keys(info.metadata).map(function (key) {
       return key + path.sep;
     });
     var modified = {};
     var notFoundInExamples = {};
-    Object.keys(files).forEach(function(file) {
-      var dir = dirs.find(function(dir) {
+    Object.keys(files).forEach(function (file) {
+      var dir = dirs.find(function (dir) {
         return file.startsWith(dir);
       });
       if (dir) {
@@ -133,11 +132,11 @@ function changed(info) {
       }
     });
     var updated = Object.keys(modified);
-    Object.keys(files).forEach(function(file) {
+    Object.keys(files).forEach(function (file) {
       if (notFoundInExamples[file]) {
         return;
       }
-      var keep = updated.find(function(dir) {
+      var keep = updated.find(function (dir) {
         return file.startsWith(dir);
       });
       if (!keep) {
@@ -147,7 +146,7 @@ function changed(info) {
     fs.writeFile(
       './.changed.json',
       JSON.stringify(changed, null, 2),
-      function() {
+      function () {
         done();
       }
     );
@@ -183,7 +182,7 @@ function processSingleFile(file, files) {
         .toString()
         .replace(/\$\(urlTemplate\)/g, params.urlTemplate)
         .replace(/\$\(subdomains\)/g, params.subdomains)
-        .replace(/\$\(attribution\)/g, params.attribution)
+        .replace(/\$\(attribution\)/g, params.attribution),
     };
     delete files[js];
   }
@@ -194,7 +193,7 @@ function processSingleFile(file, files) {
     var output = cleanCSS.minify(contents);
     data.css = {
       basename: id + '.css',
-      source: output.styles
+      source: output.styles,
     };
     delete files[css];
   }
@@ -209,14 +208,14 @@ function raw() {
     return !!multimatch(file, '**/readme*.md')[0];
   }
 
-  return function(files, metalsmith, done) {
-    Object.keys(files).forEach(function(file) {
+  return function (files, metalsmith, done) {
+    Object.keys(files).forEach(function (file) {
       if (!isHtml(file)) return;
       // attach index.js/index.css to index.html
       processSingleFile(file, files);
     });
 
-    Object.keys(files).forEach(function(file) {
+    Object.keys(files).forEach(function (file) {
       // do not copy/move readme
       if (isReadme(file)) return;
 
@@ -247,7 +246,7 @@ function raw() {
         if (md in files) {
           var contents = files[md].contents.toString();
           data.readme = {
-            contents: marked(contents)
+            contents: marked(contents),
           };
           delete files[md];
         }
@@ -270,7 +269,7 @@ function build(done) {
     .destination('dist/examples')
     .clean(false)
     .metadata({
-      site: siteInfo
+      site: siteInfo,
     })
     .use(timer('changed'))
     .use(changed(examplesInfo[locales[0]]))
@@ -278,7 +277,7 @@ function build(done) {
     .use(
       i18n({
         ignore: '**/readme*.md',
-        locales: locales
+        locales: locales,
       })
     )
     .use(timer('raw'))
@@ -294,8 +293,8 @@ function build(done) {
           default: 'example.hbs',
           directory: 'layouts/raw',
           helpers: {
-            indent: helpers.indent
-          }
+            indent: helpers.indent,
+          },
         })
       )
     )
@@ -311,8 +310,8 @@ function build(done) {
           helpers: {
             lunrIndex: helpers.lunrIndex,
             indent: helpers.indent,
-            escape: helpers.escape
-          }
+            escape: helpers.escape,
+          },
         })
       )
     )
@@ -320,12 +319,12 @@ function build(done) {
     .use(
       assets({
         ignores: ['js', 'css'],
-        source: 'assets'
+        source: 'assets',
       })
     )
     .use(timer('debug'))
     .use(debug())
-    .build(function(err, files) {
+    .build(function (err, files) {
       if (err) {
         console.log('number of files: ', files.keys().length);
         done(err);
