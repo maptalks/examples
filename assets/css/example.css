@@ -739,7 +739,7 @@ p {
 
 .demo-viewer {
   overflow: hidden;
-  height: 100%;
+  height: calc(100% - 50px);
   position: relative;
 }
 .demo-viewer .sidebar {
