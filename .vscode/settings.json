@@ -1,3 +1,5 @@
 {
-  "go.gopath": "${workspaceRoot}/scripts/go"
+  "go.gopath": "${workspaceRoot}/scripts/go",
+  "javascript.suggestionActions.enabled": false,
+  "typescript.suggestionActions.enabled": false
 }

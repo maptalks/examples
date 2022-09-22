@@ -721,13 +721,20 @@ p {
   width: 144px;
 }
 .page-header .title {
+  display: inline-block;
+  height: 100%;
+  line-height: 48px;
   padding: 0 20px;
   color: #919eab;
+  border-bottom: 3px solid transparent;
   cursor: pointer;
 }
-
 .page-header .title:hover {
   color: #48b1fc;
+}
+.page-header .title.active {
+  background-color: #f1f1f1;
+  border-color: #48b1fc;
 }
 
 .demo-viewer {

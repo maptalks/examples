@@ -11,7 +11,12 @@
   "rules": {
     "strict": 0,
     "comma-spacing": 0,
-    "space-before-function-paren": [2, {"anonymous": "never", "named": "never"}],
-    "indent": ["error", 2]
+    "space-before-function-paren": "off",
+    "indent": ["error", 2],
+    "no-var": "off",
+    "no-loop-func": "off"
+  },
+  "env": {
+    "es6": true
   }
 }
