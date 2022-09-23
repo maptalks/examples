@@ -478,7 +478,7 @@
           if (f) f.style.display = h;
         }
       } catch (u) {
-        D.console && console.log((u && u.stack) || u);
+        D.console && console.error((u && u.stack) || u);
       }
     }
     var D = window,

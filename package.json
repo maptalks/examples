@@ -14,6 +14,7 @@
     "handlebars": "^4.0.5",
     "i18next": "^8.4.3",
     "i18next-sync-fs-backend": "^1.0.0",
+    "json-loader": "^0.5.7",
     "lunr": "^2.1.2",
     "lunr-languages": "^1.9.0",
     "marked": "^0.3.6",
@@ -23,7 +24,7 @@
     "metalsmith-debug": "^1.1.0",
     "metalsmith-layouts": "^1.6.5",
     "metalsmith-timer": "0.0.2",
-    "ms-webpack": "^1.0.2",
+    "ms-webpack": "^2.0.0",
     "multimatch": "^2.1.0",
     "nodejieba": "^2.6.0",
     "prettify": "^0.1.7"

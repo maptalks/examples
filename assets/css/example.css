@@ -729,6 +729,9 @@ p {
   border-bottom: 3px solid transparent;
   cursor: pointer;
 }
+.page-header .title:first-of-type {
+  margin-left: 64px;
+}
 .page-header .title:hover {
   color: #48b1fc;
 }
@@ -836,6 +839,7 @@ p {
   border-color: #48b1fc;
 }
 .demo-viewer .sidebar .menu-area .menu {
+  display: none;
   -ms-flex: 1;
   flex: 1;
   margin: 10px;
@@ -844,6 +848,9 @@ p {
   padding: 0;
   padding-top: 10px;
   overflow: auto;
+}
+.demo-viewer .sidebar .menu-area .menu.show {
+  display: block;
 }
 .demo-viewer .sidebar .menu-area .menu > .list-tile {
   list-style: none;

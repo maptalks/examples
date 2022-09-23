@@ -14,7 +14,12 @@
     "space-before-function-paren": "off",
     "indent": ["error", 2],
     "no-var": "off",
-    "no-loop-func": "off"
+    "no-loop-func": "off",
+    "no-undef": "off",
+    "no-useless-escape": "off",
+    "quotes": "off",
+    "no-unused-vars": "off",
+    "global-require": "off"
   },
   "env": {
     "es6": true

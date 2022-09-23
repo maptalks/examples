@@ -26,10 +26,9 @@
             {{/ifCond}}
           </div>
         </div>
-        <span class="title" style="margin-left: 64px;">基础功能</span>
-        <span class="title">矢量渲染</span>
-        <span class="title">三维功能</span>
-        <span class="title">地下管线</span>
+         {{#each examples}}
+          <span class="title">{{category}}</span>
+        {{/each}}
     </div>
   </div>
 
@@ -49,29 +48,31 @@
           <div class="all-download-button"><a href="https://github.com/maptalks/examples/archive/gh-pages.zip">{{ t 'Download All' }}</a></div>
         </div>
 
-        <ul class="menu scroll-block">
+        {{#each examples}}
+          <ul class="menu scroll-block">
           {{#each examples}}
-          <li class="list-tile">
-            <div class="list-title">{{index}} {{category}}</div>
-            <ul class="list">
-              {{#each examples}}
-                <li class="list-tile example on">
-                {{#if mark}}
-                <a style="color:red"
-                {{^}}
-                <a
-                {{/if}}
-                {{#if url}}
-                  id="{{../name}}_{{name}}" href="{{url}}" target="_blank">{{../index}}.{{index}} {{title}} <img title="external link" src="../../../resource/image/external-url.png"/></a>
-                {{^}}
-                  class="{{mark}}" id="{{../name}}_{{name}}" href="{{ @root.site.baseurl }}/{{ @root.locale }}/{{../name}}/{{name}}/#{{../name}}_{{name}}">{{../index}}.{{index}} {{title}}</a>
-                {{/if}}
-              </li>
-              {{/each}}
-            </ul>
-          </li>
+            <li class="list-tile">
+              <div class="list-title">{{index}} {{category}}</div>
+              <ul class="list">
+                {{#each examples}}
+                  <li class="list-tile example on">
+                    {{#if mark}}
+                    <a style="color:red"
+                    {{^}}
+                    <a
+                    {{/if}}
+                    {{#if url}}
+                      id="{{../name}}_{{name}}" href="{{url}}" target="_blank">{{../index}}.{{index}} {{title}} <img title="external link" src="../../../resource/image/external-url.png"/></a>
+                    {{^}}
+                      class="{{mark}}" id="{{../name}}_{{name}}" href="{{ @root.site.baseurl }}/{{ @root.locale }}/{{../../name}}/{{../name}}/{{name}}/#{{../name}}_{{name}}">{{../index}}.{{index}} {{title}}</a>
+                    {{/if}}
+                  </li>
+                {{/each}}
+              </ul>
+            </li>
           {{/each}}
-        </ul>
+          </ul>
+        {{/each}}
 
       </div>
 

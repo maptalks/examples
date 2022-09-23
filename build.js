@@ -51,38 +51,48 @@ var mapParams = {
 };
 
 function readExamplesInfo() {
-  var json = require('./build/examples.json');
+  const json = require('./build/examples.json');
   function buildLocalizedInfo(locale) {
-    var items = json.examples;
-    var count = items.length;
-    var examples = [];
-    var metadata = {};
-    var i, j;
-    for (i = 0; i < count; i++) {
-      var category = items[i].title[locale];
-      var subItems = items[i].examples;
-      var subCount = subItems.length;
-      var subExamples = [];
-      for (j = 0; j < subCount; j++) {
-        var title = subItems[j].title[locale];
-        var key = path.join(items[i].name, subItems[j].name);
-        metadata[key] = {
-          category: category,
-          title: title,
-        };
-        subExamples.push({
+    const examples = [];
+    const metadata = {};
+    for (let i = 0; i < json.length; i++) {
+      const category = json[i].title[locale];
+      const sub1Items = json[i].examples;
+      const sub1Examples = [];
+      for (let j = 0; j < sub1Items.length; j++) {
+        const category = sub1Items[j].title[locale];
+        const sub2Items = sub1Items[j].examples;
+        const sub2Examples = [];
+        for (let k = 0; k < sub2Items.length; k++) {
+          const category = sub2Items[k].title[locale];
+          const title = sub2Items[k].title[locale];
+          const key = path.join(
+            json[i].name,
+            sub1Items[j].name,
+            sub2Items[k].name
+          );
+          metadata[key] = {
+            category: category,
+            title: title,
+          };
+          sub2Examples.push({
+            index: k + 1,
+            name: sub2Items[k].name,
+            title: title,
+          });
+        }
+        sub1Examples.push({
           index: j + 1,
-          url: subItems[j].url,
-          name: subItems[j].name,
-          mark: subItems[j].mark || '',
-          title: title,
+          name: sub1Items[j].name,
+          category: category,
+          examples: sub2Examples,
         });
       }
       examples.push({
         index: i + 1,
-        name: items[i].name,
+        name: json[i].name,
         category: category,
-        examples: subExamples,
+        examples: sub1Examples,
       });
     }
     return {
@@ -154,26 +164,26 @@ function changed(info) {
 }
 
 function processSingleFile(file, files) {
-  var basename = path.basename(file);
-  var match = basename.match(markupRegex);
+  const basename = path.basename(file);
+  const match = basename.match(markupRegex);
   if (!match) return;
 
-  var data = files[file];
+  const data = files[file];
 
-  var id = match[1];
-  var dirnameOrig = path.dirname(data.i18nOrigPath);
-  var dirname = path.dirname(file);
+  const id = match[1];
+  const dirnameOrig = path.dirname(data.i18nOrigPath);
+  const dirname = path.dirname(file);
 
-  var info = examplesInfo[data.locale];
-  var meta = info.metadata;
-  var filemeta = meta[dirnameOrig] || {};
+  const info = examplesInfo[data.locale];
+  const meta = info.metadata;
+  const filemeta = meta[dirnameOrig] || {};
   data.examples = info.examples;
   data.category = filemeta.category;
   data.title = filemeta.title;
   data.basename = basename;
   data.path = dirnameOrig;
 
-  var js = path.join(dirname, id + '.js');
+  const js = path.join(dirname, id + '.js');
   if (js in files) {
     var params = mapParams[data.locale];
     data.js = {
@@ -326,7 +336,7 @@ function build(done) {
     .use(debug())
     .build(function (err, files) {
       if (err) {
-        console.log('number of files: ', files.keys().length);
+        console.error('number of files: ', files.keys().length);
         done(err);
         return;
       }

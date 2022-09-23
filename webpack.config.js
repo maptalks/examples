@@ -16,6 +16,10 @@ module.exports = {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract('css-loader?url=false'),
       },
+      {
+        test: /\.json$/,
+        loader: 'json-loader',
+      },
     ],
   },
   plugins: [new ExtractTextPlugin('css/[name]-[contenthash:6].css')],
