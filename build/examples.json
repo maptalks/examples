@@ -944,6 +944,257 @@
             "title": { "cn": "加载", "en": "load" }
           }
         ]
+      },
+      {
+        "name": "pointlayer",
+        "title": { "cn": "点图层", "en": "PointLayer" },
+        "examples": [
+          {
+            "name": "add-remove",
+            "title": { "cn": "添加和移除图层", "en": "Add and remove layer" }
+          },
+          {
+            "name": "show-hide",
+            "title": { "cn": "隐藏显示图层", "en": "Show and hide layer" }
+          },
+          {
+            "name": "max-min-zoom",
+            "title": { "cn": "图层最小和最大级别", "en": "Min and max zoom" }
+          },
+          {
+            "name": "add-marker",
+            "title": { "cn": "添加Marker", "en": "Add Marker" }
+          },
+          {
+            "name": "add-multi-point",
+            "title": { "cn": "添加MultiPoint", "en": "Add MultiPoint" }
+          },
+          {
+            "name": "batch-add",
+            "title": { "cn": "批量添加图形", "en": "Batch add" }
+          },
+          {
+            "name": "get-by-id",
+            "title": { "cn": "通过ID获取图形", "en": "Get geometry by id" }
+          },
+          {
+            "name": "filter-by-property",
+            "title": {
+              "cn": "根据属性条件筛选图形",
+              "en": "Filter data by property"
+            }
+          },
+          {
+            "name": "get-extent",
+            "title": {
+              "cn": "获取所有图形的Extent",
+              "en": "Get Extent"
+            }
+          },
+          {
+            "name": "disable-events",
+            "title": {
+              "cn": "禁用图形事件",
+              "en": "Disable geometry events"
+            }
+          },
+          {
+            "name": "hit-detect",
+            "title": {
+              "cn": "禁用鼠标样式检测",
+              "en": "Disable hit detect"
+            }
+          },
+          {
+            "name": "set-style",
+            "title": {
+              "cn": "设置图层style",
+              "en": "Set layer style"
+            }
+          },
+          {
+            "name": "style-scale",
+            "title": {
+              "cn": "图层数据整体放大",
+              "en": "Style scale"
+            }
+          },
+          {
+            "name": "image-marker",
+            "title": {
+              "cn": "图片标注",
+              "en": "Image marker"
+            }
+          },
+          {
+            "name": "multi-image-marker",
+            "title": {
+              "cn": "多图片标注",
+              "en": "Multi image marker"
+            }
+          },
+          {
+            "name": "vector-marker",
+            "title": {
+              "cn": "矢量标注",
+              "en": "Vector marker"
+            }
+          },
+          {
+            "name": "vector-gradient",
+            "title": {
+              "cn": "矢量标注渐变填充",
+              "en": "Vector Gradient marker"
+            }
+          },
+          {
+            "name": "svg-marker",
+            "title": {
+              "cn": "SVG矢量标注",
+              "en": "SVG vector marker"
+            }
+          },
+          {
+            "name": "middle-alignment",
+            "title": {
+              "cn": "标注水平和垂直对齐",
+              "en": "Marker middle alignment"
+            }
+          },
+          {
+            "name": "rotation-pitch-alignment",
+            "title": {
+              "cn": "旋转对齐与倾斜对齐",
+              "en": "Rotation and pitch alignment"
+            }
+          },
+          {
+            "name": "rotate-marker",
+            "title": {
+              "cn": "旋转标注",
+              "en": "Rotate marker"
+            }
+          },
+          {
+            "name": "rotate-text",
+            "title": {
+              "cn": "旋转文字标注",
+              "en": "Rotate text"
+            }
+          },
+          {
+            "name": "image-text-marker",
+            "title": {
+              "cn": "带文字的图片标注",
+              "en": "Image marker with texts"
+            }
+          },
+          {
+            "name": "text-fit",
+            "title": {
+              "cn": "图标尺寸自动适应文字",
+              "en": "Marker text fit"
+            }
+          },
+          {
+            "name": "composite-symbol",
+            "title": {
+              "cn": "组合样式",
+              "en": "Composite symbol"
+            }
+          },
+          {
+            "name": "update-symbol",
+            "title": {
+              "cn": "样式的部分更新",
+              "en": "Update symbol"
+            }
+          },
+          {
+            "name": "symbol-by-zoom",
+            "title": {
+              "cn": "根据zoom设置样式",
+              "en": "Symbol by map zoom"
+            }
+          },
+          {
+            "name": "symbol-by-prop",
+            "title": {
+              "cn": "根据属性数据设置样式",
+              "en": "Symbol by geometry properties"
+            }
+          },
+          {
+            "name": "mass-data",
+            "title": {
+              "cn": "海量点标注性能",
+              "en": "Mass markers"
+            }
+          },
+          {
+            "name": "mouse-identify",
+            "title": {
+              "cn": "鼠标点选数据",
+              "en": "Identify markers by mouse click"
+            }
+          },
+          {
+            "name": "mouse-highlight",
+            "title": {
+              "cn": "鼠标悬停高亮数据",
+              "en": "Highlight a marker by mouseover"
+            }
+          },
+          {
+            "name": "marker-events",
+            "title": {
+              "cn": "监听Marker事件",
+              "en": "Listen marker events"
+            }
+          },
+          {
+            "name": "collision",
+            "title": {
+              "cn": "碰撞检测",
+              "en": "Collision"
+            }
+          },
+          {
+            "name": "highlight",
+            "title": {
+              "cn": "数据高亮",
+              "en": "Highlight data"
+            }
+          },
+          {
+            "name": "geometry-json",
+            "title": {
+              "cn": "数据JSON序列化",
+              "en": "Geometries to JSON"
+            }
+          },
+          {
+            "name": "layer-json",
+            "title": {
+              "cn": "图层JSON序列化",
+              "en": "Layer to JSON"
+            }
+          },
+          {
+            "name": "geometry-geojson",
+            "title": {
+              "cn": "Marker转成GeoJSON",
+              "en": "Marker to GeoJSON"
+            }
+          },
+          {
+            "name": "geojson-marker",
+            "title": {
+              "cn": "GeoJSON转成Marker",
+              "en": "GeoJSON to Marker"
+            }
+          }
+        ]
       }
     ]
   },
