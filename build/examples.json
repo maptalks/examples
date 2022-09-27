@@ -1195,6 +1195,124 @@
             }
           }
         ]
+      },
+      {
+        "name": "linelayer",
+        "title": { "cn": "线图层", "en": "LineLayer" },
+        "examples": [
+          {
+            "name": "add-line",
+            "title": {
+              "cn": "添加线",
+              "en": "Add a line"
+            }
+          },
+          {
+            "name": "add-multi-line",
+            "title": {
+              "cn": "添加MultiLineString",
+              "en": "Add multiple lines"
+            }
+          },
+          {
+            "name": "line-style",
+            "title": {
+              "cn": "线的基础样式",
+              "en": "Line basic style"
+            }
+          },
+          {
+            "name": "dash-style",
+            "title": {
+              "cn": "线的虚线样式",
+              "en": "Dash line style"
+            }
+          },
+          {
+            "name": "outline-style",
+            "title": {
+              "cn": "有描边的线",
+              "en": "Outline style"
+            }
+          },
+          {
+            "name": "pattern-file",
+            "title": {
+              "cn": "线的填充模式",
+              "en": "Line pattern fill"
+            }
+          },
+          {
+            "name": "pattern-gap",
+            "title": {
+              "cn": "有间隔的模式填充",
+              "en": "Line pattern gap"
+            }
+          },
+          {
+            "name": "pattern-animation",
+            "title": {
+              "cn": "线的模式填充动画",
+              "en": "Animation of line pattern fill"
+            }
+          },
+          {
+            "name": "update-symbol",
+            "title": {
+              "cn": "线样式部分更新",
+              "en": "Update symbol"
+            }
+          },
+          {
+            "name": "set-style",
+            "title": {
+              "cn": "设置图层style",
+              "en": "Set layer style"
+            }
+          },
+          {
+            "name": "bind-event",
+            "title": {
+              "cn": "监听LineString事件",
+              "en": "Bind event"
+            }
+          },
+          {
+            "name": "highlight",
+            "title": {
+              "cn": "数据高亮",
+              "en": "Highlight data"
+            }
+          },
+          {
+            "name": "data-json",
+            "title": {
+              "cn": "数据JSON序列化",
+              "en": "Data to JSON"
+            }
+          },
+          {
+            "name": "layer-json",
+            "title": {
+              "cn": "图层JSON序列化",
+              "en": "Layer to JSON"
+            }
+          },
+          {
+            "name": "line-geojson",
+            "title": {
+              "cn": "LineString转成GeoJSON",
+              "en": "LineString to GeoJSON"
+            }
+          },
+          {
+            "name": "geojson-line",
+            "title": {
+              "cn": "GeoJSON转成LineString",
+              "en": "GeoJSON to LineString"
+            }
+          }
+        ]
       }
     ]
   },
