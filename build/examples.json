@@ -1313,6 +1313,103 @@
             }
           }
         ]
+      },
+      {
+        "name": "polygonlayer",
+        "title": { "cn": "面图层", "en": "PolygonLayer" },
+        "examples": [
+          {
+            "name": "add-polygon",
+            "title": {
+              "cn": "添加面",
+              "en": "Add a polygon"
+            }
+          },
+          {
+            "name": "add-multi-polygon",
+            "title": {
+              "cn": "添加MultiPolygon",
+              "en": "Add MultiPolygon"
+            }
+          },
+          {
+            "name": "basic-style",
+            "title": {
+              "cn": "面的基本样式",
+              "en": "Polygon basic style"
+            }
+          },
+          {
+            "name": "pattern-file",
+            "title": {
+              "cn": "面的填充模式",
+              "en": "Polygon pattern file"
+            }
+          },
+          {
+            "name": "vertex-marker",
+            "title": {
+              "cn": "面的端点样式",
+              "en": "Polygon vertex style"
+            }
+          },
+          {
+            "name": "alignment",
+            "title": {
+              "cn": "面的内部样式",
+              "en": "Polygon alignment style"
+            }
+          },
+          {
+            "name": "update-symbol",
+            "title": {
+              "cn": "面样式部分更新",
+              "en": "Update symbol"
+            }
+          },
+          {
+            "name": "set-style",
+            "title": {
+              "cn": "设置图层style",
+              "en": "Set layer style"
+            }
+          },
+          {
+            "name": "highlight",
+            "title": {
+              "cn": "数据高亮",
+              "en": "Highlight data"
+            }
+          },
+          {
+            "name": "geometry-json",
+            "title": {
+              "cn": "数据JSON序列化",
+              "en": "Geometry to JSON"
+            }
+          },
+          {
+            "name": "layer-json",
+            "title": {
+              "cn": "图层JSON序列化",
+              "en": "Layer to JSON"
+            }
+          },
+          {
+            "name": "geometry-geojson",
+            "title": {
+              "cn": "Polygon转成GeoJSON",
+              "en": "Polygon to GeoJSON"
+            }
+          },
+          {
+            "name": "geojson-geometry",
+            "title": {
+              "cn": "GeoJSON转成Polygon",
+              "en": "GeoJSON to Polygon"
+            }
+          }
+        ]
       }
     ]
   },
