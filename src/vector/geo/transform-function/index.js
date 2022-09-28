@@ -8,7 +8,6 @@ const map = new maptalks.Map('map', {
   }),
 });
 
-// 输入的数据不是GeoJSON数据
 const data = {
   properties: {
     adcode: '110000',
@@ -29,9 +28,9 @@ const data = {
   },
 };
 
-const geo = new maptalks.GeoJSONVectorTileLayer('geo', {
+const layer = new maptalks.GeoJSONVectorTileLayer('geo', {
   data,
-  // 数据转换函数
+  // convert function
   convertFn: function convert(data) {
     return {
       type: 'FeatureCollection',
@@ -46,11 +45,11 @@ const geo = new maptalks.GeoJSONVectorTileLayer('geo', {
   },
 });
 
-geo.on('dataload', (e) => {
+layer.on('dataload', (e) => {
   map.fitExtent(e.extent);
 });
 
-geo.setStyle({
+layer.setStyle({
   style: [
     {
       filter: true,
@@ -76,5 +75,5 @@ geo.setStyle({
   ],
 });
 
-const groupLayer = new maptalks.GroupGLLayer('group', [geo]);
+const groupLayer = new maptalks.GroupGLLayer('group', [layer]);
 groupLayer.addTo(map);

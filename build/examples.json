@@ -978,6 +978,13 @@
               "cn": "数据转换函数",
               "en": "Data transform function"
             }
+          },
+          {
+            "name": "load-event",
+            "title": {
+              "cn": "数据加载完成",
+              "en": "Data load event"
+            }
           }
         ]
       },

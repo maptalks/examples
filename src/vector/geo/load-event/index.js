@@ -58,6 +58,7 @@ const layer = new maptalks.GeoJSONVectorTileLayer('geo', {
 
 layer.on('dataload', (e) => {
   map.fitExtent(e.extent);
+  document.getElementById('info').innerHTML = 'Data loading completed';
 });
 
 layer.setStyle({

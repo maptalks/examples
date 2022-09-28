@@ -34,14 +34,14 @@ const style = {
   ],
 };
 
-const geo = new maptalks.GeoJSONVectorTileLayer('geo', {
+const layer = new maptalks.GeoJSONVectorTileLayer('geo', {
   data: 'area.geojson',
   style,
 });
 
-geo.on('dataload', (e) => {
+layer.on('dataload', (e) => {
   map.fitExtent(e.extent);
 });
 
-const groupLayer = new maptalks.GroupGLLayer('group', [geo]);
+const groupLayer = new maptalks.GroupGLLayer('group', [layer]);
 groupLayer.addTo(map);
