@@ -994,10 +994,17 @@
         },
         "examples": [
           {
-            "name": "load-layer",
+            "name": "load-mapbox",
             "title": {
-              "cn": "加载矢量瓦片图层",
-              "en": "Load a VectorTileLayer"
+              "cn": "载入mapbox矢量瓦片数据",
+              "en": "Load mapbox vector tile data"
+            }
+          },
+          {
+            "name": "load-custom",
+            "title": {
+              "cn": "载入自定义矢量瓦片数据",
+              "en": "Load custom vector tile data"
             }
           }
         ]
@@ -1035,36 +1042,6 @@
             "title": {
               "cn": "数据加载完成",
               "en": "Data load event"
-            }
-          }
-        ]
-      },
-      {
-        "name": "coordinate",
-        "title": {
-          "cn": "支持的坐标系",
-          "en": "Coordinate system"
-        },
-        "examples": [
-          {
-            "name": "EPSG3857",
-            "title": {
-              "cn": "EPSG3857(Web墨卡托)",
-              "en": "EPSG3857"
-            }
-          },
-          {
-            "name": "EPSG4326",
-            "title": {
-              "cn": "EPSG4326(WGS84)",
-              "en": "EPSG4326"
-            }
-          },
-          {
-            "name": "EPSG4490",
-            "title": {
-              "cn": "EPSG4490(大地2000)",
-              "en": "EPSG4490"
             }
           }
         ]
