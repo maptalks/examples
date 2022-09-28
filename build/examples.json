@@ -936,12 +936,255 @@
     "title": { "cn": "矢量渲染", "en": "Vector" },
     "examples": [
       {
-        "name": "geo",
-        "title": { "cn": "geo", "en": "geo" },
+        "name": "vtlayer",
+        "title": {
+          "cn": "矢量瓦片图层",
+          "en": "VectorTileLayer"
+        },
         "examples": [
           {
-            "name": "load",
-            "title": { "cn": "加载", "en": "load" }
+            "name": "load-layer",
+            "title": {
+              "cn": "加载矢量瓦片图层",
+              "en": "Load a VectorTileLayer"
+            }
+          }
+        ]
+      },
+      {
+        "name": "geo",
+        "title": {
+          "cn": "GeoJSONVectorTileLayer",
+          "en": "GeoJSONVectorTileLayer"
+        },
+        "examples": [
+          {
+            "name": "load-local",
+            "title": {
+              "cn": "载入GeoJSON对象数据",
+              "en": "Load GeoJSON object data"
+            }
+          },
+          {
+            "name": "load-remote",
+            "title": {
+              "cn": "载入远程GeoJSON数据",
+              "en": "Load remote GeoJSON data"
+            }
+          },
+          {
+            "name": "transform-function",
+            "title": {
+              "cn": "数据转换函数",
+              "en": "Data transform function"
+            }
+          }
+        ]
+      },
+      {
+        "name": "coordinate",
+        "title": {
+          "cn": "支持的坐标系",
+          "en": "Coordinate system"
+        },
+        "examples": [
+          {
+            "name": "EPSG3857",
+            "title": {
+              "cn": "EPSG3857(Web墨卡托)",
+              "en": "EPSG3857"
+            }
+          },
+          {
+            "name": "EPSG4326",
+            "title": {
+              "cn": "EPSG4326(WGS84)",
+              "en": "EPSG4326"
+            }
+          },
+          {
+            "name": "EPSG4490",
+            "title": {
+              "cn": "EPSG4490(大地2000)",
+              "en": "EPSG4490"
+            }
+          }
+        ]
+      },
+      {
+        "name": "style",
+        "title": {
+          "cn": "样式操作",
+          "en": "Style operation"
+        },
+        "examples": [
+          {
+            "name": "filter-data",
+            "title": {
+              "cn": "筛选符合条件的数据",
+              "en": "Filter data"
+            }
+          },
+          {
+            "name": "plugin",
+            "title": {
+              "cn": "选择渲染插件样式",
+              "en": "Change render plugin"
+            }
+          },
+          {
+            "name": "set-style",
+            "title": {
+              "cn": "样式整体更新",
+              "en": "Set style"
+            }
+          },
+          {
+            "name": "update-symbol",
+            "title": {
+              "cn": "样式部分更新",
+              "en": "Update symbol"
+            }
+          },
+          {
+            "name": "update-data-config",
+            "title": {
+              "cn": "更新dataConfig",
+              "en": "Update data config"
+            }
+          },
+          {
+            "name": "update-scene-config",
+            "title": {
+              "cn": "更新sceneConfig",
+              "en": "Update scene config"
+            }
+          },
+          {
+            "name": "compress-style",
+            "title": {
+              "cn": "压缩图层样式",
+              "en": "Compress layer style"
+            }
+          },
+          {
+            "name": "remove-style",
+            "title": {
+              "cn": "移除图层样式",
+              "en": "Remove layer style"
+            }
+          }
+        ]
+      },
+      {
+        "name": "pointstyle",
+        "title": { "cn": "点类型数据样式", "en": "Point style" },
+        "examples": [
+          {
+            "name": "icon-style",
+            "title": { "cn": "设置图标基础样式", "en": "Basic icon style" }
+          },
+          {
+            "name": "text-style",
+            "title": { "cn": "设置文字基础样式", "en": "Basic text style" }
+          },
+          {
+            "name": "icon-text",
+            "title": { "cn": "组合图标和文字", "en": "Composite icon and text" }
+          },
+          {
+            "name": "multiple-icon",
+            "title": { "cn": "组合多个图标", "en": "Composite multiple icons" }
+          },
+          {
+            "name": "scale",
+            "title": { "cn": "图标和文字随地图缩放", "en": "Scale with map" }
+          },
+          {
+            "name": "pitch",
+            "title": { "cn": "图标和文字随地图倾斜", "en": "Pitch with map" }
+          },
+          {
+            "name": "rotate",
+            "title": { "cn": "图标和文字随地图旋转", "en": "Rotate with map" }
+          }
+        ]
+      },
+      {
+        "name": "linestyle",
+        "title": { "cn": "线类型数据样式", "en": "Line style" },
+        "examples": [
+          {
+            "name": "basic-style",
+            "title": { "cn": "设置基础样式", "en": "Basic style" }
+          },
+          {
+            "name": "stroke-style",
+            "title": { "cn": "设置描边样式", "en": "Set stroke style" }
+          },
+          {
+            "name": "draw-text",
+            "title": { "cn": "沿线绘制文字", "en": "Draw text along the line" }
+          },
+          {
+            "name": "width-zoom",
+            "title": {
+              "cn": "宽度随地图级别变化",
+              "en": "Width varies with zoom"
+            }
+          },
+          {
+            "name": "color-zoom",
+            "title": {
+              "cn": "颜色随地图级别变化",
+              "en": "Color varies with zoom"
+            }
+          },
+          {
+            "name": "property",
+            "title": {
+              "cn": "根据属性数据设置样式",
+              "en": "Set layer by property"
+            }
+          },
+          {
+            "name": "texture",
+            "title": { "cn": "纹理动画", "en": "Texture animation" }
+          }
+        ]
+      },
+      {
+        "name": "polygonstyle",
+        "title": { "cn": "面类型数据样式", "en": "Polygon style" },
+        "examples": [
+          {
+            "name": "basic-style",
+            "title": { "cn": "设置基础样式", "en": "Basic style" }
+          },
+          {
+            "name": "border-style",
+            "title": {
+              "cn": "设置面的边框样式",
+              "en": "Set the border style of the polygon"
+            }
+          },
+          {
+            "name": "draw-text",
+            "title": { "cn": "面上绘制文字", "en": "Draw text on polygon" }
+          },
+          {
+            "name": "texture",
+            "title": {
+              "cn": "设置纹理",
+              "en": "Set texture"
+            }
+          },
+          {
+            "name": "bloom",
+            "title": {
+              "cn": "开启泛光",
+              "en": "Bloom"
+            }
           }
         ]
       },
