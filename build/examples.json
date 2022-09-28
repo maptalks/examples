@@ -1416,7 +1416,87 @@
   {
     "name": "3d",
     "title": { "cn": "三维功能", "en": "3D" },
-    "examples": []
+    "examples": [
+      {
+        "name": "gltflayer",
+        "title": {
+          "cn": "GLTF图层",
+          "en": "GLTF layer"
+        },
+        "examples": [
+          {
+            "name": "add-marker",
+            "title": {
+              "cn": "添加GLTFMarker",
+              "en": "Add a GLTF Marker"
+            }
+          },
+          {
+            "name": "copy-marker",
+            "title": {
+              "cn": "复制GLTFMarker",
+              "en": "Copy a GLTF Marker"
+            }
+          },
+          {
+            "name": "animation-model",
+            "title": {
+              "cn": "动画模型",
+              "en": "Animation model"
+            }
+          },
+          {
+            "name": "show-hide",
+            "title": {
+              "cn": "模型的显示与隐藏",
+              "en": "Show and hide model"
+            }
+          },
+          {
+            "name": "trs",
+            "title": {
+              "cn": "模型的平移，旋转与缩放",
+              "en": "Translation, rotate and scale"
+            }
+          },
+          {
+            "name": "material",
+            "title": {
+              "cn": "模型材质调节",
+              "en": "Set material"
+            }
+          },
+          {
+            "name": "shader",
+            "title": {
+              "cn": "着色器切换",
+              "en": "Change shader"
+            }
+          },
+          {
+            "name": "update-symbol",
+            "title": {
+              "cn": "模型的symbol设置",
+              "en": "Update symbol"
+            }
+          },
+          {
+            "name": "info-window",
+            "title": {
+              "cn": "设置信息弹出框",
+              "en": "Info window"
+            }
+          },
+          {
+            "name": "mouse-event",
+            "title": {
+              "cn": "鼠标事件监听",
+              "en": "Mouse event"
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "name": "pipeline",
