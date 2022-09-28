@@ -936,6 +936,57 @@
     "title": { "cn": "矢量渲染", "en": "Vector" },
     "examples": [
       {
+        "name": "operation",
+        "title": {
+          "cn": "图层操作",
+          "en": "Layer operation"
+        },
+        "examples": [
+          {
+            "name": "add-remove",
+            "title": {
+              "cn": "添加和移除图层",
+              "en": "Add and remove layer"
+            }
+          },
+          {
+            "name": "show-hide",
+            "title": {
+              "cn": "显示和隐藏图层",
+              "en": "Show and hide layer"
+            }
+          },
+          {
+            "name": "zoom-interval",
+            "title": {
+              "cn": "设置图层缩放区间",
+              "en": "Set layer zoom interval"
+            }
+          },
+          {
+            "name": "available-zoom",
+            "title": {
+              "cn": "设置图层最大可访问级别",
+              "en": "Set the max access zoom"
+            }
+          },
+          {
+            "name": "layer-json",
+            "title": {
+              "cn": "图层转化为JSON",
+              "en": "Layer to JSON"
+            }
+          },
+          {
+            "name": "json-layer",
+            "title": {
+              "cn": "用JSON载入图层",
+              "en": "JSON to layer"
+            }
+          }
+        ]
+      },
+      {
         "name": "vtlayer",
         "title": {
           "cn": "矢量瓦片图层",
