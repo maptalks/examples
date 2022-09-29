@@ -1773,6 +1773,50 @@
             }
           }
         ]
+      },
+      {
+        "name": "3dtiles",
+        "title": {
+          "cn": "3DTiles图层",
+          "en": "Geo3DTilesLayer"
+        },
+        "examples": [
+          {
+            "name": "downtown",
+            "title": {
+              "cn": "县城城区（倾斜摄影）",
+              "en": "County downtown"
+            }
+          },
+          {
+            "name": "temple",
+            "title": {
+              "cn": "文庙（倾斜摄影）",
+              "en": "Confucious'Temple"
+            }
+          },
+          {
+            "name": "tower",
+            "title": {
+              "cn": "高压线塔杆（点云）",
+              "en": "High voltage tower pole"
+            }
+          },
+          {
+            "name": "bridge",
+            "title": {
+              "cn": "桥梁(BIM建模)",
+              "en": "Bridge"
+            }
+          },
+          {
+            "name": "academic",
+            "title": {
+              "cn": "教学楼(BIM建模)",
+              "en": "Academic Building"
+            }
+          }
+        ]
       }
     ]
   },
