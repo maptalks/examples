@@ -1247,6 +1247,30 @@
         ]
       },
       {
+        "name": "waterstyle",
+        "title": { "cn": "面数据水面效果", "en": "Water style" },
+        "examples": [
+          {
+            "name": "water-drawing",
+            "title": {
+              "cn": "水面绘制",
+              "en": "Water surface drawing"
+            }
+          },
+          {
+            "name": "draw-text",
+            "title": {
+              "cn": "水面绘制文字",
+              "en": "Draw text"
+            }
+          },
+          {
+            "name": "reflection",
+            "title": { "cn": "开启倒影", "en": "Enable reflection" }
+          }
+        ]
+      },
+      {
         "name": "pointlayer",
         "title": { "cn": "点图层", "en": "PointLayer" },
         "examples": [
