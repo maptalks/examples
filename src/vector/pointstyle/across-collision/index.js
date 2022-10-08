@@ -8,10 +8,20 @@ const map = new maptalks.Map('map', {
   }),
 });
 
+// 通过设置 collisionScope 为 map，实现 vt 和 points 图层的跨图层碰撞检测
+
 const vt = new maptalks.VectorTileLayer('vt', {
   urlTemplate: 'http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt',
   spatialReference: 'preset-vt-3857',
+  collisionScope: 'map',
 });
+
+const points = new maptalks.PointLayer('point', {
+  collision: true,
+  collisionScope: 'map',
+});
+
+points.addGeometry(new maptalks.Marker(map.getCenter()));
 
 const style = {
   style: [
@@ -23,42 +33,26 @@ const style = {
         },
         sceneConfig: {
           collision: true,
-          fading: true,
+          fading: false,
           depthFunc: 'always',
         },
         type: 'icon',
       },
       symbol: [
         {
-          markerType: 'ellipse',
           markerFill: [0.53, 0.77, 0.94, 1],
-          markerHeight: 80,
-          markerWidth: 80,
+          markerHeight: 20,
+          markerWidth: 20,
           markerLineColor: [0.2, 0.29, 0.39, 1],
-          markerLineDasharray: [0, 0, 0, 0],
-          markerLineOpacity: 1,
           markerLineWidth: 3,
-          markerPitchAlignment: 'map',
-          textName: 'MapTalks',
-          textSize: 15,
-          textPitchAlignment: 'map',
+          markerType: 'ellipse',
         },
       ],
     },
   ],
 };
+
 vt.setStyle(style);
 
-const sceneConfig = {
-  postProcess: {
-    enable: true,
-    antialias: {
-      enable: true,
-    },
-  },
-};
-
-const groupLayer = new maptalks.GroupGLLayer('group', [vt], {
-  sceneConfig,
-});
+const groupLayer = new maptalks.GroupGLLayer('group', [points, vt]);
 groupLayer.addTo(map);

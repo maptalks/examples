@@ -23,42 +23,25 @@ const style = {
         },
         sceneConfig: {
           collision: true,
-          fading: true,
+          fading: false,
           depthFunc: 'always',
         },
-        type: 'icon',
+        type: 'text',
       },
-      symbol: [
-        {
-          markerType: 'ellipse',
-          markerFill: [0.53, 0.77, 0.94, 1],
-          markerHeight: 80,
-          markerWidth: 80,
-          markerLineColor: [0.2, 0.29, 0.39, 1],
-          markerLineDasharray: [0, 0, 0, 0],
-          markerLineOpacity: 1,
-          markerLineWidth: 3,
-          markerPitchAlignment: 'map',
-          textName: 'MapTalks',
-          textSize: 15,
-          textPitchAlignment: 'map',
-        },
-      ],
+      symbol: {
+        // 从数据的 name 中读取文字
+        textName: '{name}',
+        textFaceName: 'Microsoft YaHei,sans-serif',
+        textFill: [0, 0, 0, 0.65],
+        textHaloFill: [1, 1, 1, 1],
+        textHaloOpacity: 1,
+        textHaloRadius: 0,
+        textSize: 16,
+      },
     },
   ],
 };
 vt.setStyle(style);
 
-const sceneConfig = {
-  postProcess: {
-    enable: true,
-    antialias: {
-      enable: true,
-    },
-  },
-};
-
-const groupLayer = new maptalks.GroupGLLayer('group', [vt], {
-  sceneConfig,
-});
+const groupLayer = new maptalks.GroupGLLayer('group', [vt]);
 groupLayer.addTo(map);

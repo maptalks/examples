@@ -1116,20 +1116,12 @@
         "title": { "cn": "点类型数据样式", "en": "Point style" },
         "examples": [
           {
-            "name": "icon-style",
-            "title": { "cn": "设置图标基础样式", "en": "Basic icon style" }
-          },
-          {
-            "name": "text-style",
-            "title": { "cn": "设置文字基础样式", "en": "Basic text style" }
+            "name": "multiple-icon",
+            "title": { "cn": "组合多个图标", "en": "Composite multiple icons" }
           },
           {
             "name": "icon-text",
             "title": { "cn": "组合图标和文字", "en": "Composite icon and text" }
-          },
-          {
-            "name": "multiple-icon",
-            "title": { "cn": "组合多个图标", "en": "Composite multiple icons" }
           },
           {
             "name": "scale",
@@ -1142,6 +1134,41 @@
           {
             "name": "rotate",
             "title": { "cn": "图标和文字随地图旋转", "en": "Rotate with map" }
+          },
+          {
+            "name": "specified-levels",
+            "title": {
+              "cn": "只在指定的级别上显示",
+              "en": "Show only on specified levels"
+            }
+          },
+          {
+            "name": "different-icons",
+            "title": {
+              "cn": "不同属性显示不同的图标",
+              "en": "Different icons by props"
+            }
+          },
+          {
+            "name": "read-icon",
+            "title": {
+              "cn": "从属性数据中读取图标",
+              "en": "Read icon from props"
+            }
+          },
+          {
+            "name": "read-text",
+            "title": {
+              "cn": "从属性数据中读取文字",
+              "en": "Read text from props"
+            }
+          },
+          {
+            "name": "across-collision",
+            "title": {
+              "cn": "跨图层的碰撞检测",
+              "en": "Collision detection across layers"
+            }
           }
         ]
       },

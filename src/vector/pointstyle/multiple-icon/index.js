@@ -1,6 +1,11 @@
 const map = new maptalks.Map('map', {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 16,
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: '$(urlTemplate)',
+    subdomains: $(subdomains),
+    attribution: '$(attribution)',
+  }),
 });
 
 const vt = new maptalks.VectorTileLayer('vt', {
@@ -26,12 +31,12 @@ const style = {
       symbol: [
         {
           markerDy: -4.5,
-          markerFile: '/resources/markers/avatar.jpg',
+          markerFile: 'avatar.jpg',
           markerHeight: 21,
           markerWidth: 21,
         },
         {
-          markerFile: '/resources/markers/marker.png',
+          markerFile: 'marker.png',
           markerHeight: 40,
           markerWidth: 28,
         },

@@ -20,7 +20,8 @@
     "quotes": "off",
     "no-unused-vars": "off",
     "global-require": "off",
-    "no-use-before-define":"off"
+    "no-use-before-define": "off",
+    "no-loss-of-precision": "off"
   },
   "env": {
     "es6": true

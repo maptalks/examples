@@ -1,6 +1,7 @@
 const map = new maptalks.Map('map', {
   center: [-74.00912099912109, 40.71107610933129],
-  zoom: 16,
+  zoom: 17,
+  zoomControl: true,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains),
@@ -23,42 +24,32 @@ const style = {
         },
         sceneConfig: {
           collision: true,
-          fading: true,
+          fading: false,
           depthFunc: 'always',
         },
         type: 'icon',
       },
-      symbol: [
-        {
-          markerType: 'ellipse',
-          markerFill: [0.53, 0.77, 0.94, 1],
-          markerHeight: 80,
-          markerWidth: 80,
-          markerLineColor: [0.2, 0.29, 0.39, 1],
-          markerLineDasharray: [0, 0, 0, 0],
-          markerLineOpacity: 1,
-          markerLineWidth: 3,
-          markerPitchAlignment: 'map',
-          textName: 'MapTalks',
-          textSize: 15,
-          textPitchAlignment: 'map',
+      symbol: {
+        visible: {
+          // 只在 17 到 19 级之间显示
+          type: 'interval',
+          stops: [
+            [0, false],
+            [17, true],
+            [19, false],
+          ],
         },
-      ],
+        markerType: 'ellipse',
+        markerHeight: 20,
+        markerWidth: 20,
+        markerFill: [0.53, 0.77, 0.94, 1],
+        markerLineColor: [0.2, 0.29, 0.39, 1],
+        markerLineWidth: 3,
+      },
     },
   ],
 };
 vt.setStyle(style);
 
-const sceneConfig = {
-  postProcess: {
-    enable: true,
-    antialias: {
-      enable: true,
-    },
-  },
-};
-
-const groupLayer = new maptalks.GroupGLLayer('group', [vt], {
-  sceneConfig,
-});
+const groupLayer = new maptalks.GroupGLLayer('group', [vt]);
 groupLayer.addTo(map);
