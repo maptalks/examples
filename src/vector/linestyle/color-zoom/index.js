@@ -2,6 +2,11 @@ const map = new maptalks.Map('map', {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 17,
   zoomControl: true,
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: '$(urlTemplate)',
+    subdomains: $(subdomains),
+    attribution: '$(attribution)',
+  }),
 });
 
 const vt = new maptalks.VectorTileLayer('vt', {

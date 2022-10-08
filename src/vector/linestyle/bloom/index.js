@@ -1,9 +1,8 @@
 const map = new maptalks.Map('map', {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 16,
-  zoomControl: true,
   baseLayer: new maptalks.TileLayer('base', {
-    urlTemplate: '$(urlTemplate)',
+    urlTemplate: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
     subdomains: $(subdomains),
     attribution: '$(attribution)',
   }),
@@ -30,18 +29,28 @@ const style = {
         type: 'line',
       },
       symbol: {
+        lineBloom: true, // true:开启泛光, false:关闭泛光
         lineColor: [0.73, 0.73, 0.73, 1],
-        lineWidth: {
-          stops: [
-            [16, 2],
-            [18, 16],
-          ],
-        },
+        lineOpacity: 1,
+        lineWidth: 3,
       },
     },
   ],
 };
 vt.setStyle(style);
 
-const groupLayer = new maptalks.GroupGLLayer('group', [vt]);
+const groupLayer = new maptalks.GroupGLLayer('group', [vt], {
+  // 需要先开启后处理中的 bloom 属性
+  sceneConfig: {
+    postProcess: {
+      enable: true,
+      bloom: {
+        enable: true,
+        threshold: 0,
+        factor: 1,
+        radius: 0.02,
+      },
+    },
+  },
+});
 groupLayer.addTo(map);

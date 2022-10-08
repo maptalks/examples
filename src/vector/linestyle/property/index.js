@@ -1,9 +1,14 @@
 const map = new maptalks.Map('map', {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 16,
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: '$(urlTemplate)',
+    subdomains: $(subdomains),
+    attribution: '$(attribution)',
+  }),
 });
 
-// 颜色值记录在color属性中
+// 颜色值记录在 color 属性中
 const data = {
   type: 'FeatureCollection',
   features: [

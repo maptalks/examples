@@ -1177,10 +1177,6 @@
         "title": { "cn": "线类型数据样式", "en": "Line style" },
         "examples": [
           {
-            "name": "basic-style",
-            "title": { "cn": "设置基础样式", "en": "Basic style" }
-          },
-          {
             "name": "stroke-style",
             "title": { "cn": "设置描边样式", "en": "Set stroke style" }
           },
@@ -1212,6 +1208,10 @@
           {
             "name": "texture",
             "title": { "cn": "纹理动画", "en": "Texture animation" }
+          },
+          {
+            "name": "bloom",
+            "title": { "cn": "开启泛光", "en": "Enable bloom" }
           }
         ]
       },

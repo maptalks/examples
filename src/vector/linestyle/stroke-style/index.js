@@ -1,7 +1,11 @@
 const map = new maptalks.Map('map', {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 17,
-  zoomControl: true,
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: '$(urlTemplate)',
+    subdomains: $(subdomains),
+    attribution: '$(attribution)',
+  }),
 });
 
 const vt = new maptalks.VectorTileLayer('vt', {
@@ -9,7 +13,6 @@ const vt = new maptalks.VectorTileLayer('vt', {
   spatialReference: 'preset-vt-3857',
 });
 
-// 地图放大到18级或以上变为黄色
 const style = {
   style: [
     {
@@ -29,8 +32,8 @@ const style = {
         // 中间颜色设为了透明
         lineColor: [0.73, 0.73, 0.73, 0],
         lineWidth: 6,
-        lineStrokeColor: [1, 1, 1, 1],
-        lineStrokeWidth: 1,
+        lineStrokeColor: [0, 0, 0, 1],
+        lineStrokeWidth: 2,
       },
     },
   ],

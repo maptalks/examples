@@ -1,6 +1,11 @@
 const map = new maptalks.Map('map', {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 16,
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: '$(urlTemplate)',
+    subdomains: $(subdomains),
+    attribution: '$(attribution)',
+  }),
 });
 
 const vt = new maptalks.VectorTileLayer('vt', {
@@ -26,7 +31,7 @@ const style = {
       symbol: {
         linePatternAnimSpeed: 0.5,
         lineJoinPatternMode: 1,
-        linePatternFile: '/resources/textures/arrow.png',
+        linePatternFile: 'arrow.png',
         linePatternGap: 3,
         lineWidth: 8,
       },

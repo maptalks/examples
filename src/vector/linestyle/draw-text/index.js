@@ -1,6 +1,11 @@
 const map = new maptalks.Map('map', {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 17,
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: '$(urlTemplate)',
+    subdomains: $(subdomains),
+    attribution: '$(attribution)',
+  }),
 });
 
 const vt = new maptalks.VectorTileLayer('vt', {
@@ -47,7 +52,7 @@ const style = {
       },
       symbol: {
         textFaceName: 'Microsoft YaHei,sans-serif',
-        textFill: [1, 1, 1, 1],
+        textFill: [0.65, 0.24, 0.18, 1],
         textName: '{name}',
         textPlacement: 'line',
         textSize: 15,
