@@ -1220,10 +1220,6 @@
         "title": { "cn": "面类型数据样式", "en": "Polygon style" },
         "examples": [
           {
-            "name": "basic-style",
-            "title": { "cn": "设置基础样式", "en": "Basic style" }
-          },
-          {
             "name": "border-style",
             "title": {
               "cn": "设置面的边框样式",

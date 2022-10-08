@@ -1,6 +1,11 @@
 const map = new maptalks.Map('map', {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 16,
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+    subdomains: $(subdomains),
+    attribution: '$(attribution)',
+  }),
 });
 
 const vt = new maptalks.VectorTileLayer('vt', {
@@ -30,7 +35,7 @@ const style = {
 vt.setStyle(style);
 
 const groupLayer = new maptalks.GroupGLLayer('group', [vt], {
-  // 需要先开启后处理中的bloom属性
+  // 需要先开启后处理中的 bloom 属性
   sceneConfig: {
     postProcess: {
       enable: true,

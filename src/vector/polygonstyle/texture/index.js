@@ -1,6 +1,11 @@
 const map = new maptalks.Map('map', {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 16,
+  baseLayer: new maptalks.TileLayer('base', {
+    urlTemplate: '$(urlTemplate)',
+    subdomains: $(subdomains),
+    attribution: '$(attribution)',
+  }),
 });
 
 const vt = new maptalks.VectorTileLayer('vt', {
@@ -21,23 +26,12 @@ const style = {
       },
       symbol: {
         polygonFill: [0.345, 0.345, 0.502, 1],
-        polygonPatternFile: '/resources/textures/pattern.webp',
+        polygonPatternFile: 'pattern.webp',
       },
     },
   ],
 };
 vt.setStyle(style);
 
-const sceneConfig = {
-  postProcess: {
-    enable: true,
-    antialias: {
-      enable: true,
-    },
-  },
-};
-
-const groupLayer = new maptalks.GroupGLLayer('group', [vt], {
-  sceneConfig,
-});
+const groupLayer = new maptalks.GroupGLLayer('group', [vt]);
 groupLayer.addTo(map);
