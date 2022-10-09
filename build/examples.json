@@ -1853,6 +1853,48 @@
               "cn": "右键菜单",
               "en": "Context menu"
             }
+          },
+          {
+            "name": "anchor",
+            "title": {
+              "cn": "锚点的设置",
+              "en": "Anchor Z"
+            }
+          },
+          {
+            "name": "fix-size",
+            "title": {
+              "cn": "固定模型的大小不随地图缩放",
+              "en": "Fix Size"
+            }
+          },
+          {
+            "name": "model-matrix",
+            "title": {
+              "cn": "更新模型的ModelMatrix",
+              "en": "Update ModelMatrix"
+            }
+          },
+          {
+            "name": "time-frame",
+            "title": {
+              "cn": "setAnimationTimeFrame",
+              "en": "Set animation time frame"
+            }
+          },
+          {
+            "name": "property",
+            "title": {
+              "cn": "设置/获取属性",
+              "en": "Set and get property"
+            }
+          },
+          {
+            "name": "draco",
+            "title": {
+              "cn": "添加draco压缩模型",
+              "en": "Add draco"
+            }
           }
         ]
       },
