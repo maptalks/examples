@@ -4,6 +4,7 @@
   "description": "examples for maptalks.js",
   "devDependencies": {
     "@justeat/gulp-gh-pages": "^1.0.3",
+    "@node-rs/jieba": "^1.6.1",
     "clean-css": "^4.1.7",
     "css-loader": "^0.28.5",
     "eslint": "^8.23.1",
