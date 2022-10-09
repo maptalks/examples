@@ -1,0 +1,24 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+#info {
+  position: fixed;
+  background-color: rgba(13, 13, 13, 0.5);
+  padding: 10px 10px 10px 10px;
+  font: 13px bold sans-serif;
+  color: #fff;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 30px;
+  overflow: hidden;
+}

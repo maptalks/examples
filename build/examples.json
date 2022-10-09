@@ -1818,6 +1818,41 @@
               "cn": "鼠标事件监听",
               "en": "Mouse event"
             }
+          },
+          {
+            "name": "outline",
+            "title": {
+              "cn": "模型设置外轮廓",
+              "en": "Outline"
+            }
+          },
+          {
+            "name": "bloom",
+            "title": {
+              "cn": "模型泛光效果",
+              "en": "Bloom"
+            }
+          },
+          {
+            "name": "shadow",
+            "title": {
+              "cn": "阴影设置",
+              "en": "Shadow"
+            }
+          },
+          {
+            "name": "skinning",
+            "title": {
+              "cn": "加载有骨骼动画的模型",
+              "en": "Skeletal animation model"
+            }
+          },
+          {
+            "name": "context-menu",
+            "title": {
+              "cn": "右键菜单",
+              "en": "Context menu"
+            }
           }
         ]
       },
