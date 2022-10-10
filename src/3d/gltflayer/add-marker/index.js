@@ -34,7 +34,7 @@ const gltfLayer = new maptalks.GLTFLayer('gltf');
 const gltfMarker = new maptalks.GLTFMarker(
   [-0.11304900000004636, 51.498568000000006],
   {
-    symbol: symbol,
+    symbol,
   }
 );
 

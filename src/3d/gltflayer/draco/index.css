@@ -16,9 +16,9 @@ body {
   top: 0px;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 99;
   text-align: center;
-  line-height: 1000px;
-  font-size: 10em;
-  color: #ffffff;
+  line-height: 400px;
+  font-size: 5em;
+  color: #000;
 }
