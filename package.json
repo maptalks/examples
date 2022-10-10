@@ -6,6 +6,7 @@
     "@justeat/gulp-gh-pages": "^1.0.3",
     "@node-rs/jieba": "^1.6.1",
     "clean-css": "^4.1.7",
+    "cross-env": "^7.0.3",
     "css-loader": "^0.28.5",
     "eslint": "^8.23.1",
     "eslint-config-maptalks": "^0.4.0",
@@ -31,8 +32,8 @@
     "prettify": "^0.1.7"
   },
   "scripts": {
-    "dev": "gulp dev",
-    "build": "gulp build",
+    "dev": "cross-env NODE_ENV=development gulp dev",
+    "build": "cross-env NODE_ENV=production gulp build",
     "deploy": "gulp deploy"
   },
   "engines": {

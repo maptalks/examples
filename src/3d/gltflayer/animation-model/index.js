@@ -1,8 +1,8 @@
 const map = new maptalks.Map('map', {
-  center: [-0.113049, 51.498568],
+  center: [-0.11304900000004636, 51.498568000000006],
   zoom: 14,
-  pitch: 80,
-  bearing: 180,
+  pitch: 61.199999999999896,
+  bearing: 178.79999999999995,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains),
@@ -11,7 +11,7 @@ const map = new maptalks.Map('map', {
   lights: {
     ambient: {
       resource: {
-        url: 'env.hdr',
+        url: '{res}/hdr/env.hdr',
       },
       color: [1, 1, 1],
       exposure: 1,
@@ -33,7 +33,7 @@ const Config = function () {
   this.animationList = 'Survey';
 };
 const options = new Config();
-const url = 'Fox.gltf';
+const url = '{res}/gltf/Fox/Fox.gltf';
 const symbol = {
   url: url,
   shadow: true,

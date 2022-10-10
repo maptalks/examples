@@ -68,6 +68,30 @@
     "semver" "^7.3.5"
     "tar" "^6.1.11"
 
+"@node-rs/jieba-win32-x64-msvc@1.6.1":
+  "integrity" "sha512-veXNwm2VlseOzl7vaC7A/nZ4okp5/6edN7/Atj6mXnUbze/m/my5Rv5zUcW3U1D9VElnQ3srCHCa5vXljJuk6g=="
+  "resolved" "https://registry.npmmirror.com/@node-rs/jieba-win32-x64-msvc/-/jieba-win32-x64-msvc-1.6.1.tgz"
+  "version" "1.6.1"
+
+"@node-rs/jieba@^1.6.1":
+  "integrity" "sha512-pISKu8NIYKRvZp7mhYZYA8VCjJMqTsCe+mQcFFnAi3GNJsijGjef2peMFeDcvP72X8MsnNeYeg3rHkAybtefyQ=="
+  "resolved" "https://registry.npmmirror.com/@node-rs/jieba/-/jieba-1.6.1.tgz"
+  "version" "1.6.1"
+  optionalDependencies:
+    "@node-rs/jieba-android-arm-eabi" "1.6.1"
+    "@node-rs/jieba-android-arm64" "1.6.1"
+    "@node-rs/jieba-darwin-arm64" "1.6.1"
+    "@node-rs/jieba-darwin-x64" "1.6.1"
+    "@node-rs/jieba-freebsd-x64" "1.6.1"
+    "@node-rs/jieba-linux-arm-gnueabihf" "1.6.1"
+    "@node-rs/jieba-linux-arm64-gnu" "1.6.1"
+    "@node-rs/jieba-linux-arm64-musl" "1.6.1"
+    "@node-rs/jieba-linux-x64-gnu" "1.6.1"
+    "@node-rs/jieba-linux-x64-musl" "1.6.1"
+    "@node-rs/jieba-win32-arm64-msvc" "1.6.1"
+    "@node-rs/jieba-win32-ia32-msvc" "1.6.1"
+    "@node-rs/jieba-win32-x64-msvc" "1.6.1"
+
 "@nodelib/fs.scandir@2.1.5":
   "integrity" "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="
   "resolved" "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -1110,7 +1134,14 @@
   "resolved" "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz"
   "version" "1.0.2"
 
-"cross-spawn@^7.0.2", "cross-spawn@^7.0.3":
+"cross-env@^7.0.3":
+  "integrity" "sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw=="
+  "resolved" "https://registry.npmmirror.com/cross-env/-/cross-env-7.0.3.tgz"
+  "version" "7.0.3"
+  dependencies:
+    "cross-spawn" "^7.0.1"
+
+"cross-spawn@^7.0.1", "cross-spawn@^7.0.2", "cross-spawn@^7.0.3":
   "integrity" "sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w=="
   "resolved" "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.3.tgz"
   "version" "7.0.3"

@@ -50,6 +50,11 @@ var mapParams = {
   },
 };
 
+// resource path
+const DEV_RES = 'http://localhost:20001/examples/resources';
+const PRO_RES = 'https://maptalks.org/examples/resources';
+const resUrl = process.env.NODE_ENV === 'development' ? DEV_RES : PRO_RES;
+
 function readExamplesInfo() {
   const json = require('./build/examples.json');
   function buildLocalizedInfo(locale) {
@@ -192,7 +197,8 @@ function processSingleFile(file, files) {
         .toString()
         .replace(/\$\(urlTemplate\)/g, params.urlTemplate)
         .replace(/\$\(subdomains\)/g, params.subdomains)
-        .replace(/\$\(attribution\)/g, params.attribution),
+        .replace(/\$\(attribution\)/g, params.attribution)
+        .replace(/{res}/g, resUrl),
     };
     delete files[js];
   }
