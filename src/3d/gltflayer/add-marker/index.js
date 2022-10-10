@@ -26,12 +26,11 @@ const map = new maptalks.Map('map', {
 
 const url = '{res}/gltf/alien/alien.glb';
 const symbol = {
-  url: url,
+  url,
   scale: [1.5, 1.5, 1.5],
 };
 
 const gltfLayer = new maptalks.GLTFLayer('gltf');
-const position = map.getCenter();
 const gltfMarker = new maptalks.GLTFMarker(
   [-0.11304900000004636, 51.498568000000006],
   {

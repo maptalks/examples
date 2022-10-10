@@ -26,7 +26,7 @@ const map = new maptalks.Map('map', {
 
 const url = '{res}/gltf/alien/alien.glb';
 const symbol = {
-  url: url,
+  url,
   scale: [1.5, 1.5, 1.5],
 };
 

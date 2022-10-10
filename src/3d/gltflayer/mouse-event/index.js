@@ -11,7 +11,7 @@ const map = new maptalks.Map('map', {
   lights: {
     ambient: {
       resource: {
-        url: 'env.hdr',
+        url: '{res}/hdr/env.hdr',
       },
       color: [1, 1, 1],
       exposure: 1,
@@ -24,9 +24,9 @@ const map = new maptalks.Map('map', {
   },
 });
 
-const url = 'alien.glb';
+const url = '{res}/gltf/alien/alien.glb';
 const symbol = {
-  url: url,
+  url,
   scale: [2, 2, 2],
   translation: [0, 0, -10],
 };

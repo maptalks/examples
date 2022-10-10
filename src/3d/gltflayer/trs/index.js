@@ -41,7 +41,7 @@ const Config = function () {
 const options = new Config();
 const url = '{res}/gltf/alien/alien.glb';
 const symbol = {
-  url: url,
+  url,
   shadow: true,
   translation: [
     options.translationX,

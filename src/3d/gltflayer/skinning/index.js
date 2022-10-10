@@ -1,8 +1,8 @@
 const map = new maptalks.Map('map', {
-  center: [-0.113049, 51.498568],
-  zoom: 14,
-  pitch: 80,
-  bearing: 180,
+  center: [-0.10707916972842213, 51.48119259984284],
+  zoom: 12,
+  pitch: 63.8,
+  bearing: 179.39999999999975,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains),
@@ -58,13 +58,13 @@ const Config = function () {
   this.loop = true;
 };
 const options = new Config();
-const url = 'scene.gltf';
+const url = '{res}/gltf/vibut_the_robot/scene.gltf';
 const symbol = {
-  url: url,
+  url,
   shadow: true,
   animation: options.animation,
   loop: options.loop,
-  scale: [2, 2, 2],
+  scale: [1.5, 1.5, 1.5],
   rotation: [0, 0, 180],
 };
 

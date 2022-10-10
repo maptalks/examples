@@ -35,7 +35,7 @@ const Config = function () {
 const options = new Config();
 const url = '{res}/gltf/alien/alien.glb';
 const symbol = {
-  url: url,
+  url,
   shadow: true,
   scale: [1.5, 1.5, 1.5],
   uniforms: {

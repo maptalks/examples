@@ -1,8 +1,8 @@
 const map = new maptalks.Map('map', {
-  center: [-0.113049, 51.498568],
-  zoom: 14,
-  pitch: 80,
-  bearing: 180,
+  center: [-0.10707916972842213, 51.48119259984284],
+  zoom: 12,
+  pitch: 63.8,
+  bearing: 179.39999999999975,
   baseLayer: new maptalks.TileLayer('base', {
     urlTemplate: '$(urlTemplate)',
     subdomains: $(subdomains),
@@ -57,19 +57,21 @@ const Config = function () {
   this.bloom = false;
 };
 const options = new Config();
-const url = 'alien.glb';
+const url = '{res}/gltf/alien/alien.glb';
 const symbol = {
-  url: url,
-  shadow: true,
+  url,
+  shadow: false,
   bloom: false,
-  scale: [2, 2, 2],
+  scale: [1.5, 1.5, 1.5],
 };
 
 const gltfLayer = new maptalks.GLTFLayer('gltf');
-const position = map.getCenter();
-const gltfMarker = new maptalks.GLTFMarker(position, {
-  symbol,
-}).addTo(gltfLayer);
+const gltfMarker = new maptalks.GLTFMarker(
+  [-0.11304900000004636, 51.498568000000006],
+  {
+    symbol,
+  }
+).addTo(gltfLayer);
 
 const groupGLLayer = new maptalks.GroupGLLayer('gl', [gltfLayer], {
   sceneConfig,

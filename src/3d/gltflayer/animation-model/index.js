@@ -35,7 +35,7 @@ const Config = function () {
 const options = new Config();
 const url = '{res}/gltf/Fox/Fox.gltf';
 const symbol = {
-  url: url,
+  url,
   shadow: true,
   animation: options.animation,
   animationName: options.animationList, //first animation default
@@ -52,7 +52,7 @@ const gltfMarker = new maptalks.GLTFMarker(position, {
 
 const groupGLLayer = new maptalks.GroupGLLayer('gl', [gltfLayer]).addTo(map);
 
-//animation control
+// animation control
 const animationController = gui.add(options, 'animation');
 animationController.onChange(function (value) {
   gltfMarker.setAnimation(value);
