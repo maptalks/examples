@@ -209,7 +209,7 @@ function processSingleFile(file, files) {
     var output = cleanCSS.minify(contents);
     data.css = {
       basename: id + '.css',
-      source: output.styles,
+      source: output.styles.replace(/{res}/g, resUrl),
     };
     delete files[css];
   }
