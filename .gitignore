@@ -1,5 +1,6 @@
 bak/
 dist/
+thumbnails/
 .publish/
 .changed.json
 package-lock.json

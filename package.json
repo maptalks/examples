@@ -29,12 +29,14 @@
     "ms-webpack": "^2.0.0",
     "multimatch": "^2.1.0",
     "nodejieba": "^2.6.0",
-    "prettify": "^0.1.7"
+    "prettify": "^0.1.7",
+    "puppeteer": "^18.2.1"
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development gulp dev",
     "build": "cross-env NODE_ENV=production gulp build",
-    "deploy": "gulp deploy"
+    "deploy": "gulp deploy",
+    "thumb": "node scripts/thumbnail.js"
   },
   "engines": {
     "node": ">=6.0.0"
