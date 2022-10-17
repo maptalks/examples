@@ -1,0 +1,13 @@
+<script src="https://unpkg.com/vue@2.6.10/dist/vue.min.js"></script>
+<div id="app">
+  <div ref="map" class="container"></div>
+  <div v-show="show">
+    <div ref="infowindow_content">
+      <h2>{{name}}</h2>
+      <input type="text" v-model="name" />
+      <h4>count:{{count}}</h4>
+      <button @click="add">count++</button><br /><br />
+      <button v-for="item in btns">{{item}}</button>
+    </div>
+  </div>
+</div>

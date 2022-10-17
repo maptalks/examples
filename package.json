@@ -1,45 +1,37 @@
 {
   "name": "maptalk-examples",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "examples for maptalks.js",
-  "devDependencies": {
-    "@justeat/gulp-gh-pages": "^1.0.3",
-    "@node-rs/jieba": "^1.6.1",
-    "clean-css": "^4.1.7",
-    "cross-env": "^7.0.3",
-    "css-loader": "^0.28.5",
-    "eslint": "^8.23.1",
-    "eslint-config-maptalks": "^0.4.0",
-    "extract-text-webpack-plugin": "1.0.1",
-    "gulp": "^4.0.2",
-    "gulp-connect": "^5.7.0",
-    "handlebars": "^4.0.5",
-    "i18next": "^8.4.3",
-    "i18next-sync-fs-backend": "^1.0.0",
-    "json-loader": "^0.5.7",
-    "lunr": "^2.1.2",
-    "lunr-languages": "^1.9.0",
-    "marked": "^0.3.6",
-    "metalsmith": "^2.1.0",
-    "metalsmith-assets-ex": "^0.1.0",
-    "metalsmith-branch": "^0.0.5",
-    "metalsmith-debug": "^1.1.0",
-    "metalsmith-layouts": "^1.6.5",
-    "metalsmith-timer": "0.0.2",
-    "ms-webpack": "^2.0.0",
-    "multimatch": "^2.1.0",
-    "nodejieba": "^2.6.0",
-    "prettify": "^0.1.7",
-    "puppeteer": "^18.2.1"
-  },
+  "type": "module",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development gulp dev",
-    "build": "cross-env NODE_ENV=production gulp build",
-    "deploy": "gulp deploy",
-    "thumb": "node scripts/thumbnail.js"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
-  "engines": {
-    "node": ">=6.0.0"
+  "dependencies": {
+    "antd": "^4.23.5",
+    "js-beautify": "^1.14.6",
+    "mobx": "^6.6.2",
+    "mobx-react-lite": "^3.4.0",
+    "react": "^18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.2",
+    "react-syntax-highlighter": "^15.5.0",
+    "react-use": "^17.4.0",
+    "styled-components": "^5.3.6"
+  },
+  "devDependencies": {
+    "@types/js-beautify": "^1.13.3",
+    "@types/node": "^18.8.5",
+    "@types/react": "^18.0.17",
+    "@types/react-copy-to-clipboard": "^5.0.4",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-syntax-highlighter": "^15.5.5",
+    "@types/styled-components": "^5.1.26",
+    "@vitejs/plugin-react": "^2.1.0",
+    "typescript": "^4.6.4",
+    "vite": "^3.1.0"
   },
   "repository": {
     "type": "git",
@@ -49,11 +41,6 @@
     "maptalks",
     "examples",
     "demo"
-  ],
-  "author": "wsw0108 <wangshiwei@maptalks.org>",
-  "contributors": [
-    "fuzhenn <fuzhen@maptalks.org>",
-    "wangjun <wangjun@maptalks.org>"
   ],
   "license": "GPL-3.0",
   "homepage": "https://github.com/maptalks/examples#readme"

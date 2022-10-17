@@ -1,0 +1,24 @@
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+#json {
+  position: fixed;
+  background-color: rgba(13, 13, 13, 0.5);
+  padding: 10px 10px 10px 10px;
+  font: 13px bold sans-serif;
+  color: #fff;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+}

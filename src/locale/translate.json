@@ -1,0 +1,18 @@
+{
+  "cn": {
+    "download": "全部下载",
+    "source": "源码",
+    "open": "打开",
+    "edit": "编辑",
+    "copy": "复制",
+    "success": "复制成功"
+  },
+  "en": {
+    "download": "Download All",
+    "source": "Source",
+    "open": "Open",
+    "edit": "Edit",
+    "copy": "Copy",
+    "success": "Copy success"
+  }
+}

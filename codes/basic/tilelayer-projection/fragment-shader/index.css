@@ -1,0 +1,20 @@
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#map0 {
+  width: calc(50% - 2px);
+  height: calc(100% - 2px);
+  float: left;
+  border: 1px solid;
+}
+
+#map1 {
+  width: calc(50% - 2px);
+  height: calc(100% - 2px);
+  float: right;
+  border: 1px solid;
+}
