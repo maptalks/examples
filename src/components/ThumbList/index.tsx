@@ -1,42 +1,28 @@
-import { Card, Circle, Container, List, Text, Title } from "./style";
-import { Col, Row } from "antd";
+import { Card, Circle, Container, List, StyledCol, Text, Title } from "./style";
 
-import examples from "../../../config/examples.json";
+import { Row } from "antd";
 import { observer } from "mobx-react-lite";
-import { useNavigate } from "react-router-dom";
-import { useStore } from "../../store";
+import { useThumbList } from "./hooks";
 
 function ThumbList() {
-  const store = useStore();
-  const navigate = useNavigate();
-
-  function handleSelect(i: string, j: string, k: string) {
-    store.setSelectedKey(`${i}_${j}_${k}`);
-    navigate(`/example/${store.language}/${i}/${j}/${k}`);
-  }
-
-  function getTabIndex() {
-    const index = examples.findIndex((example) => example.name === store.tab);
-    if (index > -1) {
-      return index;
-    }
-    return 0;
-  }
-
-  const index = getTabIndex();
+  const { examples, tabIndex, language, filter, handleSelect } = useThumbList();
 
   return (
     <Container>
-      {examples[index].examples.map((exampleI) => (
+      {examples[tabIndex].examples.map((exampleI) => (
         <List key={exampleI.name}>
-          <Title>{exampleI.title[store.language!]}</Title>
+          <Title>{exampleI.title[language]}</Title>
           <Row gutter={[28, 24]}>
             {exampleI.examples.map((exampleJ) => (
-              <Col key={exampleJ.name} span={6}>
+              <StyledCol
+                hide={!exampleJ.title[language].includes(filter)}
+                key={exampleJ.name}
+                span={6}
+              >
                 <Card
                   onClick={() =>
                     handleSelect(
-                      examples[index].name,
+                      examples[tabIndex].name,
                       exampleI.name,
                       exampleJ.name
                     )
@@ -44,14 +30,14 @@ function ThumbList() {
                 >
                   <img
                     width="100%"
-                    src={`/thumbnails/${examples[index].name}_${exampleI.name}_${exampleJ.name}.webp`}
+                    src={`/thumbnails/${examples[tabIndex].name}_${exampleI.name}_${exampleJ.name}.webp`}
                   />
                   <Text>
                     <Circle />
-                    {exampleJ.title[store.language!]}
+                    {exampleJ.title[language]}
                   </Text>
                 </Card>
-              </Col>
+              </StyledCol>
             ))}
           </Row>
         </List>

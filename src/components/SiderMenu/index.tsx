@@ -13,66 +13,61 @@ import {
   SecondListTitle,
 } from "./style";
 
-import examples from "../../../config/examples.json";
 import { observer } from "mobx-react-lite";
 import translate from "../../locale/translate.json";
-import { useNavigate } from "react-router-dom";
-import { useStore } from "../../store";
+import { useSiderMenu } from "./hooks";
 
 function SiderMenu() {
-  const store = useStore();
-  const navigate = useNavigate();
-
-  function handleSelect(i: string, j: string, k: string) {
-    store.setSelectedKey(`${i}_${j}_${k}`);
-    navigate(`/example/${store.language}/${i}/${j}/${k}`);
-  }
-
-  function getTabIndex() {
-    const index = examples.findIndex((example) => example.name === store.tab);
-    if (index > -1) {
-      return index;
-    }
-    return 0;
-  }
-
-  const index = getTabIndex();
+  const {
+    examples,
+    tabIndex,
+    language,
+    filter,
+    selectedKey,
+    handleInputChange,
+    handleSelect,
+  } = useSiderMenu();
 
   return (
     <Container>
       <MenuArea>
         <ActionBar>
           <SearchBar>
-            <SearchInput type="text" />
+            <SearchInput
+              type="text"
+              value={filter}
+              onChange={handleInputChange}
+            />
             <SearchButton />
           </SearchBar>
           <DownloadButton href="https://github.com/maptalks/examples/archive/gh-pages.zip">
-            {translate[store.language!]["download"]}
+            {translate[language]["download"]}
           </DownloadButton>
         </ActionBar>
         <Menu>
-          {examples[index].examples.map((exampleI, i) => (
+          {examples[tabIndex].examples.map((exampleI, i) => (
             <List key={exampleI.name}>
               <ListTile>
-                {i + 1} {exampleI.title[store.language!]}
+                {i + 1} {exampleI.title[language]}
               </ListTile>
               <SecondList>
                 {exampleI.examples.map((exampleJ, j) => (
                   <SecondListTitle
                     active={
-                      store.selectedKey ===
-                      `${examples[index].name}_${exampleI.name}_${exampleJ.name}`
+                      selectedKey ===
+                      `${examples[tabIndex].name}_${exampleI.name}_${exampleJ.name}`
                     }
+                    hide={!exampleJ.title[language].includes(filter)}
                     key={exampleJ.name}
                     onClick={() =>
                       handleSelect(
-                        examples[index].name,
+                        examples[tabIndex].name,
                         exampleI.name,
                         exampleJ.name
                       )
                     }
                   >
-                    {i + 1}.{j + 1} {exampleJ.title[store.language!]}
+                    {i + 1}.{j + 1} {exampleJ.title[language]}
                   </SecondListTitle>
                 ))}
               </SecondList>

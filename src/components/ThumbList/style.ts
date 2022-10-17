@@ -1,4 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+import { Col } from "antd";
 
 const Container = styled.div`
   flex: 1;
@@ -31,6 +33,14 @@ const Title = styled.div`
   border-bottom: 1px solid #ddd;
 `;
 
+const hideStyle = css`
+  display: none;
+`;
+
+const StyledCol = styled(Col)<{ hide?: boolean }>`
+  ${(props) => props.hide && hideStyle}
+`;
+
 const Card = styled.div`
   background-color: #f7f7f7;
   border: 1px solid #ddd;
@@ -56,4 +66,4 @@ const Circle = styled.div`
   border-radius: 50%;
 `;
 
-export { Container, List, Title, Card, Text, Circle };
+export { Container, List, Title, StyledCol, Card, Text, Circle };

@@ -6,47 +6,14 @@ import {
   Container,
   Title,
 } from "./style";
-import { useMount, useUpdateEffect } from "react-use";
 
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { getExampleByKey } from "@/utils";
-import { message } from "antd";
 import { observer } from "mobx-react-lite";
-import translate from "@/locale/translate.json";
-import { useState } from "react";
-import { useStore } from "@/store";
+import { useTitleArea } from "./hooks";
 
 function TitleArea() {
-  const store = useStore();
-  const [title, setTitle] = useState("");
-
-  useMount(() => {
-    if (store.selectedKey) {
-      const example = getExampleByKey(store.selectedKey);
-      setTitle(example.title[store.language!]);
-      document.title = `maptalks - ${example.title[store.language!]}`;
-    } else {
-      setTitle("");
-      document.title = "maptalks - examples";
-    }
-  });
-
-  useUpdateEffect(() => {
-    if (store.selectedKey) {
-      const example = getExampleByKey(store.selectedKey);
-      setTitle(example.title[store.language!]);
-      document.title = `maptalks - ${example.title[store.language!]}`;
-    } else {
-      setTitle("");
-      document.title = "maptalks - examples";
-    }
-  }, [store.selectedKey, store.language]);
-
-  function handleCopy() {
-    message.success(translate[store.language!]["success"], 1);
-  }
-
-  const paths = store.selectedKey.split("_");
+  const { title, paths, translate, language, code, handleCopy } =
+    useTitleArea();
 
   return (
     <Container>
@@ -58,26 +25,26 @@ function TitleArea() {
         >
           <ActionButton>
             <ButtonIcon type="source" />
-            {translate[store.language!]["source"]}
+            {translate[language]["source"]}
           </ActionButton>
         </ActionLink>
         <ActionLink>
           <ActionButton>
             <ButtonIcon type="open" />
-            {translate[store.language!]["open"]}
+            {translate[language]["open"]}
           </ActionButton>
         </ActionLink>
         <ActionLink>
           <ActionButton>
             <ButtonIcon type="edit" />
-            {translate[store.language!]["edit"]}
+            {translate[language]["edit"]}
           </ActionButton>
         </ActionLink>
-        <CopyToClipboard text={store.code} onCopy={handleCopy}>
+        <CopyToClipboard text={code} onCopy={handleCopy}>
           <ActionLink>
             <ActionButton>
               <ButtonIcon type="copy" />
-              {translate[store.language!]["copy"]}
+              {translate[language]["copy"]}
             </ActionButton>
           </ActionLink>
         </CopyToClipboard>

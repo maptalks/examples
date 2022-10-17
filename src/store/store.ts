@@ -7,6 +7,7 @@ export class Store {
 
   @observable language: Language | null = null;
   @observable tab = "basic";
+  @observable filter = "";
   @observable selectedKey = "";
   @observable code = "";
 
@@ -16,6 +17,10 @@ export class Store {
 
   @action setTab(tab: string) {
     this.tab = tab;
+  }
+
+  @action setFilter(filter: string) {
+    this.filter = filter;
   }
 
   @action setSelectedKey(key: string) {
@@ -29,6 +34,7 @@ export class Store {
   @action init() {
     this.language = null;
     this.tab = "basic";
+    this.filter = "";
     this.selectedKey = "";
     this.code = "";
   }

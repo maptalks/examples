@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-import searchImg from "./search.png";
+import { searchImg } from "./assets";
 
 const Container = styled.div`
   display: flex;
@@ -123,7 +123,11 @@ const activeStyle = css`
   }
 `;
 
-const SecondListTitle = styled.a<{ active?: boolean }>`
+const hideStyle = css`
+  display: none;
+`;
+
+const SecondListTitle = styled.a<{ active?: boolean; hide?: boolean }>`
   display: block;
   line-height: 20px;
   padding-left: 12px;
@@ -135,6 +139,7 @@ const SecondListTitle = styled.a<{ active?: boolean }>`
     color: #80caff;
   }
   ${(props) => props.active && activeStyle}
+  ${(props) => props.hide && hideStyle}
 `;
 
 export {
