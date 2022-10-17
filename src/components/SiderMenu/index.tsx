@@ -57,7 +57,11 @@ function SiderMenu() {
                       selectedKey ===
                       `${examples[tabIndex].name}_${exampleI.name}_${exampleJ.name}`
                     }
-                    hide={!exampleJ.title[language].includes(filter)}
+                    hide={
+                      !exampleJ.title[language].includes(filter)
+                        ? "hide"
+                        : "show"
+                    }
                     key={exampleJ.name}
                     onClick={() =>
                       handleSelect(

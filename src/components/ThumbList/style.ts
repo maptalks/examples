@@ -37,8 +37,8 @@ const hideStyle = css`
   display: none;
 `;
 
-const StyledCol = styled(Col)<{ hide?: boolean }>`
-  ${(props) => props.hide && hideStyle}
+const StyledCol = styled(Col)<{ hide?: string }>`
+  ${(props) => props.hide === "hide" && hideStyle}
 `;
 
 const Card = styled.div`

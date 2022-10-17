@@ -127,7 +127,7 @@ const hideStyle = css`
   display: none;
 `;
 
-const SecondListTitle = styled.a<{ active?: boolean; hide?: boolean }>`
+const SecondListTitle = styled.a<{ active?: boolean; hide?: string }>`
   display: block;
   line-height: 20px;
   padding-left: 12px;
@@ -139,7 +139,7 @@ const SecondListTitle = styled.a<{ active?: boolean; hide?: boolean }>`
     color: #80caff;
   }
   ${(props) => props.active && activeStyle}
-  ${(props) => props.hide && hideStyle}
+  ${(props) => props.hide === "hide" && hideStyle}
 `;
 
 export {

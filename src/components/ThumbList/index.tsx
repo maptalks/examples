@@ -15,7 +15,9 @@ function ThumbList() {
           <Row gutter={[28, 24]}>
             {exampleI.examples.map((exampleJ) => (
               <StyledCol
-                hide={!exampleJ.title[language].includes(filter)}
+                hide={
+                  !exampleJ.title[language].includes(filter) ? "hide" : "show"
+                }
                 key={exampleJ.name}
                 span={6}
               >
