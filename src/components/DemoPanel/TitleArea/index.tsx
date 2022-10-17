@@ -24,8 +24,10 @@ function TitleArea() {
     if (store.selectedKey) {
       const example = getExampleByKey(store.selectedKey);
       setTitle(example.title[store.language!]);
+      document.title = `maptalks - ${example.title[store.language!]}`;
     } else {
       setTitle("");
+      document.title = "maptalks - examples";
     }
   });
 
@@ -33,13 +35,14 @@ function TitleArea() {
     if (store.selectedKey) {
       const example = getExampleByKey(store.selectedKey);
       setTitle(example.title[store.language!]);
+      document.title = `maptalks - ${example.title[store.language!]}`;
     } else {
       setTitle("");
+      document.title = "maptalks - examples";
     }
   }, [store.selectedKey, store.language]);
 
   function handleCopy() {
-    // @ts-ignore
     message.success(translate[store.language!]["success"], 1);
   }
 
