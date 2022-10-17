@@ -29,7 +29,7 @@ npm run dev
 
 3. Open the browser at
 
-[http://127.0.0.1:5173/](http://127.0.0.1:5173/)
+   [http://127.0.0.1:5173/](http://127.0.0.1:5173/)
 
 ## Contribute and Publish
 
