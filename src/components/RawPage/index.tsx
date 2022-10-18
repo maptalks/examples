@@ -5,8 +5,6 @@ import { useRawPage } from "./hooks";
 function RawPage() {
   const { code } = useRawPage();
 
-  console.log(code);
-
   return (
     <Container>
       <View
