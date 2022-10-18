@@ -8,7 +8,7 @@ export function useThumbList() {
 
   function handleSelect(i: string, j: string, k: string) {
     store.setSelectedKey(`${i}_${j}_${k}`);
-    navigate(`/example/${store.language}/${i}/${j}/${k}`);
+    navigate(`/examples/${store.language}/${i}/${j}/${k}`);
   }
 
   function getTabIndex() {

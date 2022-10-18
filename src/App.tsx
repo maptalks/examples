@@ -21,7 +21,7 @@ function App() {
     }
     // redirect
     if (location.pathname === "/") {
-      navigate("/example/cn/basic");
+      navigate("/examples/cn/basic");
     }
   });
 
@@ -33,12 +33,12 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/example" element={<Layout />}>
+      <Route path="/examples" element={<Layout />}>
         {languages.map((language) =>
           examples.map((example) => (
             <Route
               key={`${language}_${example.name}`}
-              path={`/example/${language}/${example.name}`}
+              path={`/examples/${language}/${example.name}`}
               element={<ThumbList />}
             />
           ))
@@ -49,7 +49,7 @@ function App() {
               exampleJ.examples.map((exampleK) => (
                 <Route
                   key={`${language}_${exampleI.name}_${exampleJ.name}_${exampleK.name}`}
-                  path={`/example/${language}/${exampleI.name}/${exampleJ.name}/${exampleK.name}`}
+                  path={`/examples/${language}/${exampleI.name}/${exampleJ.name}/${exampleK.name}`}
                   element={<DemoPanel />}
                 />
               ))
@@ -63,7 +63,7 @@ function App() {
             exampleJ.examples.map((exampleK) => (
               <Route
                 key={`${language}_${exampleI.name}_${exampleJ.name}_${exampleK.name}`}
-                path={`/example/raw/${language}/${exampleI.name}/${exampleJ.name}/${exampleK.name}`}
+                path={`/examples/raw/${language}/${exampleI.name}/${exampleJ.name}/${exampleK.name}`}
                 element={<RawPage />}
               />
             ))

@@ -16,7 +16,7 @@ export function useSiderMenu() {
       window.open(url)
     } else {
       store.setSelectedKey(`${i}_${j}_${k}`);
-      navigate(`/example/${store.language}/${i}/${j}/${k}`);
+      navigate(`/examples/${store.language}/${i}/${j}/${k}`);
     }
   }
 

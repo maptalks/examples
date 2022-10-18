@@ -50,7 +50,7 @@ function TitleArea() {
         </ActionLink>
         <Link
           target="_blank"
-          to={`/example/raw/${language}/${paths[0]}/${paths[1]}/${paths[2]}`}
+          to={`/examples/raw/${language}/${paths[0]}/${paths[1]}/${paths[2]}`}
         >
           <ActionButton>
             <ButtonIcon type="open" />

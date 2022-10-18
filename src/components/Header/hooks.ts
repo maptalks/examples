@@ -32,7 +32,7 @@ export function useHeader() {
   function handleTabChange(tab: string) {
     store.setTab(tab);
     store.setSelectedKey("");
-    navigate(`/example/${store.language}/${tab}`);
+    navigate(`/examples/${store.language}/${tab}`);
   }
 
   return {
