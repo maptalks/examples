@@ -13,8 +13,27 @@ import { observer } from "mobx-react-lite";
 import { useTitleArea } from "./hooks";
 
 function TitleArea() {
-  const { title, paths, translate, language, code, handleCopy } =
+  const { title, paths, translate, language, code, handleCopy, handleEdit } =
     useTitleArea();
+
+    function edit() {
+      var htmlDataNode = document.getElementById('html-data') as any;
+      var htmlData = htmlDataNode.innerText;
+      var jsDataNode = document.getElementById('js-data')as any;
+      var jsData = jsDataNode.innerText;
+      var cssDataNode = document.getElementById('css-data')as any;
+      var cssData = cssDataNode.innerText;
+      var data = {
+        title: "{{{ title }}}",
+        description: "{{{ category }}} - {{{ title }}}",
+      }as any;
+      data.html = htmlData;
+      data.js = jsData;
+      data.css = cssData;
+      var dataNode = document.getElementById('editor-data')as any;
+      dataNode.value = JSON.stringify(data);
+      (document.getElementById('editor')as any).submit();
+    }
 
   return (
     <Container>
@@ -38,7 +57,7 @@ function TitleArea() {
             {translate[language]["open"]}
           </ActionButton>
         </Link>
-        <ActionLink>
+        <ActionLink onClick={handleEdit}>
           <ActionButton>
             <ButtonIcon type="edit" />
             {translate[language]["edit"]}
@@ -53,6 +72,16 @@ function TitleArea() {
           </ActionLink>
         </CopyToClipboard>
       </ActionArea>
+      <div style={{ display: "none" }}>
+        <form
+          method="post"
+          action="https://codepen.io/pen/define"
+          id="editor"
+          target="_blanks"
+        >
+          <input type="hidden" id="editor-data" name="data" value=""></input>
+        </form>
+      </div>
     </Container>
   );
 }

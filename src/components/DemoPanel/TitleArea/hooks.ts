@@ -1,13 +1,17 @@
+import { ATTRIBUTION, RESOURCE_PATH, URL_TEMPLATE } from "@/constants";
 import { useMount, useUpdateEffect } from "react-use";
 
 import { getExampleByKey } from "@/utils";
+import { html_beautify } from "js-beautify";
 import { message } from "antd";
 import translate from "@/locale/translate.json";
+import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useStore } from "@/store";
 
 export function useTitleArea() {
   const store = useStore();
+  const location = useLocation();
   const [title, setTitle] = useState("");
 
   useMount(() => {
@@ -36,6 +40,50 @@ export function useTitleArea() {
     message.success(translate[store.language!]["success"], 1);
   }
 
+  async function handleEdit() {
+    const paths = location.pathname.split("/");
+
+    const htmlCode = (
+      await import(
+        `../../../../codes/${paths[3]}/${paths[4]}/${paths[5]}/index.html?raw`
+      )
+    ).default;
+    const htmlData = `<link rel='stylesheet' href='https://unpkg.com/maptalks/dist/maptalks.css' />
+    <script type='text/javascript' src='https://unpkg.com/maptalks/dist/maptalks.min.js'></script>
+    <script type='text/javascript' src='https://maptalks.com/api/maptalks-gl-layers.js'></script>
+    ${htmlCode}`;
+
+    const cssCode = (
+      await import(
+        `../../../../codes/${paths[3]}/${paths[4]}/${paths[5]}/index.css?raw`
+      )
+    ).default;
+    const cssData = cssCode.replaceAll("{res}", RESOURCE_PATH);
+
+    const jsCode = (
+      await import(
+        `../../../../codes/${paths[3]}/${paths[4]}/${paths[5]}/index.js?raw`
+      )
+    ).default;
+    const jsData = jsCode
+      .replaceAll("{urlTemplate}", URL_TEMPLATE)
+      .replaceAll("{attribution}", ATTRIBUTION)
+      .replaceAll("{res}", RESOURCE_PATH);
+
+    const example = getExampleByKey(`${paths[3]}_${paths[4]}_${paths[5]}`);
+    const title = example.title[paths[2] as Language];
+    const data = {
+      title,
+      description: title,
+      html: html_beautify(htmlData),
+      js: jsData,
+      css: cssData,
+    };
+    const dataNode = document.getElementById("editor-data") as HTMLInputElement;
+    dataNode.value = JSON.stringify(data);
+    (document.getElementById("editor") as HTMLFormElement).submit();
+  }
+
   const paths = store.selectedKey.split("_");
 
   return {
@@ -45,5 +93,6 @@ export function useTitleArea() {
     language: store.language!,
     code: store.code,
     handleCopy,
+    handleEdit,
   };
 }
