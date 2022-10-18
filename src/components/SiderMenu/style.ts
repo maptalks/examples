@@ -142,6 +142,11 @@ const SecondListTitle = styled.a<{ active?: boolean; hide?: string }>`
   ${(props) => props.hide === "hide" && hideStyle}
 `;
 
+const LinkImg = styled.img`
+  margin-left: 3px;
+  vertical-align: baseline;
+`;
+
 export {
   Container,
   MenuArea,
@@ -155,4 +160,5 @@ export {
   ListTile,
   SecondList,
   SecondListTitle,
+  LinkImg
 };

@@ -11,9 +11,13 @@ export function useSiderMenu() {
     store.setFilter(e.target.value);
   }
 
-  function handleSelect(i: string, j: string, k: string) {
-    store.setSelectedKey(`${i}_${j}_${k}`);
-    navigate(`/example/${store.language}/${i}/${j}/${k}`);
+  function handleSelect(i: string, j: string, k: string, url?:string) {
+    if (url) {
+      window.open(url)
+    } else {
+      store.setSelectedKey(`${i}_${j}_${k}`);
+      navigate(`/example/${store.language}/${i}/${j}/${k}`);
+    }
   }
 
   function getTabIndex() {

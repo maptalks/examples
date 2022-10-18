@@ -2,6 +2,7 @@ import {
   ActionBar,
   Container,
   DownloadButton,
+  LinkImg,
   List,
   ListTile,
   Menu,
@@ -15,6 +16,7 @@ import {
 
 import { observer } from "mobx-react-lite";
 import translate from "../../locale/translate.json";
+import { urlImg } from "./assets";
 import { useSiderMenu } from "./hooks";
 
 function SiderMenu() {
@@ -67,11 +69,15 @@ function SiderMenu() {
                       handleSelect(
                         examples[tabIndex].name,
                         exampleI.name,
-                        exampleJ.name
+                        exampleJ.name,
+                        exampleJ.url
                       )
                     }
                   >
                     {i + 1}.{j + 1} {exampleJ.title[language]}
+                    {exampleJ.url && (
+                      <LinkImg title="external link" src={urlImg} />
+                    )}
                   </SecondListTitle>
                 ))}
               </SecondList>
