@@ -1,10 +1,8 @@
+import { ATTRIBUTION, RESOURCE_PATH, URL_TEMPLATE } from "@/constants";
+
 import { getHtmlCodeTitle } from "@/utils";
 import { useAsync } from "react-use";
 import { useStore } from "@/store";
-
-const urlTemplate = `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png`;
-const attribution =
-  "&copy; <a href='http://osm.org'>OpenStreetMap</a> contributors, &copy; <a href='https://carto.com/'>CARTO</a>";
 
 export function useMapView() {
   const store = useStore();
@@ -35,7 +33,7 @@ export function useMapView() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <title>${title}</title>
         <style type='text/css'>
-          ${cssCode.replaceAll("{res}", "/resources")}
+          ${cssCode.replaceAll("{res}", RESOURCE_PATH)}
         </style>
         <link rel='stylesheet' href='https://unpkg.com/maptalks/dist/maptalks.css' />
         <script type='text/javascript' src='https://unpkg.com/maptalks/dist/maptalks.min.js'></script>
@@ -44,9 +42,9 @@ export function useMapView() {
           ${htmlCode}
           <script>
             ${jsCode
-              .replaceAll("{urlTemplate}", urlTemplate)
-              .replaceAll("{attribution}", attribution)
-              .replaceAll("{res}", "/resources")}
+              .replaceAll("{urlTemplate}", URL_TEMPLATE)
+              .replaceAll("{attribution}", ATTRIBUTION)
+              .replaceAll("{res}", RESOURCE_PATH)}
           </script>
         </body>
       </html>`;
