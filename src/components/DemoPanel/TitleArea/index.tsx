@@ -8,6 +8,7 @@ import {
 } from "./style";
 
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useTitleArea } from "./hooks";
 
@@ -28,12 +29,15 @@ function TitleArea() {
             {translate[language]["source"]}
           </ActionButton>
         </ActionLink>
-        <ActionLink>
+        <Link
+          target="_blank"
+          to={`/example/raw/${language}/${paths[0]}/${paths[1]}/${paths[2]}`}
+        >
           <ActionButton>
             <ButtonIcon type="open" />
             {translate[language]["open"]}
           </ActionButton>
-        </ActionLink>
+        </Link>
         <ActionLink>
           <ActionButton>
             <ButtonIcon type="edit" />

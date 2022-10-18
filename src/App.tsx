@@ -1,4 +1,4 @@
-import { DemoPanel, ThumbList } from "./components";
+import { DemoPanel, RawPage, ThumbList } from "./components";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import Layout from "./layout";
@@ -57,6 +57,19 @@ function App() {
           )
         )}
       </Route>
+      {languages.map((language) =>
+        examples.map((exampleI) =>
+          exampleI.examples.map((exampleJ) =>
+            exampleJ.examples.map((exampleK) => (
+              <Route
+                key={`${language}_${exampleI.name}_${exampleJ.name}_${exampleK.name}`}
+                path={`/example/raw/${language}/${exampleI.name}/${exampleJ.name}/${exampleK.name}`}
+                element={<RawPage />}
+              />
+            ))
+          )
+        )
+      )}
     </Routes>
   );
 }
