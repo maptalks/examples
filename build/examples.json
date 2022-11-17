@@ -46,7 +46,7 @@
         {"name" : "proj4js", "title" : {"cn" : "Proj4js自定义投影底图", "en" : "TileLayer of custom projection by proj4js"}},
         {"name" : "d3-proj", "title" : {"cn" : "D3投影", "en" : "D3 geo projection"}},
         {"name" : "different-projection", "title" : {"cn" : "载入不同投影的TileLayer", "en" : "Load tilelayer with different projection"}},
-        {"name" : "filter", "title" : {"cn" : "底图风格滤镜", "en" : "TileLayer's CSS filter"}},
+        {"name" : "tile-image-custom", "title" : {"cn" : "自定义处理瓦片图片", "en" : "Custom processing of tile images"}, "mark" : "new"},
         {"name" : "max-zoom", "title" : {"cn" : "增大空间参考的maxZoom", "en" : "Larger maxZoom of spatialReference"}}
       ]
     },
