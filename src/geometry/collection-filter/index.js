@@ -54,8 +54,6 @@ var collection = new maptalks.GeometryCollection([line, polygon, point], {
   visible : true,
   editable : true,
   cursor : null,
-  shadowBlur : 0,
-  shadowColor : 'black',
   draggable : false,
   dragShadow : false,
   drawOnAxis : null

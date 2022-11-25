@@ -14,10 +14,8 @@ var point = new maptalks.Marker(
     visible : true,
     editable : true,
     cursor : 'pointer',
-    shadowBlur : 0,
-    shadowColor : 'black',
     draggable : false,
-    dragShadow : false, // display a shadow during dragging
+    dragShadow : true, // display a shadow during dragging
     drawOnAxis : null,  // force dragging stick on a axis, can be: x, y
     symbol : {
       'markerType' : 'ellipse',

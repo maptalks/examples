@@ -18,8 +18,6 @@ var multiline = new maptalks.MultiLineString([
   visible : true,
   editable : true,
   cursor : null,
-  shadowBlur : 0,
-  shadowColor : 'black',
   draggable : false,
   dragShadow : false, // display a shadow during dragging
   drawOnAxis : null,  // force dragging stick on a axis, can be: x, y
