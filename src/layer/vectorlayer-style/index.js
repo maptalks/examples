@@ -12,7 +12,7 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector')
       .setStyle({
-        'filter' : ['count', '>=', 0],
+        'filter' : ['count', '>=', 0],   // set symbol style by filter
         'symbol' : getSymbol('#747474')
       })
       .addTo(map);
