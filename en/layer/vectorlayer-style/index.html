@@ -835,7 +835,7 @@
 
       var layer &#x3D; new maptalks.VectorLayer(&#x27;vector&#x27;)
             .setStyle({
-              &#x27;filter&#x27; : [&#x27;count&#x27;, &#x27;&gt;&#x3D;&#x27;, 0],
+              &#x27;filter&#x27; : [&#x27;count&#x27;, &#x27;&gt;&#x3D;&#x27;, 0],   // set symbol style by filter
               &#x27;symbol&#x27; : getSymbol(&#x27;#747474&#x27;)
             })
             .addTo(map);
@@ -924,7 +924,7 @@ var map = new maptalks.Map('map', {
 
 var layer = new maptalks.VectorLayer('vector')
   .setStyle({
-    'filter': ['count', '>=', 0],
+    'filter': ['count', '>=', 0], // set symbol style by filter
     'symbol': getSymbol('#747474')
   })
   .addTo(map);
