@@ -118,6 +118,7 @@
         {"name" : "update-symbol", "title" : {"cn" : "样式的部分更新", "en" : "Update part of symbol"}},
         {"name" : "symbol-by-zoom", "title" : {"cn" : "根据zoom设置样式", "en" : "Symbol by map zoom"}},
         {"name" : "symbol-by-prop", "title" : {"cn" : "根据属性数据设置样式", "en" : "Symbol by geometry properties"}},
+        {"name" : "color-interpolate", "title" : {"cn" : "颜色插值", "en" : "color interpolate"},"mark" : "new"},
         {"name" : "html-marker", "title" : {"cn" : "HTML自定义标注", "en" : "Marker with HTML content"}},
         {"name" : "d3-marker", "title" : {"cn" : "D3图表样式", "en" : "Marker with D3 chart"}},
         {"name" : "echarts-marker", "title" : {"cn" : "Echarts图表样式", "en" : "Marker with echarts"}},
