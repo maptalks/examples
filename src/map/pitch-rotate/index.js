@@ -37,7 +37,7 @@ function changeView() {
 }
 
 function reset() {
-  requestAnimationFrame(function () {
+  requestAnimationFrame(function() {
     paused = true;
     pitch = 0;
     bearing = 0;
@@ -54,25 +54,25 @@ function addMarkers() {
   var m4 = new maptalks.Marker(center.add(0.008, 0.008));
   map.getLayer('v').addGeometry(m1, m2, m3, m4);
 }
-
+// 'item':content of button,support HTML.'height': height in pixels,'click':click function,'children': displayed menus by hovering
 var toolbar = new maptalks.control.Toolbar({
   items: [
     {
       'item' : 'pause',
-      'click' : function () {
+      'click' : function() {
         paused = true;
       }
     },
     {
       'item' : 'start',
-      'click' : function () {
+      'click' : function() {
         paused = false;
         changeView();
       }
     },
     {
       'item' : 'reset',
-      'click' : function () {
+      'click' : function() {
         reset();
       }
     }
