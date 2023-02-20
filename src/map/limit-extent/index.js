@@ -22,6 +22,7 @@ map.setZoom(map.getZoom() - 2, { animation : false });
 map.getLayer('v')
   .addGeometry(
     new maptalks.Polygon(extent.toArray(), {
+      // Polygon attribute of symbol has polygonOpacity、lineWidth、lineOpacity、lineDx、lineDy
       symbol : { 'polygonOpacity': 0, 'lineWidth': 5 }
     })
   );
