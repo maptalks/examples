@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>空间与UI组件 - 信息框内容支持滚动</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+    .panel{border-radius:5px;padding:10px;position:absolute;z-index:1;right:10px;top:10px;border:1px solid gray;background-color:white}
+    .panel .item{line-height:40px}
+    .info-content{height:150px;width:300px;overflow:scroll}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
+  <body>
+    <div id="map" class="container"></div>
+    <script>
+
+      var baseLayer = new maptalks.TileLayer('base', {
+        urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        subdomains: ['a','b','c','d'],
+        attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+      });
+      var map = new maptalks.Map('map', {
+        center: [114.26012989831725, 30.616193225646924],
+        zoom: 18,
+        pitch: 60,
+        attribution: true,
+        zoomControl: true,
+        baseLayer: baseLayer
+      });
+
+
+
+      var layer = new maptalks.VectorLayer('layer', {
+
+      }).addTo(map);
+      var point = new maptalks.Marker(map.getCenter());
+      layer.addGeometry(point);
+      point.setInfoWindow({
+        title: 'hello maptalks',
+        content: '<div class="info-content"><video controls width="450" height="300" src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"></video></div>'
+      });
+      point.openInfoWindow();
+
+
+
+    </script>
+  </body>
+</html>

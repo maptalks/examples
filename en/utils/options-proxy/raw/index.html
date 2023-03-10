@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>utils/global - Update options by Proxy</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+    .panel{border-radius:5px;padding:10px;position:absolute;z-index:1;right:10px;top:10px;border:1px solid gray;background-color:white}
+    .panel .item{line-height:40px}
+    .text_marker{font:15px bold sans-serif;color:#0000;text-shadow:2px 0 white;background-color:#2695bbb3;border:2px solid #43fff3;width:120px;height:40px;text-align:center}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
+  <body>
+    <div class="panel">
+        <div class="item">
+            <label for="scales">Map centerCross</label>
+            <input type="checkbox" id="centercross">
+        </div>
+        <div class="item">
+            <label>Layer opacity</label>
+            <input type="range" id="layeropacity" min="0" max="1" step="0.1" value="1">
+        </div>
+        <div class="item">
+            <label>visible</label>
+            <input type="checkbox" id="visible" checked>
+        </div>
+    </div>
+    <div id="map" class="container"></div>
+    <script>
+
+      var baseLayer = new maptalks.TileLayer('base', {
+        urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        subdomains: ["a","b","c","d"],
+        attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+      });
+      var map = new maptalks.Map('map', {
+        center: [100.63299495279648, 30.895363667711848],
+        zoom: 3,
+        pitch: 0,
+        attribution: true,
+        zoomControl: true,
+        baseLayer: baseLayer
+      });
+      map.on('click', function (e) {
+        console.log(e);
+      });
+
+      var layer = new maptalks.VectorLayer('layer').addTo(map);
+      var point = new maptalks.Marker(map.getCenter());
+      layer.addGeometry(point);
+
+      var uiMarker = new maptalks.ui.UIMarker(map.getCenter(), {
+        content: '<div class="text_marker">maptalks</div>',
+        dy: -100
+      }).addTo(map);
+
+      function getEle(selector) {
+        if (document.querySelector) {
+          return document.querySelector(selector);
+        }
+        return document.getElementById(selector.substring(1, Infinity));
+      }
+
+      function on(ele, type, hanlder) {
+        ele.addEventListener(type, hanlder);
+      }
+
+      on(getEle('#centercross'), 'change', function (e) {
+        map.options.centerCross = this.checked;
+      });
+
+      on(getEle('#layeropacity'), 'change', function (e) {
+        baseLayer.options.opacity = parseFloat(this.value);
+        layer.options.opacity = parseFloat(this.value);
+      });
+
+      on(getEle('#visible'), 'change', function (e) {
+        baseLayer.options.visible = this.checked;
+        layer.options.visible = this.checked;
+        uiMarker.options.visible = this.checked;
+      });
+
+    </script>
+  </body>
+</html>

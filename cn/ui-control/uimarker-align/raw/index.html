@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>空间与UI组件 - UIMarker 对齐</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+    .panel{border-radius:5px;padding:10px;position:absolute;z-index:1;right:10px;top:10px;border:1px solid gray;background-color:white}
+    .panel .item{line-height:40px}
+    .text_marker{font:15px bold sans-serif;color:#0000;text-shadow:2px 0 white;background-color:#2695bbb3;border:2px solid #43fff3;width:120px;height:40px;text-align:center}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
+  <body>
+    <div class="panel">
+
+        <div class="item">
+            <label>horizontalAlignment</label>
+
+            <select name="horizontalAlignment" id="horizontalAlignment" value="middle">
+                <option value="middle">middle</option>
+                <option value="left">left</option>
+                <option value="right">right</option>
+            </select>
+        </div>
+        <div class="item">
+            <label>verticalAlignment</label>
+
+            <select name="verticalAlignment" id="verticalAlignment" value="middle">
+                <option value="middle">middle</option>
+                <option value="top">top</option>
+                <option value="bottom">bottom</option>
+            </select>
+        </div>
+
+    </div>
+    <div id="map" class="container"></div>
+    <script>
+
+      var baseLayer = new maptalks.TileLayer('base', {
+        urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        subdomains: ['a','b','c','d'],
+        attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+      });
+      var map = new maptalks.Map('map', {
+        center: [114.26012989831725, 30.616193225646924],
+        zoom: 18,
+        pitch: 60,
+        attribution: true,
+        zoomControl: true,
+        baseLayer: baseLayer
+      });
+      map.on('click', function (e) {
+        console.log(e);
+      });
+
+
+      var center = map.getCenter();
+
+      var layer = new maptalks.VectorLayer('layer', {
+        enableAltitude: true
+      }).addTo(map);
+      var point = new maptalks.Marker(center, {
+        symbol: {
+          markerType: 'ellipse',
+          markerWidth: 5,
+          markerHeight: 5
+        }
+      });
+      layer.addGeometry(point);
+
+      var uiMarker = new maptalks.ui.UIMarker(center, {
+        content: '<div class="text_marker">maptalks</div>'
+      });
+      uiMarker.addTo(map);
+
+      function getEle(selector) {
+        if (document.querySelector) {
+          return document.querySelector(selector);
+        }
+        return document.getElementById(selector.substring(1, Infinity));
+      }
+      function on(ele, type, hanlder) {
+        ele.addEventListener(type, hanlder);
+      }
+
+      on(getEle('#horizontalAlignment'), 'change', function (e) {
+        uiMarker.options.horizontalAlignment = this.value;
+      });
+
+      on(getEle('#verticalAlignment'), 'change', function (e) {
+        uiMarker.options.verticalAlignment = this.value;
+      });
+
+
+    </script>
+  </body>
+</html>

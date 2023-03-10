@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Control and UIComponents - UI collision</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:100%;height:100%}
+    .text_marker{font:15px bold sans-serif;color:#0000;text-shadow:2px 0 white;background-color:#2695bbb3;border:2px solid #43fff3;width:120px;height:40px;text-align:center}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
+  <body>
+    <script src="./capitals.js"></script>
+    <div id="map" class="container"></div>
+    <script>
+      var capitals = window.capitals;
+      var baseLayer = new maptalks.TileLayer('base', {
+        urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        subdomains: ["a","b","c","d"],
+        attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+      });
+      var map = new maptalks.Map('map', {
+        center: [100.63299495279648, 30.895363667711848],
+        zoom: 3,
+        pitch: 0,
+        attribution: true,
+        zoomControl: true,
+        baseLayer: baseLayer
+      });
+
+      var layer = new maptalks.VectorLayer('layer').addTo(map);
+
+      function createMarkerContent(name) {
+        var div = document.createElement('div');
+        div.className = 'text_marker';
+        div.innerHTML = name;
+        return div;
+      }
+
+      function addMarkers() {
+        //test UIMarker
+        var uiMarkers = capitals.map(function (f, index) {
+          var lnglat = f.center;
+          return new maptalks.ui.UIMarker(lnglat, {
+            collision: true,
+            collisionBufferSize: 2,
+            collisionWeight: 1,
+            collisionFadeIn: true,
+            content: createMarkerContent(f.name + '_' + index),
+            verticalAlignment: 'top',
+            dy: -6
+          });
+        });
+        //test InfoWindow
+        var markers = capitals.map(function (f) {
+          var lnglat = f.center;
+          var marker = new maptalks.Marker(lnglat, {
+            symbol: {
+              markerType: 'ellipse',
+              markerWidth: 10,
+              markerHeight: 10,
+              markerFill: 'red'
+            }
+          });
+          marker.setInfoWindow({
+            collision: true,
+            collisionBufferSize: 2,
+            collisionWeight: 2,
+            collisionFadeIn: true,
+            content: f.name
+          });
+          return marker;
+        });
+
+        uiMarkers.forEach(function (marker) {
+          marker.addTo(map);
+        });
+
+        layer.addGeometry(markers);
+        markers.slice(0, 1).forEach(function (marker) {
+          marker.openInfoWindow();
+        });
+      }
+      addMarkers();
+
+    </script>
+  </body>
+</html>
