@@ -889,7 +889,7 @@
       }
 
       function reset() {
-        requestAnimationFrame(function () {
+        requestAnimationFrame(function() {
           paused &#x3D; true;
           pitch &#x3D; 0;
           bearing &#x3D; 0;
@@ -906,25 +906,25 @@
         var m4 &#x3D; new maptalks.Marker(center.add(0.008, 0.008));
         map.getLayer(&#x27;v&#x27;).addGeometry(m1, m2, m3, m4);
       }
-
+      // &#x27;item&#x27;:content of button,support HTML.&#x27;height&#x27;: height in pixels,&#x27;click&#x27;:click function,&#x27;children&#x27;: displayed menus by hovering
       var toolbar &#x3D; new maptalks.control.Toolbar({
         items: [
           {
             &#x27;item&#x27; : &#x27;pause&#x27;,
-            &#x27;click&#x27; : function () {
+            &#x27;click&#x27; : function() {
               paused &#x3D; true;
             }
           },
           {
             &#x27;item&#x27; : &#x27;start&#x27;,
-            &#x27;click&#x27; : function () {
+            &#x27;click&#x27; : function() {
               paused &#x3D; false;
               changeView();
             }
           },
           {
             &#x27;item&#x27; : &#x27;reset&#x27;,
-            &#x27;click&#x27; : function () {
+            &#x27;click&#x27; : function() {
               reset();
             }
           }
@@ -1009,7 +1009,7 @@ function addMarkers() {
   var m4 = new maptalks.Marker(center.add(0.008, 0.008));
   map.getLayer('v').addGeometry(m1, m2, m3, m4);
 }
-
+// 'item':content of button,support HTML.'height': height in pixels,'click':click function,'children': displayed menus by hovering
 var toolbar = new maptalks.control.Toolbar({
   items: [{
     'item': 'pause',

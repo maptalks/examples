@@ -874,6 +874,7 @@
       map.getLayer(&#x27;v&#x27;)
         .addGeometry(
           new maptalks.Polygon(extent.toArray(), {
+            // Polygon attribute of symbol has polygonOpacity、lineWidth、lineOpacity、lineDx、lineDy
             symbol : { &#x27;polygonOpacity&#x27;: 0, &#x27;lineWidth&#x27;: 5 }
           })
         );
@@ -924,6 +925,7 @@ map.setZoom(map.getZoom() - 2, {
 map.getLayer('v')
   .addGeometry(
     new maptalks.Polygon(extent.toArray(), {
+      // Polygon attribute of symbol has polygonOpacity、lineWidth、lineOpacity、lineDx、lineDy
       symbol: {
         'polygonOpacity': 0,
         'lineWidth': 5
