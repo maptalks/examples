@@ -33,6 +33,7 @@
         {"name" : "multi-tilelayer", "title" : {"cn" : "添加多个瓦片图层", "en" : "Add multiple TileLayers"}},
         {"name" : "grouptilelayer", "title" : {"cn" : "添加瓦片图层组", "en" : "Add GroupTileLayer"}},
         {"name" : "wms", "title" : {"cn" : "WMS瓦片图层", "en" : "Add a WMS TileLayer"}},
+        {"name" : "wms-reload", "title" : {"cn" : "Tilelayer强制重载", "en" : "Tilelayer force reload"},"mark" : "new"},
         {"name" : "vector-tile", "title" : {"cn" : "Vector-Tile图层", "en" : "Add a mapbox vector-tile Layer"}, "url" : "https://github.com/maptalks/maptalks.mapboxgl"},
         {"name" : "arcgis-tile", "title" : {"cn" : "ArcGIS瓦片图层", "en" : "Add an ArcGIS TileLayer"}},
         {"name" : "wmts-tile", "title" : {"cn" : "WMTS瓦片图层", "en" : "Add a WMTS TileLayer"}, "mark" : "new"},
@@ -83,7 +84,8 @@
         {"name" : "marker-draw-altitude", "title" : {"cn" : "绘制Marker的高度线", "en" : "Draw marker's altitude"}},
         {"name" : "line-altitude", "title" : {"cn" : "有高度的线", "en" : "LineString with altitude"}},
         {"name" : "line-draw-altitude", "title" : {"cn" : "绘制Line的高度面", "en" : "Draw line's altitude wall"}},
-        {"name" : "polygon-altitude", "title" : {"cn" : "有高度的多边形", "en" : "Polygon with altitude"}}
+        {"name" : "polygon-altitude", "title" : {"cn" : "有高度的多边形", "en" : "Polygon with altitude"}},
+        {"name" : "set-altitude", "title" : {"cn" : "设置图形高度", "en" : "Set geom altitude"},"mark" : "new"}
       ]
     },
 
@@ -149,7 +151,13 @@
         {"name" : "imagelayer", "title" : {"cn" : "ImageLayer: 图片图层示例", "en" : "ImageLayer: an example"}}
       ]
     },
-
+    {
+      "name" : "utils",
+      "title" : {"cn" : "工具/全局功能", "en" : "utils/global"},
+      "examples" : [
+        {"name" : "options-proxy", "title" : {"cn" : "通过Proxy更新options", "en" : "Update options by Proxy"},"mark" : "new"}
+      ]
+    },
     {
       "name" : "interaction",
       "title" : {"cn" : "交互", "en" : "User Interactions"},
@@ -197,6 +205,9 @@
         {"name" : "ui-map-infownd", "title" : {"cn" : "地图信息框", "en" : "Map's InfoWindow"}},
         {"name" : "ui-geo-infownd", "title" : {"cn" : "图形信息框", "en" : "Geometry's InfoWindow"}},
         {"name" : "ui-custom-infownd", "title" : {"cn" : "自定义信息框", "en" : "Custom InfoWindow"}},
+        {"name" : "infowindow-scroll", "title" : {"cn" : "信息框内容支持滚动", "en" : "InfoWindow content support wheelscroll"},"mark" : "new"},
+        {"name" : "uimarker-align", "title" : {"cn" : "UIMarker 对齐", "en" : "UIMarker align"},"mark" : "new"},
+        {"name" : "ui-collision", "title" : {"cn" : "UI碰撞", "en" : "UI collision"},"mark" : "new"},
         {"name" : "ui-geo-infownd-bind-mvvm-component", "title" : {"cn" : "信息框绑定MVVM组件", "en" : "InfoWindow bind MVVM component"}},
 
         {"name" : "control-toolbar", "title" : {"cn" : "Toolbar控件", "en" : "Toolbar Control"}},

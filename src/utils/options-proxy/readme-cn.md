@@ -1,0 +1,1 @@
+该功能依赖[Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy),请确保你的运行环境支持Proxy
