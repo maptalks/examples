@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
 import { Col } from "antd";
+import { gray } from "@/constants";
 
 const Container = styled.div`
   flex: 1;
@@ -30,6 +31,7 @@ const List = styled.div`
 const Title = styled.div`
   margin-bottom: 10px;
   line-height: 40px;
+  color: ${gray[9]};
   border-bottom: 1px solid #ddd;
 `;
 
@@ -42,7 +44,7 @@ const StyledCol = styled(Col)<{ hide?: string }>`
 `;
 
 const Card = styled.div`
-  background-color: #f7f7f7;
+  background-color: ${gray[2]};
   border: 1px solid #ddd;
   border-radius: 5px;
   cursor: pointer;
@@ -55,6 +57,7 @@ const Text = styled.span`
   line-height: 30px;
   font-size: 13px;
   white-space: nowrap;
+  color: ${gray[9]};
 `;
 
 const Circle = styled.div`
@@ -62,7 +65,7 @@ const Circle = styled.div`
   width: 4px;
   height: 4px;
   margin-right: 8px;
-  background-color: #000;
+  background-color: ${gray[9]};
   border-radius: 50%;
 `;
 

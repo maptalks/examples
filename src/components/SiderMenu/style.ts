@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 
+import { gray } from "@/constants";
 import { searchImg } from "./assets";
 
 const Container = styled.div`
@@ -92,11 +93,10 @@ const Menu = styled.ul`
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    opacity: 0;
     background: none;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: #eee;
+    background-color: ${gray[2]};
     border-radius: 3px;
   }
 `;
@@ -160,5 +160,5 @@ export {
   ListTile,
   SecondList,
   SecondListTitle,
-  LinkImg
+  LinkImg,
 };

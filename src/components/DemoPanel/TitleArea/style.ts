@@ -31,6 +31,7 @@ const ActionButton = styled.div`
   line-height: 24px;
   margin-left: 8px;
   padding: 0 6px 0 2px;
+  font-size: 14px;
   color: #48b1fc;
   background: #fcfcfc;
   border: 1px solid #48b1fc;

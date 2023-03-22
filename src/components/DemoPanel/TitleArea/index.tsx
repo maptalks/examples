@@ -16,24 +16,24 @@ function TitleArea() {
   const { title, paths, translate, language, code, handleCopy, handleEdit } =
     useTitleArea();
 
-    function edit() {
-      var htmlDataNode = document.getElementById('html-data') as any;
-      var htmlData = htmlDataNode.innerText;
-      var jsDataNode = document.getElementById('js-data')as any;
-      var jsData = jsDataNode.innerText;
-      var cssDataNode = document.getElementById('css-data')as any;
-      var cssData = cssDataNode.innerText;
-      var data = {
-        title: "{{{ title }}}",
-        description: "{{{ category }}} - {{{ title }}}",
-      }as any;
-      data.html = htmlData;
-      data.js = jsData;
-      data.css = cssData;
-      var dataNode = document.getElementById('editor-data')as any;
-      dataNode.value = JSON.stringify(data);
-      (document.getElementById('editor')as any).submit();
-    }
+  function edit() {
+    var htmlDataNode = document.getElementById("html-data") as any;
+    var htmlData = htmlDataNode.innerText;
+    var jsDataNode = document.getElementById("js-data") as any;
+    var jsData = jsDataNode.innerText;
+    var cssDataNode = document.getElementById("css-data") as any;
+    var cssData = cssDataNode.innerText;
+    var data = {
+      title: "{{{ title }}}",
+      description: "{{{ category }}} - {{{ title }}}",
+    } as any;
+    data.html = htmlData;
+    data.js = jsData;
+    data.css = cssData;
+    var dataNode = document.getElementById("editor-data") as any;
+    dataNode.value = JSON.stringify(data);
+    (document.getElementById("editor") as any).submit();
+  }
 
   return (
     <Container>
@@ -49,6 +49,7 @@ function TitleArea() {
           </ActionButton>
         </ActionLink>
         <Link
+          style={{ textDecoration: "none" }}
           target="_blank"
           to={`/examples/raw/${language}/${paths[0]}/${paths[1]}/${paths[2]}`}
         >

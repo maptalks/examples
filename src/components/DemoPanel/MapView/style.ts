@@ -9,7 +9,8 @@ const Container = styled.div`
 const View = styled.iframe`
   display: block;
   width: 100%;
-  height: 400px;
+  height: 600px;
+  box-sizing: border-box;
 `;
 
 export { Container, View };
