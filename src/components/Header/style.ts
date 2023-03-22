@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 
+import { gray } from "@/constants";
 import { logoImg } from "./assets";
 
 const Container = styled.div`
@@ -31,7 +32,6 @@ const Area = styled.div`
   display: flex;
   align-items: center;
   height: 48px;
-  background: #f7f7f7;
   z-index: 10;
 `;
 
@@ -50,12 +50,13 @@ const LangSwitch = styled.a`
   display: block;
   height: 18px;
   line-height: 16px;
-  margin-left: 8px;
+  margin: 2px 0 0 8px;
   padding: 0 4px;
   font-size: 10px;
   text-align: center;
-  color: #42526e;
-  border: 1px solid #42526e;
+  color: ${gray[12]};
+  background-color: ${gray[2]};
+  border: 1px solid ${gray[10]};
   border-radius: 4px;
   transition: all 0.2s;
   text-decoration: none;

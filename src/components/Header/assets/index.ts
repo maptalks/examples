@@ -1,3 +1,3 @@
-import logoImg from "./logo-dark.png";
+import logoImg from "./maptalks.svg";
 
 export { logoImg };

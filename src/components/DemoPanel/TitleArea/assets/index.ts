@@ -1,6 +1,6 @@
-import copyImg from "./copy.png";
-import editImg from "./edit.png";
-import openImg from "./open.png";
-import sourceImg from "./source.png";
+import copyImg from "./copy.svg";
+import editImg from "./edit.svg";
+import openImg from "./open.svg";
+import sourceImg from "./source.svg";
 
 export { copyImg, editImg, openImg, sourceImg };

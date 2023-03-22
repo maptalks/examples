@@ -1,0 +1,14 @@
+<svg id="组件_5_1" data-name="组件 5 – 1" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
+  <g id="矩形_18" data-name="矩形 18" transform="translate(0 2)" fill="#fff" stroke="#6a97d9" stroke-width="1">
+    <rect width="13" height="13" stroke="none"/>
+    <rect x="0.5" y="0.5" width="12" height="12" fill="none"/>
+  </g>
+  <g id="组_2" data-name="组 2" transform="translate(1.99)">
+    <g id="矩形_17" data-name="矩形 17" transform="translate(0.01)" fill="#fff" stroke="#6a97d9" stroke-width="1">
+      <rect width="13" height="13" stroke="none"/>
+      <rect x="0.5" y="0.5" width="12" height="12" fill="none"/>
+    </g>
+    <line id="直线_14" data-name="直线 14" x2="5" transform="translate(4.005 6.036)" fill="none" stroke="#6a97d9" stroke-width="1"/>
+    <line id="直线_15" data-name="直线 15" x2="5" transform="translate(6.505 3.556) rotate(90)" fill="none" stroke="#6a97d9" stroke-width="1"/>
+  </g>
+</svg>
