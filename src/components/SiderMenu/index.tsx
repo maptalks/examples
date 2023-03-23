@@ -1,9 +1,10 @@
 import {
   ActionBar,
   Container,
+  DownIcon,
   DownloadButton,
   LinkImg,
-  List,
+  ListBlock,
   ListTile,
   Menu,
   MenuArea,
@@ -11,24 +12,38 @@ import {
   SearchButton,
   SearchInput,
   SecondList,
-  SecondListTitle,
+  SecondListTile,
+  ThirdList,
+  ThirdListTitle,
+  UpIcon,
 } from "./style";
 
 import { observer } from "mobx-react-lite";
 import translate from "../../locale/translate.json";
 import { urlImg } from "./assets";
+import { useNavigate } from "react-router-dom";
 import { useSiderMenu } from "./hooks";
+import { useStore } from "@/store";
 
 function SiderMenu() {
+  const store = useStore();
+  const navigate = useNavigate();
   const {
     examples,
-    tabIndex,
     language,
     filter,
+    openKeys,
     selectedKey,
     handleInputChange,
     handleSelect,
   } = useSiderMenu();
+
+  function toggleOpen(key: string) {
+    store.setTab(key);
+    store.setSelectedKey("");
+    store.setOpenKeys(key);
+    navigate(`/examples/${store.language}/${key}`);
+  }
 
   return (
     <Container>
@@ -47,41 +62,54 @@ function SiderMenu() {
           </DownloadButton>
         </ActionBar>
         <Menu>
-          {examples[tabIndex].examples.map((exampleI, i) => (
-            <List key={exampleI.name}>
-              <ListTile>
-                {i + 1} {exampleI.title[language]}
+          {examples.map((exampleI) => (
+            <div key={exampleI.name}>
+              <ListTile
+                $open={openKeys.includes(exampleI.name)}
+                onClick={() => toggleOpen(exampleI.name)}
+              >
+                <span>{exampleI.title[language]}</span>
+                {openKeys.includes(exampleI.name) ? <UpIcon /> : <DownIcon />}
               </ListTile>
-              <SecondList>
+              <ListBlock $hidden={!openKeys.includes(exampleI.name)}>
                 {exampleI.examples.map((exampleJ, j) => (
-                  <SecondListTitle
-                    active={
-                      selectedKey ===
-                      `${examples[tabIndex].name}_${exampleI.name}_${exampleJ.name}`
-                    }
-                    hide={
-                      !exampleJ.title[language].includes(filter)
-                        ? "hide"
-                        : "show"
-                    }
-                    key={exampleJ.name}
-                    onClick={() =>
-                      handleSelect(
-                        examples[tabIndex].name,
-                        exampleI.name,
-                        exampleJ.name,
-                        exampleJ.url
-                      )
-                    }
-                  >
-                    {i + 1}.{j + 1} {exampleJ.title[language]}
-                    {exampleJ.url && (
-                      <LinkImg title="external link" src={urlImg} />
-                    )}
-                  </SecondListTitle>
+                  <SecondList key={exampleJ.name}>
+                    <SecondListTile>
+                      {j + 1} {exampleJ.title[language]}
+                    </SecondListTile>
+                    <ThirdList>
+                      {exampleJ.examples.map((exampleK, k) => (
+                        <ThirdListTitle
+                          active={
+                            selectedKey ===
+                            `${exampleI.name}_${exampleJ.name}_${exampleK.name}`
+                          }
+                          hide={
+                            !exampleK.title[language].includes(filter)
+                              ? "hide"
+                              : "show"
+                          }
+                          key={exampleK.name}
+                          onClick={() =>
+                            handleSelect(
+                              exampleI.name,
+                              exampleJ.name,
+                              exampleK.name,
+                              exampleK.url
+                            )
+                          }
+                        >
+                          {j + 1}.{k + 1} {exampleK.title[language]}
+                          {exampleK.url && (
+                            <LinkImg title="external link" src={urlImg} />
+                          )}
+                        </ThirdListTitle>
+                      ))}
+                    </ThirdList>
+                  </SecondList>
                 ))}
-              </SecondList>
-            </List>
+              </ListBlock>
+            </div>
           ))}
         </Menu>
       </MenuArea>

@@ -10,6 +10,7 @@ export class Store {
   language: Language | null = null;
   tab = "basic";
   filter = "";
+  openKeys = ["basic"];
   selectedKey = "";
   code = "";
 
@@ -43,6 +44,15 @@ export class Store {
 
   setFilter(filter: string) {
     this.filter = filter;
+  }
+
+  setOpenKeys(key: string) {
+    const index = this.openKeys.indexOf(key);
+    if (index > -1) {
+      this.openKeys.splice(index, 1);
+    } else {
+      this.openKeys.push(key);
+    }
   }
 
   setSelectedKey(key: string) {

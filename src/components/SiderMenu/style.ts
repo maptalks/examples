@@ -1,3 +1,4 @@
+import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
 import styled, { css } from "styled-components";
 
 import { gray } from "@/constants";
@@ -11,6 +12,7 @@ const Container = styled.div`
   border: 1px solid #ddd;
   border-radius: 4px;
   overflow: hidden;
+  user-select: none;
 `;
 
 const MenuArea = styled.div`
@@ -85,9 +87,9 @@ const DownloadButton = styled.a`
 
 const Menu = styled.ul`
   flex: 1;
-  margin: 0 6px 10px 10px;
-  padding-top: 10px 0 0 0;
-  overflow: auto;
+  margin-bottom: 10px;
+  padding-top: 8px;
+  overflow-y: auto;
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -101,17 +103,66 @@ const Menu = styled.ul`
   }
 `;
 
-const List = styled.li`
+const DownIcon = styled(CaretDownOutlined)`
+  color: ${gray[5]};
+`;
+
+const UpIcon = styled(CaretUpOutlined)`
+  color: ${gray[5]};
+`;
+
+const openStyle = css`
+  color: ${gray[9]};
+  ${DownIcon} {
+    color: ${gray[7]};
+  }
+  ${UpIcon} {
+    color: ${gray[7]};
+  }
+`;
+
+const ListTile = styled.div<{ $open: boolean }>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 36px;
+  padding: 0 18px;
+  font-size: 14px;
+  color: ${gray[7]};
+  cursor: pointer;
+  &:hover {
+    color: ${gray[9]};
+    background-color: ${gray[2]};
+    ${DownIcon} {
+      color: ${gray[7]};
+    }
+    ${UpIcon} {
+      color: ${gray[7]};
+    }
+  }
+  ${(props) => props.$open && openStyle}
+`;
+
+const hideStyle = css`
+  display: none;
+`;
+
+const ListBlock = styled.div<{ $hidden: boolean }>`
+  padding-left: 18px;
+  ${(props) => props.$hidden && hideStyle}
+`;
+
+const SecondList = styled.li`
   list-style: none;
 `;
 
-const ListTile = styled.div`
+const SecondListTile = styled.div`
   line-height: 20px;
   font-size: 12px;
   color: #aeaeae;
 `;
 
-const SecondList = styled.ul`
+const ThirdList = styled.ul`
   padding-left: 0;
   padding-bottom: 6px;
 `;
@@ -123,11 +174,7 @@ const activeStyle = css`
   }
 `;
 
-const hideStyle = css`
-  display: none;
-`;
-
-const SecondListTitle = styled.a<{ active?: boolean; hide?: string }>`
+const ThirdListTitle = styled.a<{ active?: boolean; hide?: string }>`
   display: block;
   line-height: 20px;
   padding-left: 12px;
@@ -156,9 +203,13 @@ export {
   SearchButton,
   DownloadButton,
   Menu,
-  List,
   ListTile,
+  DownIcon,
+  UpIcon,
+  ListBlock,
   SecondList,
-  SecondListTitle,
+  SecondListTile,
+  ThirdList,
+  ThirdListTitle,
   LinkImg,
 };

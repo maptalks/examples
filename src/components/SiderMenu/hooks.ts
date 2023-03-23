@@ -15,6 +15,7 @@ export function useSiderMenu() {
     if (url) {
       window.open(url)
     } else {
+      store.setTab("")
       store.setSelectedKey(`${i}_${j}_${k}`);
       navigate(`/examples/${store.language}/${i}/${j}/${k}`);
     }
@@ -35,6 +36,7 @@ export function useSiderMenu() {
     tabIndex,
     language: store.language!,
     filter: store.filter,
+    openKeys: store.openKeys,
     selectedKey: store.selectedKey,
     handleInputChange,
     handleSelect,
