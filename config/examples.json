@@ -7,7 +7,10 @@
         "name": "map",
         "title": { "cn": "地图", "en": "Map" },
         "examples": [
-          { "name": "load", "title": { "cn": "显示", "en": "Display a map" } },
+          {
+            "name": "load",
+            "title": { "cn": "显示", "en": "Display a map" }
+          },
           {
             "name": "pitch-rotate",
             "title": { "cn": "倾斜与旋转", "en": "Pitch and rotate" }
@@ -90,7 +93,6 @@
           }
         ]
       },
-
       {
         "name": "tilelayer-projection",
         "title": {

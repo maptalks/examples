@@ -5,6 +5,7 @@ import { logoImg } from "./assets";
 
 const Container = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   height: 100%;
   @media (min-width: 960px) and (min-width: 1921px) {
@@ -68,26 +69,27 @@ const LangSwitch = styled.a`
 `;
 
 const activeStyle = css`
-  background-color: #f1f1f1;
-  border-color: #48b1fc;
+  color: ${gray[9]};
 `;
+
+const Tabs = styled.div``;
 
 const Tab = styled.span<{ active?: boolean }>`
   display: inline-block;
   height: 100%;
   line-height: 48px;
-  padding: 0 20px;
+  padding: 0 16px;
   font-size: 14px;
-  color: #919eab;
+  color: ${gray[5]};
   border-bottom: 3px solid transparent;
   cursor: pointer;
   &:first-of-type {
     margin-left: 64px;
   }
   &:hover {
-    color: #48b1fc;
+    color: ${gray[9]};
   }
   ${(props) => props.active && activeStyle}
 `;
 
-export { Container, Area, Logo, LangSwitch, Tab };
+export { Container, Area, Logo, LangSwitch, Tabs, Tab };

@@ -1,37 +1,59 @@
-import { action, makeObservable, observable } from "mobx";
+import { getExampleByKey, getHtmlCodeTitle } from "@/utils";
+
+import { makeAutoObservable } from "mobx";
 
 export class Store {
   constructor() {
-    makeObservable(this);
+    makeAutoObservable(this);
   }
 
-  @observable language: Language | null = null;
-  @observable tab = "basic";
-  @observable filter = "";
-  @observable selectedKey = "";
-  @observable code = "";
+  language: Language | null = null;
+  tab = "basic";
+  filter = "";
+  selectedKey = "";
+  code = "";
 
-  @action setLanguage(language: Language) {
+  get example() {
+    if (!this.selectedKey) {
+      return null;
+    }
+    const example = getExampleByKey(this.selectedKey);
+    return example;
+  }
+
+  get title() {
+    const title = getHtmlCodeTitle(this.selectedKey, this.language);
+    return title;
+  }
+
+  get description() {
+    if (!this.example?.description || !this.language) {
+      return "";
+    }
+    return this.example.description[this.language];
+  }
+
+  setLanguage(language: Language) {
     this.language = language;
   }
 
-  @action setTab(tab: string) {
+  setTab(tab: string) {
     this.tab = tab;
   }
 
-  @action setFilter(filter: string) {
+  setFilter(filter: string) {
     this.filter = filter;
   }
 
-  @action setSelectedKey(key: string) {
+  setSelectedKey(key: string) {
     this.selectedKey = key;
   }
 
-  @action setCode(code: string) {
+  setCode(code: string) {
     this.code = code;
   }
 
-  @action init() {
+  init() {
     this.language = null;
     this.tab = "basic";
     this.filter = "";

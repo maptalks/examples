@@ -1,6 +1,7 @@
 import { Container, Content } from "./style";
 
 import CodeView from "./CodeView";
+import Description from "./Description";
 import MapView from "./MapView";
 import TitleArea from "./TitleArea";
 
@@ -10,6 +11,7 @@ function DemoPanel() {
       <TitleArea />
       <Content>
         <MapView />
+        <Description />
         <CodeView />
       </Content>
     </Container>

@@ -6,8 +6,8 @@ function getExampleByKey(key: string) {
   const exampleJ = exampleI.examples.find(
     (example) => example.name === paths[1]
   )!;
-  const exampleK = exampleJ.examples.find(
-    (example) => example.name === paths[2]
+  const exampleK = (exampleJ.examples as Expample[]).find(
+    (example: Expample) => example.name === paths[2]
   )!;
   return exampleK;
 }
@@ -21,8 +21,8 @@ function getHtmlCodeTitle(key: string, lan: Language | null) {
   const exampleJ = exampleI.examples.find(
     (example) => example.name === paths[1]
   )!;
-  const exampleK = exampleJ.examples.find(
-    (example) => example.name === paths[2]
+  const exampleK = (exampleJ.examples as Expample[]).find(
+    (example: Expample) => example.name === paths[2]
   )!;
   return `${exampleJ.title[lan]} - ${exampleK.title[lan]}`;
 }

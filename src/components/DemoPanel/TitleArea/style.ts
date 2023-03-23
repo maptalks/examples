@@ -1,6 +1,8 @@
 import { copyImg, editImg, openImg, sourceImg } from "./assets";
 import styled, { css } from "styled-components";
 
+import { blue } from "@/constants";
+
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -30,13 +32,14 @@ const ActionButton = styled.div`
   height: 28px;
   line-height: 24px;
   margin-left: 8px;
-  padding: 0 6px 0 2px;
+  padding: 0 6px 0 6px;
   font-size: 14px;
-  color: #48b1fc;
+  color: ${blue[1]};
   background: #fcfcfc;
-  border: 1px solid #48b1fc;
+  border: 1px solid ${blue[1]};
   box-sizing: border-box;
   transition: all 0.3s;
+  cursor: pointer;
 `;
 
 const sourceStyle = css`
@@ -56,9 +59,9 @@ const copyStyle = css`
 `;
 const ButtonIcon = styled.i<{ type: string }>`
   display: block;
-  margin-right: 2px;
-  width: 24px;
-  height: 24px;
+  margin-right: 6px;
+  width: 16px;
+  height: 16px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100%;
