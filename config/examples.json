@@ -1966,5 +1966,42 @@
         "examples": []
       }
     ]
+  },
+  {
+    "name": "examples",
+    "title": { "cn": "示例库", "en": "Examples" },
+    "examples": [
+      {
+        "name": "terrain",
+        "title": { "cn": "地形", "en": "Terrain" },
+        "examples": [
+          {
+            "name": "load",
+            "title": { "cn": "加载地形", "en": "Load terrain" }
+          },
+          {
+            "name": "tian",
+            "title": { "cn": "加载天地图地形", "en": "Load tianditu terrain" }
+          },
+          {
+            "name": "stylized",
+            "title": { "cn": "风格化地形", "en": "Stylized terrain" }
+          },
+          {
+            "name": "vector",
+            "title": { "cn": "矢量贴地形", "en": "Vector terrain" }
+          },
+          {
+            "name": "heightening",
+            "title": { "cn": "地形加高", "en": "Terrain heightening" }
+          }
+        ]
+      },
+      {
+        "name": "analysis",
+        "title": { "cn": "管线分析", "en": "Analysis" },
+        "examples": []
+      }
+    ]
   }
 ]
