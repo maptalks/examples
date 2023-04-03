@@ -13,16 +13,22 @@ const gui = new dat.GUI({
 });
 
 const Config = function () {
-  this.height = 96;
+  this.auto = false;
+  this.speed = 66;
 };
 const options = new Config();
 
-const heightController = gui
-  .add(options, "height")
-  .name("地形高度")
+const autoController = gui.add(options, "auto");
+autoController.onChange((value) => {
+  console.log(value);
+});
+
+const speedController = gui
+  .add(options, "speed")
+  .name("速度")
   .min(0)
   .max(120)
   .step(0.1);
-heightController.onChange((value) => {
+speedController.onChange((value) => {
   console.log(value);
 });

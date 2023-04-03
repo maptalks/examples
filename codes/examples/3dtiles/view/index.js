@@ -13,16 +13,17 @@ const gui = new dat.GUI({
 });
 
 const Config = function () {
-  this.height = 96;
+  this.annotation = false;
+  this.auto = false;
 };
 const options = new Config();
 
-const heightController = gui
-  .add(options, "height")
-  .name("地形高度")
-  .min(0)
-  .max(120)
-  .step(0.1);
-heightController.onChange((value) => {
+const annotationController = gui.add(options, "annotation").name("显示注释");
+annotationController.onChange((value) => {
+  console.log(value);
+});
+
+const autoController = gui.add(options, "auto").name("自动播放");
+autoController.onChange((value) => {
   console.log(value);
 });
