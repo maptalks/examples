@@ -1998,9 +1998,70 @@
         ]
       },
       {
-        "name": "analysis",
-        "title": { "cn": "管线分析", "en": "Analysis" },
-        "examples": []
+        "name": "3dtiles",
+        "title": { "cn": "倾斜摄影", "en": "3D Tiles" },
+        "examples": [
+          {
+            "name": "load",
+            "title": { "cn": "加载倾斜摄影数据", "en": "Load data" }
+          },
+          {
+            "name": "water",
+            "title": { "cn": "倾斜摄影叠加水面", "en": "On water surface" }
+          },
+          {
+            "name": "view",
+            "title": { "cn": "跳转视角", "en": "Jump view" }
+          },
+          {
+            "name": "rotate",
+            "title": { "cn": "旋转地图", "en": "Rotating map" }
+          },
+          {
+            "name": "bim",
+            "title": { "cn": "BIM模型", "en": "BIM model" }
+          },
+          {
+            "name": "bim-opacity",
+            "title": { "cn": "BIM模型-透明度", "en": "BIM model opacity" }
+          },
+          {
+            "name": "dianyun",
+            "title": { "cn": "点云", "en": "Dian yun" }
+          },
+          {
+            "name": "traffic",
+            "title": { "cn": "模拟交通", "en": "Simulated traffic" }
+          },
+          {
+            "name": "manually-icon",
+            "title": { "cn": "手动添加图标", "en": "Manually adding icon" }
+          },
+          {
+            "name": "point-icon",
+            "title": { "cn": "定点添加图标", "en": "Point add icon" }
+          },
+          {
+            "name": "model-monomer",
+            "title": { "cn": "模型单体化", "en": "Model monomer" }
+          },
+          {
+            "name": "room-monomer",
+            "title": { "cn": "模型房间单体化", "en": "Model room monomer" }
+          },
+          {
+            "name": "floor-monomer",
+            "title": { "cn": "模型楼层单体化", "en": "Model floor monomer" }
+          },
+          {
+            "name": "custom-monomer",
+            "title": { "cn": "自定义单体化", "en": "Custom monomer" }
+          },
+          {
+            "name": "drawer-monomer",
+            "title": { "cn": "单体化抽屉效果", "en": "Monomer drawer effect" }
+          }
+        ]
       }
     ]
   }
