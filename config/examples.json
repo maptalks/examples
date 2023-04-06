@@ -2062,6 +2062,24 @@
             "title": { "cn": "单体化抽屉效果", "en": "Monomer drawer effect" }
           }
         ]
+      },
+      {
+        "name": "video",
+        "title": { "cn": "视频图层", "en": "Vector layer" },
+        "examples": [
+          {
+            "name": "add",
+            "title": { "cn": "添加视频对象", "en": "Add video" }
+          },
+          {
+            "name": "params",
+            "title": { "cn": "调整视频参数", "en": "Set params" }
+          },
+          {
+            "name": "edit",
+            "title": { "cn": "视频编辑", "en": "Eidt video" }
+          }
+        ]
       }
     ]
   }
