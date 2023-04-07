@@ -1,0 +1,88 @@
+[
+  {
+    "filter": ["all", ["==", "$layer", "water"], ["==", "$type", "Polygon"]],
+    "renderPlugin": {
+      "type": "lit",
+      "dataConfig": {
+        "type": "3d-extrusion",
+        "altitudeProperty": "height",
+        "minHeightProperty": "min_height",
+        "altitudeScale": 1,
+        "defaultAltitude": 10,
+        "topThickness": 0,
+        "top": true,
+        "side": true
+      },
+      "sceneConfig": {
+        "animation": null,
+        "animationDuration": 800
+      }
+    },
+    "symbol": {
+      "bloom": false,
+      "ssr": false,
+      "polygonOpacity": 1,
+      "material": {
+        "baseColorTexture": null,
+        "baseColorFactor": [
+          0.06274509803921569, 0.06274509803921569, 0.09019607843137255, 1
+        ],
+        "hsv": [0, 0, 0],
+        "baseColorIntensity": 1,
+        "contrast": 1,
+        "outputSRGB": 1,
+        "metallicRoughnessTexture": null,
+        "roughnessFactor": 0.17,
+        "metallicFactor": 1,
+        "normalTexture": null,
+        "noiseTexture": null,
+        "uvScale": [1, 1],
+        "uvOffset": [0, 0],
+        "uvRotation": 0,
+        "uvOffsetAnim": [0, 0],
+        "normalMapFactor": 1,
+        "normalMapFlipY": 0,
+        "bumpTexture": null,
+        "bumpScale": 0.02,
+        "clearCoatThickness": 5,
+        "clearCoatFactor": 0,
+        "clearCoatIor": 1.4,
+        "clearCoatRoughnessFactor": 0.04,
+        "occlusionTexture": null,
+        "emissiveTexture": null,
+        "emissiveFactor": [0, 0, 0],
+        "emitColorFactor": 1,
+        "emitMultiplicative": 0
+      }
+    }
+  },
+  {
+    "filter": ["all", ["==", "$layer", "foreign-boundary"]],
+    "renderPlugin": {
+      "dataConfig": {
+        "type": "line"
+      },
+      "sceneConfig": {},
+      "type": "line"
+    },
+    "symbol": {
+      "lineBloom": false,
+      "lineCap": "butt",
+      "lineColor": [
+        0.9058823529411765, 0.9058823529411765, 0.9058823529411765, 1
+      ],
+      "lineDasharray": [0, 0, 0, 0],
+      "lineDashColor": [1, 1, 1, 0],
+      "lineDx": 0,
+      "lineDy": 0,
+      "lineJoin": "miter",
+      "lineOpacity": 1,
+      "linePatternAnimSpeed": 0,
+      "linePatternFile": null,
+      "lineStrokeWidth": 0,
+      "lineStrokeColor": [0, 0, 0, 1],
+      "lineJoinPatternMode": 0,
+      "lineWidth": 2
+    }
+  }
+]

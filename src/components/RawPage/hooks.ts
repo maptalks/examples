@@ -22,21 +22,18 @@ export function useRawPage() {
       `${paths[4]}_${paths[5]}_${paths[6]}`,
       language
     );
-    const cssCode = (
-      await import(
-        `../../../codes/${paths[4]}/${paths[5]}/${paths[6]}/index.css?raw`
-      )
-    ).default;
-    const htmlCode = (
-      await import(
-        `../../../codes/${paths[4]}/${paths[5]}/${paths[6]}/index.html?raw`
-      )
-    ).default;
-    const jsCode = (
-      await import(
-        `../../../codes/${paths[4]}/${paths[5]}/${paths[6]}/index.js?raw`
-      )
-    ).default;
+    const htmlRes = await fetch(
+      `/codes/${paths[4]}/${paths[5]}/${paths[6]}/index.html`
+    );
+    const htmlCode = await htmlRes.text();
+    const cssRes = await fetch(
+      `/codes/${paths[4]}/${paths[5]}/${paths[6]}/index.css`
+    );
+    const cssCode = await cssRes.text();
+    const jsRes = await fetch(
+      `/codes/${paths[4]}/${paths[5]}/${paths[6]}/index.js`
+    );
+    const jsCode = await jsRes.text();
     const code = `<!DOCTYPE html>
     <html>
       <meta charset='UTF-8' />

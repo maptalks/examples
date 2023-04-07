@@ -1,0 +1,156 @@
+{
+  "style": [
+    {
+      "filter": true,
+      "renderPlugin": {
+        "dataConfig": {
+          "type": "fill"
+        },
+        "sceneConfig": {},
+        "type": "fill"
+      },
+      "symbol": {
+        "polygonBloom": true,
+        "polygonFill": [
+          0.2980392156862745, 0.4588235294117647, 0.8352941176470589, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null,
+        "lineJoinPatternMode": 1
+      }
+    },
+    {
+      "filter": true,
+      "renderPlugin": {
+        "dataConfig": {
+          "type": "line"
+        },
+        "sceneConfig": {},
+        "type": "line"
+      },
+      "symbol": {
+        "lineBloom": true,
+        "lineCap": "butt",
+        "lineColor": [1, 1, 1, 1],
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [1, 1, 1, 0],
+        "lineDx": 0,
+        "lineDy": 0,
+        "lineJoin": "round",
+        "lineOpacity": 1,
+        "linePatternAnimSpeed": 0.72,
+        "linePatternFile": null,
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [
+          0.5686274509803921, 0.48627450980392156, 0.9803921568627451, 1
+        ],
+        "lineJoinPatternMode": 0,
+        "lineWidth": 4,
+        "linePatternGap": 14.4
+      }
+    },
+    {
+      "filter": true,
+      "renderPlugin": {
+        "dataConfig": {
+          "type": "point"
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "depthFunc": "always",
+          "collisionScope": "layer"
+        },
+        "type": "text"
+      },
+      "symbol": {
+        "textBloom": false,
+        "textAllowOverlap": false,
+        "textDx": 0,
+        "textDy": 0,
+        "textFaceName": "Microsoft YaHei,sans-serif",
+        "textFill": [1, 1, 1, 1],
+        "textHaloFill": [
+          0.25882352941176473, 0.25882352941176473, 0.25882352941176473, 1
+        ],
+        "textHaloOpacity": 1,
+        "textHaloRadius": 1,
+        "textHorizontalAlignment": "middle",
+        "textIgnorePlacement": false,
+        "textName": "{name}",
+        "textOpacity": 1,
+        "textPitchAlignment": "viewport",
+        "textPlacement": "point",
+        "textRotation": 0,
+        "textRotationAlignment": "viewport",
+        "textSize": 12,
+        "textSpacing": 250,
+        "textStyle": "normal",
+        "textVerticalAlignment": "middle",
+        "textWeight": "normal",
+        "textWrapWidth": 240
+      }
+    }
+  ],
+  "featureStyle": [
+    {
+      "id": 30,
+      "style": [
+        {
+          "renderPlugin": {
+            "type": "lit",
+            "dataConfig": {
+              "type": "3d-extrusion",
+              "altitudeProperty": "adcode",
+              "minHeightProperty": "null",
+              "altitudeScale": 0.5,
+              "defaultAltitude": 7,
+              "topThickness": 0,
+              "top": true,
+              "side": true
+            },
+            "sceneConfig": {
+              "animation": null,
+              "animationDuration": 800
+            }
+          },
+          "symbol": {
+            "bloom": true,
+            "ssr": false,
+            "polygonOpacity": 0.61,
+            "material": {
+              "baseColorTexture": null,
+              "baseColorFactor": [1, 1, 1, 1],
+              "hsv": [0, 0, 0],
+              "baseColorIntensity": 1,
+              "contrast": 1,
+              "outputSRGB": 1,
+              "metallicRoughnessTexture": "/resources/textures/4f6/metallicRoughnessTexture.png",
+              "roughnessFactor": 1,
+              "metallicFactor": 1,
+              "normalTexture": "/resources/textures/4f6/dmls_silver_mirror_polished_gold_normal.png",
+              "noiseTexture": null,
+              "uvScale": [0.37, 0.37],
+              "uvOffset": [0, 0],
+              "uvRotation": 0,
+              "uvOffsetAnim": [0, 0],
+              "normalMapFactor": 0.43,
+              "normalMapFlipY": 0,
+              "bumpTexture": "/resources/textures/4f6/dmls_silver_mirror_polished_gold_height.png",
+              "bumpScale": 0.02,
+              "clearCoatThickness": 5,
+              "clearCoatFactor": 0,
+              "clearCoatIor": 1.4,
+              "clearCoatRoughnessFactor": 0.04,
+              "occlusionTexture": null,
+              "emissiveTexture": null,
+              "emissiveFactor": [0, 0, 0],
+              "emitColorFactor": 1,
+              "emitMultiplicative": 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

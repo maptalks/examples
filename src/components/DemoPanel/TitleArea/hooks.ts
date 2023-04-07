@@ -43,28 +43,23 @@ export function useTitleArea() {
   async function handleEdit() {
     const paths = location.pathname.split("/");
 
-    const htmlCode = (
-      await import(
-        `../../../../codes/${paths[3]}/${paths[4]}/${paths[5]}/index.html?raw`
-      )
-    ).default;
+    const htmlRes = await fetch(
+      `/codes/${paths[3]}/${paths[4]}/${paths[5]}/index.html`
+    );
+    const htmlCode = await htmlRes.text();
     const htmlData = `<link rel='stylesheet' href='https://unpkg.com/maptalks/dist/maptalks.css' />
     <script type='text/javascript' src='https://unpkg.com/maptalks/dist/maptalks.min.js'></script>
     <script type='text/javascript' src='https://maptalks.com/api/maptalks-gl-layers.js'></script>
     ${htmlCode}`;
-
-    const cssCode = (
-      await import(
-        `../../../../codes/${paths[3]}/${paths[4]}/${paths[5]}/index.css?raw`
-      )
-    ).default;
+    const cssRes = await fetch(
+      `/codes/${paths[3]}/${paths[4]}/${paths[5]}/index.css`
+    );
+    const cssCode = await cssRes.text();
     const cssData = cssCode.replaceAll("{res}", RESOURCE_PATH);
-
-    const jsCode = (
-      await import(
-        `../../../../codes/${paths[3]}/${paths[4]}/${paths[5]}/index.js?raw`
-      )
-    ).default;
+    const jsRes = await fetch(
+      `/codes/${paths[3]}/${paths[4]}/${paths[5]}/index.js`
+    );
+    const jsCode = await jsRes.text();
     const jsData = jsCode
       .replaceAll("{urlTemplate}", URL_TEMPLATE)
       .replaceAll("{attribution}", ATTRIBUTION)

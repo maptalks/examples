@@ -1,0 +1,362 @@
+{
+  "style": [
+    {
+      "filter": true,
+      "renderPlugin": {
+        "type": "lit",
+        "dataConfig": {
+          "type": "3d-extrusion",
+          "altitudeProperty": "adcode",
+          "minHeightProperty": "null",
+          "altitudeScale": 0.3,
+          "defaultAltitude": 10,
+          "topThickness": 0,
+          "top": true,
+          "side": false
+        },
+        "sceneConfig": {
+          "animation": null,
+          "animationDuration": 800
+        }
+      },
+      "symbol": {
+        "bloom": true,
+        "ssr": false,
+        "polygonOpacity": 0.8,
+        "material": {
+          "baseColorTexture": null,
+          "baseColorFactor": [
+            0.23921568627450981, 0.23921568627450981, 0.4117647058823529, 1
+          ],
+          "hsv": [0, 0, -0.404],
+          "baseColorIntensity": 2.5,
+          "contrast": 0.947,
+          "outputSRGB": 1,
+          "metallicRoughnessTexture": null,
+          "roughnessFactor": 0,
+          "metallicFactor": 0.45,
+          "normalTexture": "/resources/textures/97a/Carved Wood_normal.jpeg",
+          "noiseTexture": "/resources/textures/noise.png",
+          "uvScale": [0.01, 0.01],
+          "uvOffset": [0, 0],
+          "uvRotation": 0,
+          "uvOffsetAnim": [0, 0],
+          "normalMapFactor": 0.05,
+          "normalMapFlipY": 0,
+          "bumpTexture": "/resources/textures/97a/Carved Wood_height.jpeg",
+          "bumpScale": 0.04,
+          "clearCoatThickness": 5,
+          "clearCoatFactor": 0,
+          "clearCoatIor": 1.4,
+          "clearCoatRoughnessFactor": 0.04,
+          "occlusionTexture": "/resources/textures/97a/Carved Wood_ambientOcclusion.jpeg",
+          "emissiveTexture": null,
+          "emissiveFactor": [0, 0, 0],
+          "emitColorFactor": 0.47,
+          "emitMultiplicative": 0
+        }
+      }
+    },
+    {
+      "filter": true,
+      "renderPlugin": {
+        "type": "lit",
+        "dataConfig": {
+          "type": "3d-extrusion",
+          "altitudeProperty": "adcode",
+          "minHeightProperty": "null",
+          "altitudeScale": 0.3,
+          "defaultAltitude": 10,
+          "topThickness": 0,
+          "top": false,
+          "side": true
+        },
+        "sceneConfig": {
+          "animation": null,
+          "animationDuration": 800
+        }
+      },
+      "symbol": {
+        "bloom": true,
+        "ssr": false,
+        "polygonOpacity": 0.8,
+        "material": {
+          "baseColorTexture": null,
+          "baseColorFactor": [
+            0.6705882352941176, 0.6705882352941176, 0.8235294117647058, 1
+          ],
+          "hsv": [0, 0, -0.341],
+          "baseColorIntensity": 2.5,
+          "contrast": 1,
+          "outputSRGB": 1,
+          "metallicRoughnessTexture": null,
+          "roughnessFactor": 0,
+          "metallicFactor": 0.65,
+          "normalTexture": "/resources/textures/97a/Carved Wood_normal.jpeg",
+          "noiseTexture": "/resources/textures/noise.png",
+          "uvScale": [0.01, 0.01],
+          "uvOffset": [0, 0],
+          "uvRotation": 0,
+          "uvOffsetAnim": [0, 0],
+          "normalMapFactor": 0,
+          "normalMapFlipY": 0,
+          "bumpTexture": "/resources/textures/97a/Carved Wood_height.jpeg",
+          "bumpScale": 0,
+          "clearCoatThickness": 5,
+          "clearCoatFactor": 0,
+          "clearCoatIor": 1.4,
+          "clearCoatRoughnessFactor": 0.04,
+          "occlusionTexture": "/resources/textures/97a/Carved Wood_ambientOcclusion.jpeg",
+          "emissiveTexture": null,
+          "emissiveFactor": [0, 0, 0],
+          "emitColorFactor": 1.11,
+          "emitMultiplicative": 0
+        }
+      }
+    }
+  ],
+  "featureStyle": [
+    {
+      "id": 20,
+      "style": [
+        {
+          "renderPlugin": {
+            "type": "lit",
+            "dataConfig": {
+              "type": "3d-extrusion",
+              "altitudeProperty": "adcode",
+              "minHeightProperty": "null",
+              "altitudeScale": 0.3,
+              "defaultAltitude": 10,
+              "topThickness": 0,
+              "top": true,
+              "side": false
+            },
+            "sceneConfig": {
+              "animation": null,
+              "animationDuration": 800
+            }
+          },
+          "symbol": {
+            "bloom": true,
+            "ssr": false,
+            "polygonOpacity": 0.8,
+            "material": {
+              "baseColorTexture": null,
+              "baseColorFactor": [
+                0.40784313725490196, 0.07058823529411765, 0.2235294117647059, 1
+              ],
+              "hsv": [0.383, -0.064, -0.149],
+              "baseColorIntensity": 2.5,
+              "contrast": 1.053,
+              "outputSRGB": 1,
+              "metallicRoughnessTexture": null,
+              "roughnessFactor": 0,
+              "metallicFactor": 0.45,
+              "normalTexture": "/resources/textures/97a/Carved Wood_normal.jpeg",
+              "noiseTexture": "/resources/textures/noise.png",
+              "uvScale": [0.01, 0.01],
+              "uvOffset": [0, 0],
+              "uvRotation": 0,
+              "uvOffsetAnim": [0, 0],
+              "normalMapFactor": 0.1,
+              "normalMapFlipY": 0,
+              "bumpTexture": "/resources/textures/97a/Carved Wood_height.jpeg",
+              "bumpScale": 0.04,
+              "clearCoatThickness": 5,
+              "clearCoatFactor": 0,
+              "clearCoatIor": 1.4,
+              "clearCoatRoughnessFactor": 0.04,
+              "occlusionTexture": "/resources/textures/97a/Carved Wood_ambientOcclusion.jpeg",
+              "emissiveTexture": null,
+              "emissiveFactor": [0, 0, 0],
+              "emitColorFactor": 0.47,
+              "emitMultiplicative": 0
+            }
+          }
+        },
+        {
+          "renderPlugin": {
+            "type": "lit",
+            "dataConfig": {
+              "type": "3d-extrusion",
+              "altitudeProperty": "adcode",
+              "minHeightProperty": "null",
+              "altitudeScale": 0.3,
+              "defaultAltitude": 10,
+              "topThickness": 0,
+              "top": false,
+              "side": true
+            },
+            "sceneConfig": {
+              "animation": null,
+              "animationDuration": 800
+            }
+          },
+          "symbol": {
+            "bloom": true,
+            "ssr": false,
+            "polygonOpacity": 0.8,
+            "material": {
+              "baseColorTexture": null,
+              "baseColorFactor": [
+                0.19215686274509805, 0.5647058823529412, 0.2235294117647059, 1
+              ],
+              "hsv": [-1, 0, 0.021],
+              "baseColorIntensity": 2.5,
+              "contrast": 1,
+              "outputSRGB": 1,
+              "metallicRoughnessTexture": null,
+              "roughnessFactor": 0,
+              "metallicFactor": 0.65,
+              "normalTexture": "/resources/textures/97a/Carved Wood_normal.jpeg",
+              "noiseTexture": "/resources/textures/noise.png",
+              "uvScale": [0.01, 0.01],
+              "uvOffset": [0, 0],
+              "uvRotation": 0,
+              "uvOffsetAnim": [0, 0],
+              "normalMapFactor": 0,
+              "normalMapFlipY": 0,
+              "bumpTexture": "/resources/textures/97a/Carved Wood_height.jpeg",
+              "bumpScale": 0,
+              "clearCoatThickness": 5,
+              "clearCoatFactor": 0,
+              "clearCoatIor": 1.4,
+              "clearCoatRoughnessFactor": 0.04,
+              "occlusionTexture": "/resources/textures/97a/Carved Wood_ambientOcclusion.jpeg",
+              "emissiveTexture": null,
+              "emissiveFactor": [0, 0, 0],
+              "emitColorFactor": 1.11,
+              "emitMultiplicative": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "style": [
+        {
+          "renderPlugin": {
+            "dataConfig": {
+              "type": "fill"
+            },
+            "sceneConfig": {},
+            "type": "fill"
+          },
+          "symbol": {
+            "polygonBloom": false,
+            "polygonFill": [0.345, 0.345, 0.502, 1],
+            "polygonOpacity": 1,
+            "polygonPatternFile": null
+          }
+        },
+        {
+          "renderPlugin": {
+            "dataConfig": {
+              "type": "line"
+            },
+            "sceneConfig": {},
+            "type": "line"
+          },
+          "symbol": {
+            "lineBloom": false,
+            "lineCap": "butt",
+            "lineColor": [0.73, 0.73, 0.73, 1],
+            "lineDasharray": [0, 0, 0, 0],
+            "lineDashColor": [1, 1, 1, 0],
+            "lineDx": 0,
+            "lineDy": 0,
+            "lineJoin": "miter",
+            "lineOpacity": 1,
+            "linePatternAnimSpeed": 0,
+            "linePatternFile": null,
+            "lineStrokeWidth": 0,
+            "lineStrokeColor": [0, 0, 0, 1],
+            "lineJoinPatternMode": 0,
+            "lineWidth": 2
+          }
+        },
+        {
+          "renderPlugin": {
+            "dataConfig": {
+              "type": "point"
+            },
+            "sceneConfig": {
+              "collision": false,
+              "fading": true,
+              "depthFunc": "always"
+            },
+            "type": "icon"
+          },
+          "symbol": {
+            "markerBloom": false,
+            "markerAllowOverlap": false,
+            "markerDx": 0,
+            "markerDy": 0,
+            "markerFile": null,
+            "markerFill": [0.53, 0.77, 0.94, 1],
+            "markerFillOpacity": 1,
+            "markerHeight": 20,
+            "markerWidth": 20,
+            "markerHorizontalAlignment": "middle",
+            "markerIgnorePlacement": false,
+            "markerLineColor": [0.2, 0.29, 0.39, 1],
+            "markerLineDasharray": [0, 0, 0, 0],
+            "markerLineOpacity": 1,
+            "markerLineWidth": 3,
+            "markerOpacity": 1,
+            "markerPitchAlignment": "viewport",
+            "markerPlacement": "point",
+            "markerRotationAlignment": "viewport",
+            "markerSpacing": 0,
+            "markerType": null,
+            "markerVerticalAlignment": "middle",
+            "collision": true
+          }
+        },
+        {
+          "renderPlugin": {
+            "dataConfig": {
+              "type": "point"
+            },
+            "sceneConfig": {
+              "collision": false,
+              "fading": true,
+              "depthFunc": "always"
+            },
+            "type": "text"
+          },
+          "symbol": {
+            "textBloom": false,
+            "textAllowOverlap": false,
+            "textDx": 0,
+            "textDy": 0,
+            "textFaceName": "Microsoft YaHei,sans-serif",
+            "textFill": [1, 1, 1, 1],
+            "textHaloFill": [
+              0.25882352941176473, 0.25882352941176473, 0.25882352941176473, 1
+            ],
+            "textHaloOpacity": 1,
+            "textHaloRadius": 1,
+            "textHorizontalAlignment": "middle",
+            "textIgnorePlacement": false,
+            "textName": "{name}",
+            "textOpacity": 1,
+            "textPitchAlignment": "viewport",
+            "textPlacement": "point",
+            "textRotation": 0,
+            "textRotationAlignment": "viewport",
+            "textSize": 12,
+            "textSpacing": 250,
+            "textStyle": "normal",
+            "textVerticalAlignment": "middle",
+            "textWeight": "normal",
+            "textWrapWidth": 240,
+            "collision": true
+          }
+        }
+      ]
+    }
+  ]
+}

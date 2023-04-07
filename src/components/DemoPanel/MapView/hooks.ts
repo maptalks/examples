@@ -12,21 +12,18 @@ export function useMapView() {
   useAsync(async () => {
     if (store.selectedKey) {
       const paths = store.selectedKey.split("_");
-      const cssCode = (
-        await import(
-          `../../../../codes/${paths[0]}/${paths[1]}/${paths[2]}/index.css?raw`
-        )
-      ).default;
-      const htmlCode = (
-        await import(
-          `../../../../codes/${paths[0]}/${paths[1]}/${paths[2]}/index.html?raw`
-        )
-      ).default;
-      const jsCode = (
-        await import(
-          `../../../../codes/${paths[0]}/${paths[1]}/${paths[2]}/index.js?raw`
-        )
-      ).default;
+      const htmlRes = await fetch(
+        `/codes/${paths[0]}/${paths[1]}/${paths[2]}/index.html`
+      );
+      const htmlCode = await htmlRes.text();
+      const cssRes = await fetch(
+        `/codes/${paths[0]}/${paths[1]}/${paths[2]}/index.css`
+      );
+      const cssCode = await cssRes.text();
+      const jsRes = await fetch(
+        `/codes/${paths[0]}/${paths[1]}/${paths[2]}/index.js`
+      );
+      const jsCode = await jsRes.text();
       const code = `<!DOCTYPE html>
       <html>
         <meta charset='UTF-8' />
