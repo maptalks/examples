@@ -1,0 +1,3551 @@
+[
+  {
+    "filter": ["all", ["==", "$layer", "water"], ["==", "$type", "Polygon"]],
+    "renderPlugin": {
+      "type": "water",
+      "dataConfig": { "type": "fill" }
+    },
+    "symbol": {
+      "ssr": true,
+      "texWaveNormal": "{root}/water/463/463a5930-0280-cfcc-ca93-d3ea8acae553/normal.png",
+      "texWavePerturbation": "{root}/water/06f/06faa462-d7fd-e85c-f803-f642b743b54f/perturbation.png",
+      "waterBaseColor": [0.7254901960784313, 0.8196078431372549, 1, 1],
+      "contrast": 1.266,
+      "hsv": [0, 0, 0],
+      "uvScale": 3,
+      "animation": true,
+      "waterSpeed": 1,
+      "waterDirection": 0
+    }
+  },
+  {
+    "filter": [
+      "all",
+      ["==", "$layer", "greenland"],
+      ["==", "$type", "Polygon"]
+    ],
+    "renderPlugin": {
+      "type": "lit",
+      "dataConfig": {
+        "type": "3d-extrusion",
+        "altitudeProperty": "height",
+        "minHeightProperty": "min_height",
+        "altitudeScale": 1,
+        "defaultAltitude": 10,
+        "topThickness": 0,
+        "top": true,
+        "side": true
+      },
+      "sceneConfig": {
+        "animation": null,
+        "animationDuration": 800
+      }
+    },
+    "symbol": {
+      "bloom": false,
+      "ssr": false,
+      "polygonOpacity": 1,
+      "material": {
+        "baseColorTexture": "{root}/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_basecolor.jpg",
+        "baseColorFactor": [1, 1, 1, 1],
+        "hsv": [0, -0.255, 0.383],
+        "baseColorIntensity": 1,
+        "contrast": 1,
+        "outputSRGB": 1,
+        "metallicRoughnessTexture": "{root}/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_roughness.jpg",
+        "roughnessFactor": 1,
+        "metallicFactor": 1,
+        "normalTexture": "{root}/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_normalOgl.jpg",
+        "noiseTexture": null,
+        "uvScale": [0.18, 0.18],
+        "uvOffset": [0, 0],
+        "uvRotation": 0,
+        "uvOffsetAnim": [0, 0],
+        "normalMapFactor": 0.48,
+        "normalMapFlipY": 0,
+        "bumpTexture": null,
+        "bumpScale": 0.02,
+        "clearCoatThickness": 5,
+        "clearCoatFactor": 0,
+        "clearCoatIor": 1.4,
+        "clearCoatRoughnessFactor": 0.04,
+        "occlusionTexture": "{root}/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_ambientocclusion.jpg",
+        "emissiveTexture": null,
+        "emissiveFactor": [0, 0, 0],
+        "emitColorFactor": 1,
+        "emitMultiplicative": 0
+      }
+    }
+  },
+  {
+    "filter": ["all", ["==", "$layer", "desert"], ["==", "$type", "Polygon"]],
+    "renderPlugin": {
+      "dataConfig": { "type": "fill" },
+      "sceneConfig": {},
+      "type": "fill"
+    },
+    "symbol": {
+      "polygonBloom": false,
+      "polygonFill": [0.345, 0.345, 0.502, 1],
+      "polygonOpacity": 1,
+      "polygonPatternFile": null
+    }
+  },
+  {
+    "filter": ["all", ["==", "$layer", "desert"], ["==", "$type", "Polygon"]],
+    "renderPlugin": {
+      "dataConfig": { "type": "line" },
+      "sceneConfig": {},
+      "type": "line"
+    },
+    "symbol": {
+      "lineBloom": false,
+      "lineCap": "butt",
+      "lineColor": [0.73, 0.73, 0.73, 1],
+      "lineDasharray": [0, 0, 0, 0],
+      "lineDashColor": [1, 1, 1, 0],
+      "lineDx": 0,
+      "lineDy": 0,
+      "lineJoin": "miter",
+      "lineOpacity": 1,
+      "linePatternAnimSpeed": 0,
+      "linePatternFile": null,
+      "lineStrokeWidth": 0,
+      "lineStrokeColor": [0, 0, 0, 1],
+      "lineJoinPatternMode": 0,
+      "lineWidth": 2
+    }
+  },
+  {
+    "filter": [
+      "all",
+      ["==", "$layer", "education"],
+      ["==", "$type", "Polygon"]
+    ],
+    "renderPlugin": {
+      "dataConfig": { "type": "fill" },
+      "sceneConfig": {},
+      "type": "fill"
+    },
+    "symbol": {
+      "polygonBloom": false,
+      "polygonFill": [
+        0.5686274509803921, 0.4980392156862745, 0.43529411764705883, 1
+      ],
+      "polygonOpacity": 1,
+      "polygonPatternFile": null
+    }
+  },
+  {
+    "filter": [
+      "all",
+      ["==", "$layer", "education"],
+      ["==", "$type", "Polygon"]
+    ],
+    "renderPlugin": {
+      "dataConfig": { "type": "fill" },
+      "sceneConfig": {},
+      "type": "fill"
+    },
+    "symbol": {
+      "polygonBloom": false,
+      "polygonFill": [
+        0.5686274509803921, 0.4980392156862745, 0.43529411764705883, 1
+      ],
+      "polygonOpacity": 1,
+      "polygonPatternFile": null
+    }
+  },
+  {
+    "title": "学校",
+    "mode": "2d-polygon",
+    "filter": [
+      "all",
+      ["==", "$layer", "education"],
+      ["==", "$type", "Polygon"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "医院",
+    "mode": "2d-polygon",
+    "filter": ["all", ["==", "$layer", "hospital"], ["==", "$type", "Polygon"]],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "fill" },
+          "sceneConfig": {},
+          "type": "fill"
+        },
+        "symbol": {
+          "polygonBloom": false,
+          "polygonFill": [
+            0.6941176470588235, 0.7372549019607844, 0.8745098039215686, 1
+          ],
+          "polygonOpacity": 1,
+          "polygonPatternFile": null
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "娱乐场所",
+    "mode": "2d-polygon",
+    "filter": [
+      "all",
+      ["==", "$layer", "entertainment"],
+      ["==", "$type", "Polygon"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "fill" },
+          "sceneConfig": {},
+          "type": "fill"
+        },
+        "symbol": {
+          "polygonBloom": false,
+          "polygonFill": [
+            0.5725490196078431, 0.6980392156862745, 0.5450980392156862, 1
+          ],
+          "polygonOpacity": 1,
+          "polygonPatternFile": null
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "超市",
+    "mode": "2d-polygon",
+    "filter": ["all", ["==", "$layer", "shopping"], ["==", "$type", "Polygon"]],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "fill" },
+          "sceneConfig": {},
+          "type": "fill"
+        },
+        "symbol": {
+          "polygonBloom": false,
+          "polygonFill": [
+            0.7098039215686275, 0.7098039215686275, 0.996078431372549, 1
+          ],
+          "polygonOpacity": 1,
+          "polygonPatternFile": null
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "停车场",
+    "mode": "2d-polygon",
+    "filter": ["all", ["==", "$layer", "parking"], ["==", "$type", "Polygon"]],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "fill" },
+          "sceneConfig": {},
+          "type": "fill"
+        },
+        "symbol": {
+          "polygonBloom": false,
+          "polygonFill": [0.345, 0.345, 0.502, 1],
+          "polygonOpacity": 1,
+          "polygonPatternFile": null
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "操场",
+    "mode": "2d-polygon",
+    "filter": ["all", ["==", "$layer", "sport"], ["==", "$type", "Polygon"]],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "fill" },
+          "sceneConfig": {},
+          "type": "fill"
+        },
+        "symbol": {
+          "polygonBloom": false,
+          "polygonFill": [
+            0.9607843137254902, 0.9686274509803922, 0.8901960784313725, 1
+          ],
+          "polygonOpacity": 1,
+          "polygonPatternFile": null
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "地铁站",
+    "mode": "2d-polygon",
+    "filter": [
+      "all",
+      ["==", "$layer", "subway-hub"],
+      ["==", "$type", "Polygon"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "fill" },
+          "sceneConfig": {},
+          "type": "fill"
+        },
+        "symbol": {
+          "polygonBloom": false,
+          "polygonFill": [
+            0.8392156862745098, 0.7215686274509804, 0.8352941176470589, 1
+          ],
+          "polygonOpacity": 1,
+          "polygonPatternFile": null
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "火车站",
+    "mode": "2d-polygon",
+    "filter": [
+      "all",
+      ["==", "$layer", "train-station"],
+      ["==", "$type", "Polygon"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "fill" },
+          "sceneConfig": {},
+          "type": "fill"
+        },
+        "symbol": {
+          "polygonBloom": false,
+          "polygonFill": [
+            0.5254901960784314, 0.6274509803921569, 0.6235294117647059, 1
+          ],
+          "polygonOpacity": 1,
+          "polygonPatternFile": null
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "客运站",
+    "mode": "2d-polygon",
+    "filter": [
+      "all",
+      ["==", "$layer", "passenger-station"],
+      ["==", "$type", "Polygon"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "fill" },
+          "sceneConfig": {},
+          "type": "fill"
+        },
+        "symbol": {
+          "polygonBloom": false,
+          "polygonFill": [
+            0.796078431372549, 0.8431372549019608, 0.9647058823529412, 1
+          ],
+          "polygonOpacity": 1,
+          "polygonPatternFile": null
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "机场",
+    "mode": "2d-polygon",
+    "filter": ["all", ["==", "$layer", "airport"], ["==", "$type", "Polygon"]],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "fill" },
+          "sceneConfig": {},
+          "type": "fill"
+        },
+        "symbol": {
+          "polygonBloom": false,
+          "polygonFill": [
+            0.6509803921568628, 0.7725490196078432, 0.7372549019607844, 1
+          ],
+          "polygonOpacity": 1,
+          "polygonPatternFile": null
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "建筑",
+    "mode": "3d-polygon",
+    "filter": ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "type": "lit",
+          "dataConfig": {
+            "type": "3d-extrusion",
+            "altitudeProperty": "height",
+            "minHeightProperty": "min_height",
+            "altitudeScale": 1,
+            "defaultAltitude": 10,
+            "topThickness": 0,
+            "top": true,
+            "side": true
+          },
+          "sceneConfig": {
+            "animation": null,
+            "animationDuration": 800
+          }
+        },
+        "symbol": {
+          "bloom": false,
+          "ssr": false,
+          "polygonOpacity": 1,
+          "material": {
+            "baseColorTexture": null,
+            "baseColorFactor": [1, 1, 1, 1],
+            "hsv": [0, 0, -0.32],
+            "baseColorIntensity": 1.532,
+            "contrast": 1,
+            "outputSRGB": 1,
+            "metallicRoughnessTexture": null,
+            "roughnessFactor": 1,
+            "metallicFactor": 0,
+            "normalTexture": null,
+            "noiseTexture": null,
+            "uvScale": [1, 1],
+            "uvOffset": [0, 0],
+            "uvRotation": 0,
+            "uvOffsetAnim": [0, 0],
+            "normalMapFactor": 1,
+            "normalMapFlipY": 0,
+            "bumpTexture": null,
+            "bumpScale": 0.02,
+            "clearCoatThickness": 5,
+            "clearCoatFactor": 0,
+            "clearCoatIor": 1.4,
+            "clearCoatRoughnessFactor": 0.04,
+            "occlusionTexture": null,
+            "emissiveTexture": "{root}/texture/897/897effa0-1897-4c1c-9aa0-66840a8e0218/1.jpg",
+            "emissiveFactor": [
+              0.9333333333333333, 0.9254901960784314, 0.9607843137254902
+            ],
+            "emitColorFactor": 0.31,
+            "emitMultiplicative": 0
+          }
+        },
+        "extras": { "currentMaterial": "" }
+      }
+    ]
+  },
+  {
+    "title": "水路",
+    "mode": "2d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "waterway"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "外国边界",
+    "mode": "2d-line",
+    "filter": ["all", ["==", "$layer", "foreign-boundary"]],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "中国边界",
+    "mode": "2d-line",
+    "filter": ["all", ["==", "$layer", "china-boundary"]],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "省边界",
+    "mode": "2d-line",
+    "filter": ["all", ["==", "$layer", "province-boundary"]],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "城市边界",
+    "mode": "2d-line",
+    "filter": ["all", ["==", "$layer", "city-boundary"]],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "区域边界",
+    "mode": "2d-line",
+    "filter": ["all", ["==", "$layer", "area-boundary"]],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "高速公路",
+    "mode": "2d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "expressway"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": false,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "铁路",
+    "mode": "2d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "railway"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "在修铁路",
+    "mode": "2d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "constructing-railway"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [
+            0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1
+          ],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "城市环线",
+    "mode": "2d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "city-loop"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [
+            0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1
+          ],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "国道",
+    "mode": "2d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "national-highway"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [
+            0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1
+          ],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "高铁",
+    "mode": "2d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "express-rail"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "省道",
+    "mode": "2d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "provincial-highway"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "round",
+          "lineColor": [1, 1, 1, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "round",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": "{root}/line-pattern/d4b/d4beb047-2a7f-4802-af26-e47357967c2c/default.jpg",
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [1, 1, 1, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": {
+            "type": "exponential",
+            "default": 2,
+            "stops": [
+              [14, 2],
+              [15, 4],
+              [16, 10],
+              [17, 20],
+              [18, 50],
+              [20.7, 100],
+              [22, 200]
+            ]
+          }
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": true,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": true,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Arial,Helvetica,sans-serif",
+          "textFill": [1, 1, 1, 1],
+          "textHaloFill": [0, 0, 0, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 1,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": null,
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 12,
+          "textSpacing": 447,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "地铁",
+    "mode": "2d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "subway"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [
+            0.7490196078431373, 0.8666666666666667, 0.7803921568627451, 1
+          ],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "二级道路",
+    "mode": "2d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "secondary-road"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [1, 1, 1, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": "{root}/line-pattern/d4b/d4beb047-2a7f-4802-af26-e47357967c2c/default.jpg",
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": {
+            "type": "exponential",
+            "default": 2,
+            "stops": [
+              [14, 2],
+              [15, 4],
+              [16, 10],
+              [17, 20],
+              [18, 50],
+              [20.7, 100],
+              [22, 200]
+            ]
+          }
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "三级道路",
+    "mode": "2d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "tertiary-road"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [
+            0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1
+          ],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "四级道路",
+    "mode": "2d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "four-level-road"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [
+            0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1
+          ],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "内部道路",
+    "mode": "2d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "internal-road"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [1, 1, 1, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  },
+  {
+    "title": "其他道路",
+    "mode": "3d-line",
+    "filter": [
+      "all",
+      ["==", "$layer", "other-road"],
+      ["==", "$type", "LineString"]
+    ],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "type": "lit",
+          "dataConfig": {
+            "type": "line-extrusion",
+            "altitudeProperty": "height",
+            "minHeightProperty": "min_height",
+            "altitudeScale": 0.2,
+            "defaultAltitude": 10,
+            "topThickness": 0,
+            "top": true,
+            "side": true
+          },
+          "sceneConfig": {
+            "animation": null,
+            "animationDuration": 800
+          }
+        },
+        "symbol": {
+          "bloom": false,
+          "ssr": false,
+          "lineWidth": 2,
+          "lineOpacity": 1,
+          "material": {
+            "baseColorTexture": null,
+            "baseColorFactor": [1, 1, 1, 1],
+            "hsv": [0, 0, 0],
+            "baseColorIntensity": 1,
+            "contrast": 1,
+            "outputSRGB": 1,
+            "metallicRoughnessTexture": null,
+            "roughnessFactor": 1,
+            "metallicFactor": 0,
+            "normalTexture": null,
+            "noiseTexture": null,
+            "uvScale": [1, 1],
+            "uvOffset": [0, 0],
+            "uvRotation": 0,
+            "uvOffsetAnim": [0, 0],
+            "normalMapFactor": 1,
+            "normalMapFlipY": 0,
+            "bumpTexture": null,
+            "bumpScale": 0.02,
+            "clearCoatThickness": 5,
+            "clearCoatFactor": 0,
+            "clearCoatIor": 1.4,
+            "clearCoatRoughnessFactor": 0.04,
+            "occlusionTexture": null,
+            "emissiveTexture": "{root}/texture/897/897effa0-1897-4c1c-9aa0-66840a8e0218/1.jpg",
+            "emissiveFactor": [0, 0, 0],
+            "emitColorFactor": 5,
+            "emitMultiplicative": 0
+          }
+        },
+        "extras": { "currentMaterial": "" }
+      }
+    ]
+  },
+  {
+    "title": "桥",
+    "mode": "2d-line",
+    "filter": ["all", ["==", "$layer", "bridge"]],
+    "visible": true,
+    "unknown": false,
+    "styles": [
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "line" },
+          "sceneConfig": {},
+          "type": "line"
+        },
+        "symbol": {
+          "lineBloom": false,
+          "lineCap": "butt",
+          "lineColor": [0.73, 0.73, 0.73, 1],
+          "lineDasharray": [0, 0, 0, 0],
+          "lineDashColor": [1, 1, 1, 0],
+          "lineDx": 0,
+          "lineDy": 0,
+          "lineJoin": "miter",
+          "lineOpacity": 1,
+          "linePatternAnimSpeed": 0,
+          "linePatternFile": null,
+          "lineStrokeWidth": 0,
+          "lineStrokeColor": [0, 0, 0, 1],
+          "lineJoinPatternMode": 0,
+          "lineWidth": 2
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "icon"
+        },
+        "symbol": {
+          "markerBloom": false,
+          "markerAllowOverlap": false,
+          "markerDx": 0,
+          "markerDy": 0,
+          "markerFile": null,
+          "markerFill": [0.53, 0.77, 0.94, 1],
+          "markerFillOpacity": 1,
+          "markerHeight": 20,
+          "markerWidth": 20,
+          "markerHorizontalAlignment": "middle",
+          "markerIgnorePlacement": false,
+          "markerLineColor": [0.2, 0.29, 0.39, 1],
+          "markerLineDasharray": [0, 0, 0, 0],
+          "markerLineOpacity": 1,
+          "markerLineWidth": 3,
+          "markerOpacity": 1,
+          "markerPitchAlignment": "viewport",
+          "markerPlacement": "point",
+          "markerRotationAlignment": "viewport",
+          "markerSpacing": 0,
+          "markerType": null,
+          "markerVerticalAlignment": "middle"
+        }
+      },
+      {
+        "renderPlugin": {
+          "dataConfig": { "type": "point" },
+          "sceneConfig": {
+            "collision": false,
+            "fading": true,
+            "depthFunc": "always"
+          },
+          "type": "text"
+        },
+        "symbol": {
+          "textBloom": false,
+          "textAllowOverlap": false,
+          "textDx": 0,
+          "textDy": 0,
+          "textFaceName": "Microsoft YaHei,sans-serif",
+          "textFill": [0, 0, 0, 1],
+          "textHaloFill": [1, 1, 1, 1],
+          "textHaloOpacity": 1,
+          "textHaloRadius": 0,
+          "textHorizontalAlignment": "middle",
+          "textIgnorePlacement": false,
+          "textName": "",
+          "textOpacity": 1,
+          "textPitchAlignment": "viewport",
+          "textPlacement": "point",
+          "textRotation": 0,
+          "textRotationAlignment": "viewport",
+          "textSize": 30,
+          "textSpacing": 250,
+          "textStyle": "normal",
+          "textVerticalAlignment": "middle",
+          "textWeight": "normal",
+          "textWrapWidth": 240
+        }
+      }
+    ]
+  }
+]

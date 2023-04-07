@@ -2065,7 +2065,7 @@
       },
       {
         "name": "video",
-        "title": { "cn": "视频图层", "en": "Vector layer" },
+        "title": { "cn": "视频图层", "en": "Video layer" },
         "examples": [
           {
             "name": "add",
@@ -2078,6 +2078,26 @@
           {
             "name": "edit",
             "title": { "cn": "视频编辑", "en": "Eidt video" }
+          }
+        ]
+      },
+      {
+        "name": "vt-visual",
+        "title": {
+          "cn": "矢量瓦片图层可视化",
+          "en": "Vector tile layer visualization"
+        },
+        "examples": [
+          {
+            "name": "road",
+            "title": { "cn": "道路", "en": "Road" }
+          },
+          {
+            "name": "administrative",
+            "title": {
+              "cn": "行政区展示",
+              "en": "Administrative district display"
+            }
           }
         ]
       }
