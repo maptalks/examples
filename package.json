@@ -32,7 +32,7 @@
     "@types/styled-components": "^5.1.26",
     "@vitejs/plugin-react": "^3.1.0",
     "puppeteer": "^19.8.5",
-    "typescript": "^5.0.3",
+    "typescript": "^5.0.4",
     "vite": "^4.2.1",
     "vite-plugin-compression": "^0.5.1"
   },
