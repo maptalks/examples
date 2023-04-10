@@ -5,7 +5,6 @@ const Container = styled.div`
 `;
 
 const Snippet = styled.div`
-  margin-top: 16px;
   border: 1px solid #ddd;
   border-radius: 4px;
   overflow: hidden;

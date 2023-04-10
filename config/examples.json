@@ -2100,6 +2100,31 @@
             }
           }
         ]
+      },
+      {
+        "name": "weather",
+        "title": {
+          "cn": "天气系统",
+          "en": "Weather"
+        },
+        "examples": [
+          {
+            "name": "fog",
+            "title": { "cn": "雾", "en": "Fog" }
+          },
+          {
+            "name": "rain",
+            "title": { "cn": "雨", "en": "Rain" }
+          },
+          {
+            "name": "snow",
+            "title": { "cn": "雪", "en": "Snow" }
+          },
+          {
+            "name": "sunny",
+            "title": { "cn": "晴天", "en": "Sunny" }
+          }
+        ]
       }
     ]
   }
