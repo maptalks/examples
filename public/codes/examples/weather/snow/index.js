@@ -219,11 +219,9 @@ const gltfMarker = new maptalks.GLTFMarker(
 gltfLayer.addGeometry(gltfMarker);
 
 /**start**/
-const fog = {
+const snow = {
   enable: true,
-  start: 3,
-  end: 70,
-  color: [0.8902, 0.8902, 0.9529],
+  snowGroundTexture: "{res}/images/perlin.png",
 };
 /**end**/
 
@@ -248,7 +246,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
     },
     weather: {
       enable: true,
-      fog,
+      snow,
     },
     ground: {
       enable: true,

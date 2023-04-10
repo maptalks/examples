@@ -1,28 +1,29 @@
+/**start**/
+const resource = {
+  url: {
+    front: "{res}/hdr/446/front.jpg",
+    back: "{res}/hdr/446/back.jpg",
+    left: "{res}/hdr/446/left.jpg",
+    right: "{res}/hdr/446/right.jpg",
+    top: "{res}/hdr/446/top.jpg",
+    bottom: "{res}/hdr/446/bottom.jpg",
+  },
+  prefilterCubeSize: 1024,
+};
+/**end**/
+
 const map = new maptalks.Map("map", {
   center: [-73.88688426819061, 40.68813228504152],
   zoom: 18,
-  bearing: 168.1,
-  pitch: 71.2,
+  bearing: 161.5,
+  pitch: 80,
   lights: {
     directional: {
       direction: [0.5, 0, -1],
       color: [1, 1, 1],
     },
     ambient: {
-      resource: {
-        url: "{res}/hdr/photo_studio_01_1k.hdr",
-        sh: [
-          0.35916795154960834, 0.37332532618710934, 0.3749743179025387,
-          0.001946880750939448, 0.002781113205316295, 0.0038630691377190348,
-          0.009650859029741232, 0.010718360804091567, 0.011421607564558255,
-          0.024126928868387097, 0.024543636739605402, 0.023797007154584764,
-          -0.004899031092214359, -0.0048242535892225324, -0.005206229725454972,
-          -0.005589141785593036, -0.005507435440934302, -0.005472906061627375,
-          -0.009765483272152252, -0.010407014201306911, -0.009769691118007934,
-          -0.081841972255034, -0.0852762331787664, -0.0861865957833508,
-          -0.005844864502254523, -0.006733772922993404, -0.005910269638953521,
-        ],
-      },
+      resource,
       exposure: 0.787,
       hsv: [0, 0, 0],
       orientation: 0,
@@ -218,15 +219,6 @@ const gltfMarker = new maptalks.GLTFMarker(
 
 gltfLayer.addGeometry(gltfMarker);
 
-/**start**/
-const fog = {
-  enable: true,
-  start: 3,
-  end: 70,
-  color: [0.8902, 0.8902, 0.9529],
-};
-/**end**/
-
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
   sceneConfig: {
     environment: {
@@ -245,10 +237,6 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
     },
     postProcess: {
       enable: true,
-    },
-    weather: {
-      enable: true,
-      fog,
     },
     ground: {
       enable: true,

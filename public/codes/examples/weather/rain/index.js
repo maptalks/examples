@@ -1,3 +1,7 @@
+// sceneconfig写全
+// 天气里面参数含义写上 (国际版和中文版 md说明)
+// 雨天 bug
+// 后处理和天气联动
 const map = new maptalks.Map("map", {
   center: [-73.88688426819061, 40.68813228504152],
   zoom: 18,
@@ -24,7 +28,7 @@ const map = new maptalks.Map("map", {
         ],
       },
       exposure: 0.787,
-      hsv: [0, 0, 0],
+      hsv: [0, 0, -0.298],
       orientation: 0,
     },
   },
@@ -219,11 +223,16 @@ const gltfMarker = new maptalks.GLTFMarker(
 gltfLayer.addGeometry(gltfMarker);
 
 /**start**/
-const fog = {
+const rain = {
   enable: true,
-  start: 3,
-  end: 70,
-  color: [0.8902, 0.8902, 0.9529],
+  windDirectionX: 0,
+  windDirectionY: 0,
+  rippleRadius: 11,
+  rainWidth: 1,
+  rainHeight: 1,
+  speed: 1,
+  density: 2000,
+  rainTexture: "{res}/images/rain1.png",
 };
 /**end**/
 
@@ -232,7 +241,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
     environment: {
       enable: true,
       mode: 1,
-      level: 0,
+      level: 3,
       brightness: 0.489,
     },
     shadow: {
@@ -245,10 +254,41 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
     },
     postProcess: {
       enable: true,
+      antialias: {
+        enable: true,
+        taa: true,
+        jitterRatio: 0.25,
+      },
+      ssr: {
+        enable: true,
+      },
+      bloom: {
+        enable: true,
+        threshold: 0,
+        factor: 1,
+        radius: 1,
+      },
+      ssao: {
+        enable: true,
+        bias: 0.101,
+        radius: 0.069,
+        intensity: 1.5,
+      },
+      sharpen: {
+        enable: false,
+        factor: 0.2,
+      },
+      outline: {
+        enable: true,
+        outlineFactor: 0.3,
+        highlightFactor: 0.2,
+        outlineWidth: 1,
+        outlineColor: [1, 1, 0],
+      },
     },
     weather: {
       enable: true,
-      fog,
+      rain,
     },
     ground: {
       enable: true,
