@@ -2064,6 +2064,26 @@
         ]
       },
       {
+        "name": "spatial-analysis",
+        "title": {
+          "cn": "空间分析",
+          "en": "Spatial analysis"
+        },
+        "examples": [
+          {
+            "name": "measure",
+            "title": { "cn": "空间测量", "en": "Spatial measure" }
+          },
+          {
+            "name": "viewshed-analysis",
+            "title": {
+              "cn": "可视域分析",
+              "en": "ViewShed Analysis"
+            }
+          }
+        ]
+      },
+      {
         "name": "video",
         "title": { "cn": "视频图层", "en": "Video layer" },
         "examples": [
@@ -2123,26 +2143,6 @@
           {
             "name": "sunny",
             "title": { "cn": "晴天", "en": "Sunny" }
-          }
-        ]
-      },
-      {
-        "name": "spatial-analysis",
-        "title": {
-          "cn": "空间分析",
-          "en": "Spatial analysis"
-        },
-        "examples": [
-          {
-            "name": "measure",
-            "title": { "cn": "空间测量", "en": "Spatial measure" }
-          },
-          {
-            "name": "viewshed-analysis",
-            "title": {
-              "cn": "可视域分析",
-              "en": "ViewShed Analysis"
-            }
           }
         ]
       }
