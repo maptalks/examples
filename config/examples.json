@@ -2100,6 +2100,26 @@
             }
           }
         ]
+      },
+      {
+        "name": "spatial-analysis",
+        "title": {
+          "cn": "空间分析",
+          "en": "Spatial analysis"
+        },
+        "examples": [
+          {
+            "name": "measure",
+            "title": { "cn": "空间测量", "en": "Spatial measure" }
+          },
+          {
+            "name": "viewshed-analysis",
+            "title": {
+              "cn": "可视域分析",
+              "en": "ViewShed Analysis"
+            }
+          }
+        ]
       }
     ]
   }
