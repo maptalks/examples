@@ -1,10 +1,6 @@
-// sceneconfig写全
-// 天气里面参数含义写上 (国际版和中文版 md说明)
-// 雨天 bug
-// 后处理和天气联动
 const map = new maptalks.Map("map", {
-  center: [-73.88688426819061, 40.68813228504152],
-  zoom: 18,
+  center: [-73.88756247170068, 40.68791104561976],
+  zoom: 17.1,
   bearing: 168.1,
   pitch: 71.2,
   lights: {
@@ -204,9 +200,9 @@ const gltfMarker = new maptalks.GLTFMarker(
     symbol: {
       shadow: true,
       url: "{res}/gltf/29c/scene.gltf",
-      scaleX: 14.12466,
-      scaleY: 14.12466,
-      scaleZ: 14.12466,
+      scaleX: 8.12466,
+      scaleY: 8.12466,
+      scaleZ: 8.12466,
       rotationZ: 299.6285,
       shader: "pbr",
       uniforms: {
@@ -216,91 +212,89 @@ const gltfMarker = new maptalks.GLTFMarker(
         outputSRGB: 1,
       },
     },
-    zoomOnAdded: 18.66,
+    zoomOnAdded: 17,
   }
 );
 
 gltfLayer.addGeometry(gltfMarker);
 
 /**start**/
-const rain = {
-  enable: true,
-  windDirectionX: 0,
-  windDirectionY: 0,
-  rippleRadius: 11,
-  rainWidth: 1,
-  rainHeight: 1,
-  speed: 1,
-  density: 2000,
-  rainTexture: "{res}/images/rain1.png",
+const sceneConfig = {
+  environment: {
+    enable: true,
+    mode: 1,
+    level: 3,
+    brightness: 0.489,
+  },
+  shadow: {
+    type: "esm",
+    enable: true,
+    quality: "high",
+    opacity: 0.5,
+    color: [0, 0, 0],
+    blurOffset: 1,
+  },
+  postProcess: {
+    enable: true,
+    antialias: {
+      enable: true,
+      taa: true,
+      jitterRatio: 0.25,
+    },
+    ssr: {
+      enable: true,
+    },
+    bloom: {
+      enable: true,
+      threshold: 0,
+      factor: 1,
+      radius: 1,
+    },
+    ssao: {
+      enable: true,
+      bias: 0.101,
+      radius: 0.069,
+      intensity: 1.5,
+    },
+    sharpen: {
+      enable: false,
+      factor: 0.2,
+    },
+    outline: {
+      enable: true,
+      outlineFactor: 0.3,
+      highlightFactor: 0.2,
+      outlineWidth: 1,
+      outlineColor: [1, 1, 0],
+    },
+  },
+  weather: {
+    enable: true,
+    rain: {
+      enable: true,
+      windDirectionX: 0,
+      windDirectionY: 0,
+      rippleRadius: 11,
+      rainWidth: 1,
+      rainHeight: 1,
+      speed: 1,
+      density: 2000,
+      rainTexture: "{res}/images/rain1.png",
+    },
+  },
+  ground: {
+    enable: true,
+    renderPlugin: {
+      type: "fill",
+    },
+    symbol: {
+      polygonFill: [0.803921568627451, 0.803921568627451, 0.803921568627451, 1],
+      polygonOpacity: 1,
+    },
+  },
 };
 /**end**/
 
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
-  sceneConfig: {
-    environment: {
-      enable: true,
-      mode: 1,
-      level: 3,
-      brightness: 0.489,
-    },
-    shadow: {
-      type: "esm",
-      enable: true,
-      quality: "high",
-      opacity: 0.5,
-      color: [0, 0, 0],
-      blurOffset: 1,
-    },
-    postProcess: {
-      enable: true,
-      antialias: {
-        enable: true,
-        taa: true,
-        jitterRatio: 0.25,
-      },
-      ssr: {
-        enable: true,
-      },
-      bloom: {
-        enable: true,
-        threshold: 0,
-        factor: 1,
-        radius: 1,
-      },
-      ssao: {
-        enable: true,
-        bias: 0.101,
-        radius: 0.069,
-        intensity: 1.5,
-      },
-      sharpen: {
-        enable: false,
-        factor: 0.2,
-      },
-      outline: {
-        enable: true,
-        outlineFactor: 0.3,
-        highlightFactor: 0.2,
-        outlineWidth: 1,
-        outlineColor: [1, 1, 0],
-      },
-    },
-    weather: {
-      enable: true,
-      rain,
-    },
-    ground: {
-      enable: true,
-      renderPlugin: {
-        type: "fill",
-      },
-      symbol: {
-        polygonFill: [
-          0.803921568627451, 0.803921568627451, 0.803921568627451, 1,
-        ],
-        polygonOpacity: 1,
-      },
-    },
-  },
+  sceneConfig,
 }).addTo(map);
