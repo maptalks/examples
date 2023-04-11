@@ -252,7 +252,3 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
     },
   },
 }).addTo(map);
-
-map.on("click", () => {
-  console.log(map.getView())
-})
