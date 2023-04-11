@@ -30,6 +30,8 @@ export function useMapView() {
       const description = await descriptionRes.text();
       if (!!description) {
         store.setDescription(description);
+      } else {
+        store.setDescription("");
       }
       const code = `<!DOCTYPE html>
       <html>
