@@ -1,0 +1,42 @@
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+#datepicker {
+  position: absolute;
+  top: 26px;
+  left: 90px;
+}
+
+#slider {
+  position: absolute;
+  top: 67px;
+  width: 167px;
+  left: 100px;
+}
+
+#time {
+  position: absolute;
+  color: rgb(8, 8, 12);
+  left: 90px;
+  top: 100px;
+}
+
+#pannel {
+  position: absolute;
+  width: 270px;
+  height: 125px;
+  padding: 10px;
+  z-index: 999;
+  right: 10px;
+  top: 10px;
+  background-color: #e1e6ebcc;
+}

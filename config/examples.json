@@ -2080,6 +2080,27 @@
               "cn": "可视域分析",
               "en": "ViewShed Analysis"
             }
+          },
+          {
+            "name": "crosscut",
+            "title": {
+              "cn": "剖面分析",
+              "en": "Crosscut analysis"
+            }
+          },
+          {
+            "name": "height-limit",
+            "title": {
+              "cn": "限高分析",
+              "en": "Height limit analysis"
+            }
+          },
+          {
+            "name": "sunshine",
+            "title": {
+              "cn": "日照分析",
+              "en": "Sunshine analysis"
+            }
           }
         ]
       },
