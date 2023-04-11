@@ -293,8 +293,126 @@ const sceneConfig = {
     },
   },
 };
-/**end**/
 
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
   sceneConfig,
 }).addTo(map);
+
+const gui = new mt.GUI();
+gui
+  .add({
+    type: "checkbox",
+    label: "雨",
+    value: true,
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.rain.enable = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "涟漪半径",
+    value: 11,
+    min: 1,
+    max: 50,
+    step: 1,
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.rain.rippleRadius = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "雨滴宽度",
+    value: 1,
+    min: 0.1,
+    max: 10,
+    step: 0.1,
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.rain.rainWidth = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "雨滴高度",
+    value: 1,
+    min: 0.1,
+    max: 10,
+    step: 0.1,
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.rain.rainHeight = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "滴落速度",
+    value: 1,
+    min: 1,
+    max: 10,
+    step: 1,
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.rain.speed = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "雨量",
+    value: 2000,
+    min: 1000,
+    max: 5000,
+    step: 1,
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.rain.density = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "风向X",
+    value: 0,
+    min: -30,
+    max: 30,
+    step: 1,
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.rain.windDirectionX = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "风向Y",
+    value: 0,
+    min: -30,
+    max: 30,
+    step: 1,
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.rain.windDirectionY = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+/**end**/

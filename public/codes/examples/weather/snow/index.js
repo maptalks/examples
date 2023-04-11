@@ -255,8 +255,21 @@ const sceneConfig = {
     },
   },
 };
-/**end**/
 
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
   sceneConfig,
 }).addTo(map);
+
+const gui = new mt.GUI();
+gui
+  .add({
+    type: "checkbox",
+    label: "雪",
+    value: true,
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.snow.enable = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+/**end**/
