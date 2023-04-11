@@ -1,4 +1,6 @@
 import "./global.css";
+import "github-markdown-css/github-markdown-light.css";
+import "github-markdown-css/github-markdown.css";
 
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";

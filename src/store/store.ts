@@ -13,6 +13,7 @@ export class Store {
   openKeys = ["basic"];
   selectedKey = "";
   code = "";
+  description = "";
 
   get example() {
     if (!this.selectedKey) {
@@ -25,13 +26,6 @@ export class Store {
   get title() {
     const title = getHtmlCodeTitle(this.selectedKey, this.language);
     return title;
-  }
-
-  get description() {
-    if (!this.example?.description || !this.language) {
-      return "";
-    }
-    return this.example.description[this.language];
   }
 
   setLanguage(language: Language) {
@@ -63,11 +57,16 @@ export class Store {
     this.code = code;
   }
 
+  setDescription(des: string) {
+    this.description = des;
+  }
+
   init() {
     this.language = null;
     this.tab = "basic";
     this.filter = "";
     this.selectedKey = "";
     this.code = "";
+    this.description = "";
   }
 }

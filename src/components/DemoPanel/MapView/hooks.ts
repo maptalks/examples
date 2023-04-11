@@ -24,6 +24,13 @@ export function useMapView() {
         `/codes/${paths[0]}/${paths[1]}/${paths[2]}/index.js`
       );
       const jsCode = await jsRes.text();
+      const descriptionRes = await fetch(
+        `/codes/${paths[0]}/${paths[1]}/${paths[2]}/index_${store.language}.md`
+      );
+      const description = await descriptionRes.text();
+      if (!!description) {
+        store.setDescription(description);
+      }
       const code = `<!DOCTYPE html>
       <html>
         <meta charset='UTF-8' />

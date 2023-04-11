@@ -13,7 +13,9 @@ const Content = styled.div`
   height: 100%;
   margin-top: 8px;
   padding-top: 12px;
+  padding-bottom: 16px;
   border-top: 1px solid #ccc;
+  box-sizing: border-box;
   overflow-x: hidden;
   overflow-y: auto;
   ::-webkit-scrollbar {

@@ -1,6 +1,6 @@
 const map = new maptalks.Map("map", {
-  center: [-73.88688426819061, 40.68813228504152],
-  zoom: 18,
+  center: [-73.88756247170068, 40.68791104561976],
+  zoom: 17.1,
   bearing: 168.1,
   pitch: 71.2,
   lights: {
@@ -200,9 +200,9 @@ const gltfMarker = new maptalks.GLTFMarker(
     symbol: {
       shadow: true,
       url: "{res}/gltf/29c/scene.gltf",
-      scaleX: 14.12466,
-      scaleY: 14.12466,
-      scaleZ: 14.12466,
+      scaleX: 8.12466,
+      scaleY: 8.12466,
+      scaleZ: 8.12466,
       rotationZ: 299.6285,
       shader: "pbr",
       uniforms: {
@@ -212,55 +212,53 @@ const gltfMarker = new maptalks.GLTFMarker(
         outputSRGB: 1,
       },
     },
-    zoomOnAdded: 18.66,
+    zoomOnAdded: 17,
   }
 );
 
 gltfLayer.addGeometry(gltfMarker);
 
 /**start**/
-const fog = {
-  enable: true,
-  start: 3,
-  end: 70,
-  color: [0.8902, 0.8902, 0.9529],
+const sceneConfig = {
+  environment: {
+    enable: true,
+    mode: 1,
+    level: 0,
+    brightness: 0.489,
+  },
+  shadow: {
+    type: "esm",
+    enable: true,
+    quality: "high",
+    opacity: 0.5,
+    color: [0, 0, 0],
+    blurOffset: 1,
+  },
+  postProcess: {
+    enable: true,
+  },
+  weather: {
+    enable: true,
+    fog: {
+      enable: true,
+      start: 3,
+      end: 70,
+      color: [0.8902, 0.8902, 0.9529],
+    },
+  },
+  ground: {
+    enable: true,
+    renderPlugin: {
+      type: "fill",
+    },
+    symbol: {
+      polygonFill: [0.803921568627451, 0.803921568627451, 0.803921568627451, 1],
+      polygonOpacity: 1,
+    },
+  },
 };
 /**end**/
 
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
-  sceneConfig: {
-    environment: {
-      enable: true,
-      mode: 1,
-      level: 0,
-      brightness: 0.489,
-    },
-    shadow: {
-      type: "esm",
-      enable: true,
-      quality: "high",
-      opacity: 0.5,
-      color: [0, 0, 0],
-      blurOffset: 1,
-    },
-    postProcess: {
-      enable: true,
-    },
-    weather: {
-      enable: true,
-      fog,
-    },
-    ground: {
-      enable: true,
-      renderPlugin: {
-        type: "fill",
-      },
-      symbol: {
-        polygonFill: [
-          0.803921568627451, 0.803921568627451, 0.803921568627451, 1,
-        ],
-        polygonOpacity: 1,
-      },
-    },
-  },
+  sceneConfig,
 }).addTo(map);
