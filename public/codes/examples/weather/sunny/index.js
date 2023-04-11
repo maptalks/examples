@@ -13,9 +13,9 @@ const resource = {
 /**end**/
 
 const map = new maptalks.Map("map", {
-  center: [-73.88688426819061, 40.68813228504152],
-  zoom: 18,
-  bearing: 161.5,
+  center: [-73.88756247170068, 40.68791104561976],
+  zoom: 17.1,
+  bearing: 171,
   pitch: 80,
   lights: {
     directional: {
@@ -201,9 +201,9 @@ const gltfMarker = new maptalks.GLTFMarker(
     symbol: {
       shadow: true,
       url: "{res}/gltf/29c/scene.gltf",
-      scaleX: 14.12466,
-      scaleY: 14.12466,
-      scaleZ: 14.12466,
+      scaleX: 8.12466,
+      scaleY: 8.12466,
+      scaleZ: 8.12466,
       rotationZ: 299.6285,
       shader: "pbr",
       uniforms: {
@@ -213,7 +213,7 @@ const gltfMarker = new maptalks.GLTFMarker(
         outputSRGB: 1,
       },
     },
-    zoomOnAdded: 18.66,
+    zoomOnAdded: 17,
   }
 );
 
@@ -252,3 +252,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
     },
   },
 }).addTo(map);
+
+map.on("click", () => {
+  console.log(map.getView())
+})
