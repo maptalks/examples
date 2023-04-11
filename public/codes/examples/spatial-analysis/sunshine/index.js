@@ -86,9 +86,9 @@ layer.once("loadtileset", (e) => {
   map.fitExtent(extent, 0, { animation: false });
 });
 
+/**start**/
 const position = map.getCenter();
 
-//日照分析相关代码
 $("#datepicker").datepicker();
 $("#slider").slider();
 $("#slider").slider({
@@ -136,3 +136,4 @@ $("#slider").slider({
     }
   },
 });
+/**end**/

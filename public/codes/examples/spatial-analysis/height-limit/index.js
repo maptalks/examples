@@ -86,6 +86,7 @@ layer.once("loadtileset", (e) => {
   map.fitExtent(extent, 0, { animation: false });
 });
 
+/**start**/
 const heightLimitAnalysis = new maptalks.HeightLimitAnalysis({
   limitHeight: 25,
   limitColor: [1, 0.2, 0.2],
@@ -220,3 +221,4 @@ const limitHeightController = gui
 limitHeightController.onChange(function (value) {
   heightLimitAnalysis.update("limitHeight", value);
 });
+/**end**/

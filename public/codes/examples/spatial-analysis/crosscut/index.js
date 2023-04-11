@@ -81,6 +81,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
   },
 }).addTo(map);
 
+/**start**/
 let crosscutAnalysis = null;
 layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
@@ -217,20 +218,25 @@ function drawChart(distances, alts) {
   const option = {
     xAxis: {
       type: "category",
-      // boundaryGap: false,
       data: distances,
-      // name: "间距",
+      name: "间距",
       nameTextStyle: {
-        color: "#000",
-        fontSize: 18,
+        color: "#666",
+        fontSize: 12,
       },
     },
     yAxis: {
       type: "value",
-      // name: "高度",
+      name: "高度",
+      position: "left",
       nameTextStyle: {
-        color: "#000",
-        fontSize: 18,
+        color: "#666",
+        fontSize: 12,
+      },
+      axisLine: {
+        lineStyle: {
+          color: "#000",
+        },
       },
     },
     series: [
@@ -238,13 +244,11 @@ function drawChart(distances, alts) {
         data: alts,
         type: "line",
         lineStyle: {
-          color: "#aa63f2",
-        },
-        label: {
-          color: "#5412dd",
+          color: "#ea6b48",
         },
         areaStyle: {
-          opacity: 1,
+          color: "#ea6b48",
+          opacity: 0.35,
         },
       },
     ],
@@ -278,3 +282,4 @@ gui
     dom.style.display = "none";
     drawTool.disable();
   });
+/**end**/
