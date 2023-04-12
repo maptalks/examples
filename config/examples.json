@@ -2146,6 +2146,13 @@
               "cn": "行政区展示",
               "en": "Administrative district display"
             }
+          },
+          {
+            "name": "process",
+            "title": {
+              "cn": "地图后处理",
+              "en": "Post process"
+            }
           }
         ]
       },

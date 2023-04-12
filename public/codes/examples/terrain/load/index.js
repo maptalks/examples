@@ -1,7 +1,7 @@
 const map = new maptalks.Map("map", {
-  center: [114.31135353780905, 30.5437759669405, 46.900001525878906],
-  zoom: 18.20975314908587,
-  pitch: 0,
+  center: [91.18531, 29.66587],
+  zoom: 14,
+  pitch: 60,
   bearing: 0,
 });
 
@@ -36,18 +36,19 @@ const skinLayers = [
   }),
 ];
 
-const group = new maptalks.GroupGLLayer("group", skinLayers);
-group.addTo(map);
-
 /**start**/
 const terrain = {
   type: "mapbox",
-  tileSize: 512,
-  spatialReference: "preset-vt-3857",
+  tileSize: 256,
+  terrianWidth: 257,
   urlTemplate:
     "https://{s}.tiles.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?access_token=pk.eyJ1IjoibWFwYm94LWdsLWpzIiwiYSI6ImNram9ybGI1ajExYjQyeGxlemppb2pwYjIifQ.LGy5UGNIsXUZdYMvfYRiAQ",
   subdomains: ["a", "b", "c", "d"],
 };
+const group = new maptalks.GroupGLLayer("group", skinLayers, {
+  terrain,
+});
+group.addTo(map);
 
 const gui = new mt.GUI();
 
@@ -55,7 +56,7 @@ gui
   .add({
     type: "checkbox",
     label: "显示地形",
-    value: false,
+    value: true,
   })
   .onChange((value) => {
     if (value) {
