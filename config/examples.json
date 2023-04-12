@@ -2075,10 +2075,17 @@
             "title": { "cn": "空间测量", "en": "Spatial measure" }
           },
           {
-            "name": "viewshed-analysis",
+            "name": "skyline",
             "title": {
-              "cn": "可视域分析",
-              "en": "ViewShed Analysis"
+              "cn": "天际线分析",
+              "en": "Skyline Analysis"
+            }
+          },
+          {
+            "name": "insight",
+            "title": {
+              "cn": "通视分析",
+              "en": "InSight Analysis"
             }
           }
         ]
