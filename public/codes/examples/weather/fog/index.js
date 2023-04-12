@@ -243,7 +243,7 @@ const sceneConfig = {
       enable: true,
       start: 3,
       end: 70,
-      color: [0.8902, 0.8902, 0.9529],
+      color: "#e3e3f3",
     },
   },
   ground: {
@@ -257,8 +257,63 @@ const sceneConfig = {
     },
   },
 };
-/**end**/
 
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
   sceneConfig,
 }).addTo(map);
+
+const gui = new mt.GUI();
+gui
+  .add({
+    type: "checkbox",
+    label: "雾",
+    value: true,
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.fog.enable = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "开始距离",
+    value: 3,
+    min: 0.1,
+    max: 10,
+    step: 0.1,
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.fog.start = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "结束距离",
+    value: 70,
+    min: 2,
+    max: 100,
+    step: 1,
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.fog.end = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+
+gui
+  .add({
+    type: "color",
+    label: "雾颜色",
+    value: "#e3e3f3",
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.fog.color = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+/**end**/
