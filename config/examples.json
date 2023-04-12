@@ -2082,6 +2082,13 @@
             }
           },
           {
+            "name": "excavate",
+            "title": {
+              "cn": "挖方分析",
+              "en": "Excavate analysis"
+            }
+          },
+          {
             "name": "crosscut",
             "title": {
               "cn": "剖面分析",
