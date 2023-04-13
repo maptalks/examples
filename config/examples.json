@@ -2089,6 +2089,20 @@
             }
           },
           {
+            "name": "viewshed",
+            "title": {
+              "cn": "可视域分析",
+              "en": "ViewShed Analysis"
+            }
+          },
+          {
+            "name": "flood",
+            "title": {
+              "cn": "水淹分析",
+              "en": "Flood Analysis"
+            }
+          },
+          {
             "name": "crosscut",
             "title": {
               "cn": "剖面分析",

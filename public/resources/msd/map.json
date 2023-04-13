@@ -1,0 +1,2705 @@
+{
+  "jsonVersion": "1.0",
+  "version": "1.0.0-rc.18",
+  "extent": {
+    "xmin": -74.04660271232484,
+    "ymin": 40.69899549540443,
+    "xmax": -73.99686714359467,
+    "ymax": 40.736424824605336
+  },
+  "options": {
+    "spatialReference": {},
+    "lights": {
+      "directional": {
+        "direction": [
+          0.5,
+          0,
+          -1
+        ],
+        "color": [
+          1,
+          1,
+          1
+        ]
+      },
+      "ambient": {
+        "resource": {
+          "url": {
+            "front": "./res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/front.jpg",
+            "back": "./res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/back.jpg",
+            "left": "./res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/left.jpg",
+            "right": "./res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/right.jpg",
+            "top": "./res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/top.jpg",
+            "bottom": "./res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/bottom.jpg"
+          }
+        },
+        "exposure": 0.787,
+        "hsv": [
+          0,
+          0,
+          0
+        ],
+        "orientation": 0
+      }
+    },
+    "center": {
+      "x": -74.01034546230551,
+      "y": 40.70860147434368
+    },
+    "zoom": 16.41321237069715,
+    "bearing": -23.9137478748371,
+    "pitch": 55.6
+  },
+  "layers": [
+    {
+      "type": "GroupGLLayer",
+      "id": "group",
+      "layers": [
+        {
+          "type": "VectorTileLayer",
+          "id": "vt0",
+          "options": {
+            "urlTemplate": "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
+            "spatialReference": "preset-vt-3857",
+            "features": true,
+            "visible": true,
+            "style": {
+              "style": [
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "water"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "type": "water",
+                    "dataConfig": {
+                      "type": "fill"
+                    }
+                  },
+                  "symbol": {
+                    "ssr": true,
+                    "texWaveNormal": "./res/temp-resources/dev/water/463/463a5930-0280-cfcc-ca93-d3ea8acae553/normal.png",
+                    "texWavePerturbation": "./res/temp-resources/dev/water/06f/06faa462-d7fd-e85c-f803-f642b743b54f/perturbation.png",
+                    "waterBaseColor": [
+                      0.7254901960784313,
+                      0.8196078431372549,
+                      1,
+                      1
+                    ],
+                    "contrast": 1.266,
+                    "hsv": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "uvScale": 3,
+                    "animation": true,
+                    "waterSpeed": 1,
+                    "waterDirection": 0,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "greenland"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "type": "lit",
+                    "dataConfig": {
+                      "type": "3d-extrusion",
+                      "altitudeProperty": "height",
+                      "minHeightProperty": "min_height",
+                      "altitudeScale": 1,
+                      "defaultAltitude": 10,
+                      "topThickness": 0,
+                      "top": true,
+                      "side": true
+                    },
+                    "sceneConfig": {
+                      "animation": null,
+                      "animationDuration": 800
+                    }
+                  },
+                  "symbol": {
+                    "bloom": false,
+                    "ssr": false,
+                    "polygonOpacity": 1,
+                    "material": {
+                      "baseColorTexture": "./res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_basecolor.jpg",
+                      "baseColorFactor": [
+                        1,
+                        1,
+                        1,
+                        1
+                      ],
+                      "hsv": [
+                        0,
+                        -0.255,
+                        0.383
+                      ],
+                      "baseColorIntensity": 1,
+                      "contrast": 1,
+                      "outputSRGB": 1,
+                      "metallicRoughnessTexture": "./res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_roughness.jpg",
+                      "roughnessFactor": 1,
+                      "metallicFactor": 1,
+                      "normalTexture": "./res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_normalOgl.jpg",
+                      "noiseTexture": null,
+                      "uvScale": [
+                        0.18,
+                        0.18
+                      ],
+                      "uvOffset": [
+                        0,
+                        0
+                      ],
+                      "uvRotation": 0,
+                      "uvOffsetAnim": [
+                        0,
+                        0
+                      ],
+                      "normalMapFactor": 0.48,
+                      "normalMapFlipY": 0,
+                      "bumpTexture": null,
+                      "bumpScale": 0.02,
+                      "clearCoatThickness": 5,
+                      "clearCoatFactor": 0,
+                      "clearCoatIor": 1.4,
+                      "clearCoatRoughnessFactor": 0.04,
+                      "occlusionTexture": "./res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_ambientocclusion.jpg",
+                      "emissiveTexture": null,
+                      "emissiveFactor": [
+                        0,
+                        0,
+                        0
+                      ],
+                      "emitColorFactor": 1,
+                      "emitMultiplicative": 0
+                    },
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "desert"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "fill"
+                    },
+                    "sceneConfig": {},
+                    "type": "fill"
+                  },
+                  "symbol": {
+                    "polygonBloom": false,
+                    "polygonFill": [
+                      0.345,
+                      0.345,
+                      0.502,
+                      1
+                    ],
+                    "polygonOpacity": 1,
+                    "polygonPatternFile": null,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "desert"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "education"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "fill"
+                    },
+                    "sceneConfig": {},
+                    "type": "fill"
+                  },
+                  "symbol": {
+                    "polygonBloom": false,
+                    "polygonFill": [
+                      0.5686274509803921,
+                      0.4980392156862745,
+                      0.43529411764705883,
+                      1
+                    ],
+                    "polygonOpacity": 1,
+                    "polygonPatternFile": null,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "education"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "hospital"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "fill"
+                    },
+                    "sceneConfig": {},
+                    "type": "fill"
+                  },
+                  "symbol": {
+                    "polygonBloom": false,
+                    "polygonFill": [
+                      0.6941176470588235,
+                      0.7372549019607844,
+                      0.8745098039215686,
+                      1
+                    ],
+                    "polygonOpacity": 1,
+                    "polygonPatternFile": null,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "hospital"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "entertainment"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "fill"
+                    },
+                    "sceneConfig": {},
+                    "type": "fill"
+                  },
+                  "symbol": {
+                    "polygonBloom": false,
+                    "polygonFill": [
+                      0.5725490196078431,
+                      0.6980392156862745,
+                      0.5450980392156862,
+                      1
+                    ],
+                    "polygonOpacity": 1,
+                    "polygonPatternFile": null,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "entertainment"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "shopping"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "fill"
+                    },
+                    "sceneConfig": {},
+                    "type": "fill"
+                  },
+                  "symbol": {
+                    "polygonBloom": false,
+                    "polygonFill": [
+                      0.7098039215686275,
+                      0.7098039215686275,
+                      0.996078431372549,
+                      1
+                    ],
+                    "polygonOpacity": 1,
+                    "polygonPatternFile": null,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "shopping"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "parking"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "fill"
+                    },
+                    "sceneConfig": {},
+                    "type": "fill"
+                  },
+                  "symbol": {
+                    "polygonBloom": false,
+                    "polygonFill": [
+                      0.345,
+                      0.345,
+                      0.502,
+                      1
+                    ],
+                    "polygonOpacity": 1,
+                    "polygonPatternFile": null,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "parking"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "sport"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "fill"
+                    },
+                    "sceneConfig": {},
+                    "type": "fill"
+                  },
+                  "symbol": {
+                    "polygonBloom": false,
+                    "polygonFill": [
+                      0.9607843137254902,
+                      0.9686274509803922,
+                      0.8901960784313725,
+                      1
+                    ],
+                    "polygonOpacity": 1,
+                    "polygonPatternFile": null,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "sport"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "subway-hub"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "fill"
+                    },
+                    "sceneConfig": {},
+                    "type": "fill"
+                  },
+                  "symbol": {
+                    "polygonBloom": false,
+                    "polygonFill": [
+                      0.8392156862745098,
+                      0.7215686274509804,
+                      0.8352941176470589,
+                      1
+                    ],
+                    "polygonOpacity": 1,
+                    "polygonPatternFile": null,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "subway-hub"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "train-station"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "fill"
+                    },
+                    "sceneConfig": {},
+                    "type": "fill"
+                  },
+                  "symbol": {
+                    "polygonBloom": false,
+                    "polygonFill": [
+                      0.5254901960784314,
+                      0.6274509803921569,
+                      0.6235294117647059,
+                      1
+                    ],
+                    "polygonOpacity": 1,
+                    "polygonPatternFile": null,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "train-station"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "passenger-station"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "fill"
+                    },
+                    "sceneConfig": {},
+                    "type": "fill"
+                  },
+                  "symbol": {
+                    "polygonBloom": false,
+                    "polygonFill": [
+                      0.796078431372549,
+                      0.8431372549019608,
+                      0.9647058823529412,
+                      1
+                    ],
+                    "polygonOpacity": 1,
+                    "polygonPatternFile": null,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "passenger-station"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "airport"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "fill"
+                    },
+                    "sceneConfig": {},
+                    "type": "fill"
+                  },
+                  "symbol": {
+                    "polygonBloom": false,
+                    "polygonFill": [
+                      0.6509803921568628,
+                      0.7725490196078432,
+                      0.7372549019607844,
+                      1
+                    ],
+                    "polygonOpacity": 1,
+                    "polygonPatternFile": null,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "airport"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "building"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "Polygon"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "type": "lit",
+                    "dataConfig": {
+                      "type": "3d-extrusion",
+                      "altitudeProperty": "height",
+                      "minHeightProperty": "min_height",
+                      "altitudeScale": 1,
+                      "defaultAltitude": 10,
+                      "topThickness": 0,
+                      "top": true,
+                      "side": true
+                    },
+                    "sceneConfig": {
+                      "animation": null,
+                      "animationDuration": 800
+                    }
+                  },
+                  "symbol": {
+                    "bloom": false,
+                    "ssr": false,
+                    "polygonOpacity": 1,
+                    "material": {
+                      "baseColorTexture": null,
+                      "baseColorFactor": [
+                        1,
+                        1,
+                        1,
+                        1
+                      ],
+                      "hsv": [
+                        0,
+                        0,
+                        -0.32
+                      ],
+                      "baseColorIntensity": 1.532,
+                      "contrast": 1,
+                      "outputSRGB": 1,
+                      "metallicRoughnessTexture": null,
+                      "roughnessFactor": 1,
+                      "metallicFactor": 0,
+                      "normalTexture": null,
+                      "noiseTexture": null,
+                      "uvScale": [
+                        1,
+                        1
+                      ],
+                      "uvOffset": [
+                        0,
+                        0
+                      ],
+                      "uvRotation": 0,
+                      "uvOffsetAnim": [
+                        0,
+                        0
+                      ],
+                      "normalMapFactor": 1,
+                      "normalMapFlipY": 0,
+                      "bumpTexture": null,
+                      "bumpScale": 0.02,
+                      "clearCoatThickness": 5,
+                      "clearCoatFactor": 0,
+                      "clearCoatIor": 1.4,
+                      "clearCoatRoughnessFactor": 0.04,
+                      "occlusionTexture": null,
+                      "emissiveTexture": "./res/temp-resources/dev/texture/897/897effa0-1897-4c1c-9aa0-66840a8e0218/1.jpg",
+                      "emissiveFactor": [
+                        0.9333333333333333,
+                        0.9254901960784314,
+                        0.9607843137254902
+                      ],
+                      "emitColorFactor": 0.31,
+                      "emitMultiplicative": 0
+                    },
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "waterway"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "foreign-boundary"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "china-boundary"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "province-boundary"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "city-boundary"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "area-boundary"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "expressway"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": false
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "railway"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "constructing-railway"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.3843137254901961,
+                      0.3803921568627451,
+                      0.3568627450980392,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "city-loop"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.3843137254901961,
+                      0.3803921568627451,
+                      0.3568627450980392,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "national-highway"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.3843137254901961,
+                      0.3803921568627451,
+                      0.3568627450980392,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "express-rail"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "provincial-highway"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "round",
+                    "lineColor": [
+                      1,
+                      1,
+                      1,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "round",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": "./res/temp-resources/dev/line-pattern/d4b/d4beb047-2a7f-4802-af26-e47357967c2c/default.jpg",
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      1,
+                      1,
+                      1,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": {
+                      "type": "exponential",
+                      "default": 2,
+                      "stops": [
+                        [
+                          14,
+                          2
+                        ],
+                        [
+                          15,
+                          4
+                        ],
+                        [
+                          16,
+                          10
+                        ],
+                        [
+                          17,
+                          20
+                        ],
+                        [
+                          18,
+                          50
+                        ],
+                        [
+                          20.7,
+                          100
+                        ],
+                        [
+                          22,
+                          200
+                        ]
+                      ]
+                    },
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "subway"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.7490196078431373,
+                      0.8666666666666667,
+                      0.7803921568627451,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "secondary-road"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      1,
+                      1,
+                      1,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": "./res/temp-resources/dev/line-pattern/d4b/d4beb047-2a7f-4802-af26-e47357967c2c/default.jpg",
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": {
+                      "type": "exponential",
+                      "default": 2,
+                      "stops": [
+                        [
+                          14,
+                          2
+                        ],
+                        [
+                          15,
+                          4
+                        ],
+                        [
+                          16,
+                          10
+                        ],
+                        [
+                          17,
+                          20
+                        ],
+                        [
+                          18,
+                          50
+                        ],
+                        [
+                          20.7,
+                          100
+                        ],
+                        [
+                          22,
+                          200
+                        ]
+                      ]
+                    },
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "tertiary-road"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.3843137254901961,
+                      0.3803921568627451,
+                      0.3568627450980392,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "four-level-road"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.3843137254901961,
+                      0.3803921568627451,
+                      0.3568627450980392,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "internal-road"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      1,
+                      1,
+                      1,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "other-road"
+                    ],
+                    [
+                      "==",
+                      "$type",
+                      "LineString"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "type": "lit",
+                    "dataConfig": {
+                      "type": "line-extrusion",
+                      "altitudeProperty": "height",
+                      "minHeightProperty": "min_height",
+                      "altitudeScale": 0.2,
+                      "defaultAltitude": 10,
+                      "topThickness": 0,
+                      "top": true,
+                      "side": true
+                    },
+                    "sceneConfig": {
+                      "animation": null,
+                      "animationDuration": 800
+                    }
+                  },
+                  "symbol": {
+                    "bloom": false,
+                    "ssr": false,
+                    "lineWidth": 2,
+                    "lineOpacity": 1,
+                    "material": {
+                      "baseColorTexture": null,
+                      "baseColorFactor": [
+                        1,
+                        1,
+                        1,
+                        1
+                      ],
+                      "hsv": [
+                        0,
+                        0,
+                        0
+                      ],
+                      "baseColorIntensity": 1,
+                      "contrast": 1,
+                      "outputSRGB": 1,
+                      "metallicRoughnessTexture": null,
+                      "roughnessFactor": 1,
+                      "metallicFactor": 0,
+                      "normalTexture": null,
+                      "noiseTexture": null,
+                      "uvScale": [
+                        1,
+                        1
+                      ],
+                      "uvOffset": [
+                        0,
+                        0
+                      ],
+                      "uvRotation": 0,
+                      "uvOffsetAnim": [
+                        0,
+                        0
+                      ],
+                      "normalMapFactor": 1,
+                      "normalMapFlipY": 0,
+                      "bumpTexture": null,
+                      "bumpScale": 0.02,
+                      "clearCoatThickness": 5,
+                      "clearCoatFactor": 0,
+                      "clearCoatIor": 1.4,
+                      "clearCoatRoughnessFactor": 0.04,
+                      "occlusionTexture": null,
+                      "emissiveTexture": "./res/temp-resources/dev/texture/897/897effa0-1897-4c1c-9aa0-66840a8e0218/1.jpg",
+                      "emissiveFactor": [
+                        0,
+                        0,
+                        0
+                      ],
+                      "emitColorFactor": 5,
+                      "emitMultiplicative": 0
+                    },
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": [
+                    "all",
+                    [
+                      "==",
+                      "$layer",
+                      "bridge"
+                    ]
+                  ],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [
+                      0.73,
+                      0.73,
+                      0.73,
+                      1
+                    ],
+                    "lineDasharray": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "lineDashColor": [
+                      1,
+                      1,
+                      1,
+                      0
+                    ],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [
+                      0,
+                      0,
+                      0,
+                      1
+                    ],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "options": {
+        "sceneConfig": {
+          "environment": {
+            "enable": true,
+            "mode": 1,
+            "level": 0,
+            "brightness": 0.489
+          },
+          "shadow": {
+            "type": "esm",
+            "enable": true,
+            "quality": "high",
+            "opacity": 0.5,
+            "color": [
+              0,
+              0,
+              0
+            ],
+            "blurOffset": 1
+          },
+          "postProcess": {
+            "enable": true,
+            "antialias": {
+              "enable": true,
+              "taa": true,
+              "jitterRatio": 0.25
+            },
+            "ssr": {
+              "enable": true
+            },
+            "bloom": {
+              "enable": true,
+              "threshold": 0,
+              "factor": 1,
+              "radius": 1
+            },
+            "ssao": {
+              "enable": true,
+              "bias": 0.101,
+              "radius": 0.069,
+              "intensity": 1.5
+            },
+            "sharpen": {
+              "enable": false,
+              "factor": 0.2
+            },
+            "outline": {
+              "enable": true,
+              "outlineFactor": 0.3,
+              "highlightFactor": 0.2,
+              "outlineWidth": 1,
+              "outlineColor": [
+                1,
+                1,
+                0
+              ]
+            }
+          },
+          "weather": {
+            "enable": false,
+            "fog": {
+              "enable": false,
+              "start": 0.1,
+              "end": 45,
+              "color": [
+                0.9,
+                0.9,
+                0.9
+              ]
+            },
+            "rain": {
+              "enable": false,
+              "windDirectionX": 0,
+              "windDirectionY": 0,
+              "rippleRadius": 24,
+              "rainWidth": 1,
+              "rainHeight": 1,
+              "speed": 1,
+              "density": 2000,
+              "rainTexture": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAnxQTFRFAAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////o6/NjwAAANR0Uk5TAAmA2/jaCsP9f/v8gfrZ9vn39PXz8fLw7u/t6+zq6ejm5+Tl4+Lg4d/e3dzY1tfV1NPS0M7LzMrJyMfFxMLBwL67vLq5t7a0tbKxr7CsrauqqKelpqOioJ6dm5qZmJaVk5SRkI6LiYiGh4OEfnx7eXd2dHNxcm9ubGtpamZnZGFiXl9dXFpZWFdVVFNSUE9NTkpLSEZFRENBQj8+PTw6ODc1NjM0MTIvLiwtKisoKSYnJCUjIiEgHx4cHRobGBkXFRYTFBIREA8ODQsMCAcGBQQDAQI60ssxAAADo0lEQVR4nO3O+VeMcRTH8ZapMdWUUJIi25TSiqKEsTQq1EQkRYowDSrRohShBVGY7EmhvVQkKUsUFU31D7n3eeb5D5zzOc7p/b33/vp9mZnN9j9nbmEps7Iwh/1vLZ/Dya1RAIWNLT9bOxTA0kZpY6NUKu1RAIe5nHKuAwogkznKZHxQAEdHB0cHDgWYN98UDLCAo4sCODk7O/M6owALFzo5OfFBAVwWmUIBXF1cxVCAxW5ui934oADu7kvchVCApVIogMcyDw+PZXRQgOViK1agACtXrRRmFQqg8lR5eqpUKk8UwMvLa7UXhwJ4Uz4+3j7eKIAlZWVFBwWwt19D0UUBfP38fCk/PxTAP0B4/gEoQGCQUGAQCrBWCgVYJ4UCrA8WWh+MAoSEhGzYwIMCbAwNDeUNRQHCNoWJoQByebicNxwF2LzFFAqwVQoFUKu3UWq1GgXYvoPigwLs3BnBExGBAmg0ml2URoMCREZGRtFERaEA0dHRu2l2R6MAe/bupaFFAWJiYmJjY+mgANo4bVxcnFarRQH2cfvpoQDxB+IpOijAQSkUICHhED26KEBiYuLhRA4FSEpKTk7mRQGOHKWOUChAyrGUFNpjKShAampqWhovCnBcCgU4IYUCpKenn0znUIBTpk6jALoMnU6XkZGhQwHs7OwseCxQAIVer1co9Ao9CnDmLHWGLgpwTgoFyMzKzMqizUQBsrPPn8/mUICcnJwLORwKcDE396LwUIA8ofz8PBSgoKDgUgGHAhQWFRYV8UEBLkuhAMUlxSUlvCjAlStXxVCA0tJr13hKUYDr1I0btChAWXl5WVk5XRSgoqKisrKSFgW4eUvsJgpwu6rqtvBQgDvcXXooQHVNdQ1VXY0C3JNCAe4LPXhwHwUw1Bpqaw0GQy0K8FDs0UMU4PGTx2IowFPuGQ0K8FwKBaire1FXxwcFqH/5sp5fPQrQQDU2NDY2oACvXr8SQwHeCDW9aUIBmluaW1qaaVGA1tbWNp42FKC9vb2DtwMF6Ozq6uzqpFCAt93db4VQgJ5eqqe3pwcFePee4oMC9H0QXl8fCtDf/1F8KMDAwKdPPAMowODg4NAQzRAK8FkKBfhi6isK8O3b8PAwHxTg+w96PCjAiNCPkREUYPTnKM/oTxTglxQKMDZOjY2NjaMA1lIogLn5xMQELwrw2xQM8Iea5EUBJoWMk0YUYGrKaDTSTqEA0zNT9GZmplEAs2kx2P+zzfZP+gu1/Lk8hb5KLwAAAABJRU5ErkJggg=="
+            },
+            "snow": {
+              "enable": false,
+              "snowGroundTexture": "data:image/png;base64,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"
+            }
+          },
+          "ground": {
+            "enable": true,
+            "renderPlugin": {
+              "type": "fill"
+            },
+            "symbol": {
+              "polygonFill": [
+                0.803921568627451,
+                0.803921568627451,
+                0.803921568627451,
+                1
+              ],
+              "polygonOpacity": 1
+            },
+            "extras": {
+              "currentMaterial": ""
+            }
+          }
+        }
+      }
+    }
+  ]
+}

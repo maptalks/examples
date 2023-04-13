@@ -74,26 +74,48 @@ layer.once("loadtileset", (e) => {
   skylineAnalysis.addTo(groupGLLayer);
 });
 
-const gui = new dat.GUI();
-const Config = function () {
-  this.lineColor = "#ea6b48";
-  this.lineWidth = 1.8;
-};
-const options = new Config();
-
-const skylineColorController = gui
-  .addColor(options, "lineColor")
-  .name("天际线颜色");
-skylineColorController.onChange(function (value) {
-  skylineAnalysis.update("lineColor", [
-    value[0] / 255,
-    value[1] / 255,
-    value[2] / 255,
-  ]);
+const gui = new mt.GUI();
+gui
+  .add({
+    type: 'color',
+    label: '天际线颜色',
+    value: '#f00'
+  }).onChange(function (value) {
+    const r = parseInt('0x' + value.toString().slice(1, 3));
+    const g = parseInt('0x' + value.toString().slice(3, 5));
+    const b = parseInt('0x' + value.toString().slice(5, 7));
+    skylineAnalysis.update("lineColor", [
+      r / 255,
+      g / 255,
+      b / 255,
+    ]);
 });
-const skylineWidthController = gui
-  .add(options, "lineWidth", 0, 10)
-  .name("线宽");
-  skylineWidthController.onChange(function (value) {
+gui
+  .add({
+    type: "slider",
+    label: "线宽",
+    value: 1.8,
+    min: 0.1,
+    max: 3,
+    step: 0.1,
+  }).onChange(function (value) {
     skylineAnalysis.update("lineWidth", value);
+});
+
+const exportControl = gui.add({
+  type: "button",
+  text: "输出天际线图",
+}).onClick(() => {
+  const url = skylineAnalysis.exportSkylineMap({
+    backgroundColor: [1, 1, 1]
+  });
+  const resultImage = document.createElement('img');
+  resultImage.style.position = 'absolute';
+  resultImage.style.right = '10px';
+  resultImage.style.bottom = '10px';
+  resultImage.style.zIndex = 9999;
+  resultImage.width = map.width / 4;
+  resultImage.height = map.height / 4;
+  resultImage.src = url;
+  document.body.appendChild(resultImage);
 });
