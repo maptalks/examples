@@ -34,6 +34,7 @@ export function useRawPage() {
       `/codes/${paths[4]}/${paths[5]}/${paths[6]}/index.js`
     );
     const jsCode = await jsRes.text();
+    // <script type='text/javascript' src='https://unpkg.com/maptalks/dist/maptalks.min.js'></script>
     const code = `<!DOCTYPE html>
     <html>
       <meta charset='UTF-8' />
@@ -43,7 +44,7 @@ export function useRawPage() {
         ${cssCode.replaceAll("{res}", RESOURCE_PATH)}
       </style>
       <link rel='stylesheet' href='https://unpkg.com/maptalks/dist/maptalks.css' />
-      <script type='text/javascript' src='https://unpkg.com/maptalks/dist/maptalks.min.js'></script>
+      <script type='text/javascript' src='/lib/maptalks.min.js'></script>
       <script type='text/javascript' src='https://maptalks.com/api/maptalks-gl-layers.js'></script>
       <body>
         ${htmlCode}
