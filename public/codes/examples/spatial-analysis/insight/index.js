@@ -289,5 +289,6 @@ const exportControl = gui.add({
   type: "button",
   text: "计算交点",
 }).onClick(() => {
-
+  const results = insightAnalysis.getIntersetction();
+  console.group(results);
 });

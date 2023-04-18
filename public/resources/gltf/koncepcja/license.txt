@@ -1,0 +1,11 @@
+Model Information:
+* title:	koncepcja
+* source:	https://sketchfab.com/3d-models/koncepcja-de3f059332c847f89a2fc9697a689f42
+* author:	robekaniuk (https://sketchfab.com/robekaniuk)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "koncepcja" (https://sketchfab.com/3d-models/koncepcja-de3f059332c847f89a2fc9697a689f42) by robekaniuk (https://sketchfab.com/robekaniuk) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

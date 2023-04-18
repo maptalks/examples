@@ -2060,6 +2060,14 @@
           {
             "name": "drawer-monomer",
             "title": { "cn": "单体化抽屉效果", "en": "Monomer drawer effect" }
+          },
+          {
+            "name": "view-monomer",
+            "title": { "cn": "查看单体化", "en": "view monomer" }
+          },
+          {
+            "name": "model-flatten",
+            "title": { "cn": "模型压平", "en": "model flatten" }
           }
         ]
       },
@@ -2100,6 +2108,13 @@
             "title": {
               "cn": "水淹分析",
               "en": "Flood Analysis"
+            }
+          },
+          {
+            "name": "cut",
+            "title": {
+              "cn": "平面裁剪",
+              "en": "Cut Analysis"
             }
           },
           {

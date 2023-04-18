@@ -1,13 +1,10 @@
 const map = new maptalks.Map("map", {
-  center: [-73.887278876636, 40.68878362526684],
+  center: [108.95965, 34.2189],
   zoom: 18,
-  bearing: 168.68,
-  pitch: 77.2,
+  bearing: 0,
+  pitch: 45,
   lights: {
-    directional: {
-      direction: [0.5, 0, -1],
-      color: [1, 1, 1],
-    },
+    directional: { direction: [-1, -1, -1], color: [1, 1, 1] },
     ambient: {
       resource: {
         url: {
@@ -19,73 +16,138 @@ const map = new maptalks.Map("map", {
           bottom: "{res}/hdr/923/bottom.jpg",
         },
       },
-      exposure: 0.787,
+      exposure: 1.426,
       hsv: [0, 0, 0],
-      orientation: 0,
-    },
-  },
-});
-
-const vtLayer = new maptalks.VectorTileLayer("vt", {
-  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857",
-  features: true,
-  style: "{res}/styles/monomer.json",
-});
-
-const gltfLayer = new maptalks.GLTFLayer("gltf");
-
-const gltfMarker = new maptalks.GLTFMarker(
-  [-73.88713688860861, 40.68848442450471],
-  {
-    symbol: {
-      shadow: true,
-      url: "{res}/gltf/29c/scene.gltf",
-      scaleX: 14.12466,
-      scaleY: 14.12466,
-      scaleZ: 14.12466,
-      rotationZ: 299.6285,
-      shader: "pbr",
-      uniforms: {
-        polygonFill: [1, 1, 1, 1],
-        polygonOpacity: 1,
-        baseColorIntensity: 1,
-        outputSRGB: 1,
-      },
-    },
-    zoomOnAdded: 18.66,
+      orientation: 302.553,
+    }
   }
-);
+});
 
-gltfLayer.addGeometry(gltfMarker);
+const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
+  geometryEvents: true,
+  services: [
+    {
+      url: "http://resource.dvgis.cn/data/3dtiles/dayanta/tileset.json",
+      ambientLight: [1, 1, 1],
+      maximumScreenSpaceError: 1.0,
+      pointOpacity: 0.5,
+      pointSize: 3,
+      heightOffset: -400
+    }
+  ]
+});
 
-const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
+const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
   sceneConfig: {
     environment: {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0.489,
+      brightness: 0.915,
     },
-    shadow: {
-      type: "esm",
-      enable: true,
-      quality: "high",
-      opacity: 0.5,
-      color: [0, 0, 0],
-      blurOffset: 1,
+    postProcess: {
+      enable: true
     },
     ground: {
       enable: true,
       renderPlugin: {
-        type: "fill",
+        type: "lit",
       },
       symbol: {
-        polygonFill: [
-          0.803921568627451, 0.803921568627451, 0.803921568627451, 1,
-        ],
         polygonOpacity: 1,
-      },
-    },
-  },
+        material: {
+          baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
+          hsv: [0, 0, -0.532],
+          roughnessFactor: 0.22,
+          metallicFactor: 0.58,
+        }
+      }
+    }
+  }
 }).addTo(map);
+
+/**start**/
+function setEventAndInfowindow(mask) {
+  mask.on('mouseover mouseout', e => {
+    let polygonFill = '#ea6b48';
+    if (e.type === 'mouseover') {
+      polygonFill = '#2e2'
+    }
+    e.target.updateSymbol({
+      polygonFill
+    });
+  });
+  const name = mask.getProperties().name;
+  mask.setInfoWindow({
+    content: `名称: ${name} </br>地址: xxxx大道118号</br>联系方式:132xxx4422`,
+    autoCloseOn: 'click'
+  });
+}
+
+const masks = [];
+function loadMonomers() {
+  fetch('{res}/geojson/floor.json').then(function(response){
+    return response.json();
+  }).then(function(data){
+    for (let i = 0; i < data.length; i++) {
+      const mask = new maptalks.ColorMask(data[i].geometry.coordinates, {
+        symbol: {
+          polygonFill: '#ea6b48',
+          polygonOpacity: 0.6
+        },
+        properties: data[i].properties
+      });
+      setEventAndInfowindow(mask);
+      masks.push(mask);
+    }
+    layer.setMask(masks);
+  });
+}
+
+
+layer.once("loadtileset", (e) => {
+  loadMonomers();
+});
+/**end**/
+
+//gui控件交互代码
+const gui = new mt.GUI();
+gui
+  .add({
+    label: "楼层选择",
+    type: "select",
+    value: "楼层一",
+    options: [
+      {
+        label: "楼层一",
+        value: "楼层一",
+      },
+      {
+        label: "楼层二",
+        value: "楼层二",
+      },
+      {
+        label: "楼层三",
+        value: "楼层三",
+      },
+      {
+        label: "楼层四",
+        value: "楼层四",
+      }
+    ],
+  })
+  .onChange((value) => {
+    for (let i = 0; i < masks.length; i++) {
+      const properties = masks[i].getProperties();
+      if (properties.name !== value) {
+        masks[i].remove();
+      } else {
+        masks[i].updateSymbol({
+          polygonOpacity: 0.9
+        });
+        const center = masks[i].getCenter();
+        map.panTo(center, { animation: true });
+        layer.setMask(masks[i]);
+      }
+    }
+  });

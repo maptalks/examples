@@ -71,15 +71,10 @@ layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
   map.fitExtent(extent, 0, { animation: false });
   const center = map.getCenter();
-  // 相机位置
   eyePos = [108.96104505157473, 34.219553384558736, 34.55867];
-  // 目标点
   lookPoint = [108.95948541183475, 34.21971441232435, 67.59082];
-  // 垂直视角
   verticalAngle = 30;
-  // 水平视角
   horizontalAngle = 20;
-  // 创建可视域分析对象
   viewshedAnalysis = new maptalks.ViewshedAnalysis({
     eyePos,
     lookPoint,
@@ -89,7 +84,6 @@ layer.once("loadtileset", (e) => {
   viewshedAnalysis.addTo(groupGLLayer);
 });
 
-//以下是绘制可视域分析的交互逻辑
 let altitudes = [],
       coordinates = [],
       first = true;
