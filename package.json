@@ -36,7 +36,7 @@
     "@vitejs/plugin-react": "^3.1.0",
     "puppeteer": "^19.9.1",
     "typescript": "^5.0.4",
-    "vite": "^4.2.1",
+    "vite": "^4.2.2",
     "vite-plugin-compression": "^0.5.1"
   },
   "repository": {
