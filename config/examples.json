@@ -2148,6 +2148,34 @@
         ]
       },
       {
+        "name": "track",
+        "title": { "cn": "轨迹路线", "en": "Trajectory route" },
+        "examples": [
+          {
+            "name": "flying-driving",
+            "title": {
+              "cn": "沿轨迹飞行与地面行驶",
+              "en": "Flying along trajectories and driving on the ground"
+            }
+          },
+          {
+            "name": "ground-route",
+            "title": {
+              "cn": "沿地面轨迹飞行",
+              "en": "Flying along ground trajectory"
+            }
+          },
+          {
+            "name": "around-point",
+            "title": { "cn": "绕点环绕飞行", "en": "Orbiting around a point" }
+          },
+          {
+            "name": "auto-roaming",
+            "title": { "cn": "自动漫游", "en": "Auto roaming" }
+          }
+        ]
+      },
+      {
         "name": "video",
         "title": { "cn": "视频图层", "en": "Video layer" },
         "examples": [

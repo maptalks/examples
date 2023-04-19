@@ -42,7 +42,7 @@ export function useMapView() {
           ${cssCode.replaceAll("{res}", RESOURCE_PATH)}
         </style>
         <link rel='stylesheet' href='https://unpkg.com/maptalks/dist/maptalks.css' />
-        <script type='text/javascript' src='https://unpkg.com/maptalks/dist/maptalks.min.js'></script>
+        <script type='text/javascript' src='/lib/maptalks.min.js'></script>
         <script type='text/javascript' src='https://maptalks.com/api/maptalks-gl-layers.js'></script>
         <body>
           ${htmlCode}
