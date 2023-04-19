@@ -30,6 +30,7 @@ const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
       ambientLight: [1, 1, 1],
       maximumScreenSpaceError: 1.0,
       heightOffset: -40,
+      opacity: 0.1
     }
   ]
 });
@@ -70,22 +71,18 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
 /**start**/
 let lastHit = null;
 map.on('click', e => {
-  console.log(111);
-  if (lastHit) {
+  if (maptalks.Util.isNumber(lastHit)) {
       layer.cancelHighlight(0, [lastHit]);
   }
   const hits = layer.identify(e.coordinate);
+  console.log(hits);
   if (hits.length) {
-      layer.highlight({
-          id: hits[0].data.batchId,
-          color: '#f00',
-          opacity: 0.6
-      });  
-      lastHit = hits[0].data.batchId;
-    }
-  });
+    layer.highlight({
+        id: hits[0].data.batchId,
+        opacity: 1
+    });  
+    lastHit = hits[0].data.batchId;
+  }
+});
 /**end**/
-
-//gui控件交互代码
-const gui = new mt.GUI();
 
