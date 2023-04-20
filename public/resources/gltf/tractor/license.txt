@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low Poly Little Farm Field
+* source:	https://sketchfab.com/3d-models/low-poly-little-farm-field-a97a22fc482c403bb3c4a7d84cf52e2a
+* author:	rakutin (https://sketchfab.com/rakutin)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low Poly Little Farm Field" (https://sketchfab.com/3d-models/low-poly-little-farm-field-a97a22fc482c403bb3c4a7d84cf52e2a) by rakutin (https://sketchfab.com/rakutin) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

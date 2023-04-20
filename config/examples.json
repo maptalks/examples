@@ -2172,6 +2172,24 @@
           {
             "name": "auto-roaming",
             "title": { "cn": "自动漫游", "en": "Auto roaming" }
+          },
+          {
+            "name": "free-roaming",
+            "title": { "cn": "自由漫游", "en": "Free roaming" }
+          },
+          {
+            "name": "personnel-position",
+            "title": {
+              "cn": "人员实时定位",
+              "en": "Real time personnel positioning"
+            }
+          },
+          {
+            "name": "device-position",
+            "title": {
+              "cn": "设备实时定位",
+              "en": "Real time device positioning"
+            }
           }
         ]
       },

@@ -1,0 +1,19 @@
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.container .maptalks-msgBox em.maptalks-ico {
+  display: none;
+}
+
+.container .maptalks-msgBox .maptalks-msgContent {
+  min-width: 80px;
+}

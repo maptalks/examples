@@ -1,0 +1,11 @@
+Model Information:
+* title:	Character X Bot
+* source:	https://sketchfab.com/3d-models/character-x-bot-479fc4feccba4ee1b3746b829aa26f0b
+* author:	fernandogilmiranda (https://sketchfab.com/fernandogilmiranda)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Character X Bot" (https://sketchfab.com/3d-models/character-x-bot-479fc4feccba4ee1b3746b829aa26f0b) by fernandogilmiranda (https://sketchfab.com/fernandogilmiranda) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
