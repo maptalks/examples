@@ -1,28 +1,84 @@
 const map = new maptalks.Map("map", {
-  center: [-0.113049, 51.498568],
-  zoom: 14,
-  baseLayer: new maptalks.TileLayer("base", {
-    urlTemplate: "{urlTemplate}",
-    subdomains: ["a", "b", "c", "d"],
-    attribution: "{attribution}",
-  }),
+  center: [108.95965, 34.2189],
+  zoom: 18,
+  bearing: 0,
+  pitch: 45,
+  lights: {
+    directional: { direction: [-1, -1, -1], color: [1, 1, 1] },
+    ambient: {
+      resource: {
+        url: {
+          front: "{res}/hdr/923/front.jpg",
+          back: "{res}/hdr/923/back.jpg",
+          left: "{res}/hdr/923/left.jpg",
+          right: "{res}/hdr/923/right.jpg",
+          top: "{res}/hdr/923/top.jpg",
+          bottom: "{res}/hdr/923/bottom.jpg",
+        },
+      },
+      exposure: 1.426,
+      hsv: [0, 0, 0],
+      orientation: 302.553,
+    }
+  }
 });
 
-const gui = new dat.GUI({
-  // width: 250,
+const groupGLLayer = new maptalks.GroupGLLayer("gl", [], {
+  sceneConfig: {
+    environment: {
+      enable: true,
+      mode: 1,
+      level: 0,
+      brightness: 0.915,
+    },
+    postProcess: {
+      enable: true
+    },
+    ground: {
+      enable: true,
+      renderPlugin: {
+        type: "lit",
+      },
+      symbol: {
+        polygonOpacity: 1,
+        material: {
+          baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
+          hsv: [0, 0, -0.532],
+          roughnessFactor: 0.22,
+          metallicFactor: 0.58,
+        }
+      }
+    }
+  }
+}).addTo(map);
+
+/**start**/
+const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
+  services: [
+    {
+      url: "http://examples.maptalks.com/samples/ifc/test1/tileset.json",
+      maximumScreenSpaceError: 8.0,
+      heightOffset: -40,
+      opacity: 1.0
+    }
+  ]
+}).addTo(groupGLLayer);
+
+layer.once('loadtileset', e => {
+  const extent = layer.getExtent(e.index);
+  map.fitExtent(extent, 0, { animation: false });
 });
 
-const Config = function () {
-  this.height = 96;
-};
-const options = new Config();
-
-const heightController = gui
-  .add(options, "height")
-  .name("地形高度")
-  .min(0)
-  .max(120)
-  .step(0.1);
-heightController.onChange((value) => {
-  console.log(value);
+const gui = new mt.GUI();
+gui
+  .add({
+    type: "slider",
+    label: "透明度",
+    value: 1.0,
+    min: 0.0,
+    max: 1.0,
+    step: 0.01,
+  }).onChange(function (value) {
+    layer.setOpacity(0, value);
 });
+/**end**/

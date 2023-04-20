@@ -27,8 +27,7 @@ const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
   services: [
     {
       url: "http://examples.maptalks.com/samples/ifc/test1/tileset.json",
-      ambientLight: [1, 1, 1],
-      maximumScreenSpaceError: 1.0,
+      maximumScreenSpaceError: 8.0,
       heightOffset: -40,
       opacity: 0.1
     }
@@ -75,12 +74,11 @@ map.on('click', e => {
       layer.cancelHighlight(0, [lastHit]);
   }
   const hits = layer.identify(e.coordinate);
-  console.log(hits);
   if (hits.length) {
     layer.highlight({
         id: hits[0].data.batchId,
-        opacity: 1
-    });  
+        opacity: 0.999
+    });
     lastHit = hits[0].data.batchId;
   }
 });
