@@ -2262,6 +2262,33 @@
             "title": { "cn": "晴天", "en": "Sunny" }
           }
         ]
+      },
+      {
+        "name": "bim",
+        "title": {
+          "cn": "BIM模型",
+          "en": "BIM model"
+        },
+        "examples": [
+          {
+            "name": "load",
+            "title": { "cn": "载入BIM模型", "en": "Load BIM model" }
+          },
+          {
+            "name": "perspective",
+            "title": {
+              "cn": "BIM模型跳转视角",
+              "en": "Jump perspective"
+            }
+          },
+          {
+            "name": "plane-clip",
+            "title": {
+              "cn": "BIM模型平面裁剪",
+              "en": "BIM model plane clipping"
+            }
+          }
+        ]
       }
     ]
   }
