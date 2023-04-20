@@ -2202,12 +2202,20 @@
             "title": { "cn": "添加视频对象", "en": "Add video" }
           },
           {
+            "name": "custom",
+            "title": { "cn": "自定义添加视频", "en": "Custom add video" }
+          },
+          {
             "name": "params",
             "title": { "cn": "调整视频参数", "en": "Set params" }
           },
           {
             "name": "edit",
             "title": { "cn": "视频编辑", "en": "Eidt video" }
+          },
+          {
+            "name": "position",
+            "title": { "cn": "视频点位", "en": "Video points" }
           }
         ]
       },

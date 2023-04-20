@@ -41,6 +41,8 @@ layer.once("loadtileset", (e) => {
   map.fitExtent(extent, 0, { animation: false });
 });
 
+// 按钮刷新当前物件
+
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
   sceneConfig: {
     environment: {
@@ -103,6 +105,15 @@ function showInfoWindow(coordinate, content) {
 /**end**/
 
 const gui = new mt.GUI();
+gui
+  .add({
+    label: "过滤模型",
+    type: "button",
+    role: "clear"
+  }).onClick(() => {
+    const batchIds = layer.getCurrentBatchIDs()
+    console.log(batchIds)
+  })
 gui
   .add({
     label: "过滤模型",
