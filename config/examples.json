@@ -2072,6 +2072,33 @@
         ]
       },
       {
+        "name": "pipeline",
+        "title": {
+          "cn": "管线",
+          "en": "Pipeline"
+        },
+        "examples": [
+          {
+            "name": "underground",
+            "title": { "cn": "地下管线", "en": "Underground pipelines" }
+          },
+          {
+            "name": "flow",
+            "title": {
+              "cn": "管线流动效果",
+              "en": "Pipeline flow effect"
+            }
+          },
+          {
+            "name": "connections",
+            "title": {
+              "cn": "自动生成三通和四通",
+              "en": "Generate three-way and four-way connections"
+            }
+          }
+        ]
+      },
+      {
         "name": "spatial-analysis",
         "title": {
           "cn": "空间分析",
