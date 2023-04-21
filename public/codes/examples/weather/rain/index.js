@@ -45,12 +45,9 @@ const vtStyle = [
       type: "fill",
     },
     symbol: {
-      polygonBloom: false,
       polygonFill: [
         0.5725490196078431, 0.6980392156862745, 0.5450980392156862, 1,
       ],
-      polygonOpacity: 1,
-      polygonPatternFile: null,
     },
   },
   {
@@ -67,20 +64,7 @@ const vtStyle = [
       type: "line",
     },
     symbol: {
-      lineBloom: false,
-      lineCap: "butt",
       lineColor: [0.73, 0.73, 0.73, 1],
-      lineDasharray: [0, 0, 0, 0],
-      lineDashColor: [1, 1, 1, 0],
-      lineDx: 0,
-      lineDy: 0,
-      lineJoin: "miter",
-      lineOpacity: 1,
-      linePatternAnimSpeed: 0,
-      linePatternFile: null,
-      lineStrokeWidth: 0,
-      lineStrokeColor: [0, 0, 0, 1],
-      lineJoinPatternMode: 0,
       lineWidth: 2,
     },
   },
@@ -108,36 +92,18 @@ const vtStyle = [
       ssr: false,
       polygonOpacity: 1,
       material: {
-        baseColorTexture: null,
         baseColorFactor: [1, 1, 1, 1],
         hsv: [0, 0, -0.32],
         baseColorIntensity: 1.532,
-        contrast: 1,
-        outputSRGB: 1,
-        metallicRoughnessTexture: null,
         roughnessFactor: 1,
         metallicFactor: 0,
-        normalTexture: null,
-        noiseTexture: null,
-        uvScale: [1, 1],
-        uvOffset: [0, 0],
-        uvRotation: 0,
-        uvOffsetAnim: [0, 0],
-        normalMapFactor: 1,
-        normalMapFlipY: 0,
-        bumpTexture: null,
-        bumpScale: 0.02,
-        clearCoatThickness: 5,
-        clearCoatFactor: 0,
         clearCoatIor: 1.4,
         clearCoatRoughnessFactor: 0.04,
-        occlusionTexture: null,
         emissiveTexture: "{res}/textures/897/1.jpg",
         emissiveFactor: [
           0.9333333333333333, 0.9254901960784314, 0.9607843137254902,
         ],
         emitColorFactor: 0.31,
-        emitMultiplicative: 0,
       },
     },
   },
@@ -155,20 +121,8 @@ const vtStyle = [
       type: "line",
     },
     symbol: {
-      lineBloom: false,
-      lineCap: "butt",
       lineColor: [1, 1, 1, 1],
-      lineDasharray: [0, 0, 0, 0],
-      lineDashColor: [1, 1, 1, 0],
-      lineDx: 0,
-      lineDy: 0,
-      lineJoin: "miter",
-      lineOpacity: 1,
-      linePatternAnimSpeed: 0,
       linePatternFile: "{res}/patterns/d4b.jpg",
-      lineStrokeWidth: 0,
-      lineStrokeColor: [0, 0, 0, 1],
-      lineJoinPatternMode: 0,
       lineWidth: {
         type: "exponential",
         default: 2,
@@ -244,29 +198,6 @@ const sceneConfig = {
     ssr: {
       enable: true,
     },
-    bloom: {
-      enable: true,
-      threshold: 0,
-      factor: 1,
-      radius: 1,
-    },
-    ssao: {
-      enable: true,
-      bias: 0.101,
-      radius: 0.069,
-      intensity: 1.5,
-    },
-    sharpen: {
-      enable: false,
-      factor: 0.2,
-    },
-    outline: {
-      enable: true,
-      outlineFactor: 0.3,
-      highlightFactor: 0.2,
-      outlineWidth: 1,
-      outlineColor: [1, 1, 0],
-    },
   },
   weather: {
     enable: true,
@@ -297,6 +228,7 @@ const sceneConfig = {
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
   sceneConfig,
 }).addTo(map);
+/**end**/
 
 const gui = new mt.GUI();
 gui
@@ -415,4 +347,3 @@ gui
     sceneConfig.weather.rain.windDirectionY = value;
     groupGLLayer.setSceneConfig(sceneConfig);
   });
-/**end**/

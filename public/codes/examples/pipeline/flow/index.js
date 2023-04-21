@@ -46,7 +46,7 @@ const style = {
         linePatternFile: "{res}/images/flow.png",
         linePatternAnimSpeed: 0.1,
         uvScale: [1, 1],
-        metallicFactor: 1,
+        metallicFactor: 0,
         roughnessFactor: 0.3,
       },
     },
@@ -73,3 +73,34 @@ const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
   sceneConfig,
 });
 groupLayer.addTo(map);
+
+const gui = new mt.GUI();
+gui
+  .add({
+    type: "slider",
+    label: "动画速度",
+    value: 0.1,
+    min: -1,
+    max: 1,
+    step: 0.1,
+  })
+  .onChange((value) => {
+    vt.updateSymbol(0, {
+      linePatternAnimSpeed: value,
+    });
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "纹理间距",
+    value: 0,
+    min: 0,
+    max: 10,
+    step: 0.1,
+  })
+  .onChange((value) => {
+    vt.updateSymbol(0, {
+      linePatternGap: value,
+    });
+  });
