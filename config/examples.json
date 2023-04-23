@@ -2058,8 +2058,8 @@
             "title": { "cn": "自定义单体化", "en": "Custom monomer" }
           },
           {
-            "name": "drawer-monomer",
-            "title": { "cn": "单体化抽屉效果", "en": "Monomer drawer effect" }
+            "name": "drawer-entity",
+            "title": { "cn": "单体化抽屉效果", "en": "Entity drawer effect" }
           },
           {
             "name": "view-monomer",
