@@ -803,6 +803,21 @@
             "title": { "cn": "自定义信息框", "en": "Custom InfoWindow" }
           },
           {
+            "name": "infowindow-scroll",
+            "title": {
+              "cn": "信息框内容支持滚动",
+              "en": "InfoWindow content support wheelscroll"
+            }
+          },
+          {
+            "name": "uimarker-align",
+            "title": { "cn": "UIMarker 对齐", "en": "UIMarker align" }
+          },
+          {
+            "name": "ui-collision",
+            "title": { "cn": "UI碰撞", "en": "UI collision" }
+          },
+          {
             "name": "ui-geo-infownd-bind-mvvm-component",
             "title": {
               "cn": "信息框绑定MVVM组件",
