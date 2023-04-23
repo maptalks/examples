@@ -334,6 +334,10 @@
           {
             "name": "polygon-altitude",
             "title": { "cn": "有高度的多边形", "en": "Polygon with altitude" }
+          },
+          {
+            "name": "set-altitude",
+            "title": { "cn": "设置图形高度", "en": "Set geom altitude" }
           }
         ]
       },
