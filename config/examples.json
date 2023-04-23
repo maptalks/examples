@@ -509,7 +509,6 @@
           }
         ]
       },
-
       {
         "name": "layer",
         "title": { "cn": "图层", "en": "Layer" },
@@ -623,7 +622,19 @@
           }
         ]
       },
-
+      {
+        "name": "utils",
+        "title": { "cn": "工具/全局功能", "en": "Utils/global" },
+        "examples": [
+          {
+            "name": "options-proxy",
+            "title": {
+              "cn": "通过Proxy更新options",
+              "en": "Update options by Proxy"
+            }
+          }
+        ]
+      },
       {
         "name": "interaction",
         "title": { "cn": "交互", "en": "User Interactions" },
