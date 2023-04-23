@@ -1998,27 +1998,6 @@
     ]
   },
   {
-    "name": "pipeline",
-    "title": { "cn": "地下管线", "en": "Pipeline" },
-    "examples": [
-      {
-        "name": "load",
-        "title": { "cn": "管线加载", "en": "Load" },
-        "examples": [
-          {
-            "name": "load-3D",
-            "title": { "cn": "加载三维管线数据", "en": "Load 3D pipeline data" }
-          }
-        ]
-      },
-      {
-        "name": "analysis",
-        "title": { "cn": "管线分析", "en": "Analysis" },
-        "examples": []
-      }
-    ]
-  },
-  {
     "name": "examples",
     "title": { "cn": "示例库", "en": "Examples" },
     "examples": [
