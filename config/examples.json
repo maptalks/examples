@@ -479,6 +479,13 @@
             }
           },
           {
+            "name": "color-interpolate",
+            "title": {
+              "cn": "颜色插值",
+              "en": "Color interpolate"
+            }
+          },
+          {
             "name": "html-marker",
             "title": {
               "cn": "HTML自定义标注",
