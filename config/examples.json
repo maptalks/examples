@@ -1985,6 +1985,69 @@
               "cn": "清空图层",
               "en": "Clear layer"
             }
+          },
+          {
+            "name": "show-hide",
+            "title": {
+              "cn": "图层的显示与隐藏",
+              "en": "Show and hide layer"
+            }
+          },
+          {
+            "name": "create-by-json",
+            "title": {
+              "cn": "通过json数据创建图层",
+              "en": "Create layer by json"
+            }
+          },
+          {
+            "name": "set-style",
+            "title": {
+              "cn": "为图层设置样式条件",
+              "en": "Set layer style"
+            }
+          },
+          {
+            "name": "identify",
+            "title": {
+              "cn": "识别图层内的GLTFMarker",
+              "en": "Identify marker"
+            }
+          },
+          {
+            "name": "custom-shader",
+            "title": {
+              "cn": "自定义着色器",
+              "en": "Custom shader"
+            }
+          },
+          {
+            "name": "blended-drawing",
+            "title": {
+              "cn": "多个GLTFLayer的融合绘制",
+              "en": "Fusion rendering of multiple layers"
+            }
+          },
+          {
+            "name": "filter-by-property",
+            "title": {
+              "cn": "根据属性条件筛选",
+              "en": "Filter data by property"
+            }
+          },
+          {
+            "name": "load-event",
+            "title": {
+              "cn": "模型载入完成事件",
+              "en": "Data load event"
+            }
+          },
+          {
+            "name": "coord-system",
+            "title": {
+              "cn": "GLTFLayer坐标系统",
+              "en": "Coordinate system"
+            }
           }
         ]
       }
