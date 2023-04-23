@@ -986,7 +986,7 @@
   },
   {
     "name": "vector",
-    "title": { "cn": "矢量渲染", "en": "Vector" },
+    "title": { "cn": "矢量瓦片及点线面图层", "en": "Vector" },
     "examples": [
       {
         "name": "operation",
@@ -1058,6 +1058,33 @@
             "title": {
               "cn": "载入自定义矢量瓦片数据",
               "en": "Load custom vector tile data"
+            }
+          }
+        ]
+      },
+      {
+        "name": "vt-visual",
+        "title": {
+          "cn": "矢量瓦片图层可视化",
+          "en": "Vector tile layer visualization"
+        },
+        "examples": [
+          {
+            "name": "road",
+            "title": { "cn": "道路", "en": "Road" }
+          },
+          {
+            "name": "administrative",
+            "title": {
+              "cn": "行政区展示",
+              "en": "Administrative district display"
+            }
+          },
+          {
+            "name": "process",
+            "title": {
+              "cn": "地图后处理",
+              "en": "Post process"
             }
           }
         ]
@@ -1792,8 +1819,8 @@
     ]
   },
   {
-    "name": "3d",
-    "title": { "cn": "三维功能", "en": "3D" },
+    "name": "gltf",
+    "title": { "cn": "GLTF模型", "en": "GLTF" },
     "examples": [
       {
         "name": "gltf-marker",
@@ -2115,7 +2142,7 @@
   },
   {
     "name": "examples",
-    "title": { "cn": "示例库", "en": "Examples" },
+    "title": { "cn": "三维功能", "en": "3D" },
     "examples": [
       {
         "name": "terrain",
@@ -2214,6 +2241,33 @@
           {
             "name": "model-flatten",
             "title": { "cn": "模型压平", "en": "model flatten" }
+          }
+        ]
+      },
+      {
+        "name": "bim",
+        "title": {
+          "cn": "BIM模型",
+          "en": "BIM model"
+        },
+        "examples": [
+          {
+            "name": "load",
+            "title": { "cn": "载入BIM模型", "en": "Load BIM model" }
+          },
+          {
+            "name": "perspective",
+            "title": {
+              "cn": "BIM模型跳转视角",
+              "en": "Jump perspective"
+            }
+          },
+          {
+            "name": "plane-clip",
+            "title": {
+              "cn": "BIM模型平面裁剪",
+              "en": "BIM model plane clipping"
+            }
           }
         ]
       },
@@ -2393,33 +2447,6 @@
         ]
       },
       {
-        "name": "vt-visual",
-        "title": {
-          "cn": "矢量瓦片图层可视化",
-          "en": "Vector tile layer visualization"
-        },
-        "examples": [
-          {
-            "name": "road",
-            "title": { "cn": "道路", "en": "Road" }
-          },
-          {
-            "name": "administrative",
-            "title": {
-              "cn": "行政区展示",
-              "en": "Administrative district display"
-            }
-          },
-          {
-            "name": "process",
-            "title": {
-              "cn": "地图后处理",
-              "en": "Post process"
-            }
-          }
-        ]
-      },
-      {
         "name": "weather",
         "title": {
           "cn": "天气系统",
@@ -2441,33 +2468,6 @@
           {
             "name": "sunny",
             "title": { "cn": "晴天", "en": "Sunny" }
-          }
-        ]
-      },
-      {
-        "name": "bim",
-        "title": {
-          "cn": "BIM模型",
-          "en": "BIM model"
-        },
-        "examples": [
-          {
-            "name": "load",
-            "title": { "cn": "载入BIM模型", "en": "Load BIM model" }
-          },
-          {
-            "name": "perspective",
-            "title": {
-              "cn": "BIM模型跳转视角",
-              "en": "Jump perspective"
-            }
-          },
-          {
-            "name": "plane-clip",
-            "title": {
-              "cn": "BIM模型平面裁剪",
-              "en": "BIM model plane clipping"
-            }
           }
         ]
       }
