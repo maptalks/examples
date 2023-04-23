@@ -7,8 +7,7 @@ body {
 
 .container {
   width: 400px;
-  height: 200px;
+  height: 400px;
   transform: scale(2, 2);
-  /* https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-origin */
   transform-origin: top left;
 }
