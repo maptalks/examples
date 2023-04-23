@@ -123,6 +123,13 @@
             "title": { "cn": "WMS瓦片图层", "en": "Add a WMS TileLayer" }
           },
           {
+            "name": "wms-reload",
+            "title": {
+              "cn": "TileLayer强制重载",
+              "en": "TileLayer projection wms reload"
+            }
+          },
+          {
             "name": "vector-tile",
             "title": {
               "cn": "Vector-Tile图层",
@@ -209,6 +216,13 @@
           {
             "name": "filter",
             "title": { "cn": "底图风格滤镜", "en": "TileLayer's CSS filter" }
+          },
+          {
+            "name": "tile-image-custom",
+            "title": {
+              "cn": "自定义处理瓦片图片",
+              "en": "Custom processing of tile images"
+            }
           },
           {
             "name": "max-zoom",
