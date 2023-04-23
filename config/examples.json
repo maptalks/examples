@@ -1796,10 +1796,10 @@
     "title": { "cn": "三维功能", "en": "3D" },
     "examples": [
       {
-        "name": "gltflayer",
+        "name": "gltf-marker",
         "title": {
-          "cn": "GLTF图层",
-          "en": "GLTF layer"
+          "cn": "GLTFMarker",
+          "en": "GLTFMarker"
         },
         "examples": [
           {
@@ -1952,45 +1952,38 @@
         ]
       },
       {
-        "name": "3dtiles",
+        "name": "gltf-layer",
         "title": {
-          "cn": "3DTiles图层",
-          "en": "Geo3DTilesLayer"
+          "cn": "GLTFLayer",
+          "en": "GLTFLayer"
         },
         "examples": [
           {
-            "name": "downtown",
+            "name": "add-to-map",
             "title": {
-              "cn": "县城城区（倾斜摄影）",
-              "en": "County downtown"
+              "cn": "添加图层到地图上",
+              "en": "Add layer to map"
             }
           },
           {
-            "name": "temple",
+            "name": "search-by-id",
             "title": {
-              "cn": "文庙（倾斜摄影）",
-              "en": "Confucious'Temple"
+              "cn": "根据id查找GLTFMarker",
+              "en": "Search marker by id"
             }
           },
           {
-            "name": "tower",
+            "name": "remove-marker",
             "title": {
-              "cn": "高压线塔杆（点云）",
-              "en": "High voltage tower pole"
+              "cn": "移除某个GLTFMarker",
+              "en": "Remove GLTFMarker"
             }
           },
           {
-            "name": "bridge",
+            "name": "clear",
             "title": {
-              "cn": "桥梁(BIM建模)",
-              "en": "Bridge"
-            }
-          },
-          {
-            "name": "academic",
-            "title": {
-              "cn": "教学楼(BIM建模)",
-              "en": "Academic Building"
+              "cn": "清空图层",
+              "en": "Clear layer"
             }
           }
         ]
