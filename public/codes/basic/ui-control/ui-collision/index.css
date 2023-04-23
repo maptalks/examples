@@ -1,0 +1,22 @@
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.text_marker {
+  font: 15px bold sans-serif;
+  color: #0000;
+  text-shadow: 2px 0 white;
+  background-color: #2695bbb3;
+  border: 2px solid #43fff3;
+  width: 120px;
+  height: 40px;
+  text-align: center;
+}

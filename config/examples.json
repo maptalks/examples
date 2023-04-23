@@ -123,6 +123,13 @@
             "title": { "cn": "WMS瓦片图层", "en": "Add a WMS TileLayer" }
           },
           {
+            "name": "wms-reload",
+            "title": {
+              "cn": "TileLayer强制重载",
+              "en": "TileLayer projection wms reload"
+            }
+          },
+          {
             "name": "vector-tile",
             "title": {
               "cn": "Vector-Tile图层",
@@ -209,6 +216,13 @@
           {
             "name": "filter",
             "title": { "cn": "底图风格滤镜", "en": "TileLayer's CSS filter" }
+          },
+          {
+            "name": "tile-image-custom",
+            "title": {
+              "cn": "自定义处理瓦片图片",
+              "en": "Custom processing of tile images"
+            }
           },
           {
             "name": "max-zoom",
@@ -320,6 +334,10 @@
           {
             "name": "polygon-altitude",
             "title": { "cn": "有高度的多边形", "en": "Polygon with altitude" }
+          },
+          {
+            "name": "set-altitude",
+            "title": { "cn": "设置图形高度", "en": "Set geom altitude" }
           }
         ]
       },
@@ -461,6 +479,13 @@
             }
           },
           {
+            "name": "color-interpolate",
+            "title": {
+              "cn": "颜色插值",
+              "en": "Color interpolate"
+            }
+          },
+          {
             "name": "html-marker",
             "title": {
               "cn": "HTML自定义标注",
@@ -484,7 +509,6 @@
           }
         ]
       },
-
       {
         "name": "layer",
         "title": { "cn": "图层", "en": "Layer" },
@@ -598,7 +622,19 @@
           }
         ]
       },
-
+      {
+        "name": "utils",
+        "title": { "cn": "工具/全局功能", "en": "Utils/global" },
+        "examples": [
+          {
+            "name": "options-proxy",
+            "title": {
+              "cn": "通过Proxy更新options",
+              "en": "Update options by Proxy"
+            }
+          }
+        ]
+      },
       {
         "name": "interaction",
         "title": { "cn": "交互", "en": "User Interactions" },
@@ -765,6 +801,21 @@
           {
             "name": "ui-custom-infownd",
             "title": { "cn": "自定义信息框", "en": "Custom InfoWindow" }
+          },
+          {
+            "name": "infowindow-scroll",
+            "title": {
+              "cn": "信息框内容支持滚动",
+              "en": "InfoWindow content support wheelscroll"
+            }
+          },
+          {
+            "name": "uimarker-align",
+            "title": { "cn": "UIMarker 对齐", "en": "UIMarker align" }
+          },
+          {
+            "name": "ui-collision",
+            "title": { "cn": "UI碰撞", "en": "UI collision" }
           },
           {
             "name": "ui-geo-infownd-bind-mvvm-component",
@@ -1745,10 +1796,10 @@
     "title": { "cn": "三维功能", "en": "3D" },
     "examples": [
       {
-        "name": "gltflayer",
+        "name": "gltf-marker",
         "title": {
-          "cn": "GLTF图层",
-          "en": "GLTF layer"
+          "cn": "GLTFMarker",
+          "en": "GLTFMarker"
         },
         "examples": [
           {
@@ -1901,69 +1952,164 @@
         ]
       },
       {
-        "name": "3dtiles",
+        "name": "gltf-layer",
         "title": {
-          "cn": "3DTiles图层",
-          "en": "Geo3DTilesLayer"
+          "cn": "GLTFLayer",
+          "en": "GLTFLayer"
         },
         "examples": [
           {
-            "name": "downtown",
+            "name": "add-to-map",
             "title": {
-              "cn": "县城城区（倾斜摄影）",
-              "en": "County downtown"
+              "cn": "添加图层到地图上",
+              "en": "Add layer to map"
             }
           },
           {
-            "name": "temple",
+            "name": "search-by-id",
             "title": {
-              "cn": "文庙（倾斜摄影）",
-              "en": "Confucious'Temple"
+              "cn": "根据id查找GLTFMarker",
+              "en": "Search marker by id"
             }
           },
           {
-            "name": "tower",
+            "name": "remove-marker",
             "title": {
-              "cn": "高压线塔杆（点云）",
-              "en": "High voltage tower pole"
+              "cn": "移除某个GLTFMarker",
+              "en": "Remove GLTFMarker"
             }
           },
           {
-            "name": "bridge",
+            "name": "clear",
             "title": {
-              "cn": "桥梁(BIM建模)",
-              "en": "Bridge"
+              "cn": "清空图层",
+              "en": "Clear layer"
             }
           },
           {
-            "name": "academic",
+            "name": "show-hide",
             "title": {
-              "cn": "教学楼(BIM建模)",
-              "en": "Academic Building"
+              "cn": "图层的显示与隐藏",
+              "en": "Show and hide layer"
             }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "pipeline",
-    "title": { "cn": "地下管线", "en": "Pipeline" },
-    "examples": [
-      {
-        "name": "load",
-        "title": { "cn": "管线加载", "en": "Load" },
-        "examples": [
+          },
           {
-            "name": "load-3D",
-            "title": { "cn": "加载三维管线数据", "en": "Load 3D pipeline data" }
+            "name": "create-by-json",
+            "title": {
+              "cn": "通过json数据创建图层",
+              "en": "Create layer by json"
+            }
+          },
+          {
+            "name": "set-style",
+            "title": {
+              "cn": "为图层设置样式条件",
+              "en": "Set layer style"
+            }
+          },
+          {
+            "name": "identify",
+            "title": {
+              "cn": "识别图层内的GLTFMarker",
+              "en": "Identify marker"
+            }
+          },
+          {
+            "name": "custom-shader",
+            "title": {
+              "cn": "自定义着色器",
+              "en": "Custom shader"
+            }
+          },
+          {
+            "name": "blended-drawing",
+            "title": {
+              "cn": "多个GLTFLayer的融合绘制",
+              "en": "Fusion rendering of multiple layers"
+            }
+          },
+          {
+            "name": "filter-by-property",
+            "title": {
+              "cn": "根据属性条件筛选",
+              "en": "Filter data by property"
+            }
+          },
+          {
+            "name": "load-event",
+            "title": {
+              "cn": "模型载入完成事件",
+              "en": "Data load event"
+            }
+          },
+          {
+            "name": "coord-system",
+            "title": {
+              "cn": "GLTFLayer坐标系统",
+              "en": "Coordinate system"
+            }
           }
         ]
       },
       {
-        "name": "analysis",
-        "title": { "cn": "管线分析", "en": "Analysis" },
-        "examples": []
+        "name": "multi-gltf-marker",
+        "title": {
+          "cn": "MultiGLTFMarker",
+          "en": "MultiGLTFMarker"
+        },
+        "examples": [
+          {
+            "name": "add",
+            "title": {
+              "cn": "添加MultiGLTFMarker",
+              "en": "Add MultiGLTFMarker"
+            }
+          },
+          {
+            "name": "add-data",
+            "title": {
+              "cn": "增加一个数据项",
+              "en": "Add data"
+            }
+          },
+          {
+            "name": "remove-data",
+            "title": {
+              "cn": "移除一个数据项",
+              "en": "Remove data"
+            }
+          },
+          {
+            "name": "update-data",
+            "title": {
+              "cn": "更新一个数据项",
+              "en": "Update data"
+            }
+          },
+          {
+            "name": "mouse-event",
+            "title": {
+              "cn": "监听鼠标事件",
+              "en": "Listening for mouse events"
+            }
+          }
+        ]
+      },
+      {
+        "name": "transform-control",
+        "title": {
+          "cn": "TransformControl",
+          "en": "TransformControl"
+        },
+        "examples": [
+          {
+            "name": "trs",
+            "title": {
+              "cn": "控制模型的平移、旋转、缩放",
+              "en": "Control the translation, rotation, and scaling of the model"
+            }
+          }
+        ]
       }
     ]
   },
@@ -2068,6 +2214,33 @@
           {
             "name": "model-flatten",
             "title": { "cn": "模型压平", "en": "model flatten" }
+          }
+        ]
+      },
+      {
+        "name": "pipeline",
+        "title": {
+          "cn": "管线",
+          "en": "Pipeline"
+        },
+        "examples": [
+          {
+            "name": "underground",
+            "title": { "cn": "地下管线", "en": "Underground pipelines" }
+          },
+          {
+            "name": "flow",
+            "title": {
+              "cn": "管线流动效果",
+              "en": "Pipeline flow effect"
+            }
+          },
+          {
+            "name": "connections",
+            "title": {
+              "cn": "自动生成三通和四通",
+              "en": "Generate three-way and four-way connections"
+            }
           }
         ]
       },
@@ -2202,12 +2375,20 @@
             "title": { "cn": "添加视频对象", "en": "Add video" }
           },
           {
+            "name": "custom",
+            "title": { "cn": "自定义添加视频", "en": "Custom add video" }
+          },
+          {
             "name": "params",
             "title": { "cn": "调整视频参数", "en": "Set params" }
           },
           {
             "name": "edit",
             "title": { "cn": "视频编辑", "en": "Eidt video" }
+          },
+          {
+            "name": "position",
+            "title": { "cn": "视频点位", "en": "Video points" }
           }
         ]
       },
@@ -2260,6 +2441,33 @@
           {
             "name": "sunny",
             "title": { "cn": "晴天", "en": "Sunny" }
+          }
+        ]
+      },
+      {
+        "name": "bim",
+        "title": {
+          "cn": "BIM模型",
+          "en": "BIM model"
+        },
+        "examples": [
+          {
+            "name": "load",
+            "title": { "cn": "载入BIM模型", "en": "Load BIM model" }
+          },
+          {
+            "name": "perspective",
+            "title": {
+              "cn": "BIM模型跳转视角",
+              "en": "Jump perspective"
+            }
+          },
+          {
+            "name": "plane-clip",
+            "title": {
+              "cn": "BIM模型平面裁剪",
+              "en": "BIM model plane clipping"
+            }
           }
         ]
       }
