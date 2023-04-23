@@ -2050,6 +2050,66 @@
             }
           }
         ]
+      },
+      {
+        "name": "multi-gltf-marker",
+        "title": {
+          "cn": "MultiGLTFMarker",
+          "en": "MultiGLTFMarker"
+        },
+        "examples": [
+          {
+            "name": "add",
+            "title": {
+              "cn": "添加MultiGLTFMarker",
+              "en": "Add MultiGLTFMarker"
+            }
+          },
+          {
+            "name": "add-data",
+            "title": {
+              "cn": "增加一个数据项",
+              "en": "Add data"
+            }
+          },
+          {
+            "name": "remove-data",
+            "title": {
+              "cn": "移除一个数据项",
+              "en": "Remove data"
+            }
+          },
+          {
+            "name": "update-data",
+            "title": {
+              "cn": "更新一个数据项",
+              "en": "Update data"
+            }
+          },
+          {
+            "name": "mouse-event",
+            "title": {
+              "cn": "监听鼠标事件",
+              "en": "Listening for mouse events"
+            }
+          }
+        ]
+      },
+      {
+        "name": "transform-control",
+        "title": {
+          "cn": "TransformControl",
+          "en": "TransformControl"
+        },
+        "examples": [
+          {
+            "name": "trs",
+            "title": {
+              "cn": "控制模型的平移、旋转、缩放",
+              "en": "Control the translation, rotation, and scaling of the model"
+            }
+          }
+        ]
       }
     ]
   },
