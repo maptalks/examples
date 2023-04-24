@@ -42,7 +42,7 @@ const style = [
       type: "fill",
     },
     symbol: {
-      polygonFill: "#2e7e57",
+      polygonFill: "#bd604b",
       polygonOpacity: 1,
     },
   },

@@ -38,7 +38,7 @@ const style = {
         type: "fill",
       },
       symbol: {
-        polygonFill: "#2e7e57",
+        polygonFill: "#a49084",
         polygonOpacity: 1,
       },
     },

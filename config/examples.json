@@ -1188,6 +1188,27 @@
               "cn": "移除图层样式",
               "en": "Remove layer style"
             }
+          },
+          {
+            "name": "hide-feature",
+            "title": {
+              "cn": "单独隐藏Feature",
+              "en": "Hide feature"
+            }
+          },
+          {
+            "name": "set-feature-style",
+            "title": {
+              "cn": "单独设置Feature的样式",
+              "en": "Set feature style"
+            }
+          },
+          {
+            "name": "update-feature-style",
+            "title": {
+              "cn": "更新Feature的样式",
+              "en": "Update feature style"
+            }
           }
         ]
       },
