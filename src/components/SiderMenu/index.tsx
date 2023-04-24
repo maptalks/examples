@@ -41,7 +41,7 @@ function SiderMenu() {
   function toggleOpen(key: string) {
     store.setTab(key);
     store.setSelectedKey("");
-    store.setOpenKeys(key);
+    store.setOpenKey(key);
     navigate(`/examples/${store.language}/${key}`);
   }
 
@@ -84,6 +84,7 @@ function SiderMenu() {
                             selectedKey ===
                             `${exampleI.name}_${exampleJ.name}_${exampleK.name}`
                           }
+                          data-key={`_${exampleI.name}_${exampleJ.name}_${exampleK.name}`}
                           hide={
                             !exampleK.title[language].includes(filter)
                               ? "hide"

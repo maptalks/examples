@@ -40,13 +40,17 @@ export class Store {
     this.filter = filter;
   }
 
-  setOpenKeys(key: string) {
+  setOpenKey(key: string) {
     const index = this.openKeys.indexOf(key);
     if (index > -1) {
       this.openKeys.splice(index, 1);
     } else {
       this.openKeys.push(key);
     }
+  }
+
+  setOpenKeys(keys: string[]) {
+    this.openKeys = keys;
   }
 
   setSelectedKey(key: string) {
