@@ -173,39 +173,6 @@ function setText() {
   vt.setStyle(style);
 }
 
-function setWater() {
-  const style = {
-    style: [
-      {
-        filter: [
-          "all",
-          ["==", "$layer", "building"],
-          ["==", "$type", "Polygon"],
-        ],
-        renderPlugin: {
-          type: "water",
-          dataConfig: {
-            type: "fill",
-          },
-        },
-        symbol: {
-          ssr: false,
-          texWaveNormal: "{res}/textures/texWaveNormal.png",
-          texWavePerturbation: "{res}/textures/texWavePerturbation.png",
-          waterBaseColor: [0.1451, 0.2588, 0.4863, 1],
-          contrast: 1,
-          hsv: [0, 0, 0],
-          uvScale: 3,
-          animation: true,
-          waterSpeed: 1,
-          waterDirection: 0,
-        },
-      },
-    ],
-  };
-  vt.setStyle(style);
-}
-
 function setLit() {
   const style = {
     style: [
@@ -263,7 +230,6 @@ const changeEventMap = {
   line: setLine,
   icon: setIcon,
   text: setText,
-  water: setWater,
   lit: setLit,
 };
 
@@ -288,10 +254,6 @@ gui
       {
         label: "text",
         value: "text",
-      },
-      {
-        label: "water",
-        value: "water",
       },
       {
         label: "lit",
