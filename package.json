@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
-    "antd": "^5.4.4",
+    "antd": "^5.4.5",
     "github-markdown-css": "^5.2.0",
     "js-beautify": "^1.14.7",
     "mobx": "^6.9.0",
