@@ -99,7 +99,6 @@ layer.setStyle([
     symbol: {
       markerType: "ellipse",
       markerFill: "#1bbc9b",
-      markerFillOpacity: 1,
       markerHeight: 21,
       markerWidth: 21,
     },

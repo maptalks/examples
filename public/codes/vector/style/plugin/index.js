@@ -1,35 +1,52 @@
 const map = new maptalks.Map("map", {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 16,
-  baseLayer: new maptalks.TileLayer("base", {
-    urlTemplate: "{urlTemplate}",
-    subdomains: ["a", "b", "c", "d"],
-    attribution: "{attribution}",
-  }),
+  pitch: 60,
+  lights: {
+    directional: {
+      direction: [1, 0, -1],
+      color: [1, 1, 1],
+    },
+    ambient: {
+      resource: {
+        url: {
+          front: "{res}/hdr/gradient/front.png",
+          back: "{res}/hdr/gradient/back.png",
+          left: "{res}/hdr/gradient/left.png",
+          right: "{res}/hdr/gradient/right.png",
+          top: "{res}/hdr/gradient/top.png",
+          bottom: "{res}/hdr/gradient/bottom.png",
+        },
+        prefilterCubeSize: 1024,
+      },
+      exposure: 1,
+      hsv: [0, 0.34, 0],
+      orientation: 0,
+    },
+  },
 });
 
+/**start**/
 const vt = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
   spatialReference: "preset-vt-3857",
 });
 
-const style = {
-  style: [
-    {
-      filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
-      renderPlugin: {
-        dataConfig: {
-          type: "fill",
-        },
+const style = [
+  {
+    filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
+    renderPlugin: {
+      dataConfig: {
         type: "fill",
       },
-      symbol: {
-        polygonFill: "#2e7e57",
-        polygonOpacity: 1,
-      },
+      type: "fill",
     },
-  ],
-};
+    symbol: {
+      polygonFill: "#2e7e57",
+      polygonOpacity: 1,
+    },
+  },
+];
 vt.setStyle(style);
 
 function setFill() {
@@ -143,7 +160,6 @@ function setText() {
           textOpacity: 1,
           textPitchAlignment: "viewport",
           textPlacement: "point",
-          textRotation: 0,
           textRotationAlignment: "viewport",
           textSize: 14,
           textSpacing: 250,
@@ -211,44 +227,14 @@ function setLit() {
             top: true,
             side: true,
           },
-          sceneConfig: {
-            animation: null,
-            animationDuration: 800,
-          },
+          sceneConfig: {},
         },
         symbol: {
-          bloom: false,
-          ssr: false,
           polygonOpacity: 1,
           material: {
-            baseColorTexture: null,
             baseColorFactor: [1, 1, 1, 1],
-            hsv: [0, 0, 0],
-            baseColorIntensity: 1,
-            contrast: 1,
-            outputSRGB: 1,
-            metallicRoughnessTexture: null,
             roughnessFactor: 1,
             metallicFactor: 1,
-            normalTexture: null,
-            noiseTexture: null,
-            uvScale: [1, 1],
-            uvOffset: [0, 0],
-            uvRotation: 0,
-            uvOffsetAnim: [0, 0],
-            normalMapFactor: 1,
-            normalMapFlipY: 0,
-            bumpTexture: null,
-            bumpScale: 0.02,
-            clearCoatThickness: 5,
-            clearCoatFactor: 0,
-            clearCoatIor: 1.4,
-            clearCoatRoughnessFactor: 0.04,
-            occlusionTexture: null,
-            emissiveTexture: null,
-            emissiveFactor: [0, 0, 0],
-            emitColorFactor: 1,
-            emitMultiplicative: 0,
           },
         },
       },
@@ -256,6 +242,63 @@ function setLit() {
   };
   vt.setStyle(style);
 }
+/**end**/
 
-const groupLayer = new maptalks.GroupGLLayer("group", [vt]);
+const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
+  sceneConfig: {
+    environment: {
+      enable: true,
+      mode: 1,
+      level: 0,
+      brightness: 0,
+    },
+  },
+});
 groupLayer.addTo(map);
+
+const gui = new mt.GUI();
+
+const changeEventMap = {
+  fill: setFill,
+  line: setLine,
+  icon: setIcon,
+  text: setText,
+  water: setWater,
+  lit: setLit,
+};
+
+gui
+  .add({
+    label: "渲染插件",
+    type: "select",
+    value: "fill",
+    options: [
+      {
+        label: "fill",
+        value: "fill",
+      },
+      {
+        label: "line",
+        value: "line",
+      },
+      {
+        label: "icon",
+        value: "icon",
+      },
+      {
+        label: "text",
+        value: "text",
+      },
+      {
+        label: "water",
+        value: "water",
+      },
+      {
+        label: "lit",
+        value: "lit",
+      },
+    ],
+  })
+  .onChange((value) => {
+    changeEventMap[value]();
+  });
