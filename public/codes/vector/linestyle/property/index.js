@@ -1,7 +1,7 @@
 const map = new maptalks.Map("map", {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 16,
-  pitch: 80,
+  pitch: 0,
   lights: {
     directional: {
       direction: [1, 0, -1],

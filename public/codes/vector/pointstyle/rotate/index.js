@@ -27,15 +27,18 @@ const map = new maptalks.Map("map", {
 });
 
 /**start**/
-const vt = new maptalks.VectorTileLayer("vt", {
-  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857",
+const layer = new maptalks.GeoJSONVectorTileLayer("geo", {
+  data: "{res}/geojson/area.geojson",
+});
+
+layer.on("dataload", (e) => {
+  map.fitExtent(e.extent);
 });
 
 const style = {
   style: [
     {
-      filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
+      filter: true,
       renderPlugin: {
         dataConfig: {
           type: "point",
@@ -57,7 +60,7 @@ const style = {
           markerLineDasharray: [0, 0, 0, 0],
           markerLineWidth: 3,
           markerRotationAlignment: "map",
-          textName: "MapTalks",
+          textName: "{name}",
           textSize: 15,
           textRotationAlignment: "map",
         },
@@ -65,10 +68,10 @@ const style = {
     },
   ],
 };
-vt.setStyle(style);
+layer.setStyle(style);
 /**end**/
 
-const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
+const groupLayer = new maptalks.GroupGLLayer("group", [layer], {
   sceneConfig: {
     environment: {
       enable: true,

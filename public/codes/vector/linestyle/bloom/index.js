@@ -73,7 +73,7 @@ const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
       bloom: {
         enable: true,
         threshold: 0,
-        factor: 1,
+        factor: 0.6,
         radius: 1,
       },
     },
@@ -89,4 +89,64 @@ const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
   },
 });
 groupLayer.addTo(map);
+
+function setBloomThreshold(value) {
+  const sceneConfig = groupLayer.getSceneConfig();
+  sceneConfig.postProcess.bloom.threshold = value;
+  groupLayer.setSceneConfig(sceneConfig);
+}
+
+function setBloomFactor(value) {
+  const sceneConfig = groupLayer.getSceneConfig();
+  sceneConfig.postProcess.bloom.factor = value;
+  groupLayer.setSceneConfig(sceneConfig);
+}
+
+function setBloomRadius(value) {
+  const sceneConfig = groupLayer.getSceneConfig();
+  sceneConfig.postProcess.bloom.radius = value;
+  groupLayer.setSceneConfig(sceneConfig);
+}
+
 /**end**/
+
+const gui = new mt.GUI();
+
+gui
+  .add({
+    type: "slider",
+    label: "threshold",
+    value: 0,
+    min: 0,
+    max: 1,
+    step: 0.1,
+  })
+  .onChange((value) => {
+    setBloomThreshold(value);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "factor",
+    value: 0.6,
+    min: 0,
+    max: 5,
+    step: 0.1,
+  })
+  .onChange((value) => {
+    setBloomFactor(value);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "radius",
+    value: 1,
+    min: 0,
+    max: 1,
+    step: 0.1,
+  })
+  .onChange((value) => {
+    setBloomRadius(value);
+  });

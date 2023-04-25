@@ -1317,6 +1317,16 @@
         ]
       },
       {
+        "name": "line-3d-style",
+        "title": { "cn": "线数据三维样式", "en": "Line data 3d Style" },
+        "examples": [
+          {
+            "name": "texture",
+            "title": { "cn": "设置纹理", "en": "Set textures" }
+          }
+        ]
+      },
+      {
         "name": "polygonstyle",
         "title": { "cn": "面类型数据样式", "en": "Polygon style" },
         "examples": [

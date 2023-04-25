@@ -125,7 +125,7 @@ const sceneConfig = {
   },
 };
 
-const groupLayer = new maptalks.GroupGLLayer("group", [vt1, vt2], {
+const groupLayer = new maptalks.GroupGLLayer("group", [vt2, vt1], {
   sceneConfig,
 });
 groupLayer.addTo(map);
