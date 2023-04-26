@@ -1358,6 +1358,31 @@
         ]
       },
       {
+        "name": "polygon-3d-style",
+        "title": { "cn": "面数据三维样式", "en": "Polygon data 3d Style" },
+        "examples": [
+          {
+            "name": "set-height",
+            "title": { "cn": "设置高度", "en": "Set height" }
+          },
+          {
+            "name": "diffrent-textures",
+            "title": {
+              "cn": "顶面和侧面设置不同的纹理",
+              "en": "Set different textures on the top and side"
+            }
+          },
+          {
+            "name": "hide-side",
+            "title": { "cn": "隐藏侧面", "en": "Hide side" }
+          },
+          {
+            "name": "entry",
+            "title": { "cn": "进场动画", "en": "Entry animation" }
+          }
+        ]
+      },
+      {
         "name": "waterstyle",
         "title": { "cn": "面数据水面效果", "en": "Water style" },
         "examples": [
