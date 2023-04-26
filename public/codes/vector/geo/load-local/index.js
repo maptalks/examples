@@ -113,7 +113,7 @@ const groupLayer = new maptalks.GroupGLLayer("group", [layer], {
       mode: 1,
       level: 0,
       brightness: 0,
-    }
+    },
   },
 });
 groupLayer.addTo(map);
