@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
-    "antd": "^5.4.5",
+    "antd": "^5.4.6",
     "github-markdown-css": "^5.2.0",
     "js-beautify": "^1.14.7",
     "mobx": "^6.9.0",
@@ -36,7 +36,7 @@
     "@vitejs/plugin-react": "^4.0.0",
     "puppeteer": "^19.11.1",
     "typescript": "^5.0.4",
-    "vite": "^4.3.2",
+    "vite": "^4.3.3",
     "vite-plugin-compression": "^0.5.1"
   },
   "repository": {
