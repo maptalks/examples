@@ -13,7 +13,6 @@ const map = new maptalks.Map("map", {
           top: "{res}/hdr/gradient/top.png",
           bottom: "{res}/hdr/gradient/bottom.png",
         },
-        prefilterCubeSize: 1024,
       },
       exposure: 1,
       hsv: [0, 1, -0.042],
@@ -27,9 +26,8 @@ const map = new maptalks.Map("map", {
 });
 
 /**start**/
-const url = "{res}/gltf/alien/alien.glb";
 const symbol = {
-  url,
+  url: "{res}/gltf/alien/alien.glb",
   rotationZ: 180,
   scaleX: 1.5,
   scaleY: 1.5,
@@ -41,25 +39,25 @@ const symbol = {
   },
 };
 
-const layer = new maptalks.GLTFLayer("gltf");
-const marker = new maptalks.GLTFMarker(map.getCenter(), {
+const gltfLayer = new maptalks.GLTFLayer("gltf");
+const gltfMarker = new maptalks.GLTFMarker(map.getCenter(), {
   symbol,
-}).addTo(layer);
+}).addTo(gltfLayer);
 
 function setPolygonFill(value) {
-  marker.setUniform("polygonFill", value);
+  gltfMarker.setUniform("polygonFill", value);
 }
 
 function setMetallicFactor(value) {
-  marker.setUniform("metallicFactor", value);
+  gltfMarker.setUniform("metallicFactor", value);
 }
 
 function setRoughnessFactor(value) {
-  marker.setUniform("roughnessFactor", value);
+  gltfMarker.setUniform("roughnessFactor", value);
 }
 /**end**/
 
-const groupLayer = new maptalks.GroupGLLayer("group", [layer], {
+const groupLayer = new maptalks.GroupGLLayer("group", [gltfLayer], {
   sceneConfig: {
     environment: {
       enable: true,

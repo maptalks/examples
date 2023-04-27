@@ -13,7 +13,6 @@ const map = new maptalks.Map("map", {
           top: "{res}/hdr/gradient/top.png",
           bottom: "{res}/hdr/gradient/bottom.png",
         },
-        prefilterCubeSize: 1024,
       },
       exposure: 1,
       hsv: [0, 1, -0.042],
@@ -27,9 +26,8 @@ const map = new maptalks.Map("map", {
 });
 
 /**start**/
-const url = "{res}/gltf/alien/alien.glb";
 const symbol = {
-  url: url,
+  url: "{res}/gltf/alien/alien.glb",
   shader: "pbr",
   rotationZ: 180,
   scaleX: 1.5,
@@ -37,17 +35,17 @@ const symbol = {
   scaleZ: 1.5,
 };
 
-const layer = new maptalks.GLTFLayer("gltf");
-const marker = new maptalks.GLTFMarker(map.getCenter(), {
-  symbol: symbol,
-}).addTo(layer);
+const gltfLayer = new maptalks.GLTFLayer("gltf");
+const gltfMarker = new maptalks.GLTFMarker(map.getCenter(), {
+  symbol,
+}).addTo(gltfLayer);
 
 function setShader(value) {
-  marker.setShader(value);
+  gltfMarker.setShader(value);
 }
 /**end**/
 
-const groupLayer = new maptalks.GroupGLLayer("group", [layer], {
+const groupLayer = new maptalks.GroupGLLayer("group", [gltfLayer], {
   sceneConfig: {
     environment: {
       enable: true,

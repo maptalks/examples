@@ -13,7 +13,6 @@ const map = new maptalks.Map("map", {
           top: "{res}/hdr/gradient/top.png",
           bottom: "{res}/hdr/gradient/bottom.png",
         },
-        prefilterCubeSize: 1024,
       },
       exposure: 1,
       hsv: [0, 1, -0.042],
@@ -27,10 +26,9 @@ const map = new maptalks.Map("map", {
 });
 
 /**start**/
-const url = "{res}/gltf/Fox/Fox.gltf";
 const symbol = {
-  url,
-  shader: 'pbr',
+  url: "{res}/gltf/fox/Fox.gltf",
+  shader: "pbr",
   animation: true,
   loop: true,
   animationName: "Survey",
@@ -39,25 +37,25 @@ const symbol = {
   scaleZ: 2,
 };
 
-const layer = new maptalks.GLTFLayer("gltf");
-const marker = new maptalks.GLTFMarker(map.getCenter(), {
+const gltfLayer = new maptalks.GLTFLayer("gltf");
+const gltfMarker = new maptalks.GLTFMarker(map.getCenter(), {
   symbol,
-}).addTo(layer);
+}).addTo(gltfLayer);
 
 function setAnimation(value) {
-  marker.setAnimation(value);
+  gltfMarker.setAnimation(value);
 }
 
 function setLoop(value) {
-  marker.setAnimationLoop(value);
+  gltfMarker.setAnimationLoop(value);
 }
 
 function setCurrentAnimation(value) {
-  marker.setCurrentAnimation(value);
+  gltfMarker.setCurrentAnimation(value);
 }
 /**end**/
 
-const groupLayer = new maptalks.GroupGLLayer("gl", [layer], {
+const groupLayer = new maptalks.GroupGLLayer("group", [gltfLayer], {
   sceneConfig: {
     environment: {
       enable: true,
@@ -119,20 +117,7 @@ gui
     label: "动画效果",
     type: "select",
     value: "Survey",
-    options: [
-      {
-        label: "Survey",
-        value: "Survey",
-      },
-      {
-        label: "Walk",
-        value: "Walk",
-      },
-      {
-        label: "Run",
-        value: "Run",
-      },
-    ],
+    options: ["Survey", "Walk", "Run"],
   })
   .onChange((value) => {
     setCurrentAnimation(value);

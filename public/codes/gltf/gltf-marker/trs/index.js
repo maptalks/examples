@@ -13,7 +13,6 @@ const map = new maptalks.Map("map", {
           top: "{res}/hdr/gradient/top.png",
           bottom: "{res}/hdr/gradient/bottom.png",
         },
-        prefilterCubeSize: 1024,
       },
       exposure: 1,
       hsv: [0, 1, -0.042],
@@ -29,7 +28,7 @@ const map = new maptalks.Map("map", {
 /**start**/
 const url = "{res}/gltf/alien/alien.glb";
 const symbol = {
-  url,
+  url: "{res}/gltf/alien/alien.glb",
   translationX: 0,
   translationY: 0,
   translationZ: 0,
@@ -41,67 +40,67 @@ const symbol = {
   scaleZ: 1.5,
 };
 
-const layer = new maptalks.GLTFLayer("gltf");
-const marker = new maptalks.GLTFMarker(map.getCenter(), {
+const gltfLayer = new maptalks.GLTFLayer("gltf");
+const gltfMarker = new maptalks.GLTFMarker(map.getCenter(), {
   symbol,
-}).addTo(layer);
+}).addTo(gltfLayer);
 
 function setTranslationX(value) {
-  marker.updateSymbol({
+  gltfMarker.updateSymbol({
     translationX: value,
   });
 }
 
 function setTranslationY(value) {
-  marker.updateSymbol({
+  gltfMarker.updateSymbol({
     translationY: value,
   });
 }
 
 function setTranslationZ(value) {
-  marker.updateSymbol({
+  gltfMarker.updateSymbol({
     translationZ: value,
   });
 }
 
 function setRotationX(value) {
-  marker.updateSymbol({
+  gltfMarker.updateSymbol({
     rotationX: value,
   });
 }
 
 function setRotationY(value) {
-  marker.updateSymbol({
+  gltfMarker.updateSymbol({
     rotationY: value,
   });
 }
 
 function setRotationZ(value) {
-  marker.updateSymbol({
+  gltfMarker.updateSymbol({
     rotationZ: value,
   });
 }
 
 function setScaleX(value) {
-  marker.updateSymbol({
+  gltfMarker.updateSymbol({
     scaleX: value,
   });
 }
 
 function setScaleY(value) {
-  marker.updateSymbol({
+  gltfMarker.updateSymbol({
     scaleY: value,
   });
 }
 
 function setScaleZ(value) {
-  marker.updateSymbol({
+  gltfMarker.updateSymbol({
     scaleZ: value,
   });
 }
 /**end**/
 
-const groupLayer = new maptalks.GroupGLLayer("gl", [layer], {
+const groupLayer = new maptalks.GroupGLLayer("group", [gltfLayer], {
   sceneConfig: {
     environment: {
       enable: true,
