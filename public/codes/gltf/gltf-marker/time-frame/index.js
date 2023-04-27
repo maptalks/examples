@@ -42,9 +42,7 @@ const gltfMarker = new maptalks.GLTFMarker(map.getCenter(), {
 gltfLayer.addGeometry(gltfMarker);
 
 function setAnimationTimeFrame() {
-  gltfMarker.setAnimationTimeframe(1000);
-  const renderer = gltfLayer.getRenderer();
-  const meshes = renderer.getMarkerMeshes(gltfMarker);
+  const meshes = gltfMarker.getMeshes(null, null, 1000);
   const nodeMatrix = meshes[0].nodeMatrix;
   document.getElementById("info").innerHTML = "矩阵:[" + nodeMatrix + "]";
 }

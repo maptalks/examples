@@ -41,16 +41,10 @@ const gltfMarker = new maptalks.GLTFMarker(map.getCenter(), {
 gltfLayer.addGeometry(gltfMarker);
 
 function setModelMatrix() {
-  const translation = [10, 10, 0];
-  const rotation = [0, 0, 0, 1];
-  const scale = [1, 1, 1];
-  const matrix = maptalksgl.mat4.fromRotationTranslationScale(
-    [],
-    rotation,
-    translation,
-    scale
-  );
-  gltfMarker.setModelMatrix(matrix);
+  const translation = [50, 50, 50];
+  const rotation = [45, 0, 0];
+  const scale = [2, 2, 2];
+  gltfMarker.setTRS(translation, rotation, scale);
 }
 /**end**/
 

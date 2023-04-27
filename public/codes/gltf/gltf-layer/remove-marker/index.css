@@ -9,11 +9,3 @@ body {
   width: 100%;
   height: 100%;
 }
-
-select {
-  float: right;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  width: 100px;
-}
