@@ -2031,6 +2031,13 @@
               "cn": "添加draco压缩模型",
               "en": "Add draco"
             }
+          },
+          {
+            "name": "set-altitude",
+            "title": {
+              "cn": "GLTFMarker设置高度",
+              "en": "Set altitude"
+            }
           }
         ]
       },
