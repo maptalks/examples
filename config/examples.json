@@ -2456,6 +2456,13 @@
             }
           },
           {
+            "name": "unmanned",
+            "title": {
+              "cn": "无人机飞行轨迹",
+              "en": "Drone flight trajectory"
+            }
+          },
+          {
             "name": "around-point",
             "title": { "cn": "绕点环绕飞行", "en": "Orbiting around a point" }
           },

@@ -23,102 +23,137 @@ const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
   ],
 });
 
-const sceneConfig = {
-  ground: {
-    enable: false,
-    renderPlugin: {
-      type: "fill",
-    },
+/**start**/
+const gltfLayer = new maptalks.GLTFLayer("gltf");
+
+const plane = new maptalks.GLTFMarker(
+  [108.9585062962617, 34.21792224742464, 55.36973],
+  {
     symbol: {
-      polygonFill: [0, 0, 0, 1],
-      polygonOpacity: 1,
+      url: "{res}/gltf/airplane/scene.gltf",
+      rotationZ: 150,
     },
-  },
-  postProcess: {
-    enable: true,
-    antialias: {
-      enable: true,
+  }
+).addTo(gltfLayer);
+
+const car = new maptalks.GLTFMarker(
+  [108.96099472732544, 34.21793272780141, 20.3101],
+  {
+    symbol: {
+      url: "{res}/gltf/ambulance_car/scene.gltf",
+      scaleX: 0.5,
+      scaleY: 0.5,
+      scaleZ: 0.5,
+      rotationZ: 90,
     },
-  },
+  }
+).addTo(gltfLayer);
+
+const planeRoute = {
+  path: [
+    [108.9585062962617, 34.21792224742464, 55.36973, 301000],
+    [108.95941857376101, 34.21978314186296, 88.36877, 541000],
+  ],
 };
 
-const lineLayer = new maptalks.VectorLayer("line").addTo(map);
-lineLayer.setZIndex(1);
-const lineString1 = new maptalks.LineString(
-  [
-    [108.95821, 34.21859],
-    [108.95938, 34.22207],
+const carRoute = {
+  path: [
+    [108.96099472732544, 34.21793272780141, 20.3101, 301000],
+    [108.96046160202025, 34.217917380427224, 19.65663, 541000],
+    [108.96047217636101, 34.21897194236598, 22.20198, 781000],
   ],
-  {
-    symbol: {
-      lineColor: "#ea6b48",
-      lineWidth: 4,
-    },
-  }
-).addTo(lineLayer);
+};
 
-const lineString2 = new maptalks.LineString(
-  [
-    [108.961136, 34.218191],
-    [108.960527, 34.218217],
-    [108.960571, 34.219085],
-  ],
-  {
-    symbol: {
-      lineColor: "#dbd34b",
-      lineWidth: 4,
-    },
-  }
-).addTo(lineLayer);
-
-const gltfLayer = new maptalks.GLTFLayer("gltf");
-gltfLayer.setZIndex(2);
-const gltfMarker1 = new maptalks.GLTFMarker([108.95841, 34.21779, 50], {
-  symbol: {
-    url: "{res}/gltf/airplane/scene.gltf",
-    rotationZ: 150,
+const planePlayer = new maptalks.RoutePlayer(planeRoute, map, {
+  showTrail: false,
+  markerSymbol: {
+    markerOpacity: 0,
   },
-}).addTo(gltfLayer);
-const gltfMarker2 = new maptalks.GLTFMarker([108.961136, 34.218001, 20], {
-  symbol: {
-    url: "{res}/gltf/ambulance_car/scene.gltf",
-    rotationZ: 90,
-    scaleX: 0.5,
-    scaleY: 0.5,
-    scaleZ: 0.5,
+  lineSymbol: {
+    lineColor: "#ea6b48",
+    lineWidth: 2,
   },
-}).addTo(gltfLayer);
-
-const groupLayer = new maptalks.GroupGLLayer("group", [layer, gltfLayer], {
-  sceneConfig,
-}).addTo(map);
-
-map.on("click", (e) => {
-  console.log(e);
 });
 
-/**start**/
+const carPlayer = new maptalks.RoutePlayer(carRoute, map, {
+  showTrail: false,
+  markerSymbol: {
+    markerOpacity: 0,
+  },
+});
+
+let currentPlayer = planePlayer;
+
+planePlayer.on("playing", (param) => {
+  plane.setCoordinates(param.coordinate);
+  plane.updateSymbol({
+    rotationX: -param.rotationY + 90,
+    rotationZ: param.rotationZ - 90,
+  });
+});
+
+carPlayer.on("playing", (param) => {
+  car.setCoordinates(param.coordinate);
+  car.updateSymbol({
+    rotationX: -param.rotationY + 90,
+    rotationZ: param.rotationZ + 90,
+  });
+});
+
 function play() {
-  lineString1.animateShow(
-    {
-      duration: 100000,
-      easing: "linear",
-    },
-    (_, c) => {
-      gltfMarker1.setCoordinates([c.x + 0.0002, c.y - 0.0008, 50]);
-    }
-  );
-  lineString2.animateShow(
-    {
-      duration: 100000,
-      easing: "linear",
-    },
-    (_, c) => {
-      gltfMarker2.setCoordinates([c.x, c.y - 0.0002, 20]);
-    }
-  );
+  currentPlayer.setUnitTime(10);
+  currentPlayer.showRoute();
+  currentPlayer.play();
+}
+
+function pause() {
+  currentPlayer.pause();
+}
+
+function changeCurrentPlayer(value) {
+  if (value === "plane") {
+    currentPlayer = planePlayer;
+  } else {
+    currentPlayer = carPlayer;
+  }
+}
+
+function setColor(value) {
+  currentPlayer.setLineSymbol(0, {
+    lineColor: value,
+  });
+}
+
+function setWidth(value) {
+  currentPlayer.setLineSymbol(0, {
+    lineWidth: value,
+  });
+}
+
+function setOpacity(value) {
+  currentPlayer.setLineSymbol(0, {
+    lineOpacity: value,
+  });
+}
+
+function showRoute() {
+  currentPlayer.showRoute();
+}
+
+function hideRoute() {
+  currentPlayer.hideRoute();
 }
 /**end**/
+const groupLayer = new maptalks.GroupGLLayer("group", [layer, gltfLayer], {
+  sceneConfig: {
+    postProcess: {
+      enable: true,
+      antialias: {
+        enable: true,
+      },
+    },
+  },
+}).addTo(map);
 
 const gui = new mt.GUI();
 
@@ -139,50 +174,50 @@ gui
     role: "pause",
   })
   .onClick(() => {
-    stop();
+    pause();
   });
 
-gui.add({
-  label: "选择轨迹",
-  type: "select",
-  value: "plane",
-  options: [
-    {
-      label: "飞机",
-      value: "plane",
-    },
-    {
-      label: "汽车",
-      value: "car",
-    },
-  ],
-});
+gui
+  .add({
+    label: "选择轨迹",
+    type: "select",
+    value: "plane",
+    options: [
+      {
+        label: "飞机",
+        value: "plane",
+      },
+      {
+        label: "汽车",
+        value: "car",
+      },
+    ],
+  })
+  .onChange((value) => {
+    changeCurrentPlayer(value);
+  });
 
 gui
   .add({
     type: "color",
     label: "轨迹颜色",
-    value: "#dbd34b",
+    value: "#ea6b48",
   })
   .onChange((value) => {
-    lineString1.updateSymbol({
-      lineColor: value,
-    });
+    setColor(value);
   });
 
 gui
   .add({
     type: "slider",
     label: "轨迹宽度",
-    value: 4,
+    value: 2,
     min: 1,
     max: 10,
     step: 1,
   })
   .onChange((value) => {
-    lineString1.updateSymbol({
-      lineWidth: value,
-    });
+    setWidth(value);
   });
 
 gui
@@ -195,16 +230,22 @@ gui
     step: 0.1,
   })
   .onChange((value) => {
-    lineString1.updateSymbol({
-      lineOpacity: value,
-    });
+    setOpacity(value);
   });
 
-gui.add({
-  type: "checkbox",
-  label: "显示轨迹",
-  value: true,
-});
+gui
+  .add({
+    type: "checkbox",
+    label: "显示轨迹",
+    value: true,
+  })
+  .onChange((value) => {
+    if (value) {
+      showRoute();
+    } else {
+      hideRoute();
+    }
+  });
 
 gui.add({
   type: "checkbox",
