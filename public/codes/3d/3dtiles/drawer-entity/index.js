@@ -20,6 +20,9 @@ fetch("{res}/msd/drawer-entity/map.json").then((data) => {
   map = maptalks.Map.fromJSON("map", data);
   const groupgllayer = map.getLayer('group');
   const gltflayer = groupgllayer.getLayer('gltf0');
+  const symbol = getSymbol(1);
+  const offset = getOffset(1);
+  selectedEntity = new maptalks.GLTFMarker([offset.x, offset.y, 0], { symbol }).addTo(gltflayer);
   loadEntityPolygon();
   map.on('click', e => {
     const identifyData = groupgllayer.identify(e.coordinate)[0];
@@ -33,19 +36,15 @@ fetch("{res}/msd/drawer-entity/map.json").then((data) => {
       const properties = room.getProperties();
       const { floorHeight, type } = properties;
       const z = Math.floor(height / floorHeight) * floorHeight;
-      if (selectedEntity) {
-        selectedEntity.remove();
-      }
       const symbol = getSymbol(type);
       const offset = getOffset(type);
-      selectedEntity = new maptalks.GLTFMarker([offset.x, offset.y, z], {
-        symbol
-      }).addTo(gltflayer);
+      selectedEntity.setSymbol(symbol);
+      selectedEntity.setCoordinates([offset.x, offset.y, z]);
       selectedEntity.outline();
-      // selectedMask = new maptalks.ClipInsideMask(room.getCoordinates(), {
-      //   heightRange: [z, z + floorHeight]
-      // });
-      // gltflayer.setMask(selectedMask);
+      selectedMask = new maptalks.ClipInsideMask(room.getCoordinates(), {
+        heightRange: [z, z + floorHeight]
+      });
+      gltflayer.setMask(selectedMask);
     }
   });
 });

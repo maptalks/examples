@@ -1,0 +1,991 @@
+[{
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.95868444280984, 40.74408969719698],
+				[-73.97505075891002, 40.75104866139864],
+				[-74.0013547296004, 40.762075268564416],
+				[-74.00515714979241, 40.757018585815075],
+				[-74.00722112237418, 40.75409175763443],
+				[-74.00852022099548, 40.7502689936309],
+				[-74.00768430103972, 40.7482633051919],
+				[-74.00924072062372, 40.740603425972466]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": null
+}
+, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.9563318630731, 40.74120152554221],
+				[-73.97234569318454, 40.74324582235724],
+				[-74.00495727566965, 40.75706236234706]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.97910918654952, 40.73610965092618],
+				[-73.94930672168579, 40.77694198232072]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.98145991963099, 40.737127559551055],
+				[-73.9516932042041, 40.77794799655484]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.98379707394946, 40.73780177729631],
+				[-73.95382529816868, 40.779046322116386],
+				[-73.94927878178407, 40.785266472523716]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.98480380472711, 40.73939131674351],
+				[-73.95556633189187, 40.77958068520937]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.9867686371984, 40.73951025748502],
+				[-73.97755997747186, 40.75226408124681],
+				[-73.97696904336033, 40.752066986404174],
+				[-73.97576866035718, 40.753839485428074],
+				[-73.96830551715459, 40.75069203337702]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.98798606990368, 40.74091552968193],
+				[-73.95874187548964, 40.7809559820698]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.98986059954791, 40.74113911285647],
+				[-73.95508921177031, 40.7888267899298]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.99367029101836, 40.74172814508884],
+				[-73.9762025443959, 40.765768487743486]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.97896282712526, 40.766894755189895],
+				[-73.99745043515532, 40.74167701211721]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-74.00034984716592, 40.74271353880877],
+				[-73.97855920869358, 40.77267107979205]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.96441096519777, 40.79202335548152],
+				[-73.97592817754503, 40.776267264584334],
+				[-73.98689605028414, 40.78074482829325]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-74.00297534720528, 40.7441963785698],
+				[-73.96097619606132, 40.80187234861759]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-74.00610874615279, 40.74494515788476],
+				[-73.98436257954512, 40.77487920293592],
+				[-73.96360267676147, 40.803333951276926]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-74.00745109456835, 40.74823879220125],
+				[-73.98441814717052, 40.77989286288167],
+				[-73.97185456210224, 40.79708075998465],
+				[-73.96565405896825, 40.805638767936756]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.98561160064372, 40.780320765732114],
+				[-73.98449511912406, 40.78318802811154],
+				[-73.9814887238889, 40.78614790949004],
+				[-73.98129501961978, 40.78649843325249],
+				[-73.9810545512023, 40.78886615774317],
+				[-73.97939033243273, 40.791338776674166],
+				[-73.97890963129407, 40.79168526102811],
+				[-73.97764749794811, 40.79216138255586],
+				[-73.977019947867, 40.79278504019291],
+				[-73.97691509097672, 40.79384312133945],
+				[-73.97673172683898, 40.794650965961836],
+				[-73.97620136591468, 40.795435644373214],
+				[-73.97437925288204, 40.79651675702743],
+				[-73.97409273079666, 40.79717810877068],
+				[-73.97412819830424, 40.79784826157433],
+				[-73.97327359526918, 40.79922207101967],
+				[-73.97217498343099, 40.800235284097],
+				[-73.97151128330461, 40.80062716186322],
+				[-73.96806245237019, 40.80591827541761]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.9744380608355, 40.736968120951275],
+				[-73.98219914257368, 40.74011921031493]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.97329575941251, 40.73953196095576],
+				[-74.00742829353464, 40.75398215588453]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-74.00692731913125, 40.754632046348746],
+				[-73.99824490059257, 40.75095860437338],
+				[-73.97523823715471, 40.74120329101319]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.97109743016733, 40.74440914661838],
+				[-74.00111495173917, 40.757130754496046]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-74.00065415911035, 40.757699524647904],
+				[-73.97086962533842, 40.74515438735975]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.97065263052048, 40.74750163861589],
+				[-73.99938468608343, 40.759630476251886],
+				[-74.0030399656543, 40.76107577955807]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.96785048438613, 40.75128394535213],
+				[-73.99873350135863, 40.764366534553204]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.9973264330086, 40.766217138495705],
+				[-73.9649085589233, 40.75255201226591]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.96441112866523, 40.753110500698966],
+				[-73.99689624030157, 40.76686805544554]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.99508382738082, 40.76940625755245],
+				[-73.96250466754583, 40.755641891995396]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.96284510788473, 40.75492849299283],
+				[-73.99331851345266, 40.76779819970287]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.99418522572273, 40.771480805670336],
+				[-73.96061897392428, 40.75735098225553],
+				[-73.94709747674631, 40.775944477166576],
+				[-73.96047911719023, 40.78158723149315]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.95811944630776, 40.75955216377642],
+				[-73.97214870255999, 40.76557541386407],
+				[-73.9721928191151, 40.76557720362902]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.97567755308415, 40.754755663442864],
+				[-73.96049424986415, 40.77576025309892],
+				[-73.94772806043238, 40.77027827211262],
+				[-73.94942278989788, 40.768447030792544],
+				[-73.94989267057412, 40.76779052838887],
+				[-73.9654404442881, 40.77432737539917]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.95736289031788, 40.761784919927464],
+				[-73.97076001429099, 40.767444707596354],
+				[-73.97076205923258, 40.7674242277005]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.97172115258684, 40.76611491436395],
+				[-73.95831606624432, 40.76058670219609]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.95611197038232, 40.763704703304285],
+				[-73.9694065017984, 40.769359154059174]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.95467116104089, 40.765548635459],
+				[-73.96811242173658, 40.77122642563083]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.95144250788383, 40.76590875566828],
+				[-73.96707522000543, 40.7725171028533]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.96430197985222, 40.77634277469858],
+				[-73.9481337974886, 40.76949352861223]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.96191825115733, 40.77954370538029],
+				[-73.94609558898935, 40.77294904584912],
+				[-73.94300917656159, 40.77754769008325],
+				[-73.95535827982337, 40.7827019776598],
+				[-73.96001230608181, 40.77625924579408],
+				[-73.94761785120795, 40.77104566505707],
+				[-73.94665721097567, 40.7723754376278],
+				[-73.95340296601972, 40.77522574548718]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.98798578513544, 40.77952859516884],
+				[-73.97726197958724, 40.77431676207047],
+				[-73.97636379069627, 40.775573861229276],
+				[-73.98753275066099, 40.78022646859196],
+				[-73.98759900875666, 40.78022915602472]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.99022115408326, 40.7755189686807],
+				[-73.97962529776407, 40.77117553767985]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.99202044186666, 40.774029742391946],
+				[-73.98668278479647, 40.77164674042373],
+				[-73.9881433939538, 40.76970662959181],
+				[-73.96699850973931, 40.76096240932131]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.97070160793817, 40.78337406423745],
+				[-73.98118521023207, 40.78771423263194]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.98140583832225, 40.786131923272904],
+				[-73.97157921616667, 40.78188027439214]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.97416672595915, 40.77887931598147],
+				[-73.98450831804621, 40.783172359276676]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.9678432404105, 40.7872663936549],
+				[-73.97864548035045, 40.791744397284646]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.96649949529433, 40.78910336621388],
+				[-73.97369154123754, 40.79212378523002],
+				[-73.97659099369935, 40.78826691698245],
+				[-73.96907346913247, 40.7851763684134]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}, {
+	"feature": {
+		"type": "Feature",
+		"geometry": {
+			"type": "LineString",
+			"coordinates": [
+				[-73.96570770753607, 40.790351085423566],
+				[-73.97619014563236, 40.79484683429175]
+			]
+		},
+		"properties": null
+	},
+	"options": {},
+	"symbol": {
+		"lineColor": "#000",
+		"lineWidth": 2,
+		"lineOpacity": 1,
+		"polygonFill": "#fff",
+		"polygonOpacity": 0.3
+	}
+}]

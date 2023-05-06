@@ -1422,9 +1422,9 @@
               "highlightFactor": 0.2,
               "outlineWidth": 1,
               "outlineColor": [
-                1,
-                1,
-                0
+                0.91764,
+                0.4196,
+                0.28235
               ]
             }
           },
