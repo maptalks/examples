@@ -49,6 +49,16 @@ const car = new maptalks.GLTFMarker(
   }
 ).addTo(gltfLayer);
 
+const groupLayer = new maptalks.GroupGLLayer("group", [layer, gltfLayer], {
+  sceneConfig: {
+    postProcess: {
+      enable: true,
+      antialias: {
+        enable: true,
+      },
+    },
+  },
+}).addTo(map);
 const planeRoute = {
   path: [
     [108.9585062962617, 34.21792224742464, 55.36973, 301000],
@@ -64,7 +74,7 @@ const carRoute = {
   ],
 };
 
-const planePlayer = new maptalks.RoutePlayer(planeRoute, map, {
+const planePlayer = new maptalks.RoutePlayer(planeRoute, groupLayer, {
   showTrail: false,
   markerSymbol: {
     markerOpacity: 0,
@@ -75,7 +85,7 @@ const planePlayer = new maptalks.RoutePlayer(planeRoute, map, {
   },
 });
 
-const carPlayer = new maptalks.RoutePlayer(carRoute, map, {
+const carPlayer = new maptalks.RoutePlayer(carRoute, groupLayer, {
   showTrail: false,
   markerSymbol: {
     markerOpacity: 0,
@@ -87,7 +97,7 @@ let currentPlayer = planePlayer;
 planePlayer.on("playing", (param) => {
   plane.setCoordinates(param.coordinate);
   plane.updateSymbol({
-    rotationX: -param.rotationY + 90,
+    rotationX: param.rotationX / 2,
     rotationZ: param.rotationZ - 90,
   });
 });
@@ -144,16 +154,6 @@ function hideRoute() {
   currentPlayer.hideRoute();
 }
 /**end**/
-const groupLayer = new maptalks.GroupGLLayer("group", [layer, gltfLayer], {
-  sceneConfig: {
-    postProcess: {
-      enable: true,
-      antialias: {
-        enable: true,
-      },
-    },
-  },
-}).addTo(map);
 
 const gui = new mt.GUI();
 
