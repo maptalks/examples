@@ -1,8 +1,8 @@
 import { Area, Container, LangSwitch, Logo, Tab, Tabs } from "./style";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useMount, useTimeoutFn } from "react-use";
 
 import { observer } from "mobx-react-lite";
-import { useMount } from "react-use";
 import { useStore } from "@/store";
 
 function Header() {
@@ -14,10 +14,19 @@ function Header() {
     const paths = location.pathname.split("/");
     if (paths[3]) {
       store.setTab(paths[3]);
+      store.setOpenKeys([paths[3]]);
       if (paths[4] && paths[5]) {
         store.setSelectedKey(`${paths[3]}_${paths[4]}_${paths[5]}`);
       }
     }
+  });
+
+  useTimeoutFn(() => {
+    const ele = document.querySelector(`[data-key=_${store.selectedKey}]`);
+    ele?.scrollIntoView({
+      behavior: "auto",
+      block: "center",
+    });
   });
 
   function handleLanguageChange() {
@@ -29,12 +38,6 @@ function Header() {
       store.setLanguage("cn");
       navigate(pathname.replace("/en/", "/cn/"));
     }
-  }
-
-  function handleTabChange(tab: string) {
-    store.setTab(tab);
-    store.setSelectedKey("");
-    navigate(`/examples/${store.language}/${tab}`);
   }
 
   return (

@@ -11,11 +11,11 @@ export function useSiderMenu() {
     store.setFilter(e.target.value);
   }
 
-  function handleSelect(i: string, j: string, k: string, url?:string) {
+  function handleSelect(i: string, j: string, k: string, url?: string) {
     if (url) {
-      window.open(url)
+      window.open(url);
     } else {
-      store.setTab("")
+      store.setTab("");
       store.setSelectedKey(`${i}_${j}_${k}`);
       navigate(`/examples/${store.language}/${i}/${j}/${k}`);
     }

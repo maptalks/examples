@@ -1,4 +1,4 @@
-import examples from "../config/examples.json";
+import examples from "../config/examples.json" assert { type: "json" };
 import puppeteer from "puppeteer";
 
 // 生成部分例子的缩略图
@@ -6,7 +6,7 @@ import puppeteer from "puppeteer";
 // name: "basic" 生成 codes/basic 目录下的所有例子的缩略图
 // name: "basic_3d" 生成 codes/basic/3d 目录下的所有例子的缩略图
 // name: "basic_3d_line-altitude" 只生成 codes/basic/3d/line-altitude 这一个例子的缩略图
-const name = "basic_tilelayer-projection_epsg4326";
+const name = "vector_operation";
 
 (async () => {
   if (name) {
@@ -52,7 +52,9 @@ async function genarateAll() {
 
 async function genarateByName(name) {
   const paths = name.split("_");
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    headless: "new",
+  });
   const page = await browser.newPage();
   for (const i of examples) {
     if (i.examples) {
@@ -76,7 +78,7 @@ async function genarateByName(name) {
                   waitUntil: "networkidle0",
                 });
                 await page.screenshot({
-                  path: `thumbnails/${i.name}_${j.name}_${k.name}.webp`,
+                  path: `public/thumbnails/${i.name}_${j.name}_${k.name}.webp`,
                   fullPage: true,
                   type: "webp",
                   quality: 20,

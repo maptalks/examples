@@ -43,7 +43,7 @@ export function useMapView() {
         </style>
         <link rel='stylesheet' href='/lib/maptalks.css' />
         <script type='text/javascript' src='/lib/maptalks.min.js'></script>
-        <script type='text/javascript' src='/lib/maptalks-gl-layers.js'></script>
+        <script type='text/javascript' src='https://maptalks.com/api/maptalks-gl-layers.js'></script>
         <body>
           ${htmlCode}
           <script>

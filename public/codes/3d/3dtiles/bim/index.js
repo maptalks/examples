@@ -96,6 +96,7 @@ function showInfoWindow(coordinate, content) {
   }).addTo(map).show(coordinate);
 }
 /**end**/
+
 const gui = new mt.GUI();
 gui
   .add({
@@ -123,7 +124,7 @@ gui
       id: Number(value),
       color: selectedColor,
       opacity: selectedColor
-    });  
+    });
   });
 
 gui

@@ -23,7 +23,9 @@ const geo3DTileslayer = new maptalks.Geo3DTilesLayer("3dtiles", {
   ],
 });
 
+/**start**/
 const gltfLayer = new maptalks.GLTFLayer("gltf");
+
 const gltfMarker1 = new maptalks.GLTFMarker([108.958438, 34.217715, 17.5], {
   symbol: {
     url: "{res}/gltf/tractor/tractor.gltf",
@@ -41,6 +43,7 @@ gltfMarker1.setInfoWindow({
   dx: 15,
 });
 gltfMarker1.openInfoWindow();
+
 const gltfMarker2 = new maptalks.GLTFMarker([108.960868, 34.217922, 20], {
   symbol: {
     url: "{res}/gltf/tractor/tractor.gltf",
@@ -59,61 +62,84 @@ gltfMarker2.setInfoWindow({
 });
 gltfMarker2.openInfoWindow();
 
-const lineLayer = new maptalks.VectorLayer("line", {
-  enableAltitude: true,
-}).addTo(map);
-lineLayer.setZIndex(1);
-const lineString1 = new maptalks.LineString(
-  [
-    [108.958438, 34.217715],
-    [108.958403, 34.219752],
+const route1 = {
+  path: [
+    [108.958438, 34.217715, 17.5, 301000],
+    [108.958403, 34.219752, 19.2, 541000],
   ],
-  {
-    symbol: {
-      lineColor: "#ea6b48",
-      lineWidth: 4,
-    },
-    properties: {
-      altitude: [17.5, 19.2],
-    },
-  }
-).addTo(lineLayer);
-
-const lineString2 = new maptalks.LineString(
-  [
-    [108.960663, 34.217777],
-    [108.960459, 34.218002],
-    [108.960458, 34.219029],
-  ],
-  {
-    symbol: {
-      lineColor: "#dbd34b",
-      lineWidth: 4,
-    },
-    properties: {
-      altitude: [26, 19.7, 22],
-    },
-  }
-).addTo(lineLayer);
-
-const sceneConfig = {
-  postProcess: {
-    enable: true,
-    antialias: {
-      enable: true,
-    },
-  },
 };
+
+const route2 = {
+  path: [
+    [108.96099472732544, 34.21793272780141, 20.3101, 301000],
+    [108.96046160202025, 34.217917380427224, 19.65663, 541000],
+    [108.96047217636101, 34.21897194236598, 22.20198, 781000],
+  ],
+};
+
+const player1 = new maptalks.RoutePlayer(route1, map, {
+  showTrail: false,
+  markerSymbol: {
+    markerOpacity: 0,
+  },
+  lineSymbol: {
+    lineColor: "#ea6b48",
+  },
+});
+
+const player2 = new maptalks.RoutePlayer(route2, map, {
+  showTrail: false,
+  markerSymbol: {
+    markerOpacity: 0,
+  },
+  lineSymbol: {
+    lineColor: "#dbd34b",
+  },
+});
+
+player1.on("playing", (param) => {
+  gltfMarker1.setCoordinates(param.coordinate);
+  gltfMarker1.updateSymbol({
+    rotationX: -param.rotationY + 90,
+    rotationZ: param.rotationZ - 90,
+  });
+});
+
+player2.on("playing", (param) => {
+  gltfMarker2.setCoordinates(param.coordinate);
+  gltfMarker2.updateSymbol({
+    rotationX: -param.rotationY + 90,
+    rotationZ: param.rotationZ - 90,
+  });
+});
+
+function play() {
+  player1.setUnitTime(30);
+  player1.showRoute();
+  player1.play();
+  player2.setUnitTime(30);
+  player2.showRoute();
+  player2.play();
+}
+
+play()
+/**end**/
 
 const groupGLLayer = new maptalks.GroupGLLayer(
   "group",
   [geo3DTileslayer, gltfLayer],
   {
-    sceneConfig,
+    sceneConfig: {
+      postProcess: {
+        enable: true,
+        antialias: {
+          enable: true,
+        },
+      },
+    },
   }
 ).addTo(map);
 
-/**start**/
 function getPickedCoordinate(coordinate) {
   const identifyData = groupGLLayer.identify(coordinate)[0];
   const pickedPoint = identifyData && identifyData.point;
@@ -127,28 +153,6 @@ function getPickedCoordinate(coordinate) {
   } else {
     return coordinate;
   }
-}
-function play() {
-  lineString1.animateShow(
-    {
-      duration: 100000,
-      easing: "linear",
-    },
-    (_, c) => {
-      // console.log(getPickedCoordinate(c).y);
-      // gltfMarker1.setCoordinates(getPickedCoordinate(c));
-    }
-  );
-  lineString2.animateShow(
-    {
-      duration: 100000,
-      easing: "linear",
-    },
-    (_, c) => {
-      console.log(getPickedCoordinate(c).y);
-      // gltfMarker2.setCoordinates(getPickedCoordinate(c));
-    }
-  );
 }
 // play();
 function positioningA() {
@@ -167,7 +171,6 @@ function positioningB() {
     zoom: 18,
   });
 }
-/**end**/
 
 const gui = new mt.GUI();
 

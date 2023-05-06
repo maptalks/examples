@@ -1,13 +1,32 @@
 const map = new maptalks.Map("map", {
   center: [121.4954, 31.2385],
   zoom: 14,
-  baseLayer: new maptalks.TileLayer("base", {
-    urlTemplate: "{urlTemplate}",
-    subdomains: ["a", "b", "c", "d"],
-    attribution: "{attribution}",
-  }),
+  pitch: 80,
+  lights: {
+    directional: {
+      direction: [1, 0, -1],
+      color: [1, 1, 1],
+    },
+    ambient: {
+      resource: {
+        url: {
+          front: "{res}/hdr/gradient/front.png",
+          back: "{res}/hdr/gradient/back.png",
+          left: "{res}/hdr/gradient/left.png",
+          right: "{res}/hdr/gradient/right.png",
+          top: "{res}/hdr/gradient/top.png",
+          bottom: "{res}/hdr/gradient/bottom.png",
+        },
+        prefilterCubeSize: 1024,
+      },
+      exposure: 1,
+      hsv: [0, 0.34, 0],
+      orientation: 0,
+    },
+  },
 });
 
+/**start**/
 const pointLayer = new maptalks.PointLayer("point");
 
 const marker1 = new maptalks.Marker([121.475542, 31.233812], {
@@ -75,9 +94,6 @@ const marker3 = new maptalks.Marker([121.515542, 31.233812], {
 
 pointLayer.addGeometry([marker1, marker2, marker3]);
 
-const groupLayer = new maptalks.GroupGLLayer("group", [pointLayer]);
-groupLayer.addTo(map);
-
 function selectData() {
   pointLayer.filter([">=", "count", 200]).forEach((feature) => {
     feature.updateSymbol({
@@ -85,3 +101,27 @@ function selectData() {
     });
   });
 }
+/**end**/
+
+const groupLayer = new maptalks.GroupGLLayer("group", [pointLayer], {
+  sceneConfig: {
+    environment: {
+      enable: true,
+      mode: 1,
+      level: 0,
+      brightness: 0,
+    },
+  },
+});
+groupLayer.addTo(map);
+
+const gui = new mt.GUI();
+
+gui
+  .add({
+    type: "button",
+    text: "Select >= 200",
+  })
+  .onClick(() => {
+    selectData();
+  });

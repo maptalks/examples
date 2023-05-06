@@ -10,28 +10,6 @@ body {
   height: 100%;
 }
 
-.pane {
-  position: absolute;
-  top: 70px;
-  right: 20px;
-  line-height: 25px;
-  z-index: 10;
-}
-
-.pane a {
-  display: block;
-  float: left;
-  text-align: left;
-  margin-left: 6px;
-  padding: 0 10px;
-  min-width: 28px;
-  min-height: 25px;
-  color: #000;
-  text-decoration: none;
-  background: #efefef;
-  border: 1px solid #000;
-}
-
 #info {
   position: fixed;
   background-color: rgba(13, 13, 13, 0.5);

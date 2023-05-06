@@ -12,13 +12,13 @@ body {
 
 #info {
   position: fixed;
-  background-color: rgba(13, 13, 13, 0.5);
-  padding: 10px 10px 10px 10px;
-  font: 13px bold sans-serif;
-  color: #fff;
   left: 0px;
   top: 0px;
   width: 100%;
   height: 50px;
+  padding: 10px 10px 10px 10px;
+  font: 13px bold sans-serif;
+  color: #fff;
+  background-color: rgba(13, 13, 13, 0.5);
   overflow: hidden;
 }

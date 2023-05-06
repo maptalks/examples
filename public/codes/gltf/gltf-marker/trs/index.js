@@ -1,155 +1,255 @@
 const map = new maptalks.Map("map", {
-  center: [-0.10707916972842213, 51.48119259984284],
-  zoom: 12,
-  pitch: 63.8,
-  bearing: 179.39999999999975,
-  baseLayer: new maptalks.TileLayer("base", {
-    urlTemplate: "{urlTemplate}",
-    subdomains: ["a", "b", "c", "d"],
-    attribution: "{attribution}",
-  }),
+  center: [-74.01252272617671, 40.70709931736744],
+  zoom: 16,
+  pitch: 80,
   lights: {
     ambient: {
       resource: {
-        url: "{res}/hdr/env.hdr",
+        url: {
+          front: "{res}/hdr/gradient/front.png",
+          back: "{res}/hdr/gradient/back.png",
+          left: "{res}/hdr/gradient/left.png",
+          right: "{res}/hdr/gradient/right.png",
+          top: "{res}/hdr/gradient/top.png",
+          bottom: "{res}/hdr/gradient/bottom.png",
+        },
       },
-      color: [1, 1, 1],
       exposure: 1,
+      hsv: [0, 1, -0.042],
+      orientation: 0,
     },
     directional: {
+      direction: [-0.1, 1, -1],
       color: [1, 1, 1],
-      lightColorIntensity: 5000,
-      direction: [1, -0.4, -1],
     },
   },
 });
 
-const gui = new dat.GUI({
-  width: 250,
-});
-class Config {
-  constructor() {
-    this.translationX = 0;
-    this.translationY = 0;
-    this.translationZ = 0;
-    this.rotationX = 0;
-    this.rotationY = 0;
-    this.rotationZ = 0;
-    this.scaleX = 1.5;
-    this.scaleY = 1.5;
-    this.scaleZ = 1.5;
-  }
-}
-const options = new Config();
+/**start**/
 const url = "{res}/gltf/alien/alien.glb";
 const symbol = {
-  url,
-  shadow: true,
-  translation: [
-    options.translationX,
-    options.translationY,
-    options.translationZ,
-  ],
-  rotation: [options.rotationX, options.rotationY, options.rotationZ],
-  scale: [options.scaleX, options.scaleY, options.scaleZ],
+  url: "{res}/gltf/alien/alien.glb",
+  translationX: 0,
+  translationY: 0,
+  translationZ: 0,
+  rotationX: 0,
+  rotationY: 0,
+  rotationZ: 180,
+  scaleX: 1.5,
+  scaleY: 1.5,
+  scaleZ: 1.5,
 };
 
 const gltfLayer = new maptalks.GLTFLayer("gltf");
-const gltfMarker = new maptalks.GLTFMarker(
-  [-0.11304900000004636, 51.498568000000006],
-  {
-    symbol,
-  }
-).addTo(gltfLayer);
+const gltfMarker = new maptalks.GLTFMarker(map.getCenter(), {
+  symbol,
+}).addTo(gltfLayer);
 
-const groupGLLayer = new maptalks.GroupGLLayer("gl", [gltfLayer]).addTo(map);
+function setTranslationX(value) {
+  gltfMarker.updateSymbol({
+    translationX: value,
+  });
+}
 
-const translation = gui.addFolder("translation");
-translation.open();
+function setTranslationY(value) {
+  gltfMarker.updateSymbol({
+    translationY: value,
+  });
+}
 
-const transControllerX = translation.add(options, "translationX", -10, 10);
-transControllerX.onChange(function (value) {
-  gltfMarker.setTranslation([
-    value,
-    transControllerY.getValue(),
-    transControllerZ.getValue(),
-  ]);
-});
+function setTranslationZ(value) {
+  gltfMarker.updateSymbol({
+    translationZ: value,
+  });
+}
 
-const transControllerY = translation.add(options, "translationY", -10, 10);
-transControllerY.onChange(function (value) {
-  gltfMarker.setTranslation([
-    transControllerX.getValue(),
-    value,
-    transControllerZ.getValue(),
-  ]);
-});
+function setRotationX(value) {
+  gltfMarker.updateSymbol({
+    rotationX: value,
+  });
+}
 
-const transControllerZ = translation.add(options, "translationZ", -10, 10);
-transControllerZ.onChange(function (value) {
-  gltfMarker.setTranslation([
-    transControllerX.getValue(),
-    transControllerY.getValue(),
-    value,
-  ]);
-});
+function setRotationY(value) {
+  gltfMarker.updateSymbol({
+    rotationY: value,
+  });
+}
 
-const rotation = gui.addFolder("rotation");
-rotation.open();
+function setRotationZ(value) {
+  gltfMarker.updateSymbol({
+    rotationZ: value,
+  });
+}
 
-const rotationControllerAxisX = rotation.add(options, "rotationX", -90, 90);
-rotationControllerAxisX.onChange(function () {
-  gltfMarker.setRotation([
-    rotationControllerAxisX.getValue(),
-    rotationControllerAxisY.getValue(),
-    rotationControllerAxisZ.getValue(),
-  ]);
-});
+function setScaleX(value) {
+  gltfMarker.updateSymbol({
+    scaleX: value,
+  });
+}
 
-const rotationControllerAxisY = rotation.add(options, "rotationY", -90, 90);
-rotationControllerAxisY.onChange(function () {
-  gltfMarker.setRotation([
-    rotationControllerAxisX.getValue(),
-    rotationControllerAxisY.getValue(),
-    rotationControllerAxisZ.getValue(),
-  ]);
-});
+function setScaleY(value) {
+  gltfMarker.updateSymbol({
+    scaleY: value,
+  });
+}
 
-const rotationControllerAxisZ = rotation.add(options, "rotationZ", -90, 90);
-rotationControllerAxisZ.onChange(function () {
-  gltfMarker.setRotation([
-    rotationControllerAxisX.getValue(),
-    rotationControllerAxisY.getValue(),
-    rotationControllerAxisZ.getValue(),
-  ]);
-});
+function setScaleZ(value) {
+  gltfMarker.updateSymbol({
+    scaleZ: value,
+  });
+}
+/**end**/
 
-const scale = gui.addFolder("scale");
-scale.open();
+const groupLayer = new maptalks.GroupGLLayer("group", [gltfLayer], {
+  sceneConfig: {
+    environment: {
+      enable: true,
+      mode: 1,
+      level: 0,
+      brightness: 0,
+    },
+    ground: {
+      enable: true,
+      renderPlugin: {
+        type: "lit",
+      },
+      symbol: {
+        polygonFill: [0.54, 0.54, 0.54, 1],
+        ssr: true,
+        material: {
+          baseColorTexture: "{res}/textures/rubber_roughness.png",
+          baseColorFactor: [0.3450981, 0.3372549, 0.2117647, 1],
+          hsv: [-0.468, 0, -0.128],
+          baseColorIntensity: 1.372,
+          contrast: 1.372,
+          roughnessFactor: 1,
+          metallicFactor: 0,
+          normalTexture: "{res}/textures/rubber_roughness.png",
+          uvScale: [0.09, 0.09],
+          normalMapFactor: 0.68,
+          emitColorFactor: 1.11,
+          noiseTexture: "{res}/textures/noise.png",
+        },
+      },
+    },
+  },
+}).addTo(map);
 
-const scaleControllerX = scale.add(options, "scaleX", 0.1, 20);
-scaleControllerX.onChange(function (value) {
-  gltfMarker.setScale([
-    value,
-    scaleControllerY.getValue(),
-    scaleControllerZ.getValue(),
-  ]);
-});
+const gui = new mt.GUI();
 
-const scaleControllerY = scale.add(options, "scaleY", 0.1, 20);
-scaleControllerY.onChange(function (value) {
-  gltfMarker.setScale([
-    scaleControllerX.getValue(),
-    value,
-    scaleControllerZ.getValue(),
-  ]);
-});
+gui
+  .add({
+    type: "slider",
+    label: "平移X",
+    value: 0,
+    min: -100,
+    max: 100,
+    step: 1,
+  })
+  .onChange((value) => {
+    setTranslationX(value);
+  });
 
-const scaleControllerZ = scale.add(options, "scaleZ", 0.1, 20);
-scaleControllerZ.onChange(function (value) {
-  gltfMarker.setScale([
-    scaleControllerX.getValue(),
-    scaleControllerY.getValue(),
-    value,
-  ]);
-});
+gui
+  .add({
+    type: "slider",
+    label: "平移Y",
+    value: 0,
+    min: -100,
+    max: 100,
+    step: 1,
+  })
+  .onChange((value) => {
+    setTranslationY(value);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "平移Z",
+    value: 0,
+    min: -100,
+    max: 100,
+    step: 1,
+  })
+  .onChange((value) => {
+    setTranslationZ(value);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "旋转X",
+    value: 0,
+    min: -180,
+    max: 180,
+    step: 1,
+  })
+  .onChange((value) => {
+    setRotationX(value);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "旋转Y",
+    value: 0,
+    min: -180,
+    max: 180,
+    step: 1,
+  })
+  .onChange((value) => {
+    setRotationY(value);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "旋转Z",
+    value: 180,
+    min: -180,
+    max: 180,
+    step: 1,
+  })
+  .onChange((value) => {
+    setRotationZ(value);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "缩放X",
+    value: 1.5,
+    min: 0.1,
+    max: 10,
+    step: 0.1,
+  })
+  .onChange((value) => {
+    setScaleX(value);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "缩放Y",
+    value: 1.5,
+    min: 0.1,
+    max: 10,
+    step: 0.1,
+  })
+  .onChange((value) => {
+    setScaleY(value);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "缩放Z",
+    value: 1.5,
+    min: 0.1,
+    max: 10,
+    step: 0.1,
+  })
+  .onChange((value) => {
+    setScaleZ(value);
+  });

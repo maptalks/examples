@@ -1,108 +1,109 @@
 const map = new maptalks.Map("map", {
-  center: [-0.113049, 51.498568],
-  zoom: 14,
+  center: [-74.01252272617671, 40.70709931736744],
+  zoom: 16,
   pitch: 80,
-  bearing: 180,
+  zoomControl: true,
   lights: {
     ambient: {
       resource: {
-        url: "/resources/hdr/env.hdr",
+        url: {
+          front: "{res}/hdr/gradient/front.png",
+          back: "{res}/hdr/gradient/back.png",
+          left: "{res}/hdr/gradient/left.png",
+          right: "{res}/hdr/gradient/right.png",
+          top: "{res}/hdr/gradient/top.png",
+          bottom: "{res}/hdr/gradient/bottom.png",
+        },
       },
-      color: [1, 1, 1],
       exposure: 1,
+      hsv: [0, 1, -0.042],
+      orientation: 0,
     },
     directional: {
+      direction: [-0.1, 1, -1],
       color: [1, 1, 1],
-      lightColorIntensity: 5000,
-      direction: [1, -0.4, -1],
     },
   },
-  zoomControl: true,
 });
 
-const sceneConfig = {
-  environment: {
-    enable: true,
-    mode: 1,
-    level: 1,
-    brightness: 1,
-  },
-  shadow: {
-    enable: true,
-    opacity: 0.5,
-    color: [0, 0, 0],
-  },
-  postProcess: {
-    enable: true,
-    antialias: {
-      enable: true,
-    },
-    ssr: {
-      enable: true,
-    },
-    bloom: {
-      enable: true,
-    },
-    outline: {
-      enable: true,
-    },
-  },
-  ground: {
-    enable: true,
-    renderPlugin: {
-      type: "lit",
-    },
-    symbol: {
-      polygonOpacity: 1,
-      material: {
-        baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
-        hsv: [0, 0, -0.532],
-        roughnessFactor: 0.22,
-        metallicFactor: 0.58,
-      },
-    },
-  },
-};
-const gui = new dat.GUI({
-  width: 250,
-});
-const Config = function () {
-  this.animation = true;
-  this.loop = true;
-  this.coordinateSystemList = "map";
-};
-const options = new Config();
-const url = "/resources/gltf/teapot/teapot.gltf";
+/**start**/
 const symbol = {
-  url: url,
+  url: "{res}/gltf/teapot/teapot.gltf",
+  scaleX: 1.5,
+  scaleY: 1.5,
+  scaleZ: 1.5,
+  rotationZ: 180,
 };
 
 const gltfLayer = new maptalks.GLTFLayer("gltf", {
-  gltfCoordinateSystem: "map", //分为map和gltf两种, map为地图坐标系统，会给模型尺寸位置做自适应。gltf为模型内部坐标系统，按真实大小渲染
+  //分为 map 和 gltf 两种, map 为地图坐标系统，会给模型尺寸位置做自适应。gltf 为模型内部坐标系统，按真实大小渲染
+  gltfCoordinateSystem: "map",
 });
-const position = map.getCenter();
-const gltfMarker = new maptalks.GLTFMarker(position, {
+
+const gltfMarker = new maptalks.GLTFMarker(map.getCenter(), {
   symbol,
 }).addTo(gltfLayer);
 
-const groupGLLayer = new maptalks.GroupGLLayer("gl", [gltfLayer], {
-  sceneConfig,
-}).addTo(map);
-
-const coordinateSystemListControl = gui
-  .add(options, "coordinateSystemList", ["map", "gltf"])
-  .name("coordinate list");
-coordinateSystemListControl.onChange(function (value) {
+function setCoordinateSystem(value) {
   gltfLayer.setGltfCoordinateSystem(value);
   if (value === "gltf") {
     map.animateTo({
-      center: [-0.11294, 51.4987],
+      center: [-74.01252272617671, 40.70709931736744],
       zoom: 20,
     });
   } else {
     map.animateTo({
-      center: [-0.113049, 51.498568],
-      zoom: 14,
+      center: [-74.01252272617671, 40.70709931736744],
+      zoom: 16,
     });
   }
-});
+}
+/**end**/
+
+const groupLayer = new maptalks.GroupGLLayer("group", [gltfLayer], {
+  sceneConfig: {
+    environment: {
+      enable: true,
+      mode: 1,
+      level: 0,
+      brightness: 0,
+    },
+    ground: {
+      enable: true,
+      renderPlugin: {
+        type: "lit",
+      },
+      symbol: {
+        polygonFill: [0.54, 0.54, 0.54, 1],
+        ssr: true,
+        material: {
+          baseColorTexture: "{res}/textures/rubber_roughness.png",
+          baseColorFactor: [0.3450981, 0.3372549, 0.2117647, 1],
+          hsv: [-0.468, 0, -0.128],
+          baseColorIntensity: 1.372,
+          contrast: 1.372,
+          roughnessFactor: 1,
+          metallicFactor: 0,
+          normalTexture: "{res}/textures/rubber_roughness.png",
+          uvScale: [0.09, 0.09],
+          normalMapFactor: 0.68,
+          emitColorFactor: 1.11,
+          noiseTexture: "{res}/textures/noise.png",
+        },
+      },
+    },
+  },
+}).addTo(map);
+
+const gui = new mt.GUI();
+
+gui
+  .add({
+    label: "动画效果",
+    type: "select",
+    value: "map",
+    options: ["map", "gltf"],
+  })
+  .onChange((value) => {
+    setCoordinateSystem(value);
+  });

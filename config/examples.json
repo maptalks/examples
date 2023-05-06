@@ -1188,6 +1188,27 @@
               "cn": "移除图层样式",
               "en": "Remove layer style"
             }
+          },
+          {
+            "name": "hide-feature",
+            "title": {
+              "cn": "单独隐藏Feature",
+              "en": "Hide feature"
+            }
+          },
+          {
+            "name": "set-feature-style",
+            "title": {
+              "cn": "单独设置Feature的样式",
+              "en": "Set feature style"
+            }
+          },
+          {
+            "name": "update-feature-style",
+            "title": {
+              "cn": "更新Feature的样式",
+              "en": "Update feature style"
+            }
           }
         ]
       },
@@ -1296,6 +1317,16 @@
         ]
       },
       {
+        "name": "line-3d-style",
+        "title": { "cn": "线数据三维样式", "en": "Line data 3d Style" },
+        "examples": [
+          {
+            "name": "texture",
+            "title": { "cn": "设置纹理", "en": "Set textures" }
+          }
+        ]
+      },
+      {
         "name": "polygonstyle",
         "title": { "cn": "面类型数据样式", "en": "Polygon style" },
         "examples": [
@@ -1323,6 +1354,31 @@
               "cn": "开启泛光",
               "en": "Bloom"
             }
+          }
+        ]
+      },
+      {
+        "name": "polygon-3d-style",
+        "title": { "cn": "面数据三维样式", "en": "Polygon data 3d Style" },
+        "examples": [
+          {
+            "name": "set-height",
+            "title": { "cn": "设置高度", "en": "Set height" }
+          },
+          {
+            "name": "diffrent-textures",
+            "title": {
+              "cn": "顶面和侧面设置不同的纹理",
+              "en": "Set different textures on the top and side"
+            }
+          },
+          {
+            "name": "hide-side",
+            "title": { "cn": "隐藏侧面", "en": "Hide side" }
+          },
+          {
+            "name": "entry",
+            "title": { "cn": "进场动画", "en": "Entry animation" }
           }
         ]
       },
@@ -1975,6 +2031,13 @@
               "cn": "添加draco压缩模型",
               "en": "Add draco"
             }
+          },
+          {
+            "name": "set-altitude",
+            "title": {
+              "cn": "GLTFMarker设置高度",
+              "en": "Set altitude"
+            }
           }
         ]
       },
@@ -2390,6 +2453,13 @@
             "title": {
               "cn": "沿地面轨迹飞行",
               "en": "Flying along ground trajectory"
+            }
+          },
+          {
+            "name": "unmanned",
+            "title": {
+              "cn": "无人机飞行轨迹",
+              "en": "Drone flight trajectory"
             }
           },
           {

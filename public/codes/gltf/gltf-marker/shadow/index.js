@@ -1,85 +1,100 @@
 const map = new maptalks.Map("map", {
-  center: [-0.11144680030497511, 51.49097843108163],
-  zoom: 13.629942384883169,
-  pitch: 62.00000000000024,
-  bearing: -180,
-  baseLayer: new maptalks.TileLayer("base", {
-    urlTemplate: "{urlTemplate}",
-    subdomains: ["a", "b", "c", "d"],
-    attribution: "{attribution}",
-  }),
+  center: [-74.01252272617671, 40.70709931736744],
+  zoom: 16,
+  pitch: 80,
   lights: {
     ambient: {
-      resource: null,
-      color: [1, 1, 1],
+      resource: {
+        url: {
+          front: "{res}/hdr/gradient/front.png",
+          back: "{res}/hdr/gradient/back.png",
+          left: "{res}/hdr/gradient/left.png",
+          right: "{res}/hdr/gradient/right.png",
+          top: "{res}/hdr/gradient/top.png",
+          bottom: "{res}/hdr/gradient/bottom.png",
+        },
+      },
       exposure: 1,
+      hsv: [0, 1, -0.042],
+      orientation: 0,
     },
     directional: {
+      direction: [-1, 1, -1],
       color: [1, 1, 1],
-      lightColorIntensity: 5000,
-      direction: [1, -0.4, -1],
     },
   },
 });
+
+/**start**/
+const symbol = {
+  url: "{res}/gltf/alien/alien.glb",
+  shadow: true,
+  scaleX: 1.5,
+  scaleY: 1.5,
+  scaleZ: 1.5,
+  rotationZ: 180,
+};
+
+const gltfLayer = new maptalks.GLTFLayer("gltf");
+const gltfMarker = new maptalks.GLTFMarker(map.getCenter(), {
+  symbol,
+}).addTo(gltfLayer);
+
+function setShadow(value) {
+  gltfMarker.setCastShadow(value);
+}
 
 const sceneConfig = {
   environment: {
     enable: true,
     mode: 1,
-    level: 1,
-    brightness: 1,
+    level: 0,
+    brightness: 0,
   },
   shadow: {
     enable: true,
     opacity: 0.5,
     color: [0, 0, 0],
   },
-  postProcess: {
+  ground: {
     enable: true,
-    antialias: {
-      enable: true,
+    renderPlugin: {
+      type: "lit",
     },
-    ssr: {
-      enable: true,
-    },
-    bloom: {
-      enable: true,
-    },
-    outline: {
-      enable: true,
+    symbol: {
+      polygonFill: [0.54, 0.54, 0.54, 1],
+      ssr: true,
+      material: {
+        baseColorTexture: "{res}/textures/rubber_roughness.png",
+        baseColorFactor: [0.3450981, 0.3372549, 0.2117647, 1],
+        hsv: [-0.468, 0, -0.128],
+        baseColorIntensity: 1.372,
+        contrast: 1.372,
+        roughnessFactor: 1,
+        metallicFactor: 0,
+        normalTexture: "{res}/textures/rubber_roughness.png",
+        uvScale: [0.09, 0.09],
+        normalMapFactor: 0.68,
+        emitColorFactor: 1.11,
+        noiseTexture: "{res}/textures/noise.png",
+      },
     },
   },
 };
-const gui = new dat.GUI({
-  width: 250,
-});
-class Config {
-  constructor() {
-    this.shadow = false;
-  }
-}
-const options = new Config();
-const url = "{res}/gltf/alien/alien.glb";
-const symbol = {
-  url,
-  shadow: options.shadow,
-  scale: [2, 2, 2],
-};
 
-const gltfLayer = new maptalks.GLTFLayer("gltf");
-const gltfMarker = new maptalks.GLTFMarker(
-  [-0.11304900000004636, 51.498568000000006],
-  {
-    symbol,
-  }
-).addTo(gltfLayer);
-
-const groupGLLayer = new maptalks.GroupGLLayer("gl", [gltfLayer], {
+const groupLayer = new maptalks.GroupGLLayer("group", [gltfLayer], {
   sceneConfig,
 }).addTo(map);
+/**end**/
 
-// shadow control
-const shadowController = gui.add(options, "shadow");
-shadowController.onChange(function (value) {
-  gltfMarker.setCastShadow(value);
-});
+const gui = new mt.GUI();
+
+gui
+  .add({
+    type: "checkbox",
+    label: "阴影",
+    value: true,
+  })
+  .onChange((value) => {
+    setShadow(value);
+  });
