@@ -11,6 +11,16 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const gltfLayer = new maptalks.GLTFLayer("gltf");
+const groupLayer = new maptalks.GroupGLLayer("group", [gltfLayer], {
+  sceneConfig: {
+    postProcess: {
+      enable: true,
+      antialias: {
+        enable: true,
+      },
+    },
+  },
+}).addTo(map);
 
 const marker = new maptalks.GLTFMarker(
   [108.9585062962617, 34.21792224742464, 55.36973],
@@ -38,13 +48,14 @@ const route = {
   ],
 };
 
-const player = new maptalks.RoutePlayer(route, map, {
+const player = new maptalks.RoutePlayer(route, groupLayer, {
   showTrail: false,
   markerSymbol: {
     markerOpacity: 0,
   },
   lineSymbol: {
     lineColor: "#ea6b48",
+    lineWidth: 2
   },
 });
 
@@ -53,8 +64,8 @@ let follow = false;
 player.on("playing", (param) => {
   marker.setCoordinates(param.coordinate);
   marker.updateSymbol({
-    rotationX: -param.rotationY + 90,
-    rotationZ: param.rotationZ - 90,
+    rotationX: -param.pitch,
+    rotationZ: param.bearing - 90
   });
   if (follow) {
     map.setView({
@@ -91,16 +102,6 @@ function changeView(value) {
   }
 }
 /**end**/
-const groupLayer = new maptalks.GroupGLLayer("group", [gltfLayer], {
-  sceneConfig: {
-    postProcess: {
-      enable: true,
-      antialias: {
-        enable: true,
-      },
-    },
-  },
-}).addTo(map);
 
 const gui = new mt.GUI();
 

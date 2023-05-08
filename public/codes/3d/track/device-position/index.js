@@ -25,6 +25,20 @@ const geo3DTileslayer = new maptalks.Geo3DTilesLayer("3dtiles", {
 
 /**start**/
 const gltfLayer = new maptalks.GLTFLayer("gltf");
+const groupGLLayer = new maptalks.GroupGLLayer(
+  "group",
+  [geo3DTileslayer, gltfLayer],
+  {
+    sceneConfig: {
+      postProcess: {
+        enable: true,
+        antialias: {
+          enable: true,
+        },
+      },
+    },
+  }
+).addTo(map);
 
 const gltfMarker1 = new maptalks.GLTFMarker([108.958438, 34.217715, 17.5], {
   symbol: {
@@ -77,39 +91,35 @@ const route2 = {
   ],
 };
 
-const player1 = new maptalks.RoutePlayer(route1, map, {
+const player1 = new maptalks.RoutePlayer(route1, groupGLLayer, {
   showTrail: false,
-  markerSymbol: {
-    markerOpacity: 0,
-  },
+  showMarker: false,
   lineSymbol: {
-    lineColor: "#ea6b48",
+    lineColor: "#ea6b48"
   },
 });
 
-const player2 = new maptalks.RoutePlayer(route2, map, {
+const player2 = new maptalks.RoutePlayer(route2, groupGLLayer, {
   showTrail: false,
-  markerSymbol: {
-    markerOpacity: 0,
-  },
+  showMarker: false,
   lineSymbol: {
-    lineColor: "#dbd34b",
+    lineColor: "#dbd34b"
   },
 });
 
 player1.on("playing", (param) => {
   gltfMarker1.setCoordinates(param.coordinate);
   gltfMarker1.updateSymbol({
-    rotationX: -param.rotationY + 90,
-    rotationZ: param.rotationZ - 90,
+    rotationX: -param.pitch,
+    rotationZ: param.bearing - 90
   });
 });
 
 player2.on("playing", (param) => {
   gltfMarker2.setCoordinates(param.coordinate);
   gltfMarker2.updateSymbol({
-    rotationX: -param.rotationY + 90,
-    rotationZ: param.rotationZ - 90,
+    rotationX: -param.pitch,
+    rotationZ: param.bearing - 90
   });
 });
 
@@ -124,21 +134,6 @@ function play() {
 
 play()
 /**end**/
-
-const groupGLLayer = new maptalks.GroupGLLayer(
-  "group",
-  [geo3DTileslayer, gltfLayer],
-  {
-    sceneConfig: {
-      postProcess: {
-        enable: true,
-        antialias: {
-          enable: true,
-        },
-      },
-    },
-  }
-).addTo(map);
 
 function getPickedCoordinate(coordinate) {
   const identifyData = groupGLLayer.identify(coordinate)[0];

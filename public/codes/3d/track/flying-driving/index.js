@@ -97,16 +97,16 @@ let currentPlayer = planePlayer;
 planePlayer.on("playing", (param) => {
   plane.setCoordinates(param.coordinate);
   plane.updateSymbol({
-    rotationX: param.rotationX / 2,
-    rotationZ: param.rotationZ - 90,
+    rotationX: -param.pitch,
+    rotationZ: param.bearing - 90,
   });
 });
 
 carPlayer.on("playing", (param) => {
   car.setCoordinates(param.coordinate);
   car.updateSymbol({
-    rotationX: -param.rotationY + 90,
-    rotationZ: param.rotationZ + 90,
+    rotationX: -param.pitch,
+    rotationZ: param.bearing + 90,
   });
 });
 
