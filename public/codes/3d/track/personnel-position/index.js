@@ -73,22 +73,113 @@ const groupGLLayer = new maptalks.GroupGLLayer(
 ).addTo(map);
 
 /**start**/
-function positioningA() {
-  const coordinates = gltfMarker1.getCoordinates();
-  map.animateTo({
-    center: [coordinates.x, coordinates.y],
-    bearing: 0,
-    zoom: 18,
+const route1 = {
+  path: [
+    [108.958438, 34.217715, 17.5, 301000],
+    [108.958403, 34.219752, 19.2, 541000],
+  ],
+};
+
+const route2 = {
+  path: [
+    [108.96099472732544, 34.21793272780141, 20.3101, 301000],
+    [108.96046160202025, 34.217917380427224, 19.65663, 541000],
+    [108.96047217636101, 34.21897194236598, 22.20198, 781000],
+  ],
+};
+
+let flag1 = false;
+let flag2 = false;
+
+const player1 = new maptalks.RoutePlayer(route1, groupGLLayer, {
+  showTrail: false,
+  showMarker: false,
+  lineSymbol: {
+    lineColor: "#ea6b48",
+  },
+});
+
+const player2 = new maptalks.RoutePlayer(route2, groupGLLayer, {
+  showTrail: false,
+  showMarker: false,
+  lineSymbol: {
+    lineColor: "#dbd34b",
+  },
+});
+
+function getPitch(pitch) {
+  if (pitch > 270 && pitch < 350) {
+    return pitch - 270;
+  } else if (pitch >= 350 || (pitch >= 0 && pitch <= 180)) {
+    return map.options["maxPitch"];
+  } else {
+    return 0;
+  }
+}
+
+player1.on("playing", (param) => {
+  gltfMarker1.setCoordinates(param.coordinate);
+  gltfMarker1.updateSymbol({
+    rotationX: -param.pitch,
+    rotationZ: param.bearing - 90,
   });
+  if (flag1) {
+    map.setCameraPosition({
+      position: [param.coordinate.x, param.coordinate.y, param.coordinate.z],
+      pitch: getPitch(param.pitch),
+      bearing: -param.bearing - 90,
+    });
+  }
+});
+
+player2.on("playing", (param) => {
+  gltfMarker2.setCoordinates(param.coordinate);
+  gltfMarker2.updateSymbol({
+    rotationX: -param.pitch,
+    rotationZ: param.bearing - 90,
+  });
+  if (flag2) {
+    map.setCameraPosition({
+      position: [param.coordinate.x, param.coordinate.y, param.coordinate.z],
+      pitch: getPitch(param.pitch),
+      bearing: -param.bearing - 90,
+    });
+  }
+});
+
+function play() {
+  player1.setUnitTime(5);
+  // player1.showRoute();
+  player1.play();
+  player2.setUnitTime(20);
+  // player2.showRoute();
+  player2.play();
+}
+
+play();
+
+function positioningA() {
+  // const coordinates = gltfMarker1.getCoordinates();
+  // map.animateTo({
+  //   center: [coordinates.x, coordinates.y],
+  //   bearing: 0,
+  //   zoom: 18,
+  // });
+  flag1 = true;
+  flag2 = false;
+  gltfMarker1.openInfoWindow();
 }
 
 function positioningB() {
-  const coordinates = gltfMarker2.getCoordinates();
-  map.animateTo({
-    center: [coordinates.x, coordinates.y],
-    bearing: -90,
-    zoom: 18,
-  });
+  // const coordinates = gltfMarker2.getCoordinates();
+  // map.animateTo({
+  //   center: [coordinates.x, coordinates.y],
+  //   bearing: -90,
+  //   zoom: 18,
+  // });
+  flag1 = false;
+  flag2 = true;
+  gltfMarker2.openInfoWindow();
 }
 /**end**/
 
@@ -98,7 +189,7 @@ gui
   .add({
     label: "工业园人定位",
     type: "select",
-    value: "A",
+    value: "",
     options: [
       {
         label: "工人A",
