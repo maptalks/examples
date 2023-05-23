@@ -7,8 +7,19 @@ export function useThumbList() {
   const navigate = useNavigate();
 
   function handleSelect(i: string, j: string, k: string) {
-    store.setSelectedKey(`${i}_${j}_${k}`);
+    if (!store.openKeys.includes(i)) {
+      store.setOpenKey(i);
+    }
+    const key = `${i}_${j}_${k}`;
+    store.setSelectedKey(key);
     navigate(`/examples/${store.language}/${i}/${j}/${k}`);
+    setTimeout(() => {
+      const ele = document.querySelector(`[data-key=_${key}]`);
+      ele?.scrollIntoView({
+        behavior: "auto",
+        block: "center",
+      });
+    })
   }
 
   function getTabIndex() {
