@@ -55,7 +55,7 @@ const player = new maptalks.RoutePlayer(route, groupLayer, {
   },
   lineSymbol: {
     lineColor: "#ea6b48",
-    lineWidth: 2
+    lineWidth: 2,
   },
 });
 
@@ -65,7 +65,7 @@ player.on("playing", (param) => {
   marker.setCoordinates(param.coordinate);
   marker.updateSymbol({
     rotationX: -param.pitch,
-    rotationZ: param.bearing - 90
+    rotationZ: param.bearing - 90,
   });
   if (follow) {
     map.setView({
@@ -91,12 +91,14 @@ function changeView(value) {
       zoom: 14,
       pitch: 10,
     });
+    follow = false;
   } else if (value === "side") {
     map.animateTo({
       center: [108.9594, 34.2193],
       zoom: 14,
       pitch: 60,
     });
+    follow = false;
   } else {
     follow = true;
   }

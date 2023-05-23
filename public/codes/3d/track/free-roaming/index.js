@@ -1,6 +1,8 @@
 const map = new maptalks.Map("map", {
   center: [108.9594, 34.2193],
-  zoom: 18,
+  zoom: 17.8,
+  pitch: 58.4,
+  bearing: 0,
   baseLayer: new maptalks.TileLayer("base", {
     urlTemplate: "{urlTemplate}",
     subdomains: ["a", "b", "c", "d"],
@@ -37,7 +39,20 @@ const sceneConfig = {
   },
 };
 
-const groupLayer = new maptalks.GroupGLLayer("group", [layer], {
+const gltfLayer = new maptalks.GLTFLayer("gltf");
+const gltfMarker = new maptalks.GLTFMarker([108.958438, 34.217715, 17.5], {
+  symbol: {
+    url: "{res}/gltf/character_x_bot/scene.gltf",
+    rotationZ: 180,
+    scaleX: 0.5,
+    scaleY: 0.5,
+    scaleZ: 0.5,
+    animation: true,
+    loop: true,
+  },
+}).addTo(gltfLayer);
+
+const groupLayer = new maptalks.GroupGLLayer("group", [layer, gltfLayer], {
   sceneConfig,
 }).addTo(map);
 

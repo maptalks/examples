@@ -49,6 +49,45 @@ const car = new maptalks.GLTFMarker(
   }
 ).addTo(gltfLayer);
 
+const vectorLayer = new maptalks.VectorLayer("vector", {
+  enableAltitude: true,
+}).addTo(map);
+
+const symbol = {
+  markerFile: "{res}/markers/site.svg",
+  markerWidth: 24,
+  markerHeight: 26,
+};
+
+const planeStartPoint = new maptalks.Marker(
+  [108.9585062962617, 34.21792224742464, 55.36973],
+  {
+    symbol,
+  }
+);
+const planeEndPoint = new maptalks.Marker([
+  108.95941857376101, 34.21978314186296, 88.36877,
+], {
+  symbol,
+});
+const carStartPoint = new maptalks.Marker([
+  108.96099472732544, 34.21793272780141, 20.3101,
+], {
+  symbol,
+});
+const carEndPoint = new maptalks.Marker([
+  108.96047217636101, 34.21897194236598, 22.20198,
+], {
+  symbol,
+});
+
+vectorLayer.addGeometry(planeStartPoint);
+vectorLayer.addGeometry(planeEndPoint);
+vectorLayer.addGeometry(carStartPoint);
+vectorLayer.addGeometry(carEndPoint);
+
+vectorLayer.setZIndex(1);
+
 const groupLayer = new maptalks.GroupGLLayer("group", [layer, gltfLayer], {
   sceneConfig: {
     postProcess: {
@@ -59,6 +98,7 @@ const groupLayer = new maptalks.GroupGLLayer("group", [layer, gltfLayer], {
     },
   },
 }).addTo(map);
+
 const planeRoute = {
   path: [
     [108.9585062962617, 34.21792224742464, 55.36973, 301000],
@@ -76,23 +116,30 @@ const carRoute = {
 
 const planePlayer = new maptalks.RoutePlayer(planeRoute, groupLayer, {
   showTrail: false,
+  showRoute: true,
   markerSymbol: {
     markerOpacity: 0,
   },
   lineSymbol: {
     lineColor: "#ea6b48",
-    lineWidth: 2,
+    lineWidth: 4,
   },
 });
 
 const carPlayer = new maptalks.RoutePlayer(carRoute, groupLayer, {
   showTrail: false,
+  showRoute: true,
   markerSymbol: {
     markerOpacity: 0,
+  },
+  lineSymbol: {
+    lineColor: "#ea6b48",
+    lineWidth: 4,
   },
 });
 
 let currentPlayer = planePlayer;
+let speed = 10;
 
 planePlayer.on("playing", (param) => {
   plane.setCoordinates(param.coordinate);
@@ -111,47 +158,72 @@ carPlayer.on("playing", (param) => {
 });
 
 function play() {
-  currentPlayer.setUnitTime(10);
-  currentPlayer.showRoute();
-  currentPlayer.play();
+  planePlayer.setUnitTime(speed);
+  planePlayer.play();
+  carPlayer.setUnitTime(speed);
+  carPlayer.play();
 }
 
 function pause() {
-  currentPlayer.pause();
+  planePlayer.pause();
+  carPlayer.pause();
 }
 
-function changeCurrentPlayer(value) {
-  if (value === "plane") {
-    currentPlayer = planePlayer;
-  } else {
-    currentPlayer = carPlayer;
-  }
+function replay() {
+  planePlayer.cancel();
+  carPlayer.cancel();
+  play();
 }
 
 function setColor(value) {
-  currentPlayer.setLineSymbol(0, {
+  planePlayer.setLineSymbol(0, {
+    lineColor: value,
+  });
+  carPlayer.setLineSymbol(0, {
     lineColor: value,
   });
 }
 
 function setWidth(value) {
-  currentPlayer.setLineSymbol(0, {
+  planePlayer.setLineSymbol(0, {
+    lineWidth: value,
+  });
+  carPlayer.setLineSymbol(0, {
     lineWidth: value,
   });
 }
 
 function setOpacity(value) {
-  currentPlayer.setLineSymbol(0, {
+  planePlayer.setLineSymbol(0, {
+    lineOpacity: value,
+  });
+  carPlayer.setLineSymbol(0, {
     lineOpacity: value,
   });
 }
 
-function showRoute() {
-  currentPlayer.showRoute();
+function setSpeed(value) {
+  speed = value;
+  planePlayer.setUnitTime(value);
+  carPlayer.setUnitTime(value);
 }
 
-function hideRoute() {
-  currentPlayer.hideRoute();
+function toggleRouteVisivle(value) {
+  if (value) {
+    planePlayer.showRoute();
+    carPlayer.showRoute();
+  } else {
+    planePlayer.hideRoute();
+    carPlayer.hideRoute();
+  }
+}
+
+function toggleSiteVisivle(value) {
+  if (value) {
+    vectorLayer.show();
+  } else {
+    vectorLayer.hide();
+  }
 }
 /**end**/
 
@@ -179,22 +251,12 @@ gui
 
 gui
   .add({
-    label: "选择轨迹",
-    type: "select",
-    value: "plane",
-    options: [
-      {
-        label: "飞机",
-        value: "plane",
-      },
-      {
-        label: "汽车",
-        value: "car",
-      },
-    ],
+    type: "button",
+    label: "重新播放",
+    role: "clear",
   })
-  .onChange((value) => {
-    changeCurrentPlayer(value);
+  .onClick(() => {
+    replay();
   });
 
 gui
@@ -235,20 +297,33 @@ gui
 
 gui
   .add({
+    type: "slider",
+    label: "速度",
+    value: 10,
+    min: 1,
+    max: 100,
+    step: 1,
+  })
+  .onChange((value) => {
+    setSpeed(value);
+  });
+
+gui
+  .add({
     type: "checkbox",
     label: "显示轨迹",
     value: true,
   })
   .onChange((value) => {
-    if (value) {
-      showRoute();
-    } else {
-      hideRoute();
-    }
+    toggleRouteVisivle(value);
   });
 
-gui.add({
-  type: "checkbox",
-  label: "显示站点",
-  value: true,
-});
+gui
+  .add({
+    type: "checkbox",
+    label: "显示站点",
+    value: true,
+  })
+  .onChange((value) => {
+    toggleSiteVisivle(value);
+  });
