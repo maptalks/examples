@@ -58,39 +58,6 @@ const style = {
       },
     },
   ],
-  featureStyle: [
-    {
-      id: 12,
-      style: [
-        {
-          renderPlugin: {
-            dataConfig: {
-              type: "fill",
-            },
-            sceneConfig: {},
-            type: "fill",
-          },
-          symbol: {
-            polygonFill: "#89c2be",
-            polygonOpacity: 1,
-          },
-        },
-        {
-          renderPlugin: {
-            dataConfig: {
-              type: "line",
-            },
-            sceneConfig: {},
-            type: "line",
-          },
-          symbol: {
-            lineColor: "#E2E2E2",
-            lineWidth: 2,
-          },
-        },
-      ],
-    },
-  ],
 };
 
 const geo = new maptalks.GeoJSONVectorTileLayer("geo", {
@@ -103,12 +70,7 @@ geo.on("dataload", (e) => {
 });
 
 function updateFeatureStyle() {
-  geo.updateFeatureSymbol(0, 0, {
-    polygonFill: "#efc69e",
-  });
-  geo.updateFeatureSymbol(0, 1, {
-    lineColor: "#CB7575",
-  });
+  geo.highlight([{ id: 12, color: "#efc69e" }]);
 }
 /**end**/
 
@@ -129,7 +91,7 @@ const gui = new mt.GUI();
 gui
   .add({
     type: "button",
-    text: "Update feature style",
+    text: "更新feature样式",
   })
   .onClick(() => {
     updateFeatureStyle();

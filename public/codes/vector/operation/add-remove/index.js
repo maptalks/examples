@@ -7,18 +7,19 @@ const map = new maptalks.Map("map", {
 const vt = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
   spatialReference: "preset-vt-3857",
+  style: "{res}/styles/maptalks-common/style.json",
 });
 
-const groupLayer = new maptalks.GroupGLLayer("group", [vt]).addTo(map);
+const group = new maptalks.GroupGLLayer("group", [vt]).addTo(map);
 
 function add() {
-  if (groupLayer.getLayers().length === 0) {
-    groupLayer.addLayer(vt);
+  if (group.getLayers().length === 0) {
+    group.addLayer(vt);
   }
 }
 
 function remove() {
-  groupLayer.removeLayer(vt);
+  group.removeLayer(vt);
 }
 /**end**/
 

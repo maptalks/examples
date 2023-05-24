@@ -85,7 +85,7 @@ function audio() {
 }
 /**end**/
 
-const groupGLLayer = new maptalks.GroupGLLayer("gl", [gltfLayer, videoLayer], {
+const groupLayer = new maptalks.GroupGLLayer("gl", [gltfLayer, videoLayer], {
   sceneConfig: {
     environment: {
       enable: true,
