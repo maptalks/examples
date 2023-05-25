@@ -64,7 +64,7 @@ function setDrawTool() {
     insightAnalysis.update('to', lookPoint);
     first = false;
   });
-  
+
   drawTool.on("drawvertex", (e) => {
     const coordinate = getPickedCoordinate(e.coordinate);
     if (!coordinate) {
@@ -87,7 +87,7 @@ function setDrawTool() {
     insightAnalysis.update('to', lookPoint);
     drawTool.disable();
   });
-  
+
   drawTool.on("drawstart", (e) => {
     const coordinate = getPickedCoordinate(e.coordinate);
     if (!coordinate) {

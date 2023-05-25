@@ -8,7 +8,7 @@ const map = new maptalks.Map("map", {
 });
 
 const vt = new maptalks.VectorTileLayer("vt", {
-  urlTemplate: `https://api.mapbox.com/v4/mapbox.mapbox-streets-v7/{z}/{x}/{y}.vector.pbf?access_token=${token}`,
+  urlTemplate: `https://api.mapbox.com/v4/mapbox.mapbox-streets-v8/{z}/{x}/{y}.vector.pbf?access_token=${token}`,
   spatialReference: "preset-vt-3857",
   style: "{res}/styles/mapbox-light/style.json",
 });
