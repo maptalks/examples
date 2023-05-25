@@ -24,6 +24,7 @@ const map = new maptalks.Map("map", {
 });
 
 const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
+  geometryEvents: true,
   services: [
     {
       url: "http://resource.dvgis.cn/data/3dtiles/dayanta/tileset.json",
@@ -63,28 +64,40 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
 }).addTo(map);
 
 let measureTool = null;
+const toolOptions = {
+  once: false,
+  symbol: {
+    'lineColor': "#e8542b",
+    'lineWidth': 2
+  },
+  vertexSymbol: {
+    'markerType': 'ellipse',
+    'markerFill': '#e8542b',
+    'markerLineColor': '#fff',
+    'markerLineWidth': 3,
+    'markerWidth': 12,
+    'markerHeight': 12,
+    'markerDy': 6
+  },
+  labelSymbol: {
+    'markerType': 'square',
+    'markerFill': 'rgb(60, 60, 60)',
+    'markerLineColor': 'rgb(255, 255, 255)',
+    'markerFillOpacity': 0.8,
+    'markerDx': 20,
+    'markerVerticalAlignment': 'middle',
+    'markerHorizontalAlignment': 'left',
+    'markerTextFit': 'both',
+    'markerTextFitPadding': [5, 5, 5, 10],
+    'textHorizontalAlignment': 'left',
+    'textSize': 16,
+    'textFill': '#fff',
+    'textDx': 30
+}
+};
 layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
   map.fitExtent(extent, 0, { animation: false });
-  measureTool = new maptalks.MeasureTool({
-    language: "zh-CN",
-    metric: true,
-    imperial: false,
-    symbol: {
-      lineColor: "#e8542b",
-      dashLineColor: "#0f0",
-      polygonFill: "#e8542b",
-      polygonOpacity: 0.6,
-    },
-    labelOptions: {
-      boxStyle: {
-        markerFile: "{res}/images/measure-tooltip.png",
-        markerDx: 90,
-        textDy: -20,
-      },
-    },
-  }).addTo(groupGLLayer);
-  measureTool.disable();
 });
 
 const gui = new mt.GUI();
@@ -96,9 +109,9 @@ gui
   })
   .onClick(() => {
     if (measureTool) {
-      measureTool.enable();
-      measureTool.setType("distance");
+      measureTool.remove();
     }
+    measureTool = new maptalks.Distance3DTool(toolOptions).addTo(groupGLLayer);
   });
 
 gui
@@ -109,9 +122,9 @@ gui
   })
   .onClick(() => {
     if (measureTool) {
-      measureTool.enable();
-      measureTool.setType("area");
+      measureTool.remove();
     }
+    measureTool = new maptalks.Area3DTool(toolOptions).addTo(groupGLLayer);
   });
 
 gui
@@ -122,9 +135,9 @@ gui
   })
   .onClick(() => {
     if (measureTool) {
-      measureTool.enable();
-      measureTool.setType("height");
+      measureTool.remove();
     }
+    measureTool = new maptalks.Height3DTool(toolOptions).addTo(groupGLLayer);
   });
 
 gui
@@ -135,7 +148,6 @@ gui
   })
   .onClick(() => {
     if (measureTool) {
-      measureTool.clear();
-      measureTool.disable();
+      measureTool.remove();
     }
   });
