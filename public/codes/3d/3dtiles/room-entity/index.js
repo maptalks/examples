@@ -67,15 +67,18 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
 }).addTo(map);
 
 /**start**/
+let selectedRoom = null;
 function setEventAndInfowindow(mask) {
-  mask.on('mouseover mouseout', e => {
-    let polygonFill = '#ea6b48';
-    if (e.type === 'mouseover') {
-      polygonFill = '#2e2'
+  mask.on('click', e => {
+    if (selectedRoom) {
+      selectedRoom.updateSymbol({
+        polygonFill: '#ea6b48'
+      });
     }
     e.target.updateSymbol({
-      polygonFill
+      polygonFill: '#2e2'
     });
+    selectedRoom = e.target;
   });
   const name = mask.getProperties().name;
   mask.setInfoWindow({
@@ -130,16 +133,22 @@ gui
     options: generateRoomList()
   })
   .onChange((value) => {
+    if (selectedRoom) {
+      selectedRoom.updateSymbol({
+        polygonFill: '#ea6b48'
+      });
+      selectedRoom.closeInfoWindow();
+    }
     const masks = layer.getMasks();
     for (let i = 0; i < masks.length; i++) {
       const properties = masks[i].getProperties();
-      debugger
       if (properties.name === Number(value)) {
         masks[i].updateSymbol({
           polygonFill: "#2e2"
         });
         const center = masks[i].getCenter();
         map.panTo(center, { animation: true });
+        selectedRoom = mask;
       } else {
         masks[i].updateSymbol({
           polygonFill: "#ea6b48"

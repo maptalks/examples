@@ -2809,10 +2809,10 @@
             }
           },
           {
-            "name": "floor-monomer",
+            "name": "floor-entity",
             "title": {
               "cn": "模型楼层单体化",
-              "en": "Model floor monomer"
+              "en": "Model floor entity"
             }
           },
           {

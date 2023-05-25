@@ -77,18 +77,6 @@ function createGroupGLLayer() {
   });
 }
 
-function getPickedCoordinate(coordinate, groupLayer, map) {
-  const identifyData = groupLayer.identify(coordinate)[0];
-  const pickedPoint = identifyData && identifyData.point;
-  if (pickedPoint) {
-    const altitude = map.pointAtResToAltitude(pickedPoint[2], map.getGLRes());
-    const coordinate = map.pointAtResToCoordinate(new maptalks.Point(pickedPoint[0], pickedPoint[1]), map.getGLRes());
-    return new maptalks.Coordinate(coordinate.x, coordinate.y, altitude);
-  } else {
-    return coordinate;
-  }
-}
-
 function toJSONFile(layer) {
   const json = [];
   const polygons = layer.getGeometries();
@@ -107,11 +95,22 @@ const groupLayerRight = createGroupGLLayer().addTo(mapRight);
 const layerLeft = create3DtilesLayer().addTo(groupLayerLeft);
 const layerRight = create3DtilesLayer().addTo(groupLayerRight);
 
+const flatMask = new maptalks.FlatInsideMask([
+  [108.95682305574587, 34.22197583048299], [108.96203619403514, 34.22206335452293], [108.96241990218334, 34.217282220654255], [108.95662458601396, 34.21698680989036]
+], {
+  flatHeight: 0
+});
+//左侧地图压平, 方便绘制
+layerLeft.once('loadtileset', () => {
+  layerLeft.setMask(flatMask);
+});
+
 /**start**/
-let masks= [];
+let masks= [], currentMask = null;;
 const drawLayer = new maptalks.VectorLayer('drawLayer').addTo(mapLeft);
 const drawTool = new maptalks.DrawTool({
   mode: "polygon",
+  once: true,
   symbol: {
     lineColor: '#f00',
     polygonFill: '#ea6b48',
@@ -120,6 +119,7 @@ const drawTool = new maptalks.DrawTool({
 }).addTo(mapLeft).disable();
 
 drawTool.on('drawend', e => {
+  console.log(111);
   e.geometry.addTo(drawLayer);
   addMask(e.geometry);
 });
@@ -134,6 +134,10 @@ function addMask(polygon) {
     e.target.updateSymbol({
       polygonOpacity: opacity
     });
+  });
+  currentMask = mask;
+  masks.forEach(mask => {
+    mask.remove();
   });
   masks.push(mask);
   layerRight.setMask(masks);
@@ -189,12 +193,13 @@ gui
 
 gui.add({
   type: "button",
-  text: "添加",
+  text: "设置高度范围",
 }).onClick(() => {
   if (buttomHeight >= topHeight) {
     alert('top height should be bigger than buttom height');
     return;
   }
+  currentMask.setHeightRange([buttomHeight, topHeight]);
 });
 
 gui.add({

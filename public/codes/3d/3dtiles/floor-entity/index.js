@@ -90,17 +90,19 @@ function loadMonomers() {
     return response.json();
   }).then(function(data){
     for (let i = 0; i < data.length; i++) {
+      const top = Number(data[i].properties.topHeight), buttom = Number(data[i].properties.buttomHeight);
       const mask = new maptalks.ColorMask(data[i].geometry.coordinates, {
         symbol: {
           polygonFill: '#ea6b48',
           polygonOpacity: 0.6
         },
+        heightRange: [buttom, top],
         properties: data[i].properties
       });
       setEventAndInfowindow(mask);
       masks.push(mask);
     }
-    layer.setMask(masks);
+    layer.setMask(masks[0]);
   });
 }
 
@@ -139,12 +141,7 @@ gui
   .onChange((value) => {
     for (let i = 0; i < masks.length; i++) {
       const properties = masks[i].getProperties();
-      if (properties.name !== value) {
-        masks[i].remove();
-      } else {
-        masks[i].updateSymbol({
-          polygonOpacity: 0.9
-        });
+      if (properties.name === value) {
         const center = masks[i].getCenter();
         map.panTo(center, { animation: true });
         layer.setMask(masks[i]);

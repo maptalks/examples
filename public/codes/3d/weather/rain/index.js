@@ -201,6 +201,12 @@ const sceneConfig = {
   },
   weather: {
     enable: true,
+    fog: {
+      enable: true,
+      start: 3,
+      end: 70,
+      color: [0.9, 0.9, 0.9]
+    },
     rain: {
       enable: true,
       windDirectionX: 0,

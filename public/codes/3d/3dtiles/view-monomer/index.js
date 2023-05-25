@@ -184,6 +184,13 @@ const roomMarker = new maptalks.GLTFMarker(position,
     zoomOnAdded: 17,
   }
 ).addTo(gltfLayer);
+roomMarker.on('mouseenter mouseout', e => {
+  if (e.type === 'mouseenter') {
+    e.target.setUniform('polygonFill', [0.7, 0.2, 0.3, 0.8]);
+  } else {
+    e.target.setUniform('polygonFill', [1, 1, 1, 1]);
+  }
+});
 
 const sceneConfig = {
   environment: {
@@ -223,7 +230,7 @@ map.on('click', e => {
   const identifyData = groupGLLayer.identify(e.coordinate)[0];
   const picked = identifyData && identifyData.data;
   if (picked && picked.getId() !== 'house') {
-    houseMarker.setUniform('polygonOpacity', 0.1);
+    houseMarker.setUniform('polygonOpacity', 0.2);
   } else {
     houseMarker.setUniform('polygonOpacity', 1);
   }
