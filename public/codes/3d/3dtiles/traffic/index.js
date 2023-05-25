@@ -55,6 +55,7 @@ function loadRoads() {
     scene = new maptalks.TrafficScene();
     scene.setSymbols(symbols);
     scene.carsNumber = 300;
+    scene.gridSize = 64;
     scene.addTo(groupLayer);
     scene.generateTraffic(roads);
     scene.run();
