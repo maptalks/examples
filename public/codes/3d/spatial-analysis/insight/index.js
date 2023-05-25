@@ -10,6 +10,8 @@ fetch('{res}/msd/map.json').then(function(response){
   map = maptalks.Map.fromJSON('map', data);
   const center = map.getCenter();
   groupLayer = map.getLayer('group');
+  const vt = groupLayer.getLayer('vt0');
+  vt.options.pickingPoint = true;
   lookPoint = [center.x - 0.001, center.y - 0.0005, 100];
     //视点位置
   eyePos = [center.x + 0.003, center.y + 0.002, 50];
@@ -27,12 +29,6 @@ fetch('{res}/msd/map.json').then(function(response){
   });
   insightAnalysis.addTo(groupLayer);
   addLabel();
-  drawTool = new maptalks.DrawTool({
-    mode: "LineString",
-    symbol: {
-      lineOpacity: 0,
-    },
-  }).addTo(map).disable();
   setDrawTool();
 });
 
@@ -40,9 +36,10 @@ fetch('{res}/msd/map.json').then(function(response){
 function setDrawTool() {
   drawTool = new maptalks.DrawTool({
     mode: "LineString",
+    enableAltitude: true,
     symbol: {
-      lineOpacity: 0,
-    },
+      lineColor: '#f00'
+    }
   }).addTo(map).disable();
   drawTool.on("mousemove", (e) => {
     const coordinate = getPickedCoordinate(e.coordinate);
@@ -61,10 +58,14 @@ function setDrawTool() {
     });
     e.geometry.setCoordinates(coordinates);
     lookPoint = [coordinate.x, coordinate.y, coordinate.z];
-    insightAnalysis.update('to', lookPoint);
+    insightAnalysis.update('lines', [{
+      from: eyePos,
+      to: lookPoint
+    }]);
+    updateLabel();
     first = false;
   });
-  
+
   drawTool.on("drawvertex", (e) => {
     const coordinate = getPickedCoordinate(e.coordinate);
     if (!coordinate) {
@@ -84,10 +85,14 @@ function setDrawTool() {
     });
     e.geometry.setCoordinates(coordinates);
     lookPoint = [coordinate.x, coordinate.y, coordinate.z];
-    insightAnalysis.update('to', lookPoint);
+    insightAnalysis.update('lines', [{
+      from: eyePos,
+      to: lookPoint
+    }]);
+    updateLabel();
     drawTool.disable();
   });
-  
+
   drawTool.on("drawstart", (e) => {
     const coordinate = getPickedCoordinate(e.coordinate);
     if (!coordinate) {
@@ -100,18 +105,20 @@ function setDrawTool() {
     });
     e.geometry.setCoordinates(coordinates);
     eyePos = [coordinate.x, coordinate.y, coordinate.z];
-    insightAnalysis.update('from', eyePos);
+    insightAnalysis.update('lines', [{
+      from: eyePos,
+      to: lookPoint
+    }]);
+    updateLabel();
     first = true;
   });
 }
 
 function getPickedCoordinate(coordinate) {
   const identifyData = groupLayer.identify(coordinate)[0];
-  const pickedPoint = identifyData && identifyData.point;
-  if (pickedPoint) {
-    const altitude = map.pointAtResToAltitude(pickedPoint[2], map.getGLRes());
-    const coordinate = map.pointAtResToCoordinate(new maptalks.Point(pickedPoint[0], pickedPoint[1]), map.getGLRes());
-    return new maptalks.Coordinate(coordinate.x, coordinate.y, altitude);
+  const pickedCoordinate = identifyData && identifyData.coordinate;
+  if (pickedCoordinate) {
+    return new maptalks.Coordinate(pickedCoordinate);
   } else {
     return coordinate;
   }
