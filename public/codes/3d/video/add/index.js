@@ -23,7 +23,6 @@ const map = new maptalks.Map("map", {
   },
 });
 
-// add gltf layer
 const gltfLayer = new maptalks.GLTFLayer("gltf");
 
 const gltfMarker = new maptalks.GLTFMarker(
@@ -49,14 +48,14 @@ const gltfMarker = new maptalks.GLTFMarker(
 
 gltfLayer.addGeometry(gltfMarker);
 
-// video layer
+/**start**/
 const ratio = (48 / 27) * 0.01;
 const videoSurface = new maptalks.VideoSurface(
   [
-    [-74.01162476336549, 40.712214182492374, 100],
-    [-74.0116320237475, 40.7111789805343, 100],
-    [-74.0116320237475, 40.7111789805343, 1],
-    [-74.01162476336549, 40.712214182492374, 1],
+    [-74.01162476336549, 40.712214182492374, 85],
+    [-74.0116320237475, 40.7111789905343, 85],
+    [-74.0116320237475, 40.7111789805343, 36],
+    [-74.01162476336549, 40.712214182492374, 36],
   ],
   {
     url: "{res}/videos/test1.mp4",
@@ -66,8 +65,27 @@ const videoSurface = new maptalks.VideoSurface(
 const videoLayer = new maptalks.VideoLayer("video");
 videoSurface.addTo(videoLayer);
 
-// group layer
-const groupGLLayer = new maptalks.GroupGLLayer("gl", [gltfLayer, videoLayer], {
+function play() {
+  videoSurface.play();
+}
+
+function pause() {
+  videoSurface.pause();
+}
+
+let audioFlag = false;
+
+function audio() {
+  if (audioFlag) {
+    videoSurface.setAudio(true);
+  } else {
+    videoSurface.setAudio(false);
+  }
+  audioFlag = !audioFlag;
+}
+/**end**/
+
+const groupLayer = new maptalks.GroupGLLayer("gl", [gltfLayer, videoLayer], {
   sceneConfig: {
     environment: {
       enable: true,
@@ -105,7 +123,7 @@ gui
     role: "play",
   })
   .onClick(() => {
-    console.log(1111);
+    play();
   });
 
 gui
@@ -115,7 +133,7 @@ gui
     role: "pause",
   })
   .onClick(() => {
-    console.log(2222);
+    pause();
   });
 
 gui
@@ -125,5 +143,5 @@ gui
     role: "voice",
   })
   .onClick(() => {
-    console.log(333);
+    audio();
   });

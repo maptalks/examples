@@ -23,78 +23,59 @@ const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
   ],
 });
 
-const sceneConfig = {
-  ground: {
-    enable: false,
-    renderPlugin: {
-      type: "fill",
-    },
-    symbol: {
-      polygonFill: [0, 0, 0, 1],
-      polygonOpacity: 1,
-    },
-  },
-  postProcess: {
-    enable: true,
-    antialias: {
-      enable: true,
-    },
-  },
-};
-
-const lineLayer = new maptalks.VectorLayer("line").addTo(map);
-lineLayer.setZIndex(1);
-const lineString1 = new maptalks.LineString(
-  [
-    [108.95994503, 34.21800914],
-    [108.96222276, 34.21799044],
-    [108.9602735, 34.22241057],
-    [108.95623461, 34.22155857],
-  ],
-  {
-    symbol: {
-      lineColor: "#ea6b48",
-      lineWidth: 4,
-    },
-  }
-).addTo(lineLayer);
-
 const groupLayer = new maptalks.GroupGLLayer("group", [layer], {
-  sceneConfig,
+  sceneConfig: {
+    postProcess: {
+      enable: true,
+      antialias: {
+        enable: true,
+      },
+    },
+  },
 }).addTo(map);
 
 /**start**/
+const route = {
+  path: [
+    [108.95845234680178, 34.217980484633046, 17.27992, 301000],
+    [108.95849687576288, 34.22103276057621, 24.54149, 541000],
+    [108.96044665374757, 34.22104798247361, 26.77416, 781000],
+    [108.96045157012941, 34.21797581739904, 23.76847, 901000],
+    [108.95845234680178, 34.217980484633046, 18.27992, 1021000],
+  ],
+};
+
+const player = new maptalks.RoutePlayer(route, groupLayer, {
+  showTrail: false,
+  showMarker: false,
+  lineSymbol: {
+    lineColor: "#ea6b48",
+    lineWidth: 0,
+  },
+});
+
+player.on("playing", (param) => {
+  map.setCameraPosition({
+    position: [param.coordinate.x, param.coordinate.y, param.coordinate.z],
+    pitch: getPitch(param.pitch),
+    bearing: -param.bearing - 90,
+  });
+});
+
+function getPitch(pitch) {
+  if (pitch > 270 && pitch < 350) {
+    return pitch - 270;
+  } else if (pitch >= 350 || (pitch >= 0 && pitch <= 180)) {
+    return map.options["maxPitch"];
+  } else {
+    return 0;
+  }
+}
+
 function play() {
-  map.setCameraMovements([
-    {
-      center: [108.95994503, 34.21800914],
-      zoom: 18.5,
-      bearing: 88.2,
-      pitch: 73.2,
-      timestamp: 0,
-    },
-    {
-      center: [108.96222276, 34.21799044],
-      zoom: 18.5,
-      bearing: 88.2,
-      pitch: 73.5,
-      timestamp: 2000,
-    },
-    {
-      center: [108.9602735, 34.22241057],
-      zoom: 18.5,
-      bearing: -3.6,
-      pitch: 77.2,
-      timestamp: 4000,
-    },
-    {
-      center: [108.95623461, 34.22155857],
-      zoom: 18.5,
-      bearing: -81.6,
-      pitch: 79.6,
-      timestamp: 6000,
-    },
-  ]);
+  player.setUnitTime(30);
+  player.showRoute();
+  player.play();
 }
 /**end**/
 
@@ -175,3 +156,33 @@ gui.add({
   label: "显示站点",
   value: true,
 });
+
+function getPickedCoordinate(coordinate) {
+  const identifyData = groupLayer.identify(coordinate)[0];
+  const pickedPoint = identifyData && identifyData.point;
+  if (pickedPoint) {
+    const altitude = map.pointAtResToAltitude(pickedPoint[2], map.getGLRes());
+    const coordinate = map.pointAtResToCoordinate(
+      new maptalks.Point(pickedPoint[0], pickedPoint[1]),
+      map.getGLRes()
+    );
+    return new maptalks.Coordinate(coordinate.x, coordinate.y, altitude);
+  } else {
+    return coordinate;
+  }
+}
+
+map.on("click", (e) => {
+  const coordinate = getPickedCoordinate(e.coordinate);
+  console.log(coordinate, map.getPitch(), map.getBearing());
+});
+
+// [108.95845234680178, 34.217980484633046, 17.27992, 67.70000000000168, -2.399999999993952]
+
+// [ 108.95849687576288, 34.22103276057621, 21.54149, 80 -2.5499999999937017]
+
+//  [ 108.95831161193848, 34.22108039074132, 21.45132, 79.39999999999998 86.54999999999973]
+
+//  [ 108.96044665374757, 34.22104798247361,23.77416, 80 86.85000000000093]
+
+// [ 108.96041216354365, 34.22104159506827,23.67579, 68.74999999999986 178.64999999999566]

@@ -1,6 +1,6 @@
 /**start**/
 const map = new maptalks.Map("map", {
-  center: [-74.00912099912109, 40.71107610933129],
+  center: [-3.707467, 40.409928],
   zoom: 16,
 });
 
@@ -10,10 +10,11 @@ const json = {
   options: {
     urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
     spatialReference: "preset-vt-3857",
+    style: "{res}/styles/maptalks-common/style.json",
   },
 };
 
 const vt = maptalks.VectorTileLayer.fromJSON(json);
 
-const groupLayer = new maptalks.GroupGLLayer("group", [vt]).addTo(map);
+const group = new maptalks.GroupGLLayer("group", [vt]).addTo(map);
 /**end**/

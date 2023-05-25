@@ -59,40 +59,6 @@ const style = {
       },
     },
   ],
-  featureStyle: [
-    {
-      id: 12,
-      style: [
-        {
-          renderPlugin: {
-            dataConfig: {
-              type: "fill",
-            },
-            sceneConfig: {},
-            type: "fill",
-          },
-          symbol: {
-            visible: false,
-            polygonFill: "#996247",
-          },
-        },
-        {
-          renderPlugin: {
-            dataConfig: {
-              type: "line",
-            },
-            sceneConfig: {},
-            type: "line",
-          },
-          symbol: {
-            visible: true,
-            lineColor: "#EA6B48",
-            lineWidth: 2,
-          },
-        },
-      ],
-    },
-  ],
 };
 
 const geo = new maptalks.GeoJSONVectorTileLayer("geo", {
@@ -103,6 +69,10 @@ const geo = new maptalks.GeoJSONVectorTileLayer("geo", {
 geo.on("dataload", (e) => {
   map.fitExtent(e.extent);
 });
+
+function hideFeature() {
+  geo.highlight([{ id: 12, visible: false }]);
+}
 /**end**/
 
 const groupLayer = new maptalks.GroupGLLayer("group", [geo], {
@@ -116,3 +86,14 @@ const groupLayer = new maptalks.GroupGLLayer("group", [geo], {
   },
 });
 groupLayer.addTo(map);
+
+const gui = new mt.GUI();
+
+gui
+  .add({
+    type: "button",
+    text: "隐藏id为12的feature",
+  })
+  .onClick(() => {
+    hideFeature();
+  });

@@ -154,7 +154,8 @@ function positioningA() {
   const coordinates = gltfMarker1.getCoordinates();
   map.animateTo({
     center: [coordinates.x, coordinates.y],
-    bearing: 0,
+    // bearing: 0,
+    pitch: 0,
     zoom: 18,
   });
 }
@@ -162,7 +163,8 @@ function positioningB() {
   const coordinates = gltfMarker2.getCoordinates();
   map.animateTo({
     center: [coordinates.x, coordinates.y],
-    bearing: -90,
+    // bearing: -90,
+    pitch: 0,
     zoom: 18,
   });
 }

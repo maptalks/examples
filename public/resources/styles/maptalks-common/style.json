@@ -1,0 +1,2321 @@
+{
+  "style": [
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [0.8941176470588236, 0.8, 0.5529411764705883, 1],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": ["all", ["==", "$layer", "desert"], ["==", "$type", "Polygon"]],
+      "name": "desert"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": ["all", ["==", "$layer", "desert"], ["==", "$type", "Polygon"]],
+      "name": "desert"
+    },
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [
+          0.9372549019607843, 0.8431372549019608, 0.6274509803921569, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "education"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "education"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "education"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "education"
+    },
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [
+          0.5372549019607843, 0.7647058823529411, 0.5333333333333333, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "hospital"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "hospital"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "hospital"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "hospital"
+    },
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [
+          0.8705882352941177, 0.8588235294117647, 0.803921568627451, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "entertainment"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "entertainment"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [1, 1, 1, 1],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "entertainment"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "entertainment"
+    },
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [
+          0.9058823529411765, 0.6862745098039216, 0.5764705882352941, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "shopping"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "shopping"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "shopping"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "shopping"
+    },
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [
+          0.9098039215686274, 0.9137254901960784, 0.9137254901960784, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "parking"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "parking"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "parking"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "parking"
+    },
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [
+          0.7176470588235294, 0.8431372549019608, 0.996078431372549, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": ["all", ["==", "$layer", "sport"], ["==", "$type", "Polygon"]],
+      "name": "sport"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": ["all", ["==", "$layer", "sport"], ["==", "$type", "Polygon"]],
+      "name": "sport"
+    },
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [
+          0.6666666666666666, 0.6666666666666666, 0.8431372549019608, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "subway-hub"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "subway-hub"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "subway-hub"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "subway-hub"
+    },
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [
+          0.6666666666666666, 0.8980392156862745, 0.796078431372549, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "train-station"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "train-station"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "train-station"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "train-station"
+    },
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [
+          0.7490196078431373, 0.6549019607843137, 0.7490196078431373, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "passenger-station"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "passenger-station"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "passenger-station"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "passenger-station"
+    },
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [
+          0.9450980392156862, 0.8392156862745098, 0.8431372549019608, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "airport"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "airport"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "airport"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "airport"
+    },
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [
+          0.6470588235294118, 0.8431372549019608, 0.9490196078431372, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": ["all", ["==", "$layer", "water"], ["==", "$type", "Polygon"]],
+      "name": "water"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": false,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": ["all", ["==", "$layer", "water"], ["==", "$type", "Polygon"]],
+      "name": "water"
+    },
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [
+          0.7607843137254902, 0.8588235294117647, 0.615686274509804, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "greenland"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "greenland"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "greenland"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "greenland"
+    },
+    {
+      "renderPlugin": {
+        "type": "fill",
+        "dataConfig": {
+          "type": "fill",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "polygonFill": [
+          0.8862745098039215, 0.8823529411764706, 0.8313725490196079, 1
+        ],
+        "polygonOpacity": 1,
+        "polygonPatternFile": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "building"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "building"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.5058823529411764, 0.5058823529411764, 0.5058823529411764, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [0, 0, 0, 1]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "building"],
+        ["==", "$type", "Polygon"]
+      ],
+      "name": "building"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": {
+          "type": "exponential",
+          "stops": [
+            [12, 2],
+            [16, 8],
+            [17, 10],
+            [19, 25]
+          ]
+        },
+        "lineColor": [
+          0.9725490196078431, 0.9607843137254902, 0.9137254901960784, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 1,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "internal-road"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "internal-road"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": {
+          "type": "exponential",
+          "stops": [
+            [12, 2],
+            [16, 4],
+            [17, 10],
+            [20, 25]
+          ]
+        },
+        "lineColor": [1, 1, 1, 1],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 1,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "other-road"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "other-road"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": {
+          "type": "exponential",
+          "stops": [
+            [13, 2],
+            [15, 4],
+            [17, 8],
+            [19, 25]
+          ]
+        },
+        "lineColor": [
+          0.9725490196078431, 0.9607843137254902, 0.9137254901960784, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 1,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "four-level-road"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "four-level-road"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": {
+          "type": "exponential",
+          "stops": [
+            [12, 2],
+            [15, 4],
+            [17, 8],
+            [20, 30]
+          ]
+        },
+        "lineColor": [
+          0.9725490196078431, 0.9607843137254902, 0.9137254901960784, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 1,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "tertiary-road"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "tertiary-road"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": {
+          "type": "exponential",
+          "stops": [
+            [9, 2],
+            [10, 4],
+            [17, 10],
+            [20, 35]
+          ]
+        },
+        "lineColor": [
+          0.9725490196078431, 0.9607843137254902, 0.9137254901960784, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 1,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "secondary-road"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "secondary-road"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": {
+          "type": "exponential",
+          "stops": [
+            [9, 2],
+            [10, 4],
+            [17, 10],
+            [20, 40]
+          ]
+        },
+        "lineColor": [
+          0.9725490196078431, 0.9607843137254902, 0.9137254901960784, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 1,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "provincial-highway"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "provincial-highway"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": {
+          "type": "exponential",
+          "stops": [
+            [9, 2],
+            [10, 4],
+            [17, 10],
+            [20, 40]
+          ]
+        },
+        "lineColor": [
+          0.9568627450980393, 0.7607843137254902, 0.45098039215686275, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": {
+          "type": "exponential",
+          "stops": [
+            [9, 1],
+            [12, 1.2]
+          ]
+        },
+        "lineStrokeColor": {
+          "type": "exponential",
+          "stops": [
+            [
+              8,
+              [0.8156862745098039, 0.6549019607843137, 0.45098039215686275, 1]
+            ],
+            [
+              11,
+              [0.9803921568627451, 0.9450980392156862, 0.9019607843137255, 1]
+            ]
+          ]
+        }
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "national-highway"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "national-highway"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": {
+          "type": "exponential",
+          "stops": [
+            [9, 2],
+            [10, 4],
+            [17, 10],
+            [20, 40]
+          ]
+        },
+        "lineColor": [
+          0.9568627450980393, 0.7607843137254902, 0.45098039215686275, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [1, 1, 1, 1],
+        "lineStrokeWidth": 1,
+        "lineStrokeColor": {
+          "type": "exponential",
+          "stops": [
+            [
+              8,
+              [0.8156862745098039, 0.6549019607843137, 0.45098039215686275, 1]
+            ],
+            [
+              11,
+              [0.9803921568627451, 0.9450980392156862, 0.9019607843137255, 1]
+            ]
+          ]
+        }
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "city-loop"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "city-loop"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": {
+          "type": "exponential",
+          "stops": [
+            [9, 2],
+            [10, 4],
+            [17, 10],
+            [20, 40]
+          ]
+        },
+        "lineColor": [1, 0.7176470588235294, 0.49019607843137253, 1],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": {
+          "type": "exponential",
+          "stops": [
+            [6, 0.5],
+            [7, 1],
+            [12, 1.5]
+          ]
+        },
+        "lineStrokeColor": {
+          "type": "exponential",
+          "stops": [
+            [
+              8,
+              [0.8156862745098039, 0.6549019607843137, 0.45098039215686275, 1]
+            ],
+            [
+              11,
+              [0.9803921568627451, 0.9450980392156862, 0.9019607843137255, 1]
+            ]
+          ]
+        }
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "expressway"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "expressway"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 2,
+        "lineColor": [
+          0.7098039215686275, 0.7098039215686275, 0.7098039215686275, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [24, 24, 0, 0],
+        "lineDashColor": [1, 1, 1, 1],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "railway"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "railway"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [0.73, 0.73, 0.73, 1],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "constructing-railway"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "constructing-railway"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [0.6, 0.6, 0.6, 1],
+        "lineOpacity": {
+          "type": "exponential",
+          "stops": [[14.5, 0.5]]
+        },
+        "lineDasharray": [24, 24, 0, 0],
+        "lineDashColor": [1, 1, 1, 1],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "express-rail"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "express-rail"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 2,
+        "lineColor": [
+          0.09019607843137255, 0.6509803921568628, 0.2901960784313726, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "subway"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "subway"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 1,
+        "lineColor": [
+          0.7294117647058823, 0.7294117647058823, 0.7294117647058823, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": ["all", ["==", "$layer", "area-boundary"]],
+      "name": "area-boundary"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 2,
+        "lineColor": [
+          0.7529411764705882, 0.7529411764705882, 0.807843137254902, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": ["all", ["==", "$layer", "city-boundary"]],
+      "name": "city-boundary"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 2,
+        "lineColor": [
+          0.6470588235294118, 0.6470588235294118, 0.6470588235294118, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": ["all", ["==", "$layer", "province-boundary"]],
+      "name": "province-boundary"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 2,
+        "lineColor": [
+          0.6470588235294118, 0.5450980392156862, 0.43137254901960786, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [1, 1, 1, 1],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": ["all", ["==", "$layer", "foreign-boundary"]],
+      "name": "foreign-boundary"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": 3,
+        "lineColor": [
+          0.8352941176470589, 0.592156862745098, 0.2980392156862745, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 0,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": ["all", ["==", "$layer", "china-boundary"]],
+      "name": "china-boundary"
+    },
+    {
+      "renderPlugin": {
+        "type": "line",
+        "dataConfig": {
+          "type": "line",
+          "only2D": true
+        },
+        "sceneConfig": {}
+      },
+      "symbol": {
+        "visible": true,
+        "lineWidth": {
+          "type": "exponential",
+          "stops": [
+            [12, 2],
+            [15, 4],
+            [17, 8],
+            [19, 30]
+          ]
+        },
+        "lineColor": [
+          0.9725490196078431, 0.9607843137254902, 0.9137254901960784, 1
+        ],
+        "lineOpacity": 1,
+        "lineDasharray": [0, 0, 0, 0],
+        "lineDashColor": [0, 0, 0, 0],
+        "lineStrokeWidth": 1,
+        "lineStrokeColor": [
+          0.7843137254901961, 0.7843137254901961, 0.7843137254901961, 1
+        ]
+      },
+      "filter": ["all", ["==", "$layer", "bridge"]],
+      "name": "bridge"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 14,
+        "textPlacement": "point",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1
+      },
+      "filter": ["all", ["==", "$layer", "continent"]],
+      "name": "continent-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 16,
+        "textPlacement": "point",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1
+      },
+      "filter": ["all", ["==", "$layer", "country"]],
+      "name": "country-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 14,
+        "textPlacement": "point",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1
+      },
+      "filter": ["all", ["==", "$layer", "province"]],
+      "name": "province-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "point",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1
+      },
+      "filter": ["all", ["==", "$layer", "city"]],
+      "name": "city-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 15,
+        "textPlacement": "point",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 2,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1
+      },
+      "filter": ["all", ["==", "$layer", "area"]],
+      "name": "area-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "point",
+        "textFill": [
+          0.5137254901960784, 0.4196078431372549, 0.14901960784313725, 1
+        ],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1
+      },
+      "filter": ["all", ["==", "$layer", "town"]],
+      "name": "town-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "point",
+        "textFill": [0.8, 0.8, 0.8, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1,
+        "textHaloFill": [
+          0.10588235294117647, 0.37254901960784315, 0.13333333333333333, 1
+        ],
+        "textHaloOpacity": 1
+      },
+      "filter": ["all", ["==", "$layer", "village"]],
+      "name": "village-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "point",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1
+      },
+      "filter": ["all", ["==", "$layer", "region"]],
+      "name": "region-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "point",
+        "textFill": [
+          0.20784313725490197, 0.49411764705882355, 0.6549019607843137, 1
+        ],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1
+      },
+      "filter": ["all", ["==", "$layer", "water-label"]],
+      "name": "water-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "express-rail-label"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "express-rail-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "constructing-railway-label"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "constructing-railway-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "railway-label"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "railway-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "expressway-label"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "expressway-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "subway-label"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "subway-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "city-loop-label"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "city-loop-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "national-highway-label"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "national-highway-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "provincial-highway-label"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "provincial-highway-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "secondary-road-label"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "secondary-road-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "tertiary-road-label"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "tertiary-road-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "four-level-road-label"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "four-level-road-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "other-road-label"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "other-road-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "internal-road-label"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "internal-road-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "text",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true,
+          "uniquePlacement": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "textName": "{name}",
+        "textSize": 12,
+        "textPlacement": "line",
+        "textFill": [
+          0.01568627450980392, 0.01568627450980392, 0.01568627450980392, 1
+        ],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 1.5,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "textSpacing": 350
+      },
+      "filter": ["all", ["==", "$layer", "bridge-label"]],
+      "name": "bridge-label"
+    },
+    {
+      "renderPlugin": {
+        "type": "icon",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "markerFile": "/resources/styles/maptalks-common/1.svg",
+        "markerOpacity": 1,
+        "markerTextFitPadding": [1, 1, 1, 1],
+        "markerTextFit": "both",
+        "markerPlacement": "line",
+        "mergeOnProperty": "ref",
+        "textName": "{ref}",
+        "textSize": 10,
+        "textPlacement": "point",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 0,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "markerType": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "expressway-sign"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "expressway-sign"
+    },
+    {
+      "renderPlugin": {
+        "type": "icon",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "markerFile": "/resources/styles/maptalks-common/2.svg",
+        "markerOpacity": 1,
+        "markerTextFitPadding": [1, 1, 1, 1],
+        "markerTextFit": "both",
+        "markerPlacement": "line",
+        "mergeOnProperty": "ref",
+        "textName": "{ref}",
+        "textSize": 10,
+        "textPlacement": "point",
+        "textFill": [1, 1, 1, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 0,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "markerType": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "national-highway-sign"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "national-highway-sign"
+    },
+    {
+      "renderPlugin": {
+        "type": "icon",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "markerFile": "/resources/styles/maptalks-common/2.svg",
+        "markerOpacity": 1,
+        "markerTextFitPadding": [1, 1, 1, 1],
+        "markerTextFit": "both",
+        "markerPlacement": "line",
+        "mergeOnProperty": "ref",
+        "textName": "{ref}",
+        "textSize": 10,
+        "textPlacement": "point",
+        "textFill": [1, 1, 1, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 0,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1,
+        "markerType": null
+      },
+      "filter": [
+        "all",
+        ["==", "$layer", "provincial-highway-sign"],
+        ["==", "$type", "LineString"]
+      ],
+      "name": "provincial-highway-sign"
+    },
+    {
+      "renderPlugin": {
+        "type": "icon",
+        "dataConfig": {
+          "type": "point",
+          "only2D": true
+        },
+        "sceneConfig": {
+          "collision": true,
+          "fading": true
+        }
+      },
+      "symbol": {
+        "visible": true,
+        "markerFile": null,
+        "markerOpacity": 1,
+        "markerTextFitPadding": [5, 6, 5, 6],
+        "markerTextFit": "both",
+        "markerPlacement": "line",
+        "mergeOnProperty": "ref",
+        "textName": "{ref}",
+        "textSize": 10,
+        "textPlacement": "point",
+        "textFill": [0, 0, 0, 1],
+        "textOpacity": 1,
+        "textFaceName": "Arial,Helvetica,sans-serif",
+        "textWeight": "normal",
+        "textStyle": "normal",
+        "textWrapWidth": 240,
+        "textHaloRadius": 0,
+        "textHaloFill": [1, 1, 1, 1],
+        "textHaloOpacity": 1
+      },
+      "filter": ["all", ["==", "$layer", "poi"], ["==", "$type", "Point"]],
+      "name": "poi"
+    }
+  ],
+  "background": {
+    "enable": true,
+    "color": [0.9137254901960784, 0.9019607843137255, 0.8509803921568627, 1],
+    "opacity": 1
+  }
+}
