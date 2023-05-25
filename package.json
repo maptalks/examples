@@ -10,7 +10,7 @@
     "thumb": "node --experimental-json-modules scripts/thumbnail.mjs"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.1.1",
+    "@ant-design/icons": "^5.1.2",
     "antd": "^5.5.1",
     "github-markdown-css": "^5.2.0",
     "js-beautify": "^1.14.7",
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@types/js-beautify": "^1.13.3",
-    "@types/react": "^18.2.6",
+    "@types/react": "^18.2.7",
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-dom": "^18.2.4",
     "@types/react-syntax-highlighter": "^15.5.6",
