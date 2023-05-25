@@ -1777,6 +1777,20 @@
             }
           },
           {
+            "name": "top-side-color",
+            "title": {
+              "cn": "顶部和底部设置不同的颜色",
+              "en": "Set different colors on the top and bottom"
+            }
+          },
+          {
+            "name": "side-uv-mode",
+            "title": {
+              "cn": "设置侧面纹理模式",
+              "en": "Set side vertical uv mode"
+            }
+          },
+          {
             "name": "hide-side",
             "title": {
               "cn": "隐藏侧面",
@@ -2973,6 +2987,13 @@
             "title": {
               "cn": "盒子裁剪",
               "en": "box clip"
+            }
+          },
+          {
+            "name": "raycaster",
+            "title": {
+              "cn": "光线投射",
+              "en": "Raycaster"
             }
           }
         ]

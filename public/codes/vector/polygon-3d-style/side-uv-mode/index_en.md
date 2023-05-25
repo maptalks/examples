@@ -1,0 +1,1 @@
+`sideVerticalUVMode` when set to 1, the side texture is in vertical tiling mode, where the top of the texture is aligned with the top of the white mold, and the bottom of the texture is aligned with the bottom of the white mold.
