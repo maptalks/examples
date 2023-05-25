@@ -43,7 +43,11 @@ export function useMapView() {
         </style>
         <link rel='stylesheet' href='/lib/maptalks.css' />
         <script type='text/javascript' src='/lib/maptalks.min.js'></script>
-        <script type='text/javascript' src='https://maptalks.com/api/maptalks-gl-layers.js'></script>
+        <script type='text/javascript' src='http://localhost:6688/packages/gl/dist/maptalksgl.js'></script>
+        <script type='text/javascript' src='http://localhost:6688/packages/layer-3dtiles/dist/maptalks.3dtiles.js'></script>
+        <script type='text/javascript' src='http://localhost:6688/packages/layer-gltf/dist/maptalks.vt.js'></script>
+        <script type='text/javascript' src='http://localhost:6688/packages/layer-gltf/dist/maptalks.gltf.js'></script>
+        <script type='text/javascript' src='http://localhost:6688/packages/analysis/dist/maptalks.analysis.js'></script>
         <body>
           ${htmlCode}
           <script>

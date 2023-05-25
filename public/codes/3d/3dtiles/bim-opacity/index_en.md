@@ -1,6 +1,8 @@
-#### Geo3DTilesLayer properties
-
-| Properties   | Description              | Type    | Default          |
-| ------ | ----------------- | ------- | --------------- |
-| symbol | a symbol object like maptalks.Polygon | Object | null           |
-| heightRange  | the height array range of color mask      | Array  | null             |
+#### Method : setServiceOpacity(idx, opacity)
+_set service's opacity_
+| Parameter | Description | Type | Default |
+| ------------- |---------- |-------------|--------- |
+| `idx`     | service's index | Number | null |
+| `opacity`     | service's opacity | Number | null |
+> returns :
+this: Geo3DTilesLayer

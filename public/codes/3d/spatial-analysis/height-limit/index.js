@@ -209,10 +209,13 @@ const limitColorController = gui
   .addColor(options, "limitColor")
   .name("限高（米）");
 limitColorController.onChange(function (value) {
+  const r = parseInt('0x' + value.toString().slice(1, 3));
+  const g = parseInt('0x' + value.toString().slice(3, 5));
+  const b = parseInt('0x' + value.toString().slice(5, 7));
   heightLimitAnalysis.update("limitColor", [
-    value[0] / 255,
-    value[1] / 255,
-    value[2] / 255,
+    r / 255,
+    g / 255,
+    b / 255
   ]);
 });
 const limitHeightController = gui

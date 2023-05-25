@@ -223,15 +223,3 @@ gui
     lookPoint[1] = y;
     viewshedAnalysis.update("lookPoint", lookPoint);
 });
-
-gui
-  .add({
-    type: "slider",
-    label: "距离",
-    value: 0,
-    min: 0,
-    max: 90,
-    step: 1,
-  }).onChange(function (value) {
-    viewshedAnalysis.update("verticalAngle", value);
-});

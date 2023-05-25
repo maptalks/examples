@@ -120,7 +120,6 @@ gui
   })
   .onClick(() => {
     clipper = new maptalks.BoxInsideClipMask(center, { width, height, length, rotation});
-    // clipper.addTo(layer);
     layer.setMask(clipper);
     updateHelperLine();
   });

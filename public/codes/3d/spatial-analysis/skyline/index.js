@@ -106,16 +106,25 @@ const exportControl = gui.add({
   type: "button",
   text: "输出天际线图",
 }).onClick(() => {
-  const url = skylineAnalysis.exportSkylineMap({
-    backgroundColor: [1, 1, 1]
-  });
-  const resultImage = document.createElement('img');
-  resultImage.style.position = 'absolute';
-  resultImage.style.right = '10px';
-  resultImage.style.bottom = '10px';
-  resultImage.style.zIndex = 9999;
-  resultImage.width = map.width / 4;
-  resultImage.height = map.height / 4;
-  resultImage.src = url;
-  document.body.appendChild(resultImage);
+  let dom = document.getElementById('skylineImage');
+  if (dom) {
+    dom.remove();
+  }
+  const url = skylineAnalysis.exportSkylineMap({});
+  dom = document.createElement('div');
+  dom.id = 'skylineImage';
+  dom.style.position = 'absolute';
+  dom.style.right = '10px';
+  dom.style.bottom = '10px';
+  dom.style.zIndex = 9999;
+  dom.style.width = map.width / 4 + 'px';
+  dom.style.height = map.height / 4 + 'px';
+  dom.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+  dom.style.padding = '5px';
+  dom.style.borderRadius = '4px';
+  document.body.appendChild(dom);
+  const img = document.createElement('img');
+  img.style.width = '100%';
+  img.src = url;
+  dom.appendChild(img);
 });

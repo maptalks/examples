@@ -2,5 +2,7 @@
 
 | Properties   | Description              | Type    | Default          |
 | ------ | ----------------- | ------- | --------------- |
-| symbol | a symbol object like maptalks.Polygon | Object | null           |
-| heightRange  | the height array range of color mask      | Array  | null             |
+| services | service object array | Array | null           |
+| url | service url | String | null           |
+| maximumScreenSpaceError  | maximum screen spacce error     | Number  | 1             |
+| heightOffset  | height offset     | Number  | 0             |

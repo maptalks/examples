@@ -145,13 +145,15 @@ gui
       const properties = masks[i].getProperties();
       if (properties.name === value) {
         masks[i].updateSymbol({
-          polygonOpacity: 0.9
+          polygonOpacity: 0.9,
+          polygonFill: '#2e2'
         });
         const center = masks[i].getCenter();
         map.panTo(center, { animation: true });
       } else {
         masks[i].updateSymbol({
-          polygonOpacity: 0.6
+          polygonOpacity: 0.6,
+          polygonFill: '#ea6b48'
         });
       }
     }

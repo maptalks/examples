@@ -79,6 +79,6 @@ gui
     max: 1.0,
     step: 0.01,
   }).onChange(function (value) {
-    layer.setOpacity(0, value);
+    layer.setServiceOpacity(0, value);
 });
 /**end**/
