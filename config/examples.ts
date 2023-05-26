@@ -1403,25 +1403,18 @@ const examples = [
               en: "Load mapbox vector tile data"
             }
           },
-          // {
-          //   name: "load-custom",
-          //   title: {
-          //     cn: "载入自定义矢量瓦片数据",
-          //     en: "Load custom vector tile data",
-          //   },
-          // },
           {
-            name: "load-maptiler1",
+            name: "load-maptiler",
             title: {
-              cn: "载入maptiler瓦片数据",
+              cn: "载入maptiler矢量瓦片数据",
               en: "Load maptiler vector tile data"
             }
           },
           {
-            name: "load-maptiler2",
+            name: "load-maptiler-4326",
             title: {
-              cn: "载入maptiler 4326瓦片数据",
-              en: "Load maptiler vector tile data"
+              cn: "载入maptiler4326瓦片数据",
+              en: "Load maptiler 4326 vector tile data"
             }
           }
         ]

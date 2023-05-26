@@ -4,7 +4,7 @@ const map = new maptalks.Map("map", {
   lights: {
     directional: {
       direction: [1, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -14,14 +14,14 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/gradient/left.png",
           right: "{res}/hdr/gradient/right.png",
           top: "{res}/hdr/gradient/top.png",
-          bottom: "{res}/hdr/gradient/bottom.png",
+          bottom: "{res}/hdr/gradient/bottom.png"
         },
-        prefilterCubeSize: 1024,
+        prefilterCubeSize: 1024
       },
       hsv: [0, 0.34, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 
 /**start**/
@@ -31,37 +31,37 @@ const style = {
       filter: true,
       renderPlugin: {
         dataConfig: {
-          type: "fill",
+          type: "fill"
         },
         sceneConfig: {},
-        type: "fill",
+        type: "fill"
       },
       symbol: {
         polygonFill: "#996247",
-        polygonOpacity: 1,
-      },
+        polygonOpacity: 1
+      }
     },
     {
       filter: true,
       renderPlugin: {
         dataConfig: {
-          type: "line",
+          type: "line"
         },
         sceneConfig: {},
-        type: "line",
+        type: "line"
       },
       symbol: {
         lineColor: "#E2E2E2",
         lineOpacity: 1,
-        lineWidth: 2,
-      },
-    },
-  ],
+        lineWidth: 2
+      }
+    }
+  ]
 };
 
 const geo = new maptalks.GeoJSONVectorTileLayer("geo", {
   data: "{res}/geojson/area.geojson",
-  style,
+  style
 });
 
 geo.on("dataload", (e) => {
@@ -69,7 +69,11 @@ geo.on("dataload", (e) => {
 });
 
 function hideFeature() {
-  geo.highlight([{ id: 12, visible: false }]);
+  geo.highlight([{ id: 12, name: "新洲区", visible: false }]);
+}
+
+function cancel() {
+  geo.cancelHighlight(["新洲区"]);
 }
 /**end**/
 
@@ -79,9 +83,9 @@ const groupLayer = new maptalks.GroupGLLayer("group", [geo], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0,
-    },
-  },
+      brightness: 0
+    }
+  }
 });
 groupLayer.addTo(map);
 
@@ -90,8 +94,17 @@ const gui = new mt.GUI();
 gui
   .add({
     type: "button",
-    text: "隐藏id为12的feature",
+    text: "隐藏新洲区"
   })
   .onClick(() => {
     hideFeature();
+  });
+
+gui
+  .add({
+    type: "button",
+    text: "取消隐藏"
+  })
+  .onClick(() => {
+    cancel();
   });
