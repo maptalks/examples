@@ -59,7 +59,7 @@ multiGLTFMarker.on("mousemove", (e) => {
 
 multiGLTFMarker.on("mouseleave", (e) => {
   const index = e.target.getIndexByPickingId(e.pickingId);
-  multiGLTFMarker.updateData(index, "color", [1.0, 0.0, 0.0, 1.0]);
+  multiGLTFMarker.updateData(index, "color", [1.0, 1.0, 1.0, 1.0]);
 });
 
 /**end**/

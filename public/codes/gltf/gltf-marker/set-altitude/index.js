@@ -42,8 +42,8 @@ gltfLayer.addGeometry(gltfMarker);
 
 function setAltitude(value) {
   const coordinate = gltfMarker.getCoordinates();
-  coordinate.z = value;
-  gltfMarker.setCoordinates(coordinate);
+  const newCoordinate = new maptalks.Coordinate(coordinate.x, coordinate.y, value);
+  gltfMarker.setCoordinates(newCoordinate);
 }
 /**end**/
 

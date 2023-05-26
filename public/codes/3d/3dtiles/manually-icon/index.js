@@ -77,7 +77,8 @@ map.on('click', e => {
         markerFile: '{res}/images/logo-maptalks.svg',
         markerWidth: 29,
         markerHeight: 32,
-      },
+        markerPerspectiveRatio: 0
+      }
     }).addTo(pointLayer);
   }
 });
