@@ -1,4 +1,4 @@
-import examples from "../../config/examples.json";
+import examples from "../../config/examples";
 
 function getExampleByKey(key: string) {
   const paths = key.split("_");

@@ -45,8 +45,8 @@ const style = [
     },
     symbol: {
       polygonFill: "#577570",
-    },
-  },
+    }
+  }
 ];
 vt.setStyle(style);
 /**end**/

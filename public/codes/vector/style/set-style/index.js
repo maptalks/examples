@@ -67,8 +67,7 @@ function update() {
           type: "fill",
         },
         symbol: {
-          polygonFill: "#f85635",
-          polygonOpacity: 0.5,
+          polygonFill: "#46a4af"
         },
       },
     ],

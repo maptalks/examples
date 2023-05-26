@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import examples from "../../../config/examples.json";
+import examples from "../../../config/examples";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "@/store";
 

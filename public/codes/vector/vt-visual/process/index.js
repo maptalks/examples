@@ -20,8 +20,6 @@ const map = new maptalks.Map("map", {
         },
       },
       exposure: 0.787,
-      hsv: [0, 0, 0],
-      orientation: 0,
     },
   },
 });
@@ -52,41 +50,6 @@ const sceneConfig = {
     enable: true,
     antialias: {
       enable: true,
-      taa: true,
-      jitterRatio: 0.25,
-    },
-    ssr: {
-      enable: true,
-    },
-    bloom: {
-      enable: true,
-      threshold: 0,
-      factor: 1,
-      radius: 1,
-    },
-    ssao: {
-      enable: true,
-      bias: 0.101,
-      radius: 0.069,
-      intensity: 1.5,
-    },
-    sharpen: {
-      enable: true,
-      factor: 0.2,
-    },
-    vignette: {
-      enable: false,
-    },
-    colorLUT: {
-      enable: true,
-      lut: "{res}/lut/BW.cube",
-    },
-    outline: {
-      enable: true,
-      outlineFactor: 0.3,
-      highlightFactor: 0.2,
-      outlineWidth: 1,
-      outlineColor: [1, 1, 0],
     },
   },
   ground: {
@@ -105,67 +68,14 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer], {
   sceneConfig,
 }).addTo(map);
 
+const mapPostProcess = {
+  enable: true,
+  vignette: {
+    enable: false,
+  },
+};
+
 const gui = new mt.GUI();
-
-gui
-  .add({
-    type: "slider",
-    label: "色相",
-    min: -1,
-    max: 1,
-    step: 0.1,
-    value: 0,
-  })
-  .onChange((value) => {
-    const lights = map.getLights();
-    lights.ambient.hsv[0] = value;
-    map.setLights(lights);
-  });
-
-gui
-  .add({
-    type: "slider",
-    label: "饱和度",
-    min: -1,
-    max: 1,
-    step: 0.1,
-    value: 0,
-  })
-  .onChange((value) => {
-    const lights = map.getLights();
-    lights.ambient.hsv[1] = value;
-    map.setLights(lights);
-  });
-
-gui
-  .add({
-    type: "slider",
-    label: "明度",
-    min: -1,
-    max: 1,
-    step: 0.1,
-    value: 0,
-  })
-  .onChange((value) => {
-    const lights = map.getLights();
-    lights.ambient.hsv[2] = value;
-    map.setLights(lights);
-  });
-
-gui
-  .add({
-    type: "slider",
-    label: "锐化",
-    min: 0,
-    max: 1,
-    step: 0.1,
-    value: 0.2,
-  })
-  .onChange((value) => {
-    const sceneConfig = groupGLLayer.getSceneConfig();
-    sceneConfig.postProcess.sharpen.factor = value;
-    groupGLLayer.setSceneConfig(sceneConfig);
-  });
 
 gui
   .add({
@@ -174,40 +84,7 @@ gui
     value: false,
   })
   .onChange((value) => {
-    const sceneConfig = groupGLLayer.getSceneConfig();
-    sceneConfig.postProcess.vignette.enable = value;
-    groupGLLayer.setSceneConfig(sceneConfig);
-  });
-
-const lutMap = {
-  bm: "{res}/lut/BW.cube",
-  mv: "{res}/lut/MV.cube",
-  wed: "{res}/lut/WED.cube",
-};
-
-gui
-  .add({
-    type: "select",
-    label: "滤镜",
-    value: "bm",
-    options: [
-      {
-        label: "明亮",
-        value: "bm",
-      },
-      {
-        label: "暗色",
-        value: "mv",
-      },
-      {
-        label: "鲜艳",
-        value: "wed",
-      },
-    ],
-  })
-  .onChange((value) => {
-    const sceneConfig = groupGLLayer.getSceneConfig();
-    sceneConfig.postProcess.colorLUT.lut = value;
-    groupGLLayer.setSceneConfig(sceneConfig);
+    mapPostProcess.vignette.enable = value;
+    map.setPostProcessConfig(mapPostProcess);
   });
 /**end**/

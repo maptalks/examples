@@ -27,6 +27,8 @@ const map = new maptalks.Map("map", {
   },
 });
 
+// 修改一下view
+
 const vtLayer = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
   spatialReference: "preset-vt-3857",
