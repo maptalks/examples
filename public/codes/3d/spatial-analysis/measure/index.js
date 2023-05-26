@@ -68,7 +68,9 @@ const toolOptions = {
   once: false,
   symbol: {
     'lineColor': "#e8542b",
-    'lineWidth': 2
+    'lineWidth': 2,
+    'polygonFill': '#eee',
+    'polygonOpacity': 0.5
   },
   vertexSymbol: {
     'markerType': 'ellipse',
