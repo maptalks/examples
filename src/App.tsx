@@ -2,7 +2,7 @@ import { DemoPanel, RawPage, ThumbList } from "./components";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import Layout from "./layout";
-import examples from "../config/examples.json";
+import examples from "../config/examples";
 import { observer } from "mobx-react-lite";
 import { useMount } from "react-use";
 import { useStore } from "./store";

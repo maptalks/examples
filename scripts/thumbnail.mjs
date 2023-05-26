@@ -1,4 +1,4 @@
-import examples from "../config/examples.json" assert { type: "json" };
+import examples from "../config/examples";
 import puppeteer from "puppeteer";
 
 // 生成部分例子的缩略图
