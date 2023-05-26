@@ -40,6 +40,17 @@ const symbols = [
 
 /**start**/
 const roads = [];
+let scene = null;
+
+function AddTrafficScene() {
+  scene = new maptalks.TrafficScene();
+  scene.setSymbols(symbols);
+  scene.carsNumber = 300;
+  scene.gridSize = 64;
+  scene.addTo(groupLayer);
+  scene.generateTraffic(roads);
+  scene.run();
+}
 
 function loadRoads() {
   fetch('{res}/geojson/roads.json').then(function(response){
@@ -52,13 +63,7 @@ function loadRoads() {
       line.addTo(vLayer);
     }
     groupLayer = map.getLayer('group');
-    scene = new maptalks.TrafficScene();
-    scene.setSymbols(symbols);
-    scene.carsNumber = 300;
-    scene.gridSize = 64;
-    scene.addTo(groupLayer);
-    scene.generateTraffic(roads);
-    scene.run();
+    AddTrafficScene();
   });
 }
 fetch('{res}/msd/traffic/map.json').then(function(response){
@@ -76,6 +81,9 @@ gui
     role: "play",
   })
   .onClick(() => {
+    if (!scene) {
+      AddTrafficScene();
+    }
     scene.run();
   });
 
@@ -97,6 +105,7 @@ gui
   })
   .onClick(() => {
     scene.remove();
+    scene = null;
   });
 
   gui
