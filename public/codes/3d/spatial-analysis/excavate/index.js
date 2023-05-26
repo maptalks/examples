@@ -12,14 +12,14 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
       exposure: 1,
       hsv: [0, 0, 0],
-      orientation: 302.553,
-    },
-  },
+      orientation: 302.553
+    }
+  }
 });
 
 const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
@@ -30,9 +30,9 @@ const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
       maximumScreenSpaceError: 1.0,
       pointOpacity: 0.5,
       pointSize: 3,
-      heightOffset: -400,
-    },
-  ],
+      heightOffset: -400
+    }
+  ]
 });
 
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
@@ -41,32 +41,32 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
       enable: true,
       mode: 1,
       level: 1,
-      brightness: 1,
+      brightness: 1
     },
     shadow: {
       enable: true,
       opacity: 0.5,
-      color: [0, 0, 0],
+      color: [0, 0, 0]
     },
     postProcess: {
       enable: true,
       antialias: {
-        enable: true,
+        enable: true
       },
       ssr: {
-        enable: true,
+        enable: true
       },
       bloom: {
-        enable: true,
+        enable: true
       },
       outline: {
-        enable: true,
-      },
+        enable: true
+      }
     },
     ground: {
       enable: true,
       renderPlugin: {
-        type: "lit",
+        type: "lit"
       },
       symbol: {
         polygonOpacity: 1,
@@ -74,39 +74,39 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
           baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
           hsv: [0, 0, -0.532],
           roughnessFactor: 0.22,
-          metallicFactor: 0.58,
-        },
-      },
-    },
-  },
+          metallicFactor: 0.58
+        }
+      }
+    }
+  }
 }).addTo(map);
 
 /**start**/
 let excavateAnalysis = null;
 const urlMap = {
   ground: "{res}/images/ground.jpg",
-  brick: "{res}/images/brick.png",
+  brick: "{res}/images/brick.png"
 };
 layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
-  map.fitExtent(extent, 0, { animation: false });
+  map.fitExtent(extent, 1, { animation: false });
   const boundary = [
     [108.95888623345706, 34.220502132776204],
     [108.9582019833017, 34.21987192350153],
     [108.95866479224173, 34.21879554904879],
     [108.95976365662978, 34.21870809810403],
     [108.96043811487289, 34.219454268264116],
-    [108.96030941797153, 34.2204038033789],
+    [108.96030941797153, 34.2204038033789]
   ];
   excavateAnalysis = new maptalks.ExcavateAnalysis({
     boundary,
     textureUrl: urlMap["ground"],
-    height: 5,
+    height: 5
   }).addTo(groupGLLayer);
 });
 
 const vLayer = new maptalks.VectorLayer("vector", {
-  enableAltitude: true,
+  enableAltitude: true
 }).addTo(map);
 
 let altitudes = [],
@@ -116,8 +116,8 @@ const drawTool = new maptalks.DrawTool({
   mode: "LineString",
   enableAltitude: true,
   symbol: {
-    lineColor: "#f00",
-  },
+    lineColor: "#f00"
+  }
 })
   .addTo(map)
   .disable();
@@ -135,7 +135,7 @@ drawTool.on("mousemove", (e) => {
     altitudes[altitudes.length - 1] = coordinate.z;
   }
   e.geometry.setProperties({
-    altitude: altitudes,
+    altitude: altitudes
   });
   e.geometry.setCoordinates(coordinates);
   first = false;
@@ -156,7 +156,7 @@ drawTool.on("drawvertex", (e) => {
     first = true;
   }
   e.geometry.setProperties({
-    altitude: altitudes,
+    altitude: altitudes
   });
   e.geometry.setCoordinates(coordinates);
 });
@@ -169,7 +169,7 @@ drawTool.on("drawstart", (e) => {
   coordinates.push([coordinate.x, coordinate.y]);
   altitudes.push(coordinate.z);
   e.geometry.setProperties({
-    altitude: altitudes,
+    altitude: altitudes
   });
   e.geometry.setCoordinates(coordinates);
   first = true;
@@ -181,11 +181,11 @@ drawTool.on("drawend", () => {
   altitudes.push(altitudes[0]);
   new maptalks.LineString(coordinates, {
     symbol: {
-      lineColor: "#f00",
+      lineColor: "#f00"
     },
     properties: {
-      altitude: altitudes,
-    },
+      altitude: altitudes
+    }
   }).addTo(vLayer);
   excavateAnalysis.update("boundary", coordinates);
   coordinates = [];
@@ -213,7 +213,7 @@ gui
   .add({
     type: "button",
     label: "绘制范围",
-    role: "draw",
+    role: "draw"
   })
   .onClick(() => {
     drawTool.enable();
@@ -226,7 +226,7 @@ gui
     value: 5,
     min: 1,
     max: 100,
-    step: 1,
+    step: 1
   })
   .onChange((value) => {
     excavateAnalysis.update("height", value);
@@ -240,13 +240,13 @@ gui
     options: [
       {
         label: "地面",
-        value: "ground",
+        value: "ground"
       },
       {
         label: "砖块",
-        value: "brick",
-      },
-    ],
+        value: "brick"
+      }
+    ]
   })
   .onChange((value) => {
     excavateAnalysis.update("textureUrl", urlMap[value]);

@@ -41,6 +41,11 @@ layer.once("loadtileset", (e) => {
   map.fitExtent(extent, 0, { animation: false });
 });
 
+function toFullView() {
+  const extent = layer.getExtent();
+  map.fitExtent(extent, 0, { animation: false });
+}
+
 // 按钮刷新当前物件
 
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
@@ -164,4 +169,14 @@ gui
   })
   .onChange((value) => {
     selectedOpacity = value;
+  });
+
+  gui
+  .add({
+    type: "button",
+    label: "全景",
+    role: "panorama",
+  })
+  .onClick(() => {
+    toFullView();
   });

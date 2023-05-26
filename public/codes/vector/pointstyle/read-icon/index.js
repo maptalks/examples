@@ -43,11 +43,12 @@ const style = {
         type: "icon",
       },
       symbol: {
-        markerType: {
-          type: "identity",
-          property: "icon",
-          default: "ellipse",
-        },
+        // markerType: {
+        //   type: "identity",
+        //   property: "icon",
+        //   default: "ellipse",
+        // },
+        markerFile: "{res}/markers/{icon}",
         markerFill: [0.53, 0.77, 0.94, 1],
         markerHeight: 20,
         markerWidth: 20,
@@ -92,7 +93,7 @@ const data = {
         ],
       },
       properties: {
-        icon: "diamond",
+        icon: "m4.png",
       },
     },
     {
@@ -109,7 +110,7 @@ const data = {
         ],
       },
       properties: {
-        icon: "triangle",
+        icon: "2.png",
       },
     },
   ],

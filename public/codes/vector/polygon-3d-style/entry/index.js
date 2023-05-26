@@ -54,7 +54,6 @@ const style = {
         },
       },
       symbol: {
-        polygonOpacity: 1,
         material: {
           baseColorFactor: [1, 1, 1, 1],
           roughnessFactor: 1,
@@ -82,7 +81,6 @@ const style = {
         },
       },
       symbol: {
-        polygonOpacity: 1,
         material: {
           baseColorFactor: [1, 1, 1, 1],
           roughnessFactor: 1,

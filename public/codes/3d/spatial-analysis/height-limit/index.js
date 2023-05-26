@@ -12,14 +12,14 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
       exposure: 1,
       hsv: [0, 0, 0],
-      orientation: 302.553,
-    },
-  },
+      orientation: 302.553
+    }
+  }
 });
 
 const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
@@ -30,9 +30,9 @@ const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
       maximumScreenSpaceError: 1.0,
       pointOpacity: 0.5,
       pointSize: 3,
-      heightOffset: -400,
-    },
-  ],
+      heightOffset: -400
+    }
+  ]
 });
 
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
@@ -41,32 +41,32 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
       enable: true,
       mode: 1,
       level: 1,
-      brightness: 1,
+      brightness: 1
     },
     shadow: {
       enable: true,
       opacity: 0.5,
-      color: [0, 0, 0],
+      color: [0, 0, 0]
     },
     postProcess: {
       enable: true,
       antialias: {
-        enable: true,
+        enable: true
       },
       ssr: {
-        enable: true,
+        enable: true
       },
       bloom: {
-        enable: true,
+        enable: true
       },
       outline: {
-        enable: true,
-      },
+        enable: true
+      }
     },
     ground: {
       enable: true,
       renderPlugin: {
-        type: "lit",
+        type: "lit"
       },
       symbol: {
         polygonOpacity: 1,
@@ -74,27 +74,27 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
           baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
           hsv: [0, 0, -0.532],
           roughnessFactor: 0.22,
-          metallicFactor: 0.58,
-        },
-      },
-    },
-  },
+          metallicFactor: 0.58
+        }
+      }
+    }
+  }
 }).addTo(map);
 
 layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
-  map.fitExtent(extent, 0, { animation: false });
+  map.fitExtent(extent, 1, { animation: false });
 });
 
 /**start**/
 const heightLimitAnalysis = new maptalks.HeightLimitAnalysis({
   limitHeight: 25,
-  limitColor: [1, 0.2, 0.2],
+  limitColor: [1, 0.2, 0.2]
 });
 heightLimitAnalysis.addTo(groupGLLayer);
 
 const vlayer = new maptalks.VectorLayer("vector", {
-  enableAltitude: true,
+  enableAltitude: true
 }).addTo(map);
 
 let altitudes = [],
@@ -104,8 +104,8 @@ const drawTool = new maptalks.DrawTool({
   mode: "LineString",
   enableAltitude: true,
   symbol: {
-    lineColor: "#f00",
-  },
+    lineColor: "#f00"
+  }
 })
   .addTo(map)
   .disable();
@@ -123,7 +123,7 @@ drawTool.on("mousemove", (e) => {
     altitudes[altitudes.length - 1] = coordinate.z;
   }
   e.geometry.setProperties({
-    altitude: altitudes,
+    altitude: altitudes
   });
   e.geometry.setCoordinates(coordinates);
   first = false;
@@ -144,7 +144,7 @@ drawTool.on("drawvertex", (e) => {
     first = true;
   }
   e.geometry.setProperties({
-    altitude: altitudes,
+    altitude: altitudes
   });
   e.geometry.setCoordinates(coordinates);
 });
@@ -157,7 +157,7 @@ drawTool.on("drawstart", (e) => {
   coordinates.push([coordinate.x, coordinate.y]);
   altitudes.push(coordinate.z);
   e.geometry.setProperties({
-    altitude: altitudes,
+    altitude: altitudes
   });
   e.geometry.setCoordinates(coordinates);
   first = true;
@@ -170,11 +170,11 @@ drawTool.on("drawend", function (param) {
   altitudes.push(altitudes[0]);
   new maptalks.LineString(coordinates, {
     symbol: {
-      lineColor: "#f00",
+      lineColor: "#f00"
     },
     properties: {
-      altitude: altitudes,
-    },
+      altitude: altitudes
+    }
   }).addTo(vlayer);
   heightLimitAnalysis.update("boundary", coordinates);
   coordinates = [];
@@ -197,7 +197,7 @@ function getPickedCoordinate(coordinate) {
 }
 
 const gui = new dat.GUI({
-  width: 250,
+  width: 250
 });
 const Config = function () {
   this.limitColor = "#ea6b48";
@@ -205,22 +205,14 @@ const Config = function () {
 };
 const options = new Config();
 
-const limitColorController = gui
-  .addColor(options, "limitColor")
-  .name("限高（米）");
+const limitColorController = gui.addColor(options, "limitColor").name("颜色");
 limitColorController.onChange(function (value) {
-  const r = parseInt('0x' + value.toString().slice(1, 3));
-  const g = parseInt('0x' + value.toString().slice(3, 5));
-  const b = parseInt('0x' + value.toString().slice(5, 7));
-  heightLimitAnalysis.update("limitColor", [
-    r / 255,
-    g / 255,
-    b / 255
-  ]);
+  const r = parseInt("0x" + value.toString().slice(1, 3));
+  const g = parseInt("0x" + value.toString().slice(3, 5));
+  const b = parseInt("0x" + value.toString().slice(5, 7));
+  heightLimitAnalysis.update("limitColor", [r / 255, g / 255, b / 255]);
 });
-const limitHeightController = gui
-  .add(options, "limitHeight", 0, 100)
-  .name("颜色");
+const limitHeightController = gui.add(options, "limitHeight", 0, 100).name("限高（米）");
 limitHeightController.onChange(function (value) {
   heightLimitAnalysis.update("limitHeight", value);
 });

@@ -2,11 +2,10 @@ const map = new maptalks.Map("map", {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 16,
   zoomControl: true,
-  pitch: 80,
   lights: {
     directional: {
       direction: [1, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -16,20 +15,20 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/gradient/left.png",
           right: "{res}/hdr/gradient/right.png",
           top: "{res}/hdr/gradient/top.png",
-          bottom: "{res}/hdr/gradient/bottom.png",
+          bottom: "{res}/hdr/gradient/bottom.png"
         },
-        prefilterCubeSize: 1024,
+        prefilterCubeSize: 1024
       },
       exposure: 1,
       hsv: [0, 0.34, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 
 /**start**/
 const layer = new maptalks.GeoJSONVectorTileLayer("geo", {
-  data: "{res}/geojson/area.geojson",
+  data: "{res}/geojson/area.geojson"
 });
 
 layer.on("dataload", (e) => {
@@ -42,14 +41,38 @@ const style = {
       filter: true,
       renderPlugin: {
         dataConfig: {
-          type: "point",
+          type: "fill"
+        },
+        type: "fill"
+      },
+      symbol: {
+        polygonFill: "#234"
+      }
+    },
+    {
+      filter: true,
+      renderPlugin: {
+        dataConfig: {
+          type: "line"
+        },
+        type: "line"
+      },
+      symbol: {
+        lineColor: "#fff"
+      }
+    },
+    {
+      filter: true,
+      renderPlugin: {
+        dataConfig: {
+          type: "point"
         },
         sceneConfig: {
           collision: true,
           fading: false,
-          depthFunc: "always",
+          depthFunc: "always"
         },
-        type: "icon",
+        type: "icon"
       },
       symbol: [
         {
@@ -59,22 +82,19 @@ const style = {
           markerHeight: {
             stops: [
               [9, 20],
-              [10, 80],
-            ],
+              [10, 80]
+            ]
           },
           markerWidth: {
             stops: [
               [9, 20],
-              [10, 80],
-            ],
+              [10, 80]
+            ]
           },
           markerFill: [0.53, 0.77, 0.94, 1],
-          markerFillOpacity: 1,
           markerLineColor: [0.45882352, 0.54117647, 0.65882352, 1],
-          markerLineDasharray: [0, 0, 0, 0],
           markerLineOpacity: 0.63,
           markerLineWidth: 11,
-          markerOpacity: 1,
 
           textDy: -19,
           textFaceName: "Microsoft YaHei,sans-serif",
@@ -85,14 +105,14 @@ const style = {
           textName: "{name}",
           textSize: {
             stops: [
-              [9, 15],
-              [10, 60],
-            ],
-          },
-        },
-      ],
-    },
-  ],
+              [9, 12],
+              [10, 40]
+            ]
+          }
+        }
+      ]
+    }
+  ]
 };
 layer.setStyle(style);
 /**end**/
@@ -103,8 +123,8 @@ const groupLayer = new maptalks.GroupGLLayer("group", [layer], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0,
-    },
-  },
+      brightness: 0
+    }
+  }
 });
 groupLayer.addTo(map);

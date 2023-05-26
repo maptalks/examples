@@ -2,10 +2,10 @@ const map = new maptalks.Map("map", {
   center: [108.9605239272878, 34.21955775963946],
   zoom: 15,
   pitch: 70,
-  bearing: 90,
+  bearing: 135,
   lights: {
     ambient: {
-      color: [1, 1, 1],
+      color: [0.2, 0.2, 0.2],
       exposure: 1.5,
     },
     directional: {

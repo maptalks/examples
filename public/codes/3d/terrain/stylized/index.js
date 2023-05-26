@@ -1,68 +1,67 @@
 const map = new maptalks.Map("map", {
-  center: [114.31135353780905, 30.5437759669405, 46.900001525878906],
-  zoom: 18.20975314908587,
-  pitch: 0,
-  bearing: 0,
+  center: [94.50812103, 29.45095163, 1469],
+  zoom: 11,
+  pitch: 60,
+  lights: {
+    directional: {
+      direction: [0.5, 0, -1],
+      color: [1, 1, 1]
+    },
+    ambient: {
+      resource: {
+        url: {
+          front: "{res}/hdr/446/front.jpg",
+          back: "{res}/hdr/446/back.jpg",
+          left: "{res}/hdr/446/left.jpg",
+          right: "{res}/hdr/446/right.jpg",
+          top: "{res}/hdr/446/top.jpg",
+          bottom: "{res}/hdr/446/bottom.jpg"
+        },
+        prefilterCubeSize: 1024
+      },
+      exposure: 0.787,
+      hsv: [0, 0, 0],
+      orientation: 0
+    }
+  }
 });
 
-const targetCoord = new maptalks.Coordinate(0, 0);
-const POINT0 = new maptalks.Coordinate(0, 0);
-const POINT1 = new maptalks.Coordinate(0, 0);
-
-const skinLayers = [
-  new maptalks.TileLayer("base", {
-    maxAvailableZoom: 20,
-    spatialReference: {
-      projection: "EPSG:3857",
-    },
-    offset: function (z) {
-      const center = map.getCenter();
-      const c = maptalks.CRSTransform.transform(
-        center.toArray(),
-        "GCJ02",
-        "WGS84"
-      );
-      targetCoord.set(c[0], c[1]);
-      const offset = map
-        .coordToPoint(center, z, POINT0)
-        ._sub(map.coordToPoint(targetCoord, z, POINT1));
-      return offset._round().toArray();
-    },
-    urlTemplate:
-      "http://webst{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
-    subdomains: ["01", "02", "03", "04"],
-    attribution:
-      '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>',
-  }),
-];
-
-const group = new maptalks.GroupGLLayer("group", skinLayers);
-group.addTo(map);
+const token =
+  "pk.eyJ1IjoibWFwYm94LWdsLWpzIiwiYSI6ImNram9ybGI1ajExYjQyeGxlemppb2pwYjIifQ.LGy5UGNIsXUZdYMvfYRiAQ";
 
 /**start**/
+const layers = [
+  new maptalks.VectorTileLayer("vt", {
+    urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
+    spatialReference: "preset-vt-3857",
+    style: "{res}/styles/maptalks-common/style.json"
+  })
+];
+
 const terrain = {
   type: "mapbox",
-  tileSize: 512,
-  spatialReference: "preset-vt-3857",
-  urlTemplate:
-    "https://{s}.tiles.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?access_token=pk.eyJ1IjoibWFwYm94LWdsLWpzIiwiYSI6ImNram9ybGI1ajExYjQyeGxlemppb2pwYjIifQ.LGy5UGNIsXUZdYMvfYRiAQ",
+  tileSize: 256,
+  urlTemplate: `https://{s}.tiles.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?access_token=${token}`,
   subdomains: ["a", "b", "c", "d"],
+  shader: "lit",
+  material: {
+    baseColorFactor: [1, 1, 1, 1],
+    outputSRGB: 1,
+    roughnessFactor: 0.69,
+    metallicFactor: 0
+  }
 };
 
-const gui = new mt.GUI();
-
-gui
-  .add({
-    type: "select",
-    value: "satellite",
-    options: [
-      {
-        label: "卫星影像",
-        value: "satellite",
-      },
-    ],
-  })
-  .onChange((value) => {
-    console.log(value);
-  });
+const group = new maptalks.GroupGLLayer("group", layers, {
+  terrain,
+  sceneConfig: {
+    environment: {
+      enable: true,
+      mode: 1,
+      level: 0,
+      brightness: 0.489
+    }
+  }
+});
+group.addTo(map);
 /**end**/

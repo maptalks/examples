@@ -1,22 +1,22 @@
 /**start**/
 const map = new maptalks.Map("map", {
   center: [114.31, 30.52],
-  zoom: 15,
+  zoom: 15
 });
 
-const vt = new maptalks.VectorTileLayer("vt", {
+const vtLayer = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
   spatialReference: "preset-vt-3857",
-  style: "{res}/styles/maptalks-common/style.json",
+  style: "{res}/styles/maptalks-common/style.json"
 });
 
-const group = new maptalks.GroupGLLayer("group", [vt]).addTo(map);
+const groupLayer = new maptalks.GroupGLLayer("group", [vtLayer]).addTo(map);
 
 function toggleLayerVisible(visible) {
   if (visible) {
-    vt.show();
+    vtLayer.show();
   } else {
-    vt.hide();
+    vtLayer.hide();
   }
 }
 /**end**/
@@ -27,7 +27,7 @@ gui
   .add({
     type: "checkbox",
     label: "显示图层",
-    value: true,
+    value: true
   })
   .onChange((value) => {
     toggleLayerVisible(value);

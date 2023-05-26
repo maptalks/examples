@@ -51,7 +51,24 @@ const style = {
         type: "icon",
       },
       symbol: {
-        markerFile: null,
+        markerFile: {
+          type: "categorical",
+          property: "name",
+          default: "{res}/markers/1.png",
+          stops: [
+            ["江汉区", "{res}/markers/1.png"],
+            ["青山区", "{res}/markers/2.png"],
+          ],
+        },
+        // markerType: {
+        //   type: "categorical",
+        //   property: "name",
+        //   default: "ellipse",
+        //   stops: [
+        //     ["江汉区", "ellipse"],
+        //     ["青山区", "pin"],
+        //   ],
+        // },
         markerFill: {
           type: "categorical",
           property: "name",
@@ -91,15 +108,6 @@ const style = {
         markerPlacement: "point",
         markerRotationAlignment: "viewport",
         markerSpacing: 0,
-        markerType: {
-          type: "categorical",
-          property: "name",
-          default: "ellipse",
-          stops: [
-            ["江汉区", "ellipse"],
-            ["青山区", "pin"],
-          ],
-        },
         markerVerticalAlignment: "middle",
       },
     },

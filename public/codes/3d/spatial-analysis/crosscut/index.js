@@ -85,7 +85,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
 let crosscutAnalysis = null;
 layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
-  map.fitExtent(extent, 0, { animation: false });
+  map.fitExtent(extent, 1, { animation: false });
   crosscutAnalysis = new maptalks.CrossCutAnalysis({
     cutLine: [
       [108.95943151743995, 34.220773839751956],

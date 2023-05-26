@@ -1,8 +1,8 @@
 const map = new maptalks.Map("map", {
   center: [108.95965, 34.21776],
   zoom: 18.865,
-  bearing: -1.23,
-  pitch: 76.8,
+  bearing: -90,
+  pitch: 40,
   lights: {
     directional: { direction: [-1, -1, -1], color: [1, 1, 1] },
     ambient: {
@@ -13,12 +13,12 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
       exposure: 1.426,
       hsv: [0, 0, 0],
-      orientation: 302.553,
+      orientation: 302.553
     }
   }
 });
@@ -42,7 +42,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0.915,
+      brightness: 0.915
     },
     postProcess: {
       enable: true
@@ -50,7 +50,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
     ground: {
       enable: true,
       renderPlugin: {
-        type: "lit",
+        type: "lit"
       },
       symbol: {
         polygonOpacity: 1,
@@ -58,7 +58,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
           baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
           hsv: [0, 0, -0.532],
           roughnessFactor: 0.22,
-          metallicFactor: 0.58,
+          metallicFactor: 0.58
         }
       }
     }
@@ -69,31 +69,33 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
 let skylineAnalysis, eyePos, lookPoint, verticalAngle, horizontalAngle;
 layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
-  map.fitExtent(extent, 0, { animation: false });
+  map.fitExtent(extent, 1, { animation: false });
   const center = map.getCenter();
   eyePos = [108.96104505157473, 34.219553384558736, 34.55867];
   lookPoint = [108.95948541183475, 34.21971441232435, 67.59082];
   verticalAngle = 30;
-  horizontalAngle = 20;
+  horizontalAngle = 60;
   viewshedAnalysis = new maptalks.ViewshedAnalysis({
     eyePos,
     lookPoint,
     verticalAngle,
-    horizontalAngle,
+    horizontalAngle
   });
   viewshedAnalysis.addTo(groupGLLayer);
 });
 
 let altitudes = [],
-      coordinates = [],
-      first = true;
-      distance = null;
+  coordinates = [],
+  first = true;
+distance = null;
 const drawTool = new maptalks.DrawTool({
   mode: "LineString",
   symbol: {
-    lineOpacity: 0,
-  },
-}).addTo(map).disable();
+    lineOpacity: 0
+  }
+})
+  .addTo(map)
+  .disable();
 
 drawTool.on("mousemove", (e) => {
   const coordinate = getPickedCoordinate(e.coordinate);
@@ -108,11 +110,11 @@ drawTool.on("mousemove", (e) => {
     altitudes[altitudes.length - 1] = coordinate.z;
   }
   e.geometry.setProperties({
-    altitude: altitudes,
+    altitude: altitudes
   });
   e.geometry.setCoordinates(coordinates);
   lookPoint = [coordinate.x, coordinate.y, coordinate.z];
-  viewshedAnalysis.update('lookPoint', lookPoint);
+  viewshedAnalysis.update("lookPoint", lookPoint);
   first = false;
 });
 
@@ -131,11 +133,11 @@ drawTool.on("drawvertex", (e) => {
     first = true;
   }
   e.geometry.setProperties({
-    altitude: altitudes,
+    altitude: altitudes
   });
   e.geometry.setCoordinates(coordinates);
   lookPoint = [coordinate.x, coordinate.y, coordinate.z];
-  viewshedAnalysis.update('lookPoint', lookPoint);
+  viewshedAnalysis.update("lookPoint", lookPoint);
   drawTool.disable();
 });
 
@@ -148,11 +150,11 @@ drawTool.on("drawstart", (e) => {
   coordinates.push([coordinate.x, coordinate.y]);
   altitudes.push(coordinate.z);
   e.geometry.setProperties({
-    altitude: altitudes,
+    altitude: altitudes
   });
   e.geometry.setCoordinates(coordinates);
   eyePos = [coordinate.x, coordinate.y, coordinate.z];
-  viewshedAnalysis.update('eyePos', eyePos);
+  viewshedAnalysis.update("eyePos", eyePos);
   first = true;
 });
 
@@ -161,7 +163,10 @@ function getPickedCoordinate(coordinate) {
   const pickedPoint = identifyData && identifyData.point;
   if (pickedPoint) {
     const altitude = map.pointAtResToAltitude(pickedPoint[2], map.getGLRes());
-    const coord = map.pointAtResToCoordinate(new maptalks.Point(pickedPoint[0], pickedPoint[1]), map.getGLRes());
+    const coord = map.pointAtResToCoordinate(
+      new maptalks.Point(pickedPoint[0], pickedPoint[1]),
+      map.getGLRes()
+    );
     return new maptalks.Coordinate(coord.x, coord.y, altitude);
   } else {
     return coordinate;
@@ -175,23 +180,24 @@ gui
   .add({
     type: "button",
     label: "绘制可视域",
-    role: "draw",
+    role: "draw"
   })
   .onClick(() => {
     drawTool.enable();
-});
+  });
 
 gui
   .add({
     type: "slider",
     label: "水平角度",
-    value: 20,
+    value: 60,
     min: 0,
     max: 90,
-    step: 1,
-  }).onChange(function (value) {
+    step: 1
+  })
+  .onChange(function (value) {
     viewshedAnalysis.update("horizontalAngle", value);
-});
+  });
 
 gui
   .add({
@@ -200,10 +206,11 @@ gui
     value: 30,
     min: 0,
     max: 90,
-    step: 1,
-  }).onChange(function (value) {
+    step: 1
+  })
+  .onChange(function (value) {
     viewshedAnalysis.update("verticalAngle", value);
-});
+  });
 
 gui
   .add({
@@ -212,14 +219,17 @@ gui
     value: 180,
     min: 0,
     max: 360,
-    step: 1,
-  }).onChange(function (value) {
+    step: 1
+  })
+  .onChange(function (value) {
     if (distance === null) {
-      distance = Math.sqrt(Math.pow(eyePos[0] - lookPoint[0], 2) + Math.pow(eyePos[1] - lookPoint[1], 2));
+      distance = Math.sqrt(
+        Math.pow(eyePos[0] - lookPoint[0], 2) + Math.pow(eyePos[1] - lookPoint[1], 2)
+      );
     }
-    const x = eyePos[0] + distance * Math.cos(value / 180 * Math.PI);
-    const y = eyePos[1] + distance * Math.sin(value / 180 * Math.PI);
+    const x = eyePos[0] + distance * Math.cos((value / 180) * Math.PI);
+    const y = eyePos[1] + distance * Math.sin((value / 180) * Math.PI);
     lookPoint[0] = x;
     lookPoint[1] = y;
     viewshedAnalysis.update("lookPoint", lookPoint);
-});
+  });

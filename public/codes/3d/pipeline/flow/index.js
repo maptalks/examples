@@ -1,6 +1,6 @@
 const map = new maptalks.Map("map", {
-  center: [120.25309501242282, 30.231192256436856],
-  zoom: 18,
+  center: [120.25213143, 30.23139069],
+  zoom: 20,
   pitch: 45,
   baseLayer: new maptalks.TileLayer("base", {
     urlTemplate: "{urlTemplate}",
@@ -74,33 +74,33 @@ const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
 });
 groupLayer.addTo(map);
 
-const gui = new mt.GUI();
-gui
-  .add({
-    type: "slider",
-    label: "动画速度",
-    value: 0.1,
-    min: -1,
-    max: 1,
-    step: 0.1,
-  })
-  .onChange((value) => {
-    vt.updateSymbol(0, {
-      linePatternAnimSpeed: value,
-    });
-  });
+// const gui = new mt.GUI();
+// gui
+//   .add({
+//     type: "slider",
+//     label: "动画速度",
+//     value: 0.1,
+//     min: -1,
+//     max: 1,
+//     step: 0.1,
+//   })
+//   .onChange((value) => {
+//     vt.updateSymbol(0, {
+//       linePatternAnimSpeed: value,
+//     });
+//   });
 
-gui
-  .add({
-    type: "slider",
-    label: "纹理间距",
-    value: 0,
-    min: 0,
-    max: 10,
-    step: 0.1,
-  })
-  .onChange((value) => {
-    vt.updateSymbol(0, {
-      linePatternGap: value,
-    });
-  });
+// gui
+//   .add({
+//     type: "slider",
+//     label: "纹理间距",
+//     value: 0,
+//     min: 0,
+//     max: 10,
+//     step: 0.1,
+//   })
+//   .onChange((value) => {
+//     vt.updateSymbol(0, {
+//       linePatternGap: value,
+//     });
+//   });

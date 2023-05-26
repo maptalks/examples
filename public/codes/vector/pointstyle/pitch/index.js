@@ -1,7 +1,7 @@
 const map = new maptalks.Map("map", {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 16,
-  pitch: 80,
+  pitch: 30,
   lights: {
     directional: {
       direction: [1, 0, -1],
@@ -41,6 +41,30 @@ const style = {
       filter: true,
       renderPlugin: {
         dataConfig: {
+          type: "fill"
+        },
+        type: "fill"
+      },
+      symbol: {
+        polygonFill: "#234"
+      }
+    },
+    {
+      filter: true,
+      renderPlugin: {
+        dataConfig: {
+          type: "line"
+        },
+        type: "line"
+      },
+      symbol: {
+        lineColor: "#fff"
+      }
+    },
+    {
+      filter: true,
+      renderPlugin: {
+        dataConfig: {
           type: "point",
         },
         sceneConfig: {
@@ -57,8 +81,6 @@ const style = {
           markerHeight: 80,
           markerWidth: 80,
           markerLineColor: [0.2, 0.29, 0.39, 1],
-          markerLineDasharray: [0, 0, 0, 0],
-          markerLineOpacity: 1,
           markerLineWidth: 3,
           markerPitchAlignment: "map",
           textName: "{name}",

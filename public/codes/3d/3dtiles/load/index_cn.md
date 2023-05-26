@@ -10,5 +10,5 @@
 | 属性   | 说明              | 类型    | 默认值          |
 | ------ | ----------------- | ------- | --------------- |
 | url | 服务地址 | String |            |
-| maximumScreenSpaceError  | 最大屏幕空间误差,清晰度可以接受的情况下，推荐把这个值设得越大越好，性能会越好      | Number  |       8.0      |
+| maximumScreenSpaceError  | 最大屏幕空间误差,清晰度可以接受的情况下，推荐把这个值设得越大越好，性能会越好      | Number  |       16.0      |
 | heightOffset  | 高度偏移量      | Number  |    0         |

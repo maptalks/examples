@@ -2,7 +2,7 @@ const map = new maptalks.Map("map", {
   center: [108.95965, 34.21776],
   zoom: 18.865,
   bearing: -1.23,
-  pitch: 76.8,
+  pitch: 50,
   lights: {
     directional: { direction: [-1, -1, -1], color: [1, 1, 1] },
     ambient: {
@@ -68,7 +68,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
 let floodAnalysis, waterHeight= 25, floodAnimation = false, floodAnimationSpeed = 1;
 layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
-  map.fitExtent(extent, 0, { animation: false });
+  map.fitExtent(extent, 1, { animation: false });
   floodAnalysis = new maptalks.FloodAnalysis({
     // 水淹区域
     boundary: [

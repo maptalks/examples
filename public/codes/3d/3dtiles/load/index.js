@@ -28,7 +28,7 @@ const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
   services: [
     {
       url: "http://resource.dvgis.cn/data/3dtiles/dayanta/tileset.json",
-      maximumScreenSpaceError: 8.0,
+      maximumScreenSpaceError: 16.0,
       heightOffset: -400
     }
   ]

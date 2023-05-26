@@ -1,6 +1,6 @@
 const map = new maptalks.Map("map", {
-  center: [120.25309501242282, 30.231192256436856],
-  zoom: 18,
+  center: [120.25213143, 30.23139069],
+  zoom: 20,
   pitch: 45,
   baseLayer: new maptalks.TileLayer("base", {
     urlTemplate: "{urlTemplate}",
@@ -26,6 +26,7 @@ map.setLights(lights);
 const style = {
   style: [
     {
+      filter: true,
       renderPlugin: {
         type: "gltf-lit",
         dataConfig: {
@@ -42,9 +43,9 @@ const style = {
         markerRotationAlignment: "line",
         url: "{res}/gltf/ylk/ylk.gltf",
         markerPlacement: "vertex-last",
-        rotationZ: -90,
+        rotationZ: 90,
         anchorZ: "middle",
-        translationX: -1,
+        translationX: -2,
         scaleX: 0.1,
         scaleY: 0.1,
         scaleZ: 0.1,

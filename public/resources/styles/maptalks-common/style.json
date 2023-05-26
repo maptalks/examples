@@ -568,7 +568,7 @@
         "polygonFill": [
           0.6470588235294118, 0.8431372549019608, 0.9490196078431372, 1
         ],
-        "polygonOpacity": 1,
+        "polygonOpacity": 0.8,
         "polygonPatternFile": null
       },
       "filter": ["all", ["==", "$layer", "water"], ["==", "$type", "Polygon"]],

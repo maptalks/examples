@@ -13,12 +13,12 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
       exposure: 1.426,
       hsv: [0, 0, 0],
-      orientation: 302.553,
+      orientation: 302.553
     }
   }
 });
@@ -42,7 +42,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0.915,
+      brightness: 0.915
     },
     postProcess: {
       enable: true
@@ -50,7 +50,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
     ground: {
       enable: true,
       renderPlugin: {
-        type: "lit",
+        type: "lit"
       },
       symbol: {
         polygonOpacity: 1,
@@ -58,7 +58,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
           baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
           hsv: [0, 0, -0.532],
           roughnessFactor: 0.22,
-          metallicFactor: 0.58,
+          metallicFactor: 0.58
         }
       }
     }
@@ -68,8 +68,8 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
 let skylineAnalysis = null;
 layer.once("loadtileset", (e) => {
   skylineAnalysis = new maptalks.SkylineAnalysis({
-    lineColor: [1, 0, 0],
-    lineWidth: 1.8,
+    lineColor: [234 / 255, 107 / 255, 72 / 255],
+    lineWidth: 1.8
   });
   skylineAnalysis.addTo(groupGLLayer);
 });
@@ -77,19 +77,16 @@ layer.once("loadtileset", (e) => {
 const gui = new mt.GUI();
 gui
   .add({
-    type: 'color',
-    label: '天际线颜色',
-    value: '#f00'
-  }).onChange(function (value) {
-    const r = parseInt('0x' + value.toString().slice(1, 3));
-    const g = parseInt('0x' + value.toString().slice(3, 5));
-    const b = parseInt('0x' + value.toString().slice(5, 7));
-    skylineAnalysis.update("lineColor", [
-      r / 255,
-      g / 255,
-      b / 255,
-    ]);
-});
+    type: "color",
+    label: "天际线颜色",
+    value: "#f00"
+  })
+  .onChange(function (value) {
+    const r = parseInt("0x" + value.toString().slice(1, 3));
+    const g = parseInt("0x" + value.toString().slice(3, 5));
+    const b = parseInt("0x" + value.toString().slice(5, 7));
+    skylineAnalysis.update("lineColor", [r / 255, g / 255, b / 255]);
+  });
 gui
   .add({
     type: "slider",
@@ -97,34 +94,37 @@ gui
     value: 1.8,
     min: 0.1,
     max: 3,
-    step: 0.1,
-  }).onChange(function (value) {
+    step: 0.1
+  })
+  .onChange(function (value) {
     skylineAnalysis.update("lineWidth", value);
-});
+  });
 
-const exportControl = gui.add({
-  type: "button",
-  text: "输出天际线图",
-}).onClick(() => {
-  let dom = document.getElementById('skylineImage');
-  if (dom) {
-    dom.remove();
-  }
-  const url = skylineAnalysis.exportSkylineMap({});
-  dom = document.createElement('div');
-  dom.id = 'skylineImage';
-  dom.style.position = 'absolute';
-  dom.style.right = '10px';
-  dom.style.bottom = '10px';
-  dom.style.zIndex = 9999;
-  dom.style.width = map.width / 4 + 'px';
-  dom.style.height = map.height / 4 + 'px';
-  dom.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-  dom.style.padding = '5px';
-  dom.style.borderRadius = '4px';
-  document.body.appendChild(dom);
-  const img = document.createElement('img');
-  img.style.width = '100%';
-  img.src = url;
-  dom.appendChild(img);
-});
+const exportControl = gui
+  .add({
+    type: "button",
+    text: "输出天际线图"
+  })
+  .onClick(() => {
+    let dom = document.getElementById("skylineImage");
+    if (dom) {
+      dom.remove();
+    }
+    const url = skylineAnalysis.exportSkylineMap({});
+    dom = document.createElement("div");
+    dom.id = "skylineImage";
+    dom.style.position = "absolute";
+    dom.style.right = "10px";
+    dom.style.bottom = "10px";
+    dom.style.zIndex = 9999;
+    dom.style.width = map.width / 4 + "px";
+    dom.style.height = map.height / 4 + "px";
+    dom.style.backgroundColor = "rgba(255, 255, 255, 0.2)";
+    dom.style.padding = "5px";
+    dom.style.borderRadius = "4px";
+    document.body.appendChild(dom);
+    const img = document.createElement("img");
+    img.style.width = "100%";
+    img.src = url;
+    dom.appendChild(img);
+  });

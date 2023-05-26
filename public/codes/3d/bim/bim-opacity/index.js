@@ -52,64 +52,33 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [], {
   }
 }).addTo(map);
 
+/**start**/
 const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
   services: [
     {
-      url: "http://resource.dvgis.cn/data/3dtiles/dayanta/tileset.json",
+      url: "http://examples.maptalks.com/samples/ifc/test1/tileset.json",
       maximumScreenSpaceError: 8.0,
-      heightOffset: -400
+      heightOffset: -40,
+      opacity: 1.0
     }
   ]
 }).addTo(groupGLLayer);
+
 layer.once('loadtileset', e => {
   const extent = layer.getExtent(e.index);
-  map.fitExtent(extent, 1, { animation: false });
+  map.fitExtent(extent, 0, { animation: false });
 });
-/**start**/
-const duration = 20000;
-const player = map.animateTo({
-    bearing: map.getBearing() + 360
-  }, {
-    easing: "linear",
-    duration,
-    repeat: true
-  }
-);
 
-function rotate() {
-  player.play();
-}
-
-function stop() {
-  player.pause();
-}
-/**end**/
-
-//gui控件交互代码
 const gui = new mt.GUI();
 gui
   .add({
-    type: "checkbox",
-    label: "自动旋转",
-    value: true
-  })
-  .onChange((value) => {
-    if (value) {
-      rotate();
-    } else {
-      stop();
-    }
-  });
-
-gui
-  .add({
     type: "slider",
-    label: "旋转速度",
-    value: 1,
-    min: 0.1,
-    max: 5,
-    step: 0.1
-  })
-  .onChange((value) => {
-    player.duration = duration / value;
-  });
+    label: "透明度",
+    value: 1.0,
+    min: 0.0,
+    max: 1.0,
+    step: 0.01,
+  }).onChange(function (value) {
+    layer.setServiceOpacity(0, value);
+});
+/**end**/

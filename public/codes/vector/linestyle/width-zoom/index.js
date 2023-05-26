@@ -1,6 +1,6 @@
 const map = new maptalks.Map("map", {
   center: [-73.99727760921917, 40.75410734656785],
-  zoom: 14,
+  zoom: 15,
   zoomControl: true,
   bearing: 29.6,
   pitch: 7.6,
@@ -56,11 +56,10 @@ const style = {
         lineWidth: {
           type: "exponential",
           default: 2,
+          base: 2,
           stops: [
-            [13, 2],
-            [14, 10],
-            [16, 30],
-            [17, 80],
+            [14, 2],
+            [18, 32],
           ],
         },
       },
