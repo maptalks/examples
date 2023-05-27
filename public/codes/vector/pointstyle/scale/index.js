@@ -46,7 +46,7 @@ const style = {
         type: "fill"
       },
       symbol: {
-        polygonFill: "#234"
+        polygonFill: "#efc69e"
       }
     },
     {

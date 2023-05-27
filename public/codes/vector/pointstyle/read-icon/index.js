@@ -5,7 +5,7 @@ const map = new maptalks.Map("map", {
   lights: {
     directional: {
       direction: [1, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -15,15 +15,15 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/gradient/left.png",
           right: "{res}/hdr/gradient/right.png",
           top: "{res}/hdr/gradient/top.png",
-          bottom: "{res}/hdr/gradient/bottom.png",
+          bottom: "{res}/hdr/gradient/bottom.png"
         },
-        prefilterCubeSize: 1024,
+        prefilterCubeSize: 1024
       },
       exposure: 1,
       hsv: [0, 0.34, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 
 /**start**/
@@ -33,30 +33,25 @@ const style = {
       filter: true,
       renderPlugin: {
         dataConfig: {
-          type: "point",
+          type: "point"
         },
         sceneConfig: {
           collision: true,
           fading: false,
-          depthFunc: "always",
+          depthFunc: "always"
         },
-        type: "icon",
+        type: "icon"
       },
       symbol: {
-        // markerType: {
-        //   type: "identity",
-        //   property: "icon",
-        //   default: "ellipse",
-        // },
         markerFile: "{res}/markers/{icon}",
         markerFill: [0.53, 0.77, 0.94, 1],
-        markerHeight: 20,
-        markerWidth: 20,
+        markerHeight: 60,
+        markerWidth: 60,
         markerLineColor: [0.2, 0.29, 0.39, 1],
-        markerLineWidth: 3,
-      },
-    },
-  ],
+        markerLineWidth: 3
+      }
+    }
+  ]
 };
 
 const data = {
@@ -71,13 +66,13 @@ const data = {
             [-74.01138478352965, 40.71511786220489],
             [-74.01046210362853, 40.70690398234356],
             [-74.00097781255187, 40.71147460291118],
-            [-74.01138478352965, 40.71511786220489],
-          ],
-        ],
+            [-74.01138478352965, 40.71511786220489]
+          ]
+        ]
       },
       properties: {
-        icon: "square",
-      },
+        icon: "square"
+      }
     },
     {
       type: "Feature",
@@ -88,13 +83,13 @@ const data = {
             [-74.03138478352965, 40.71511786220489],
             [-74.03046210362853, 40.70690398234356],
             [-74.02097781255187, 40.71147460291118],
-            [-74.03138478352965, 40.71511786220489],
-          ],
-        ],
+            [-74.03138478352965, 40.71511786220489]
+          ]
+        ]
       },
       properties: {
-        icon: "m4.png",
-      },
+        icon: "m4.png"
+      }
     },
     {
       type: "Feature",
@@ -105,24 +100,26 @@ const data = {
             [-74.03138478352965, 40.70511786220489],
             [-74.03046210362853, 40.69690398234356],
             [-74.02097781255187, 40.70147460291118],
-            [-74.03138478352965, 40.70511786220489],
-          ],
-        ],
+            [-74.03138478352965, 40.70511786220489]
+          ]
+        ]
       },
       properties: {
-        icon: "2.png",
-      },
-    },
-  ],
+        icon: "m5.png"
+      }
+    }
+  ]
 };
 
 const geo = new maptalks.GeoJSONVectorTileLayer("geo", {
   data,
-  style,
+  style
 });
 
 geo.on("dataload", (e) => {
-  map.fitExtent(e.extent);
+  map.fitExtent(e.extent, 0, {
+    animation: false
+  });
 });
 /**end**/
 
@@ -132,8 +129,8 @@ const groupLayer = new maptalks.GroupGLLayer("group", [geo], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0,
-    },
-  },
+      brightness: 0
+    }
+  }
 });
 groupLayer.addTo(map);

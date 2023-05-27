@@ -5,7 +5,7 @@ const map = new maptalks.Map("map", {
   lights: {
     directional: {
       direction: [1, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -15,20 +15,20 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/gradient/left.png",
           right: "{res}/hdr/gradient/right.png",
           top: "{res}/hdr/gradient/top.png",
-          bottom: "{res}/hdr/gradient/bottom.png",
+          bottom: "{res}/hdr/gradient/bottom.png"
         },
-        prefilterCubeSize: 1024,
+        prefilterCubeSize: 1024
       },
       exposure: 1,
       hsv: [0, 0.34, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 
 /**start**/
 const layer = new maptalks.GeoJSONVectorTileLayer("geo", {
-  data: "{res}/geojson/area.geojson",
+  data: "{res}/geojson/area.geojson"
 });
 
 layer.on("dataload", (e) => {
@@ -46,7 +46,7 @@ const style = {
         type: "fill"
       },
       symbol: {
-        polygonFill: "#234"
+        polygonFill: "#efc69e"
       }
     },
     {
@@ -65,14 +65,14 @@ const style = {
       filter: true,
       renderPlugin: {
         dataConfig: {
-          type: "point",
+          type: "point"
         },
         sceneConfig: {
           collision: true,
           fading: true,
-          depthFunc: "always",
+          depthFunc: "always"
         },
-        type: "icon",
+        type: "icon"
       },
       symbol: [
         {
@@ -85,11 +85,11 @@ const style = {
           markerPitchAlignment: "map",
           textName: "{name}",
           textSize: 15,
-          textPitchAlignment: "map",
-        },
-      ],
-    },
-  ],
+          textPitchAlignment: "map"
+        }
+      ]
+    }
+  ]
 };
 layer.setStyle(style);
 /**end**/
@@ -99,17 +99,17 @@ const sceneConfig = {
     enable: true,
     mode: 1,
     level: 0,
-    brightness: 0,
+    brightness: 0
   },
   postProcess: {
     enable: true,
     antialias: {
-      enable: true,
-    },
-  },
+      enable: true
+    }
+  }
 };
 
 const groupLayer = new maptalks.GroupGLLayer("group", [layer], {
-  sceneConfig,
+  sceneConfig
 });
 groupLayer.addTo(map);

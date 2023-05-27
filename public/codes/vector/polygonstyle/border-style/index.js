@@ -6,7 +6,7 @@ const map = new maptalks.Map("map", {
   lights: {
     directional: {
       direction: [1, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -16,20 +16,20 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/gradient/left.png",
           right: "{res}/hdr/gradient/right.png",
           top: "{res}/hdr/gradient/top.png",
-          bottom: "{res}/hdr/gradient/bottom.png",
+          bottom: "{res}/hdr/gradient/bottom.png"
         },
-        prefilterCubeSize: 1024,
+        prefilterCubeSize: 1024
       },
       exposure: 1,
       hsv: [0, 0.34, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 
 const vt = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857",
+  spatialReference: "preset-vt-3857"
 });
 
 const style = {
@@ -38,33 +38,33 @@ const style = {
       filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
       renderPlugin: {
         dataConfig: {
-          type: "fill",
+          type: "fill"
         },
         sceneConfig: {},
-        type: "fill",
+        type: "fill"
       },
       symbol: {
         polygonBloom: false,
-        polygonFill: "#577570",
+        polygonFill: "#ecc4ac",
         polygonOpacity: 1,
-        polygonPatternFile: null,
-      },
+        polygonPatternFile: null
+      }
     },
     {
       filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
       renderPlugin: {
         dataConfig: {
-          type: "line",
+          type: "line"
         },
         sceneConfig: {},
-        type: "line",
+        type: "line"
       },
       symbol: {
-        lineColor: [0.45, 0.73, 0.24, 1],
-        lineWidth: 4,
-      },
-    },
-  ],
+        lineColor: "#ea6b48",
+        lineWidth: 4
+      }
+    }
+  ]
 };
 vt.setStyle(style);
 
@@ -74,9 +74,9 @@ const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0,
-    },
-  },
+      brightness: 0
+    }
+  }
 });
 groupLayer.addTo(map);
 /**end**/

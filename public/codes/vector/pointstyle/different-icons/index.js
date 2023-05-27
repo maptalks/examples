@@ -1,11 +1,10 @@
 const map = new maptalks.Map("map", {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 16,
-  pitch: 80,
   lights: {
     directional: {
       direction: [1, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -15,20 +14,20 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/gradient/left.png",
           right: "{res}/hdr/gradient/right.png",
           top: "{res}/hdr/gradient/top.png",
-          bottom: "{res}/hdr/gradient/bottom.png",
+          bottom: "{res}/hdr/gradient/bottom.png"
         },
-        prefilterCubeSize: 1024,
+        prefilterCubeSize: 1024
       },
       exposure: 1,
       hsv: [0, 0.34, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 
 /**start**/
 const geo = new maptalks.GeoJSONVectorTileLayer("geo", {
-  data: "{res}/geojson/area.geojson",
+  data: "{res}/geojson/area.geojson"
 });
 
 geo.on("dataload", (e) => {
@@ -41,42 +40,33 @@ const style = {
       filter: true,
       renderPlugin: {
         dataConfig: {
-          type: "point",
+          type: "point"
         },
         sceneConfig: {
           collision: true,
           fading: false,
-          depthFunc: "always",
+          depthFunc: "always"
         },
-        type: "icon",
+        type: "icon"
       },
       symbol: {
         markerFile: {
           type: "categorical",
           property: "name",
-          default: "{res}/markers/1.png",
+          default: "{res}/markers/5.png",
           stops: [
-            ["江汉区", "{res}/markers/1.png"],
-            ["青山区", "{res}/markers/2.png"],
-          ],
+            ["江汉区", "{res}/markers/5.png"],
+            ["青山区", "{res}/markers/6.png"]
+          ]
         },
-        // markerType: {
-        //   type: "categorical",
-        //   property: "name",
-        //   default: "ellipse",
-        //   stops: [
-        //     ["江汉区", "ellipse"],
-        //     ["青山区", "pin"],
-        //   ],
-        // },
         markerFill: {
           type: "categorical",
           property: "name",
           default: [0.53, 0.77, 0.94, 1],
           stops: [
             ["江汉区", [0.53, 0.77, 0.94, 1]],
-            ["青山区", "#ff8a00"],
-          ],
+            ["青山区", "#ff8a00"]
+          ]
         },
         markerFillOpacity: 1,
         markerHeight: {
@@ -85,8 +75,8 @@ const style = {
           default: 20,
           stops: [
             ["江汉区", 20],
-            ["青山区", 30],
-          ],
+            ["青山区", 30]
+          ]
         },
         markerWidth: {
           type: "categorical",
@@ -94,8 +84,8 @@ const style = {
           default: 20,
           stops: [
             ["江汉区", 20],
-            ["青山区", 30],
-          ],
+            ["青山区", 30]
+          ]
         },
         markerHorizontalAlignment: "middle",
         markerIgnorePlacement: false,
@@ -108,10 +98,10 @@ const style = {
         markerPlacement: "point",
         markerRotationAlignment: "viewport",
         markerSpacing: 0,
-        markerVerticalAlignment: "middle",
-      },
-    },
-  ],
+        markerVerticalAlignment: "middle"
+      }
+    }
+  ]
 };
 geo.setStyle(style);
 /**end**/
@@ -122,8 +112,8 @@ const groupLayer = new maptalks.GroupGLLayer("group", [geo], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0,
-    },
-  },
+      brightness: 0
+    }
+  }
 });
 groupLayer.addTo(map);

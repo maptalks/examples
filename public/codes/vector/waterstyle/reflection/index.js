@@ -28,6 +28,7 @@ const map = new maptalks.Map("map", {
   }
 });
 
+/**start**/
 const vt = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
   spatialReference: "preset-vt-3857"
@@ -177,10 +178,11 @@ const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
       symbol: {
         polygonFill: [0.54, 0.54, 0.54, 1],
         material: {
-          baseColorFactor: [0.13333333333333333, 0.13333333333333333, 0.13333333333333333, 1]
+          baseColorFactor: [0.13333333, 0.13333333, 0.13333333, 1]
         }
       }
     }
   }
 });
 groupLayer.addTo(map);
+/**end**/
