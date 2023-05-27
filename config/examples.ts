@@ -2713,7 +2713,7 @@ const examples = [
       {
         name: "3dtiles",
         title: {
-          cn: "倾斜摄影",
+          cn: "3dtiles功能示例",
           en: "3D Tiles"
         },
         examples: [
@@ -2821,39 +2821,53 @@ const examples = [
               cn: "模型压平",
               en: "model flatten"
             }
-          }
-        ]
-      },
-      {
-        name: "bim",
-        title: {
-          cn: "BIM模型",
-          en: "BIM model"
-        },
-        examples: [
+          },
           {
-            name: "load",
+            name: "bim",
             title: {
-              cn: "载入BIM模型",
+              cn: "载入单体化模型",
               en: "Load BIM model"
             }
           },
           {
             name: "bim-opacity",
             title: {
-              cn: "BIM模型-透明度",
+              cn: "调整模型透明度",
               en: "BIM model opacity"
             }
           }
-          // {
-          //   name: "plane-clip",
-          //   title: {
-          //     cn: "BIM模型平面裁剪",
-          //     en: "BIM model plane clipping"
-          //   }
-          // }
         ]
       },
+      // {
+      //   name: "bim",
+      //   title: {
+      //     cn: "BIM模型",
+      //     en: "BIM model"
+      //   },
+      //   examples: [
+      //     {
+      //       name: "load",
+      //       title: {
+      //         cn: "载入BIM模型",
+      //         en: "Load BIM model"
+      //       }
+      //     },
+      //     {
+      //       name: "bim-opacity",
+      //       title: {
+      //         cn: "BIM模型-透明度",
+      //         en: "BIM model opacity"
+      //       }
+      //     },
+      //     {
+      //       name: "plane-clip",
+      //       title: {
+      //         cn: "BIM模型平面裁剪",
+      //         en: "BIM model plane clipping"
+      //       }
+      //     }
+      //   ]
+      // },
       {
         name: "pipeline",
         title: {
@@ -3069,7 +3083,7 @@ const examples = [
               cn: "调整视频参数",
               en: "Set params"
             }
-          },
+          }
           // {
           //   name: "edit",
           //   title: {

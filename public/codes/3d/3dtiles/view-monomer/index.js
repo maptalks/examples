@@ -192,6 +192,12 @@ roomMarker.on('mouseenter mouseout', e => {
   }
 });
 
+roomMarker.setInfoWindow({
+  content: "点击箭头所指楼层",
+  dy: 20,
+});
+roomMarker.openInfoWindow();
+
 const sceneConfig = {
   environment: {
     enable: true,
