@@ -3077,13 +3077,13 @@ const examples = [
           //     en: "Custom add video"
           //   }
           // },
-          {
-            name: "params",
-            title: {
-              cn: "调整视频参数",
-              en: "Set params"
-            }
-          }
+          // {
+          //   name: "params",
+          //   title: {
+          //     cn: "调整视频参数",
+          //     en: "Set params"
+          //   }
+          // }
           // {
           //   name: "edit",
           //   title: {

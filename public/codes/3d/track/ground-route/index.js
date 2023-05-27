@@ -77,6 +77,10 @@ function play() {
   player.showRoute();
   player.play();
 }
+
+function pause() {
+  player.pause()
+}
 /**end**/
 
 const gui = new mt.GUI();
@@ -98,64 +102,64 @@ gui
     role: "pause",
   })
   .onClick(() => {
-    stop();
+    pause();
   });
 
-gui.add({
-  label: "选择轨迹",
-  type: "select",
-  value: "plane",
-  options: [
-    {
-      label: "飞机",
-      value: "plane",
-    },
-    {
-      label: "汽车",
-      value: "car",
-    },
-  ],
-});
+// gui.add({
+//   label: "选择轨迹",
+//   type: "select",
+//   value: "plane",
+//   options: [
+//     {
+//       label: "飞机",
+//       value: "plane",
+//     },
+//     {
+//       label: "汽车",
+//       value: "car",
+//     },
+//   ],
+// });
 
-gui.add({
-  type: "color",
-  label: "轨迹颜色",
-  value: "#dbd34b",
-});
+// gui.add({
+//   type: "color",
+//   label: "轨迹颜色",
+//   value: "#dbd34b",
+// });
 
-gui
-  .add({
-    type: "slider",
-    label: "轨迹宽度",
-    value: 4,
-    min: 1,
-    max: 10,
-    step: 1,
-  })
-  .onChange(() => {});
+// gui
+//   .add({
+//     type: "slider",
+//     label: "轨迹宽度",
+//     value: 4,
+//     min: 1,
+//     max: 10,
+//     step: 1,
+//   })
+//   .onChange(() => {});
 
-gui
-  .add({
-    type: "slider",
-    label: "透明度",
-    value: 1,
-    min: 0,
-    max: 1,
-    step: 0.1,
-  })
-  .onChange(() => {});
+// gui
+//   .add({
+//     type: "slider",
+//     label: "透明度",
+//     value: 1,
+//     min: 0,
+//     max: 1,
+//     step: 0.1,
+//   })
+//   .onChange(() => {});
 
-gui.add({
-  type: "checkbox",
-  label: "显示轨迹",
-  value: true,
-});
+// gui.add({
+//   type: "checkbox",
+//   label: "显示轨迹",
+//   value: true,
+// });
 
-gui.add({
-  type: "checkbox",
-  label: "显示站点",
-  value: true,
-});
+// gui.add({
+//   type: "checkbox",
+//   label: "显示站点",
+//   value: true,
+// });
 
 function getPickedCoordinate(coordinate) {
   const identifyData = groupLayer.identify(coordinate)[0];
