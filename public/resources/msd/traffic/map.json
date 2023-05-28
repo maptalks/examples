@@ -25,12 +25,12 @@
       "ambient": {
         "resource": {
           "url": {
-            "front": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/front.jpg",
-            "back": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/back.jpg",
-            "left": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/left.jpg",
-            "right": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/right.jpg",
-            "top": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/top.jpg",
-            "bottom": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/bottom.jpg"
+            "front": "/resources/msd/traffic/res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/front.jpg",
+            "back": "/resources/msd/traffic/res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/back.jpg",
+            "left": "/resources/msd/traffic/res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/left.jpg",
+            "right": "/resources/msd/traffic/res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/right.jpg",
+            "top": "/resources/msd/traffic/res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/top.jpg",
+            "bottom": "/resources/msd/traffic/res/temp-resources/dev/hdr/923/923d179b-91ff-4159-9030-8e3efbf8c745/bottom.jpg"
           }
         },
         "exposure": 0.787,
@@ -87,8 +87,8 @@
                   },
                   "symbol": {
                     "ssr": true,
-                    "texWaveNormal": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/water/463/463a5930-0280-cfcc-ca93-d3ea8acae553/normal.png",
-                    "texWavePerturbation": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/water/06f/06faa462-d7fd-e85c-f803-f642b743b54f/perturbation.png",
+                    "texWaveNormal": "/resources/msd/traffic/res/temp-resources/dev/water/463/463a5930-0280-cfcc-ca93-d3ea8acae553/normal.png",
+                    "texWavePerturbation": "/resources/msd/traffic/res/temp-resources/dev/water/06f/06faa462-d7fd-e85c-f803-f642b743b54f/perturbation.png",
                     "waterBaseColor": [
                       0.7254901960784313,
                       0.8196078431372549,
@@ -144,7 +144,7 @@
                     "ssr": false,
                     "polygonOpacity": 1,
                     "material": {
-                      "baseColorTexture": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_basecolor.jpg",
+                      "baseColorTexture": "/resources/msd/traffic/res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_basecolor.jpg",
                       "baseColorFactor": [
                         1,
                         1,
@@ -159,10 +159,10 @@
                       "baseColorIntensity": 1,
                       "contrast": 1,
                       "outputSRGB": 1,
-                      "metallicRoughnessTexture": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_roughness.jpg",
+                      "metallicRoughnessTexture": "/resources/msd/traffic/res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_roughness.jpg",
                       "roughnessFactor": 1,
                       "metallicFactor": 1,
-                      "normalTexture": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_normalOgl.jpg",
+                      "normalTexture": "/resources/msd/traffic/res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_normalOgl.jpg",
                       "noiseTexture": null,
                       "uvScale": [
                         0.18,
@@ -185,7 +185,7 @@
                       "clearCoatFactor": 0,
                       "clearCoatIor": 1.4,
                       "clearCoatRoughnessFactor": 0.04,
-                      "occlusionTexture": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_ambientocclusion.jpg",
+                      "occlusionTexture": "/resources/msd/traffic/res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_ambientocclusion.jpg",
                       "emissiveTexture": null,
                       "emissiveFactor": [
                         0,
@@ -1310,7 +1310,7 @@
                       "clearCoatIor": 1.4,
                       "clearCoatRoughnessFactor": 0.04,
                       "occlusionTexture": null,
-                      "emissiveTexture": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/texture/897/897effa0-1897-4c1c-9aa0-66840a8e0218/1.jpg",
+                      "emissiveTexture": "/resources/msd/traffic/res/temp-resources/dev/texture/897/897effa0-1897-4c1c-9aa0-66840a8e0218/1.jpg",
                       "emissiveFactor": [
                         0.9333333333333333,
                         0.9254901960784314,
@@ -2064,7 +2064,7 @@
                     "lineJoin": "round",
                     "lineOpacity": 1,
                     "linePatternAnimSpeed": 0,
-                    "linePatternFile": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/line-pattern/d4b/d4beb047-2a7f-4802-af26-e47357967c2c/default.jpg",
+                    "linePatternFile": "/resources/msd/traffic/res/temp-resources/dev/line-pattern/d4b/d4beb047-2a7f-4802-af26-e47357967c2c/default.jpg",
                     "lineStrokeWidth": 0,
                     "lineStrokeColor": [
                       1,
@@ -2217,7 +2217,7 @@
                     "lineJoin": "miter",
                     "lineOpacity": 1,
                     "linePatternAnimSpeed": 0,
-                    "linePatternFile": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/line-pattern/d4b/d4beb047-2a7f-4802-af26-e47357967c2c/default.jpg",
+                    "linePatternFile": "/resources/msd/traffic/res/temp-resources/dev/line-pattern/d4b/d4beb047-2a7f-4802-af26-e47357967c2c/default.jpg",
                     "lineStrokeWidth": 0,
                     "lineStrokeColor": [
                       0,
@@ -2522,7 +2522,7 @@
                       "clearCoatIor": 1.4,
                       "clearCoatRoughnessFactor": 0.04,
                       "occlusionTexture": null,
-                      "emissiveTexture": "http://localhost:5173/resources/msd/traffic/res/temp-resources/dev/texture/897/897effa0-1897-4c1c-9aa0-66840a8e0218/1.jpg",
+                      "emissiveTexture": "/resources/msd/traffic/res/temp-resources/dev/texture/897/897effa0-1897-4c1c-9aa0-66840a8e0218/1.jpg",
                       "emissiveFactor": [
                         0,
                         0,

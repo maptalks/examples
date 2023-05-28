@@ -26,8 +26,10 @@ const map = new maptalks.Map("map", {
   }
 });
 
+// const token =
+//   "pk.eyJ1IjoibWFwYm94LWdsLWpzIiwiYSI6ImNram9ybGI1ajExYjQyeGxlemppb2pwYjIifQ.LGy5UGNIsXUZdYMvfYRiAQ";
 const token =
-  "pk.eyJ1IjoibWFwYm94LWdsLWpzIiwiYSI6ImNram9ybGI1ajExYjQyeGxlemppb2pwYjIifQ.LGy5UGNIsXUZdYMvfYRiAQ";
+  "pk.eyJ1IjoiemhlbmZ1IiwiYSI6ImNsaTduNXM4ZjBtZnczbG1wbmNjenQ0OW8ifQ.UOkJDZYcC1zs9cXny6P8YQ";
 
 /**start**/
 const layers = [
