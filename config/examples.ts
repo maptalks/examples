@@ -1758,7 +1758,7 @@ const examples = [
       {
         name: "polygon-3d-style",
         title: {
-          cn: "面数据三维样式",
+          cn: "三维白模样式",
           en: "Polygon data 3d Style"
         },
         examples: [
@@ -2825,7 +2825,7 @@ const examples = [
           {
             name: "bim",
             title: {
-              cn: "载入单体化模型",
+              cn: "载入有BatchID的模型",
               en: "Load BIM model"
             }
           },
@@ -2839,7 +2839,7 @@ const examples = [
           {
             name: "show-only",
             title: {
-              cn: "只显示指定模型",
+              cn: "只显示指定BatchID模型",
               en: "Show only specified models"
             }
           }
