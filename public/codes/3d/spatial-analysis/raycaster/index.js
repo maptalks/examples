@@ -136,8 +136,8 @@ function showResult(results) {
       const coord = coordinates[j].coordinate;
       new maptalks.Circle(coord, 10, {
         symbol: {
-          lineColor: "#f0f",
-          polygonFill: '#e8542b',
+          lineColor: "#f5c23b",
+          polygonFill: '#f5c23b',
           polygonOpacity: 0.5
         },
         properties: {
