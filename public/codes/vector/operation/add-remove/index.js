@@ -1,6 +1,6 @@
 /**start**/
 const map = new maptalks.Map("map", {
-  center: [-74.00912099912109, 40.71107610933129],
+  center: [-74.01, 40.71],
   zoom: 16
 });
 
