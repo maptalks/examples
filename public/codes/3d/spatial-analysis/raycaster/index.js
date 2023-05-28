@@ -11,7 +11,7 @@ const map = new maptalks.Map("map", {
     directional: {
       color: [1, 1, 1],
       lightColorIntensity: 5000,
-      direction: [1, 0, -1],
+      direction: [0, 1, -1]
     },
   },
 });
@@ -38,7 +38,7 @@ const eyePosition = new maptalks.Coordinate([
   center.y + 0.002,
   400,
 ]);
-const viewPosition = new maptalks.Coordinate([center.x, center.y, 0]);
+const viewPosition = new maptalks.Coordinate([center.x, center.y - 0.002, 300]);
 const eyeMarker = new maptalks.GLTFMarker(eyePosition, {
   symbol: {
     url: "cube",
@@ -46,7 +46,7 @@ const eyeMarker = new maptalks.GLTFMarker(eyePosition, {
     scaleY: 0.1,
     scaleZ: 0.1,
     uniforms: {
-      polygonFill: [0, 0, 1, 1],
+      polygonFill: [0.91, 0.33, 0.1686, 1]
     },
   },
 }).addTo(gltfLayer);
@@ -54,8 +54,8 @@ const eyeMarker = new maptalks.GLTFMarker(eyePosition, {
 const lineLayer = new maptalks.LineStringLayer("linelayer");
 const rayLine = new maptalks.LineString([eyePosition, viewPosition], {
   symbol: {
-    lineColor: "#1bbc9b",
-    lineWidth: 3,
+    lineColor: "#e8542b",
+    lineWidth: 3
   },
 }).addTo(lineLayer);
 
@@ -94,8 +94,8 @@ function addTextMarker(eyePosition, viewPosition) {
       textFaceName: "sans-serif",
       textName: "视点",
       textSize: 24,
-      textFill: "#f00",
-      textDx: -45,
+      textFill: "#222",
+      textDx: -45
     },
     properties: {
       altitude: eyePosition.z,
@@ -106,12 +106,12 @@ function addTextMarker(eyePosition, viewPosition) {
       textFaceName: "sans-serif",
       textName: "目标点",
       textSize: 24,
-      textFill: "#00f",
-      textDx: -45,
+      textFill: "#222",
+      textDx: 45
     },
     properties: {
-      altitude: viewPosition.z,
-    },
+      altitude: viewPosition.z
+    }
   }).addTo(vectorLayer);
 }
 
@@ -137,6 +137,8 @@ function showResult(results) {
       new maptalks.Circle(coord, 10, {
         symbol: {
           lineColor: "#f0f",
+          polygonFill: '#e8542b',
+          polygonOpacity: 0.5
         },
         properties: {
           altitude: coord.z,
@@ -175,11 +177,15 @@ map.on("click", (e) => {
 
 setTimeout(function () {
   map.setView({
-    bearing: -4.5,
-    center: [108.96039941, 34.22244372],
-    pitch: 50.85,
-    zoom: 16.5,
+    bearing: 82.79999999999882,
+    center: [108.96419515, 34.21932322],
+    pitch: 60.750000000000306,
+    zoom: 16.33401583421289
   });
   update();
 }, 100);
+map.on('click', e => {
+  const view = map.getView();
+  console.log(view);
+});
 /**end**/
