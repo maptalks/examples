@@ -4,7 +4,7 @@ const token = "uKYsZQZpm72WlbSgH9B7";
 const map = new maptalks.Map("map", {
   center: [-74.00912099912109, 40.71107610933129],
   zoom: 12,
-  spatialReference: "preset-maptiler-4326"
+  spatialReference: "EPSG:4326"
 });
 
 const vt = new maptalks.VectorTileLayer("vt", {

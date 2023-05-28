@@ -58,12 +58,12 @@ function TitleArea() {
             {translate[language]["open"]}
           </ActionButton>
         </Link>
-        <ActionLink onClick={handleEdit}>
+        {/* <ActionLink onClick={handleEdit}>
           <ActionButton>
             <ButtonIcon type="edit" />
             {translate[language]["edit"]}
           </ActionButton>
-        </ActionLink>
+        </ActionLink> */}
         <CopyToClipboard text={code} onCopy={handleCopy}>
           <ActionLink>
             <ActionButton>

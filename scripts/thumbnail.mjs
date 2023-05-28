@@ -1,4 +1,4 @@
-import examples from "../config/examples";
+import examples from "../config/example.mjs";
 import puppeteer from "puppeteer";
 
 // 生成部分例子的缩略图
@@ -6,7 +6,7 @@ import puppeteer from "puppeteer";
 // name: "basic" 生成 codes/basic 目录下的所有例子的缩略图
 // name: "basic_3d" 生成 codes/basic/3d 目录下的所有例子的缩略图
 // name: "basic_3d_line-altitude" 只生成 codes/basic/3d/line-altitude 这一个例子的缩略图
-const name = "vector_vtlayer";
+const name = "3d_terrain";
 
 (async () => {
   if (name) {
@@ -30,13 +30,13 @@ async function genarateAll() {
               const url = `http://localhost:5173/examples/raw/cn/${i.name}/${j.name}/${k.name}`;
               try {
                 await page.goto(url, {
-                  waitUntil: "networkidle0",
+                  waitUntil: "networkidle0"
                 });
                 await page.screenshot({
                   path: `thumbnails/${i.name}_${j.name}_${k.name}.webp`,
                   fullPage: true,
                   type: "webp",
-                  quality: 20,
+                  quality: 20
                 });
               } catch {
                 continue;
@@ -53,7 +53,7 @@ async function genarateAll() {
 async function genarateByName(name) {
   const paths = name.split("_");
   const browser = await puppeteer.launch({
-    headless: "new",
+    headless: "new"
   });
   const page = await browser.newPage();
   for (const i of examples) {
@@ -75,13 +75,13 @@ async function genarateByName(name) {
               // const url = "https://maptalks.org/examples/cn/tilelayer-projection/epsg4326/raw/index.html"
               try {
                 await page.goto(url, {
-                  waitUntil: "networkidle0",
+                  waitUntil: "networkidle0"
                 });
                 await page.screenshot({
                   path: `public/thumbnails/${i.name}_${j.name}_${k.name}.webp`,
                   fullPage: true,
                   type: "webp",
-                  quality: 20,
+                  quality: 20
                 });
               } catch {
                 continue;
