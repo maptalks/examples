@@ -2835,6 +2835,13 @@ const examples = [
               cn: "调整模型透明度",
               en: "BIM model opacity"
             }
+          },
+          {
+            name: "show-only",
+            title: {
+              cn: "只显示指定模型",
+              en: "Show only specified models"
+            }
           }
         ]
       },
@@ -3069,7 +3076,7 @@ const examples = [
               cn: "添加视频对象",
               en: "Add video"
             }
-          },
+          }
           // {
           //   name: "custom",
           //   title: {
