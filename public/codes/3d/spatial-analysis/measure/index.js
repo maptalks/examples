@@ -62,7 +62,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
     },
   },
 }).addTo(map);
-
+/**start**/
 let measureTool = null;
 const toolOptions = {
   once: false,
@@ -153,3 +153,4 @@ gui
       measureTool.remove();
     }
   });
+  /**end**/

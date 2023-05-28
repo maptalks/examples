@@ -64,7 +64,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
     }
   }
 }).addTo(map);
-
+/**start**/
 let skylineAnalysis = null;
 layer.once("loadtileset", (e) => {
   skylineAnalysis = new maptalks.SkylineAnalysis({
@@ -128,3 +128,4 @@ const exportControl = gui
     img.src = url;
     dom.appendChild(img);
   });
+  /**end**/
