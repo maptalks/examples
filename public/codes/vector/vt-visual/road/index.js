@@ -1,13 +1,13 @@
-// 两个 vt 图层 道路单独提出来
+/**start**/
 const map = new maptalks.Map("map", {
-  center: [-74.01525660332106, 40.70568947796781],
-  zoom: 16.5,
-  bearing: 24,
-  pitch: 48.8,
+  center: [-74.01493663, 40.705559],
+  zoom: 17.8,
+  pitch: 43.2,
+  bearing: 57.1,
   lights: {
     directional: {
       direction: [0.5, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -17,22 +17,20 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
       exposure: 0.787,
       hsv: [0, 0, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
-
-// 修改一下view
 
 const vtLayer = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
   spatialReference: "preset-vt-3857",
-  style: "{res}/styles/road.json",
+  style: "{res}/styles/road.json"
 });
 
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer], {
@@ -41,7 +39,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0.489,
+      brightness: 0.489
     },
     shadow: {
       type: "esm",
@@ -49,19 +47,18 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer], {
       quality: "high",
       opacity: 0.5,
       color: [0, 0, 0],
-      blurOffset: 1,
+      blurOffset: 1
     },
     ground: {
       enable: true,
       renderPlugin: {
-        type: "fill",
+        type: "fill"
       },
       symbol: {
-        polygonFill: [
-          0.803921568627451, 0.803921568627451, 0.803921568627451, 1,
-        ],
-        polygonOpacity: 1,
-      },
-    },
-  },
+        polygonFill: [0.8039215, 0.8039215, 0.8039215, 1],
+        polygonOpacity: 1
+      }
+    }
+  }
 }).addTo(map);
+/**end**/

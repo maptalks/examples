@@ -21,11 +21,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "greenland"],
-      ["==", "$type", "Polygon"]
-    ],
+    "filter": ["all", ["==", "$layer", "greenland"], ["==", "$type", "Polygon"]],
     "renderPlugin": {
       "type": "lit",
       "dataConfig": {
@@ -48,16 +44,16 @@
       "ssr": false,
       "polygonOpacity": 1,
       "material": {
-        "baseColorTexture": "/resources/textures/ec8/Stylized_15_Grass_basecolor.jpg",
+        "baseColorTexture": "/resources/textures/Stylized_15_Grass_basecolor.jpg",
         "baseColorFactor": [1, 1, 1, 1],
         "hsv": [0, -0.255, 0.383],
         "baseColorIntensity": 1,
         "contrast": 1,
         "outputSRGB": 1,
-        "metallicRoughnessTexture": "/resources/textures/ec8/Stylized_15_Grass_roughness.jpg",
+        "metallicRoughnessTexture": "/resources/textures/Stylized_15_Grass_roughness.jpg",
         "roughnessFactor": 1,
         "metallicFactor": 1,
-        "normalTexture": "/resources/textures/ec8/Stylized_15_Grass_normalOgl.jpg",
+        "normalTexture": "/resources/textures/Stylized_15_Grass_normalOgl.jpg",
         "noiseTexture": null,
         "uvScale": [0.18, 0.18],
         "uvOffset": [0, 0],
@@ -71,7 +67,7 @@
         "clearCoatFactor": 0,
         "clearCoatIor": 1.4,
         "clearCoatRoughnessFactor": 0.04,
-        "occlusionTexture": "/resources/textures/ec8/Stylized_15_Grass_ambientocclusion.jpg",
+        "occlusionTexture": "/resources/textures/Stylized_15_Grass_ambientocclusion.jpg",
         "emissiveTexture": null,
         "emissiveFactor": [0, 0, 0],
         "emitColorFactor": 1,
@@ -123,11 +119,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "education"],
-      ["==", "$type", "Polygon"]
-    ],
+    "filter": ["all", ["==", "$layer", "education"], ["==", "$type", "Polygon"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "fill"
@@ -137,19 +129,13 @@
     },
     "symbol": {
       "polygonBloom": false,
-      "polygonFill": [
-        0.5686274509803921, 0.4980392156862745, 0.43529411764705883, 1
-      ],
+      "polygonFill": [0.5686274509803921, 0.4980392156862745, 0.43529411764705883, 1],
       "polygonOpacity": 1,
       "polygonPatternFile": null
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "education"],
-      ["==", "$type", "Polygon"]
-    ],
+    "filter": ["all", ["==", "$layer", "education"], ["==", "$type", "Polygon"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -186,9 +172,7 @@
     },
     "symbol": {
       "polygonBloom": false,
-      "polygonFill": [
-        0.6941176470588235, 0.7372549019607844, 0.8745098039215686, 1
-      ],
+      "polygonFill": [0.6941176470588235, 0.7372549019607844, 0.8745098039215686, 1],
       "polygonOpacity": 1,
       "polygonPatternFile": null
     }
@@ -221,11 +205,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "entertainment"],
-      ["==", "$type", "Polygon"]
-    ],
+    "filter": ["all", ["==", "$layer", "entertainment"], ["==", "$type", "Polygon"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "fill"
@@ -235,19 +215,13 @@
     },
     "symbol": {
       "polygonBloom": false,
-      "polygonFill": [
-        0.5725490196078431, 0.6980392156862745, 0.5450980392156862, 1
-      ],
+      "polygonFill": [0.5725490196078431, 0.6980392156862745, 0.5450980392156862, 1],
       "polygonOpacity": 1,
       "polygonPatternFile": null
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "entertainment"],
-      ["==", "$type", "Polygon"]
-    ],
+    "filter": ["all", ["==", "$layer", "entertainment"], ["==", "$type", "Polygon"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -284,9 +258,7 @@
     },
     "symbol": {
       "polygonBloom": false,
-      "polygonFill": [
-        0.7098039215686275, 0.7098039215686275, 0.996078431372549, 1
-      ],
+      "polygonFill": [0.7098039215686275, 0.7098039215686275, 0.996078431372549, 1],
       "polygonOpacity": 1,
       "polygonPatternFile": null
     }
@@ -372,9 +344,7 @@
     },
     "symbol": {
       "polygonBloom": false,
-      "polygonFill": [
-        0.9607843137254902, 0.9686274509803922, 0.8901960784313725, 1
-      ],
+      "polygonFill": [0.9607843137254902, 0.9686274509803922, 0.8901960784313725, 1],
       "polygonOpacity": 1,
       "polygonPatternFile": null
     }
@@ -407,11 +377,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "subway-hub"],
-      ["==", "$type", "Polygon"]
-    ],
+    "filter": ["all", ["==", "$layer", "subway-hub"], ["==", "$type", "Polygon"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "fill"
@@ -421,19 +387,13 @@
     },
     "symbol": {
       "polygonBloom": false,
-      "polygonFill": [
-        0.8392156862745098, 0.7215686274509804, 0.8352941176470589, 1
-      ],
+      "polygonFill": [0.8392156862745098, 0.7215686274509804, 0.8352941176470589, 1],
       "polygonOpacity": 1,
       "polygonPatternFile": null
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "subway-hub"],
-      ["==", "$type", "Polygon"]
-    ],
+    "filter": ["all", ["==", "$layer", "subway-hub"], ["==", "$type", "Polygon"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -460,11 +420,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "train-station"],
-      ["==", "$type", "Polygon"]
-    ],
+    "filter": ["all", ["==", "$layer", "train-station"], ["==", "$type", "Polygon"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "fill"
@@ -474,19 +430,13 @@
     },
     "symbol": {
       "polygonBloom": false,
-      "polygonFill": [
-        0.5254901960784314, 0.6274509803921569, 0.6235294117647059, 1
-      ],
+      "polygonFill": [0.5254901960784314, 0.6274509803921569, 0.6235294117647059, 1],
       "polygonOpacity": 1,
       "polygonPatternFile": null
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "train-station"],
-      ["==", "$type", "Polygon"]
-    ],
+    "filter": ["all", ["==", "$layer", "train-station"], ["==", "$type", "Polygon"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -513,11 +463,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "passenger-station"],
-      ["==", "$type", "Polygon"]
-    ],
+    "filter": ["all", ["==", "$layer", "passenger-station"], ["==", "$type", "Polygon"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "fill"
@@ -527,19 +473,13 @@
     },
     "symbol": {
       "polygonBloom": false,
-      "polygonFill": [
-        0.796078431372549, 0.8431372549019608, 0.9647058823529412, 1
-      ],
+      "polygonFill": [0.796078431372549, 0.8431372549019608, 0.9647058823529412, 1],
       "polygonOpacity": 1,
       "polygonPatternFile": null
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "passenger-station"],
-      ["==", "$type", "Polygon"]
-    ],
+    "filter": ["all", ["==", "$layer", "passenger-station"], ["==", "$type", "Polygon"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -576,9 +516,7 @@
     },
     "symbol": {
       "polygonBloom": false,
-      "polygonFill": [
-        0.6509803921568628, 0.7725490196078432, 0.7372549019607844, 1
-      ],
+      "polygonFill": [0.6509803921568628, 0.7725490196078432, 0.7372549019607844, 1],
       "polygonOpacity": 1,
       "polygonPatternFile": null
     }
@@ -659,20 +597,14 @@
         "clearCoatRoughnessFactor": 0.04,
         "occlusionTexture": null,
         "emissiveTexture": "/resources/textures/897/1.jpg",
-        "emissiveFactor": [
-          0.9333333333333333, 0.9254901960784314, 0.9607843137254902
-        ],
+        "emissiveFactor": [0.9333333333333333, 0.9254901960784314, 0.9607843137254902],
         "emitColorFactor": 0.31,
         "emitMultiplicative": 0
       }
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "waterway"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "waterway"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -834,11 +766,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "expressway"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "expressway"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -866,11 +794,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "railway"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "railway"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -897,11 +821,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "constructing-railway"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "constructing-railway"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -912,9 +832,7 @@
     "symbol": {
       "lineBloom": false,
       "lineCap": "butt",
-      "lineColor": [
-        0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1
-      ],
+      "lineColor": [0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1],
       "lineDasharray": [0, 0, 0, 0],
       "lineDashColor": [1, 1, 1, 0],
       "lineDx": 0,
@@ -930,11 +848,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "city-loop"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "city-loop"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -945,9 +859,7 @@
     "symbol": {
       "lineBloom": false,
       "lineCap": "butt",
-      "lineColor": [
-        0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1
-      ],
+      "lineColor": [0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1],
       "lineDasharray": [0, 0, 0, 0],
       "lineDashColor": [1, 1, 1, 0],
       "lineDx": 0,
@@ -963,11 +875,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "national-highway"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "national-highway"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -978,9 +886,7 @@
     "symbol": {
       "lineBloom": false,
       "lineCap": "butt",
-      "lineColor": [
-        0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1
-      ],
+      "lineColor": [0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1],
       "lineDasharray": [0, 0, 0, 0],
       "lineDashColor": [1, 1, 1, 0],
       "lineDx": 0,
@@ -996,11 +902,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "express-rail"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "express-rail"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -1027,11 +929,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "provincial-highway"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "provincial-highway"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -1070,11 +968,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "subway"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "subway"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -1085,9 +979,7 @@
     "symbol": {
       "lineBloom": false,
       "lineCap": "butt",
-      "lineColor": [
-        0.7490196078431373, 0.8666666666666667, 0.7803921568627451, 1
-      ],
+      "lineColor": [0.7490196078431373, 0.8666666666666667, 0.7803921568627451, 1],
       "lineDasharray": [0, 0, 0, 0],
       "lineDashColor": [1, 1, 1, 0],
       "lineDx": 0,
@@ -1103,11 +995,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "secondary-road"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "secondary-road"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -1146,11 +1034,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "tertiary-road"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "tertiary-road"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -1161,9 +1045,7 @@
     "symbol": {
       "lineBloom": false,
       "lineCap": "butt",
-      "lineColor": [
-        0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1
-      ],
+      "lineColor": [0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1],
       "lineDasharray": [0, 0, 0, 0],
       "lineDashColor": [1, 1, 1, 0],
       "lineDx": 0,
@@ -1179,11 +1061,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "four-level-road"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "four-level-road"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -1194,9 +1072,7 @@
     "symbol": {
       "lineBloom": false,
       "lineCap": "butt",
-      "lineColor": [
-        0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1
-      ],
+      "lineColor": [0.3843137254901961, 0.3803921568627451, 0.3568627450980392, 1],
       "lineDasharray": [0, 0, 0, 0],
       "lineDashColor": [1, 1, 1, 0],
       "lineDx": 0,
@@ -1212,11 +1088,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "internal-road"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "internal-road"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "dataConfig": {
         "type": "line"
@@ -1243,11 +1115,7 @@
     }
   },
   {
-    "filter": [
-      "all",
-      ["==", "$layer", "other-road"],
-      ["==", "$type", "LineString"]
-    ],
+    "filter": ["all", ["==", "$layer", "other-road"], ["==", "$type", "LineString"]],
     "renderPlugin": {
       "type": "lit",
       "dataConfig": {

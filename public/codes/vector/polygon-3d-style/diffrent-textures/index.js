@@ -214,7 +214,7 @@ const otherStyles = [
         outputSRGB: 1,
         roughnessFactor: 0.79,
         metallicFactor: 0,
-        occlusionTexture: "{res}/msd/city/Stylized_15_Grass_ambientocclusion.jpg"
+        occlusionTexture: "{res}/textures/Stylized_15_Grass_ambientocclusion.jpg"
       }
     }
   },
@@ -412,10 +412,7 @@ const buildingStlyes = [
 ];
 
 const style = {
-  style: [
-    ...buildingStlyes,
-    ...otherStyles
-  ]
+  style: [...buildingStlyes, ...otherStyles]
 };
 vt.setStyle(style);
 /**end**/
