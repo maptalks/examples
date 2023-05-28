@@ -30,9 +30,9 @@ fetch("{res}/msd/drawer-entity/map.json")
     const symbol = getSymbol(1);
     const offset = getOffset(1);
     selectedEntity = new maptalks.GLTFMarker([offset.x, offset.y, 0], { symbol }).addTo(gltflayer);
+    selectedEntity.hide();
     loadEntityPolygon();
     map.on("click", (e) => {
-      console.log(map.getView());
       const identifyData = groupgllayer.identify(e.coordinate)[0];
       if (identifyData) {
         const coordinate = new maptalks.Coordinate(identifyData.coordinate);
@@ -46,6 +46,7 @@ fetch("{res}/msd/drawer-entity/map.json")
         const z = Math.floor(height / floorHeight) * floorHeight;
         const symbol = getSymbol(type);
         const offset = getOffset(type);
+        selectedEntity.show();
         selectedEntity.setSymbol(symbol);
         selectedEntity.setCoordinates([offset.x, offset.y, z]);
         selectedEntity.outline();
@@ -119,11 +120,13 @@ gui
     if (!selectedEntity) {
       return;
     }
-    selectedEntity.setCoordinates(positions[0]);
+    const offset = getOffset(1);
+    selectedEntity.setCoordinates([offset.x, offset.y, 0]);
     selectedEntity.cancelOutline();
-    selectedEntity.updateSymbol({ translationX: 0 });
-    selectedEntity.updateSymbol({ translationY: 0 });
-    selectedEntity.updateSymbol({ translationZ: 0 });
+    selectedEntity.hide();
+    const groupgllayer = map.getLayer("group");
+    const gltflayer = groupgllayer.getLayer("gltf0");
+    gltflayer.removeMask();
   });
 
 gui

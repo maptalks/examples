@@ -163,16 +163,17 @@ const houseMarker = new maptalks.GLTFMarker(
 ).addTo(gltfLayer);
 
 /**start**/
-const position = [-73.88468305785034, 40.68931616877157, 34.78572];
+const position = [-73.88471481176612, 40.68931386481856, 30.991330000000016];
 const roomMarker = new maptalks.GLTFMarker(position,
   {
     symbol: {
       shadow: false,
       url: "{res}/gltf/room/room.gltf",
-      scaleX: 1.1719917308622843,
-      scaleY: 1.1719917308622843,
-      scaleZ: 1.1719917308622843,
-      rotationZ: 299.6285 + 180,
+      scaleX: 1.16,
+      scaleY: 1.16,
+      scaleZ: 1.16,
+      rotationZ: 119.6285,
+      rotationX: 180,
       shader: "pbr",
       uniforms: {
         polygonFill: [1, 1, 1, 1],
