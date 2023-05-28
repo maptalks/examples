@@ -10,7 +10,7 @@ export class Store {
   language: Language | null = null;
   tab = "basic";
   filter = "";
-  openKeys = ["basic"];
+  openKey = "";
   selectedKey = "";
   code = "";
   description = "";
@@ -41,16 +41,11 @@ export class Store {
   }
 
   setOpenKey(key: string) {
-    const index = this.openKeys.indexOf(key);
-    if (index > -1) {
-      this.openKeys.splice(index, 1);
+    if (this.openKey === key) {
+      this.openKey = "";
     } else {
-      this.openKeys.push(key);
+      this.openKey = key;
     }
-  }
-
-  setOpenKeys(keys: string[]) {
-    this.openKeys = keys;
   }
 
   setSelectedKey(key: string) {
@@ -69,6 +64,7 @@ export class Store {
     this.language = null;
     this.tab = "basic";
     this.filter = "";
+    this.openKey = "";
     this.selectedKey = "";
     this.code = "";
     this.description = "";

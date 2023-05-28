@@ -224,7 +224,7 @@ gui
     type: "slider",
     label: "挖方高度",
     value: 5,
-    min: 1,
+    min: -100,
     max: 100,
     step: 1
   })
