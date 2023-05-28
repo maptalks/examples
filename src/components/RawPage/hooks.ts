@@ -18,21 +18,12 @@ export function useRawPage() {
   });
 
   useAsync(async () => {
-    const title = getHtmlCodeTitle(
-      `${paths[4]}_${paths[5]}_${paths[6]}`,
-      language
-    );
-    const htmlRes = await fetch(
-      `/codes/${paths[4]}/${paths[5]}/${paths[6]}/index.html`
-    );
+    const title = getHtmlCodeTitle(`${paths[4]}_${paths[5]}_${paths[6]}`, language);
+    const htmlRes = await fetch(`/codes/${paths[4]}/${paths[5]}/${paths[6]}/index.html`);
     const htmlCode = await htmlRes.text();
-    const cssRes = await fetch(
-      `/codes/${paths[4]}/${paths[5]}/${paths[6]}/index.css`
-    );
+    const cssRes = await fetch(`/codes/${paths[4]}/${paths[5]}/${paths[6]}/index.css`);
     const cssCode = await cssRes.text();
-    const jsRes = await fetch(
-      `/codes/${paths[4]}/${paths[5]}/${paths[6]}/index.js`
-    );
+    const jsRes = await fetch(`/codes/${paths[4]}/${paths[5]}/${paths[6]}/index.js`);
     const jsCode = await jsRes.text();
     // <script type='text/javascript' src='https://unpkg.com/maptalks/dist/maptalks.min.js'></script>
     const code = `<!DOCTYPE html>
@@ -43,8 +34,8 @@ export function useRawPage() {
       <style type='text/css'>
         ${cssCode.replaceAll("{res}", RESOURCE_PATH)}
       </style>
-      <link rel='stylesheet' href='/lib/maptalks.css' />
-      <script type='text/javascript' src='/lib/maptalks.min.js'></script>
+      <link rel='stylesheet' href='https://maptalks.com/api/maptalks.css' />
+      <script type='text/javascript' src='https://maptalks.com/api/maptalks.min.js'></script>
       <script type='text/javascript' src='https://maptalks.com/api/maptalks-gl-layers.js'></script>
       <body>
         ${htmlCode}
@@ -60,6 +51,6 @@ export function useRawPage() {
   });
 
   return {
-    code,
+    code
   };
 }

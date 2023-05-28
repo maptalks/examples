@@ -12,17 +12,11 @@ export function useMapView() {
   useAsync(async () => {
     if (store.selectedKey) {
       const paths = store.selectedKey.split("_");
-      const htmlRes = await fetch(
-        `/codes/${paths[0]}/${paths[1]}/${paths[2]}/index.html`
-      );
+      const htmlRes = await fetch(`/codes/${paths[0]}/${paths[1]}/${paths[2]}/index.html`);
       const htmlCode = await htmlRes.text();
-      const cssRes = await fetch(
-        `/codes/${paths[0]}/${paths[1]}/${paths[2]}/index.css`
-      );
+      const cssRes = await fetch(`/codes/${paths[0]}/${paths[1]}/${paths[2]}/index.css`);
       const cssCode = await cssRes.text();
-      const jsRes = await fetch(
-        `/codes/${paths[0]}/${paths[1]}/${paths[2]}/index.js`
-      );
+      const jsRes = await fetch(`/codes/${paths[0]}/${paths[1]}/${paths[2]}/index.js`);
       const jsCode = await jsRes.text();
       const descriptionRes = await fetch(
         `/codes/${paths[0]}/${paths[1]}/${paths[2]}/index_${store.language}.md`
@@ -41,9 +35,9 @@ export function useMapView() {
         <style type='text/css'>
           ${cssCode.replaceAll("{res}", RESOURCE_PATH)}
         </style>
-        <link rel='stylesheet' href='https://unpkg.com/maptalks/dist/maptalks.css' />
-        <script type='text/javascript' src='/lib/maptalks.min.js'></script>
-        <script type='text/javascript' src='/lib/maptalks-gl-layers.js'></script>
+        <link rel='stylesheet' href='https://maptalks.com/api/maptalks.css' />
+        <script type='text/javascript' src='https://maptalks.com/api/maptalks.min.js'></script>
+        <script type='text/javascript' src='https://maptalks.com/api/maptalks-gl-layers.js'></script>
         <body>
           ${htmlCode}
           <script>
@@ -61,6 +55,6 @@ export function useMapView() {
   }, [store.selectedKey, store.language]);
 
   return {
-    code: store.code,
+    code: store.code
   };
 }
