@@ -7,7 +7,7 @@ export function useThumbList() {
   const navigate = useNavigate();
 
   function handleSelect(i: string, j: string, k: string) {
-    if (!store.openKeys.includes(i)) {
+    if (store.openKey !== i) {
       store.setOpenKey(i);
     }
     const key = `${i}_${j}_${k}`;
@@ -17,7 +17,7 @@ export function useThumbList() {
       const ele = document.querySelector(`[data-key=_${key}]`);
       ele?.scrollIntoView({
         behavior: "auto",
-        block: "center",
+        block: "center"
       });
     });
   }
@@ -37,6 +37,6 @@ export function useThumbList() {
     tabIndex,
     language: store.language!,
     filter: store.filter,
-    handleSelect,
+    handleSelect
   };
 }

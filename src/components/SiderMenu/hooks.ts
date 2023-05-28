@@ -36,7 +36,7 @@ export function useSiderMenu() {
     tabIndex,
     language: store.language!,
     filter: store.filter,
-    openKeys: store.openKeys,
+    openKey: store.openKey,
     selectedKey: store.selectedKey,
     handleInputChange,
     handleSelect,

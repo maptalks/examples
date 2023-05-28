@@ -15,7 +15,7 @@ import {
   SecondListTile,
   ThirdList,
   ThirdListTitle,
-  UpIcon,
+  UpIcon
 } from "./style";
 
 import { observer } from "mobx-react-lite";
@@ -28,15 +28,8 @@ import { useStore } from "@/store";
 function SiderMenu() {
   const store = useStore();
   const navigate = useNavigate();
-  const {
-    examples,
-    language,
-    filter,
-    openKeys,
-    selectedKey,
-    handleInputChange,
-    handleSelect,
-  } = useSiderMenu();
+  const { examples, language, filter, openKey, selectedKey, handleInputChange, handleSelect } =
+    useSiderMenu();
 
   function toggleOpen(key: string) {
     store.setTab(key);
@@ -50,11 +43,7 @@ function SiderMenu() {
       <MenuArea>
         <ActionBar>
           <SearchBar>
-            <SearchInput
-              type="text"
-              value={filter}
-              onChange={handleInputChange}
-            />
+            <SearchInput type="text" value={filter} onChange={handleInputChange} />
             <SearchButton />
           </SearchBar>
           <DownloadButton href="https://github.com/maptalks/examples/archive/gh-pages.zip">
@@ -64,14 +53,11 @@ function SiderMenu() {
         <Menu>
           {examples.map((exampleI) => (
             <div key={exampleI.name}>
-              <ListTile
-                $open={openKeys.includes(exampleI.name)}
-                onClick={() => toggleOpen(exampleI.name)}
-              >
+              <ListTile $open={openKey === exampleI.name} onClick={() => toggleOpen(exampleI.name)}>
                 <span>{exampleI.title[language]}</span>
-                {openKeys.includes(exampleI.name) ? <UpIcon /> : <DownIcon />}
+                {openKey === exampleI.name ? <UpIcon /> : <DownIcon />}
               </ListTile>
-              <ListBlock $hidden={!openKeys.includes(exampleI.name)}>
+              <ListBlock $hidden={openKey !== exampleI.name}>
                 {exampleI.examples.map((exampleJ, j) => (
                   <SecondList key={exampleJ.name}>
                     <SecondListTile>
@@ -81,29 +67,17 @@ function SiderMenu() {
                       {exampleJ.examples.map((exampleK, k) => (
                         <ThirdListTitle
                           active={
-                            selectedKey ===
-                            `${exampleI.name}_${exampleJ.name}_${exampleK.name}`
+                            selectedKey === `${exampleI.name}_${exampleJ.name}_${exampleK.name}`
                           }
                           data-key={`_${exampleI.name}_${exampleJ.name}_${exampleK.name}`}
-                          hide={
-                            !exampleK.title[language].includes(filter)
-                              ? "hide"
-                              : "show"
-                          }
+                          hide={!exampleK.title[language].includes(filter) ? "hide" : "show"}
                           key={exampleK.name}
                           onClick={() =>
-                            handleSelect(
-                              exampleI.name,
-                              exampleJ.name,
-                              exampleK.name,
-                              exampleK.url
-                            )
+                            handleSelect(exampleI.name, exampleJ.name, exampleK.name, exampleK.url)
                           }
                         >
                           {j + 1}.{k + 1} {exampleK.title[language]}
-                          {exampleK.url && (
-                            <LinkImg title="external link" src={urlImg} />
-                          )}
+                          {exampleK.url && <LinkImg title="external link" src={urlImg} />}
                         </ThirdListTitle>
                       ))}
                     </ThirdList>
