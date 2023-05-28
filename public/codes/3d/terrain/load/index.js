@@ -21,7 +21,6 @@ const layers = [
     urlTemplate: "http://webst{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
     subdomains: ["01", "02", "03", "04"],
     offset: function (z) {
-      //实时计算wgs84和gcj02瓦片的偏移量
       const center = map.getCenter();
       const c = maptalks.CRSTransform.transform(center.toArray(), "GCJ02", "WGS84");
       targetCoord.set(c[0], c[1]);
@@ -40,16 +39,6 @@ const terrain = {
   tileSize: 256,
   urlTemplate: `https://{s}.tiles.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?access_token=${token}`,
   subdomains: ["a", "b", "c", "d"]
-  // shader: "lit",
-  // material: {
-  //   baseColorFactor: [1, 1, 1, 1],
-  //   hsv: [0, 0, 0.105],
-  //   baseColorIntensity: 1,
-  //   contrast: 1,
-  //   outputSRGB: 1,
-  //   roughnessFactor: 0.69,
-  //   metallicFactor: 0.16,
-  // },
 };
 
 const group = new maptalks.GroupGLLayer("group", layers, {

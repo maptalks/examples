@@ -1,8 +1,8 @@
 const map = new maptalks.Map("map", {
-  center: [91.1853171915709, 29.665875376140576],
-  zoom: 14,
-  pitch: 0,
-  bearing: 0.6000000000004775
+  center: [94.50602824, 29.36774605, 3881],
+  pitch: 44.1,
+  bearing: 165.7,
+  zoom: 12.8
 });
 
 const token =
@@ -12,12 +12,15 @@ const token =
 const targetCoord = new maptalks.Coordinate(0, 0);
 const POINT0 = new maptalks.Coordinate(0, 0);
 const POINT1 = new maptalks.Coordinate(0, 0);
-const skinLayers = [
+
+const layers = [
   new maptalks.TileLayer("base", {
     maxAvailableZoom: 20,
     spatialReference: {
       projection: "EPSG:3857"
     },
+    urlTemplate: "http://webst{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
+    subdomains: ["01", "02", "03", "04"],
     offset: function (z) {
       const center = map.getCenter();
       const c = maptalks.CRSTransform.transform(center.toArray(), "GCJ02", "WGS84");
@@ -27,12 +30,17 @@ const skinLayers = [
         ._sub(map.coordToPoint(targetCoord, z, POINT1));
       return offset._round().toArray();
     },
-    urlTemplate: "http://webst{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
-    subdomains: ["01", "02", "03", "04"],
     attribution:
       '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
   })
 ];
+
+const terrain = {
+  type: "mapbox",
+  tileSize: 256,
+  urlTemplate: `https://{s}.tiles.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?access_token=${token}`,
+  subdomains: ["a", "b", "c", "d"]
+};
 
 const lines = {
   type: "FeatureCollection",
@@ -42,13 +50,20 @@ const lines = {
       geometry: {
         type: "LineString",
         coordinates: [
-          [91.1892104134887, 29.695188473915408],
-          [91.14662913776169, 29.65404406477532]
+          [94.49872762429698, 29.419687853431952],
+          [94.5017517325524, 29.41411114734828],
+          [94.50278326399507, 29.40847932148145],
+          [94.51319164855079, 29.405419569184318],
+          [94.51929207097919, 29.39401914977836],
+          [94.50668658457573, 29.382753862567796],
+          [94.50593725736212, 29.3705326550988],
+          [94.50093967073644, 29.35613686039855]
         ]
       }
     }
   ]
 };
+
 const lineStyle = [
   {
     filter: true,
@@ -61,365 +76,67 @@ const lineStyle = [
       type: "line"
     },
     symbol: {
-      lineColor: [1, 0, 0, 1],
-      lineWidth: 12
-    }
-  },
-  {
-    filter: true,
-    renderPlugin: {
-      type: "text",
-      dataConfig: {
-        awareOfTerrain: true,
-        type: "point"
-      }
-    },
-    symbol: {
-      textName: "123",
-      textSize: 28,
-      textFill: "#000",
-      textPlacement: "line"
+      lineColor: "#ea6b48",
+      lineWidth: 4
     }
   }
 ];
 
-const vtLayer = new maptalks.GeoJSONVectorTileLayer("vt", {
+const vtLineLayer = new maptalks.GeoJSONVectorTileLayer("vt-line", {
   data: lines,
   style: lineStyle
 });
-skinLayers.push(vtLayer);
 
-const lines0 = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      geometry: {
-        type: "LineString",
-        coordinates: [
-          [91.1942104134887, 29.695188473915408],
-          [91.15062913776169, 29.65404406477532]
-        ]
-      }
-    }
-  ]
+layers.push(vtLineLayer);
+
+const points = {
+  type: "Feature",
+  properties: {},
+  geometry: {
+    type: "MultiPoint",
+    coordinates: [
+      [94.49872762429698, 29.419687853431952],
+      [94.50093967073644, 29.35613686039855]
+    ]
+  }
 };
-const lineStyle0 = [
+
+const pointStyle = [
   {
     filter: true,
     renderPlugin: {
-      dataConfig: {
-        awareOfTerrain: true,
-        type: "line"
-      },
-      sceneConfig: {
-        collision: false
-      },
-      type: "line"
-    },
-    symbol: {
-      lineColor: [0, 1, 0, 1],
-      lineWidth: 12
-    }
-  },
-  {
-    filter: true,
-    renderPlugin: {
-      type: "text",
       dataConfig: {
         awareOfTerrain: true,
         type: "point"
-      }
+      },
+      sceneConfig: { collision: true },
+      type: "icon"
     },
     symbol: {
-      textName: "123",
-      textSize: 28,
-      textFill: "#000",
-      textPlacement: "line",
-      textPitchAlignment: "map"
+      markerFile: "{res}/markers/site.svg",
+      markerWidth: 24,
+      markerHeight: 26
     }
   }
 ];
 
-const vtLayer0 = new maptalks.GeoJSONVectorTileLayer("vt0", {
-  data: lines0,
-  style: lineStyle0
-});
-skinLayers.push(vtLayer0);
-
-const gradientLines = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      geometry: {
-        type: "LineString",
-        coordinates: [
-          [91.1852104134887, 29.695188473915408],
-          [91.14262913776169, 29.65404406477532]
-        ]
-      },
-      properties: {
-        gradients: [0, "red", 0.7, "yellow", 1, "green"]
-      }
-    }
-  ]
-};
-const gradientStyle = [
-  {
-    filter: true,
-    renderPlugin: {
-      type: "line-gradient",
-      dataConfig: {
-        awareOfTerrain: true,
-        type: "line"
-      },
-      sceneConfig: {}
-    },
-    symbol: {
-      lineOpacity: 0.7,
-      lineWidth: 14,
-      lineColor: "#f00",
-      lineGradientProperty: "gradients"
-    }
-  }
-];
-
-const vtLayer1 = new maptalks.GeoJSONVectorTileLayer("vt1", {
-  data: gradientLines,
-  style: gradientStyle
-});
-skinLayers.push(vtLayer1);
-
-const points = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [91.19896282624476, 29.693997570067694]
-      }
-    }
-  ]
-};
-
-const vtLayer2 = new maptalks.GeoJSONVectorTileLayer("vt2", {
+const vtPointLayer = new maptalks.GeoJSONVectorTileLayer("vt-point", {
   data: points,
-  style: [
-    {
-      filter: true,
-      renderPlugin: {
-        type: "icon",
-        dataConfig: {
-          awareOfTerrain: true,
-          type: "point"
-        }
-      },
-      symbol: {
-        markerType: "ellipse",
-        markerWidth: 20,
-        markerHeight: 20
-      }
-    },
-    {
-      filter: true,
-      renderPlugin: {
-        type: "text",
-        dataConfig: {
-          awareOfTerrain: true,
-          type: "point"
-        },
-        sceneConfig: {
-          collision: false
-        }
-      },
-      symbol: {
-        textName: "hello",
-        textSize: 30
-      }
-    }
-  ]
+  style: pointStyle
 });
-skinLayers.push(vtLayer2);
 
-const textPoints = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [91.20896282624476, 29.693997570067694]
-      }
-    }
-  ]
-};
+layers.push(vtPointLayer);
 
-const vtLayer2b = new maptalks.GeoJSONVectorTileLayer("vt2b", {
-  data: textPoints,
-  style: [
-    {
-      filter: true,
-      renderPlugin: {
-        type: "icon",
-        dataConfig: {
-          awareOfTerrain: true,
-          type: "point"
-        }
-      },
-      symbol: {
-        markerType: "ellipse",
-        markerWidth: 20,
-        markerHeight: 20,
-        markerPitchAlignment: "map"
-      }
-    },
-    {
-      filter: true,
-      renderPlugin: {
-        type: "text",
-        dataConfig: {
-          awareOfTerrain: true,
-          type: "point"
-        },
-        sceneConfig: {
-          collision: false
-        }
-      },
-      symbol: {
-        textName: "hello",
-        textSize: 30,
-        textPitchAlignment: "map"
-      }
-    }
-  ]
-});
-skinLayers.push(vtLayer2b);
-
-const nativePoints = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [91.19754359779995, 29.683252717173133, 0]
-      }
-    }
-  ]
-};
-
-const vtLayer3 = new maptalks.GeoJSONVectorTileLayer("vt3", {
-  data: nativePoints,
-  style: [
-    {
-      filter: true,
-      renderPlugin: {
-        type: "native-point",
-        dataConfig: {
-          awareOfTerrain: true,
-          type: "native-point"
-        }
-      },
-      symbol: {
-        markerType: "circle",
-        markerSize: 20,
-        markerFill: "#f00"
-      }
-    }
-  ]
-});
-skinLayers.push(vtLayer3);
-
-const nativeLines = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      geometry: {
-        type: "LineString",
-        coordinates: [
-          [91.17803953688178, 29.680421429485165],
-          [91.20333959078584, 29.666329237756628]
-        ]
-      }
-    }
-  ]
-};
-
-const vtLayer4 = new maptalks.GeoJSONVectorTileLayer("vt4", {
-  data: nativeLines,
-  style: [
-    {
-      filter: true,
-      renderPlugin: {
-        type: "native-line",
-        dataConfig: {
-          awareOfTerrain: true,
-          type: "native-line"
-        },
-        sceneConfig: {}
-      },
-      symbol: {
-        lineColor: "#0f0"
-      }
-    }
-  ]
-});
-skinLayers.push(vtLayer4);
-
-const fillData = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      geometry: {
-        type: "Polygon",
-        coordinates: [
-          [
-            [91.1902629480669, 29.68669458816092, 0],
-            [91.18950170037192, 29.6734779581395, 0],
-            [91.20665660876432, 29.669884944765244, 0],
-            [91.20667103460687, 29.685350030132867, 0],
-            [91.1902629480669, 29.68669458816092, 0]
-          ]
-        ]
-      }
-    }
-  ]
-};
-const vtLayer5 = new maptalks.GeoJSONVectorTileLayer("vt5", {
-  data: fillData,
-  style: [
-    {
-      filter: true,
-      renderPlugin: {
-        type: "fill",
-        dataConfig: {
-          awareOfTerrain: true,
-          type: "fill"
-        },
-        sceneConfig: {}
-      },
-      symbol: {
-        polygonFill: "#00f",
-        polygonOpacity: 0.6
-      }
-    }
-  ]
-});
-skinLayers.push(vtLayer5);
-
-const terrain = {
-  type: "mapbox",
-  tileSize: 256,
-  urlTemplate: `https://{s}.tiles.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?access_token=${token}`,
-  subdomains: ["a", "b", "c", "d"]
-};
-const group = new maptalks.GroupGLLayer("group", skinLayers, {
+const group = new maptalks.GroupGLLayer("group", layers, {
   terrain
 });
-
 group.addTo(map);
+
+function setTerrain(value) {
+  if (value) {
+    group.setTerrain(terrain);
+  } else {
+    group.setTerrain(null);
+  }
+}
 /**end**/
