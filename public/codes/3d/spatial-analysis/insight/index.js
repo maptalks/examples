@@ -84,6 +84,7 @@ function setDrawTool() {
       altitude: altitudes,
     });
     e.geometry.setCoordinates(coordinates);
+    insightAnalysis.enable();
     lookPoint = [coordinate.x, coordinate.y, coordinate.z];
     insightAnalysis.update('lines', [{
       from: eyePos,
@@ -91,6 +92,8 @@ function setDrawTool() {
     }]);
     updateLabel();
     drawTool.disable();
+    coordinates = [];
+    altitudes = [];
   });
 
   drawTool.on("drawstart", (e) => {
@@ -200,7 +203,6 @@ gui
     role: "draw",
   })
   .onClick(() => {
-    insightAnalysis.enable();
     drawTool.enable();
 });
 
