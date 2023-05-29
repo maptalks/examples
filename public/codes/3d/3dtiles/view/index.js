@@ -71,10 +71,11 @@ function addMarkers() {
         properties: { name: viewPoints[i].name, index: i },
         symbol: [{
           textName: `${i + 1}`,
-          textSize: 18,
+          textSize: 16,
           textFill: "#ddd",
-          textDy: -14,
-          textDx: 1
+          textDy: -11,
+          textDx: 1,
+          textFaceName: '"microsoft yahei"'
         },{
           markerPerspectiveRatio: 0,
           markerType: "ellipse",
@@ -91,7 +92,7 @@ function addMarkers() {
     marker.on("mouseenter mouseout", e => {
       const lineColor = e.type === "mouseenter" ? '#80caff' : "#ddd";
       e.target.updateSymbol([{
-          textFill: lineColor 
+          textFill: lineColor
       },{
         markerLineColor: lineColor
       }]);

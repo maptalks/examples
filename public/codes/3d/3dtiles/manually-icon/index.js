@@ -75,7 +75,7 @@ map.on('click', e => {
     const marker = new maptalks.Marker(coordinate, {
       symbol: {
         markerFile: '{res}/images/logo-maptalks.svg',
-        markerWidth: 29,
+        markerWidth: 32,
         markerHeight: 32,
         markerPerspectiveRatio: 0
       }

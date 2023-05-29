@@ -65,7 +65,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
   }
 }).addTo(map);
 /**start**/
-let floodAnalysis, waterHeight= 25, floodAnimation = false, floodAnimationSpeed = 1;
+let floodAnalysis, waterHeight= 50, floodAnimation = false, floodAnimationSpeed = 1;
 layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
   map.fitExtent(extent, 1, { animation: false });
@@ -98,6 +98,7 @@ let altitudes = [],
   first = true;
 const drawTool = new maptalks.DrawTool({
     mode: "LineString",
+    once: true,
     enableAltitude: true,
     symbol: {
       lineColor: "#f00",
@@ -171,6 +172,7 @@ drawTool.on("drawend", function(param) {
       altitude: altitudes,
     },
   }).addTo(vlayer);
+  floodAnalysis.enable();
   floodAnalysis.update("boundary", coordinates);
   coordinates = [];
   altitudes = [];
@@ -178,11 +180,9 @@ drawTool.on("drawend", function(param) {
 
 function getPickedCoordinate(coordinate) {
   const identifyData = groupGLLayer.identify(coordinate)[0];
-  const pickedPoint = identifyData && identifyData.point;
-  if (pickedPoint) {
-    const altitude = map.pointAtResToAltitude(pickedPoint[2], map.getGLRes());
-    const coordinate = map.pointAtResToCoordinate(new maptalks.Point(pickedPoint[0], pickedPoint[1]), map.getGLRes());
-    return new maptalks.Coordinate(coordinate.x, coordinate.y, altitude);
+  const pickedCoordinate = identifyData && identifyData.coordinate;
+  if (pickedCoordinate) {
+    return new maptalks.Coordinate(pickedCoordinate);
   } else {
     return coordinate;
   }
@@ -193,7 +193,7 @@ function step() {
     if (waterHeight > 100) {
       waterHeight = 0;
     }
-    waterHeight += 0.01 * floodAnimationSpeed;
+    waterHeight += 0.05 * floodAnimationSpeed;
     floodAnalysis.update("waterHeight", waterHeight);
     requestAnimationFrame(step);
   }
@@ -252,3 +252,27 @@ gui
       b / 255,
     ]);
 });
+
+gui
+  .add({
+    type: 'button',
+    role: 'play',
+    label: '开始分析'
+  }).onClick(function () {
+    floodAnimation = true;
+    requestAnimationFrame(step);
+});
+
+gui
+  .add({
+    type: "button",
+    label: "重置",
+    role: "clear"
+  })
+  .onClick(() => {
+    waterHeight= 50;
+    floodAnimation = false;
+    floodAnimationSpeed = 1;
+    floodAnalysis.disable();
+    vlayer.clear();
+  });

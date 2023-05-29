@@ -99,7 +99,7 @@ const gui = new mt.GUI();
 
 gui
   .add({
-    label: "动画效果",
+    label: "坐标系统选择",
     type: "select",
     value: "map",
     options: ["map", "gltf"],

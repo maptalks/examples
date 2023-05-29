@@ -86,8 +86,8 @@ function addMarker(coordinate) {
   new maptalks.Marker(coordinate, {
     symbol: {
       markerFile: '{res}/images/logo-maptalks.svg',
-      markerWidth: 29,
-      markerHeight: 32,
+      markerWidth: 32,
+      markerHeight: 32
     },
   }).addTo(pointLayer);
 }

@@ -140,6 +140,7 @@ const vtLayer = new maptalks.VectorTileLayer("vt", {
   style: vtStyle,
 });
 
+/**start**/
 const gltfLayer = new maptalks.GLTFLayer("gltf");
 
 const houseMarker = new maptalks.GLTFMarker(
@@ -161,43 +162,45 @@ const houseMarker = new maptalks.GLTFMarker(
     zoomOnAdded: 17,
   }
 ).addTo(gltfLayer);
-
-/**start**/
-const position = [-73.88471481176612, 40.68931386481856, 30.991330000000016];
-const roomMarker = new maptalks.GLTFMarker(position,
-  {
-    symbol: {
-      shadow: false,
-      url: "{res}/gltf/room/room.gltf",
-      scaleX: 1.16,
-      scaleY: 1.16,
-      scaleZ: 1.16,
-      rotationZ: 119.6285,
-      rotationX: 180,
-      shader: "pbr",
-      uniforms: {
-        polygonFill: [1, 1, 1, 1],
-        polygonOpacity: 1,
-        baseColorIntensity: 1,
-        outputSRGB: 1,
-      }
-    },
-    zoomOnAdded: 17,
-  }
-).addTo(gltfLayer);
-roomMarker.on('mouseenter mouseout', e => {
-  if (e.type === 'mouseenter') {
-    e.target.setUniform('polygonFill', [0.7, 0.2, 0.3, 0.8]);
-  } else {
-    e.target.setUniform('polygonFill', [1, 1, 1, 1]);
-  }
+houseMarker.on('load', () => {
+  AddSungleRoom();
 });
+function AddSungleRoom() {
+  const position = [-73.88471481176612, 40.68931386481856, 30.991330000000016];
+  const roomMarker = new maptalks.GLTFMarker(position,
+    {
+      symbol: {
+        shadow: false,
+        url: "{res}/gltf/room/room.gltf",
+        scaleX: 1.16,
+        scaleY: 1.16,
+        scaleZ: 1.16,
+        rotationZ: 119.6285,
+        shader: "pbr",
+        uniforms: {
+          polygonFill: [1, 1, 1, 1],
+          polygonOpacity: 1,
+          baseColorIntensity: 1,
+          outputSRGB: 1,
+        }
+      },
+      zoomOnAdded: 17
+    }
+  ).addTo(gltfLayer);
+  roomMarker.on('mouseenter mouseout', e => {
+    if (e.type === 'mouseenter') {
+      e.target.setUniform('polygonFill', [0.7, 0.2, 0.3, 0.8]);
+    } else {
+      e.target.setUniform('polygonFill', [1, 1, 1, 1]);
+    }
+  });
 
-roomMarker.setInfoWindow({
-  content: "点击箭头所指楼层",
-  dy: 20,
-});
-roomMarker.openInfoWindow();
+  roomMarker.setInfoWindow({
+    content: "点击箭头所指楼层",
+    dy: 20,
+  });
+  roomMarker.openInfoWindow();
+}
 
 const sceneConfig = {
   environment: {
