@@ -13,12 +13,12 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
       exposure: 1.426,
       hsv: [0, 0, 0],
-      orientation: 302.553,
+      orientation: 302.553
     }
   }
 });
@@ -42,7 +42,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0.915,
+      brightness: 0.915
     },
     postProcess: {
       enable: true
@@ -50,7 +50,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
     ground: {
       enable: true,
       renderPlugin: {
-        type: "lit",
+        type: "lit"
       },
       symbol: {
         polygonOpacity: 1,
@@ -58,14 +58,17 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
           baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
           hsv: [0, 0, -0.532],
           roughnessFactor: 0.22,
-          metallicFactor: 0.58,
+          metallicFactor: 0.58
         }
       }
     }
   }
 }).addTo(map);
 /**start**/
-let floodAnalysis, waterHeight= 50, floodAnimation = false, floodAnimationSpeed = 1;
+let floodAnalysis,
+  waterHeight = 50,
+  floodAnimation = false,
+  floodAnimationSpeed = 1;
 layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
   map.fitExtent(extent, 1, { animation: false });
@@ -90,20 +93,20 @@ layer.once("loadtileset", (e) => {
 /**end**/
 //以下是绘制水淹区域的逻辑
 const vlayer = new maptalks.VectorLayer("vector", {
-  enableAltitude: true,
+  enableAltitude: true
 }).addTo(map);
 
 let altitudes = [],
   coordinates = [],
   first = true;
 const drawTool = new maptalks.DrawTool({
-    mode: "LineString",
-    once: true,
-    enableAltitude: true,
-    symbol: {
-      lineColor: "#f00",
-    },
-  })
+  mode: "LineString",
+  once: true,
+  enableAltitude: true,
+  symbol: {
+    lineColor: "#f00"
+  }
+})
   .addTo(map)
   .disable();
 
@@ -120,7 +123,7 @@ drawTool.on("mousemove", (e) => {
     altitudes[altitudes.length - 1] = coordinate.z;
   }
   e.geometry.setProperties({
-    altitude: altitudes,
+    altitude: altitudes
   });
   e.geometry.setCoordinates(coordinates);
   first = false;
@@ -141,7 +144,7 @@ drawTool.on("drawvertex", (e) => {
     first = true;
   }
   e.geometry.setProperties({
-    altitude: altitudes,
+    altitude: altitudes
   });
   e.geometry.setCoordinates(coordinates);
 });
@@ -154,23 +157,23 @@ drawTool.on("drawstart", (e) => {
   coordinates.push([coordinate.x, coordinate.y]);
   altitudes.push(coordinate.z);
   e.geometry.setProperties({
-    altitude: altitudes,
+    altitude: altitudes
   });
   e.geometry.setCoordinates(coordinates);
   first = true;
 });
 
-drawTool.on("drawend", function(param) {
+drawTool.on("drawend", function (param) {
   vlayer.clear();
   coordinates.push(coordinates[0]);
   altitudes.push(altitudes[0]);
   new maptalks.LineString(coordinates, {
     symbol: {
-      lineColor: "#f00",
+      lineColor: "#f00"
     },
     properties: {
-      altitude: altitudes,
-    },
+      altitude: altitudes
+    }
   }).addTo(vlayer);
   floodAnalysis.enable();
   floodAnalysis.update("boundary", coordinates);
@@ -204,12 +207,12 @@ gui
   .add({
     type: "button",
     label: "绘制水淹区域",
-    role: "draw",
+    role: "draw"
   })
   .onClick(() => {
     floodAnimation = false;
     drawTool.enable();
-});
+  });
 gui
   .add({
     type: "slider",
@@ -217,11 +220,12 @@ gui
     value: 25,
     min: 0.0,
     max: 100,
-    step: 1,
-  }).onChange(function (value) {
+    step: 1
+  })
+  .onChange(function (value) {
     waterHeight = value;
     floodAnalysis.update("waterHeight", waterHeight);
-});
+  });
 
 gui
   .add({
@@ -230,38 +234,37 @@ gui
     value: 1,
     min: 0.1,
     max: 3,
-    step: 0.1,
-  }).onChange(function (value) {
+    step: 0.1
+  })
+  .onChange(function (value) {
     floodAnimation = true;
     floodAnimationSpeed = value;
     requestAnimationFrame(step);
-});
+  });
 
 gui
   .add({
-    type: 'color',
-    label: '水面颜色',
-    value: '#197d99'
-  }).onChange(function (value) {
-    const r = parseInt('0x' + value.toString().slice(1, 3));
-    const g = parseInt('0x' + value.toString().slice(3, 5));
-    const b = parseInt('0x' + value.toString().slice(5, 7));
-    floodAnalysis.update("waterColor", [
-      r / 255,
-      g / 255,
-      b / 255,
-    ]);
-});
+    type: "color",
+    label: "水面颜色",
+    value: "#197d99"
+  })
+  .onChange(function (value) {
+    const r = parseInt("0x" + value.toString().slice(1, 3));
+    const g = parseInt("0x" + value.toString().slice(3, 5));
+    const b = parseInt("0x" + value.toString().slice(5, 7));
+    floodAnalysis.update("waterColor", [r / 255, g / 255, b / 255]);
+  });
 
 gui
   .add({
-    type: 'button',
-    role: 'play',
-    label: '开始分析'
-  }).onClick(function () {
+    type: "button",
+    role: "play",
+    label: "开始分析"
+  })
+  .onClick(function () {
     floodAnimation = true;
     requestAnimationFrame(step);
-});
+  });
 
 gui
   .add({
@@ -270,7 +273,7 @@ gui
     role: "clear"
   })
   .onClick(() => {
-    waterHeight= 50;
+    waterHeight = 50;
     floodAnimation = false;
     floodAnimationSpeed = 1;
     floodAnalysis.disable();

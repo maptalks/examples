@@ -13,12 +13,12 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
       exposure: 1.426,
       hsv: [0, 0, 0],
-      orientation: 302.553,
+      orientation: 302.553
     }
   }
 });
@@ -29,7 +29,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0.915,
+      brightness: 0.915
     },
     postProcess: {
       enable: true
@@ -37,7 +37,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [], {
     ground: {
       enable: true,
       renderPlugin: {
-        type: "lit",
+        type: "lit"
       },
       symbol: {
         polygonOpacity: 1,
@@ -45,38 +45,42 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [], {
           baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
           hsv: [0, 0, -0.532],
           roughnessFactor: 0.22,
-          metallicFactor: 0.58,
+          metallicFactor: 0.58
         }
       }
     }
   }
 }).addTo(map);
 /**start**/
-const viewPoints = [{ name: "视点1", coordinate: [108.95936021, 34.219710523, 61.8]
-}, { name: "视点2", coordinate: [108.95942507629388, 34.22067097711019, 36.82354]
-}, { name: "视点3", coordinate: [108.96009562683105, 34.21850388887586, 27.62234]
-}, { name: "视点4", coordinate: [108.95803062973027, 34.21785606471539, 40.97386]
-}];
+const viewPoints = [
+  { name: "视点1", coordinate: [108.95936021, 34.219710523, 61.8] },
+  { name: "视点2", coordinate: [108.95942507629388, 34.22067097711019, 36.82354] },
+  { name: "视点3", coordinate: [108.96009562683105, 34.21850388887586, 27.62234] },
+  { name: "视点4", coordinate: [108.95803062973027, 34.21785606471539, 40.97386] }
+];
 
-const viewMap = [{center: [108.96012238218702, 34.22056674324037], zoom: 18.4446, pitch: 74.2, bearing: 39.6},
-  {center: [108.95971800453219, 34.220909441652026], zoom: 19.6565, pitch: 63.4, bearing: 39.978},
-  {center: [108.9602382990106, 34.2184286058185], zoom: 19.6565, pitch: 37.4, bearing: 121.578},
-  {center: [108.95770568501587, 34.21753802805168], zoom: 18.7391, pitch: 62.6, bearing: -138.222}];
+const viewMap = [
+  { center: [108.96012238218702, 34.22056674324037], zoom: 18.4446, pitch: 74.2, bearing: 39.6 },
+  { center: [108.95971800453219, 34.220909441652026], zoom: 19.6565, pitch: 63.4, bearing: 39.978 },
+  { center: [108.9602382990106, 34.2184286058185], zoom: 19.6565, pitch: 37.4, bearing: 121.578 },
+  { center: [108.95770568501587, 34.21753802805168], zoom: 18.7391, pitch: 62.6, bearing: -138.222 }
+];
 const point = new maptalks.PointLayer("point").addTo(groupGLLayer);
 
 function addMarkers() {
   for (let i = 0; i < viewPoints.length; i++) {
-    const marker = new maptalks.Marker(
-      viewPoints[i].coordinate, {
-        properties: { name: viewPoints[i].name, index: i },
-        symbol: [{
+    const marker = new maptalks.Marker(viewPoints[i].coordinate, {
+      properties: { name: viewPoints[i].name, index: i },
+      symbol: [
+        {
           textName: `${i + 1}`,
           textSize: 16,
           textFill: "#ddd",
           textDy: -11,
           textDx: 1,
           textFaceName: '"microsoft yahei"'
-        },{
+        },
+        {
           markerPerspectiveRatio: 0,
           markerType: "ellipse",
           markerFill: "#000",
@@ -84,21 +88,24 @@ function addMarkers() {
           markerLineColor: "#ddd",
           markerLineWidth: 2,
           markerWidth: 25,
-          markerHeight: 25,
-        }]
-      }
-    ).addTo(point);
+          markerHeight: 25
+        }
+      ]
+    }).addTo(point);
 
-    marker.on("mouseenter mouseout", e => {
-      const lineColor = e.type === "mouseenter" ? '#80caff' : "#ddd";
-      e.target.updateSymbol([{
+    marker.on("mouseenter mouseout", (e) => {
+      const lineColor = e.type === "mouseenter" ? "#80caff" : "#ddd";
+      e.target.updateSymbol([
+        {
           textFill: lineColor
-      },{
-        markerLineColor: lineColor
-      }]);
+        },
+        {
+          markerLineColor: lineColor
+        }
+      ]);
     });
 
-    marker.on('click', e => {
+    marker.on("click", (e) => {
       const index = e.target.getProperties().index;
       map.flyTo(viewMap[index], { duration: 3000 });
     });
@@ -114,13 +121,14 @@ const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
     }
   ]
 }).addTo(groupGLLayer);
-layer.once('loadtileset', e => {
+layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
   map.fitExtent(extent, 0, { animation: false });
   addMarkers();
 });
 
-let viewIndex = 0, interval = null;
+let viewIndex = 0,
+  interval = null;
 function autoPlay(auto) {
   if (auto) {
     map.flyTo(viewMap[viewIndex], { duration: 3000 });
@@ -170,19 +178,19 @@ gui
     options: [
       {
         label: "视角1",
-        value: "0",
+        value: "0"
       },
       {
         label: "视角2",
-        value: "1",
+        value: "1"
       },
       {
         label: "视角3",
-        value: "2",
+        value: "2"
       },
       {
         label: "视角4",
-        value: "3",
+        value: "3"
       }
     ]
   })
