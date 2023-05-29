@@ -144,6 +144,7 @@
         {"name" : "vectorlayer-filter", "title" : {"cn" : "VectorLayer: 根据属性条件筛选图形", "en" : "VectorLayer: Filter geometries by property condition"}},
         {"name" : "vectorlayer-style", "title" : {"cn" : "VectorLayer: 批量设置图形样式", "en" : "VectorLayer: Batch style geometries"}},
         {"name" : "vectorlayer-sort", "title" : {"cn" : "VectorLayer: 设置图形的z-index", "en" : "VectorLayer: Set geomtries' z-index"}},
+        {"name" : "collision", "title" : {"cn" : "图层碰撞", "en" : "layer collision"},"mark" : "new"},
         {"name" : "canvaslayer", "title" : {"cn" : "CanvasLayer: 画板图层示例", "en" : "CanvasLayer: an example"}},
         {"name" : "particlelayer", "title" : {"cn" : "ParticleLayer: 粒子图层示例", "en" : "ParticleLayer: an example"}},
         {"name" : "canvastilelayer", "title" : {"cn" : "CanvasTileLayer: 画板瓦片图层示例", "en" : "CanvasTileLayer: an example"}},
