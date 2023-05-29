@@ -196,24 +196,31 @@ function getPickedCoordinate(coordinate) {
   }
 }
 
-const gui = new dat.GUI({
-  width: 250
-});
-const Config = function () {
-  this.limitColor = "#ea6b48";
-  this.limitHeight = 25;
-};
-const options = new Config();
+const gui = new mt.GUI();
 
-const limitColorController = gui.addColor(options, "limitColor").name("颜色");
-limitColorController.onChange(function (value) {
-  const r = parseInt("0x" + value.toString().slice(1, 3));
-  const g = parseInt("0x" + value.toString().slice(3, 5));
-  const b = parseInt("0x" + value.toString().slice(5, 7));
-  heightLimitAnalysis.update("limitColor", [r / 255, g / 255, b / 255]);
-});
-const limitHeightController = gui.add(options, "limitHeight", 0, 100).name("限高（米）");
-limitHeightController.onChange(function (value) {
-  heightLimitAnalysis.update("limitHeight", value);
-});
+gui
+  .add({
+    type: "color",
+    label: "颜色",
+    value: "#ea6b48"
+  })
+  .onChange(function (value) {
+    const r = parseInt("0x" + value.toString().slice(1, 3));
+    const g = parseInt("0x" + value.toString().slice(3, 5));
+    const b = parseInt("0x" + value.toString().slice(5, 7));
+    heightLimitAnalysis.update("limitColor", [r / 255, g / 255, b / 255]);
+  });
+
+gui
+  .add({
+    type: "slider",
+    label: "限高（米）",
+    value: 25,
+    min: 0,
+    max: 100,
+    step: 1
+  })
+  .onChange(function (value) {
+    heightLimitAnalysis.update("limitHeight", value);
+  });
 /**end**/
