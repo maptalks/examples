@@ -2821,28 +2821,28 @@ const examples = [
               cn: "模型压平",
               en: "model flatten"
             }
-          },
-          {
-            name: "bim",
-            title: {
-              cn: "载入有BatchID的模型",
-              en: "Load BIM model"
-            }
-          },
-          {
-            name: "bim-opacity",
-            title: {
-              cn: "调整模型透明度",
-              en: "BIM model opacity"
-            }
-          },
-          {
-            name: "show-only",
-            title: {
-              cn: "只显示指定BatchID模型",
-              en: "Show only specified models"
-            }
           }
+          // {
+          //   name: "bim",
+          //   title: {
+          //     cn: "载入有BatchID的模型",
+          //     en: "Load BIM model"
+          //   }
+          // },
+          // {
+          //   name: "bim-opacity",
+          //   title: {
+          //     cn: "调整模型透明度",
+          //     en: "BIM model opacity"
+          //   }
+          // },
+          // {
+          //   name: "show-only",
+          //   title: {
+          //     cn: "只显示指定BatchID模型",
+          //     en: "Show only specified models"
+          //   }
+          // }
         ]
       },
       // {

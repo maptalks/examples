@@ -40,7 +40,7 @@ function TitleArea() {
       <Title>{title}</Title>
       <ActionArea>
         <ActionLink
-          href={`https://github.com/maptalks/examples/tree/master/public/codes/${paths[0]}/${paths[1]}/${paths[2]}`}
+          href={`https://github.com/maptalks/examples/tree/develop/public/codes/${paths[0]}/${paths[1]}/${paths[2]}`}
           target="_blank"
         >
           <ActionButton>

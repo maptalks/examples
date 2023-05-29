@@ -7,7 +7,9 @@ import { useStore } from "@/store";
 function Description() {
   const store = useStore();
 
-  return !!store.description ? (
+  const showDescription = !!store.description && !store.description.includes("</html>");
+
+  return showDescription ? (
     <Container>
       <ReactMarkdown className="markdown-body" remarkPlugins={[[remarkGfm]]}>
         {store.description}
