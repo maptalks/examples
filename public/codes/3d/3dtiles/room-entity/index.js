@@ -13,12 +13,12 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
       exposure: 1.426,
       hsv: [0, 0, 0],
-      orientation: 302.553,
+      orientation: 302.553
     }
   }
 });
@@ -43,7 +43,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0.915,
+      brightness: 0.915
     },
     postProcess: {
       enable: true
@@ -51,7 +51,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
     ground: {
       enable: true,
       renderPlugin: {
-        type: "lit",
+        type: "lit"
       },
       symbol: {
         polygonOpacity: 1,
@@ -59,7 +59,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
           baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
           hsv: [0, 0, -0.532],
           roughnessFactor: 0.22,
-          metallicFactor: 0.58,
+          metallicFactor: 0.58
         }
       }
     }
@@ -69,47 +69,49 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
 /**start**/
 let selectedRoom = null;
 function setEventAndInfowindow(mask) {
-  mask.on('click', e => {
+  mask.on("click", (e) => {
     if (selectedRoom) {
       selectedRoom.updateSymbol({
-        polygonFill: '#ea6b48'
+        polygonFill: "#ea6b48"
       });
     }
     e.target.updateSymbol({
-      polygonFill: '#2e2'
+      polygonFill: "#2e2"
     });
     selectedRoom = e.target;
   });
   const name = mask.getProperties().name;
   mask.setInfoWindow({
     content: `名称: ${name} </br>地址: xxxx大道118号</br>联系方式:132xxx4422`,
-    autoCloseOn: 'click'
+    autoCloseOn: "click"
   });
 }
 
-function loadMonomers() {
-  fetch('{res}/geojson/room.json').then(function(response){
-    return response.json();
-  }).then(function(data){
-    const masks = [];
-    for (let i = 0; i < data.length; i++) {
-      data[i].properties.name = 200 + i;
-      const mask = new maptalks.ColorMask(data[i].geometry.coordinates, {
-        symbol: {
-          polygonFill: '#ea6b48',
-          polygonOpacity: 0.6
-        },
-        properties: data[i].properties
-      });
-      setEventAndInfowindow(mask);
-      masks.push(mask);
-    }
-    layer.setMask(masks);
-  });
+function loadEntities() {
+  fetch("{res}/geojson/room.json")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      const masks = [];
+      for (let i = 0; i < data.length; i++) {
+        data[i].properties.name = 200 + i;
+        const mask = new maptalks.ColorMask(data[i].geometry.coordinates, {
+          symbol: {
+            polygonFill: "#ea6b48",
+            polygonOpacity: 0.6
+          },
+          properties: data[i].properties
+        });
+        setEventAndInfowindow(mask);
+        masks.push(mask);
+      }
+      layer.setMask(masks);
+    });
 }
 
 layer.once("loadtileset", (e) => {
-  loadMonomers();
+  loadEntities();
 });
 /**end**/
 
@@ -135,7 +137,7 @@ gui
   .onChange((value) => {
     if (selectedRoom) {
       selectedRoom.updateSymbol({
-        polygonFill: '#ea6b48'
+        polygonFill: "#ea6b48"
       });
       selectedRoom.closeInfoWindow();
     }

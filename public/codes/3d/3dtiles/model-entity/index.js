@@ -13,12 +13,12 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
       exposure: 1.426,
       hsv: [0, 0, 0],
-      orientation: 302.553,
+      orientation: 302.553
     }
   }
 });
@@ -43,7 +43,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0.915,
+      brightness: 0.915
     },
     postProcess: {
       enable: true
@@ -51,7 +51,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
     ground: {
       enable: true,
       renderPlugin: {
-        type: "lit",
+        type: "lit"
       },
       symbol: {
         polygonOpacity: 1,
@@ -59,7 +59,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
           baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
           hsv: [0, 0, -0.532],
           roughnessFactor: 0.22,
-          metallicFactor: 0.58,
+          metallicFactor: 0.58
         }
       }
     }
@@ -68,10 +68,10 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
 
 /**start**/
 function setEventAndInfowindow(mask) {
-  mask.on('mouseover mouseout', e => {
-    let polygonFill = '#ea6b48';
-    if (e.type === 'mouseover') {
-      polygonFill = '#2e2'
+  mask.on("mouseover mouseout", (e) => {
+    let polygonFill = "#ea6b48";
+    if (e.type === "mouseover") {
+      polygonFill = "#2e2";
     }
     e.target.updateSymbol({
       polygonFill
@@ -80,32 +80,34 @@ function setEventAndInfowindow(mask) {
   const name = mask.getProperties().name;
   mask.setInfoWindow({
     content: `名称: ${name} </br>地址: xxxx大道118号</br>联系方式:132xxx4422`,
-    autoCloseOn: 'click'
+    autoCloseOn: "click"
   });
 }
 
-function loadMonomers() {
-  fetch('{res}/geojson/monomer.json').then(function(response){
-    return response.json();
-  }).then(function(data){
-    const masks = [];
-    for (let i = 0; i < data.length; i++) {
-      const mask = new maptalks.ColorMask(data[i].geometry.coordinates, {
-        symbol: {
-          polygonFill: '#ea6b48',
-          polygonOpacity: 0.6
-        },
-        properties: data[i].properties
-      });
-      setEventAndInfowindow(mask);
-      masks.push(mask);
-    }
-    layer.setMask(masks);
-  });
+function loadEntities() {
+  fetch("{res}/geojson/monomer.json")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      const masks = [];
+      for (let i = 0; i < data.length; i++) {
+        const mask = new maptalks.ColorMask(data[i].geometry.coordinates, {
+          symbol: {
+            polygonFill: "#ea6b48",
+            polygonOpacity: 0.6
+          },
+          properties: data[i].properties
+        });
+        setEventAndInfowindow(mask);
+        masks.push(mask);
+      }
+      layer.setMask(masks);
+    });
 }
 
 layer.once("loadtileset", (e) => {
-  loadMonomers();
+  loadEntities();
 });
 /**end**/
 
@@ -119,25 +121,25 @@ gui
     options: [
       {
         label: "大雁塔",
-        value: "大雁塔",
+        value: "大雁塔"
       },
       {
         label: "二殿",
-        value: "二殿",
+        value: "二殿"
       },
       {
         label: "大雄宝殿",
-        value: "大雄宝殿",
+        value: "大雄宝殿"
       },
       {
         label: "斋茗园",
-        value: "斋茗园",
+        value: "斋茗园"
       },
       {
         label: "西花房",
-        value: "西花房",
+        value: "西花房"
       }
-    ],
+    ]
   })
   .onChange((value) => {
     const masks = layer.getMasks();
@@ -146,14 +148,14 @@ gui
       if (properties.name === value) {
         masks[i].updateSymbol({
           polygonOpacity: 0.9,
-          polygonFill: '#2e2'
+          polygonFill: "#2e2"
         });
         const center = masks[i].getCenter();
         map.panTo(center, { animation: true });
       } else {
         masks[i].updateSymbol({
           polygonOpacity: 0.6,
-          polygonFill: '#ea6b48'
+          polygonFill: "#ea6b48"
         });
       }
     }
