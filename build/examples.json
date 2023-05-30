@@ -215,6 +215,7 @@
         {"name" : "control-panel", "title" : {"cn" : "Panel控件", "en" : "Panel Control"}},
         {"name" : "control-overview", "title" : {"cn" : "鹰眼控件", "en" : "Overview Control"}},
         {"name" : "control-zoom", "title" : {"cn" : "Zoom控件", "en" : "Zoom Control"}},
+        {"name" : "control-compass", "title" : {"cn" : "指北针控件", "en" : "Compass Control"}},
         {"name" : "control-scale", "title" : {"cn" : "Scale控件", "en" : "Scale Control"}},
         {"name" : "control-attribution", "title" : {"cn" : "Attribution控件", "en" : "Attribution Control"}},
         {"name" : "control-show-hide", "title" : {"cn" : "控件显示与隐藏", "en" : "Show and hide controls"}},

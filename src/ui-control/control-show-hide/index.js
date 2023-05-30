@@ -11,7 +11,6 @@ var map = new maptalks.Map('map', {
 
 var zoomControl = new maptalks.control.Zoom({
   'position'  : 'top-left',
-  'slider'    : true,
   'zoomLevel' : true
 }).addTo(map);
 
