@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "thumb": "ts-node --project tsconfig.node.json scripts/thumbnail.ts"
+    "thumb": "ts-node --project tsconfig.thumb.json scripts/thumbnail.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^5.1.3",
