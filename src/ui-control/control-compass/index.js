@@ -5,9 +5,9 @@ const map = new maptalks.Map('map', {
     position: 'top-left',
   },
   baseLayer: new maptalks.TileLayer('base', {
-    urlTemplate: '{urlTemplate}',
-    subdomains: ['a', 'b', 'c', 'd'],
-    attribution: '{attribution}',
+    urlTemplate: '$(urlTemplate)',
+    subdomains: $(subdomains),
+    attribution: '$(attribution)',
   }),
 });
 
