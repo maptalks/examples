@@ -3,16 +3,13 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/node:14
+    - image: cimg/node:18.16
 
 jobs:
   build-and-deploy:
     <<: *defaults
     steps:
       - checkout
-      - run:
-          name: Install yarn
-          command: sudo apt update && sudo apt install yarn
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
