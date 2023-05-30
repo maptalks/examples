@@ -1,4 +1,4 @@
-import examples from "../config/example.mjs";
+import examples from "../config/examples.ts";
 import puppeteer from "puppeteer";
 
 // 生成部分例子的缩略图
@@ -6,7 +6,7 @@ import puppeteer from "puppeteer";
 // name: "basic" 生成 codes/basic 目录下的所有例子的缩略图
 // name: "basic_3d" 生成 codes/basic/3d 目录下的所有例子的缩略图
 // name: "basic_3d_line-altitude" 只生成 codes/basic/3d/line-altitude 这一个例子的缩略图
-const name = "3d_terrain";
+const name = "basic_ui-control_control-compass";
 
 (async () => {
   if (name) {
@@ -50,7 +50,7 @@ async function genarateAll() {
   await browser.close();
 }
 
-async function genarateByName(name) {
+async function genarateByName(name: string) {
   const paths = name.split("_");
   const browser = await puppeteer.launch({
     headless: "new"

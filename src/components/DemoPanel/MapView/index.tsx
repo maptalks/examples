@@ -15,6 +15,7 @@ function MapView() {
         sandbox="allow-modals allow-popups allow-scripts allow-forms allow-same-origin"
         srcDoc={code}
         scrolling="no"
+        title="map-view"
       />
     </Container>
   );

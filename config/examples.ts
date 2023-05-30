@@ -1133,6 +1133,13 @@ const examples = [
             }
           },
           {
+            name: "control-compass",
+            title: {
+              cn: "指北针控件",
+              en: "Compass Control"
+            }
+          },
+          {
             name: "control-scale",
             title: {
               cn: "Scale控件",
