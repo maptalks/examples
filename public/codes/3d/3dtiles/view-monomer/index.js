@@ -143,9 +143,9 @@ const houseMarker = new maptalks.GLTFMarker([-73.88713688860861, 40.688484424504
   zoomOnAdded: 17
 }).addTo(gltfLayer);
 houseMarker.on("load", () => {
-  AddSungleRoom();
+  AddSingleRoom();
 });
-function AddSungleRoom() {
+function AddSingleRoom() {
   const position = [-73.88471481176612, 40.68931386481856, 30.991330000000016];
   const roomMarker = new maptalks.GLTFMarker(position, {
     symbol: {

@@ -205,8 +205,15 @@ gui
     step: 1
   })
   .onChange((value) => {
+    if (!clipper) {
+      return;
+    }
     length = value;
-    clipper.setLength(length);
+    if (value === 358 || value === '358') {
+      debugger
+      value = 357;
+    }
+    clipper.setLength(value);
     updateHelperLine();
   });
 
@@ -220,6 +227,9 @@ gui
     step: 1
   })
   .onChange((value) => {
+    if (!clipper) {
+      return;
+    }
     width = value;
     clipper.setWidth(width);
     updateHelperLine();
@@ -235,6 +245,9 @@ gui
     step: 1
   })
   .onChange((value) => {
+    if (!clipper) {
+      return;
+    }
     height = value;
     clipper.setHeight(height);
     updateHelperLine();
@@ -250,6 +263,9 @@ gui
     step: 1
   })
   .onChange((value) => {
+    if (!clipper) {
+      return;
+    }
     rotation = value;
     clipper.setRotation(rotation);
     updateHelperLine();
