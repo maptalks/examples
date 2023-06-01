@@ -1133,6 +1133,13 @@ const examples = [
             }
           },
           {
+            name: "control-compass",
+            title: {
+              cn: "指北针控件",
+              en: "Compass Control"
+            }
+          },
+          {
             name: "control-scale",
             title: {
               cn: "Scale控件",
@@ -1703,22 +1710,6 @@ const examples = [
         ]
       },
       {
-        name: "line-3d-style",
-        title: {
-          cn: "线数据三维样式",
-          en: "Line data 3d Style"
-        },
-        examples: [
-          {
-            name: "texture",
-            title: {
-              cn: "设置纹理",
-              en: "Set textures"
-            }
-          }
-        ]
-      },
-      {
         name: "polygonstyle",
         title: {
           cn: "面类型数据样式",
@@ -1753,80 +1744,6 @@ const examples = [
           //     en: "Bloom",
           //   },
           // },
-        ]
-      },
-      {
-        name: "polygon-3d-style",
-        title: {
-          cn: "三维白模样式",
-          en: "Polygon data 3d Style"
-        },
-        examples: [
-          {
-            name: "set-height",
-            title: {
-              cn: "设置高度",
-              en: "Set height"
-            }
-          },
-          {
-            name: "diffrent-textures",
-            title: {
-              cn: "顶面和侧面设置不同的纹理",
-              en: "Set different textures on the top and side"
-            }
-          },
-          {
-            name: "top-side-color",
-            title: {
-              cn: "垂直颜色渐变",
-              en: "Vertical color gradient"
-            }
-          },
-          {
-            name: "side-uv-mode",
-            title: {
-              cn: "设置侧面纹理模式",
-              en: "Set side vertical uv mode"
-            }
-          },
-          {
-            name: "entry",
-            title: {
-              cn: "进场动画",
-              en: "Entry animation"
-            }
-          }
-        ]
-      },
-      {
-        name: "waterstyle",
-        title: {
-          cn: "水体渲染",
-          en: "Water style"
-        },
-        examples: [
-          // {
-          //   name: "water-drawing",
-          //   title: {
-          //     cn: "水面绘制",
-          //     en: "Water surface drawing",
-          //   },
-          // },
-          // {
-          //   name: "draw-text",
-          //   title: {
-          //     cn: "水面绘制文字",
-          //     en: "Draw text",
-          //   },
-          // },
-          {
-            name: "reflection",
-            title: {
-              cn: "水体渲染，倒影及水面文字",
-              en: "Water style, reflection and text"
-            }
-          }
         ]
       },
       {
@@ -2666,6 +2583,82 @@ const examples = [
       en: "3D"
     },
     examples: [
+      {
+        name: "line-3d-style",
+        title: {
+          cn: "线数据三维样式",
+          en: "Line data 3d Style"
+        },
+        examples: [
+          {
+            name: "texture",
+            title: {
+              cn: "设置纹理",
+              en: "Set textures"
+            }
+          }
+        ]
+      },
+      {
+        name: "polygon-3d-style",
+        title: {
+          cn: "三维白模样式",
+          en: "Polygon data 3d Style"
+        },
+        examples: [
+          {
+            name: "set-height",
+            title: {
+              cn: "设置高度",
+              en: "Set height"
+            }
+          },
+          {
+            name: "diffrent-textures",
+            title: {
+              cn: "顶面和侧面设置不同的纹理",
+              en: "Set different textures on the top and side"
+            }
+          },
+          {
+            name: "top-side-color",
+            title: {
+              cn: "垂直颜色渐变",
+              en: "Vertical color gradient"
+            }
+          },
+          {
+            name: "side-uv-mode",
+            title: {
+              cn: "设置侧面纹理模式",
+              en: "Set side vertical uv mode"
+            }
+          },
+          {
+            name: "entry",
+            title: {
+              cn: "进场动画",
+              en: "Entry animation"
+            }
+          }
+        ]
+      },
+      {
+        name: "waterstyle",
+        title: {
+          cn: "水体渲染",
+          en: "Water style"
+        },
+        examples: [
+          {
+            name: "reflection",
+            title: {
+              cn: "水体渲染，倒影及水面文字",
+              en: "Water style, reflection and text"
+            }
+          }
+        ]
+      },
       {
         name: "terrain",
         title: {

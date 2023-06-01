@@ -2,12 +2,11 @@ const map = new maptalks.Map("map", {
   center: [108.9594, 34.2193],
   zoom: 17.8,
   pitch: 58.4,
-  bearing: 0,
   baseLayer: new maptalks.TileLayer("base", {
     urlTemplate: "{urlTemplate}",
     subdomains: ["a", "b", "c", "d"],
-    attribution: "{attribution}",
-  }),
+    attribution: "{attribution}"
+  })
 });
 
 const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
@@ -18,26 +17,25 @@ const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
       maximumScreenSpaceError: 1.0,
       pointOpacity: 0.5,
       pointSize: 3,
-      heightOffset: -400,
-    },
-  ],
-});
-
-layer.once("loadtileset", (e) => {
-  // const extent = layer.getExtent(e.index);
-  // map.fitExtent(extent, 0, {
-  //   animation: false,
-  // });
+      heightOffset: -400
+    }
+  ]
 });
 
 const sceneConfig = {
   postProcess: {
     enable: true,
     antialias: {
-      enable: true,
-    },
-  },
+      enable: true
+    }
+  }
 };
+
+window.focus();
+
+window.addEventListener("mouseover", () => {
+  window.focus();
+});
 
 const gltfLayer = new maptalks.GLTFLayer("gltf");
 const gltfMarker = new maptalks.GLTFMarker([108.958438, 34.217715, 17.5], {
@@ -48,12 +46,12 @@ const gltfMarker = new maptalks.GLTFMarker([108.958438, 34.217715, 17.5], {
     scaleY: 0.5,
     scaleZ: 0.5,
     animation: true,
-    loop: true,
-  },
+    loop: true
+  }
 }).addTo(gltfLayer);
 
 const groupLayer = new maptalks.GroupGLLayer("group", [layer, gltfLayer], {
-  sceneConfig,
+  sceneConfig
 }).addTo(map);
 
 const containerPoint = new maptalks.Point([map.width / 2, map.height / 2]);
@@ -62,7 +60,7 @@ const containerPoint = new maptalks.Point([map.width / 2, map.height / 2]);
 let cameraPosition = {
   position: [108.958438, 34.217715, 50],
   pitch: 60,
-  bearing: 0,
+  bearing: 0
 };
 
 map.setCameraPosition(cameraPosition);
@@ -74,8 +72,10 @@ const eventsMap = {
   d: moveRight,
   q: rotateLeft,
   e: rotateRight,
+  z: lookUp,
+  x: lookDown,
   "+": addZoom,
-  "-": reduceZoom,
+  "-": reduceZoom
 };
 
 function getStep(fast) {
@@ -94,7 +94,7 @@ function moveLeft(fast) {
   const step = getStep(fast);
   const coord = {
     x: cameraPosition.position[0],
-    y: cameraPosition.position[1],
+    y: cameraPosition.position[1]
   };
   const point = map.coordToContainerPoint(coord);
   const newPoint = point.add(-step, 0);
@@ -109,7 +109,7 @@ function moveRight(fast) {
   const step = getStep(fast);
   const coord = {
     x: cameraPosition.position[0],
-    y: cameraPosition.position[1],
+    y: cameraPosition.position[1]
   };
   const point = map.coordToContainerPoint(coord);
   const newPoint = point.add(step, 0);
@@ -124,7 +124,7 @@ function moveForward(fast) {
   const step = getStep(fast);
   const coord = {
     x: cameraPosition.position[0],
-    y: cameraPosition.position[1],
+    y: cameraPosition.position[1]
   };
   const point = map.coordToContainerPoint(coord);
   const newPoint = point.add(0, -step);
@@ -139,7 +139,7 @@ function moveBack(fast) {
   const step = getStep(fast);
   const coord = {
     x: cameraPosition.position[0],
-    y: cameraPosition.position[1],
+    y: cameraPosition.position[1]
   };
   const point = map.coordToContainerPoint(coord);
   const newPoint = point.add(0, step);
@@ -155,7 +155,7 @@ function rotateLeft() {
   map.setCameraPosition(cameraPosition);
   const symbol = gltfMarker.getSymbol();
   gltfMarker.updateSymbol({
-    rotationZ: symbol.rotationZ + 5,
+    rotationZ: symbol.rotationZ + 5
   });
 }
 
@@ -164,7 +164,7 @@ function rotateRight() {
   map.setCameraPosition(cameraPosition);
   const symbol = gltfMarker.getSymbol();
   gltfMarker.updateSymbol({
-    rotationZ: symbol.rotationZ - 5,
+    rotationZ: symbol.rotationZ - 5
   });
 }
 
@@ -179,7 +179,6 @@ function lookDown() {
 }
 
 document.addEventListener("keydown", (e) => {
-  console.log(e);
   const key = e.key.toLowerCase();
   if (eventsMap[key]) {
     eventsMap[key](e.shiftKey);
@@ -189,56 +188,36 @@ document.addEventListener("keydown", (e) => {
 
 const gui = new mt.GUI();
 
-gui
-  .add({
-    type: "button",
-    text: "前进",
-  })
-  .onClick(() => {
-    moveForward();
-  });
+gui.add({
+  label: "请用键盘操作"
+});
 
-gui
-  .add({
-    type: "button",
-    text: "后退",
-  })
-  .onClick(() => {
-    moveBack();
-  });
+gui.add({
+  type: "button",
+  text: "前进：W"
+});
 
-gui
-  .add({
-    type: "button",
-    text: "左转",
-  })
-  .onClick(() => {
-    rotateLeft();
-  });
+gui.add({
+  type: "button",
+  text: "加速前进：shift + W"
+});
 
-gui
-  .add({
-    type: "button",
-    text: "右转",
-  })
-  .onClick(() => {
-    rotateRight();
-  });
+gui.add({
+  type: "button",
+  text: "左转：Q"
+});
 
-gui
-  .add({
-    type: "button",
-    text: "抬头",
-  })
-  .onClick(() => {
-    lookUp();
-  });
+gui.add({
+  type: "button",
+  text: "右转：E"
+});
 
-gui
-  .add({
-    type: "button",
-    text: "低头",
-  })
-  .onClick(() => {
-    lookDown();
-  });
+gui.add({
+  type: "button",
+  text: "抬头：Z"
+});
+
+gui.add({
+  type: "button",
+  text: "低头：X"
+});
