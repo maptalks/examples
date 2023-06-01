@@ -1,20 +1,13 @@
-import {
-  ActionArea,
-  ActionButton,
-  ActionLink,
-  ButtonIcon,
-  Container,
-  Title,
-} from "./style";
+import { ActionArea, ActionButton, ActionLink, ButtonIcon, Container, Title } from "./style";
 
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Link } from "react-router-dom";
+import { html_beautify } from "js-beautify";
 import { observer } from "mobx-react-lite";
 import { useTitleArea } from "./hooks";
 
 function TitleArea() {
-  const { title, paths, translate, language, code, handleCopy, handleEdit } =
-    useTitleArea();
+  const { title, paths, translate, language, code, handleCopy, handleEdit } = useTitleArea();
 
   function edit() {
     var htmlDataNode = document.getElementById("html-data") as any;
@@ -25,7 +18,7 @@ function TitleArea() {
     var cssData = cssDataNode.innerText;
     var data = {
       title: "{{{ title }}}",
-      description: "{{{ category }}} - {{{ title }}}",
+      description: "{{{ category }}} - {{{ title }}}"
     } as any;
     data.html = htmlData;
     data.js = jsData;
@@ -64,7 +57,13 @@ function TitleArea() {
             {translate[language]["edit"]}
           </ActionButton>
         </ActionLink> */}
-        <CopyToClipboard text={code} onCopy={handleCopy}>
+        <CopyToClipboard
+          text={html_beautify(code, {
+            indent_size: 2,
+            indent_inner_html: true
+          })}
+          onCopy={handleCopy}
+        >
           <ActionLink>
             <ActionButton>
               <ButtonIcon type="copy" />
@@ -74,12 +73,7 @@ function TitleArea() {
         </CopyToClipboard>
       </ActionArea>
       <div style={{ display: "none" }}>
-        <form
-          method="post"
-          action="https://codepen.io/pen/define"
-          id="editor"
-          target="_blanks"
-        >
+        <form method="post" action="https://codepen.io/pen/define" id="editor" target="_blanks">
           <input type="hidden" id="editor-data" name="data" value=""></input>
         </form>
       </div>
