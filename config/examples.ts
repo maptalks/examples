@@ -1374,6 +1374,13 @@ const examples = [
             }
           },
           {
+            name: "features",
+            title: {
+              cn: "获取瓦片feature数据",
+              en: "Get feature data"
+            }
+          },
+          {
             name: "available-zoom",
             title: {
               cn: "设置图层最大可访问级别",

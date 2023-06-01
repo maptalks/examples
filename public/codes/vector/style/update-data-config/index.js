@@ -5,7 +5,7 @@ const map = new maptalks.Map("map", {
   lights: {
     directional: {
       direction: [1, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -15,49 +15,50 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/gradient/left.png",
           right: "{res}/hdr/gradient/right.png",
           top: "{res}/hdr/gradient/top.png",
-          bottom: "{res}/hdr/gradient/bottom.png",
+          bottom: "{res}/hdr/gradient/bottom.png"
         },
-        prefilterCubeSize: 1024,
+        prefilterCubeSize: 1024
       },
       exposure: 1,
       hsv: [0, 0.34, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 
 /**start**/
 const style = {
   style: [
     {
+      name: "building",
       filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
       renderPlugin: {
         dataConfig: {
           type: "3d-extrusion",
           altitudeProperty: null,
-          altitudeScale: 1,
+          altitudeScale: 1
         },
-        type: "lit",
+        type: "lit"
       },
       symbol: {
         polygonOpacity: 1,
         material: {
-          baseColorFactor: [0.2, 0.5, 0.7, 1],
-        },
-      },
-    },
-  ],
+          baseColorFactor: [0.2, 0.5, 0.7, 1]
+        }
+      }
+    }
+  ]
 };
 
 const vt = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
   spatialReference: "preset-vt-3857",
-  style,
+  style
 });
 
 function update() {
   vt.updateDataConfig(0, {
-    altitudeProperty: "height",
+    altitudeProperty: "height"
   });
 }
 /**end**/
@@ -67,18 +68,18 @@ const sceneConfig = {
     enable: true,
     mode: 1,
     level: 0,
-    brightness: 0,
+    brightness: 0
   },
   postProcess: {
     enable: true,
     antialias: {
-      enable: true,
-    },
-  },
+      enable: true
+    }
+  }
 };
 
 const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
-  sceneConfig,
+  sceneConfig
 });
 groupLayer.addTo(map);
 
@@ -87,7 +88,7 @@ const gui = new mt.GUI();
 gui
   .add({
     type: "button",
-    text: "Update dataConfig",
+    text: "Update dataConfig"
   })
   .onClick(() => {
     update();
