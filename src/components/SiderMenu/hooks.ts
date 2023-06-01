@@ -16,6 +16,7 @@ export function useSiderMenu() {
       window.open(url);
     } else {
       store.setTab("");
+      store.setCode("");
       store.setSelectedKey(`${i}_${j}_${k}`);
       navigate(`/examples/${store.language}/${i}/${j}/${k}`);
     }
@@ -39,6 +40,6 @@ export function useSiderMenu() {
     openKey: store.openKey,
     selectedKey: store.selectedKey,
     handleInputChange,
-    handleSelect,
+    handleSelect
   };
 }
