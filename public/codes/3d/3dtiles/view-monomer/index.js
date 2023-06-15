@@ -131,9 +131,9 @@ const houseMarker = new maptalks.GLTFMarker([-73.88713688860861, 40.688484424504
   symbol: {
     shadow: true,
     url: "{res}/gltf/29c/scene.gltf",
-    scaleX: 8.12466,
-    scaleY: 8.12466,
-    scaleZ: 8.12466,
+    scaleX: 289.77474184549226,
+    scaleY: 289.77474184549226,
+    scaleZ: 289.77474184549226,
     rotationZ: 299.6285,
     uniforms: {
       polygonFill: [1, 1, 1, 1],
@@ -146,14 +146,15 @@ houseMarker.on("load", () => {
   AddSingleRoom();
 });
 function AddSingleRoom() {
-  const position = [-73.88471481176612, 40.68931386481856, 30.991330000000016];
+  const position = [-73.8868041267736, 40.68966803698365, 11.753020000000024];
   const roomMarker = new maptalks.GLTFMarker(position, {
+    id: 'roomMarker',
     symbol: {
       shadow: false,
       url: "{res}/gltf/room/room.gltf",
-      scaleX: 1.16,
-      scaleY: 1.16,
-      scaleZ: 1.16,
+      scaleX: 241.31509485856458,
+      scaleY: 241.31509485856458,
+      scaleZ: 241.31509485856458,
       rotationZ: 119.6285,
       shader: "pbr",
       uniforms: {
@@ -162,8 +163,7 @@ function AddSingleRoom() {
         baseColorIntensity: 1,
         outputSRGB: 1
       }
-    },
-    zoomOnAdded: 17
+    }
   }).addTo(gltfLayer);
   roomMarker.on("mouseenter mouseout", (e) => {
     if (e.type === "mouseenter") {
@@ -175,7 +175,7 @@ function AddSingleRoom() {
 
   roomMarker.setInfoWindow({
     content: "点击箭头所指楼层",
-    dy: 20
+    dx: -50
   });
   roomMarker.openInfoWindow();
 }

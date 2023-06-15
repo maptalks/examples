@@ -27,10 +27,10 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const symbol = {
-  url: "{res}/gltf/alien/alien.glb",
-  scaleX: 1.5,
-  scaleY: 1.5,
-  scaleZ: 1.5,
+  url: "{res}/gltf/alien/alien.gltf",
+  scaleX: 240,
+  scaleY: 240,
+  scaleZ: 240,
   rotationZ: 180,
 };
 
@@ -41,9 +41,9 @@ const gltfMarker = new maptalks.GLTFMarker(map.getCenter(), {
 gltfLayer.addGeometry(gltfMarker);
 
 function setModelMatrix() {
-  const translation = [50, 50, 50];
-  const rotation = [45, 0, 0];
-  const scale = [2, 2, 2];
+  const translation = [100, 0, 0];
+  const rotation = [-45, 0, 180];
+  const scale = [300, 300, 300];
   gltfMarker.setTRS(translation, rotation, scale);
 }
 /**end**/

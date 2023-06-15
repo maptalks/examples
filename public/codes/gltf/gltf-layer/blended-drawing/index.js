@@ -1,6 +1,6 @@
 const map = new maptalks.Map("map", {
   center: [-74.01252272617671, 40.70709931736744],
-  zoom: 14,
+  zoom: 15,
   pitch: 80,
   bearing: 2.4,
   lights: {
@@ -28,10 +28,10 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const symbol = {
-  url: "{res}/gltf/alien/alien.glb",
-  scaleX: 1.5,
-  scaleY: 1.5,
-  scaleZ: 1.5,
+  url: "{res}/gltf/alien/alien.gltf",
+  scaleX: 240,
+  scaleY: 240,
+  scaleZ: 240,
   rotationZ: 180,
 };
 

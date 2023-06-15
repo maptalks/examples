@@ -1,6 +1,6 @@
 const map = new maptalks.Map("map", {
   center: [-74.01252272617671, 40.70709931736744],
-  zoom: 16,
+  zoom: 15,
   pitch: 80,
   lights: {
     ambient: {
@@ -27,10 +27,10 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const symbol = {
-  url: "{res}/gltf/alien/alien.glb",
-  scaleX: 1.5,
-  scaleY: 1.5,
-  scaleZ: 1.5,
+  url: "{res}/gltf/alien/alien.gltf",
+  scaleX: 480,
+  scaleY: 480,
+  scaleZ: 480,
   rotationZ: 180,
 };
 
@@ -57,7 +57,7 @@ transformControl.on("transformend", () => {
   document.getElementById("info").innerHTML = "操控模型完成事件";
 });
 
-map.on("dom:click", (e) => {
+map.on("click", (e) => {
   const identifyData = e.coordinate
     ? groupLayer.identify(e.coordinate, {
         layers: [gltfLayer],

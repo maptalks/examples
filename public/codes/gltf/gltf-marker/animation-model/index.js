@@ -27,14 +27,14 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const symbol = {
-  url: "{res}/gltf/fox/Fox.gltf",
+  url: "{res}/gltf/Fox/Fox.gltf",
   shader: "pbr",
   animation: true,
   loop: true,
   animationName: "Survey",
   scaleX: 2,
   scaleY: 2,
-  scaleZ: 2,
+  scaleZ: 2
 };
 
 const gltfLayer = new maptalks.GLTFLayer("gltf");

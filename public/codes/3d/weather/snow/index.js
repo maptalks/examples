@@ -152,9 +152,9 @@ const gltfMarker = new maptalks.GLTFMarker(
     symbol: {
       shadow: true,
       url: "{res}/gltf/29c/scene.gltf",
-      scaleX: 8.12466,
-      scaleY: 8.12466,
-      scaleZ: 8.12466,
+      scaleX: 289.77474184549226,
+      scaleY: 289.77474184549226,
+      scaleZ: 289.77474184549226,
       rotationZ: 299.6285,
       shader: "pbr",
       uniforms: {

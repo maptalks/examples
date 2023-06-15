@@ -27,10 +27,10 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const symbol = {
-  url: "{res}/gltf/alien/alien.glb",
-  scaleX: 1.5,
-  scaleY: 1.5,
-  scaleZ: 1.5,
+  url: "{res}/gltf/alien/alien.gltf",
+  scaleX: 240,
+  scaleY: 240,
+  scaleZ: 240,
   rotationZ: 180,
 };
 

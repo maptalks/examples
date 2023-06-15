@@ -26,18 +26,18 @@ const map = new maptalks.Map("map", {
 });
 
 /**start**/
-const url = "{res}/gltf/alien/alien.glb";
+const url = "{res}/gltf/alien/alien.gltf";
 const symbol = {
-  url: "{res}/gltf/alien/alien.glb",
+  url: "{res}/gltf/alien/alien.gltf",
   translationX: 0,
   translationY: 0,
   translationZ: 0,
   rotationX: 0,
   rotationY: 0,
   rotationZ: 180,
-  scaleX: 1.5,
-  scaleY: 1.5,
-  scaleZ: 1.5,
+  scaleX: 240,
+  scaleY: 240,
+  scaleZ: 240
 };
 
 const gltfLayer = new maptalks.GLTFLayer("gltf");
@@ -219,10 +219,10 @@ gui
   .add({
     type: "slider",
     label: "缩放X",
-    value: 1.5,
-    min: 0.1,
-    max: 10,
-    step: 0.1,
+    value: 240,
+    min: 24,
+    max: 1200,
+    step: 1
   })
   .onChange((value) => {
     setScaleX(value);
@@ -232,10 +232,10 @@ gui
   .add({
     type: "slider",
     label: "缩放Y",
-    value: 1.5,
-    min: 0.1,
-    max: 10,
-    step: 0.1,
+    value: 240,
+    min: 24,
+    max: 1200,
+    step: 1
   })
   .onChange((value) => {
     setScaleY(value);
@@ -245,10 +245,10 @@ gui
   .add({
     type: "slider",
     label: "缩放Z",
-    value: 1.5,
-    min: 0.1,
-    max: 10,
-    step: 0.1,
+    value: 240,
+    min: 24,
+    max: 1200,
+    step: 1
   })
   .onChange((value) => {
     setScaleZ(value);

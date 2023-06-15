@@ -28,9 +28,9 @@ const map = new maptalks.Map("map", {
 /**start**/
 const symbol = {
   url: "{res}/gltf/car/car-draco.gltf",
-  scaleX: 1.5,
-  scaleY: 1.5,
-  scaleZ: 1.5,
+  scaleX: 80,
+  scaleY: 80,
+  scaleZ: 80,
 };
 
 const gltfLayer = new maptalks.GLTFLayer("gltf");

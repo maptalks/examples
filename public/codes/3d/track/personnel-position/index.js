@@ -28,30 +28,31 @@ const gltfMarker1 = new maptalks.GLTFMarker([108.958438, 34.217715, 17.5], {
   symbol: {
     url: "{res}/gltf/character_x_bot/scene.gltf",
     rotationZ: 180,
-    scaleX: 0.5,
-    scaleY: 0.5,
-    scaleZ: 0.5,
+    scaleX: 25,
+    scaleY: 25,
+    scaleZ: 25,
     animation: true,
     loop: true,
   },
 }).addTo(gltfLayer);
 gltfMarker1.setInfoWindow({
-  content: "<div><div>工人A</div><div>电话 189xxxxxxxxx</div></div>",
+  content: "<div><div>工人A</div><div>电话 189xxxxxxxxx</div></div>"
 });
 gltfMarker1.openInfoWindow();
 const gltfMarker2 = new maptalks.GLTFMarker([108.960868, 34.217922, 20], {
   symbol: {
     url: "{res}/gltf/character_x_bot/scene.gltf",
     rotationZ: -90,
-    scaleX: 0.5,
-    scaleY: 0.5,
-    scaleZ: 0.5,
+    scaleX: 25,
+    scaleY: 25,
+    scaleZ: 25,
     animation: true,
     loop: true,
   },
 }).addTo(gltfLayer);
 gltfMarker2.setInfoWindow({
   content: "<div><div>工人B</div><div>电话 189xxxxxxxxx</div></div>",
+  dx: 20
 });
 gltfMarker2.openInfoWindow();
 

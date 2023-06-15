@@ -27,11 +27,11 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const symbol = {
-  url: "{res}/gltf/alien/alien.glb",
+  url: "{res}/gltf/alien/alien.gltf",
   rotationZ: 180,
-  scaleX: 1.5,
-  scaleY: 1.5,
-  scaleZ: 1.5,
+  scaleX: 240,
+  scaleY: 240,
+  scaleZ: 240,
   uniforms: {
     polygonFill: [1, 1, 1, 1],
     metallicFactor: 0,

@@ -28,10 +28,10 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const symbol = {
-  url: "{res}/gltf/alien/alien.glb",
-  scaleX: 1.5,
-  scaleY: 1.5,
-  scaleZ: 1.5,
+  url: "{res}/gltf/alien/alien.gltf",
+  scaleX: 480,
+  scaleY: 480,
+  scaleZ: 480,
   rotationZ: 180,
 };
 const position = map.getCenter();
@@ -39,7 +39,7 @@ const data = [];
 for (let i = -2; i < 3; i++) {
   for (let j = -2; j < 3; j++) {
     data.push({
-      coordinates: position.add(i * 0.01 + 0.028, j * 0.01),
+      coordinates: position.add(i * 0.01, j * 0.01),
     });
   }
 }
@@ -49,7 +49,7 @@ const multiGLTFMarker = new maptalks.MultiGLTFMarker(data, {
 }).addTo(gltfLayer);
 
 function updateItem() {
-  multiGLTFMarker.updateData(0, "scale", [1.5, 1.5, 1.5]);
+  multiGLTFMarker.updateData(0, "scale", [2, 2, 2]);
 }
 /**end**/
 

@@ -27,11 +27,10 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const symbol = {
-  url: "{res}/gltf/alien/alien.glb",
-  scaleX: 1.5,
-  scaleY: 1.5,
-  scaleZ: 1.5,
-  rotationZ: 180,
+  url: "{res}/gltf/alien/alien.gltf",
+  scaleX: 240,
+  scaleY: 240,
+  scaleZ: 240
 };
 
 const gltfLayer = new maptalks.GLTFLayer("gltf");
@@ -41,9 +40,7 @@ const gltfMarker = new maptalks.GLTFMarker(map.getCenter(), {
 
 gltfMarker.setInfoWindow({
   title: "GLTFMarker InfoWindow",
-  content: "Click on marker to open.",
-  dx: 15,
-  dy: -20,
+  content: "Click on marker to open."
 });
 
 gltfMarker.openInfoWindow();

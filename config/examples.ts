@@ -2415,8 +2415,15 @@ const examples = [
           {
             name: "set-altitude",
             title: {
-              cn: "GLTFMarker设置高度",
+              cn: "GLTFMarker设置海拔高度",
               en: "Set altitude"
+            }
+          },
+          {
+            name: "gltf-modelHeight",
+            title: {
+              cn: "设置模型高度",
+              en: "Set height"
             }
           }
         ]
@@ -2510,13 +2517,6 @@ const examples = [
             title: {
               cn: "模型载入完成事件",
               en: "Data load event"
-            }
-          },
-          {
-            name: "coord-system",
-            title: {
-              cn: "GLTFLayer坐标系统",
-              en: "Coordinate system"
             }
           }
         ]

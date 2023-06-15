@@ -5,7 +5,7 @@ const map = new maptalks.Map("map", {
   bearing: 135,
   lights: {
     ambient: {
-      color: [0.2, 0.2, 0.2],
+      color: [0.8, 0.8, 0.8],
       exposure: 1.5,
     },
     directional: {
@@ -27,16 +27,16 @@ const gltfMarker = new maptalks.GLTFMarker(
     symbol: {
       shadow: true,
       url: "{res}/gltf/koncepcja/scene.gltf",
-      scaleX: 5,
-      scaleY: 5,
-      scaleZ: 5,
+      scaleX: 30,
+      scaleY: 30,
+      scaleZ: 30
     }
   }
 ).addTo(gltfLayer);
 
 const sceneConfig = {
   environment: {
-    enable: false,
+    enable: true,
     mode: 1,
     level: 1,
     brightness: 1

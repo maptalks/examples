@@ -28,12 +28,12 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const symbol = {
-  url: "{res}/gltf/alien/alien.glb",
+  url: "{res}/gltf/alien/alien.gltf",
   fixSizeOnZoom: false,
-  scaleX: 1.5,
-  scaleY: 1.5,
-  scaleZ: 1.5,
-  rotationZ: 180,
+  scaleX: 240,
+  scaleY: 240,
+  scaleZ: 240,
+  rotationZ: 180
 };
 
 const gltfLayer = new maptalks.GLTFLayer("gltf");
@@ -41,13 +41,6 @@ const gltfMarker = new maptalks.GLTFMarker(map.getCenter(), {
   symbol,
 }).addTo(gltfLayer);
 
-function setFixSizeOnZoom(value) {
-  if (value) {
-    gltfMarker.setFixSizeOnZoom(map.getZoom());
-  } else {
-    gltfMarker.cancelFixSize();
-  }
-}
 /**end**/
 
 const groupLayer = new maptalks.GroupGLLayer("group", [gltfLayer], {
@@ -94,5 +87,11 @@ gui
     value: false,
   })
   .onChange((value) => {
-    setFixSizeOnZoom(value);
+    if (value) {
+      gltfMarker.updateSymbol({
+        markerFixSize: 100 //单位为像素
+      });
+    } else {
+      gltfMarker.cancelMarkerFixSize();
+    }
   });

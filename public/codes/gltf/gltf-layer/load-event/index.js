@@ -1,6 +1,6 @@
 const map = new maptalks.Map("map", {
   center: [-74.01252272617671, 40.70709931736744],
-  zoom: 14,
+  zoom: 15,
   pitch: 80,
   bearing: 2.4,
   lights: {
@@ -31,10 +31,10 @@ const gltfLayer = new maptalks.GLTFLayer("gltf");
 const position = map.getCenter();
 const gltfMarker1 = new maptalks.GLTFMarker(position, {
   symbol: {
-    url: "{res}/gltf/alien/alien.glb",
-    scaleX: 1.5,
-    scaleY: 1.5,
-    scaleZ: 1.5,
+    url: "{res}/gltf/alien/alien.gltf",
+    scaleX: 480,
+    scaleY: 480,
+    scaleZ: 480,
     rotationZ: 180,
   },
 }).addTo(gltfLayer);
@@ -44,9 +44,9 @@ const gltfMarker2 = new maptalks.GLTFMarker(position.add(0.01, 0), {
     url: "{res}/gltf/vibut_the_robot/scene.gltf",
     animation: true,
     loop: true,
-    scaleX: 1.5,
-    scaleY: 1.5,
-    scaleZ: 1.5,
+    scaleX: 6,
+    scaleY: 6,
+    scaleZ: 6,
   },
 }).addTo(gltfLayer);
 

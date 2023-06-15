@@ -73,21 +73,24 @@ function getSymbol(type) {
     1: {
       url: "{res}/gltf/drawer-entity/1.gltf",
       rotationZ: 20.54,
-      scaleX: 0.8
+      scaleX: 0.8,
+      translationZ: -170
     },
     2: {
       url: "{res}/gltf/drawer-entity/2.gltf",
       rotationZ: 20.54,
       scaleX: 0.6571790551008414,
       scaleY: 0.8214738188760521,
-      scaleZ: 0.8214738188760521
+      scaleZ: 0.8214738188760521,
+      translationZ: -125
     },
     3: {
       url: "{res}/gltf/drawer-entity/3.gltf",
       rotationZ: 20.54,
       scaleX: 0.6571790551008414,
       scaleY: 0.8214738188760521,
-      scaleZ: 0.8214738188760521
+      scaleZ: 0.8214738188760521,
+      translationZ: -140
     }
   }[type];
 }

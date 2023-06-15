@@ -126,9 +126,9 @@ const gltfMarker = new maptalks.GLTFMarker([-73.88713688860861, 40.6884844245047
   symbol: {
     shadow: true,
     url: "{res}/gltf/29c/scene.gltf",
-    scaleX: 8.12466,
-    scaleY: 8.12466,
-    scaleZ: 8.12466,
+    scaleX: 289.77474184549226,
+    scaleY: 289.77474184549226,
+    scaleZ: 289.77474184549226,
     rotationZ: 299.6285,
     shader: "pbr",
     uniforms: {
@@ -168,7 +168,7 @@ const sceneConfig = {
       enable: true,
       start: 0.1,
       end: 20,
-      color: [0.9, 0.9, 0.9, 1]
+      color: [0.9, 0.9, 0.9]
     }
   },
   ground: {
@@ -239,6 +239,6 @@ gui
   })
   .onChange((value) => {
     const sceneConfig = groupGLLayer.getSceneConfig();
-    sceneConfig.weather.fog.color = value;
+    sceneConfig.weather.fog.color = value.slice(0, 3);
     groupGLLayer.setSceneConfig(sceneConfig);
   });

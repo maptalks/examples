@@ -210,7 +210,6 @@ gui
     }
     length = value;
     if (value === 358 || value === '358') {
-      debugger
       value = 357;
     }
     clipper.setLength(value);

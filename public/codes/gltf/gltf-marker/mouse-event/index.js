@@ -27,10 +27,10 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const symbol = {
-  url: "{res}/gltf/alien/alien.glb",
-  scaleX: 1.5,
-  scaleY: 1.5,
-  scaleZ: 1.5,
+  url: "{res}/gltf/alien/alien.gltf",
+  scaleX: 240,
+  scaleY: 240,
+  scaleZ: 240,
   rotationZ: 180,
 };
 
@@ -43,15 +43,15 @@ gltfMarker.on("click", () => {
   document.getElementById("info").innerHTML = "click事件";
 });
 
-gltfMarker.on("mousemove", () => {
+gltfMarker.on("mouseenter", () => {
   gltfMarker.setUniform("polygonFill", [0.0, 0.8, 0.0, 1.0]);
-  document.getElementById("info").innerHTML = "mousemove事件";
+  document.getElementById("info").innerHTML = "mouseenter事件";
 });
 
-gltfMarker.on("mouseleave", () => {
+gltfMarker.on("mouseout", () => {
   map.resetCursor();
   gltfMarker.setUniform("polygonFill", [1, 1, 1, 1.0]);
-  document.getElementById("info").innerHTML = "mouseleave事件";
+  document.getElementById("info").innerHTML = "mouseout事件";
 });
 /**end**/
 

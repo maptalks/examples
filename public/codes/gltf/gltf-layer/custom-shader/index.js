@@ -61,11 +61,11 @@ const config = {
 maptalks.GLTFLayer.registerShader("customShader", "MeshShader", config);
 
 const symbol = {
-  url: "{res}/gltf/alien/alien.glb",
+  url: "{res}/gltf/alien/alien.gltf",
   shader: "customShader",
-  scaleX: 1.5,
-  scaleY: 1.5,
-  scaleZ: 1.5,
+  scaleX: 240,
+  scaleY: 240,
+  scaleZ: 240,
   rotationZ: 180,
   uniforms: {
     color: [0.0, 1.0, 0.3],

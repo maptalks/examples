@@ -31,6 +31,9 @@ const plane = new maptalks.GLTFMarker(
   {
     symbol: {
       url: "{res}/gltf/airplane/scene.gltf",
+      scaleX: 0.3,
+      scaleY: 0.3,
+      scaleZ: 0.3,
       rotationZ: 150,
     },
   }
@@ -41,9 +44,9 @@ const car = new maptalks.GLTFMarker(
   {
     symbol: {
       url: "{res}/gltf/ambulance_car/scene.gltf",
-      scaleX: 0.5,
-      scaleY: 0.5,
-      scaleZ: 0.5,
+      scaleX: 5,
+      scaleY: 5,
+      scaleZ: 5,
       rotationZ: 90,
     },
   }

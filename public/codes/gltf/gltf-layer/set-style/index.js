@@ -1,6 +1,6 @@
 const map = new maptalks.Map("map", {
   center: [-74.01252272617671, 40.70709931736744],
-  zoom: 14,
+  zoom: 15,
   pitch: 74,
   bearing: 2.4,
   lights: {
@@ -28,10 +28,10 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const symbol = {
-  url: "{res}/gltf/alien/alien.glb",
-  scaleX: 1.5,
-  scaleY: 1.5,
-  scaleZ: 1.5,
+  url: "{res}/gltf/alien/alien.gltf",
+  scaleX: 240,
+  scaleY: 240,
+  scaleZ: 240,
   rotationZ: 180,
 };
 
@@ -41,7 +41,7 @@ const markers = [];
 for (let i = 0; i < 3; i++) {
   for (let j = 0; j < 3; j++) {
     const gltfMarker = new maptalks.GLTFMarker(
-      position.add(i * 0.01 - 0.015, j * 0.01 - 0.015),
+      position.add(i * 0.01 - 0.01, j * 0.01),
       {
         properties: {
           num: (i + j) * 0.1,
@@ -58,7 +58,7 @@ const style = [
   {
     filter: ["<", "num", 0.2],
     symbol: {
-      url: "{res}/gltf/alien/alien.glb",
+      url: "{res}/gltf/alien/alien.gltf",
       animation: true,
       loop: true,
       uniforms: {
