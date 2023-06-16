@@ -49,6 +49,10 @@ const gltfMarker1 = new maptalks.GLTFMarker([108.958438, 34.217715, 17.5], {
     scaleZ: 25,
     animation: true,
     loop: true,
+    uniforms: {
+      roughnessFactor: 0.8,
+      metallicFactor: 0.2
+    }
   },
 }).addTo(gltfLayer);
 gltfMarker1.setInfoWindow({
@@ -65,6 +69,10 @@ const gltfMarker2 = new maptalks.GLTFMarker([108.960868, 34.217992, 19.5], {
     scaleZ: 25,
     animation: true,
     loop: true,
+    uniforms: {
+      roughnessFactor: 0.8,
+      metallicFactor: 0.2
+    }
   },
 }).addTo(gltfLayer);
 gltfMarker2.setInfoWindow({
