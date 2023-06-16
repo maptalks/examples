@@ -29,9 +29,7 @@ const map = new maptalks.Map("map", {
 /**start**/
 const symbol = {
   url: "{res}/gltf/alien/alien.gltf",
-  scaleX: 480,
-  scaleY: 480,
-  scaleZ: 480,
+  modelHeight: 480,
   rotationZ: 180,
 };
 const position = map.getCenter();

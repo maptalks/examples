@@ -30,9 +30,7 @@ const symbol = {
   url: "{res}/gltf/vibut_the_robot/scene.gltf",
   animation: true,
   loop: true,
-  scaleX: 7.5,
-  scaleY: 7.5,
-  scaleZ: 7.5,
+  modelHeight: 300
 };
 
 const gltfLayer = new maptalks.GLTFLayer("gltf");

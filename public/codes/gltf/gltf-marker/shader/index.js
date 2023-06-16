@@ -30,9 +30,7 @@ const symbol = {
   url: "{res}/gltf/alien/alien.gltf",
   shader: "pbr",
   rotationZ: 180,
-  scaleX: 240,
-  scaleY: 240,
-  scaleZ: 240
+  modelHeight: 240
 };
 
 const gltfLayer = new maptalks.GLTFLayer("gltf");

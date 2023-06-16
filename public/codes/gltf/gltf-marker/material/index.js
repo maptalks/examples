@@ -29,9 +29,7 @@ const map = new maptalks.Map("map", {
 const symbol = {
   url: "{res}/gltf/alien/alien.gltf",
   rotationZ: 180,
-  scaleX: 240,
-  scaleY: 240,
-  scaleZ: 240,
+  modelHeight: 240,
   uniforms: {
     polygonFill: [1, 1, 1, 1],
     metallicFactor: 0,

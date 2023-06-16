@@ -32,9 +32,7 @@ const position = map.getCenter();
 const gltfMarker1 = new maptalks.GLTFMarker(position, {
   symbol: {
     url: "{res}/gltf/alien/alien.gltf",
-    scaleX: 480,
-    scaleY: 480,
-    scaleZ: 480,
+    modelHeight: 480,
     rotationZ: 180,
   },
 }).addTo(gltfLayer);
@@ -44,9 +42,7 @@ const gltfMarker2 = new maptalks.GLTFMarker(position.add(0.01, 0), {
     url: "{res}/gltf/vibut_the_robot/scene.gltf",
     animation: true,
     loop: true,
-    scaleX: 6,
-    scaleY: 6,
-    scaleZ: 6,
+    modelHeight: 500
   },
 }).addTo(gltfLayer);
 

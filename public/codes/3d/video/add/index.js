@@ -53,16 +53,18 @@ const ratio = (48 / 27) * 0.01;
 const videoSurface = new maptalks.VideoSurface(
   [
     [-74.01162476336549, 40.712214182492374, 85],
-    [-74.0116320237475, 40.7111789905343, 85],
-    [-74.0116320237475, 40.7111789805343, 36],
     [-74.01162476336549, 40.712214182492374, 36],
+    [-74.0116320237475, 40.7111789805343, 36],
+    [-74.0116320237475, 40.7111789905343, 85]
   ],
   {
     url: "{res}/videos/test1.mp4",
-    opacity: 1,
+    opacity: 1
   }
 );
-const videoLayer = new maptalks.VideoLayer("video");
+const videoLayer = new maptalks.VideoLayer("video", {
+  doubleSide: false
+});
 videoSurface.addTo(videoLayer);
 
 function play() {

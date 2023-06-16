@@ -63,9 +63,7 @@ const map1 = new maptalks.Map("map1", mapConfig);
 
 const symbol = {
   url: "{res}/gltf/alien/alien.gltf",
-  scaleX: 240,
-  scaleY: 240,
-  scaleZ: 240,
+  modelHeight: 240,
   rotationZ: 180,
 };
 

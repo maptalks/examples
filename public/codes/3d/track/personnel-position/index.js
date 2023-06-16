@@ -28,9 +28,7 @@ const gltfMarker1 = new maptalks.GLTFMarker([108.958438, 34.217715, 17.5], {
   symbol: {
     url: "{res}/gltf/character_x_bot/scene.gltf",
     rotationZ: 180,
-    scaleX: 25,
-    scaleY: 25,
-    scaleZ: 25,
+    modelHeight: 25,
     animation: true,
     loop: true,
   },
@@ -43,9 +41,7 @@ const gltfMarker2 = new maptalks.GLTFMarker([108.960868, 34.217922, 20], {
   symbol: {
     url: "{res}/gltf/character_x_bot/scene.gltf",
     rotationZ: -90,
-    scaleX: 25,
-    scaleY: 25,
-    scaleZ: 25,
+    modelHeight: 25,
     animation: true,
     loop: true,
   },

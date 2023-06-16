@@ -31,22 +31,18 @@ const plane = new maptalks.GLTFMarker(
   {
     symbol: {
       url: "{res}/gltf/airplane/scene.gltf",
-      scaleX: 0.3,
-      scaleY: 0.3,
-      scaleZ: 0.3,
+      modelHeight: 10,
       rotationZ: 150,
     },
   }
 ).addTo(gltfLayer);
 
 const car = new maptalks.GLTFMarker(
-  [108.96099472732544, 34.21793272780141, 20.3101],
+  [108.96099472732544, 34.21793272780141, 20.8101],
   {
     symbol: {
       url: "{res}/gltf/ambulance_car/scene.gltf",
-      scaleX: 5,
-      scaleY: 5,
-      scaleZ: 5,
+      modelHeight: 10,
       rotationZ: 90,
     },
   }

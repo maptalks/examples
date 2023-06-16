@@ -73,24 +73,17 @@ function getSymbol(type) {
     1: {
       url: "{res}/gltf/drawer-entity/room1.gltf",
       rotationZ: 20.54,
-      scaleX: 0.8,
-      // translationZ: -170
+      modelHeight: 3.5
     },
     2: {
       url: "{res}/gltf/drawer-entity/room2.gltf",
       rotationZ: 20.54,
-      scaleX: 0.6571790551008414,
-      scaleY: 0.8214738188760521,
-      scaleZ: 0.8214738188760521,
-      // translationZ: -125
+      modelHeight: 3.5
     },
     3: {
       url: "{res}/gltf/drawer-entity/room3.gltf",
       rotationZ: 20.54,
-      scaleX: 0.6571790551008414,
-      scaleY: 0.8214738188760521,
-      scaleZ: 0.8214738188760521,
-      // translationZ: -140
+      modelHeight: 3.5
     }
   }[type];
 }

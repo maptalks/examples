@@ -32,9 +32,7 @@ const symbol = {
   animation: true,
   loop: true,
   animationName: "Survey",
-  scaleX: 2,
-  scaleY: 2,
-  scaleZ: 2
+  modelHeight: 200
 };
 
 const gltfLayer = new maptalks.GLTFLayer("gltf");

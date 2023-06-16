@@ -27,9 +27,7 @@ const marker = new maptalks.GLTFMarker(
   {
     symbol: {
       url: "{res}/gltf/airplane/scene.gltf",
-      scaleX: 3,
-      scaleZ: 3,
-      scaleY: 3,
+      modelHeight: 150,
       rotationZ: 150,
     },
   }
