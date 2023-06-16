@@ -30,6 +30,7 @@ const map = new maptalks.Map("map", {
 const style = {
   style: [
     {
+      //the style item name,Its value should be unique
       name: "building",
       filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
       renderPlugin: {
