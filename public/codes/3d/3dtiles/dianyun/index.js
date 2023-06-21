@@ -13,18 +13,17 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
       exposure: 1.426,
       hsv: [0, 0, 0],
-      orientation: 302.553,
+      orientation: 302.553
     }
   }
 });
 /**start**/
 const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
-  geometryEvents: true,
   services: [
     {
       url: "http://resource.dvgis.cn/data/3dtiles/dayanta/tileset.json",
@@ -36,7 +35,7 @@ const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
     }
   ]
 });
-layer.once('loadtileset', e => {
+layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
   map.fitExtent(extent, 0, { animation: false });
 });
@@ -47,7 +46,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0.915,
+      brightness: 0.915
     },
     postProcess: {
       enable: true
@@ -55,7 +54,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
     ground: {
       enable: true,
       renderPlugin: {
-        type: "lit",
+        type: "lit"
       },
       symbol: {
         polygonOpacity: 1,
@@ -63,7 +62,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
           baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
           hsv: [0, 0, -0.532],
           roughnessFactor: 0.22,
-          metallicFactor: 0.58,
+          metallicFactor: 0.58
         }
       }
     }

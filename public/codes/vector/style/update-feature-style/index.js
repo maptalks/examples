@@ -77,7 +77,7 @@ function updateNotXinFeatureStyle() {
     {
       name: "非新洲区",
       filter: (feature) => feature.properties.name !== "新洲区",
-      color: "#efc69e"
+      color: "#ef9e9f"
     }
   ]);
 }

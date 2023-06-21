@@ -2711,6 +2711,22 @@ const examples = [
         ]
       },
       {
+        name: "traffic",
+        title: {
+          cn: "交通",
+          en: "Traffic"
+        },
+        examples: [
+          {
+            name: "simulated-traffic",
+            title: {
+              cn: "模拟交通",
+              en: "Simulated traffic"
+            }
+          }
+        ]
+      },
+      {
         name: "3dtiles",
         title: {
           cn: "3dtiles功能示例",
@@ -2752,13 +2768,6 @@ const examples = [
           //     en: "Dian yun"
           //   }
           // },
-          {
-            name: "traffic",
-            title: {
-              cn: "模拟交通",
-              en: "Simulated traffic"
-            }
-          },
           {
             name: "manually-icon",
             title: {

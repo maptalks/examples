@@ -31,7 +31,6 @@ function createMap(mapDiv, center, zoom, pitch, dragRotatePitch, dragPitch) {
 
 function create3DtilesLayer() {
   const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
-    geometryEvents: true,
     services: [
       {
         url: "http://resource.dvgis.cn/data/3dtiles/dayanta/tileset.json",

@@ -24,7 +24,6 @@ const map = new maptalks.Map("map", {
 });
 
 const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
-  geometryEvents: true,
   services: [
     {
       url: "http://resource.dvgis.cn/data/3dtiles/dayanta/tileset.json",
