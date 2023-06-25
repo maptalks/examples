@@ -88,7 +88,8 @@ const style1 = {
 
 const geo = new maptalks.GeoJSONVectorTileLayer("geo", {
   data: "{res}/geojson/area.geojson",
-  style
+  style,
+  highLightColor: "red"
 });
 
 geo.on("dataload", (e) => {
@@ -97,23 +98,19 @@ geo.on("dataload", (e) => {
 
 const geo1 = new maptalks.GeoJSONVectorTileLayer("geo1", {
   data: "{res}/geojson/line.geojson",
-  style: style1
+  style: style1,
+  highLightColor: "green"
 });
-
-function mouseMoveHandler(e) {
+// Each layer can have its own processing logic function
+function featureEventHandler(e) {
   const layer = e.target;
-  const data = layer.identify(e.coordinate);
-  if (!data || !data.length) {
-    return;
-    cancel(layer);
-  }
-  const feature = data[data.length - 1].data.feature;
-  highLight(feature, layer, layer === geo1 ? "green" : 'red');
+  const feature = e.feature;
+  highLight(feature, layer, layer.options.highLightColor);
 }
 
-geo.on('mousemove', mouseMoveHandler)
+geo.on('identifyfeature', featureEventHandler)
 
-geo1.on('mousemove', mouseMoveHandler)
+geo1.on('identifyfeature', featureEventHandler)
 
 const highLightKey = 'test';
 function highLight(feature, layer, color = 'red') {
@@ -125,8 +122,21 @@ function cancel(layer) {
 }
 
 map.on('mousemove', e => {
-  groupLayer.getLayers().forEach(layer => {
-    layer.fire(e.type, e);
+  let feature;
+  groupLayer.getLayers().map(layer => {
+    return layer;
+  }).reverse().forEach(layer => {
+    cancel(layer);
+    if (feature) {
+      return;
+    }
+    const data = layer.identify(e.coordinate);
+    if (!data || !data.length) {
+      return;
+    }
+    feature = data[data.length - 1].data.feature;
+    // Trigger Custom Event
+    layer.fire('identifyfeature', Object.assign({}, e, { feature }));
   });
 })
 

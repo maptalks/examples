@@ -24,6 +24,10 @@ const map = new maptalks.Map("map", {
   }
 });
 
+map.on('click', e => {
+  console.log(e.coordinate.toArray());
+})
+
 
 /**start**/
 const style = {
@@ -100,13 +104,52 @@ const geo1 = new maptalks.GeoJSONVectorTileLayer("geo1", {
   style: style1
 });
 
+const pointLayer = new maptalks.PointLayer('pointlayer');
+
+const point = new maptalks.Marker([114.39782416406251, 30.673470917169624],
+  {
+    symbol: {
+      markerType: 'ellipse',
+      markerWidth: 20,
+      markerHeight: 20
+    }
+  }).addTo(pointLayer);
+
+point.on('mousemove', e => {
+  cancelAllLayer();
+
+  // 阻止事件冒泡
+  // Prevent event bubbling
+  return false;
+});
+point.on('mouseover', e => {
+  e.target.updateSymbol({
+    markerWidth: 30,
+    markerHeight: 30
+  })
+  return false;
+});
+point.on('mouseout', e => {
+  e.target.updateSymbol({
+    markerWidth: 20,
+    markerHeight: 20
+  })
+  return false;
+})
+
 const highLightKey = 'test';
 function highLight(feature, layer) {
-  layer.highlight([{ id: feature.id, name: highLightKey, color: 'red' }]);
+  layer.highlight && layer.highlight([{ id: feature.id, name: highLightKey, color: 'red' }]);
 }
 
 function cancel(layer) {
-  layer.cancelHighlight([highLightKey]);
+  layer.cancelHighlight && layer.cancelHighlight([highLightKey]);
+}
+
+function cancelAllLayer() {
+  groupLayer.getLayers().forEach(layer => {
+    cancel(layer);
+  })
 }
 
 map.on('mousemove', e => {
@@ -123,14 +166,14 @@ map.on('mousemove', e => {
     const feature = data[data.length - 1].data.feature;
     highLight(feature, layer);
     hit = true;
-    console.log(feature);
+    // console.log(feature);
   })
 })
 
 
 /**end**/
 
-const groupLayer = new maptalks.GroupGLLayer("group", [geo, geo1], {
+const groupLayer = new maptalks.GroupGLLayer("group", [geo, geo1, pointLayer], {
   sceneConfig: {
     environment: {
       enable: true,
