@@ -1604,7 +1604,7 @@ const examples = [
             name: "hide-feature",
             title: {
               cn: "元素显示与隐藏",
-              en: "hie/show feature"
+              en: "hide/show feature"
             }
           },
           {
