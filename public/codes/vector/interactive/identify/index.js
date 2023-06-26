@@ -101,16 +101,18 @@ function getFeatureInfo(feature) {
   return new Promise((reslove, reject) => {
     setTimeout(() => {
       reslove(feature);
-    }, 500 * Math.random());
+    }, 1000 * Math.random() + 1000);
   })
 }
 
 function showInfoWindow(coordinate, feature) {
-  infoWindow.hide();
+  infoWindow.setTitle('....');
+  infoWindow.setContent(`<div class="loading"><img src="{res}/images/loading.awebp"/></div>`);
+  infoWindow.show(coordinate);
   getFeatureInfo(feature).then(data => {
     infoWindow.setContent(JSON.stringify(data.properties));
     infoWindow.setTitle(data.properties.name);
-    infoWindow.show(coordinate);
+  
   })
 }
 

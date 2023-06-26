@@ -70,10 +70,10 @@ const params = {
   opacity: 1
 
 }
-const highArea = '新洲区';
+const highLightKey = 'test';
 
 function getHighLightKey(key) {
-  return `${highArea}_${key}`;
+  return `${highLightKey}_${key}`;
 }
 
 

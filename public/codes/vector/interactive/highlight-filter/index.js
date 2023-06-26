@@ -71,10 +71,10 @@ const params = {
   opacity: 1
 
 }
-const highArea = '新洲区';
+const highLightKey = 'test';
 
 function getHighLightKey(key) {
-  return `${highArea}_${key}`;
+  return `${highLightKey}_${key}`;
 }
 
 
@@ -83,7 +83,8 @@ function highLight(layer) {
     {
       name: getHighLightKey('fill'),
       filter: (feature) => {
-        return feature.properties.name.includes('江');
+        const name = feature.properties.name;
+        return name && name.includes('江');
       },
       ...params,
     },
