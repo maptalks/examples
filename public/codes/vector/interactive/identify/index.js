@@ -101,13 +101,13 @@ function getFeatureInfo(feature) {
   return new Promise((reslove, reject) => {
     setTimeout(() => {
       reslove(feature);
-    }, 1000 * Math.random() + 1000);
+    }, 1000 * Math.random() + 500);
   })
 }
 
 function showInfoWindow(coordinate, feature) {
   infoWindow.setTitle('....');
-  infoWindow.setContent(`<div class="loading"><img src="{res}/images/loading.awebp"/></div>`);
+  infoWindow.setContent(`<div class="loading"><img src="{res}/images/loading.gif"/></div>`);
   infoWindow.show(coordinate);
   getFeatureInfo(feature).then(data => {
     infoWindow.setContent(JSON.stringify(data.properties));

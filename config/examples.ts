@@ -1650,10 +1650,17 @@ const examples = [
             }
           },
           {
-            name: "layer-collaboration",
+            name: "geometry",
             title: {
-              cn: "图层协作",
-              en: "layer collaboration"
+              cn: "获取geojson geometry",
+              en: "get geojson geometry"
+            }
+          },
+          {
+            name: "altitude",
+            title: {
+              cn: "查询高程",
+              en: "query altitude"
             }
           },
         ]

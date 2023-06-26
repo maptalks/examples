@@ -27,27 +27,34 @@ const map = new maptalks.Map("map", {
 
 
 /**start**/
-const style = [{
-  // Only data with building layer and Polygon type are displayed
-  // Please refer to the specific description of filter:http://doc.maptalks.com/docs/style/filter/feature-filter/
-  filter: ["all", ["==", "$layer", "building"],
-    ["==", "$type", "Polygon"]
-  ],
-  renderPlugin: {
-    dataConfig: {
-      type: "fill"
+const style = {
+  style: [{
+    //the style item name,Its value should be unique
+    name: "building",
+    filter: ["all", ["==", "$layer", "building"],
+      ["==", "$type", "Polygon"]
+    ],
+    renderPlugin: {
+      dataConfig: {
+        type: "3d-extrusion",
+        altitudeProperty: 'height',
+        altitudeScale: 1
+      },
+      type: "lit"
     },
-    type: "fill"
-  },
-  symbol: {
-    polygonFill: "#577570"
-  }
-}];
+    symbol: {
+      polygonOpacity: 1,
+      material: {
+        baseColorFactor: [0.2, 0.5, 0.7, 1]
+      }
+    }
+  }]
+};
 
 const vt = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
   spatialReference: "preset-vt-3857",
-  debug: true,
+  // debug: true,
   features: true,
   pickingGeometry: true,
   style
@@ -66,40 +73,41 @@ function cancel(layer) {
   layer.cancelHighlight([highLightKey]);
 }
 
-map.on('mousemove', e => {
+map.on('click', e => {
   const data = vt.identify(e.coordinate);
+  let coordinate = e.coordinate;
   if (!data || !data.length) {
     // cancel(vt);
-    layer.clear();
-    return;
+  } else {
+    // console.log(data);
+    // const feature = data[data.length - 1].data.feature;
+    coordinate = data[data.length - 1].coordinate;
+    // highLight(feature, vt);
+    // console.log(feature);
   }
-  const feature = data[data.length - 1].data.feature;
-  // highLight(feature, vt);
-  addFeatureToLayer(feature);
-  console.log(feature);
+  addFeatureToLayer(coordinate);
 })
 
-function addFeatureToLayer(feature) {
-  layer.clear();
-  const geometry = feature.geometry;
-  if (!geometry || !geometry.type || !geometry.coordinates) {
+function addFeatureToLayer(coordinate) {
+  if (!coordinate) {
     return;
   }
-  const polygon = new maptalks[geometry.type](geometry.coordinates, {
+  const point = new maptalks.Marker(coordinate, {
     symbol: {
-      polygonOpacity: 0,
-      lineColor: 'yellow',
-      lineWidth: 3,
-      shadowColor: "#fff",
-      shadowBlur: 10
+      textName: coordinate.z || coordinate[2] || 0,
+      textSize: 12,
+      textHaloFill: '#000',
+      textFill: "#fff",
+      textHaloRadius: 1
     }
   });
-  polygon.addTo(layer);
+  point.addTo(layer);
 }
 
-const layer = new maptalks.VectorLayer('layer');
+const layer = new maptalks.VectorLayer('layer', {
+  enableAltitude: true,        // enable altitude
+});
 
-/**end**/
 
 const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
   sceneConfig: {
@@ -113,3 +121,4 @@ const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
 });
 groupLayer.addTo(map);
 layer.addTo(map);
+/**end**/
