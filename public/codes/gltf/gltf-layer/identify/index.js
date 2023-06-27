@@ -13,6 +13,7 @@ const map = new maptalks.Map("map", {
           top: "{res}/hdr/gradient/top.png",
           bottom: "{res}/hdr/gradient/bottom.png",
         },
+        prefilterCubeSize: 32
       },
       exposure: 1,
       hsv: [0, 1, -0.042],

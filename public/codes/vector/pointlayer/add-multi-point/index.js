@@ -5,7 +5,7 @@ const map = new maptalks.Map("map", {
   lights: {
     directional: {
       direction: [1, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -15,15 +15,15 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/gradient/left.png",
           right: "{res}/hdr/gradient/right.png",
           top: "{res}/hdr/gradient/top.png",
-          bottom: "{res}/hdr/gradient/bottom.png",
+          bottom: "{res}/hdr/gradient/bottom.png"
         },
-        prefilterCubeSize: 1024,
+        prefilterCubeSize: 32
       },
       exposure: 1,
       hsv: [0, 0.34, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 
 /**start**/
@@ -34,15 +34,15 @@ const marker = new maptalks.MultiPoint(
     [-0.161049, 51.599568],
     [-0.097049, 51.599568],
     [-0.109049, 51.495568],
-    [-0.131049, 51.495568],
+    [-0.131049, 51.495568]
   ],
   {
     symbol: {
       textFaceName: "sans-serif",
       textName: "MapTalks",
       textFill: "#22be9e",
-      textSize: 40,
-    },
+      textSize: 40
+    }
   }
 ).addTo(pointLayer);
 /**end**/
@@ -53,8 +53,8 @@ const groupLayer = new maptalks.GroupGLLayer("group", [pointLayer], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0,
-    },
-  },
+      brightness: 0
+    }
+  }
 });
 groupLayer.addTo(map);

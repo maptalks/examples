@@ -5,7 +5,7 @@ const map = new maptalks.Map("map", {
   lights: {
     directional: {
       direction: [1, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -15,22 +15,22 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/gradient/left.png",
           right: "{res}/hdr/gradient/right.png",
           top: "{res}/hdr/gradient/top.png",
-          bottom: "{res}/hdr/gradient/bottom.png",
+          bottom: "{res}/hdr/gradient/bottom.png"
         },
-        prefilterCubeSize: 1024,
+        prefilterCubeSize: 32
       },
       exposure: 1,
       hsv: [0, 0.34, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 
 /**start**/
 const pointLayer = new maptalks.PointLayer("point", {
   collision: true,
   sceneConfig: {
-    fading: true,
+    fading: true
   }
 });
 
@@ -51,8 +51,8 @@ for (let i = 0; i <= 5000; i++) {
         markerLineWidth: 2,
         markerLineColor: "#fff",
         markerWidth: 20,
-        markerHeight: 20,
-      },
+        markerHeight: 20
+      }
     })
   );
 }
@@ -76,9 +76,9 @@ const groupLayer = new maptalks.GroupGLLayer("group", [pointLayer], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0,
-    },
-  },
+      brightness: 0
+    }
+  }
 });
 groupLayer.addTo(map);
 
@@ -87,7 +87,7 @@ gui
   .add({
     type: "checkbox",
     label: "collision",
-    value: true,
+    value: true
   })
   .onChange((value) => {
     toggleCollision(value);
@@ -97,7 +97,7 @@ gui
   .add({
     type: "checkbox",
     label: "fading",
-    value: true,
+    value: true
   })
   .onChange((value) => {
     toggleFading(value);

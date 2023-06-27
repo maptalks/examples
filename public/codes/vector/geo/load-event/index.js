@@ -6,7 +6,7 @@ const map = new maptalks.Map("map", {
   lights: {
     directional: {
       direction: [1, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -16,15 +16,15 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/gradient/left.png",
           right: "{res}/hdr/gradient/right.png",
           top: "{res}/hdr/gradient/top.png",
-          bottom: "{res}/hdr/gradient/bottom.png",
+          bottom: "{res}/hdr/gradient/bottom.png"
         },
-        prefilterCubeSize: 1024,
+        prefilterCubeSize: 32
       },
       exposure: 1,
       hsv: [0, 0.34, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 
 /**start**/
@@ -36,44 +36,44 @@ const layer = new maptalks.GeoJSONVectorTileLayer("geo", {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [120.1862434, 30.31784858],
+          coordinates: [120.1862434, 30.31784858]
         },
-        properties: {},
+        properties: {}
       },
       {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [120.194314, 30.34644838],
+          coordinates: [120.194314, 30.34644838]
         },
-        properties: {},
+        properties: {}
       },
       {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [120.1911453, 30.33728535],
+          coordinates: [120.1911453, 30.33728535]
         },
-        properties: {},
+        properties: {}
       },
       {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [120.1924787, 30.32657846],
+          coordinates: [120.1924787, 30.32657846]
         },
-        properties: {},
+        properties: {}
       },
       {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [120.1723801, 30.27646996],
+          coordinates: [120.1723801, 30.27646996]
         },
-        properties: {},
-      },
-    ],
-  },
+        properties: {}
+      }
+    ]
+  }
 });
 
 layer.on("dataload", (e) => {
@@ -86,22 +86,22 @@ layer.setStyle([
     filter: true,
     renderPlugin: {
       dataConfig: {
-        type: "point",
+        type: "point"
       },
       sceneConfig: {
         collision: true,
         fading: false,
-        depthFunc: "always",
+        depthFunc: "always"
       },
-      type: "icon",
+      type: "icon"
     },
     symbol: {
       markerType: "ellipse",
       markerFill: "#1bbc9b",
       markerHeight: 21,
-      markerWidth: 21,
-    },
-  },
+      markerWidth: 21
+    }
+  }
 ]);
 /**end**/
 
@@ -111,8 +111,8 @@ const groupLayer = new maptalks.GroupGLLayer("group", [layer], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0,
-    },
-  },
+      brightness: 0
+    }
+  }
 });
 groupLayer.addTo(map);

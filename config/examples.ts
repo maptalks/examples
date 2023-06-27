@@ -3155,6 +3155,45 @@ const examples = [
       }
     ]
   }
+  // {
+  //   name: "framework",
+  //   title: {
+  //     cn: "常用框架",
+  //     en: "Framework"
+  //   },
+  //   examples: [
+  //     {
+  //       title: {
+  //         cn: "React",
+  //         en: "React"
+  //       },
+  //       examples: [
+  //         {
+  //           name: "use",
+  //           title: {
+  //             cn: "在React框架中使用",
+  //             en: "Use in react"
+  //           }
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       title: {
+  //         cn: "Vue",
+  //         en: "Vue"
+  //       },
+  //       examples: [
+  //         {
+  //           name: "use",
+  //           title: {
+  //             cn: "在Vue框架中使用",
+  //             en: "Use in vue"
+  //           }
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // }
 ];
 
 export default examples;

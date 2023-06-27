@@ -6,7 +6,7 @@ const map = new maptalks.Map("map", {
   lights: {
     directional: {
       direction: [1, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -16,37 +16,33 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/gradient/left.png",
           right: "{res}/hdr/gradient/right.png",
           top: "{res}/hdr/gradient/top.png",
-          bottom: "{res}/hdr/gradient/bottom.png",
+          bottom: "{res}/hdr/gradient/bottom.png"
         },
-        prefilterCubeSize: 1024,
+        prefilterCubeSize: 32
       },
       exposure: 1,
       hsv: [0, 0.34, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 
 /**start**/
 const vt = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857",
+  spatialReference: "preset-vt-3857"
 });
 
 const style = {
   style: [
     {
-      filter: [
-        "all",
-        ["==", "$layer", "provincial-highway"],
-        ["==", "$type", "LineString"],
-      ],
+      filter: ["all", ["==", "$layer", "provincial-highway"], ["==", "$type", "LineString"]],
       renderPlugin: {
         dataConfig: {
-          type: "line",
+          type: "line"
         },
         sceneConfig: {},
-        type: "line",
+        type: "line"
       },
       symbol: {
         lineColor: [0.74117647, 0.74117647, 0.74117647, 1],
@@ -60,10 +56,10 @@ const style = {
             [16, 20],
             [17, 25],
             [18, 35],
-            [20, 60],
-          ],
-        },
-      },
+            [20, 60]
+          ]
+        }
+      }
     },
     {
       filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
@@ -77,9 +73,9 @@ const style = {
           defaultAltitude: 10,
           topThickness: 0,
           top: true,
-          side: true,
+          side: true
         },
-        sceneConfig: {},
+        sceneConfig: {}
       },
       symbol: {
         polygonOpacity: 0.66,
@@ -90,11 +86,11 @@ const style = {
           metallicFactor: 0,
           uvScale: [0.01, 0.01],
           emissiveTexture: "{res}/textures/webp16.webp",
-          emitColorFactor: 3.83,
-        },
-      },
-    },
-  ],
+          emitColorFactor: 3.83
+        }
+      }
+    }
+  ]
 };
 vt.setStyle(style);
 /**end**/
@@ -105,7 +101,7 @@ const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0,
+      brightness: 0
     },
     shadow: {
       type: "esm",
@@ -113,44 +109,44 @@ const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
       quality: "high",
       opacity: 0.11,
       color: [0, 0, 0],
-      blurOffset: 1,
+      blurOffset: 1
     },
     postProcess: {
       enable: true,
       antialias: {
         enable: true,
         taa: true,
-        jitterRatio: 0.25,
+        jitterRatio: 0.25
       },
       ssr: {
-        enable: true,
+        enable: true
       },
       bloom: {
         enable: true,
         threshold: 0,
         factor: 0.2,
-        radius: 0.105,
+        radius: 0.105
       },
       ssao: {
         enable: true,
         bias: 0.08,
         radius: 0.08,
-        intensity: 1.5,
+        intensity: 1.5
       },
       sharpen: {
         enable: false,
-        factor: 0.2,
-      },
+        factor: 0.2
+      }
     },
     ground: {
       enable: true,
       renderPlugin: {
-        type: "fill",
+        type: "fill"
       },
       symbol: {
-        polygonFill: [0.517647, 0.517647, 0.517647, 1],
-      },
-    },
-  },
+        polygonFill: [0.517647, 0.517647, 0.517647, 1]
+      }
+    }
+  }
 });
 groupLayer.addTo(map);
