@@ -1580,6 +1580,99 @@ const examples = [
         ]
       },
       {
+        name: "interactive",
+        title: {
+          cn: "图层交互",
+          en: "layer interactive"
+        },
+        examples: [
+          {
+            name: "highlight",
+            title: {
+              cn: "高亮元素",
+              en: "highlight feature"
+            }
+          },
+          {
+            name: "highlight-filter",
+            title: {
+              cn: "高亮元素-filter",
+              en: "highlight feature filter"
+            }
+          },
+          {
+            name: "hide-feature",
+            title: {
+              cn: "元素显示与隐藏",
+              en: "hide/show feature"
+            }
+          },
+          {
+            name: "identify",
+            title: {
+              cn: "获取元素信息",
+              en: "get feature data"
+            }
+          },
+          {
+            name: "mousemove",
+            title: {
+              cn: "鼠标动态交互",
+              en: "highlight by mouseevent"
+            }
+          },
+          {
+            name: "tooltip",
+            title: {
+              cn: "模拟 Tooltip",
+              en: "Simulate Tooltip"
+            }
+          },
+          {
+            name: "multilayer",
+            title: {
+              cn: "多个图层",
+              en: "multi layer"
+            }
+          },
+          {
+            name: "event-proxy",
+            title: {
+              cn: "给图层派发事件",
+              en: "fire layer event"
+            }
+          },
+          {
+            name: "merge-data",
+            title: {
+              cn: "合并geojson",
+              en: "merge geojson"
+            }
+          },
+          {
+            name: "geometry",
+            title: {
+              cn: "获取geojson geometry",
+              en: "get geojson geometry"
+            }
+          },
+          {
+            name: "altitude",
+            title: {
+              cn: "查询高程",
+              en: "query altitude"
+            }
+          },
+          {
+            name: "altitude-water",
+            title: {
+              cn: "查询高程-水",
+              en: "query water altitude"
+            }
+          },
+        ]
+      },
+      {
         name: "pointstyle",
         title: {
           cn: "点类型数据样式",

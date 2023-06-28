@@ -1,0 +1,3 @@
+Click on graphic elements
+
+
