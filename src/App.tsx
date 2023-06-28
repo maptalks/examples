@@ -21,7 +21,7 @@ function App() {
     }
     // redirect
     if (location.pathname === "/") {
-      navigate("/examples/cn/basic");
+      navigate("/examples/cn/3d");
     }
   });
 
