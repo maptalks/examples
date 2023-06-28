@@ -2,7 +2,6 @@ let map, groupLayer, drawTool;
 let insightAnalysis = null,
   eyePos,
   lookPoint,
-  altitudes = [],
   distance,
   coordinates = [],
   first = true,
@@ -56,17 +55,12 @@ function setDrawTool() {
       return;
     }
     if (first) {
-      coordinates.push([coordinate.x, coordinate.y]);
-      altitudes.push(coordinate.z);
+      coordinates.push(coordinate);
     } else {
-      coordinates[coordinates.length - 1] = [coordinate.x, coordinate.y];
-      altitudes[altitudes.length - 1] = coordinate.z;
+      coordinates[coordinates.length - 1] = coordinate;
     }
-    e.geometry.setProperties({
-      altitude: altitudes
-    });
     e.geometry.setCoordinates(coordinates);
-    lookPoint = [coordinate.x, coordinate.y, coordinate.z];
+    lookPoint = [...coordinate];
     insightAnalysis.update("lines", [
       {
         from: eyePos,
@@ -83,20 +77,15 @@ function setDrawTool() {
       return;
     }
     if (first) {
-      coordinates.push([coordinate.x, coordinate.y]);
-      altitudes.push(coordinate.z);
+      coordinates.push(coordinate);
       first = false;
     } else {
-      coordinates[coordinates.length - 1] = [coordinate.x, coordinate.y];
-      altitudes[altitudes.length - 1] = coordinate.z;
+      coordinates[coordinates.length - 1] = coordinate;
       first = true;
     }
-    e.geometry.setProperties({
-      altitude: altitudes
-    });
     e.geometry.setCoordinates(coordinates);
     insightAnalysis.enable();
-    lookPoint = [coordinate.x, coordinate.y, coordinate.z];
+    lookPoint = [...coordinate];
     insightAnalysis.update("lines", [
       {
         from: eyePos,
@@ -106,7 +95,6 @@ function setDrawTool() {
     updateLabel();
     drawTool.disable();
     coordinates = [];
-    altitudes = [];
   });
 
   drawTool.on("drawstart", (e) => {
@@ -114,13 +102,9 @@ function setDrawTool() {
     if (!coordinate) {
       return;
     }
-    coordinates.push([coordinate.x, coordinate.y]);
-    altitudes.push(coordinate.z);
-    e.geometry.setProperties({
-      altitude: altitudes
-    });
+    coordinates.push(coordinate);
     e.geometry.setCoordinates(coordinates);
-    eyePos = [coordinate.x, coordinate.y, coordinate.z];
+    eyePos = [...coordinate];
     insightAnalysis.update("lines", [
       {
         from: eyePos,
@@ -134,11 +118,10 @@ function setDrawTool() {
 
 function getPickedCoordinate(coordinate) {
   const identifyData = groupLayer.identify(coordinate)[0];
-  const pickedCoordinate = identifyData && identifyData.coordinate;
-  if (pickedCoordinate) {
-    return new maptalks.Coordinate(pickedCoordinate);
+  if (identifyData && identifyData.coordinate) {
+    return identifyData.coordinate;
   } else {
-    return coordinate;
+    return [coordinate.x, coordinate.y];
   }
 }
 /**end**/

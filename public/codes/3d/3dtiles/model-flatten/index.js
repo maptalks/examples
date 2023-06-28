@@ -97,7 +97,7 @@ drawTool.on("mousemove", (e) => {
   } else {
     coordinates[coordinates.length - 1] = coordinate;
   }
-  e.geometry.setCoordinates(coordinate);
+  e.geometry.setCoordinates(coordinates);
   first = false;
 });
 
@@ -113,7 +113,7 @@ drawTool.on("drawvertex", (e) => {
     coordinates[coordinates.length - 1] = coordinate;
     first = true;
   }
-  e.geometry.setCoordinates(coordinate);
+  e.geometry.setCoordinates(coordinates);
 });
 
 drawTool.on("drawstart", (e) => {
@@ -122,7 +122,7 @@ drawTool.on("drawstart", (e) => {
     return;
   }
   coordinates.push(coordinate);
-  e.geometry.setCoordinates(coordinate);
+  e.geometry.setCoordinates(coordinates);
   first = true;
 });
 

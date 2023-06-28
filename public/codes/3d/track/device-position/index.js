@@ -6,8 +6,8 @@ const map = new maptalks.Map("map", {
   baseLayer: new maptalks.TileLayer("base", {
     urlTemplate: "{urlTemplate}",
     subdomains: ["a", "b", "c", "d"],
-    attribution: "{attribution}",
-  }),
+    attribution: "{attribution}"
+  })
 });
 
 const geo3DTileslayer = new maptalks.Geo3DTilesLayer("3dtiles", {
@@ -18,27 +18,23 @@ const geo3DTileslayer = new maptalks.Geo3DTilesLayer("3dtiles", {
       maximumScreenSpaceError: 1.0,
       pointOpacity: 0.5,
       pointSize: 3,
-      heightOffset: -400,
-    },
-  ],
+      heightOffset: -400
+    }
+  ]
 });
 
 /**start**/
 const gltfLayer = new maptalks.GLTFLayer("gltf");
-const groupGLLayer = new maptalks.GroupGLLayer(
-  "group",
-  [geo3DTileslayer, gltfLayer],
-  {
-    sceneConfig: {
-      postProcess: {
-        enable: true,
-        antialias: {
-          enable: true,
-        },
-      },
-    },
+const groupGLLayer = new maptalks.GroupGLLayer("group", [geo3DTileslayer, gltfLayer], {
+  sceneConfig: {
+    postProcess: {
+      enable: true,
+      antialias: {
+        enable: true
+      }
+    }
   }
-).addTo(map);
+}).addTo(map);
 
 const gltfMarker1 = new maptalks.GLTFMarker([108.958438, 34.217715, 17.5], {
   symbol: {
@@ -51,7 +47,7 @@ const gltfMarker1 = new maptalks.GLTFMarker([108.958438, 34.217715, 17.5], {
       roughnessFactor: 0.8,
       metallicFactor: 0.2
     }
-  },
+  }
 }).addTo(gltfLayer);
 gltfMarker1.setInfoWindow({
   content: "播种机1"
@@ -69,7 +65,7 @@ const gltfMarker2 = new maptalks.GLTFMarker([108.960868, 34.217992, 19.5], {
       roughnessFactor: 0.8,
       metallicFactor: 0.2
     }
-  },
+  }
 }).addTo(gltfLayer);
 gltfMarker2.setInfoWindow({
   content: "播种机2",
@@ -80,16 +76,16 @@ gltfMarker2.openInfoWindow();
 const route1 = {
   path: [
     [108.958438, 34.217715, 17.5, 301000],
-    [108.958403, 34.219752, 19.2, 541000],
-  ],
+    [108.958403, 34.219752, 19.2, 541000]
+  ]
 };
 
 const route2 = {
   path: [
     [108.96099472732544, 34.21793272780141, 20.3101, 301000],
     [108.96046160202025, 34.217917380427224, 19.65663, 541000],
-    [108.96047217636101, 34.21897194236598, 22.20198, 781000],
-  ],
+    [108.96047217636101, 34.21897194236598, 22.20198, 781000]
+  ]
 };
 
 const player1 = new maptalks.RoutePlayer(route1, groupGLLayer, {
@@ -97,7 +93,7 @@ const player1 = new maptalks.RoutePlayer(route1, groupGLLayer, {
   showMarker: false,
   lineSymbol: {
     lineColor: "#ea6b48"
-  },
+  }
 });
 
 const player2 = new maptalks.RoutePlayer(route2, groupGLLayer, {
@@ -105,7 +101,7 @@ const player2 = new maptalks.RoutePlayer(route2, groupGLLayer, {
   showMarker: false,
   lineSymbol: {
     lineColor: "#dbd34b"
-  },
+  }
 });
 
 player1.on("playing", (param) => {
@@ -136,20 +132,6 @@ function play() {
 // play()
 /**end**/
 
-function getPickedCoordinate(coordinate) {
-  const identifyData = groupGLLayer.identify(coordinate)[0];
-  const pickedPoint = identifyData && identifyData.point;
-  if (pickedPoint) {
-    const altitude = map.pointAtResToAltitude(pickedPoint[2], map.getGLRes());
-    const coordinate = map.pointAtResToCoordinate(
-      new maptalks.Point(pickedPoint[0], pickedPoint[1]),
-      map.getGLRes()
-    );
-    return new maptalks.Coordinate(coordinate.x, coordinate.y, altitude);
-  } else {
-    return coordinate;
-  }
-}
 // play();
 function positioningA() {
   const coordinates = gltfMarker1.getCoordinates();
@@ -157,7 +139,7 @@ function positioningA() {
     center: [coordinates.x, coordinates.y],
     // bearing: 0,
     pitch: 0,
-    zoom: 18,
+    zoom: 18
   });
 }
 function positioningB() {
@@ -166,7 +148,7 @@ function positioningB() {
     center: [coordinates.x, coordinates.y],
     // bearing: -90,
     pitch: 0,
-    zoom: 18,
+    zoom: 18
   });
 }
 
@@ -180,13 +162,13 @@ gui
     options: [
       {
         label: "播种机1",
-        value: "1",
+        value: "1"
       },
       {
         label: "播种机2",
-        value: "2",
-      },
-    ],
+        value: "2"
+      }
+    ]
   })
   .onChange((value) => {
     if (value === "1") {
@@ -200,11 +182,11 @@ gui
   .add({
     type: "color",
     label: "轨迹颜色",
-    value: "#dbd34b",
+    value: "#dbd34b"
   })
   .onChange((value) => {
     lineString1.updateSymbol({
-      lineColor: value,
+      lineColor: value
     });
   });
 
@@ -215,10 +197,10 @@ gui
     value: 4,
     min: 1,
     max: 10,
-    step: 1,
+    step: 1
   })
   .onChange((value) => {
     lineString1.updateSymbol({
-      lineWidth: value,
+      lineWidth: value
     });
   });

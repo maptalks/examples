@@ -12,14 +12,14 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
       exposure: 1,
       hsv: [0, 0, 0],
-      orientation: 302.553,
-    },
-  },
+      orientation: 302.553
+    }
+  }
 });
 
 const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
@@ -30,9 +30,9 @@ const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
       maximumScreenSpaceError: 1.0,
       pointOpacity: 0.5,
       pointSize: 3,
-      heightOffset: -400,
-    },
-  ],
+      heightOffset: -400
+    }
+  ]
 });
 
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
@@ -41,32 +41,32 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
       enable: true,
       mode: 1,
       level: 1,
-      brightness: 1,
+      brightness: 1
     },
     shadow: {
       enable: true,
       opacity: 0.5,
-      color: [0, 0, 0],
+      color: [0, 0, 0]
     },
     postProcess: {
       enable: true,
       antialias: {
-        enable: true,
+        enable: true
       },
       ssr: {
-        enable: true,
+        enable: true
       },
       bloom: {
-        enable: true,
+        enable: true
       },
       outline: {
-        enable: true,
-      },
+        enable: true
+      }
     },
     ground: {
       enable: true,
       renderPlugin: {
-        type: "lit",
+        type: "lit"
       },
       symbol: {
         polygonOpacity: 1,
@@ -74,11 +74,11 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
           baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
           hsv: [0, 0, -0.532],
           roughnessFactor: 0.22,
-          metallicFactor: 0.58,
-        },
-      },
-    },
-  },
+          metallicFactor: 0.58
+        }
+      }
+    }
+  }
 }).addTo(map);
 
 /**start**/
@@ -89,24 +89,23 @@ layer.once("loadtileset", (e) => {
   crosscutAnalysis = new maptalks.CrossCutAnalysis({
     cutLine: [
       [108.95943151743995, 34.220773839751956],
-      [108.95942615302192, 34.21846280188899],
+      [108.95942615302192, 34.21846280188899]
     ],
-    cutLineColor: [0.0, 1.0, 0.0, 1.0],
+    cutLineColor: [0.0, 1.0, 0.0, 1.0]
   }).addTo(groupGLLayer);
 });
 
 const vLayer = new maptalks.VectorLayer("vector", {
-  enableAltitude: true,
+  enableAltitude: true
 }).addTo(map);
-let altitudes = [],
-  coordinates = [],
+let coordinates = [],
   first = true;
 const drawTool = new maptalks.DrawTool({
   mode: "LineString",
   enableAltitude: true,
   symbol: {
-    lineColor: "#f00",
-  },
+    lineColor: "#f00"
+  }
 })
   .addTo(map)
   .disable();
@@ -117,15 +116,10 @@ drawTool.on("mousemove", (e) => {
     return;
   }
   if (first) {
-    coordinates.push([coordinate.x, coordinate.y]);
-    altitudes.push(coordinate.z);
+    coordinates.push(coordinate);
   } else {
-    coordinates[coordinates.length - 1] = [coordinate.x, coordinate.y];
-    altitudes[altitudes.length - 1] = coordinate.z;
+    coordinates[coordinates.length - 1] = coordinate;
   }
-  e.geometry.setProperties({
-    altitude: altitudes,
-  });
   e.geometry.setCoordinates(coordinates);
   first = false;
 });
@@ -136,30 +130,21 @@ drawTool.on("drawvertex", (e) => {
     return;
   }
   if (first) {
-    coordinates.push([coordinate.x, coordinate.y]);
-    altitudes.push(coordinate.z);
+    coordinates.push(coordinate);
     first = false;
   } else {
-    coordinates[coordinates.length - 1] = [coordinate.x, coordinate.y];
-    altitudes[altitudes.length - 1] = coordinate.z;
+    coordinates[coordinates.length - 1] = coordinate;
     first = true;
   }
-  e.geometry.setProperties({
-    altitude: altitudes,
-  });
   e.geometry.setCoordinates(coordinates);
 });
 
 drawTool.on("drawstart", (e) => {
-  const coordinate = getPickedCoordinate(e.coordinate);
+ const coordinate = getPickedCoordinate(e.coordinate);
   if (!coordinate) {
     return;
   }
-  coordinates.push([coordinate.x, coordinate.y]);
-  altitudes.push(coordinate.z);
-  e.geometry.setProperties({
-    altitude: altitudes,
-  });
+  coordinates.push(coordinate);
   e.geometry.setCoordinates(coordinates);
   first = true;
 });
@@ -181,30 +166,19 @@ drawTool.on("drawend", () => {
   });
   new maptalks.LineString(coords, {
     properties: {
-      altitude: alts,
+      altitude: alts
     },
     symbol: {
-      lineColor: "#ea6b48",
-    },
+      lineColor: "#ea6b48"
+    }
   }).addTo(vLayer);
   drawChart(distances, alts);
   coordinates = [];
-  altitudes = [];
 });
 
 function getPickedCoordinate(coordinate) {
   const identifyData = groupGLLayer.identify(coordinate)[0];
-  const pickedPoint = identifyData && identifyData.point;
-  if (pickedPoint) {
-    const altitude = map.pointAtResToAltitude(pickedPoint[2], map.getGLRes());
-    const coordinate = map.pointAtResToCoordinate(
-      new maptalks.Point(pickedPoint[0], pickedPoint[1]),
-      map.getGLRes()
-    );
-    return new maptalks.Coordinate(coordinate.x, coordinate.y, altitude);
-  } else {
-    return coordinate;
-  }
+  return (identifyData && identifyData.coordinate) || coordinate;
 }
 
 function drawChart(distances, alts) {
@@ -212,7 +186,7 @@ function drawChart(distances, alts) {
   dom.style.display = "block";
   const myChart = echarts.init(dom, null, {
     renderer: "canvas",
-    useDirtyRect: false,
+    useDirtyRect: false
   });
 
   const option = {
@@ -222,8 +196,8 @@ function drawChart(distances, alts) {
       name: "间距",
       nameTextStyle: {
         color: "#666",
-        fontSize: 12,
-      },
+        fontSize: 12
+      }
     },
     yAxis: {
       type: "value",
@@ -231,27 +205,27 @@ function drawChart(distances, alts) {
       position: "left",
       nameTextStyle: {
         color: "#666",
-        fontSize: 12,
+        fontSize: 12
       },
       axisLine: {
         lineStyle: {
-          color: "#000",
-        },
-      },
+          color: "#000"
+        }
+      }
     },
     series: [
       {
         data: alts,
         type: "line",
         lineStyle: {
-          color: "#ea6b48",
+          color: "#ea6b48"
         },
         areaStyle: {
           color: "#ea6b48",
-          opacity: 0.35,
-        },
-      },
-    ],
+          opacity: 0.35
+        }
+      }
+    ]
   };
 
   if (option && typeof option === "object") {
@@ -264,7 +238,7 @@ gui
   .add({
     type: "button",
     label: "绘制切线",
-    role: "draw",
+    role: "draw"
   })
   .onClick(() => {
     drawTool.enable();
@@ -274,7 +248,7 @@ gui
   .add({
     type: "button",
     label: "清除全部",
-    role: "clear",
+    role: "clear"
   })
   .onClick(() => {
     vLayer.clear();

@@ -96,8 +96,7 @@ const vlayer = new maptalks.VectorLayer("vector", {
   enableAltitude: true
 }).addTo(map);
 
-let altitudes = [],
-  coordinates = [],
+let coordinates = [],
   first = true;
 const drawTool = new maptalks.DrawTool({
   mode: "LineString",
@@ -116,15 +115,10 @@ drawTool.on("mousemove", (e) => {
     return;
   }
   if (first) {
-    coordinates.push([coordinate.x, coordinate.y]);
-    altitudes.push(coordinate.z);
+    coordinates.push(coordinate);
   } else {
-    coordinates[coordinates.length - 1] = [coordinate.x, coordinate.y];
-    altitudes[altitudes.length - 1] = coordinate.z;
+    coordinates[coordinates.length - 1] = coordinate;
   }
-  e.geometry.setProperties({
-    altitude: altitudes
-  });
   e.geometry.setCoordinates(coordinates);
   first = false;
 });
@@ -135,17 +129,12 @@ drawTool.on("drawvertex", (e) => {
     return;
   }
   if (first) {
-    coordinates.push([coordinate.x, coordinate.y]);
-    altitudes.push(coordinate.z);
+    coordinates.push(coordinate);
     first = false;
   } else {
-    coordinates[coordinates.length - 1] = [coordinate.x, coordinate.y];
-    altitudes[altitudes.length - 1] = coordinate.z;
+    coordinates[coordinates.length - 1] = coordinate;
     first = true;
   }
-  e.geometry.setProperties({
-    altitude: altitudes
-  });
   e.geometry.setCoordinates(coordinates);
 });
 
@@ -154,41 +143,27 @@ drawTool.on("drawstart", (e) => {
   if (!coordinate) {
     return;
   }
-  coordinates.push([coordinate.x, coordinate.y]);
-  altitudes.push(coordinate.z);
-  e.geometry.setProperties({
-    altitude: altitudes
-  });
+  coordinates.push(coordinate);
   e.geometry.setCoordinates(coordinates);
   first = true;
 });
 
-drawTool.on("drawend", function (param) {
+drawTool.on("drawend", (e) => {
   vlayer.clear();
   coordinates.push(coordinates[0]);
-  altitudes.push(altitudes[0]);
   new maptalks.LineString(coordinates, {
     symbol: {
       lineColor: "#f00"
-    },
-    properties: {
-      altitude: altitudes
     }
   }).addTo(vlayer);
   floodAnalysis.enable();
   floodAnalysis.update("boundary", coordinates);
   coordinates = [];
-  altitudes = [];
 });
 
 function getPickedCoordinate(coordinate) {
   const identifyData = groupGLLayer.identify(coordinate)[0];
-  const pickedCoordinate = identifyData && identifyData.coordinate;
-  if (pickedCoordinate) {
-    return new maptalks.Coordinate(pickedCoordinate);
-  } else {
-    return coordinate;
-  }
+  return (identifyData && identifyData.coordinate) || coordinate;
 }
 
 function step() {

@@ -13,12 +13,12 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
       exposure: 1.426,
       hsv: [0, 0, 0],
-      orientation: 302.553,
+      orientation: 302.553
     }
   }
 });
@@ -29,7 +29,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0.915,
+      brightness: 0.915
     },
     postProcess: {
       enable: true
@@ -37,7 +37,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [], {
     ground: {
       enable: true,
       renderPlugin: {
-        type: "lit",
+        type: "lit"
       },
       symbol: {
         polygonOpacity: 1,
@@ -45,7 +45,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [], {
           baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
           hsv: [0, 0, -0.532],
           roughnessFactor: 0.22,
-          metallicFactor: 0.58,
+          metallicFactor: 0.58
         }
       }
     }
@@ -64,31 +64,19 @@ const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
     }
   ]
 }).addTo(groupGLLayer);
-layer.once('loadtileset', e => {
+layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
   map.fitExtent(extent, 0, { animation: false });
 });
-
-function getPickedCoordinate(coordinate) {
-  const identifyData = groupGLLayer.identify(coordinate)[0];
-  const pickedPoint = identifyData && identifyData.point;
-  if (pickedPoint) {
-    const altitude = map.pointAtResToAltitude(pickedPoint[2], map.getGLRes());
-    const coordinate = map.pointAtResToCoordinate(new maptalks.Point(pickedPoint[0], pickedPoint[1]), map.getGLRes());
-    return new maptalks.Coordinate(coordinate.x, coordinate.y, altitude);
-  } else {
-    return coordinate;
-  }
-}
 /**start**/
 const pointLayer = new maptalks.PointLayer("point").addTo(groupGLLayer);
 function addMarker(coordinate) {
   new maptalks.Marker(coordinate, {
     symbol: {
-      markerFile: '{res}/images/logo-maptalks.svg',
+      markerFile: "{res}/images/logo-maptalks.svg",
       markerWidth: 32,
       markerHeight: 32
-    },
+    }
   }).addTo(pointLayer);
 }
 
@@ -103,6 +91,14 @@ gui
     pointLayer.clear();
     const coordinate = [108.95936021, 34.219710523, 61.8];
     addMarker(coordinate);
-    map.flyTo({center: [108.96012238218702, 34.22056674324037], zoom: 18.4446, pitch: 74.2, bearing: 39.6}, { duration: 2000 });
-});
+    map.flyTo(
+      {
+        center: [108.96012238218702, 34.22056674324037],
+        zoom: 18.4446,
+        pitch: 74.2,
+        bearing: 39.6
+      },
+      { duration: 2000 }
+    );
+  });
 /**end**/

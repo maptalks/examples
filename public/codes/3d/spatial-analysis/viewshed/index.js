@@ -70,7 +70,6 @@ let skylineAnalysis, eyePos, lookPoint, verticalAngle, horizontalAngle;
 layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
   map.fitExtent(extent, 1, { animation: false });
-  const center = map.getCenter();
   eyePos = [108.96104505157473, 34.219553384558736, 34.55867];
   lookPoint = [108.95948541183475, 34.21971441232435, 67.59082];
   verticalAngle = 30;
@@ -84,8 +83,7 @@ layer.once("loadtileset", (e) => {
   viewshedAnalysis.addTo(groupGLLayer);
 });
 
-let altitudes = [],
-  coordinates = [],
+let coordinates = [],
   first = true;
 distance = null;
 const drawTool = new maptalks.DrawTool({
@@ -103,17 +101,12 @@ drawTool.on("mousemove", (e) => {
     return;
   }
   if (first) {
-    coordinates.push([coordinate.x, coordinate.y]);
-    altitudes.push(coordinate.z);
+    coordinates.push(coordinate);
   } else {
-    coordinates[coordinates.length - 1] = [coordinate.x, coordinate.y];
-    altitudes[altitudes.length - 1] = coordinate.z;
+    coordinates[coordinates.length - 1] = coordinate;
   }
-  e.geometry.setProperties({
-    altitude: altitudes
-  });
   e.geometry.setCoordinates(coordinates);
-  lookPoint = [coordinate.x, coordinate.y, coordinate.z];
+  lookPoint = coordinate;
   viewshedAnalysis.update("lookPoint", lookPoint);
   first = false;
 });
@@ -124,19 +117,14 @@ drawTool.on("drawvertex", (e) => {
     return;
   }
   if (first) {
-    coordinates.push([coordinate.x, coordinate.y]);
-    altitudes.push(coordinate.z);
+    coordinates.push(coordinate);
     first = false;
   } else {
-    coordinates[coordinates.length - 1] = [coordinate.x, coordinate.y];
-    altitudes[altitudes.length - 1] = coordinate.z;
+    coordinates[coordinates.length - 1] = coordinate;
     first = true;
   }
-  e.geometry.setProperties({
-    altitude: altitudes
-  });
   e.geometry.setCoordinates(coordinates);
-  lookPoint = [coordinate.x, coordinate.y, coordinate.z];
+  lookPoint = coordinate;
   viewshedAnalysis.update("lookPoint", lookPoint);
   drawTool.disable();
 });
@@ -147,30 +135,16 @@ drawTool.on("drawstart", (e) => {
   if (!coordinate) {
     return;
   }
-  coordinates.push([coordinate.x, coordinate.y]);
-  altitudes.push(coordinate.z);
-  e.geometry.setProperties({
-    altitude: altitudes
-  });
+  coordinates.push(coordinate);
   e.geometry.setCoordinates(coordinates);
-  eyePos = [coordinate.x, coordinate.y, coordinate.z];
+  eyePos = coordinate;
   viewshedAnalysis.update("eyePos", eyePos);
   first = true;
 });
 
 function getPickedCoordinate(coordinate) {
   const identifyData = groupGLLayer.identify(coordinate)[0];
-  const pickedPoint = identifyData && identifyData.point;
-  if (pickedPoint) {
-    const altitude = map.pointAtResToAltitude(pickedPoint[2], map.getGLRes());
-    const coord = map.pointAtResToCoordinate(
-      new maptalks.Point(pickedPoint[0], pickedPoint[1]),
-      map.getGLRes()
-    );
-    return new maptalks.Coordinate(coord.x, coord.y, altitude);
-  } else {
-    return coordinate;
-  }
+  return (identifyData && identifyData.coordinate) || coordinate;
 }
 /**end**/
 
