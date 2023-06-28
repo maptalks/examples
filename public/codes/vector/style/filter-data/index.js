@@ -28,8 +28,7 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const vt = new maptalks.VectorTileLayer("vt", {
-  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857"
+  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt"
 });
 
 const style = [

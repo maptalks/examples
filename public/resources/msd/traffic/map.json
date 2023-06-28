@@ -8,7 +8,6 @@
     "ymax": 40.766115512612004
   },
   "options": {
-    "spatialReference": {},
     "lights": {
       "directional": {
         "direction": [0.5, 0, -1],
@@ -48,7 +47,6 @@
           "id": "vt0",
           "options": {
             "urlTemplate": "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-            "spatialReference": "preset-vt-3857",
             "features": true,
             "visible": true,
             "style": {

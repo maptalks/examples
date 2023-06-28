@@ -74,7 +74,7 @@ const activeStyle = css`
 
 const Tabs = styled.div``;
 
-const Tab = styled.span<{ active?: boolean }>`
+const Tab = styled.span<{ $active?: boolean }>`
   display: inline-block;
   height: 100%;
   line-height: 48px;
@@ -89,7 +89,7 @@ const Tab = styled.span<{ active?: boolean }>`
   &:hover {
     color: ${gray[9]};
   }
-  ${(props) => props.active && activeStyle}
+  ${(props) => props.$active && activeStyle}
 `;
 
 export { Container, Area, Logo, LangSwitch, Tabs, Tab };

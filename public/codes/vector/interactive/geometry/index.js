@@ -25,28 +25,26 @@ const map = new maptalks.Map("map", {
   }
 });
 
-
 /**start**/
-const style = [{
-  // Only data with building layer and Polygon type are displayed
-  // Please refer to the specific description of filter:http://doc.maptalks.com/docs/style/filter/feature-filter/
-  filter: ["all", ["==", "$layer", "building"],
-    ["==", "$type", "Polygon"]
-  ],
-  renderPlugin: {
-    dataConfig: {
+const style = [
+  {
+    // Only data with building layer and Polygon type are displayed
+    // Please refer to the specific description of filter:http://doc.maptalks.com/docs/style/filter/feature-filter/
+    filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
+    renderPlugin: {
+      dataConfig: {
+        type: "fill"
+      },
       type: "fill"
     },
-    type: "fill"
-  },
-  symbol: {
-    polygonFill: "#577570"
+    symbol: {
+      polygonFill: "#577570"
+    }
   }
-}];
+];
 
 const vt = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857",
   debug: true,
   features: true,
   pickingGeometry: true,
@@ -57,16 +55,16 @@ vt.on("dataload", (e) => {
   map.fitExtent(e.extent);
 });
 
-const highLightKey = 'test';
+const highLightKey = "test";
 function highLight(feature, layer) {
-  layer.highlight([{ id: feature.id, name: highLightKey, color: 'red' }]);
+  layer.highlight([{ id: feature.id, name: highLightKey, color: "red" }]);
 }
 
 function cancel(layer) {
   layer.cancelHighlight([highLightKey]);
 }
 
-map.on('mousemove', e => {
+map.on("mousemove", (e) => {
   const data = vt.identify(e.coordinate);
   if (!data || !data.length) {
     // cancel(vt);
@@ -78,7 +76,7 @@ map.on('mousemove', e => {
   // highLight(feature, vt);
   addFeatureToLayer(feature);
   console.log(feature);
-})
+});
 
 function addFeatureToLayer(feature) {
   layer.clear();
@@ -89,7 +87,7 @@ function addFeatureToLayer(feature) {
   const polygon = new maptalks[geometry.type](geometry.coordinates, {
     symbol: {
       polygonOpacity: 0,
-      lineColor: 'yellow',
+      lineColor: "yellow",
       lineWidth: 3,
       shadowColor: "#fff",
       shadowBlur: 10
@@ -98,7 +96,7 @@ function addFeatureToLayer(feature) {
   polygon.addTo(layer);
 }
 
-const layer = new maptalks.VectorLayer('layer');
+const layer = new maptalks.VectorLayer("layer");
 
 /**end**/
 

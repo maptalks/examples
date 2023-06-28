@@ -7,7 +7,7 @@ const map = new maptalks.Map("map", {
   lights: {
     directional: {
       direction: [1, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -17,37 +17,32 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/gradient/left.png",
           right: "{res}/hdr/gradient/right.png",
           top: "{res}/hdr/gradient/top.png",
-          bottom: "{res}/hdr/gradient/bottom.png",
+          bottom: "{res}/hdr/gradient/bottom.png"
         },
         prefilterCubeSize: 32
       },
       exposure: 1,
       hsv: [0, 0.34, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 
 /**start**/
 const vt = new maptalks.VectorTileLayer("vt", {
-  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857",
+  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt"
 });
 
 const style = {
   style: [
     {
-      filter: [
-        "all",
-        ["==", "$layer", "provincial-highway"],
-        ["==", "$type", "LineString"],
-      ],
+      filter: ["all", ["==", "$layer", "provincial-highway"], ["==", "$type", "LineString"]],
       renderPlugin: {
         dataConfig: {
-          type: "line",
+          type: "line"
         },
         sceneConfig: {},
-        type: "line",
+        type: "line"
       },
       symbol: {
         lineCap: "round",
@@ -57,8 +52,8 @@ const style = {
           stops: [
             [12, [0.3960784, 0.6235294, 0.9607843, 1]],
             [14, [0.7294117, 0.7294117, 0.7294117, 1]],
-            [15, [0.4745098, 0.6431372, 0.4980392, 1]],
-          ],
+            [15, [0.4745098, 0.6431372, 0.4980392, 1]]
+          ]
         },
         lineJoin: "round",
         lineWidth: {
@@ -68,12 +63,12 @@ const style = {
             [13, 2],
             [14, 10],
             [16, 30],
-            [17, 80],
-          ],
-        },
-      },
-    },
-  ],
+            [17, 80]
+          ]
+        }
+      }
+    }
+  ]
 };
 vt.setStyle(style);
 /**end**/
@@ -84,17 +79,17 @@ const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0,
+      brightness: 0
     },
     ground: {
       enable: true,
       renderPlugin: {
-        type: "fill",
+        type: "fill"
       },
       symbol: {
-        polygonFill: [0.3215686, 0.3215686, 0.3215686, 1],
-      },
-    },
-  },
+        polygonFill: [0.3215686, 0.3215686, 0.3215686, 1]
+      }
+    }
+  }
 });
 groupLayer.addTo(map);

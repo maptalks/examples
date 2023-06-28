@@ -13,12 +13,12 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
       exposure: 1.426,
       hsv: [0, 0, 0],
-      orientation: 302.553,
+      orientation: 302.553
     }
   }
 });
@@ -42,7 +42,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0.915,
+      brightness: 0.915
     },
     postProcess: {
       enable: true
@@ -50,7 +50,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
     ground: {
       enable: true,
       renderPlugin: {
-        type: "lit",
+        type: "lit"
       },
       symbol: {
         polygonOpacity: 1,
@@ -58,7 +58,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
           baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
           hsv: [0, 0, -0.532],
           roughnessFactor: 0.22,
-          metallicFactor: 0.58,
+          metallicFactor: 0.58
         }
       }
     }
@@ -72,19 +72,18 @@ function updateFlattenRegion(mask) {
 }
 
 const vlayer = new maptalks.VectorLayer("vector", {
-  enableAltitude: true,
+  enableAltitude: true
 }).addTo(map);
 
-let altitudes = [],
-  coordinates = [],
+let coordinates = [],
   first = true;
 const drawTool = new maptalks.DrawTool({
-    mode: "LineString",
-    enableAltitude: true,
-    symbol: {
-      lineColor: "#f00",
-    },
-  })
+  mode: "LineString",
+  enableAltitude: true,
+  symbol: {
+    lineColor: "#f00"
+  }
+})
   .addTo(map)
   .disable();
 
@@ -94,16 +93,11 @@ drawTool.on("mousemove", (e) => {
     return;
   }
   if (first) {
-    coordinates.push([coordinate.x, coordinate.y]);
-    altitudes.push(coordinate.z);
+    coordinates.push(coordinate);
   } else {
-    coordinates[coordinates.length - 1] = [coordinate.x, coordinate.y];
-    altitudes[altitudes.length - 1] = coordinate.z;
+    coordinates[coordinates.length - 1] = coordinate;
   }
-  e.geometry.setProperties({
-    altitude: altitudes,
-  });
-  e.geometry.setCoordinates(coordinates);
+  e.geometry.setCoordinates(coordinate);
   first = false;
 });
 
@@ -113,18 +107,13 @@ drawTool.on("drawvertex", (e) => {
     return;
   }
   if (first) {
-    coordinates.push([coordinate.x, coordinate.y]);
-    altitudes.push(coordinate.z);
+    coordinates.push(coordinate);
     first = false;
   } else {
-    coordinates[coordinates.length - 1] = [coordinate.x, coordinate.y];
-    altitudes[altitudes.length - 1] = coordinate.z;
+    coordinates[coordinates.length - 1] = coordinate;
     first = true;
   }
-  e.geometry.setProperties({
-    altitude: altitudes,
-  });
-  e.geometry.setCoordinates(coordinates);
+  e.geometry.setCoordinates(coordinate);
 });
 
 drawTool.on("drawstart", (e) => {
@@ -132,42 +121,26 @@ drawTool.on("drawstart", (e) => {
   if (!coordinate) {
     return;
   }
-  coordinates.push([coordinate.x, coordinate.y]);
-  altitudes.push(coordinate.z);
-  e.geometry.setProperties({
-    altitude: altitudes,
-  });
-  e.geometry.setCoordinates(coordinates);
+  coordinates.push(coordinate);
+  e.geometry.setCoordinates(coordinate);
   first = true;
 });
 
-drawTool.on("drawend", function(param) {
+drawTool.on("drawend", () => {
   coordinates.push(coordinates[0]);
-  altitudes.push(altitudes[0]);
   new maptalks.LineString(coordinates, {
     symbol: {
-      lineColor: "#f00",
-    },
-    properties: {
-      altitude: altitudes,
-    },
+      lineColor: "#f00"
+    }
   }).addTo(vlayer);
   const mask = new maptalks.FlatInsideMask(coordinates);
   updateFlattenRegion(mask);
   coordinates = [];
-  altitudes = [];
 });
 
 function getPickedCoordinate(coordinate) {
   const identifyData = groupGLLayer.identify(coordinate)[0];
-  const pickedPoint = identifyData && identifyData.point;
-  if (pickedPoint) {
-    const altitude = map.pointAtResToAltitude(pickedPoint[2], map.getGLRes());
-    const coordinate = map.pointAtResToCoordinate(new maptalks.Point(pickedPoint[0], pickedPoint[1]), map.getGLRes());
-    return new maptalks.Coordinate(coordinate.x, coordinate.y, altitude);
-  } else {
-    return coordinate;
-  }
+  return (identifyData && identifyData.coordinate) || coordinate;
 }
 /**end**/
 const gui = new mt.GUI();
@@ -175,17 +148,17 @@ gui
   .add({
     type: "button",
     label: "绘制范围",
-    role: "draw",
+    role: "draw"
   })
   .onClick(() => {
     drawTool.enable();
-});
+  });
 
 gui
   .add({
     type: "button",
     label: "重置",
-    role: "clear",
+    role: "clear"
   })
   .onClick(() => {
     vlayer.clear();

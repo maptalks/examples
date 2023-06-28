@@ -66,7 +66,7 @@ function SiderMenu() {
                     <ThirdList>
                       {exampleJ.examples.map((exampleK, k) => (
                         <ThirdListTitle
-                          active={
+                          $active={
                             selectedKey === `${exampleI.name}_${exampleJ.name}_${exampleK.name}`
                           }
                           data-key={`_${exampleI.name}_${exampleJ.name}_${exampleK.name}`}

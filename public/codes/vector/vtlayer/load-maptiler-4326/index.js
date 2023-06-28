@@ -8,10 +8,7 @@ const map = new maptalks.Map("map", {
 });
 
 const vt = new maptalks.VectorTileLayer("vt", {
-  urlTemplate: `https://api.maptiler.com/tiles/v3-4326/{z}/{x}/{y}.pbf?key=${token}`,
-  tileSize: 512,
-  tileSystem: [1, -1, -180, 90],
-  spatialReference: "preset-maptiler-4326"
+  urlTemplate: `https://api.maptiler.com/tiles/v3-4326/{z}/{x}/{y}.pbf?key=${token}`
 });
 
 const group = new maptalks.GroupGLLayer("group", [vt]).addTo(map);

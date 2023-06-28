@@ -4,13 +4,12 @@ const map = new maptalks.Map("map", {
   baseLayer: new maptalks.TileLayer("base", {
     urlTemplate: "{urlTemplate}",
     subdomains: ["a", "b", "c", "d"],
-    attribution: "{attribution}",
-  }),
+    attribution: "{attribution}"
+  })
 });
 
 const vt = new maptalks.VectorTileLayer("vt", {
-  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857",
+  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt"
 });
 
 const style = {
@@ -19,38 +18,36 @@ const style = {
       filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
       renderPlugin: {
         dataConfig: {
-          type: "fill",
+          type: "fill"
         },
         sceneConfig: {},
-        type: "water",
+        type: "water"
       },
       symbol: {
         ssr: true,
         texWaveNormal: "{res}/textures/texWaveNormal.png",
         texWavePerturbation: "{res}/textures/texWavePerturbation.png",
-        waterBaseColor: [
-          0.611764705882353, 0.7529411764705882, 0.9764705882352941, 1,
-        ],
+        waterBaseColor: [0.611764705882353, 0.7529411764705882, 0.9764705882352941, 1],
         contrast: 1.425,
         hsv: [0, -0.596, 0],
         uvScale: 3,
         animation: true,
         waterSpeed: 1,
-        waterDirection: 0,
-      },
+        waterDirection: 0
+      }
     },
     {
       filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
       renderPlugin: {
         dataConfig: {
-          type: "point",
+          type: "point"
         },
         sceneConfig: {
           collision: true,
           fading: false,
-          depthFunc: "<=",
+          depthFunc: "<="
         },
-        type: "text",
+        type: "text"
       },
       symbol: {
         textFaceName: "Microsoft YaHei,sans-serif",
@@ -58,10 +55,10 @@ const style = {
         textPitchAlignment: "map",
         textSize: 12,
         textFill: "#34974f",
-        textWrapWidth: 200,
-      },
-    },
-  ],
+        textWrapWidth: 200
+      }
+    }
+  ]
 };
 vt.setStyle(style);
 

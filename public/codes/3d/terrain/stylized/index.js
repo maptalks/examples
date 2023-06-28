@@ -35,7 +35,6 @@ const token =
 const layers = [
   new maptalks.VectorTileLayer("vt", {
     urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-    spatialReference: "preset-vt-3857",
     style: "{res}/styles/maptalks-common/style.json"
   })
 ];

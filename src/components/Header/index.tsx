@@ -53,7 +53,7 @@ function Header() {
         </LangSwitch>
       </Area>
       <Tabs>
-        <Tab active>Examples</Tab>
+        <Tab $active>Examples</Tab>
         <Tab>API</Tab>
         <Tab>Docs</Tab>
         <Tab>Showcase</Tab>

@@ -30,8 +30,7 @@ const map = new maptalks.Map("map", {
 
 /**start**/
 const vt1 = new maptalks.VectorTileLayer("vt1", {
-  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857"
+  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt"
 });
 
 const style1 = {
@@ -66,8 +65,7 @@ const style1 = {
 vt1.setStyle(style1);
 
 const vt2 = new maptalks.VectorTileLayer("vt2", {
-  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857"
+  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt"
 });
 
 const style2 = {

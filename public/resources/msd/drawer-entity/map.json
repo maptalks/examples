@@ -8,19 +8,10 @@
     "ymax": 31.24756715493632
   },
   "options": {
-    "spatialReference": {},
     "lights": {
       "directional": {
-        "direction": [
-          -1,
-          0,
-          -1
-        ],
-        "color": [
-          1,
-          1,
-          1
-        ]
+        "direction": [-1, 0, -1],
+        "color": [1, 1, 1]
       },
       "ambient": {
         "resource": {
@@ -35,11 +26,7 @@
           "prefilterCubeSize": 512
         },
         "exposure": 1,
-        "hsv": [
-          0,
-          0,
-          0.404
-        ],
+        "hsv": [0, 0, 0.404],
         "orientation": 130.213
       }
     },
@@ -61,25 +48,12 @@
           "id": "vt0",
           "options": {
             "urlTemplate": "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-            "spatialReference": "preset-vt-3857",
             "features": true,
             "visible": true,
             "style": {
               "style": [
                 {
-                  "filter": [
-                    "all",
-                    [
-                      "==",
-                      "$layer",
-                      "building"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "Polygon"
-                    ]
-                  ],
+                  "filter": ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
                   "renderPlugin": {
                     "type": "lit",
                     "dataConfig": {
@@ -104,16 +78,9 @@
                     "material": {
                       "baseColorTexture": "/resources/msd/drawer-entity/res/temp-resources/dev/texture/429/429e4254-dc5a-49c8-b79b-c9365ea52c73/webp%20(8).jpg",
                       "baseColorFactor": [
-                        0.3137254901960784,
-                        0.30980392156862746,
-                        0.3137254901960784,
-                        1
+                        0.3137254901960784, 0.30980392156862746, 0.3137254901960784, 1
                       ],
-                      "hsv": [
-                        -0.022,
-                        -0.511,
-                        -0.362
-                      ],
+                      "hsv": [-0.022, -0.511, -0.362],
                       "baseColorIntensity": 0.84,
                       "contrast": 3.564,
                       "outputSRGB": 1,
@@ -122,19 +89,10 @@
                       "metallicFactor": 0.67,
                       "normalTexture": null,
                       "noiseTexture": null,
-                      "uvScale": [
-                        0.05,
-                        0.05
-                      ],
-                      "uvOffset": [
-                        0.2,
-                        0.35
-                      ],
+                      "uvScale": [0.05, 0.05],
+                      "uvOffset": [0.2, 0.35],
                       "uvRotation": 0.8028514559173915,
-                      "uvOffsetAnim": [
-                        0,
-                        0
-                      ],
+                      "uvOffsetAnim": [0, 0],
                       "normalMapFactor": 1,
                       "normalMapFlipY": 0,
                       "bumpTexture": null,
@@ -145,39 +103,19 @@
                       "clearCoatRoughnessFactor": 0.04,
                       "occlusionTexture": null,
                       "emissiveTexture": "/resources/msd/drawer-entity/res/temp-resources/dev/texture/bc4/bc4df6ac-931b-47fd-a2ee-7217c7026a61/webp%20(6).jpg",
-                      "emissiveFactor": [
-                        0,
-                        0,
-                        0
-                      ],
+                      "emissiveFactor": [0, 0, 0],
                       "emitColorFactor": 0.27,
                       "emitMultiplicative": 0,
                       "albedoPBRFactor": 1,
                       "outputLinear": 0,
                       "clearCoatF0": 0.04,
-                      "emitColor": [
-                        0,
-                        0,
-                        0
-                      ]
+                      "emitColor": [0, 0, 0]
                     },
                     "visible": true
                   }
                 },
                 {
-                  "filter": [
-                    "all",
-                    [
-                      "==",
-                      "$layer",
-                      "building"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "Polygon"
-                    ]
-                  ],
+                  "filter": ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
                   "renderPlugin": {
                     "type": "lit",
                     "dataConfig": {
@@ -202,16 +140,9 @@
                     "material": {
                       "baseColorTexture": null,
                       "baseColorFactor": [
-                        0.18823529411764706,
-                        0.18823529411764706,
-                        0.18823529411764706,
-                        1
+                        0.18823529411764706, 0.18823529411764706, 0.18823529411764706, 1
                       ],
-                      "hsv": [
-                        0,
-                        0,
-                        0
-                      ],
+                      "hsv": [0, 0, 0],
                       "baseColorIntensity": 1,
                       "contrast": 1,
                       "outputSRGB": 1,
@@ -220,19 +151,10 @@
                       "metallicFactor": 1,
                       "normalTexture": "/resources/msd/drawer-entity/res/temp-resources/dev/material/72c/72cfe359-cbf7-4348-92df-01ccf2790af7/213746px1q8gsg18lgmqys.png",
                       "noiseTexture": null,
-                      "uvScale": [
-                        1,
-                        1
-                      ],
-                      "uvOffset": [
-                        0,
-                        0
-                      ],
+                      "uvScale": [1, 1],
+                      "uvOffset": [0, 0],
                       "uvRotation": 0,
-                      "uvOffsetAnim": [
-                        0,
-                        0
-                      ],
+                      "uvOffsetAnim": [0, 0],
                       "normalMapFactor": 0,
                       "normalMapFlipY": 0,
                       "bumpTexture": null,
@@ -243,21 +165,13 @@
                       "clearCoatRoughnessFactor": 0.04,
                       "occlusionTexture": null,
                       "emissiveTexture": null,
-                      "emissiveFactor": [
-                        0,
-                        0,
-                        0
-                      ],
+                      "emissiveFactor": [0, 0, 0],
                       "emitColorFactor": 1,
                       "emitMultiplicative": 0,
                       "albedoPBRFactor": 2.18,
                       "outputLinear": 0,
                       "clearCoatF0": 0.04,
-                      "emitColor": [
-                        1,
-                        1,
-                        1
-                      ]
+                      "emitColor": [1, 1, 1]
                     },
                     "visible": true
                   }
@@ -265,16 +179,8 @@
                 {
                   "filter": [
                     "all",
-                    [
-                      "==",
-                      "$layer",
-                      "tertiary-road"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "LineString"
-                    ]
+                    ["==", "$layer", "tertiary-road"],
+                    ["==", "$type", "LineString"]
                   ],
                   "renderPlugin": {
                     "dataConfig": {
@@ -286,24 +192,9 @@
                   "symbol": {
                     "lineBloom": false,
                     "lineCap": "butt",
-                    "lineColor": [
-                      0.3333333333333333,
-                      0.3333333333333333,
-                      0.3333333333333333,
-                      1
-                    ],
-                    "lineDasharray": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
-                    "lineDashColor": [
-                      1,
-                      1,
-                      1,
-                      0
-                    ],
+                    "lineColor": [0.3333333333333333, 0.3333333333333333, 0.3333333333333333, 1],
+                    "lineDasharray": [0, 0, 0, 0],
+                    "lineDashColor": [1, 1, 1, 0],
                     "lineDx": 0,
                     "lineDy": 0,
                     "lineGapWidth": 0,
@@ -312,29 +203,15 @@
                     "linePatternAnimSpeed": 0,
                     "linePatternFile": null,
                     "lineStrokeWidth": 0,
-                    "lineStrokeColor": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
+                    "lineStrokeColor": [0, 0, 0, 0],
                     "lineJoinPatternMode": 0,
                     "lineWidth": {
                       "type": "exponential",
                       "default": 2,
                       "stops": [
-                        [
-                          14.7,
-                          2
-                        ],
-                        [
-                          15.9,
-                          8
-                        ],
-                        [
-                          17.3,
-                          12
-                        ]
+                        [14.7, 2],
+                        [15.9, 8],
+                        [17.3, 12]
                       ]
                     },
                     "visible": true
@@ -343,16 +220,8 @@
                 {
                   "filter": [
                     "all",
-                    [
-                      "==",
-                      "$layer",
-                      "secondary-road"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "LineString"
-                    ]
+                    ["==", "$layer", "secondary-road"],
+                    ["==", "$type", "LineString"]
                   ],
                   "renderPlugin": {
                     "dataConfig": {
@@ -364,24 +233,9 @@
                   "symbol": {
                     "lineBloom": false,
                     "lineCap": "butt",
-                    "lineColor": [
-                      0.3333333333333333,
-                      0.3333333333333333,
-                      0.3333333333333333,
-                      1
-                    ],
-                    "lineDasharray": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
-                    "lineDashColor": [
-                      1,
-                      1,
-                      1,
-                      0
-                    ],
+                    "lineColor": [0.3333333333333333, 0.3333333333333333, 0.3333333333333333, 1],
+                    "lineDasharray": [0, 0, 0, 0],
+                    "lineDashColor": [1, 1, 1, 0],
                     "lineDx": 0,
                     "lineDy": 0,
                     "lineGapWidth": 0,
@@ -390,29 +244,15 @@
                     "linePatternAnimSpeed": 0,
                     "linePatternFile": null,
                     "lineStrokeWidth": 0,
-                    "lineStrokeColor": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
+                    "lineStrokeColor": [0, 0, 0, 0],
                     "lineJoinPatternMode": 0,
                     "lineWidth": {
                       "type": "exponential",
                       "default": 2,
                       "stops": [
-                        [
-                          14.3,
-                          2
-                        ],
-                        [
-                          15.9,
-                          6
-                        ],
-                        [
-                          17.3,
-                          12
-                        ]
+                        [14.3, 2],
+                        [15.9, 6],
+                        [17.3, 12]
                       ]
                     },
                     "visible": true
@@ -421,16 +261,8 @@
                 {
                   "filter": [
                     "all",
-                    [
-                      "==",
-                      "$layer",
-                      "secondary-road"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "LineString"
-                    ]
+                    ["==", "$layer", "secondary-road"],
+                    ["==", "$type", "LineString"]
                   ],
                   "renderPlugin": {
                     "dataConfig": {
@@ -449,18 +281,8 @@
                     "textDx": 0,
                     "textDy": 0,
                     "textFaceName": "Microsoft YaHei,sans-serif",
-                    "textFill": [
-                      1,
-                      1,
-                      1,
-                      1
-                    ],
-                    "textHaloFill": [
-                      1,
-                      1,
-                      1,
-                      1
-                    ],
+                    "textFill": [1, 1, 1, 1],
+                    "textHaloFill": [1, 1, 1, 1],
                     "textHaloOpacity": 1,
                     "textHaloRadius": 0,
                     "textHorizontalAlignment": "middle",
@@ -475,18 +297,9 @@
                       "type": "exponential",
                       "default": 30,
                       "stops": [
-                        [
-                          17,
-                          12
-                        ],
-                        [
-                          18,
-                          15
-                        ],
-                        [
-                          20,
-                          18
-                        ]
+                        [17, 12],
+                        [18, 15],
+                        [20, 18]
                       ]
                     },
                     "textSpacing": 250,
@@ -500,16 +313,8 @@
                 {
                   "filter": [
                     "all",
-                    [
-                      "==",
-                      "$layer",
-                      "four-level-road"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "LineString"
-                    ]
+                    ["==", "$layer", "four-level-road"],
+                    ["==", "$type", "LineString"]
                   ],
                   "renderPlugin": {
                     "dataConfig": {
@@ -521,24 +326,9 @@
                   "symbol": {
                     "lineBloom": false,
                     "lineCap": "butt",
-                    "lineColor": [
-                      0.3333333333333333,
-                      0.3333333333333333,
-                      0.3333333333333333,
-                      1
-                    ],
-                    "lineDasharray": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
-                    "lineDashColor": [
-                      1,
-                      1,
-                      1,
-                      0
-                    ],
+                    "lineColor": [0.3333333333333333, 0.3333333333333333, 0.3333333333333333, 1],
+                    "lineDasharray": [0, 0, 0, 0],
+                    "lineDashColor": [1, 1, 1, 0],
                     "lineDx": 0,
                     "lineDy": 0,
                     "lineGapWidth": 0,
@@ -547,29 +337,15 @@
                     "linePatternAnimSpeed": 0,
                     "linePatternFile": null,
                     "lineStrokeWidth": 0,
-                    "lineStrokeColor": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
+                    "lineStrokeColor": [0, 0, 0, 0],
                     "lineJoinPatternMode": 0,
                     "lineWidth": {
                       "type": "exponential",
                       "default": 2,
                       "stops": [
-                        [
-                          14.3,
-                          2
-                        ],
-                        [
-                          15.9,
-                          8
-                        ],
-                        [
-                          17.3,
-                          14
-                        ]
+                        [14.3, 2],
+                        [15.9, 8],
+                        [17.3, 14]
                       ]
                     },
                     "visible": true
@@ -578,16 +354,8 @@
                 {
                   "filter": [
                     "all",
-                    [
-                      "==",
-                      "$layer",
-                      "internal-road"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "LineString"
-                    ]
+                    ["==", "$layer", "internal-road"],
+                    ["==", "$type", "LineString"]
                   ],
                   "renderPlugin": {
                     "dataConfig": {
@@ -599,24 +367,9 @@
                   "symbol": {
                     "lineBloom": false,
                     "lineCap": "butt",
-                    "lineColor": [
-                      0.3333333333333333,
-                      0.3333333333333333,
-                      0.3333333333333333,
-                      1
-                    ],
-                    "lineDasharray": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
-                    "lineDashColor": [
-                      1,
-                      1,
-                      1,
-                      0
-                    ],
+                    "lineColor": [0.3333333333333333, 0.3333333333333333, 0.3333333333333333, 1],
+                    "lineDasharray": [0, 0, 0, 0],
+                    "lineDashColor": [1, 1, 1, 0],
                     "lineDx": 0,
                     "lineDy": 0,
                     "lineGapWidth": 0,
@@ -625,29 +378,15 @@
                     "linePatternAnimSpeed": 0,
                     "linePatternFile": null,
                     "lineStrokeWidth": 0,
-                    "lineStrokeColor": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
+                    "lineStrokeColor": [0, 0, 0, 0],
                     "lineJoinPatternMode": 0,
                     "lineWidth": {
                       "type": "exponential",
                       "default": 2,
                       "stops": [
-                        [
-                          14.7,
-                          2
-                        ],
-                        [
-                          15.9,
-                          6
-                        ],
-                        [
-                          17.3,
-                          10
-                        ]
+                        [14.7, 2],
+                        [15.9, 6],
+                        [17.3, 10]
                       ]
                     },
                     "visible": true
@@ -656,16 +395,8 @@
                 {
                   "filter": [
                     "all",
-                    [
-                      "==",
-                      "$layer",
-                      "internal-road"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "LineString"
-                    ]
+                    ["==", "$layer", "internal-road"],
+                    ["==", "$type", "LineString"]
                   ],
                   "renderPlugin": {
                     "dataConfig": {
@@ -684,18 +415,8 @@
                     "textDx": 0,
                     "textDy": 0,
                     "textFaceName": "Microsoft YaHei,sans-serif",
-                    "textFill": [
-                      1,
-                      1,
-                      1,
-                      1
-                    ],
-                    "textHaloFill": [
-                      1,
-                      1,
-                      1,
-                      1
-                    ],
+                    "textFill": [1, 1, 1, 1],
+                    "textHaloFill": [1, 1, 1, 1],
                     "textHaloOpacity": 1,
                     "textHaloRadius": 0,
                     "textHorizontalAlignment": "middle",
@@ -710,18 +431,9 @@
                       "type": "exponential",
                       "default": 12,
                       "stops": [
-                        [
-                          17,
-                          12
-                        ],
-                        [
-                          18,
-                          15
-                        ],
-                        [
-                          20,
-                          18
-                        ]
+                        [17, 12],
+                        [18, 15],
+                        [20, 18]
                       ]
                     },
                     "textSpacing": 250,
@@ -733,19 +445,7 @@
                   }
                 },
                 {
-                  "filter": [
-                    "all",
-                    [
-                      "==",
-                      "$layer",
-                      "greenland"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "Polygon"
-                    ]
-                  ],
+                  "filter": ["all", ["==", "$layer", "greenland"], ["==", "$type", "Polygon"]],
                   "renderPlugin": {
                     "type": "lit",
                     "dataConfig": {
@@ -769,17 +469,8 @@
                     "polygonOpacity": 1,
                     "material": {
                       "baseColorTexture": "/resources/msd/drawer-entity/res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_basecolor.jpg",
-                      "baseColorFactor": [
-                        1,
-                        1,
-                        1,
-                        1
-                      ],
-                      "hsv": [
-                        0,
-                        0,
-                        -0.022
-                      ],
+                      "baseColorFactor": [1, 1, 1, 1],
+                      "hsv": [0, 0, -0.022],
                       "baseColorIntensity": 1,
                       "contrast": 1,
                       "outputSRGB": 1,
@@ -788,19 +479,10 @@
                       "metallicFactor": 0,
                       "normalTexture": "/resources/msd/drawer-entity/res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_normalOgl.jpg",
                       "noiseTexture": null,
-                      "uvScale": [
-                        1,
-                        1
-                      ],
-                      "uvOffset": [
-                        0,
-                        0
-                      ],
+                      "uvScale": [1, 1],
+                      "uvOffset": [0, 0],
                       "uvRotation": 0,
-                      "uvOffsetAnim": [
-                        0,
-                        0
-                      ],
+                      "uvOffsetAnim": [0, 0],
                       "normalMapFactor": 0.26,
                       "normalMapFlipY": 0,
                       "bumpTexture": null,
@@ -811,11 +493,7 @@
                       "clearCoatRoughnessFactor": 0.04,
                       "occlusionTexture": "/resources/msd/drawer-entity/res/temp-resources/dev/material/ec8/ec8e7601-78e9-4292-96e3-bc65be01bc3c/Stylized_15_Grass_ambientocclusion.jpg",
                       "emissiveTexture": null,
-                      "emissiveFactor": [
-                        0,
-                        0,
-                        0
-                      ],
+                      "emissiveFactor": [0, 0, 0],
                       "emitColorFactor": 1,
                       "emitMultiplicative": 0
                     },
@@ -823,19 +501,7 @@
                   }
                 },
                 {
-                  "filter": [
-                    "all",
-                    [
-                      "==",
-                      "$layer",
-                      "water"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "Polygon"
-                    ]
-                  ],
+                  "filter": ["all", ["==", "$layer", "water"], ["==", "$type", "Polygon"]],
                   "renderPlugin": {
                     "type": "water",
                     "dataConfig": {
@@ -847,17 +513,10 @@
                     "texWaveNormal": "/resources/msd/drawer-entity/res/temp-resources/dev/water/463/463a5930-0280-cfcc-ca93-d3ea8acae553/normal.png",
                     "texWavePerturbation": "/resources/msd/drawer-entity/res/temp-resources/dev/water/06f/06faa462-d7fd-e85c-f803-f642b743b54f/perturbation.png",
                     "waterBaseColor": [
-                      0.3215686274509804,
-                      0.47843137254901963,
-                      0.611764705882353,
-                      1
+                      0.3215686274509804, 0.47843137254901963, 0.611764705882353, 1
                     ],
                     "contrast": 1,
-                    "hsv": [
-                      0,
-                      0,
-                      0
-                    ],
+                    "hsv": [0, 0, 0],
                     "uvScale": 3,
                     "animation": true,
                     "waterSpeed": 1,
@@ -868,16 +527,8 @@
                 {
                   "filter": [
                     "all",
-                    [
-                      "==",
-                      "$layer",
-                      "national-highway"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "LineString"
-                    ]
+                    ["==", "$layer", "national-highway"],
+                    ["==", "$type", "LineString"]
                   ],
                   "renderPlugin": {
                     "dataConfig": {
@@ -889,24 +540,9 @@
                   "symbol": {
                     "lineBloom": false,
                     "lineCap": "butt",
-                    "lineColor": [
-                      0.73,
-                      0.73,
-                      0.73,
-                      1
-                    ],
-                    "lineDasharray": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
-                    "lineDashColor": [
-                      1,
-                      1,
-                      1,
-                      0
-                    ],
+                    "lineColor": [0.73, 0.73, 0.73, 1],
+                    "lineDasharray": [0, 0, 0, 0],
+                    "lineDashColor": [1, 1, 1, 0],
                     "lineDx": 0,
                     "lineDy": 0,
                     "lineGapWidth": 0,
@@ -915,12 +551,36 @@
                     "linePatternAnimSpeed": 0,
                     "linePatternFile": null,
                     "lineStrokeWidth": 0,
-                    "lineStrokeColor": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
+                    "lineStrokeColor": [0, 0, 0, 0],
+                    "lineJoinPatternMode": 0,
+                    "lineWidth": 2,
+                    "visible": true
+                  }
+                },
+                {
+                  "filter": ["all", ["==", "$layer", "expressway"], ["==", "$type", "LineString"]],
+                  "renderPlugin": {
+                    "dataConfig": {
+                      "type": "line"
+                    },
+                    "sceneConfig": {},
+                    "type": "line"
+                  },
+                  "symbol": {
+                    "lineBloom": false,
+                    "lineCap": "butt",
+                    "lineColor": [0.73, 0.73, 0.73, 1],
+                    "lineDasharray": [0, 0, 0, 0],
+                    "lineDashColor": [1, 1, 1, 0],
+                    "lineDx": 0,
+                    "lineDy": 0,
+                    "lineGapWidth": 0,
+                    "lineJoin": "miter",
+                    "lineOpacity": 1,
+                    "linePatternAnimSpeed": 0,
+                    "linePatternFile": null,
+                    "lineStrokeWidth": 0,
+                    "lineStrokeColor": [0, 0, 0, 0],
                     "lineJoinPatternMode": 0,
                     "lineWidth": 2,
                     "visible": true
@@ -929,16 +589,8 @@
                 {
                   "filter": [
                     "all",
-                    [
-                      "==",
-                      "$layer",
-                      "expressway"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "LineString"
-                    ]
+                    ["==", "$layer", "provincial-highway"],
+                    ["==", "$type", "LineString"]
                   ],
                   "renderPlugin": {
                     "dataConfig": {
@@ -950,24 +602,9 @@
                   "symbol": {
                     "lineBloom": false,
                     "lineCap": "butt",
-                    "lineColor": [
-                      0.73,
-                      0.73,
-                      0.73,
-                      1
-                    ],
-                    "lineDasharray": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
-                    "lineDashColor": [
-                      1,
-                      1,
-                      1,
-                      0
-                    ],
+                    "lineColor": [0.3333333333333333, 0.3333333333333333, 0.3333333333333333, 1],
+                    "lineDasharray": [0, 0, 0, 0],
+                    "lineDashColor": [1, 1, 1, 0],
                     "lineDx": 0,
                     "lineDy": 0,
                     "lineGapWidth": 0,
@@ -976,94 +613,16 @@
                     "linePatternAnimSpeed": 0,
                     "linePatternFile": null,
                     "lineStrokeWidth": 0,
-                    "lineStrokeColor": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
-                    "lineJoinPatternMode": 0,
-                    "lineWidth": 2,
-                    "visible": true
-                  }
-                },
-                {
-                  "filter": [
-                    "all",
-                    [
-                      "==",
-                      "$layer",
-                      "provincial-highway"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "LineString"
-                    ]
-                  ],
-                  "renderPlugin": {
-                    "dataConfig": {
-                      "type": "line"
-                    },
-                    "sceneConfig": {},
-                    "type": "line"
-                  },
-                  "symbol": {
-                    "lineBloom": false,
-                    "lineCap": "butt",
-                    "lineColor": [
-                      0.3333333333333333,
-                      0.3333333333333333,
-                      0.3333333333333333,
-                      1
-                    ],
-                    "lineDasharray": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
-                    "lineDashColor": [
-                      1,
-                      1,
-                      1,
-                      0
-                    ],
-                    "lineDx": 0,
-                    "lineDy": 0,
-                    "lineGapWidth": 0,
-                    "lineJoin": "miter",
-                    "lineOpacity": 1,
-                    "linePatternAnimSpeed": 0,
-                    "linePatternFile": null,
-                    "lineStrokeWidth": 0,
-                    "lineStrokeColor": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
+                    "lineStrokeColor": [0, 0, 0, 0],
                     "lineJoinPatternMode": 0,
                     "lineWidth": {
                       "type": "exponential",
                       "default": 2,
                       "stops": [
-                        [
-                          14.7,
-                          2
-                        ],
-                        [
-                          15.9,
-                          6
-                        ],
-                        [
-                          17.3,
-                          8
-                        ],
-                        [
-                          19,
-                          14
-                        ]
+                        [14.7, 2],
+                        [15.9, 6],
+                        [17.3, 8],
+                        [19, 14]
                       ]
                     },
                     "visible": true
@@ -1072,16 +631,8 @@
                 {
                   "filter": [
                     "all",
-                    [
-                      "==",
-                      "$layer",
-                      "provincial-highway"
-                    ],
-                    [
-                      "==",
-                      "$type",
-                      "LineString"
-                    ]
+                    ["==", "$layer", "provincial-highway"],
+                    ["==", "$type", "LineString"]
                   ],
                   "renderPlugin": {
                     "dataConfig": {
@@ -1100,18 +651,8 @@
                     "textDx": 0,
                     "textDy": 0,
                     "textFaceName": "Microsoft YaHei,sans-serif",
-                    "textFill": [
-                      1,
-                      1,
-                      1,
-                      1
-                    ],
-                    "textHaloFill": [
-                      1,
-                      1,
-                      1,
-                      1
-                    ],
+                    "textFill": [1, 1, 1, 1],
+                    "textHaloFill": [1, 1, 1, 1],
                     "textHaloOpacity": 1,
                     "textHaloRadius": 0,
                     "textHorizontalAlignment": "middle",
@@ -1126,18 +667,9 @@
                       "type": "exponential",
                       "default": 30,
                       "stops": [
-                        [
-                          17,
-                          12
-                        ],
-                        [
-                          18,
-                          15
-                        ],
-                        [
-                          20,
-                          18
-                        ]
+                        [17, 12],
+                        [18, 15],
+                        [20, 18]
                       ]
                     },
                     "textSpacing": 250,
@@ -1176,30 +708,13 @@
                   "animationName": null,
                   "loop": true,
                   "speed": 1,
-                  "translation": [
-                    -1.8103004104632419,
-                    0.30965966977964854,
-                    0.002802961378429558
-                  ],
-                  "scale": [
-                    3.5838319233675295,
-                    3.5838319233675295,
-                    3.5838319233675295
-                  ],
-                  "rotation": [
-                    0,
-                    0,
-                    0
-                  ],
+                  "translation": [-1.8103004104632419, 0.30965966977964854, 0.002802961378429558],
+                  "scale": [3.5838319233675295, 3.5838319233675295, 3.5838319233675295],
+                  "rotation": [0, 0, 0],
                   "fixSizeOnZoom": -1,
                   "shader": "pbr",
                   "uniforms": {
-                    "polygonFill": [
-                      1,
-                      1,
-                      1,
-                      1
-                    ],
+                    "polygonFill": [1, 1, 1, 1],
                     "polygonOpacity": 1,
                     "baseColorIntensity": 1,
                     "outputSRGB": 1
@@ -1231,30 +746,13 @@
                   "animationName": null,
                   "loop": true,
                   "speed": 1,
-                  "translation": [
-                    -1.7277091922878753,
-                    2.016985875503451,
-                    0.002802961378429558
-                  ],
-                  "scale": [
-                    3.575014063114243,
-                    3.575014063114243,
-                    3.575014063114243
-                  ],
-                  "rotation": [
-                    0,
-                    0,
-                    1.7911761213957766
-                  ],
+                  "translation": [-1.7277091922878753, 2.016985875503451, 0.002802961378429558],
+                  "scale": [3.575014063114243, 3.575014063114243, 3.575014063114243],
+                  "rotation": [0, 0, 1.7911761213957766],
                   "fixSizeOnZoom": -1,
                   "shader": "pbr",
                   "uniforms": {
-                    "polygonFill": [
-                      1,
-                      1,
-                      1,
-                      1
-                    ],
+                    "polygonFill": [1, 1, 1, 1],
                     "polygonOpacity": 1,
                     "baseColorIntensity": 1,
                     "outputSRGB": 1
@@ -1280,30 +778,13 @@
                   "animationName": null,
                   "loop": true,
                   "speed": 1,
-                  "translation": [
-                    -1.9896579353080597,
-                    1.620627742333454,
-                    0.026124403536781138
-                  ],
-                  "scale": [
-                    0.6539012167715397,
-                    0.6539012167715397,
-                    0.6539012167715397
-                  ],
-                  "rotation": [
-                    0,
-                    0,
-                    -0.0632414124700684
-                  ],
+                  "translation": [-1.9896579353080597, 1.620627742333454, 0.026124403536781138],
+                  "scale": [0.6539012167715397, 0.6539012167715397, 0.6539012167715397],
+                  "rotation": [0, 0, -0.0632414124700684],
                   "fixSizeOnZoom": -1,
                   "shader": "pbr",
                   "uniforms": {
-                    "polygonFill": [
-                      1,
-                      1,
-                      1,
-                      1
-                    ],
+                    "polygonFill": [1, 1, 1, 1],
                     "polygonOpacity": 1,
                     "baseColorIntensity": 1,
                     "outputSRGB": 1
@@ -1335,11 +816,7 @@
             "enable": true,
             "quality": "high",
             "opacity": 0.5,
-            "color": [
-              0,
-              0,
-              0
-            ],
+            "color": [0, 0, 0],
             "blurOffset": 1
           },
           "postProcess": {
@@ -1373,11 +850,7 @@
               "outlineFactor": 0.3,
               "highlightFactor": 0.2,
               "outlineWidth": 1,
-              "outlineColor": [
-                0.91764,
-                0.4196,
-                0.28235
-              ]
+              "outlineColor": [0.91764, 0.4196, 0.28235]
             }
           },
           "weather": {
@@ -1386,11 +859,7 @@
               "enable": false,
               "start": 0.1,
               "end": 45,
-              "color": [
-                0.9,
-                0.9,
-                0.9
-              ]
+              "color": [0.9, 0.9, 0.9]
             },
             "rain": {
               "enable": false,
@@ -1414,27 +883,15 @@
               "type": "lit"
             },
             "symbol": {
-              "polygonFill": [
-                0.54,
-                0.54,
-                0.54,
-                1
-              ],
+              "polygonFill": [0.54, 0.54, 0.54, 1],
               "polygonOpacity": 1,
               "ssr": false,
               "material": {
                 "baseColorTexture": null,
                 "baseColorFactor": [
-                  0.050980392156862744,
-                  0.050980392156862744,
-                  0.050980392156862744,
-                  1
+                  0.050980392156862744, 0.050980392156862744, 0.050980392156862744, 1
                 ],
-                "hsv": [
-                  0,
-                  0,
-                  -0.49
-                ],
+                "hsv": [0, 0, -0.49],
                 "baseColorIntensity": 1,
                 "contrast": 1,
                 "outputSRGB": 1,
@@ -1442,19 +899,10 @@
                 "roughnessFactor": 0.22,
                 "metallicFactor": 0.3,
                 "normalTexture": null,
-                "uvScale": [
-                  1,
-                  1
-                ],
-                "uvOffset": [
-                  0,
-                  0
-                ],
+                "uvScale": [1, 1],
+                "uvOffset": [0, 0],
                 "uvRotation": 0,
-                "uvOffsetAnim": [
-                  0,
-                  0
-                ],
+                "uvOffsetAnim": [0, 0],
                 "normalMapFactor": 1,
                 "normalMapFlipY": 0,
                 "clearCoatThickness": 5,
@@ -1463,11 +911,7 @@
                 "clearCoatRoughnessFactor": 0.04,
                 "occlusionTexture": null,
                 "emissiveTexture": null,
-                "emissiveFactor": [
-                  0,
-                  0,
-                  0
-                ],
+                "emissiveFactor": [0, 0, 0],
                 "emitColorFactor": 1,
                 "emitMultiplicative": 0,
                 "bumpTexture": null,
@@ -1475,11 +919,7 @@
                 "outputLinear": 0,
                 "clearCoatF0": 0.04,
                 "bumpScale": 0.02,
-                "emitColor": [
-                  1,
-                  1,
-                  1
-                ]
+                "emitColor": [1, 1, 1]
               }
             },
             "extras": {

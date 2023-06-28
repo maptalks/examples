@@ -60,12 +60,11 @@ const style = {
 
 const vt = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857",
   style
 });
 
 function update() {
-  vt.updateSceneConfig('building', {
+  vt.updateSceneConfig("building", {
     collision: true
   });
 }

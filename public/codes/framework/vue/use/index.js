@@ -4,13 +4,12 @@ const token =
 /**start**/
 const map = new maptalks.Map("map", {
   center: [-74.00912099912109, 40.71107610933129],
-  zoom: 16,
+  zoom: 16
 });
 
 const vt = new maptalks.VectorTileLayer("vt", {
   urlTemplate: `https://api.mapbox.com/v4/mapbox.mapbox-streets-v8/{z}/{x}/{y}.vector.pbf?access_token=${token}`,
-  spatialReference: "preset-vt-3857",
-  style: "{res}/styles/mapbox-light/style.json",
+  style: "{res}/styles/mapbox-light/style.json"
 });
 
 const group = new maptalks.GroupGLLayer("group", [vt]).addTo(map);

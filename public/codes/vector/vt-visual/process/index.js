@@ -6,7 +6,7 @@ const map = new maptalks.Map("map", {
   lights: {
     directional: {
       direction: [0.5, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -16,18 +16,17 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/923/left.jpg",
           right: "{res}/hdr/923/right.jpg",
           top: "{res}/hdr/923/top.jpg",
-          bottom: "{res}/hdr/923/bottom.jpg",
-        },
+          bottom: "{res}/hdr/923/bottom.jpg"
+        }
       },
-      exposure: 0.787,
-    },
-  },
+      exposure: 0.787
+    }
+  }
 });
 
 const vtLayer = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857",
-  style: "{res}/styles/road.json",
+  style: "{res}/styles/road.json"
 });
 
 /**start**/
@@ -36,7 +35,7 @@ const sceneConfig = {
     enable: true,
     mode: 1,
     level: 0,
-    brightness: 0.489,
+    brightness: 0.489
   },
   shadow: {
     type: "esm",
@@ -44,35 +43,35 @@ const sceneConfig = {
     quality: "high",
     opacity: 0.5,
     color: [0, 0, 0],
-    blurOffset: 1,
+    blurOffset: 1
   },
   postProcess: {
     enable: true,
     antialias: {
-      enable: true,
-    },
+      enable: true
+    }
   },
   ground: {
     enable: true,
     renderPlugin: {
-      type: "fill",
+      type: "fill"
     },
     symbol: {
       polygonFill: [0.803921568627451, 0.803921568627451, 0.803921568627451, 1],
-      polygonOpacity: 1,
-    },
-  },
+      polygonOpacity: 1
+    }
+  }
 };
 
 const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer], {
-  sceneConfig,
+  sceneConfig
 }).addTo(map);
 
 const mapPostProcess = {
   enable: true,
   vignette: {
-    enable: false,
-  },
+    enable: false
+  }
 };
 
 const gui = new mt.GUI();
@@ -81,7 +80,7 @@ gui
   .add({
     type: "checkbox",
     label: "暗角",
-    value: false,
+    value: false
   })
   .onChange((value) => {
     mapPostProcess.vignette.enable = value;

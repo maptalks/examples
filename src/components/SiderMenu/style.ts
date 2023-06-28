@@ -174,7 +174,7 @@ const activeStyle = css`
   }
 `;
 
-const ThirdListTitle = styled.a<{ active?: boolean; hide?: string }>`
+const ThirdListTitle = styled.a<{ $active?: boolean; hide?: string }>`
   display: block;
   line-height: 20px;
   padding-left: 12px;
@@ -185,7 +185,7 @@ const ThirdListTitle = styled.a<{ active?: boolean; hide?: string }>`
   &:hover {
     color: #80caff;
   }
-  ${(props) => props.active && activeStyle}
+  ${(props) => props.$active && activeStyle}
   ${(props) => props.hide === "hide" && hideStyle}
 `;
 
@@ -211,5 +211,5 @@ export {
   SecondListTile,
   ThirdList,
   ThirdListTitle,
-  LinkImg,
+  LinkImg
 };

@@ -5,7 +5,7 @@ const map = new maptalks.Map("map", {
   lights: {
     directional: {
       direction: [1, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource: {
@@ -15,21 +15,20 @@ const map = new maptalks.Map("map", {
           left: "{res}/hdr/gradient/left.png",
           right: "{res}/hdr/gradient/right.png",
           top: "{res}/hdr/gradient/top.png",
-          bottom: "{res}/hdr/gradient/bottom.png",
+          bottom: "{res}/hdr/gradient/bottom.png"
         },
         prefilterCubeSize: 32
       },
       exposure: 1,
       hsv: [0, 0.34, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 
 /**start**/
 const vt = new maptalks.VectorTileLayer("vt", {
-  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857",
+  urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt"
 });
 
 const style = [
@@ -37,15 +36,15 @@ const style = [
     filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
     renderPlugin: {
       dataConfig: {
-        type: "fill",
+        type: "fill"
       },
-      type: "fill",
+      type: "fill"
     },
     symbol: {
       polygonFill: "#bd604b",
-      polygonOpacity: 1,
-    },
-  },
+      polygonOpacity: 1
+    }
+  }
 ];
 vt.setStyle(style);
 
@@ -53,23 +52,19 @@ function setFill() {
   const style = {
     style: [
       {
-        filter: [
-          "all",
-          ["==", "$layer", "building"],
-          ["==", "$type", "Polygon"],
-        ],
+        filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
         renderPlugin: {
           dataConfig: {
-            type: "fill",
+            type: "fill"
           },
-          type: "fill",
+          type: "fill"
         },
         symbol: {
           polygonFill: "#2e7e57",
-          polygonOpacity: 1,
-        },
-      },
-    ],
+          polygonOpacity: 1
+        }
+      }
+    ]
   };
   vt.setStyle(style);
 }
@@ -78,26 +73,22 @@ function setLine() {
   const style = {
     style: [
       {
-        filter: [
-          "all",
-          ["==", "$layer", "building"],
-          ["==", "$type", "Polygon"],
-        ],
+        filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
         renderPlugin: {
           dataConfig: {
-            type: "line",
+            type: "line"
           },
           sceneConfig: {},
-          type: "line",
+          type: "line"
         },
         symbol: {
           lineWidth: 2,
           lineColor: [0.23, 0.73, 0.51, 1],
           lineDasharray: [0, 0, 0, 0],
-          lineDashColor: [1, 1, 1, 0],
-        },
-      },
-    ],
+          lineDashColor: [1, 1, 1, 0]
+        }
+      }
+    ]
   };
   vt.setStyle(style);
 }
@@ -106,31 +97,27 @@ function setIcon() {
   const style = {
     style: [
       {
-        filter: [
-          "all",
-          ["==", "$layer", "building"],
-          ["==", "$type", "Polygon"],
-        ],
+        filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
         renderPlugin: {
           dataConfig: {
-            type: "point",
+            type: "point"
           },
           sceneConfig: {
             collision: true,
             fading: true,
-            depthFunc: "always",
+            depthFunc: "always"
           },
-          type: "icon",
+          type: "icon"
         },
         symbol: {
           markerType: "ellipse",
           markerFill: [0.53, 0.77, 0.94, 1],
           markerFillOpacity: 1,
           markerHeight: 20,
-          markerWidth: 20,
-        },
-      },
-    ],
+          markerWidth: 20
+        }
+      }
+    ]
   };
   vt.setStyle(style);
 }
@@ -139,21 +126,17 @@ function setText() {
   const style = {
     style: [
       {
-        filter: [
-          "all",
-          ["==", "$layer", "building"],
-          ["==", "$type", "Polygon"],
-        ],
+        filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
         renderPlugin: {
           dataConfig: {
-            type: "point",
+            type: "point"
           },
           sceneConfig: {
             collision: true,
             fading: true,
-            depthFunc: "always",
+            depthFunc: "always"
           },
-          type: "text",
+          type: "text"
         },
         symbol: {
           textName: "{name}",
@@ -165,10 +148,10 @@ function setText() {
           textSpacing: 250,
           textStyle: "normal",
           textVerticalAlignment: "middle",
-          textWeight: "normal",
-        },
-      },
-    ],
+          textWeight: "normal"
+        }
+      }
+    ]
   };
   vt.setStyle(style);
 }
@@ -177,11 +160,7 @@ function setLit() {
   const style = {
     style: [
       {
-        filter: [
-          "all",
-          ["==", "$layer", "building"],
-          ["==", "$type", "Polygon"],
-        ],
+        filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
         renderPlugin: {
           type: "lit",
           dataConfig: {
@@ -192,20 +171,20 @@ function setLit() {
             defaultAltitude: 10,
             topThickness: 0,
             top: true,
-            side: true,
+            side: true
           },
-          sceneConfig: {},
+          sceneConfig: {}
         },
         symbol: {
           polygonOpacity: 1,
           material: {
             baseColorFactor: [1, 1, 1, 1],
             roughnessFactor: 1,
-            metallicFactor: 1,
-          },
-        },
-      },
-    ],
+            metallicFactor: 1
+          }
+        }
+      }
+    ]
   };
   vt.setStyle(style);
 }
@@ -217,9 +196,9 @@ const groupLayer = new maptalks.GroupGLLayer("group", [vt], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0,
-    },
-  },
+      brightness: 0
+    }
+  }
 });
 groupLayer.addTo(map);
 
@@ -230,7 +209,7 @@ const changeEventMap = {
   line: setLine,
   icon: setIcon,
   text: setText,
-  lit: setLit,
+  lit: setLit
 };
 
 gui
@@ -241,25 +220,25 @@ gui
     options: [
       {
         label: "fill",
-        value: "fill",
+        value: "fill"
       },
       {
         label: "line",
-        value: "line",
+        value: "line"
       },
       {
         label: "icon",
-        value: "icon",
+        value: "icon"
       },
       {
         label: "text",
-        value: "text",
+        value: "text"
       },
       {
         label: "lit",
-        value: "lit",
-      },
-    ],
+        value: "lit"
+      }
+    ]
   })
   .onChange((value) => {
     changeEventMap[value]();

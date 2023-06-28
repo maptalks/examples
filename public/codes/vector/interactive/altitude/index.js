@@ -53,7 +53,7 @@ const style = {
 
 const vt = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857",
+  : "preset-vt-3857",
   // debug: true,
   features: true,
   pickingGeometry: true,

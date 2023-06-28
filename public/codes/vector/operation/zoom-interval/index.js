@@ -7,7 +7,6 @@ const map = new maptalks.Map("map", {
 
 const vtLayer = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857",
   style: "{res}/styles/maptalks-common/style.json",
   minZoom: 14,
   maxZoom: 18

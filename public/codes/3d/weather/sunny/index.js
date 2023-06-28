@@ -6,9 +6,9 @@ const resource = {
     left: "{res}/hdr/446/left.jpg",
     right: "{res}/hdr/446/right.jpg",
     top: "{res}/hdr/446/top.jpg",
-    bottom: "{res}/hdr/446/bottom.jpg",
+    bottom: "{res}/hdr/446/bottom.jpg"
   },
-  prefilterCubeSize: 1024,
+  prefilterCubeSize: 1024
 };
 
 const map = new maptalks.Map("map", {
@@ -19,55 +19,45 @@ const map = new maptalks.Map("map", {
   lights: {
     directional: {
       direction: [0.5, 0, -1],
-      color: [1, 1, 1],
+      color: [1, 1, 1]
     },
     ambient: {
       resource,
       exposure: 0.787,
       hsv: [0, 0, 0],
-      orientation: 0,
-    },
-  },
+      orientation: 0
+    }
+  }
 });
 /**end**/
 
 const vtStyle = [
   {
-    filter: [
-      "all",
-      ["==", "$layer", "entertainment"],
-      ["==", "$type", "Polygon"],
-    ],
+    filter: ["all", ["==", "$layer", "entertainment"], ["==", "$type", "Polygon"]],
     renderPlugin: {
       dataConfig: {
-        type: "fill",
+        type: "fill"
       },
       sceneConfig: {},
-      type: "fill",
+      type: "fill"
     },
     symbol: {
-      polygonFill: [
-        0.5725490196078431, 0.6980392156862745, 0.5450980392156862, 1,
-      ],
-    },
+      polygonFill: [0.5725490196078431, 0.6980392156862745, 0.5450980392156862, 1]
+    }
   },
   {
-    filter: [
-      "all",
-      ["==", "$layer", "entertainment"],
-      ["==", "$type", "Polygon"],
-    ],
+    filter: ["all", ["==", "$layer", "entertainment"], ["==", "$type", "Polygon"]],
     renderPlugin: {
       dataConfig: {
-        type: "line",
+        type: "line"
       },
       sceneConfig: {},
-      type: "line",
+      type: "line"
     },
     symbol: {
       lineColor: [0.73, 0.73, 0.73, 1],
-      lineWidth: 2,
-    },
+      lineWidth: 2
+    }
   },
   {
     filter: ["all", ["==", "$layer", "building"], ["==", "$type", "Polygon"]],
@@ -81,12 +71,12 @@ const vtStyle = [
         defaultAltitude: 10,
         topThickness: 0,
         top: true,
-        side: true,
+        side: true
       },
       sceneConfig: {
         animation: null,
-        animationDuration: 800,
-      },
+        animationDuration: 800
+      }
     },
     symbol: {
       bloom: false,
@@ -99,25 +89,19 @@ const vtStyle = [
         roughnessFactor: 1,
         metallicFactor: 0,
         emissiveTexture: "{res}/textures/897/1.jpg",
-        emissiveFactor: [
-          0.9333333333333333, 0.9254901960784314, 0.9607843137254902,
-        ],
-        emitColorFactor: 0.31,
-      },
-    },
+        emissiveFactor: [0.9333333333333333, 0.9254901960784314, 0.9607843137254902],
+        emitColorFactor: 0.31
+      }
+    }
   },
   {
-    filter: [
-      "all",
-      ["==", "$layer", "secondary-road"],
-      ["==", "$type", "LineString"],
-    ],
+    filter: ["all", ["==", "$layer", "secondary-road"], ["==", "$type", "LineString"]],
     renderPlugin: {
       dataConfig: {
-        type: "line",
+        type: "line"
       },
       sceneConfig: {},
-      type: "line",
+      type: "line"
     },
     symbol: {
       lineColor: [1, 1, 1, 1],
@@ -132,42 +116,38 @@ const vtStyle = [
           [17, 20],
           [18, 50],
           [20.7, 100],
-          [22, 200],
-        ],
-      },
-    },
-  },
+          [22, 200]
+        ]
+      }
+    }
+  }
 ];
 
 const vtLayer = new maptalks.VectorTileLayer("vt", {
   urlTemplate: "http://tile.maptalks.com/test/planet-single/{z}/{x}/{y}.mvt",
-  spatialReference: "preset-vt-3857",
-  style: vtStyle,
+  style: vtStyle
 });
 
 const gltfLayer = new maptalks.GLTFLayer("gltf");
 
-const gltfMarker = new maptalks.GLTFMarker(
-  [-73.88713688860861, 40.68848442450471],
-  {
-    symbol: {
-      shadow: true,
-      url: "{res}/gltf/29c/scene.gltf",
-      scaleX: 289.77474184549226,
-      scaleY: 289.77474184549226,
-      scaleZ: 289.77474184549226,
-      rotationZ: 299.6285,
-      shader: "pbr",
-      uniforms: {
-        polygonFill: [1, 1, 1, 1],
-        polygonOpacity: 1,
-        baseColorIntensity: 1,
-        outputSRGB: 1,
-      },
-    },
-    zoomOnAdded: 17,
-  }
-);
+const gltfMarker = new maptalks.GLTFMarker([-73.88713688860861, 40.68848442450471], {
+  symbol: {
+    shadow: true,
+    url: "{res}/gltf/29c/scene.gltf",
+    scaleX: 289.77474184549226,
+    scaleY: 289.77474184549226,
+    scaleZ: 289.77474184549226,
+    rotationZ: 299.6285,
+    shader: "pbr",
+    uniforms: {
+      polygonFill: [1, 1, 1, 1],
+      polygonOpacity: 1,
+      baseColorIntensity: 1,
+      outputSRGB: 1
+    }
+  },
+  zoomOnAdded: 17
+});
 
 gltfLayer.addGeometry(gltfMarker);
 
@@ -177,7 +157,7 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
       enable: true,
       mode: 1,
       level: 0,
-      brightness: 0.489,
+      brightness: 0.489
     },
     shadow: {
       type: "esm",
@@ -185,22 +165,20 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [vtLayer, gltfLayer], {
       quality: "high",
       opacity: 0.5,
       color: [0, 0, 0],
-      blurOffset: 1,
+      blurOffset: 1
     },
     postProcess: {
-      enable: true,
+      enable: true
     },
     ground: {
       enable: true,
       renderPlugin: {
-        type: "fill",
+        type: "fill"
       },
       symbol: {
-        polygonFill: [
-          0.803921568627451, 0.803921568627451, 0.803921568627451, 1,
-        ],
-        polygonOpacity: 1,
-      },
-    },
-  },
+        polygonFill: [0.803921568627451, 0.803921568627451, 0.803921568627451, 1],
+        polygonOpacity: 1
+      }
+    }
+  }
 }).addTo(map);
