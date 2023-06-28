@@ -78,24 +78,18 @@ function getHighLightKey(key) {
 
 
 function highLight(layer) {
-  layer.highlight([
-    {
+  layer.highlight([{
       name: getHighLightKey('fill'),
       id: 12,
-      // filter: (feature) => {
-      //   // console.log(feature);
-      //   return feature.properties.name.includes(highArea) && feature.layer === 1;
-
-      // },
+      plugin: 'area-fill',//only effect 'area-fill' render plugin
       ...params,
     },
-    // {
-    //   name: getHighLightKey('border'),
-    //   id:12,
-    //   ...params,
-    //   color: highParams.lineColor
-    // }
-  ]);
+    {
+      name: getHighLightKey('border'),
+      id: 12,
+      plugin: 'area-border',
+      color: params.lineColor
+    }]);
 }
 
 function cancel(layer) {

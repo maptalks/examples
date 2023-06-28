@@ -1663,6 +1663,13 @@ const examples = [
               en: "query altitude"
             }
           },
+          {
+            name: "altitude-water",
+            title: {
+              cn: "查询高程-水",
+              en: "query water altitude"
+            }
+          },
         ]
       },
       {

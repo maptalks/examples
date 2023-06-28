@@ -74,7 +74,7 @@ geo.on("dataload", (e) => {
 
 const highLightKey = 'test';
 function highLight(feature, layer) {
-  layer.highlight([{ id: feature.id, name: highLightKey, color: 'red' }]);
+  layer.highlight([{ id: feature.id, plugin: 'area-fill', name: highLightKey, color: 'red' }]);
 }
 
 function cancel(layer) {
