@@ -166,7 +166,7 @@ const sceneConfig = {
     fog: {
       enable: true,
       start: 0.1,
-      end: 20,
+      end: 26,
       color: [0.9, 0.9, 0.9]
     }
   },
@@ -219,7 +219,7 @@ gui
   .add({
     type: "slider",
     label: "结束距离",
-    value: 20,
+    value: 26,
     min: 2,
     max: 100,
     step: 1
