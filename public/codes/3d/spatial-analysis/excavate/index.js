@@ -69,9 +69,9 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
         type: "lit"
       },
       symbol: {
-        polygonOpacity: 1,
+        polygonOpacity: 0.6,
         material: {
-          baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
+          baseColorFactor: [0.48235, 0.48235, 0.48235, 0.8],
           hsv: [0, 0, -0.532],
           roughnessFactor: 0.22,
           metallicFactor: 0.58
@@ -80,36 +80,70 @@ const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
     }
   }
 }).addTo(map);
+const polygonLayer = new maptalks.PolygonLayer('polygonlayer').addTo(groupGLLayer);
+function AddPipeLine() {
+  const style = {
+    style: [
+      {
+        filter: true,
+        renderPlugin: {
+          dataConfig: {
+            type: "round-tube",
+            radialSegments: 16,
+            metric: "cm",
+          },
+          sceneConfig: {},
+          type: "tube",
+        },
+        symbol: {
+          lineColor: {
+            type: 'identity',
+            property: 'type'
+          },
+          lineWidth: {
+            type: 'identity',
+            property: 'width'
+          },
+          metallicFactor: 1,
+          roughnessFactor: 0.3,
+        },
+      },
+    ],
+  };
+  const pipeline = new maptalks.GeoJSONVectorTileLayer("vt", {
+    geometryEvents: false,
+    data: "{res}/geojson/pipeline.geojson",
+    style,
+  });
+  pipeline.addTo(groupGLLayer);
+}
 
 /**start**/
-let excavateAnalysis = null;
-const urlMap = {
+const textureMap = {
   ground: "{res}/images/ground.jpg",
   brick: "{res}/images/brick.png"
 };
 layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
   map.fitExtent(extent, 1, { animation: false });
-  const boundary = [
-    [108.95888623345706, 34.220502132776204],
-    [108.9582019833017, 34.21987192350153],
-    [108.95866479224173, 34.21879554904879],
-    [108.95976365662978, 34.21870809810403],
-    [108.96043811487289, 34.219454268264116],
-    [108.96030941797153, 34.2204038033789]
+  AddPipeLine();
+  currentBoundary = [
+    [108.95865940298586, 34.220313399352875, 28.80102335256866],
+    [108.95800903947134, 34.219513250141034, 19.39458248077016],
+    [108.9590190943693, 34.218511956616425, 34.85025747659524],
+    [108.96027856333137, 34.21884767081414, 11.344320208363127],
+    [108.96067915752451, 34.21973628032711, 29.715621078772948],
+    [108.96067997002967, 34.21974168369681, 29.741613094044347],
+    [108.95865940298586, 34.220313399352875, 28.80102335256866]
   ];
-  excavateAnalysis = new maptalks.ExcavateAnalysis({
-    boundary,
-    textureUrl: urlMap["ground"],
-    height: 5
-  }).addTo(groupGLLayer);
+  ExcavateAnalysis(currentBoundary, 0);
 });
 
 const vLayer = new maptalks.VectorLayer("vector", {
   enableAltitude: true
 }).addTo(map);
 
-let coordinates = [],
+let coordinates = [], currentBoundary = null, currentBottomTexture = null, currentSideTexture = null,
   first = true;
 const drawTool = new maptalks.DrawTool({
   mode: "LineString",
@@ -165,16 +199,45 @@ drawTool.on("drawend", () => {
   coordinates.push(coordinates[0]);
   new maptalks.LineString(coordinates, {
     symbol: {
-      lineColor: "#f00"
+      lineColor: "#aa0",
+      lineWidth: 1
     }
   }).addTo(vLayer);
-  excavateAnalysis.update("boundary", coordinates);
+  console.log(coordinates);
+  ExcavateAnalysis(coordinates, 0, currentBottomTexture, currentSideTexture);
+  currentBoundary = coordinates;
   coordinates = [];
 });
 
 function getPickedCoordinate(coordinate) {
-  const identifyData = groupGLLayer.identify(coordinate)[0];
+  const identifyData = groupGLLayer.identify(coordinate, { orderByCamera: true })[0];
   return (identifyData && identifyData.coordinate) || coordinate;
+}
+
+function ExcavateAnalysis(coordinates, height, bottomTexture, sideTexture) {
+  polygonLayer.clear();
+  let bottomCoords = [];
+  for (let i = 0; i < coordinates.length - 1; i++) {
+    const coord1 = coordinates[i], coord2 = coordinates[i + 1], coord3 = [coord2[0], coord2[1], height], coord4 = [coord1[0], coord1[1], height];
+    const extrudeCoordinates = [coord1, coord2, coord3, coord4, coord1];
+    bottomCoords[i] = [coordinates[i][0], coordinates[i][1], height];
+    new maptalks.Polygon(extrudeCoordinates, {
+      symbol: {
+        polygonFill: '#770',
+        polygonPatternFile: sideTexture
+      }
+    }).addTo(polygonLayer);
+  }
+  const idx = coordinates.length - 1;
+  bottomCoords[coordinates.length - 1] = [coordinates[idx][0], coordinates[idx][1], height];
+  const p = new maptalks.Polygon(bottomCoords, {
+    symbol: {
+      polygonFill: '#aa0',
+      polygonPatternFile: bottomTexture
+    }
+  }).addTo(polygonLayer);
+  const mask = new maptalks.ClipInsideMask(coordinates);
+  layer.setMask([mask]);
 }
 
 const gui = new mt.GUI();
@@ -199,15 +262,19 @@ gui
     step: 1
   })
   .onChange((value) => {
-    excavateAnalysis.update("height", value);
+    ExcavateAnalysis(currentBoundary, value, currentBottomTexture, currentSideTexture);
   });
 
 gui
   .add({
     type: "select",
-    label: "挖方纹理",
-    value: "ground",
+    label: "底面纹理",
+    value: 'null',
     options: [
+      {
+        label: '无纹理',
+        value: 'null'
+      },
       {
         label: "地面",
         value: "ground"
@@ -219,6 +286,32 @@ gui
     ]
   })
   .onChange((value) => {
-    excavateAnalysis.update("textureUrl", urlMap[value]);
+    currentBottomTexture = textureMap[value];
+    ExcavateAnalysis(currentBoundary, value, currentBottomTexture, currentSideTexture);
+  });
+
+  gui
+  .add({
+    type: "select",
+    label: "侧边纹理",
+    value: 'null',
+    options: [
+      {
+        label: '无纹理',
+        value: 'null'
+      },
+      {
+        label: "地面",
+        value: "ground"
+      },
+      {
+        label: "砖块",
+        value: "brick"
+      }
+    ]
+  })
+  .onChange((value) => {
+    currentSideTexture = textureMap[value];
+    ExcavateAnalysis(currentBoundary, value, currentBottomTexture, currentSideTexture);
   });
 /**end**/
