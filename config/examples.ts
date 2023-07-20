@@ -2696,6 +2696,13 @@ const examples = [
               cn: "设置纹理",
               en: "Set textures"
             }
+          },
+          {
+            name: "altitude",
+            title: {
+              cn: "数据里包含海拔值",
+              en: "geojson has altitude"
+            }
           }
         ]
       },
