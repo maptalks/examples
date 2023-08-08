@@ -171,12 +171,12 @@ function AddSingleRoom() {
       e.target.setUniform("polygonFill", [1, 1, 1, 1]);
     }
   });
-
-  roomMarker.setInfoWindow({
+  const tooltip = new maptalks.ui.InfoWindow({
     content: "点击箭头所指楼层",
-    dx: -50
-  });
-  roomMarker.openInfoWindow();
+    autoOpenOn: null
+  }).addTo(map);
+  const coord = new maptalks.Coordinate([-73.88634275279406, 40.689805184739356, 50]);
+  tooltip.show(coord);
 }
 
 const sceneConfig = {
