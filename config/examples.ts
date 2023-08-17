@@ -796,6 +796,13 @@ const examples = [
             }
           },
           {
+            name: "collision",
+            title: {
+              cn: "碰撞",
+              en: "layer collision"
+            }
+          },
+          {
             name: "canvaslayer",
             title: {
               cn: "CanvasLayer: 画板图层示例",
@@ -1102,6 +1109,13 @@ const examples = [
             title: {
               cn: "信息框绑定MVVM组件",
               en: "InfoWindow bind MVVM component"
+            }
+          },
+          {
+            name: "uimarker-mvvm-dynamic",
+            title: {
+              cn: "UIMarker绑定MVVM组件",
+              en: "UIMarker bind MVVM component"
             }
           },
           {
