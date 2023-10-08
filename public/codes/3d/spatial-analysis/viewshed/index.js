@@ -144,7 +144,7 @@ drawTool.on("drawstart", (e) => {
 
 function getPickedCoordinate(coordinate) {
   const identifyData = groupGLLayer.identify(coordinate)[0];
-  return (identifyData && identifyData.coordinate) || coordinate;
+  return (identifyData && identifyData.coordinate) || [coordinate.x, coordinate.y, coordinate.z || 0];
 }
 /**end**/
 
