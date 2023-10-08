@@ -2659,6 +2659,29 @@ const examples = [
         ]
       },
       {
+        name: "gltf-linestring",
+        title: {
+          cn: "GLTFLineString",
+          en: "GLTFLineString"
+        },
+        examples: [
+          {
+            name: "add",
+            title: {
+              cn: "添加GLTFLineString",
+              en: "Add GLTFLineString"
+            }
+          },
+          {
+            name: "draw",
+            title: {
+              cn: "绘制模型场景",
+              en: "Draw Model Scene"
+            }
+          }
+        ]
+      },
+      {
         name: "transform-control",
         title: {
           cn: "TransformControl",
