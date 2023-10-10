@@ -2,6 +2,7 @@ const map = new maptalks.Map("map", {
   center: [-74.01252272617671, 40.70709931736744],
   zoom: 16,
   pitch: 80,
+  doubleClickZoom: false,
   lights: {
     ambient: {
       resource: {
@@ -51,6 +52,12 @@ gltfMarker.on("mouseout", () => {
   map.resetCursor();
   gltfMarker.setUniform("polygonFill", [1, 1, 1, 1.0]);
   document.getElementById("info").innerHTML = "mouseout事件";
+});
+
+gltfMarker.on("dblclick", () => {
+  map.resetCursor();
+  gltfMarker.setUniform("polygonFill", [1, 1, 1, 1.0]);
+  document.getElementById("info").innerHTML = "dblclick事件";
 });
 /**end**/
 
