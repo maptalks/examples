@@ -14,7 +14,6 @@ const geo3DTileslayer = new maptalks.Geo3DTilesLayer("3dtiles", {
   services: [
     {
       url: "http://resource.dvgis.cn/data/3dtiles/dayanta/tileset.json",
-      ambientLight: [1, 1, 1],
       maximumScreenSpaceError: 1.0,
       pointOpacity: 0.5,
       pointSize: 3,
