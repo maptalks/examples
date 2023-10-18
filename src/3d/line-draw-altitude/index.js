@@ -11,16 +11,13 @@ var map = new maptalks.Map('map', {
 });
 
 var line = new maptalks.LineString([
-  [-0.131049, 51.498568],
-  [-0.107049, 51.498568],
-  [-0.101049, 51.498568]
+  [-0.131049, 51.498568, 100],
+  [-0.107049, 51.498568, 400],
+  [-0.101049, 51.498568, 1200]
 ], {
   symbol: {
     'lineColor' : '#1bbc9b',
     'lineWidth' : 3
-  },
-  properties : {
-    'altitude' : [100, 400, 1200]
   }
 });
 
