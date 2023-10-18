@@ -39,12 +39,7 @@
         h = extent.getHeight(),
         markers = [];
       for (var i = 0; i < 100; i++) {
-        markers.push(new maptalks.Marker([min.x + Math.random() * w, min.y + Math.random() * h], {
-          properties : {
-            // random altitude
-            altitude : Math.random() * 600
-          }
-        }));
+        markers.push(new maptalks.Marker([min.x + Math.random() * w, min.y + Math.random() * h, Math.random() * 600]));
       }
       layer.addGeometry(markers);
 

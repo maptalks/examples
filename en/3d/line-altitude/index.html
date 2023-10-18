@@ -873,34 +873,34 @@
 
       //line with one altitude
       var line1 &#x3D; new maptalks.LineString([
-        [-0.131049, 51.498568],
-        [-0.107049, 51.498568],
-        [-0.093049, 51.498568]
+        [-0.131049, 51.498568, 200],
+        [-0.107049, 51.498568, 200],
+        [-0.093049, 51.498568, 200]
       ], {
         symbol: {
           &#x27;lineColor&#x27; : &#x27;#1bbc9b&#x27;,
           &#x27;lineWidth&#x27; : 3,
-          &#x27;textName&#x27;  : &#x27;{altitude}&#x27;,
+          &#x27;textName&#x27;  : &#x27;{altitudeValue}&#x27;,
           &#x27;textPlacement&#x27; : &#x27;vertex&#x27;
         },
         properties : {
-          &#x27;altitude&#x27; : 200  //altitude for all vertexes
+          &#x27;altitudeValue&#x27; : 200  //altitude for all vertexes
         }
       });
 
       // line with seperate alitutdes
       var line2 &#x3D; new maptalks.LineString([
-        [-0.131049, 51.498568],
-        [-0.107049, 51.498568],
-        [-0.093049, 51.498568]
+        [-0.131049, 51.498568, 400],
+        [-0.107049, 51.498568, 600],
+        [-0.093049, 51.498568, 1200]
       ], {
         properties : {
-          &#x27;altitude&#x27; : [400, 600, 1200] //seperate altitude for each vertex
+          &#x27;altitudeValue&#x27; : [400, 600, 1200]
         },
         symbol: {
           &#x27;lineColor&#x27; : &#x27;rgb(135,196,240)&#x27;,
           &#x27;lineWidth&#x27; : 3,
-          &#x27;textName&#x27;  : &#x27;{altitude}&#x27;,
+          &#x27;textName&#x27;  : &#x27;{altitudeValue}&#x27;,
           &#x27;textPlacement&#x27; : &#x27;vertex&#x27;
         }
       });
@@ -956,34 +956,34 @@ var map = new maptalks.Map('map', {
 
 //line with one altitude
 var line1 = new maptalks.LineString([
-  [-0.131049, 51.498568],
-  [-0.107049, 51.498568],
-  [-0.093049, 51.498568]
+  [-0.131049, 51.498568, 200],
+  [-0.107049, 51.498568, 200],
+  [-0.093049, 51.498568, 200]
 ], {
   symbol: {
     'lineColor': '#1bbc9b',
     'lineWidth': 3,
-    'textName': '{altitude}',
+    'textName': '{altitudeValue}',
     'textPlacement': 'vertex'
   },
   properties: {
-    'altitude': 200 //altitude for all vertexes
+    'altitudeValue': 200 //altitude for all vertexes
   }
 });
 
 // line with seperate alitutdes
 var line2 = new maptalks.LineString([
-  [-0.131049, 51.498568],
-  [-0.107049, 51.498568],
-  [-0.093049, 51.498568]
+  [-0.131049, 51.498568, 400],
+  [-0.107049, 51.498568, 600],
+  [-0.093049, 51.498568, 1200]
 ], {
   properties: {
-    'altitude': [400, 600, 1200] //seperate altitude for each vertex
+    'altitudeValue': [400, 600, 1200]
   },
   symbol: {
     'lineColor': 'rgb(135,196,240)',
     'lineWidth': 3,
-    'textName': '{altitude}',
+    'textName': '{altitudeValue}',
     'textPlacement': 'vertex'
   }
 });
