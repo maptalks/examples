@@ -883,6 +883,9 @@
 
       var renderer &#x3D; layer.getRenderer();
       var canvasGetter &#x3D; renderer.getCanvasImage;
+
+      var swipeCanvas &#x3D; document.createElement(&#x27;canvas&#x27;);
+
       //override renderer&#x27;s default method to get layer canvas image
       renderer.getCanvasImage &#x3D; function () {
         var dpr &#x3D; map.getDevicePixelRatio();
@@ -893,26 +896,16 @@
         }
         //drawn width after layer is erased by swipper
         var ctx &#x3D; renderer.context;
+
         var width &#x3D; renderer.canvas.width * (swipe.value / 100);
         var height &#x3D; ctx.canvas.height;
 
-        //copy drawn rect of original layer canvas
-        var drawnRect &#x3D; document.createElement(&#x27;canvas&#x27;);
-        drawnRect.width &#x3D; width;
-        drawnRect.height &#x3D; ctx.canvas.height;
-        drawnRect.getContext(&#x27;2d&#x27;).drawImage(layerImage.image, 0, 0);
-
-        //clear the erased part
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        //draw a white background to cover the bottom layers when zooming
-        ctx.beginPath();
-        ctx.rect(0, 0, width / dpr, height / dpr);
-        ctx.fillStyle &#x3D; &#x27;#fff&#x27;;
-        ctx.fill();
-
-        //draw the drawn part on layer&#x27;s canvas
-        ctx.drawImage(drawnRect, 0, 0, width / dpr, height / dpr);
-        layerImage.image &#x3D; ctx.canvas;
+        var leftCtx &#x3D; swipeCanvas.getContext(&#x27;2d&#x27;);
+        swipeCanvas.width &#x3D; ctx.canvas.width;
+        swipeCanvas.height &#x3D; ctx.canvas.height;
+        leftCtx.clearRect(0, 0, swipeCanvas.width, swipeCanvas.height);
+        leftCtx.drawImage(layerImage.image, 0, 0, width, height, 0, 0, width, height);
+        layerImage.image &#x3D; swipeCanvas;
         return layerImage;
       };
 
@@ -965,6 +958,9 @@ var swipe = document.getElementById('swipe');
 
 var renderer = layer.getRenderer();
 var canvasGetter = renderer.getCanvasImage;
+
+var swipeCanvas = document.createElement('canvas');
+
 //override renderer's default method to get layer canvas image
 renderer.getCanvasImage = function() {
   var dpr = map.getDevicePixelRatio();
@@ -975,26 +971,16 @@ renderer.getCanvasImage = function() {
   }
   //drawn width after layer is erased by swipper
   var ctx = renderer.context;
+
   var width = renderer.canvas.width * (swipe.value / 100);
   var height = ctx.canvas.height;
 
-  //copy drawn rect of original layer canvas
-  var drawnRect = document.createElement('canvas');
-  drawnRect.width = width;
-  drawnRect.height = ctx.canvas.height;
-  drawnRect.getContext('2d').drawImage(layerImage.image, 0, 0);
-
-  //clear the erased part
-  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  //draw a white background to cover the bottom layers when zooming
-  ctx.beginPath();
-  ctx.rect(0, 0, width / dpr, height / dpr);
-  ctx.fillStyle = '#fff';
-  ctx.fill();
-
-  //draw the drawn part on layer's canvas
-  ctx.drawImage(drawnRect, 0, 0, width / dpr, height / dpr);
-  layerImage.image = ctx.canvas;
+  var leftCtx = swipeCanvas.getContext('2d');
+  swipeCanvas.width = ctx.canvas.width;
+  swipeCanvas.height = ctx.canvas.height;
+  leftCtx.clearRect(0, 0, swipeCanvas.width, swipeCanvas.height);
+  leftCtx.drawImage(layerImage.image, 0, 0, width, height, 0, 0, width, height);
+  layerImage.image = swipeCanvas;
   return layerImage;
 };
 
