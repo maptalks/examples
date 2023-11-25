@@ -30,8 +30,7 @@ const map = new maptalks.Map("map", {
 /**start**/
 const symbol = {
   url: "{res}/gltf/alien/alien.gltf",
-  fixSizeOnZoom: false,
-  modelHeight: 240,
+  markerPixelHeight: 300,
   rotationZ: 180
 };
 

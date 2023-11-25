@@ -47,7 +47,6 @@ const gltfMarker1 = new maptalks.GLTFMarker(
       rotationX: 0,
       rotationY: 0,
       rotationZ: -192.26783248583342,
-      fixSizeOnZoom: -1,
       shader: "pbr",
       uniforms: {
         polygonFill: [1, 1, 1, 1],
@@ -83,7 +82,6 @@ const gltfMarker2 = new maptalks.GLTFMarker(
       rotationX: 0,
       rotationY: 0,
       rotationZ: -184.09723384684312,
-      fixSizeOnZoom: -1,
       shader: "pbr",
       uniforms: {
         polygonFill: [1, 1, 1, 1],
@@ -119,7 +117,6 @@ const gltfMarker3 = new maptalks.GLTFMarker(
       rotationX: 0,
       rotationY: 0,
       rotationZ: 85.75520986697181,
-      fixSizeOnZoom: -1,
       shader: "pbr",
       uniforms: {
         polygonFill: [1, 1, 1, 1],
@@ -155,7 +152,6 @@ const gltfMarker4 = new maptalks.GLTFMarker(
       rotationX: 0,
       rotationY: 0,
       rotationZ: 0,
-      fixSizeOnZoom: -1,
       shader: "pbr",
       uniforms: {
         polygonFill: [1, 1, 1, 1],
@@ -192,7 +188,6 @@ const gltfMarker5 = new maptalks.GLTFMarker(
       rotationX: 0,
       rotationY: 0,
       rotationZ: 0,
-      fixSizeOnZoom: -1,
       shader: "pbr",
       uniforms: {
         polygonFill: [1, 1, 1, 1],
