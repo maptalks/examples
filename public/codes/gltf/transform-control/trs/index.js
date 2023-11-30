@@ -42,16 +42,6 @@ gltfLayer.addGeometry(gltfMarker);
 const transformControl = new maptalks.TransformControl();
 transformControl.addTo(map);
 
-transformControl.on("transforming", (e) => {
-  const target = transformControl.getTransformTarget();
-  target.setTRS(e.translate, e.rotation, e.scale);
-});
-
-transformControl.on("positionchange", (e) => {
-  const target = transformControl.getTransformTarget();
-  target.setCoordinates(e.coordinate);
-});
-
 transformControl.on("transformend", () => {
   document.getElementById("info").innerHTML = "操控模型完成事件";
 });
