@@ -144,6 +144,14 @@ const houseMarker = new maptalks.GLTFMarker([-73.88713688860861, 40.688484424504
 houseMarker.on("load", () => {
   AddSingleRoom();
 });
+function updateSymbol(target, symbol) {
+  target.setUniform(symbol.key, symbol.value);
+  target.getAllMeshes().forEach(mesh => {
+    mesh.setUniform(symbol.key, symbol.value);
+  });
+  gltfLayer.getRenderer().setToRedraw();
+}
+
 function AddSingleRoom() {
   const position = [-73.8868041267736, 40.68966803698365, 11.753020000000024];
   const roomMarker = new maptalks.GLTFMarker(position, {
@@ -166,9 +174,9 @@ function AddSingleRoom() {
   }).addTo(gltfLayer);
   roomMarker.on("mouseenter mouseout", (e) => {
     if (e.type === "mouseenter") {
-      e.target.setUniform("polygonFill", [0.7, 0.2, 0.3, 0.8]);
+      updateSymbol(e.target, {key: "polygonFill", value: [0.7, 0.2, 0.3, 0.8]})
     } else {
-      e.target.setUniform("polygonFill", [1, 1, 1, 1]);
+      updateSymbol(e.target, {key: "polygonFill", value: [1, 1, 1, 1]});
     }
   });
   const tooltip = new maptalks.ui.InfoWindow({
@@ -217,9 +225,9 @@ map.on("click", (e) => {
   const identifyData = groupGLLayer.identify(e.coordinate)[0];
   const picked = identifyData && identifyData.data;
   if (picked && picked.getId() !== "house") {
-    houseMarker.setUniform("polygonOpacity", 0.2);
+    updateSymbol(houseMarker, {key: "polygonOpacity", value: 0.2});
   } else {
-    houseMarker.setUniform("polygonOpacity", 1);
+    updateSymbol(houseMarker, {key: "polygonOpacity", value: 1});
   }
 });
 /**end**/

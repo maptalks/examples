@@ -204,3 +204,19 @@ gui
     sceneConfig.weather.snow.enable = value;
     groupGLLayer.setSceneConfig(sceneConfig);
   });
+
+gui
+  .add({
+    type: "slider",
+    label: "大雪强度",
+    value: 0.5,
+    min: 0,
+    max: 1,
+    step: 0.01
+  })
+  .onChange((value) => {
+    const sceneConfig = groupGLLayer.getSceneConfig();
+    sceneConfig.weather.snow.snowIntensity = value;
+    groupGLLayer.setSceneConfig(sceneConfig);
+  });
+
