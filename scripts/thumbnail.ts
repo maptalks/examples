@@ -6,7 +6,7 @@ import puppeteer from "puppeteer";
 // name: "basic" 生成 codes/basic 目录下的所有例子的缩略图
 // name: "basic_3d" 生成 codes/basic/3d 目录下的所有例子的缩略图
 // name: "basic_3d_line-altitude" 只生成 codes/basic/3d/line-altitude 这一个例子的缩略图
-const name = "3d_line-3d-style_altitude";
+const name = "gltf_gltf-linestring_draw";
 
 (async () => {
   if (name) {
