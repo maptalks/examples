@@ -28,7 +28,7 @@ const layer = new maptalks.Geo3DTilesLayer("3dtiles", {
   services: [
     {
       url: "http://examples.maptalks.com/samples/ifc/test1/tileset.json",
-      ambientLight: [1, 1, 1],
+
       maximumScreenSpaceError: 1.0,
       heightOffset: -40,
       opacity: 1.0,

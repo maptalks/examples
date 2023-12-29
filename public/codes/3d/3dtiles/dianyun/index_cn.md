@@ -12,4 +12,3 @@
 | url | 服务地址 | String |            |
 | maximumScreenSpaceError  | 最大屏幕空间误差,清晰度可以接受的情况下，推荐把这个值设得越大越好，性能会越好      | Number  |             |
 | heightOffset  | 高度偏移量      | Number  |    0         |
-| ambientLight  | 环境光      | Array  |    [1, 1, 1]        |
