@@ -86,7 +86,7 @@ const toolOptions = {
     'markerFill': 'rgb(60, 60, 60)',
     'markerLineColor': 'rgb(255, 255, 255)',
     'markerFillOpacity': 0.8,
-    'markerDx': 20,
+    'markerDx': -15,
     'markerVerticalAlignment': 'middle',
     'markerHorizontalAlignment': 'left',
     'markerTextFit': 'both',
@@ -94,7 +94,7 @@ const toolOptions = {
     'textHorizontalAlignment': 'left',
     'textSize': 16,
     'textFill': '#fff',
-    'textDx': 30
+    'textDx': -25
 }
 };
 layer.once("loadtileset", (e) => {
