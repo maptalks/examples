@@ -211,7 +211,8 @@ drawTool.on("drawend", () => {
 
 function getPickedCoordinate(coordinate) {
   const identifyData = groupGLLayer.identify(coordinate, { orderByCamera: true })[0];
-  return (identifyData && identifyData.coordinate) || coordinate;
+  coordinate.z = coordinate.z || 0;
+  return (identifyData && identifyData.coordinate) || coordinate.toArray();
 }
 
 function ExcavateAnalysis(coordinates, height, bottomTexture, sideTexture) {
