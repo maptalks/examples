@@ -76,26 +76,33 @@ const toolOptions = {
     'markerType': 'ellipse',
     'markerFill': '#e8542b',
     'markerLineColor': '#fff',
-    'markerLineWidth': 3,
-    'markerWidth': 12,
-    'markerHeight': 12,
-    'markerDy': 6
+    'markerLineWidth': 2,
+    'markerWidth': 10,
+    'markerHeight': 10,
+    'markerDy': 0
   },
-  labelSymbol: {
-    'markerType': 'square',
-    'markerFill': 'rgb(60, 60, 60)',
-    'markerLineColor': 'rgb(255, 255, 255)',
-    'markerFillOpacity': 0.8,
-    'markerDx': -15,
-    'markerVerticalAlignment': 'middle',
-    'markerHorizontalAlignment': 'left',
-    'markerTextFit': 'both',
-    'markerTextFitPadding': [5, 5, 5, 10],
-    'textHorizontalAlignment': 'left',
-    'textSize': 16,
-    'textFill': '#fff',
-    'textDx': -25
-}
+  'labelSymbol': {
+    'boxStyle' : {
+        'padding' : [15, 6],
+        'verticalAlignment' : 'top',
+        'horizontalAlignment' : 'left',
+        'minWidth' : 150,
+        'minHeight' : 30,
+        'symbol' : {
+            'markerType' : 'square',
+            'markerFill' : 'rgb(60, 60, 60)',
+            'markerFillOpacity' : 0.8,
+            'markerLineColor' : '#fff',
+            'markerLineWidth' : 1,
+            'textDx': -110
+        }
+    },
+    'textSymbol': {
+        'textFill' : '#fff',
+        'textSize' : 16,
+        'textVerticalAlignment' : 'center'
+    }
+  }
 };
 layer.once("loadtileset", (e) => {
   const extent = layer.getExtent(e.index);
@@ -113,7 +120,7 @@ gui
     if (measureTool) {
       measureTool.remove();
     }
-    measureTool = new maptalks.Distance3DTool(toolOptions).addTo(groupGLLayer);
+    measureTool = new maptalks.Distance3DTool(toolOptions).addTo(map);
   });
 
 gui
@@ -126,7 +133,7 @@ gui
     if (measureTool) {
       measureTool.remove();
     }
-    measureTool = new maptalks.Area3DTool(toolOptions).addTo(groupGLLayer);
+    measureTool = new maptalks.Area3DTool(toolOptions).addTo(map);
   });
 
 gui
@@ -139,7 +146,7 @@ gui
     if (measureTool) {
       measureTool.remove();
     }
-    measureTool = new maptalks.Height3DTool(toolOptions).addTo(groupGLLayer);
+    measureTool = new maptalks.Height3DTool(toolOptions).addTo(map);
   });
 
 gui

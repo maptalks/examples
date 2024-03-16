@@ -2864,6 +2864,22 @@ const examples = [
         ]
       },
       {
+        name: "post-process",
+        title: {
+          cn: "后处理特效",
+          en: "PostProcess"
+        },
+        examples: [
+          {
+            name: "scanEffect",
+            title: {
+              cn: "扫描光效果",
+              en: "scan effect ring"
+            }
+          }
+        ]
+      },
+      {
         name: "3dtiles",
         title: {
           cn: "3dtiles功能示例",

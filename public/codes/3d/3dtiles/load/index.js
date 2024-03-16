@@ -37,31 +37,51 @@ layer.once("loadtileset", (e) => {
   map.fitExtent(extent, 0, { animation: false });
 });
 /**end**/
-const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
-  sceneConfig: {
-    environment: {
+const center = map.getCenter();
+const sceneConfig = {
+  environment: {
+    enable: true,
+    mode: 1,
+    level: 3,
+    brightness: 0.489
+  },
+  postProcess: {
+    enable: true,
+    antialias: {
       enable: true,
-      mode: 1,
-      level: 0,
-      brightness: 0.915
+      taa: true,
+      jitterRatio: 0.25
     },
-    postProcess: {
+    ssr: {
       enable: true
     },
-    ground: {
-      enable: true,
-      renderPlugin: {
-        type: "lit"
-      },
-      symbol: {
-        polygonOpacity: 1,
-        material: {
-          baseColorFactor: [0.48235, 0.48235, 0.48235, 1],
-          hsv: [0, 0, -0.532],
-          roughnessFactor: 0.22,
-          metallicFactor: 0.58
-        }
+    "scanEffect": {
+      "enable": true,
+      effects: [{
+        center: center.add(0.001, 0),
+        radius: 150,
+        speed: 1.5,
+        color: [0.4667, 0.8800, 0.3804]
+      },{
+        center: center.add(0, 0.001),
+        radius: 100,
+        speed: 1.8,
+        color: [0.6667, 0.8800, 0.9804]
       }
+    ]
+    }
+  },
+  ground: {
+    enable: true,
+    renderPlugin: {
+      type: "fill"
+    },
+    symbol: {
+      polygonFill: [0.803921568627451, 0.803921568627451, 0.803921568627451, 1],
+      polygonOpacity: 1
     }
   }
+};
+const groupGLLayer = new maptalks.GroupGLLayer("gl", [layer], {
+  sceneConfig
 }).addTo(map);
