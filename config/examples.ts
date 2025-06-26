@@ -2883,6 +2883,13 @@ const examples = [
               cn: "扫描光效果",
               en: "scan effect ring"
             }
+          },
+          {
+            name: "effect",
+            title: {
+              cn: "序列帧特效",
+              en: "squence effect"
+            }
           }
         ]
       },
