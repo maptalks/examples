@@ -1,4 +1,4 @@
-let topHeight = 50, buttomHeight = 40;
+let topHeight = 0, buttomHeight = 100;
 function createMap(mapDiv, center, zoom, pitch, dragRotatePitch, dragPitch) {
   const map = new maptalks.Map(mapDiv, {
     center,
@@ -118,7 +118,6 @@ const drawTool = new maptalks.DrawTool({
 }).addTo(mapLeft).disable();
 
 drawTool.on('drawend', e => {
-  console.log(111);
   e.geometry.addTo(drawLayer);
   addMask(e.geometry);
 });
@@ -135,9 +134,6 @@ function addMask(polygon) {
     });
   });
   currentMask = mask;
-  masks.forEach(mask => {
-    mask.remove();
-  });
   masks.push(mask);
   layerRight.setMask(masks);
 }
@@ -163,7 +159,8 @@ gui
   .onClick(() => {
     drawTool.disable();
     drawLayer.clear();
-    layerRight.removeMask();
+    layerRight.removeMask(masks);
+    masks = [];
 });
 
 gui
